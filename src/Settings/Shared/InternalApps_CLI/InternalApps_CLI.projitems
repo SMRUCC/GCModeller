@@ -9,7 +9,7 @@
     <Import_RootNamespace>InternalApps_CLI</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Apps\Apps.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Cytoscape.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\eggHTS.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\FBA.vb" />
@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MapPlot.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MEME.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\meta-community.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\NCBI_tools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\RegPrecise.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\seqtools.vb" />

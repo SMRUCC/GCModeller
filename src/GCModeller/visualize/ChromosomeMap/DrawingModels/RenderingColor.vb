@@ -108,7 +108,7 @@ Namespace DrawingModels
                 End If
             Next
 
-            Call Chromesome.COGs.InvokeSet(ColorProfiles)
+            Call Chromesome.COGs.SetValue(ColorProfiles)
 
             Return Chromesome
         End Function

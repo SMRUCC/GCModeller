@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class MapPlot : Inherits InteropService
 
-Public Const App$ = "MapPlot.exe"
+    Public Const App$ = "MapPlot.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -28,15 +28,15 @@ End Sub
 ''' </summary>
 '''
 Public Function WriteConfigTemplate(Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Config.Template")
-Call CLI.Append(" ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Config.Template")
+    Call CLI.Append(" ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -47,21 +47,21 @@ End Function
 ''' </summary>
 '''
 Public Function BBHVisual([in] As String, PTT As String, density As String, Optional limits As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Visual.BBH")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/PTT " & """" & PTT & """ ")
-Call CLI.Append("/density " & """" & density & """ ")
-If Not limits.StringEmpty Then
-Call CLI.Append("/limits " & """" & limits & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Visual.BBH")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/PTT " & """" & PTT & """ ")
+    Call CLI.Append("/density " & """" & density & """ ")
+    If Not limits.StringEmpty Then
+            Call CLI.Append("/limits " & """" & limits & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -72,26 +72,26 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Optional orf_catagory As String = "", Optional region As String = "", Optional out As String = "", Optional local As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/genbank " & """" & genbank & """ ")
-If Not orf_catagory.StringEmpty Then
-Call CLI.Append("/orf.catagory " & """" & orf_catagory & """ ")
-End If
-If Not region.StringEmpty Then
-Call CLI.Append("/region " & """" & region & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If local Then
-Call CLI.Append("/local ")
-End If
+    Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/genbank " & """" & genbank & """ ")
+    If Not orf_catagory.StringEmpty Then
+            Call CLI.Append("/orf.catagory " & """" & orf_catagory & """ ")
+    End If
+    If Not region.StringEmpty Then
+            Call CLI.Append("/region " & """" & region & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If local Then
+        Call CLI.Append("/local ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -102,22 +102,22 @@ End Function
 ''' </summary>
 '''
 Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
-Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
-Call CLI.Append(" ")
-Call CLI.Append("/ptt " & """" & ptt & """ ")
-If Not conf.StringEmpty Then
-Call CLI.Append("/conf " & """" & conf & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If Not cog.StringEmpty Then
-Call CLI.Append("/cog " & """" & cog & """ ")
-End If
+    Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
+    Call CLI.Append(" ")
+    Call CLI.Append("/ptt " & """" & ptt & """ ")
+    If Not conf.StringEmpty Then
+            Call CLI.Append("/conf " & """" & conf & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not cog.StringEmpty Then
+            Call CLI.Append("/cog " & """" & cog & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -127,22 +127,22 @@ End Function
 ''' </summary>
 '''
 Public Function DrawGenbank(gb As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
-Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
-Call CLI.Append(" ")
-Call CLI.Append("/gb " & """" & gb & """ ")
-If Not conf.StringEmpty Then
-Call CLI.Append("/conf " & """" & conf & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If Not cog.StringEmpty Then
-Call CLI.Append("/cog " & """" & cog & """ ")
-End If
+    Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
+    Call CLI.Append(" ")
+    Call CLI.Append("/gb " & """" & gb & """ ")
+    If Not conf.StringEmpty Then
+            Call CLI.Append("/conf " & """" & conf & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not cog.StringEmpty Then
+            Call CLI.Append("/cog " & """" & cog & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

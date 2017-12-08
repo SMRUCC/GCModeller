@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class eggHTS : Inherits InteropService
 
-Public Const App$ = "eggHTS.exe"
+    Public Const App$ = "eggHTS.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -28,17 +28,17 @@ End Sub
 ''' </summary>
 '''
 Public Function BlastXFillORF([in] As String, blastx As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/blastX.fill.ORF")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/blastx " & """" & blastx & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/blastX.fill.ORF")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/blastx " & """" & blastx & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -49,19 +49,19 @@ End Function
 ''' </summary>
 '''
 Public Function COGCatalogProfilingPlot([in] As String, Optional size As String = "1800,1200", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/COG.profiling.plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/COG.profiling.plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -71,22 +71,22 @@ End Function
 ''' </summary>
 '''
 Public Function AddReMapping([in] As String, bbh As String, ID_mappings As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Data.Add.Mappings")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/bbh " & """" & bbh & """ ")
-Call CLI.Append("/ID.mappings " & """" & ID_mappings & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not id.StringEmpty Then
-Call CLI.Append("/id " & """" & id & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Data.Add.Mappings")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/bbh " & """" & bbh & """ ")
+    Call CLI.Append("/ID.mappings " & """" & ID_mappings & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not id.StringEmpty Then
+            Call CLI.Append("/id " & """" & id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -96,20 +96,20 @@ End Function
 ''' </summary>
 '''
 Public Function DataAddORF([in] As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Data.Add.ORF")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not id.StringEmpty Then
-Call CLI.Append("/id " & """" & id & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Data.Add.ORF")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not id.StringEmpty Then
+            Call CLI.Append("/id " & """" & id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -119,17 +119,17 @@ End Function
 ''' </summary>
 '''
 Public Function DataAddUniprotIDs([in] As String, data As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Data.Add.uniprotIDs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/data " & """" & data & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Data.Add.uniprotIDs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/data " & """" & data & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -139,16 +139,16 @@ End Function
 ''' </summary>
 '''
 Public Function SplitDAVID([in] As String, Optional out As String = "./") As Integer
-Dim CLI As New StringBuilder("/DAVID.Split")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DAVID.Split")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -159,32 +159,32 @@ End Function
 ''' </summary>
 '''
 Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
-If Not cluster_prefix.StringEmpty Then
-Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not schema.StringEmpty Then
-Call CLI.Append("/schema " & """" & schema & """ ")
-End If
-If Not view_angle.StringEmpty Then
-Call CLI.Append("/view.angle " & """" & view_angle & """ ")
-End If
-If Not view_distance.StringEmpty Then
-Call CLI.Append("/view.distance " & """" & view_distance & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    If Not cluster_prefix.StringEmpty Then
+            Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not schema.StringEmpty Then
+            Call CLI.Append("/schema " & """" & schema & """ ")
+    End If
+    If Not view_angle.StringEmpty Then
+            Call CLI.Append("/view.angle " & """" & view_angle & """ ")
+    End If
+    If Not view_distance.StringEmpty Then
+            Call CLI.Append("/view.distance " & """" & view_distance & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -194,29 +194,29 @@ End Function
 ''' </summary>
 '''
 Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional schema As String = "clusters", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
-If Not t_log.StringEmpty Then
-Call CLI.Append("/t.log " & """" & t_log & """ ")
-End If
-If Not cluster_prefix.StringEmpty Then
-Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not schema.StringEmpty Then
-Call CLI.Append("/schema " & """" & schema & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    If Not t_log.StringEmpty Then
+            Call CLI.Append("/t.log " & """" & t_log & """ ")
+    End If
+    If Not cluster_prefix.StringEmpty Then
+            Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not schema.StringEmpty Then
+            Call CLI.Append("/schema " & """" & schema & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -227,34 +227,34 @@ End Function
 ''' </summary>
 '''
 Public Function logFCHistogram([in] As String, Optional [step] As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.logFC.hist")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not [step].StringEmpty Then
-Call CLI.Append("/step " & """" & [step] & """ ")
-End If
-If Not type.StringEmpty Then
-Call CLI.Append("/type " & """" & type & """ ")
-End If
-If Not legend_title.StringEmpty Then
-Call CLI.Append("/legend.title " & """" & legend_title & """ ")
-End If
-If Not x_axis.StringEmpty Then
-Call CLI.Append("/x.axis " & """" & x_axis & """ ")
-End If
-If Not color.StringEmpty Then
-Call CLI.Append("/color " & """" & color & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.logFC.hist")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not [step].StringEmpty Then
+            Call CLI.Append("/step " & """" & [step] & """ ")
+    End If
+    If Not type.StringEmpty Then
+            Call CLI.Append("/type " & """" & type & """ ")
+    End If
+    If Not legend_title.StringEmpty Then
+            Call CLI.Append("/legend.title " & """" & legend_title & """ ")
+    End If
+    If Not x_axis.StringEmpty Then
+            Call CLI.Append("/x.axis " & """" & x_axis & """ ")
+    End If
+    If Not color.StringEmpty Then
+            Call CLI.Append("/color " & """" & color & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -265,34 +265,34 @@ End Function
 ''' </summary>
 '''
 Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not title.StringEmpty Then
-Call CLI.Append("/title " & """" & title & """ ")
-End If
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not level.StringEmpty Then
-Call CLI.Append("/level " & """" & level & """ ")
-End If
-If Not colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & colors & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If display_count Then
-Call CLI.Append("/display.count ")
-End If
+    Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not title.StringEmpty Then
+            Call CLI.Append("/title " & """" & title & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not level.StringEmpty Then
+            Call CLI.Append("/level " & """" & level & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If display_count Then
+        Call CLI.Append("/display.count ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -302,17 +302,17 @@ End Function
 ''' </summary>
 '''
 Public Function DEPUniprotIDlist(DEP As String, sample As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.uniprot.list")
-Call CLI.Append(" ")
-Call CLI.Append("/DEP " & """" & DEP & """ ")
-Call CLI.Append("/sample " & """" & sample & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.uniprot.list")
+    Call CLI.Append(" ")
+    Call CLI.Append("/DEP " & """" & DEP & """ ")
+    Call CLI.Append("/sample " & """" & sample & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -322,28 +322,28 @@ End Function
 ''' </summary>
 '''
 Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "", Optional uniprot_flag As String = "", Optional species As String = "", Optional uniprot As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.uniprot.list2")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not dep_flag.StringEmpty Then
-Call CLI.Append("/dep.flag " & """" & dep_flag & """ ")
-End If
-If Not uniprot_flag.StringEmpty Then
-Call CLI.Append("/uniprot.flag " & """" & uniprot_flag & """ ")
-End If
-If Not species.StringEmpty Then
-Call CLI.Append("/species " & """" & species & """ ")
-End If
-If Not uniprot.StringEmpty Then
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.uniprot.list2")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not dep_flag.StringEmpty Then
+            Call CLI.Append("/dep.flag " & """" & dep_flag & """ ")
+    End If
+    If Not uniprot_flag.StringEmpty Then
+            Call CLI.Append("/uniprot.flag " & """" & uniprot_flag & """ ")
+    End If
+    If Not species.StringEmpty Then
+            Call CLI.Append("/species " & """" & species & """ ")
+    End If
+    If Not uniprot.StringEmpty Then
+            Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -354,19 +354,19 @@ End Function
 ''' </summary>
 '''
 Public Function VennData(data As String, Optional title As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEP.venn")
-Call CLI.Append(" ")
-Call CLI.Append("/data " & """" & data & """ ")
-If Not title.StringEmpty Then
-Call CLI.Append("/title " & """" & title & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEP.venn")
+    Call CLI.Append(" ")
+    Call CLI.Append("/data " & """" & data & """ ")
+    If Not title.StringEmpty Then
+            Call CLI.Append("/title " & """" & title & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -377,61 +377,61 @@ End Function
 ''' </summary>
 '''
 Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/DEPs.heatmap")
-Call CLI.Append(" ")
-Call CLI.Append("/data " & """" & data & """ ")
-If Not schema.StringEmpty Then
-Call CLI.Append("/schema " & """" & schema & """ ")
-End If
-If Not annotation.StringEmpty Then
-Call CLI.Append("/annotation " & """" & annotation & """ ")
-End If
-If Not cluster_n.StringEmpty Then
-Call CLI.Append("/cluster.n " & """" & cluster_n & """ ")
-End If
-If Not sampleinfo.StringEmpty Then
-Call CLI.Append("/sampleinfo " & """" & sampleinfo & """ ")
-End If
-If Not title.StringEmpty Then
-Call CLI.Append("/title " & """" & title & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not legend_size.StringEmpty Then
-Call CLI.Append("/legend.size " & """" & legend_size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If no_clrev Then
-Call CLI.Append("/no-clrev ")
-End If
-If ko_class Then
-Call CLI.Append("/ko.class ")
-End If
-If row_labels_genename Then
-Call CLI.Append("/row.labels.genename ")
-End If
-If hide_labels Then
-Call CLI.Append("/hide.labels ")
-End If
-If is_matrix Then
-Call CLI.Append("/is.matrix ")
-End If
-If non_dep_blank Then
-Call CLI.Append("/non_dep.blank ")
-End If
-If t_log2 Then
-Call CLI.Append("/t.log2 ")
-End If
+    Dim CLI As New StringBuilder("/DEPs.heatmap")
+    Call CLI.Append(" ")
+    Call CLI.Append("/data " & """" & data & """ ")
+    If Not schema.StringEmpty Then
+            Call CLI.Append("/schema " & """" & schema & """ ")
+    End If
+    If Not annotation.StringEmpty Then
+            Call CLI.Append("/annotation " & """" & annotation & """ ")
+    End If
+    If Not cluster_n.StringEmpty Then
+            Call CLI.Append("/cluster.n " & """" & cluster_n & """ ")
+    End If
+    If Not sampleinfo.StringEmpty Then
+            Call CLI.Append("/sampleinfo " & """" & sampleinfo & """ ")
+    End If
+    If Not title.StringEmpty Then
+            Call CLI.Append("/title " & """" & title & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not legend_size.StringEmpty Then
+            Call CLI.Append("/legend.size " & """" & legend_size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If no_clrev Then
+        Call CLI.Append("/no-clrev ")
+    End If
+    If ko_class Then
+        Call CLI.Append("/ko.class ")
+    End If
+    If row_labels_genename Then
+        Call CLI.Append("/row.labels.genename ")
+    End If
+    If hide_labels Then
+        Call CLI.Append("/hide.labels ")
+    End If
+    If is_matrix Then
+        Call CLI.Append("/is.matrix ")
+    End If
+    If non_dep_blank Then
+        Call CLI.Append("/non_dep.blank ")
+    End If
+    If t_log2 Then
+        Call CLI.Append("/t.log2 ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -442,19 +442,19 @@ End Function
 ''' </summary>
 '''
 Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEPs.stat")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not log2fc.StringEmpty Then
-Call CLI.Append("/log2fc " & """" & log2fc & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEPs.stat")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not log2fc.StringEmpty Then
+            Call CLI.Append("/log2fc " & """" & log2fc & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -464,28 +464,28 @@ End Function
 ''' </summary>
 '''
 Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = "is.DEP", Optional by_fc As String = "logFC=log2(1.5)", Optional by_p_value As String = "", Optional data As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEPs.takes.values")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not boolean_tag.StringEmpty Then
-Call CLI.Append("/boolean.tag " & """" & boolean_tag & """ ")
-End If
-If Not by_fc.StringEmpty Then
-Call CLI.Append("/by.fc " & """" & by_fc & """ ")
-End If
-If Not by_p_value.StringEmpty Then
-Call CLI.Append("/by.p.value " & """" & by_p_value & """ ")
-End If
-If Not data.StringEmpty Then
-Call CLI.Append("/data " & """" & data & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEPs.takes.values")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not boolean_tag.StringEmpty Then
+            Call CLI.Append("/boolean.tag " & """" & boolean_tag & """ ")
+    End If
+    If Not by_fc.StringEmpty Then
+            Call CLI.Append("/by.fc " & """" & by_fc & """ ")
+    End If
+    If Not by_p_value.StringEmpty Then
+            Call CLI.Append("/by.p.value " & """" & by_p_value & """ ")
+    End If
+    If Not data.StringEmpty Then
+            Call CLI.Append("/data " & """" & data & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -495,19 +495,19 @@ End Function
 ''' </summary>
 '''
 Public Function DEPsUnion([in] As String, Optional fc As String = "logFC", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/DEPs.union")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not fc.StringEmpty Then
-Call CLI.Append("/fc " & """" & fc & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/DEPs.union")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not fc.StringEmpty Then
+            Call CLI.Append("/fc " & """" & fc & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -518,23 +518,23 @@ End Function
 ''' </summary>
 '''
 Public Function edgeRDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/edgeR.Designer")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not label.StringEmpty Then
-Call CLI.Append("/label " & """" & label & """ ")
-End If
-If Not deli.StringEmpty Then
-Call CLI.Append("/deli " & """" & deli & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/edgeR.Designer")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not label.StringEmpty Then
+            Call CLI.Append("/label " & """" & label & """ ")
+    End If
+    If Not deli.StringEmpty Then
+            Call CLI.Append("/deli " & """" & deli & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -545,19 +545,19 @@ End Function
 ''' </summary>
 '''
 Public Function Backgrounds([in] As String, Optional mapping As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/enricher.background")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not mapping.StringEmpty Then
-Call CLI.Append("/mapping " & """" & mapping & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/enricher.background")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not mapping.StringEmpty Then
+            Call CLI.Append("/mapping " & """" & mapping & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -567,21 +567,21 @@ End Function
 ''' </summary>
 '''
 Public Function GoEnrichment(deg As String, backgrounds As String, t2g As String, Optional go As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/enrichment.go")
-Call CLI.Append(" ")
-Call CLI.Append("/deg " & """" & deg & """ ")
-Call CLI.Append("/backgrounds " & """" & backgrounds & """ ")
-Call CLI.Append("/t2g " & """" & t2g & """ ")
-If Not go.StringEmpty Then
-Call CLI.Append("/go " & """" & go & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/enrichment.go")
+    Call CLI.Append(" ")
+    Call CLI.Append("/deg " & """" & deg & """ ")
+    Call CLI.Append("/backgrounds " & """" & backgrounds & """ ")
+    Call CLI.Append("/t2g " & """" & t2g & """ ")
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -592,17 +592,17 @@ End Function
 ''' </summary>
 '''
 Public Function EnrichmentTermFilter([in] As String, filter As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Enrichment.Term.Filter")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/filter " & """" & filter & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Enrichment.Term.Filter")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/filter " & """" & filter & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -613,23 +613,23 @@ End Function
 ''' </summary>
 '''
 Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Enrichments.ORF.info")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/proteins " & """" & proteins & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If nocut Then
-Call CLI.Append("/nocut ")
-End If
-If orf Then
-Call CLI.Append("/orf ")
-End If
+    Dim CLI As New StringBuilder("/Enrichments.ORF.info")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/proteins " & """" & proteins & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If nocut Then
+        Call CLI.Append("/nocut ")
+    End If
+    If orf Then
+        Call CLI.Append("/orf ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -639,18 +639,18 @@ End Function
 ''' </summary>
 '''
 Public Function ExocartaHits([in] As String, annotation As String, exocarta As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Exocarta.Hits")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/annotation " & """" & annotation & """ ")
-Call CLI.Append("/exocarta " & """" & exocarta & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Exocarta.Hits")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/annotation " & """" & annotation & """ ")
+    Call CLI.Append("/exocarta " & """" & exocarta & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -660,16 +660,16 @@ End Function
 ''' </summary>
 '''
 Public Function GetFastaIDlist([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Fasta.IDlist")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Fasta.IDlist")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -680,19 +680,19 @@ End Function
 ''' </summary>
 '''
 Public Function iTraqInvert([in] As String, Optional out As String = "", Optional log2fc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/FoldChange.Matrix.Invert")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If log2fc Then
-Call CLI.Append("/log2fc ")
-End If
+    Dim CLI As New StringBuilder("/FoldChange.Matrix.Invert")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If log2fc Then
+        Call CLI.Append("/log2fc ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -703,30 +703,30 @@ End Function
 ''' </summary>
 '''
 Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/func.rich.string")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-Call CLI.Append("/DEP " & """" & DEP & """ ")
-If Not map.StringEmpty Then
-Call CLI.Append("/map " & """" & map & """ ")
-End If
-If Not r_range.StringEmpty Then
-Call CLI.Append("/r.range " & """" & r_range & """ ")
-End If
-If Not log2fc.StringEmpty Then
-Call CLI.Append("/log2fc " & """" & log2fc & """ ")
-End If
-If Not layout.StringEmpty Then
-Call CLI.Append("/layout " & """" & layout & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/func.rich.string")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/DEP " & """" & DEP & """ ")
+    If Not map.StringEmpty Then
+            Call CLI.Append("/map " & """" & map & """ ")
+    End If
+    If Not r_range.StringEmpty Then
+            Call CLI.Append("/r.range " & """" & r_range & """ ")
+    End If
+    If Not log2fc.StringEmpty Then
+            Call CLI.Append("/log2fc " & """" & log2fc & """ ")
+    End If
+    If Not layout.StringEmpty Then
+            Call CLI.Append("/layout " & """" & layout & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -737,19 +737,19 @@ End Function
 ''' </summary>
 '''
 Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As String = "1", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Gene.list.from.KOBAS")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Gene.list.from.KOBAS")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -760,25 +760,25 @@ End Function
 ''' </summary>
 '''
 Public Function GO_cellularLocationPlot([in] As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not go.StringEmpty Then
-Call CLI.Append("/go " & """" & go & """ ")
-End If
-If Not colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & colors & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If _3d Then
-Call CLI.Append("/3d ")
-End If
+    Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If _3d Then
+        Call CLI.Append("/3d ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -788,31 +788,31 @@ End Function
 ''' </summary>
 '''
 Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not go.StringEmpty Then
-Call CLI.Append("/go " & """" & go & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If tsv Then
-Call CLI.Append("/tsv ")
-End If
+    Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If tsv Then
+        Call CLI.Append("/tsv ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -823,49 +823,49 @@ End Function
 ''' </summary>
 '''
 Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Go.enrichment.plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not r.StringEmpty Then
-Call CLI.Append("/r " & """" & r & """ ")
-End If
-If Not displays.StringEmpty Then
-Call CLI.Append("/displays " & """" & displays & """ ")
-End If
-If Not pvalue.StringEmpty Then
-Call CLI.Append("/pvalue " & """" & pvalue & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not go.StringEmpty Then
-Call CLI.Append("/go " & """" & go & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If bubble Then
-Call CLI.Append("/bubble ")
-End If
-If corrected Then
-Call CLI.Append("/corrected ")
-End If
-If plantregmap Then
-Call CLI.Append("/plantregmap ")
-End If
-If label_right Then
-Call CLI.Append("/label.right ")
-End If
-If gray Then
-Call CLI.Append("/gray ")
-End If
+    Dim CLI As New StringBuilder("/Go.enrichment.plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not r.StringEmpty Then
+            Call CLI.Append("/r " & """" & r & """ ")
+    End If
+    If Not displays.StringEmpty Then
+            Call CLI.Append("/displays " & """" & displays & """ ")
+    End If
+    If Not pvalue.StringEmpty Then
+            Call CLI.Append("/pvalue " & """" & pvalue & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If bubble Then
+        Call CLI.Append("/bubble ")
+    End If
+    If corrected Then
+        Call CLI.Append("/corrected ")
+    End If
+    If plantregmap Then
+        Call CLI.Append("/plantregmap ")
+    End If
+    If label_right Then
+        Call CLI.Append("/label.right ")
+    End If
+    If gray Then
+        Call CLI.Append("/gray ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -876,19 +876,19 @@ End Function
 ''' </summary>
 '''
 Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/iBAQ.Cloud")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/annotations " & """" & annotations & """ ")
-Call CLI.Append("/DEPs " & """" & DEPs & """ ")
-Call CLI.Append("/tag " & """" & tag & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/iBAQ.Cloud")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/annotations " & """" & annotations & """ ")
+    Call CLI.Append("/DEPs " & """" & DEPs & """ ")
+    Call CLI.Append("/tag " & """" & tag & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -900,17 +900,17 @@ End Function
 ''' </summary>
 '''
 Public Function BBHReplace([in] As String, bbh As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/ID.Replace.bbh")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/bbh " & """" & bbh & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/ID.Replace.bbh")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/bbh " & """" & bbh & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -921,16 +921,16 @@ End Function
 ''' </summary>
 '''
 Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Imports.Go.obo.mysql")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Imports.Go.obo.mysql")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -941,16 +941,16 @@ End Function
 ''' </summary>
 '''
 Public Function DumpUniprot([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Imports.Uniprot.Xml")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Imports.Uniprot.Xml")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -961,21 +961,21 @@ End Function
 ''' </summary>
 '''
 Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/iTraq.matrix.split")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If allowed_swap Then
-Call CLI.Append("/allowed.swap ")
-End If
+    Dim CLI As New StringBuilder("/iTraq.matrix.split")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If allowed_swap Then
+        Call CLI.Append("/allowed.swap ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -985,16 +985,16 @@ End Function
 ''' </summary>
 '''
 Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/iTraq.RSD-P.Density")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/iTraq.RSD-P.Density")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1005,20 +1005,20 @@ End Function
 ''' </summary>
 '''
 Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/symbols " & """" & symbols & """ ")
-If Not sheet_name.StringEmpty Then
-Call CLI.Append("/sheet.name " & """" & sheet_name & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/symbols " & """" & symbols & """ ")
+    If Not sheet_name.StringEmpty Then
+            Call CLI.Append("/sheet.name " & """" & sheet_name & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1028,31 +1028,31 @@ End Function
 ''' </summary>
 '''
 Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/iTraq.t.test")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not level.StringEmpty Then
-Call CLI.Append("/level " & """" & level & """ ")
-End If
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not fdr.StringEmpty Then
-Call CLI.Append("/fdr " & """" & fdr & """ ")
-End If
-If Not pairinfo.StringEmpty Then
-Call CLI.Append("/pairinfo " & """" & pairinfo & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If skip_significant_test Then
-Call CLI.Append("/skip.significant.test ")
-End If
+    Dim CLI As New StringBuilder("/iTraq.t.test")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not level.StringEmpty Then
+            Call CLI.Append("/level " & """" & level & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not fdr.StringEmpty Then
+            Call CLI.Append("/fdr " & """" & fdr & """ ")
+    End If
+    If Not pairinfo.StringEmpty Then
+            Call CLI.Append("/pairinfo " & """" & pairinfo & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If skip_significant_test Then
+        Call CLI.Append("/skip.significant.test ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1062,17 +1062,17 @@ End Function
 ''' </summary>
 '''
 Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KEGG.Color.Pathway")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/ref " & """" & ref & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KEGG.Color.Pathway")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1082,31 +1082,31 @@ End Function
 ''' </summary>
 '''
 Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not custom.StringEmpty Then
-Call CLI.Append("/custom " & """" & custom & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If tsv Then
-Call CLI.Append("/tsv ")
-End If
+    Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not custom.StringEmpty Then
+            Call CLI.Append("/custom " & """" & custom & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If tsv Then
+        Call CLI.Append("/tsv ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1116,32 +1116,32 @@ End Function
 ''' </summary>
 '''
 Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional tag As String = "log2FC", Optional pvalue As String = "0.05", Optional out As String = "", Optional tsv As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID.pathwaymap")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not deps.StringEmpty Then
-Call CLI.Append("/deps " & """" & deps & """ ")
-End If
-If Not colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & colors & """ ")
-End If
-If Not tag.StringEmpty Then
-Call CLI.Append("/tag " & """" & tag & """ ")
-End If
-If Not pvalue.StringEmpty Then
-Call CLI.Append("/pvalue " & """" & pvalue & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If tsv Then
-Call CLI.Append("/tsv ")
-End If
+    Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID.pathwaymap")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not deps.StringEmpty Then
+            Call CLI.Append("/deps " & """" & deps & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not tag.StringEmpty Then
+            Call CLI.Append("/tag " & """" & tag & """ ")
+    End If
+    If Not pvalue.StringEmpty Then
+            Call CLI.Append("/pvalue " & """" & pvalue & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If tsv Then
+        Call CLI.Append("/tsv ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1152,31 +1152,31 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not deps.StringEmpty Then
-Call CLI.Append("/deps " & """" & deps & """ ")
-End If
-If Not colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & colors & """ ")
-End If
-If Not map.StringEmpty Then
-Call CLI.Append("/map " & """" & map & """ ")
-End If
-If Not uniprot.StringEmpty Then
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-End If
-If Not pvalue.StringEmpty Then
-Call CLI.Append("/pvalue " & """" & pvalue & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not deps.StringEmpty Then
+            Call CLI.Append("/deps " & """" & deps & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not map.StringEmpty Then
+            Call CLI.Append("/map " & """" & map & """ ")
+    End If
+    If Not uniprot.StringEmpty Then
+            Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    End If
+    If Not pvalue.StringEmpty Then
+            Call CLI.Append("/pvalue " & """" & pvalue & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1187,31 +1187,31 @@ End Function
 ''' </summary>
 '''
 Public Function KEGG_enrichment([in] As String, Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not pvalue.StringEmpty Then
-Call CLI.Append("/pvalue " & """" & pvalue & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If gray Then
-Call CLI.Append("/gray ")
-End If
-If label_right Then
-Call CLI.Append("/label.right ")
-End If
+    Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not pvalue.StringEmpty Then
+            Call CLI.Append("/pvalue " & """" & pvalue & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If gray Then
+        Call CLI.Append("/gray ")
+    End If
+    If label_right Then
+        Call CLI.Append("/label.right ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1222,23 +1222,23 @@ End Function
 ''' </summary>
 '''
 Public Function KOCatalogs([in] As String, ko As String, Optional key As String = "", Optional mapto As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KO.Catalogs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/ko " & """" & ko & """ ")
-If Not key.StringEmpty Then
-Call CLI.Append("/key " & """" & key & """ ")
-End If
-If Not mapto.StringEmpty Then
-Call CLI.Append("/mapto " & """" & mapto & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KO.Catalogs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/ko " & """" & ko & """ ")
+    If Not key.StringEmpty Then
+            Call CLI.Append("/key " & """" & key & """ ")
+    End If
+    If Not mapto.StringEmpty Then
+            Call CLI.Append("/mapto " & """" & mapto & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1248,17 +1248,17 @@ End Function
 ''' </summary>
 '''
 Public Function KOBASaddORFsource([in] As String, sample As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KOBAS.add.ORF")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/sample " & """" & sample & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KOBAS.add.ORF")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sample " & """" & sample & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1268,22 +1268,22 @@ End Function
 ''' </summary>
 '''
 Public Function SimHeatmap([in] As String, Optional size As String = "", Optional colors As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KOBAS.Sim.Heatmap")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & colors & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KOBAS.Sim.Heatmap")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1293,20 +1293,20 @@ End Function
 ''' </summary>
 '''
 Public Function KOBASSimilarity(group1 As String, group2 As String, Optional filename As String = "output_run-Gene Ontology.csv", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KOBAS.Similarity")
-Call CLI.Append(" ")
-Call CLI.Append("/group1 " & """" & group1 & """ ")
-Call CLI.Append("/group2 " & """" & group2 & """ ")
-If Not filename.StringEmpty Then
-Call CLI.Append("/filename " & """" & filename & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KOBAS.Similarity")
+    Call CLI.Append(" ")
+    Call CLI.Append("/group1 " & """" & group1 & """ ")
+    Call CLI.Append("/group2 " & """" & group2 & """ ")
+    If Not filename.StringEmpty Then
+            Call CLI.Append("/filename " & """" & filename & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1317,16 +1317,16 @@ End Function
 ''' </summary>
 '''
 Public Function KOBASSplit([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KOBAS.split")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KOBAS.split")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1336,19 +1336,19 @@ End Function
 ''' </summary>
 '''
 Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/KOBAS.Term.Kmeans")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not n.StringEmpty Then
-Call CLI.Append("/n " & """" & n & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/KOBAS.Term.Kmeans")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not n.StringEmpty Then
+            Call CLI.Append("/n " & """" & n & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1358,27 +1358,27 @@ End Function
 ''' </summary>
 '''
 Public Function labelFreeTtest([in] As String, sampleInfo As String, design As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/labelFree.t.test")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
-Call CLI.Append("/design " & """" & design & """ ")
-If Not level.StringEmpty Then
-Call CLI.Append("/level " & """" & level & """ ")
-End If
-If Not p_value.StringEmpty Then
-Call CLI.Append("/p.value " & """" & p_value & """ ")
-End If
-If Not fdr.StringEmpty Then
-Call CLI.Append("/fdr " & """" & fdr & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/labelFree.t.test")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    Call CLI.Append("/design " & """" & design & """ ")
+    If Not level.StringEmpty Then
+            Call CLI.Append("/level " & """" & level & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
+    If Not fdr.StringEmpty Then
+            Call CLI.Append("/fdr " & """" & fdr & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1389,25 +1389,25 @@ End Function
 ''' </summary>
 '''
 Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.5,2)", Optional raw As String = "", Optional out As String = "", Optional log2 As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Merge.DEPs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not threshold.StringEmpty Then
-Call CLI.Append("/threshold " & """" & threshold & """ ")
-End If
-If Not raw.StringEmpty Then
-Call CLI.Append("/raw " & """" & raw & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If log2 Then
-Call CLI.Append("/log2 ")
-End If
+    Dim CLI As New StringBuilder("/Merge.DEPs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not threshold.StringEmpty Then
+            Call CLI.Append("/threshold " & """" & threshold & """ ")
+    End If
+    If Not raw.StringEmpty Then
+            Call CLI.Append("/raw " & """" & raw & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If log2 Then
+        Call CLI.Append("/log2 ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1417,19 +1417,19 @@ End Function
 ''' </summary>
 '''
 Public Function PccNetwork([in] As String, Optional cut As String = "0.45", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Network.PCC")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not cut.StringEmpty Then
-Call CLI.Append("/cut " & """" & cut & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Network.PCC")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not cut.StringEmpty Then
+            Call CLI.Append("/cut " & """" & cut & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1439,18 +1439,18 @@ End Function
 ''' </summary>
 '''
 Public Function PairedSampleDesigner(sampleinfo As String, designer As String, tuple As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/paired.sample.designer")
-Call CLI.Append(" ")
-Call CLI.Append("/sampleinfo " & """" & sampleinfo & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-Call CLI.Append("/tuple " & """" & tuple & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/paired.sample.designer")
+    Call CLI.Append(" ")
+    Call CLI.Append("/sampleinfo " & """" & sampleinfo & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    Call CLI.Append("/tuple " & """" & tuple & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1461,16 +1461,16 @@ End Function
 ''' </summary>
 '''
 Public Function MajorityProteinIDs([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Perseus.MajorityProteinIDs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Perseus.MajorityProteinIDs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1480,16 +1480,16 @@ End Function
 ''' </summary>
 '''
 Public Function PerseusStatics([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Perseus.Stat")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Perseus.Stat")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1499,16 +1499,16 @@ End Function
 ''' </summary>
 '''
 Public Function PerseusTable([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Perseus.Table")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Perseus.Table")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1518,20 +1518,20 @@ End Function
 ''' </summary>
 '''
 Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optional scientifcname As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Perseus.Table.annotations")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not scientifcname.StringEmpty Then
-Call CLI.Append("/scientifcname " & """" & scientifcname & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Perseus.Table.annotations")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not scientifcname.StringEmpty Then
+            Call CLI.Append("/scientifcname " & """" & scientifcname & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1542,43 +1542,43 @@ End Function
 ''' </summary>
 '''
 Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
-Dim CLI As New StringBuilder("/plot.pimw")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not field_pi.StringEmpty Then
-Call CLI.Append("/field.pi " & """" & field_pi & """ ")
-End If
-If Not field_mw.StringEmpty Then
-Call CLI.Append("/field.mw " & """" & field_mw & """ ")
-End If
-If Not legend_fontsize.StringEmpty Then
-Call CLI.Append("/legend.fontsize " & """" & legend_fontsize & """ ")
-End If
-If Not legend_size.StringEmpty Then
-Call CLI.Append("/legend.size " & """" & legend_size & """ ")
-End If
-If Not quantile_removes.StringEmpty Then
-Call CLI.Append("/quantile.removes " & """" & quantile_removes & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not color.StringEmpty Then
-Call CLI.Append("/color " & """" & color & """ ")
-End If
-If Not ticks_y.StringEmpty Then
-Call CLI.Append("/ticks.y " & """" & ticks_y & """ ")
-End If
-If Not pt_size.StringEmpty Then
-Call CLI.Append("/pt.size " & """" & pt_size & """ ")
-End If
+    Dim CLI As New StringBuilder("/plot.pimw")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not field_pi.StringEmpty Then
+            Call CLI.Append("/field.pi " & """" & field_pi & """ ")
+    End If
+    If Not field_mw.StringEmpty Then
+            Call CLI.Append("/field.mw " & """" & field_mw & """ ")
+    End If
+    If Not legend_fontsize.StringEmpty Then
+            Call CLI.Append("/legend.fontsize " & """" & legend_fontsize & """ ")
+    End If
+    If Not legend_size.StringEmpty Then
+            Call CLI.Append("/legend.size " & """" & legend_size & """ ")
+    End If
+    If Not quantile_removes.StringEmpty Then
+            Call CLI.Append("/quantile.removes " & """" & quantile_removes & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not color.StringEmpty Then
+            Call CLI.Append("/color " & """" & color & """ ")
+    End If
+    If Not ticks_y.StringEmpty Then
+            Call CLI.Append("/ticks.y " & """" & ticks_y & """ ")
+    End If
+    If Not pt_size.StringEmpty Then
+            Call CLI.Append("/pt.size " & """" & pt_size & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1589,28 +1589,28 @@ End Function
 ''' </summary>
 '''
 Public Function SampleAnnotations(uniprot As String, Optional list As String = "", Optional mapping As String = "", Optional out As String = "", Optional accession_id As Boolean = False, Optional itraq As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/protein.annotations")
-Call CLI.Append(" ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not list.StringEmpty Then
-Call CLI.Append("/list " & """" & list & """ ")
-End If
-If Not mapping.StringEmpty Then
-Call CLI.Append("/mapping " & """" & mapping & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If accession_id Then
-Call CLI.Append("/accession.id ")
-End If
-If itraq Then
-Call CLI.Append("/itraq ")
-End If
+    Dim CLI As New StringBuilder("/protein.annotations")
+    Call CLI.Append(" ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not list.StringEmpty Then
+            Call CLI.Append("/list " & """" & list & """ ")
+    End If
+    If Not mapping.StringEmpty Then
+            Call CLI.Append("/mapping " & """" & mapping & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If accession_id Then
+        Call CLI.Append("/accession.id ")
+    End If
+    If itraq Then
+        Call CLI.Append("/itraq ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1620,21 +1620,21 @@ End Function
 ''' </summary>
 '''
 Public Function SampleAnnotations2(p1 As String, p2 As String, uniprot As String, Optional out As String = "", Optional remapping As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/protein.annotations.shotgun")
-Call CLI.Append(" ")
-Call CLI.Append("/p1 " & """" & p1 & """ ")
-Call CLI.Append("/p2 " & """" & p2 & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If remapping Then
-Call CLI.Append("/remapping ")
-End If
+    Dim CLI As New StringBuilder("/protein.annotations.shotgun")
+    Call CLI.Append(" ")
+    Call CLI.Append("/p1 " & """" & p1 & """ ")
+    Call CLI.Append("/p2 " & """" & p2 & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If remapping Then
+        Call CLI.Append("/remapping ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1645,22 +1645,22 @@ End Function
 ''' </summary>
 '''
 Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/protein.EXPORT")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not sp.StringEmpty Then
-Call CLI.Append("/sp " & """" & sp & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If exclude Then
-Call CLI.Append("/exclude ")
-End If
+    Dim CLI As New StringBuilder("/protein.EXPORT")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not sp.StringEmpty Then
+            Call CLI.Append("/sp " & """" & sp & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If exclude Then
+        Call CLI.Append("/exclude ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1670,23 +1670,23 @@ End Function
 ''' </summary>
 '''
 Public Function proteinGroupsVenn([in] As String, designer As String, Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/proteinGroups.venn")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not label.StringEmpty Then
-Call CLI.Append("/label " & """" & label & """ ")
-End If
-If Not deli.StringEmpty Then
-Call CLI.Append("/deli " & """" & deli & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/proteinGroups.venn")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not label.StringEmpty Then
+            Call CLI.Append("/label " & """" & label & """ ")
+    End If
+    If Not deli.StringEmpty Then
+            Call CLI.Append("/deli " & """" & deli & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1697,34 +1697,34 @@ End Function
 ''' </summary>
 '''
 Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/proteins.Go.plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not go.StringEmpty Then
-Call CLI.Append("/go " & """" & go & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not level.StringEmpty Then
-Call CLI.Append("/level " & """" & level & """ ")
-End If
-If Not selects.StringEmpty Then
-Call CLI.Append("/selects " & """" & selects & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If label_right Then
-Call CLI.Append("/label.right ")
-End If
+    Dim CLI As New StringBuilder("/proteins.Go.plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not level.StringEmpty Then
+            Call CLI.Append("/level " & """" & level & """ ")
+    End If
+    If Not selects.StringEmpty Then
+            Call CLI.Append("/selects " & """" & selects & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If label_right Then
+        Call CLI.Append("/label.right ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1735,28 +1735,28 @@ End Function
 ''' </summary>
 '''
 Public Function proteinsKEGGPlot([in] As String, Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/proteins.KEGG.plot")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not custom.StringEmpty Then
-Call CLI.Append("/custom " & """" & custom & """ ")
-End If
-If Not size.StringEmpty Then
-Call CLI.Append("/size " & """" & size & """ ")
-End If
-If Not tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & tick & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If label_right Then
-Call CLI.Append("/label.right ")
-End If
+    Dim CLI As New StringBuilder("/proteins.KEGG.plot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not custom.StringEmpty Then
+            Call CLI.Append("/custom " & """" & custom & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If label_right Then
+        Call CLI.Append("/label.right ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1767,26 +1767,26 @@ End Function
 ''' </summary>
 '''
 Public Function RelativeAmount([in] As String, designer As String, Optional uniprot As String = "", Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Relative.amount")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not uniprot.StringEmpty Then
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-End If
-If Not label.StringEmpty Then
-Call CLI.Append("/label " & """" & label & """ ")
-End If
-If Not deli.StringEmpty Then
-Call CLI.Append("/deli " & """" & deli & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Relative.amount")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not uniprot.StringEmpty Then
+            Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    End If
+    If Not label.StringEmpty Then
+            Call CLI.Append("/label " & """" & label & """ ")
+    End If
+    If Not deli.StringEmpty Then
+            Call CLI.Append("/deli " & """" & deli & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1796,34 +1796,34 @@ End Function
 ''' </summary>
 '''
 Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/richfun.KOBAS")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-Call CLI.Append("/DEP " & """" & DEP & """ ")
-Call CLI.Append("/KOBAS " & """" & KOBAS & """ ")
-If Not r_range.StringEmpty Then
-Call CLI.Append("/r.range " & """" & r_range & """ ")
-End If
-If Not fold.StringEmpty Then
-Call CLI.Append("/fold " & """" & fold & """ ")
-End If
-If Not logfc.StringEmpty Then
-Call CLI.Append("/logfc " & """" & logfc & """ ")
-End If
-If Not layout.StringEmpty Then
-Call CLI.Append("/layout " & """" & layout & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If itraq Then
-Call CLI.Append("/itraq ")
-End If
+    Dim CLI As New StringBuilder("/richfun.KOBAS")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/DEP " & """" & DEP & """ ")
+    Call CLI.Append("/KOBAS " & """" & KOBAS & """ ")
+    If Not r_range.StringEmpty Then
+            Call CLI.Append("/r.range " & """" & r_range & """ ")
+    End If
+    If Not fold.StringEmpty Then
+            Call CLI.Append("/fold " & """" & fold & """ ")
+    End If
+    If Not logfc.StringEmpty Then
+            Call CLI.Append("/logfc " & """" & logfc & """ ")
+    End If
+    If Not layout.StringEmpty Then
+            Call CLI.Append("/layout " & """" & layout & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If itraq Then
+        Call CLI.Append("/itraq ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1833,25 +1833,25 @@ End Function
 ''' </summary>
 '''
 Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMapping As String, sample As String, Optional description As String = "", Optional id As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Sample.Species.Normalization")
-Call CLI.Append(" ")
-Call CLI.Append("/bbh " & """" & bbh & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-Call CLI.Append("/idMapping " & """" & idMapping & """ ")
-Call CLI.Append("/sample " & """" & sample & """ ")
-If Not description.StringEmpty Then
-Call CLI.Append("/description " & """" & description & """ ")
-End If
-If Not id.StringEmpty Then
-Call CLI.Append("/id " & """" & id & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Sample.Species.Normalization")
+    Call CLI.Append(" ")
+    Call CLI.Append("/bbh " & """" & bbh & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/idMapping " & """" & idMapping & """ ")
+    Call CLI.Append("/sample " & """" & sample & """ ")
+    If Not description.StringEmpty Then
+            Call CLI.Append("/description " & """" & description & """ ")
+    End If
+    If Not id.StringEmpty Then
+            Call CLI.Append("/id " & """" & id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1862,25 +1862,25 @@ End Function
 ''' </summary>
 '''
 Public Function GetIDlistFromSampleTable([in] As String, Optional pair As String = "", Optional out As String = "", Optional perseus As Boolean = False, Optional shotgun As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Samples.IDlist")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not pair.StringEmpty Then
-Call CLI.Append("/pair " & """" & pair & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If perseus Then
-Call CLI.Append("/perseus ")
-End If
-If shotgun Then
-Call CLI.Append("/shotgun ")
-End If
+    Dim CLI As New StringBuilder("/Samples.IDlist")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not pair.StringEmpty Then
+            Call CLI.Append("/pair " & """" & pair & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If perseus Then
+        Call CLI.Append("/perseus ")
+    End If
+    If shotgun Then
+        Call CLI.Append("/shotgun ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1890,16 +1890,16 @@ End Function
 ''' </summary>
 '''
 Public Function StripShotgunData([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Shotgun.Data.Strip")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Shotgun.Data.Strip")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1909,19 +1909,19 @@ End Function
 ''' </summary>
 '''
 Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As String, annotations As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Species.Normalization")
-Call CLI.Append(" ")
-Call CLI.Append("/bbh " & """" & bbh & """ ")
-Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-Call CLI.Append("/idMapping " & """" & idMapping & """ ")
-Call CLI.Append("/annotations " & """" & annotations & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Species.Normalization")
+    Call CLI.Append(" ")
+    Call CLI.Append("/bbh " & """" & bbh & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/idMapping " & """" & idMapping & """ ")
+    Call CLI.Append("/annotations " & """" & annotations & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1932,23 +1932,23 @@ End Function
 ''' </summary>
 '''
 Public Function TtestDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/T.test.Designer.iTraq")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not label.StringEmpty Then
-Call CLI.Append("/label " & """" & label & """ ")
-End If
-If Not deli.StringEmpty Then
-Call CLI.Append("/deli " & """" & deli & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/T.test.Designer.iTraq")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not label.StringEmpty Then
+            Call CLI.Append("/label " & """" & label & """ ")
+    End If
+    If Not deli.StringEmpty Then
+            Call CLI.Append("/deli " & """" & deli & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1959,23 +1959,23 @@ End Function
 ''' </summary>
 '''
 Public Function TtestDesignerLFQ([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/T.test.Designer.LFQ")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/designer " & """" & designer & """ ")
-If Not label.StringEmpty Then
-Call CLI.Append("/label " & """" & label & """ ")
-End If
-If Not deli.StringEmpty Then
-Call CLI.Append("/deli " & """" & deli & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/T.test.Designer.LFQ")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not label.StringEmpty Then
+            Call CLI.Append("/label " & """" & label & """ ")
+    End If
+    If Not deli.StringEmpty Then
+            Call CLI.Append("/deli " & """" & deli & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -1985,22 +1985,22 @@ End Function
 ''' </summary>
 '''
 Public Function Term2Genes([in] As String, Optional term As String = "", Optional id As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Term2genes")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not term.StringEmpty Then
-Call CLI.Append("/term " & """" & term & """ ")
-End If
-If Not id.StringEmpty Then
-Call CLI.Append("/id " & """" & id & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Term2genes")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not term.StringEmpty Then
+            Call CLI.Append("/term " & """" & term & """ ")
+    End If
+    If Not id.StringEmpty Then
+            Call CLI.Append("/id " & """" & id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -2011,19 +2011,19 @@ End Function
 ''' </summary>
 '''
 Public Function UniprotMappings([in] As String, Optional type As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Uniprot.Mappings")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not type.StringEmpty Then
-Call CLI.Append("/type " & """" & type & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Uniprot.Mappings")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not type.StringEmpty Then
+            Call CLI.Append("/type " & """" & type & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -2033,19 +2033,19 @@ End Function
 ''' </summary>
 '''
 Public Function UniRefMap2Organism([in] As String, Optional org As String = "", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/UniRef.map.organism")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not org.StringEmpty Then
-Call CLI.Append("/org " & """" & org & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/UniRef.map.organism")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not org.StringEmpty Then
+            Call CLI.Append("/org " & """" & org & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -2055,16 +2055,16 @@ End Function
 ''' </summary>
 '''
 Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/UniRef.UniprotKB")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/UniRef.UniprotKB")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -2074,20 +2074,20 @@ End Function
 ''' </summary>
 '''
 Public Function Update2UniprotMappedID([in] As String, mapping As String, Optional out As String = "", Optional source As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/update.uniprot.mapped")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/mapping " & """" & mapping & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
-If source Then
-Call CLI.Append("/source ")
-End If
+    Dim CLI As New StringBuilder("/update.uniprot.mapped")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/mapping " & """" & mapping & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If source Then
+        Call CLI.Append("/source ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

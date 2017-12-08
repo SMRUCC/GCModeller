@@ -43,8 +43,8 @@ Namespace Runtime
                  Try
 #End If
                 If consoleTitleEnable Then
-                    Call Console.Title.InvokeSet(Script.Expressions(p).PrimaryExpression)
-                End If
+                        Call Console.Title.SetValue(Script.Expressions(p).PrimaryExpression)
+                    End If
 
                 Call __execute(__executeReturn)
 #If Not DEBUG Then
@@ -68,7 +68,7 @@ Namespace Runtime
             Call ExecuteModel.Stack.Pop()
 
             If consoleTitleEnable Then
-                Call Console.Title.InvokeSet(App.ExecutablePath.ToFileURL)
+                Call Console.Title.SetValue(App.ExecutablePath.ToFileURL)
             End If
 
             Return ScriptEngine.MMUDevice.SystemReserved.Value  '执行了Return代码之后，Return的表达式会被写入到这个变量之中

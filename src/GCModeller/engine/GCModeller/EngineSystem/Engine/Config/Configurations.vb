@@ -200,7 +200,7 @@ Namespace EngineSystem.Engine.Configuration
                     Return Nothing
                 End If
             End If
-            Call Data.FilePath.InvokeSet(Path)
+            Call Data.FilePath.SetValue(Path)
             Return Data
         End Function
 

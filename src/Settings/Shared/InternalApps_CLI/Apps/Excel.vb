@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class Excel : Inherits InteropService
 
-Public Const App$ = "Excel.exe"
+    Public Const App$ = "Excel.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -29,20 +29,20 @@ End Sub
 ''' </summary>
 '''
 Public Function cbind([in] As String, append As String, Optional token0_id As String = "<SPACE", Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/cbind")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-Call CLI.Append("/append " & """" & append & """ ")
-If Not token0_id.StringEmpty Then
-Call CLI.Append("/token0.id " & """" & token0_id & """ ")
-End If
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/cbind")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/append " & """" & append & """ ")
+    If Not token0_id.StringEmpty Then
+            Call CLI.Append("/token0.id " & """" & token0_id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -53,13 +53,13 @@ End Function
 ''' </summary>
 '''
 Public Function newEmpty(target As String) As Integer
-Dim CLI As New StringBuilder("/Create")
-Call CLI.Append(" ")
-Call CLI.Append("/target " & """" & target & """ ")
+    Dim CLI As New StringBuilder("/Create")
+    Call CLI.Append(" ")
+    Call CLI.Append("/target " & """" & target & """ ")
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -70,17 +70,17 @@ End Function
 ''' </summary>
 '''
 Public Function Extract(open As String, sheetName As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/Extract")
-Call CLI.Append(" ")
-Call CLI.Append("/open " & """" & open & """ ")
-Call CLI.Append("/sheetName " & """" & sheetName & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/Extract")
+    Call CLI.Append(" ")
+    Call CLI.Append("/open " & """" & open & """ ")
+    Call CLI.Append("/sheetName " & """" & sheetName & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -91,20 +91,20 @@ End Function
 ''' </summary>
 '''
 Public Function PushTable(write As String, table As String, Optional sheetname As String = "", Optional saveas As String = "") As Integer
-Dim CLI As New StringBuilder("/push")
-Call CLI.Append(" ")
-Call CLI.Append("/write " & """" & write & """ ")
-Call CLI.Append("/table " & """" & table & """ ")
-If Not sheetname.StringEmpty Then
-Call CLI.Append("/sheetname " & """" & sheetname & """ ")
-End If
-If Not saveas.StringEmpty Then
-Call CLI.Append("/saveas " & """" & saveas & """ ")
-End If
+    Dim CLI As New StringBuilder("/push")
+    Call CLI.Append(" ")
+    Call CLI.Append("/write " & """" & write & """ ")
+    Call CLI.Append("/table " & """" & table & """ ")
+    If Not sheetname.StringEmpty Then
+            Call CLI.Append("/sheetname " & """" & sheetname & """ ")
+    End If
+    If Not saveas.StringEmpty Then
+            Call CLI.Append("/saveas " & """" & saveas & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -115,16 +115,16 @@ End Function
 ''' </summary>
 '''
 Public Function rbind([in] As String, Optional out As String = "") As Integer
-Dim CLI As New StringBuilder("/rbind")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & [in] & """ ")
-If Not out.StringEmpty Then
-Call CLI.Append("/out " & """" & out & """ ")
-End If
+    Dim CLI As New StringBuilder("/rbind")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

@@ -448,7 +448,7 @@ Public Module PhenotypeRegulations
     End Function
 
     Sub New()
-        Call Settings.Initialize(GetType(PhenotypeRegulations))
+        Call Settings.Initialize()
     End Sub
 
     ''' <summary>
@@ -505,7 +505,7 @@ Public Module PhenotypeRegulations
                 Call sBatBuilder.AppendLine(String.Format("start /b {0} {1}", Shell, argvs))
             Next
 
-            Call ScriptFile.InvokeSet(Export & "/KernelDriver.shl")
+            Call ScriptFile.SetValue(Export & "/KernelDriver.shl")
             Call My.Resources.KernelDriver.SaveTo(ScriptFile)
         Else
             Dim ScriptFile As String = "./KernelDriver.[MonteCarloMutation].shl"
@@ -522,7 +522,7 @@ Public Module PhenotypeRegulations
                 Next
             Next
 
-            Call ScriptFile.InvokeSet(Export & "/KernelDriver.[MonteCarloMutation].shl")
+            Call ScriptFile.SetValue(Export & "/KernelDriver.[MonteCarloMutation].shl")
             Call My.Resources.KernelDriver___GeneMutation__MonteCarlo.SaveTo(ScriptFile)
         End If
 
