@@ -176,6 +176,7 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
     <Compile Include="ACE.vb" />
+    <Compile Include="Mothur\Mothur.vb" />
     <Compile Include="UPGMATree.vb" />
     <Compile Include="OTUTable.vb" />
     <Compile Include="MeganImports.vb" />
