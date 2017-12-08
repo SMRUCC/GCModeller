@@ -1,33 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::67b05e9d6961900df35f577eb8de8cd1, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -41,34 +40,35 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Sub New(Optional res As String = "")
             If GetType(TMod).Equals(GetType(bGetObject.Module)) Then
-                __hash = __modsBrite(res)
+                table = __modsBrite(res)
             ElseIf GetType(TMod).Equals(GetType(bGetObject.Pathway)) Then
-                __hash = __pathwaysBrite(res)
+                table = __pathwaysBrite(res)
             Else
                 Throw New Exception(GetType(TMod).FullName & " is not a valid type!")
             End If
         End Sub
 
-        Private Shared Function __modsBrite(res As String) As Dictionary(Of String, TripleKeyValuesPair)
-            Dim hash As Dictionary(Of String, [Module])
+        Private Shared Function __modsBrite(res As String) As Dictionary(Of String, [Property])
+            Dim table As Dictionary(Of String, [Module])
+
             If res.FileExists Then
-                hash = [Module].GetDictionary(res)
+                table = [Module].GetDictionary(res)
             Else
-                hash = [Module].GetDictionary
+                table = [Module].GetDictionary
             End If
 
-            Return hash.ToDictionary(Function(x) x.Key, AddressOf __toValue)
+            Return table.ToDictionary(Function(x) x.Key, AddressOf __toValue)
         End Function
 
-        Private Shared Function __toValue(x As KeyValuePair(Of String, [Module])) As TripleKeyValuesPair
-            Return New TripleKeyValuesPair(x.Value.Class, x.Value.Category, x.Value.SubCategory)
+        Private Shared Function __toValue(x As KeyValuePair(Of String, [Module])) As [Property]
+            Return New [Property](x.Value.Class, x.Value.Category, x.Value.SubCategory)
         End Function
 
-        Private Shared Function __toValue(x As KeyValuePair(Of String, Pathway)) As TripleKeyValuesPair
-            Return New TripleKeyValuesPair(x.Value.Class, x.Value.Category, x.Value.Entry.Value)
+        Private Shared Function __toValue(x As KeyValuePair(Of String, Pathway)) As [Property]
+            Return New [Property](x.Value.Class, x.Value.Category, x.Value.Entry.Value)
         End Function
 
-        Private Shared Function __pathwaysBrite(res As String) As Dictionary(Of String, TripleKeyValuesPair)
+        Private Shared Function __pathwaysBrite(res As String) As Dictionary(Of String, [Property])
             Dim hash As Dictionary(Of String, Pathway)
             If res.FileExists Then
                 hash = Pathway.LoadDictionary(res)
@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return hash.ToDictionary(Function(x) x.Key, AddressOf __toValue)
         End Function
 
-        ReadOnly __hash As Dictionary(Of String, TripleKeyValuesPair)
+        ReadOnly table As Dictionary(Of String, [Property])
 
         ''' <summary>
         ''' A
@@ -88,8 +88,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Overloads Function [GetType](x As TMod) As String
             Dim name As String = x.BriteId
-            If __hash.ContainsKey(name) Then
-                Return __hash(name).Key
+            If table.ContainsKey(name) Then
+                Return table(name).name
             Else
                 Return ""
             End If
@@ -102,8 +102,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Function GetClass(x As TMod) As String
             Dim name As String = x.BriteId
-            If __hash.ContainsKey(name) Then
-                Return __hash(name).Value1
+            If table.ContainsKey(name) Then
+                Return table(name).value
             Else
                 Return ""
             End If
@@ -116,8 +116,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Function GetCategory(x As TMod) As String
             Dim name As String = x.BriteId
-            If __hash.ContainsKey(name) Then
-                Return __hash(name).Value2
+            If table.ContainsKey(name) Then
+                Return table(name).Comment
             Else
                 Return ""
             End If

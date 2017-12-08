@@ -758,7 +758,6 @@
     <Compile Include="ComponentModel\ValuePair\GenericAbstract.vb" />
     <Compile Include="ComponentModel\ValuePair\Binding.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\TagData.vb" />
-    <Compile Include="ComponentModel\ValuePair\Triple.vb" />
     <Compile Include="Language\lang\UnixBash\ShellSyntax.vb" />
     <Compile Include="Language\lang\UnixBash\Shell\tree.vb" />
     <Compile Include="Language\lang\UnixBash\Shell\rm.vb" />
