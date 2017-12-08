@@ -29,7 +29,6 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel
@@ -50,7 +49,7 @@ Namespace Karyotype
         ''' <param name="gSize">The genome size.</param>
         ''' <param name="color"></param>
         ''' <param name="bandData"><see cref="TripleKeyValuesPair.Key"/>为颜色，其余的两个属性分别为左端起始和右端结束</param>
-        Sub New(gSize As Integer, color As String, Optional bandData As TripleKeyValuesPair() = Nothing)
+        Sub New(gSize As Integer, color As String, Optional bandData As NamedTuple(Of String)() = Nothing)
             Me.Size = gSize
             Me.__bands = New List(Of Band)(GenerateDocument(bandData))
             Call __karyotype(color)
@@ -59,18 +58,18 @@ Namespace Karyotype
         Protected Sub New()
         End Sub
 
-        Private Overloads Shared Iterator Function GenerateDocument(data As IEnumerable(Of TripleKeyValuesPair)) As IEnumerable(Of Band)
+        Private Overloads Shared Iterator Function GenerateDocument(data As IEnumerable(Of NamedTuple(Of String))) As IEnumerable(Of Band)
             If Not data.IsNullOrEmpty Then
                 Dim i As Integer
 
-                For Each x As TripleKeyValuesPair In data
+                For Each x As NamedTuple(Of String) In data
                     Yield New Band With {
                         .chrName = "chr1",
                         .bandX = "band" & i,
                         .bandY = "band" & i,
-                        .start = x.Value1.ParseInteger,
-                        .end = x.Value2.ParseInteger,
-                        .color = x.Key
+                        .start = x.Item1.ParseInteger,
+                        .end = x.Item2.ParseInteger,
+                        .color = x.Name
                     }
 
                     i += 1

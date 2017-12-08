@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -42,7 +43,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property Name As String
 
-        Public Property Genes As TripleKeyValuesPair()
+        Public Property Genes As [property]()
         Public Property Markers As String()
         Public Property OtherDBs As KeyValuePair()
 

@@ -15,14 +15,14 @@ Public Module Assembler
     ''' 函数需要根据参考序列来计算出覆盖度，如果这个接口是空值，则会尝试进行SCS算法序列装配，在再装配好的序列的基础上进行计算操作
     ''' </param>
     ''' <returns></returns>
-    Public Function SequenceCoverage(sam$, workspace$, Optional refProvider As Func(Of String, IEnumerable(Of FastaToken)) = Nothing) As Dictionary(Of String, Integer)
+    Public Function SequenceCoverage(sam$, workspace$, Optional refProvider As Func(Of String(), IEnumerable(Of FastaToken)) = Nothing) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
         Call "Write SAM headers...".__INFO_ECHO
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
-                If header.TAGValue = TAGS.SQ Then
+                If header.TagValue = Tags.SQ Then
                     Call headWriter.WriteLine(header.GenerateDocumentLine)
                 End If
             Next
@@ -66,7 +66,7 @@ Public Module Assembler
         ' 下面开始进行装配为contig
         Call (ls - l - r - "*.sam" <= workspace) _
             .AsParallel _
-            .Select(Function(path)
+            .Select(Function(path) As Object
                         Dim readsGroup = New SAMStream(path) _
                             .IteratesAllReads _
                             .GroupBy(Function(r) r.RNAME)

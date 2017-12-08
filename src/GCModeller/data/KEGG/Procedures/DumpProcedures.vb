@@ -163,11 +163,11 @@ Public Module DumpProcedures
 
             Dim rnUid = data_reactions.Last.uid
 
-            For Each KO In rn.Orthology.SafeQuery
+            For Each KO In rn.Orthology.Terms.SafeQuery
                 rnOrthology += New mysql.xref_ko_reactions With {
-                    .KO = KO.Key,
+                    .KO = KO.name,
                     .KO_uid = .KO.Trim("K"c),
-                    .name = KO.Value2,
+                    .name = KO.Comment,
                     .rn = rnUid
                 }
             Next

@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.CommandLine.Interpreter
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Linker.APIHandler
 Imports Microsoft.VisualBasic.ComponentModel
+Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace SPM.Nodes
 
@@ -116,16 +118,16 @@ Namespace SPM.Nodes
             }
         End Function
 
-        Private Function __getParameters(Method As System.Reflection.MethodInfo) As TripleKeyValuesPair()
+        Private Function __getParameters(Method As MethodInfo) As NamedValue(Of String)()
             Dim parameters = Method.GetParameters
-            Dim LQuery = (From p As System.Reflection.ParameterInfo
+            Dim LQuery = (From p As ParameterInfo
                               In parameters
                           Let attrs = p.GetCustomAttributes(Parameter.TypeInfo, True)
                           Let attr = If(attrs.IsNullOrEmpty, New Parameter(p.Name), DirectCast(attrs(Scan0), Parameter))
-                          Select New TripleKeyValuesPair With {
-                              .Key = attr.Alias,
-                              .Value1 = attr.Description,
-                              .Value2 = p.ParameterType.FullName}).ToArray
+                          Select New NamedValue(Of String) With {
+                              .Name = attr.Alias,
+                              .Value = attr.Description,
+                              .Description = p.ParameterType.FullName}).ToArray
             Return LQuery
         End Function
     End Module

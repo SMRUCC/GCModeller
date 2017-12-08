@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::08fd42a55bc7849067d8c97e3a1db6a1, ..\interops\meme_suite\MEME\Analysis\Similarity\MotifDeltaSimilarity.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -225,10 +226,10 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
                 .Motif1 = Mtf,
                 .Motif2 = Mtg,
                 .Delta = (From compares In LQuery
-                          Select New Microsoft.VisualBasic.ComponentModel.TripleKeyValuesPair With {
-                              .Key = compares.delta,
-                              .Value1 = compares.Motif1.Id,
-                              .Value2 = compares.Motif2.Id}).ToArray
+                          Select New NamedTuple(Of String) With {
+                              .Name = compares.delta,
+                              .Item1 = compares.Motif1.Id,
+                              .Item2 = compares.Motif2.Id}).ToArray
             }
             Return Result
         End Function
@@ -243,7 +244,7 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
 
             Public Property Motif1 As Motif()
             Public Property Motif2 As Motif()
-            Public Property Delta As Microsoft.VisualBasic.ComponentModel.TripleKeyValuesPair()
+            Public Property Delta As NamedTuple(Of String)()
 
             ''' <summary>
             ''' 
@@ -251,9 +252,9 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
             ''' <param name="Entry"><see cref="Delta"></see>之中的一个元素</param>
             ''' <returns></returns>
             ''' <remarks></remarks>
-            Public Function GetMotif(Entry As Microsoft.VisualBasic.ComponentModel.TripleKeyValuesPair, ByRef Motif1 As Motif, ByRef Motif2 As Motif) As Boolean
-                Motif1 = (From item In Me.Motif1 Where String.Equals(item.Id, Entry.Value1) Select item).First
-                Motif2 = (From item In Me.Motif2 Where String.Equals(item.Id, Entry.Value1) Select item).First
+            Public Function GetMotif(Entry As NamedTuple(Of String), ByRef Motif1 As Motif, ByRef Motif2 As Motif) As Boolean
+                Motif1 = (From item In Me.Motif1 Where String.Equals(item.Id, Entry.Item1) Select item).First
+                Motif2 = (From item In Me.Motif2 Where String.Equals(item.Id, Entry.Item2) Select item).First
                 Return True
             End Function
         End Class

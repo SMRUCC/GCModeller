@@ -650,6 +650,7 @@
     <Compile Include="ComponentModel\DataStructures\HashList\HashHandle.vb" />
     <Compile Include="ComponentModel\DataStructures\Set\SetAPI.vb" />
     <Compile Include="ComponentModel\File\BufferedStream.vb" />
+    <Compile Include="ComponentModel\ValuePair\NamedTuple.vb" />
     <Compile Include="Extensions\IO\CopyDirectory.vb" />
     <Compile Include="Extensions\Math\StatisticsMathExtensions\DataSample.vb" />
     <Compile Include="ComponentModel\Ranges\Sequence.vb" />
@@ -758,7 +759,6 @@
     <Compile Include="ComponentModel\ValuePair\GenericAbstract.vb" />
     <Compile Include="ComponentModel\ValuePair\Binding.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\TagData.vb" />
-    <Compile Include="ComponentModel\ValuePair\Triple.vb" />
     <Compile Include="Language\lang\UnixBash\ShellSyntax.vb" />
     <Compile Include="Language\lang\UnixBash\Shell\tree.vb" />
     <Compile Include="Language\lang\UnixBash\Shell\rm.vb" />

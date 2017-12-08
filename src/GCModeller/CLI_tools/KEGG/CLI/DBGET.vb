@@ -45,10 +45,12 @@ Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 
 Partial Module CLI
 
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR>]")>
+    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR> /@set sleep=2000]")>
+    <Description("Downloads the KEGG enzyme reaction reference model data.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", "./br08201/")
+        Dim save$ = args("/save") Or "./br08201/"
+
         Return EnzymaticReaction _
             .DownloadReactions(save) _
             .SaveTo(save & "/failures.txt") _

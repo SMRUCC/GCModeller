@@ -1,44 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::8768da7acee398fe5c4e7b749a3882c0, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
-Imports Microsoft.VisualBasic.Text.HtmlParser
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.ComponentModel.Loci
+Option Strict Off
+
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
@@ -187,7 +189,9 @@ both of these relationships hold
                 Orthology.Entry = Regex.Match(Orthology.Entry, "[A-Z]+\d{5}").Value
             End If
 
-            Orthology.xRefEntry = xRefParser(WebForm.GetRaw("Other DBs"))
+            Orthology.xref = New OrthologyTerms With {
+                .Terms = xRefParser(WebForm.GetRaw("Other DBs"))
+            }
             Orthology.References = WebForm.References
             Orthology.Module = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             Orthology.Definition = WebForm.GetValue("Definition").FirstOrDefault.StripHTMLTags
@@ -208,28 +212,32 @@ both of these relationships hold
 
         Const xRef As String = "<div style=""float:left"">.+?</div><div.*?</div>"
 
-        Public Function xRefParser(str As String()) As TripleKeyValuesPair()
+        Public Function xRefParser(str As String()) As [property]()
             If str.IsNullOrEmpty Then
-                Return New TripleKeyValuesPair() {}
+                Return {}
             End If
             Dim DBs As String() = (From ss As String
                                    In str
                                    Select (From m As Match
-                                           In Regex.Matches(ss, xRef, RegexOptions.IgnoreCase + RegexOptions.Singleline)
+                                           In Regex.Matches(ss, xRef, RegexOptions.IgnoreCase Or RegexOptions.Singleline)
                                            Select m.Value)).ToVector
             Dim Values = DBs.Select(Function(lnk) __xRefParser(lnk)).ToVector
             Return Values
         End Function
 
-        Private Function __xRefParser(lnk As String) As TripleKeyValuesPair()
+        Private Function __xRefParser(lnk As String) As [Property]()
             Dim Name As String = Regex.Match(lnk, "<div.+?</div>").Value.GetValue.Split(":"c).First
             Dim Links = (From m As Match In Regex.Matches(lnk, "<a.+?</a>") Select m.Value).ToArray
-            Dim values As TripleKeyValuesPair() = Links.Select(
-                Function(ss) New TripleKeyValuesPair With {
-                    .Key = Name,
-                    .Value1 = ss.href,
-                    .Value2 = ss.GetValue
-                }).ToArray
+            Dim values As [Property]() = Links _
+                .Select(Function(ss)
+                            Return New [Property] With {
+                                .name = Name,
+                                .value = ss.href,
+                                .Comment = ss.GetValue
+                            }
+                        End Function) _
+                .ToArray
+
             Return values
         End Function
 
