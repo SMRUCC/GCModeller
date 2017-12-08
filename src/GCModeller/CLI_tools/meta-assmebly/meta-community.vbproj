@@ -120,6 +120,7 @@
     <Compile Include="CLI\02_Alpha_Diversity.vb" />
     <Compile Include="CLI\Difference.vb" />
     <Compile Include="CLI\HMP\HMP.vb" />
+    <Compile Include="CLI\Network.vb" />
     <Compile Include="CLI\SILVA.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -234,6 +235,10 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\Networks\Microbiome\Microbiome.vbproj">
+      <Project>{98b68c31-ea5a-4b07-a748-3a009fabfa39}</Project>
+      <Name>Microbiome</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

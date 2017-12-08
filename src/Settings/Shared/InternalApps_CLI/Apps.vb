@@ -15,6 +15,7 @@ Public NotInheritable Class Apps
     Public Shared ReadOnly Property seqtools As GCModellerApps.seqtools
     Public Shared ReadOnly Property VennDiagram As GCModellerApps.VennDiagram
     Public Shared ReadOnly Property eggHTS As GCModellerApps.eggHTS
+    Public Shared ReadOnly Property Microbiome As GCModellerApps.meta_community
 
     Shared Sub New()
         Dim list$() = {
@@ -38,6 +39,7 @@ Public NotInheritable Class Apps
                 KEGG_tools = New GCModellerApps.KEGG_tools(HOME & "/KEGG_tools.exe")
                 seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
                 VennDiagram = New GCModellerApps.VennDiagram(HOME & "/venn.exe")
+                Microbiome = New GCModellerApps.meta_community(HOME & "/" & GCModellerApps.meta_community.App)
 
                 Exit For
             End If
