@@ -132,9 +132,9 @@ Namespace CommandLine
             _TempRedirect.ParentPath.MkDIR
 
             If App.IsMicrosoftPlatform Then
-                shellScript = Scripting.Cmd(file, argv, environment, FolkNew)
+                shellScript = ScriptingExtensions.Cmd(file, argv, environment, FolkNew)
             Else
-                shellScript = Scripting.Bash
+                shellScript = ScriptingExtensions.Bash(file, argv, environment, FolkNew)
             End If
 
             Call $"""{file.ToFileURL}"" {argv}".__DEBUG_ECHO
