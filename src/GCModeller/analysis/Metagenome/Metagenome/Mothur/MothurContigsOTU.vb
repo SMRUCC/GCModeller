@@ -19,6 +19,9 @@ Public Module MothurContigsOTU
     ''' <param name="left$"></param>
     ''' <param name="right$"></param>
     ''' <param name="workspace$"></param>
+    ''' <remarks>
+    ''' http://www.opiniomics.org/a-mothur-tutorial-what-can-we-find-out-about-the-horse-gut-metagenome/
+    ''' </remarks>
     Public Sub ClusterOTUByMothur(left$, right$, Optional workspace$ = Nothing, Optional processor% = 2)
         Dim mothur As New Mothur(App:=Settings.Mothur)
         Dim contig$ = left.ParentPath & "/" & left.BaseName & ".trim.contigs.fasta"
@@ -58,6 +61,22 @@ Public Module MothurContigsOTU
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub
+
+    ''' <summary>
+    ''' 1. summary.seqs
+    ''' 2. screen.seqs
+    ''' </summary>
+    ''' <param name="fasta"></param>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function RunAutoScreen(mothur As Mothur, fasta$, group$, Optional processors% = 2) As String
+        Dim summary = mothur.Summary_seqs(fasta, processors)
+        Dim table = SummaryTable(summary).ToDictionary
+        Dim min% = table("2.5%-tile")!End - table("2.5%-tile")!Start + 1
+        Dim max% = table("97.5%-tile")!End - table("97.5%-tile")!Start + 1
+        Dim screen = mothur.Screen_seqs(fasta, group, 0, min, max)
+    End Function
 
     ''' <summary>
     ''' 使用序列长度最普遍的某个为序列模板

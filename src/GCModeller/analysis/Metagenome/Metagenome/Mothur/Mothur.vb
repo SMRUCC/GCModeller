@@ -36,6 +36,21 @@ Public Class Mothur : Inherits InteropService
     End Function
 
     ''' <summary>
+    ''' The screen.seqs command enables you to keep sequences that fulfill certain user defined criteria. Furthermore, 
+    ''' it enables you to cull those sequences not meeting the criteria from a names, group, contigsreport, 
+    ''' alignreport and summary file. 
+    ''' </summary>
+    ''' <param name="fasta$"></param>
+    ''' <param name="group$"></param>
+    ''' <param name="maxambig%"></param>
+    ''' <param name="minlength%"></param>
+    ''' <param name="maxlength%"></param>
+    ''' <returns></returns>
+    Public Function Screen_seqs(fasta$, group$, maxambig%, minlength%, maxlength%) As String
+        Return RunMothur($"screen.seqs(fasta={fasta}, group={group}, maxambig={maxambig}, minlength={minlength}, maxlength={maxlength})")
+    End Function
+
+    ''' <summary>
     ''' The ``unique.seqs`` command returns only the unique sequences found in a fasta-formatted 
     ''' sequence file and a file that indicates those sequences that are identical to the reference 
     ''' sequence. Often times a collection of sequences will have a significant number of identical 
