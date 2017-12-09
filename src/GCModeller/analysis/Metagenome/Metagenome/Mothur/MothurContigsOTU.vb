@@ -46,8 +46,8 @@ Public Module MothurContigsOTU
             .Save(contig, UTF8WithoutBOM)
 
         ' run OTU cluster
-        Call mothur.Unique_seqs(contig).SaveTo("[5]unique.seqs.log")
-        Call mothur.Dist_seqs(contig).SaveTo("[6]dist.seqs.log")
+        Call mothur.Unique_seqs(contig).SaveTo("[5]unique.seqs.log") ' contig.names, contig.unique.fasta
+        Call mothur.Dist_seqs("contig.unique.fasta").SaveTo("[6]dist.seqs.log")
         Call mothur.Cluster("contig.unique.phylip.dist").SaveTo("[7]cluster.log")
         Call mothur.Bin_seqs(fasta:=contig, name:="contig.names").SaveTo("[8]bin.seqs.log")
         Call mothur.GetOTUrep(
