@@ -1,9 +1,6 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Model.Network.Microbiome
@@ -34,13 +31,20 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/OTU.cluster")>
-    <Usage("/OTU.cluster /left <left.fq> /right <right.fq> [/out <out.directory> /@set mothur=path]")>
+    <Usage("/OTU.cluster /left <left.fq> /right <right.fq> /silva <silva.bacteria.fasta> [/out <out.directory> /processors <default=2> /@set mothur=path]")>
     Public Function ClusterOTU(args As CommandLine) As Integer
         Dim left$ = args <= "/left"
         Dim right$ = args <= "/right"
         Dim out$ = args("/out") Or "./"
+        Dim silva$ = args("/silva")
+        Dim num_threads% = args.GetValue("/processors", 2)
 
-        Call MothurContigsOTU.ClusterOTUByMothur(left, right, workspace:=out, processor:=App.CPUCoreNumbers)
+        Call MothurContigsOTU.ClusterOTUByMothur(
+            left, right,
+            silva:=silva,
+            workspace:=out,
+            processor:=num_threads
+        )
 
         Return 0
     End Function
