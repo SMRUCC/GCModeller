@@ -3,17 +3,22 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports KO = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.KOCatalog
+Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Public Module UniProtExtensions
 
     <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry)) As TaxonomyRepository
+        Dim list As New List(Of TaxonomyRef)
+        Dim KOCatalog = KO.ko00000
+
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim cache$ = UniProtXml.ScanInternal
-        ' 之后再将信息提取出来整理为一个XML格式的信息库
-        Dim list As New List(Of TaxonomyRef)
 
+        ' 之后再将信息提取出来整理为一个XML格式的信息库
         For Each xml As String In ls - l - r - "*.Xml" <= cache
             Dim organism As organism = xml.LoadXml(Of organism)
             Dim KO$() = (xml.TrimSuffix & ".txt") _
@@ -21,8 +26,32 @@ Public Module UniProtExtensions
                 .Distinct _
                 .OrderBy(Function(id) id) _
                 .ToArray
+            Dim terms As XmlProperty() = KO _
+                .Select(Function(id)
+                            If KOCatalog.ContainsKey(id) Then
+                                Dim term = KOCatalog(id).First
+                                Dim info = term.Description.GetTagValue(";", trim:=True)
 
+                                Return New XmlProperty With {
+                                    .name = id,
+                                    .value = info.Name,
+                                    .Comment = info.Value
+                                }
+                            Else
+                                Return New XmlProperty With {
+                                    .name = id
+                                }
+                            End If
+                        End Function) _
+                .ToArray
 
+            list += New TaxonomyRef With {
+                .organism = organism,
+                .TaxonID = organism.dbReference.id,
+                .genome = New OrthologyTerms With {
+                    .Terms = terms
+                }
+            }
         Next
 
         Return New TaxonomyRepository With {

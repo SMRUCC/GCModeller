@@ -49,9 +49,12 @@ Partial Module CLI
     <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or [in].TrimSuffix & "/"
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
         Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
 
-        Return 0
+        Return ref _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module
