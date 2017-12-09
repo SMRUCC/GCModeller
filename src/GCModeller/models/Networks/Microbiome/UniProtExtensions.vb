@@ -29,6 +29,7 @@ Public Module UniProtExtensions
             Dim terms As XmlProperty() = KO _
                 .Select(Function(id)
                             If KOCatalog.ContainsKey(id) Then
+                                ' 得到的都是相同的定义，区别只在于代谢途径不同，则只取出第一个对象即可
                                 Dim term = KOCatalog(id).First
                                 Dim info = term.Description.GetTagValue(";", trim:=True)
 
