@@ -72,11 +72,21 @@ Public Module UniProtExtensions
 
         For Each protein As entry In UniProtXml
             Dim taxonomy = protein.organism
-            Dim lineage$ = taxonomy.lineage.taxonlist.Select(AddressOf NormalizePathString).JoinBy("/").MD5
+            Dim lineage$ = taxonomy _
+                .lineage _
+                .taxonlist _
+                .Select(AddressOf NormalizePathString) _
+                .JoinBy("/") _
+                .MD5
             Dim path$
 
-            With taxonomy.lineage.taxonlist
-                path = $"{tmp}/{ .FirstOrDefault }/{ .ElementAtOrDefault(1)}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName.NormalizePathString}.XML"
+            With taxonomy
+                Dim name$ = $"[{ .dbReference.id}] { .scientificName.NormalizePathString}"
+
+                With .lineage.taxonlist
+                    path = $"{ .FirstOrDefault }/{ .ElementAtOrDefault(1)}/{lineage}"
+                    path = $"{tmp}/{path}/{name}.XML"
+                End With
             End With
 
             Dim KO$() = protein.Xrefs _
