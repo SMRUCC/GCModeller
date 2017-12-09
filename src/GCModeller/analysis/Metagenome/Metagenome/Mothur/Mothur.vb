@@ -35,6 +35,10 @@ Public Class Mothur : Inherits InteropService
         Return RunMothur($"summary.seqs(fasta={fasta}, processors={processor})")
     End Function
 
+    Public Function Summary_seqs(fasta$, count$) As String
+        Return RunMothur($"summary.seqs(fasta={fasta},count={count})")
+    End Function
+
     ''' <summary>
     ''' The screen.seqs command enables you to keep sequences that fulfill certain user defined criteria. Furthermore, 
     ''' it enables you to cull those sequences not meeting the criteria from a names, group, contigsreport, 
@@ -83,8 +87,8 @@ Public Class Mothur : Inherits InteropService
     ''' 16S rRNA gene, if the template database is based on the secondary structure, then the resulting 
     ''' alignment will at least be implicitly based on the secondary structure.
     ''' </summary>
-    ''' <param name="candidate$"></param>
-    ''' <param name="template$"></param>
+    ''' <param name="fasta$"></param>
+    ''' <param name="reference"></param>
     ''' <param name="flip$">The flip parameter is used to specify whether or not you want mothur to try 
     ''' the reverse complement of a sequence if the sequence falls below the threshold. The default is false. 
     ''' If the flip parameter is set to true the reverse complement of the sequence is aligned and the better 
@@ -104,8 +108,8 @@ Public Class Mothur : Inherits InteropService
     ''' <returns></returns>
     <ExportAPI("align.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function align_seqs(candidate$, template$, Optional flip$ = "F", Optional processors% = 1) As String
-        Return RunMothur($"align.seqs(candidate={candidate},template={template},flip={flip},processors={processors})")
+    Public Function align_seqs(fasta$, reference$, Optional flip$ = "F", Optional processors% = 1) As String
+        Return RunMothur($"align.seqs(fasta={fasta},reference={reference},flip={flip},processors={processors})")
     End Function
 
     ''' <summary>
@@ -239,8 +243,30 @@ Public Class Mothur : Inherits InteropService
     ''' 
     <ExportAPI("make.contigs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Make_contigs(ffastq$, rfastq$, Optional processors As Integer = 1) As String
+    Public Function Make_contigs(ffastq$, rfastq$, Optional processors% = 1) As String
         Return RunMothur($"make.contigs(ffastq={ffastq}, rfastq={rfastq}, processors={processors})")
+    End Function
+
+    ''' <summary>
+    ''' The count.seqs / make.table command counts the number of sequences represented by the representative sequence in a name file. 
+    ''' If a group file is given, it will also provide the group count breakdown.
+    ''' </summary>
+    ''' <param name="name$"></param>
+    ''' <param name="group$"></param>
+    ''' <returns></returns>
+    Public Function Count_seqs(name$, group$) As String
+        Return RunMothur($"count.seqs(name={name}, group={group})")
+    End Function
+
+    ''' <summary>
+    ''' The ``make.contigs`` command reads a forward fastq file and a reverse fastq file and outputs 
+    ''' new fasta and report files.
+    ''' </summary>
+    ''' <param name="file$"></param>
+    ''' <param name="processors"></param>
+    ''' <returns></returns>
+    Public Function Make_contigs(file$, Optional processors% = 1) As String
+        Return RunMothur($"make.contigs(file={file}, processors={processors})")
     End Function
 
     ''' <summary>

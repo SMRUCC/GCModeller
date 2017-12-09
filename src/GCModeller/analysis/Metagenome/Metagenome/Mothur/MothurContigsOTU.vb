@@ -22,42 +22,48 @@ Public Module MothurContigsOTU
     ''' <remarks>
     ''' http://www.opiniomics.org/a-mothur-tutorial-what-can-we-find-out-about-the-horse-gut-metagenome/
     ''' </remarks>
-    Public Sub ClusterOTUByMothur(left$, right$, Optional workspace$ = Nothing, Optional processor% = 2)
+    Public Sub ClusterOTUByMothur(left$, right$, silva$, Optional workspace$ = Nothing, Optional processor% = 2)
         Dim mothur As New Mothur(App:=Settings.Mothur)
-        Dim contig$ = left.ParentPath & "/" & left.BaseName & ".trim.contigs.fasta"
-        Dim template$ = "template.fasta"
+        Dim contigs$ = $"{workspace}/contigs.files"
+        Dim groups$
 
-        App.CurrentDirectory = workspace
+        Call {
+            "contigs", left, right
+        } _
+            .JoinBy(ASCII.TAB) _
+            .SaveTo(contigs)
+        Call App.CurrentDirectory.SetValue(workspace)
 
         ' make contigs from fq reads
-        Call mothur.Make_contigs(left, right, processors:=2).SaveTo("[1]make.contigs.log")
-        Call contig.FileCopy("contig.fasta")
-        Call contig.SetValue("contig.fasta") _
-                   .GetContigAlignmentTemplate() _
-                   .SaveAsOneLine(template)
+        Call mothur.Make_contigs(contigs, processors:=processor).SaveTo("[1]make.contigs.log")
+        ' contigs.Trim.contigs.fasta
+        ' contigs.Trim.contigs.qual
+        ' contigs.contigs.report
+        ' contigs.scrap.contigs.fasta
+        ' contigs.scrap.contigs.qual
+        ' contigs.contigs.groups
+        Call mothur.RunAutoScreen("contigs.Trim.contigs.fasta", "contigs.contigs.groups", processor).SaveTo("[2]summary.seqs.log")
+        ' contigs.Trim.contigs.good.fasta
+        ' contigs.Trim.contigs.bad.accnos
+        ' contigs.contigs.good.groups
+
+        contigs = "contigs.fasta"
+        groups = "contigs.groups"
+
+        Call "contigs.Trim.contigs.good.fasta".FileCopy(contigs)
+        Call "contigs.contigs.good.groups".FileCopy(groups)
 
         ' align contigs or
         ' [ERROR]:your sequences are not the same length, aborting.
-        Call mothur.Unique_seqs(contig).SaveTo("[2]unique.seqs.log")
-        'Call mothur.align_seqs(candidate:="contig.unique.fasta", template:=template, processors:=processor).SaveTo("[3]align.seqs.log")
-        'Call mothur.filter_seqs("contig.unique.align").SaveTo("[4]filter.seqs.log")
-        'Call "contig.unique.filter.fasta".FileCopy(contig)
+        Call mothur.Unique_seqs(contigs).SaveTo("[3]unique.seqs.log")
+        ' contigs.names
+        ' contigs.unique.fasta
+        Call mothur.Count_seqs("contigs.names", groups).SaveTo("[4]count.seqs.log")
+        ' contigs.count_table
+        Call mothur.Summary_seqs("contigs.unique.fasta", "contigs.count_table").SaveTo("[5]summary.seqs.log")
 
-        ' 使用ClustalOmega做多序列比对
-        Call Clustal.CreateSession _
-            .MultipleAlignment("contig.unique.fasta") _
-            .Save(contig, UTF8WithoutBOM)
-
-        ' run OTU cluster
-        Call mothur.Unique_seqs(contig).SaveTo("[5]unique.seqs.log") ' contig.names, contig.unique.fasta
-        Call mothur.Dist_seqs("contig.unique.fasta").SaveTo("[6]dist.seqs.log")
-        Call mothur.Cluster("contig.unique.phylip.dist").SaveTo("[7]cluster.log")
-        Call mothur.Bin_seqs(fasta:=contig, name:="contig.names").SaveTo("[8]bin.seqs.log")
-        Call mothur.GetOTUrep(
-            phylip:="contig.unique.phylip.dist",
-            fasta:="contig.unique.fasta",
-            list:="contig.unique.phylip.fn.list"
-        ).SaveTo("[9]get.oturep.log")
+        ' https://mothur.org/w/images/9/98/Silva.bacteria.zip
+        Call mothur.align_seqs("contigs.unique.fasta", silva, "T", processor).SaveTo("[6]align.seqs.log")
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub
@@ -67,15 +73,16 @@ Public Module MothurContigsOTU
     ''' 2. screen.seqs
     ''' </summary>
     ''' <param name="fasta"></param>
-    ''' <returns></returns>
-    ''' 
     <Extension>
     Public Function RunAutoScreen(mothur As Mothur, fasta$, group$, Optional processors% = 2) As String
         Dim summary = mothur.Summary_seqs(fasta, processors)
         Dim table = SummaryTable(summary).ToDictionary
         Dim min% = table("2.5%-tile")!End - table("2.5%-tile")!Start + 1
         Dim max% = table("97.5%-tile")!End - table("97.5%-tile")!Start + 1
-        Dim screen = mothur.Screen_seqs(fasta, group, 0, min, max)
+
+        Call mothur.Screen_seqs(fasta, group, 0, min, max)
+
+        Return summary
     End Function
 
     ''' <summary>
