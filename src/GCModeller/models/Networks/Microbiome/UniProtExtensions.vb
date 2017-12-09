@@ -76,7 +76,7 @@ Public Module UniProtExtensions
             Dim path$
 
             With taxonomy.lineage.taxonlist
-                path = $"{tmp}/{ .First}/{ .ref(1)}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName.NormalizePathString}.XML"
+                path = $"{tmp}/{ .FirstOrDefault }/{ .ElementAtOrDefault(1)}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName.NormalizePathString}.XML"
             End With
 
             Dim KO$() = protein.Xrefs _
