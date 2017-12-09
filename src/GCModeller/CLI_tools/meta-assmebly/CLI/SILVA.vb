@@ -1,10 +1,12 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -44,33 +46,15 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.directory>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or [in].TrimSuffix & "/"
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
+        Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
 
-        For Each protein As entry In UniProtXML.EnumerateEntries(path:=[in])
-            Dim taxonomy = protein.organism
-            Dim lineage$ = taxonomy.lineage.taxonlist.Select(AddressOf NormalizePathString).JoinBy("/")
-            Dim path$ = $"{out}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName}.XML"
-            Dim KO$() = protein.Xrefs _
-                .TryGetValue("KO") _
-                .SafeQuery _
-                .Select(Function(KEGG) KEGG.id) _
-                .ToArray
-
-            If path.FileExists Then
-                ' 追加
-                Call KO _
-                    .JoinBy(ASCII.LF) _
-                    .SaveTo(path.TrimSuffix & ".txt", append:=True, throwEx:=False)
-            Else
-                ' 写入新的数据
-                Call taxonomy.GetXml.SaveTo(path)
-                Call KO.FlushAllLines(path.TrimSuffix & ".txt")
-            End If
-        Next
-
-        Return 0
+        Return ref _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module
