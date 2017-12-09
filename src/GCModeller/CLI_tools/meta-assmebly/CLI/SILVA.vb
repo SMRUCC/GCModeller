@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -51,8 +52,13 @@ Partial Module CLI
 
         For Each protein As entry In UniProtXML.EnumerateEntries(path:=[in])
             Dim taxonomy = protein.organism
-            Dim lineage$ = taxonomy.lineage.taxonlist.Select(AddressOf NormalizePathString).JoinBy("/")
-            Dim path$ = $"{out}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName}.XML"
+            Dim lineage$ = taxonomy.lineage.taxonlist.Select(AddressOf NormalizePathString).JoinBy("/").MD5
+            Dim path$
+
+            With taxonomy.lineage.taxonlist
+                path = $"{out}/{ .First}/{ .ref(1)}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName.NormalizePathString}.XML"
+            End With
+
             Dim KO$() = protein.Xrefs _
                 .TryGetValue("KO") _
                 .SafeQuery _
