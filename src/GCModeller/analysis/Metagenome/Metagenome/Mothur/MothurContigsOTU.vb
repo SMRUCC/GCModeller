@@ -68,6 +68,7 @@ Public Module MothurContigsOTU
         ' contigs.unique.align
         ' contigs.unique.align.report
         ' contigs.unique.flip.accnos
+
         ' Call mothur.RunAutoScreen("contigs.unique.align", "contigs.count_table", processor).SaveTo("[7]summary.seqs.log")
         ' Removing group: C_19-4 because all sequences have been removed. ????
         ' contigs.unique.good.summary
@@ -75,13 +76,25 @@ Public Module MothurContigsOTU
         ' contigs.unique.bad.accnos
         ' contigs.good.count_table
         ' Call align.SetValue("contigs.unique.good.align")
-        ' Call mothur.filter_seqs(align, vertical:="T", trump:=".", processors:=processor)
+
+        Call align.SetValue("contigs.unique.align")
+        Call mothur.filter_seqs(align)
         ' contigs.filter
         ' contigs.unique.filter.fasta
 
-        Call align.SetValue("contigs.unique.align")
-        Call mothur.Dist_seqs(align, processors:=processor).SaveTo("[7]dist.seqs.log")
+        Call "contigs.unique.filter.fasta".CopyTo(contigs)
+        ' contigs.fasta
+        Call mothur.Unique_seqs(contigs)
+        ' contigs.names
+        ' contigs.unique.fasta
 
+        Call align.SetValue("contigs.unique.fasta")
+        Call mothur.Dist_seqs(align, processors:=processor).SaveTo("[7]dist.seqs.log")
+        ' contigs.unique.phylip.dist
+        Call mothur.Cluster(phylip:="contigs.unique.phylip.dist").SaveTo("[8]cluster.log")
+
+        Call mothur.Bin_seqs("contigs.fasta", "contigs.names").SaveTo("[9]bin.seqs.log")
+        Call mothur.GetOTUrep(phylip:="contigs.unique.phylip.dist", fasta:="contigs.unique.fasta", list:="contigs.unique.phylip.fn.list", label:=0.03).SaveTo("[10]get.oturep.log")
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub
