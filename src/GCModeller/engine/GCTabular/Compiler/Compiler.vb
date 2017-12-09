@@ -128,8 +128,8 @@ Namespace Compiler
 
 #If Not DEBUG Then
         Catch ex As Exception
-            Call Logging.WriteLine(ex.ToString, "", Microsoft.VisualBasic.Logging.LogFile.MsgType.ERR)
-            Return -1
+                Call App.LogException(ex)
+                Return -1
         End Try
 #End If
 
