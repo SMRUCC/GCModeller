@@ -7,6 +7,10 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' </summary>
 Public Class Mothur : Inherits InteropService
 
+    ''' <summary>
+    ''' 使用应用程序的路径构建出Mothur对象
+    ''' </summary>
+    ''' <param name="App"></param>
     Sub New(App As String)
         If Not App.FileExists Then
             Throw New EntryPointNotFoundException(App & " is unavaliable!")
@@ -20,6 +24,15 @@ Public Class Mothur : Inherits InteropService
             Call .Run()
             Return .StandardOutput
         End With
+    End Function
+
+    ''' <summary>
+    ''' The summary.seqs command will summarize the quality of sequences in an unaligned or aligned fasta-formatted sequence file.
+    ''' </summary>
+    ''' <param name="fasta"></param>
+    ''' <returns></returns>
+    Public Function Summary_seqs(fasta$, Optional processor% = 1) As String
+        Return RunMothur($"summary.seqs(fasta={fasta}, processors={processor})")
     End Function
 
     ''' <summary>
