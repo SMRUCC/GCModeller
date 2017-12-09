@@ -763,6 +763,12 @@ Public Module App
     Private Function __isMicrosoftPlatform() As Boolean
         Dim pt As PlatformID = Platform
 
+        If pt = PlatformID.Unix Then
+            Return False
+        ElseIf pt = PlatformID.MacOSX Then
+            Return False
+        End If
+
         Return pt = PlatformID.Win32NT OrElse
             pt = PlatformID.Win32S OrElse
             pt = PlatformID.Win32Windows OrElse
