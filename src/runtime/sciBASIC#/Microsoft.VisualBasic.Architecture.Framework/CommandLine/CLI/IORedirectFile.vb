@@ -150,14 +150,42 @@ Namespace CommandLine
         ''' </summary>
         ''' <returns></returns>
         Public Function Run() As Integer Implements IIORedirectAbstract.Run
-            Dim path As New Value(Of String)
-            Dim exitCode As Integer = Interaction.Shell(
-                path = writeScript(),
+            Dim path$ = writeScript()
+            Dim exitCode As Integer
+
+#If UNIX Then
+            With New Process() With {
+                .StartInfo = New ProcessStartInfo(path)
+            }
+                Call .Start()
+                Call .WaitForExit()
+
+                exitCode = .ExitCode
+            End With
+#Else
+            ' [ERROR 12/10/2017 4:57:27 AM] <Print>::System.Exception: Print ---> System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.DllNotFoundException: kernel32
+            '   at (wrapper managed-to-native) Microsoft.VisualBasic.CompilerServices.NativeMethods:GetStartupInfo (Microsoft.VisualBasic.CompilerServices.NativeTypes/STARTUPINFO)
+            '   at Microsoft.VisualBasic.Interaction.Shell (System.String PathName, Microsoft.VisualBasic.AppWinStyle Style, System.Boolean Wait, System.Int32 Timeout) [0x00077] in <828807dda9f14f24a7db780c6c644162>:0
+            '   at Microsoft.VisualBasic.CommandLine.IORedirectFile.Run () [0x00011] in <d9cf6734998c48a092e8a1528ac0142f>:0
+            '   at SMRUCC.genomics.Analysis.Metagenome.Mothur.RunMothur (System.String args) [0x00014] in <d8095d5f77564ae4af334ce9b17144fb>:0
+            '   at SMRUCC.genomics.Analysis.Metagenome.Mothur.Make_contigs (System.String file, System.Int32 processors) [0x00013] in <d8095d5f77564ae4af334ce9b17144fb>:0
+            '   at SMRUCC.genomics.Analysis.Metagenome.MothurContigsOTU.ClusterOTUByMothur (System.String left, System.String right, System.String silva, System.String workspace, System.Int32 processor) [0x00060] in <d8095d5f77564ae4af334ce9b17144fb>:0
+            '   at meta_community.CLI.ClusterOTU (Microsoft.VisualBasic.CommandLine.CommandLine args) [0x0004b] in <58a80ce28e644b22a21c332e0f3bd1f5>:0
+            '   at (wrapper managed-to-native) System.Reflection.MonoMethod:InternalInvoke (System.Reflection.MonoMethod,object,object[],System.Exception&)
+            '   at System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00032] in <902ab9e386384bec9c07fa19aa938869>:0
+            '    --- End of inner exception stack trace ---
+            '   at System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00048] in <902ab9e386384bec9c07fa19aa938869>:0
+            '   at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <902ab9e386384bec9c07fa19aa938869>:0
+            '   at Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints.APIEntryPoint.__directInvoke (System.Object[] callParameters, System.Object target, System.Boolean Throw) [0x0000c] in <d9cf6734998c48a092e8a1528ac0142f>:0
+            '    --- End of inner exception stack trace ---
+
+            exitCode = Interaction.Shell(
+                path,
                 Style:=AppWinStyle.Hide,
                 Wait:=True
             )
-
-            Call path.Value.Delete
+#End If
+            Call path.Delete
 
             Return exitCode
         End Function
