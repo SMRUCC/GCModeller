@@ -35,8 +35,8 @@ Public Class Mothur : Inherits InteropService
         Return RunMothur($"summary.seqs(fasta={fasta}, processors={processor})")
     End Function
 
-    Public Function Summary_seqs(fasta$, count$) As String
-        Return RunMothur($"summary.seqs(fasta={fasta},count={count})")
+    Public Function Summary_seqs(fasta$, count$, Optional processors% = 1) As String
+        Return RunMothur($"summary.seqs(fasta={fasta},count={count}, processors={processors})")
     End Function
 
     ''' <summary>
@@ -52,6 +52,10 @@ Public Class Mothur : Inherits InteropService
     ''' <returns></returns>
     Public Function Screen_seqs(fasta$, group$, maxambig%, minlength%, maxlength%) As String
         Return RunMothur($"screen.seqs(fasta={fasta}, group={group}, maxambig={maxambig}, minlength={minlength}, maxlength={maxlength})")
+    End Function
+
+    Public Function Screen_seqs(fasta$, count$, summary$, start%, end%, maxhomop%, Optional processors% = 2) As String
+        Return RunMothur($"screen.seqs(fasta={fasta}, count={count}, summary={summary}, start={start}, end={[end]}, maxhomop={maxhomop}, processors={processors})")
     End Function
 
     ''' <summary>
@@ -128,6 +132,10 @@ Public Class Mothur : Inherits InteropService
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function filter_seqs(fasta As String) As String
         Return RunMothur($"filter.seqs(fasta={fasta})")
+    End Function
+
+    Public Function filter_seqs(fasta$, vertical$, trump$, Optional processors As Integer = 1) As String
+        Return RunMothur($"filter.seqs(fasta={fasta}, vertical={vertical}, trump={trump}, processors={processors})")
     End Function
 
     ''' <summary>
@@ -225,8 +233,8 @@ Public Class Mothur : Inherits InteropService
     ''' 
     <ExportAPI("dist.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Dist_seqs(fasta$, Optional calc$ = "onegap", Optional countends$ = "F", Optional cutoff# = 0.03, Optional output$ = "lt") As String
-        Return RunMothur($"dist.seqs(fasta={fasta},calc={calc},countends={countends},cutoff={cutoff},output={output})")
+    Public Function Dist_seqs(fasta$, Optional calc$ = "onegap", Optional countends$ = "F", Optional cutoff# = 0.03, Optional output$ = "lt", Optional processors% = 2) As String
+        Return RunMothur($"dist.seqs(fasta={fasta},calc={calc},countends={countends},cutoff={cutoff},output={output},processors={processors})")
     End Function
 
     ''' <summary>

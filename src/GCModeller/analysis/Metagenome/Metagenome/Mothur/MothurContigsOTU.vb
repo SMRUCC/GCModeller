@@ -26,6 +26,7 @@ Public Module MothurContigsOTU
         Dim mothur As New Mothur(App:=Settings.Mothur)
         Dim contigs$ = $"{workspace}/contigs.files"
         Dim groups$
+        Dim align$ = ""
 
         Call {
             "contigs", left, right
@@ -64,9 +65,38 @@ Public Module MothurContigsOTU
 
         ' https://mothur.org/w/images/9/98/Silva.bacteria.zip
         Call mothur.align_seqs("contigs.unique.fasta", silva, "T", processor).SaveTo("[6]align.seqs.log")
+        ' contigs.unique.align
+        ' contigs.unique.align.report
+        ' contigs.unique.flip.accnos
+        ' Call mothur.RunAutoScreen("contigs.unique.align", "contigs.count_table", processor).SaveTo("[7]summary.seqs.log")
+        ' Removing group: C_19-4 because all sequences have been removed. ????
+        ' contigs.unique.good.summary
+        ' contigs.unique.good.align
+        ' contigs.unique.bad.accnos
+        ' contigs.good.count_table
+        ' Call align.SetValue("contigs.unique.good.align")
+        ' Call mothur.filter_seqs(align, vertical:="T", trump:=".", processors:=processor)
+        ' contigs.filter
+        ' contigs.unique.filter.fasta
+
+        Call align.SetValue("contigs.unique.align")
+        Call mothur.Dist_seqs(align, processors:=processor).SaveTo("[7]dist.seqs.log")
+
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub
+
+    Public Function RunAutoScreen2(mothur As Mothur, fasta$, count$, Optional processors% = 2) As String
+        Dim summary = mothur.Summary_seqs(fasta, count, processors)
+        ' contigs.unique.summary
+        Dim table = SummaryTable(summary).ToDictionary
+        Dim start% = table("2.5%-tile")!Start
+        Dim end% = table("97.5%-tile")!End
+
+        Call mothur.Screen_seqs(fasta, count, "contigs.unique.summary", start, [end], maxhomop:=8, processors:=processors)
+
+        Return summary
+    End Function
 
     ''' <summary>
     ''' 1. summary.seqs
