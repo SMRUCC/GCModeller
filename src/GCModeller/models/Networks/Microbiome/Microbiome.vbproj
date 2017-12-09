@@ -110,6 +110,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UniProtExtensions.vb" />
+    <Compile Include="TaxonomyRef.vb" />
     <Compile Include="MetabolicComplementation.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -45,38 +46,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.directory>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or [in].TrimSuffix & "/"
-
-        For Each protein As entry In UniProtXML.EnumerateEntries(path:=[in])
-            Dim taxonomy = protein.organism
-            Dim lineage$ = taxonomy.lineage.taxonlist.Select(AddressOf NormalizePathString).JoinBy("/").MD5
-            Dim path$
-
-            With taxonomy.lineage.taxonlist
-                path = $"{out}/{ .First}/{ .ref(1)}/{lineage}/[{taxonomy.dbReference.id}] {taxonomy.scientificName.NormalizePathString}.XML"
-            End With
-
-            Dim KO$() = protein.Xrefs _
-                .TryGetValue("KO") _
-                .SafeQuery _
-                .Select(Function(KEGG) KEGG.id) _
-                .ToArray
-
-            If path.FileExists Then
-                ' 追加
-                ' 因为append并不会换行，所以在这里需要额外的追加一个LF换行
-                Call (KO _
-                    .JoinBy(ASCII.LF) & vbLf) _
-                    .SaveTo(path.TrimSuffix & ".txt", append:=True, throwEx:=False)
-            Else
-                ' 写入新的数据
-                Call taxonomy.GetXml.SaveTo(path)
-                Call KO.FlushAllLines(path.TrimSuffix & ".txt")
-            End If
-        Next
+        Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
 
         Return 0
     End Function
