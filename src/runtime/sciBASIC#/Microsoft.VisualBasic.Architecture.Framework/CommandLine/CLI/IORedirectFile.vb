@@ -50,7 +50,7 @@ Namespace CommandLine
         ''' 重定向的临时文件
         ''' </summary>
         ''' <remarks>当使用.tmp拓展名的时候会由于APP框架里面的GC线程里面的自动临时文件清理而产生冲突，所以这里需要其他的文件拓展名来避免这个冲突</remarks>
-        Protected ReadOnly _TempRedirect As String = App.GetAppSysTempFile(".proc_IO_STDOUT", App.PID)
+        Protected ReadOnly _TempRedirect As String = App.GetAppSysTempFile(".proc_IO_std.out", App.PID)
 
         ''' <summary>
         ''' shell文件接口
@@ -130,7 +130,9 @@ Namespace CommandLine
 
             ' 系统可能不会自动创建文件夹，则需要在这里使用这个方法来手工创建，
             ' 避免出现无法找到文件的问题
-            _TempRedirect.ParentPath.MkDIR
+            Call _TempRedirect.ParentPath.MkDIR
+            ' 在Unix平台上面这个文件不会被自动创建？？？
+            Call "".SaveTo(_TempRedirect)
 
             If App.IsMicrosoftPlatform Then
                 shellScript = ScriptingExtensions.Cmd(file, argv, environment, FolkNew)
@@ -191,7 +193,8 @@ Namespace CommandLine
         End Function
 
         Private Function writeScript() As String
-            Dim path$ = App.GetAppSysTempFile(".bat", App.PID)
+            Dim ext$ = If(App.IsMicrosoftPlatform, ".bat", ".sh")
+            Dim path$ = App.GetAppSysTempFile(ext, App.PID)
             Call shellScript.SaveTo(path)
             Return path
         End Function
