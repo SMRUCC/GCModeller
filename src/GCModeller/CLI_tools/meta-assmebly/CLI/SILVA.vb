@@ -67,8 +67,9 @@ Partial Module CLI
 
             If path.FileExists Then
                 ' 追加
-                Call KO _
-                    .JoinBy(ASCII.LF) _
+                ' 因为append并不会换行，所以在这里需要额外的追加一个LF换行
+                Call (KO _
+                    .JoinBy(ASCII.LF) & vbLf) _
                     .SaveTo(path.TrimSuffix & ".txt", append:=True, throwEx:=False)
             Else
                 ' 写入新的数据
