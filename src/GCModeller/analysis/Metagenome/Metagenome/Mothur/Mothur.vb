@@ -13,7 +13,10 @@ Public Class Mothur : Inherits InteropService
     ''' <param name="App"></param>
     Sub New(App As String)
         If Not App.FileExists Then
-            Throw New EntryPointNotFoundException(App & " is unavaliable!")
+            Dim platform$ = Environment.OSVersion.Platform.ToString
+            Dim msg$ = App & $" is unavaliable! (platform={platform})"
+
+            Throw New EntryPointNotFoundException(msg)
         Else
             _executableAssembly = App.GetFullPath
         End If
