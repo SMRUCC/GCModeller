@@ -763,9 +763,10 @@ Public Module App
     Private Function __isMicrosoftPlatform() As Boolean
         Dim pt As PlatformID = Platform
 
-        If pt = PlatformID.Unix Then
+        ' 枚举值在.NET和Mono之间可能会不一样??
+        If pt.ToString = NameOf(PlatformID.Unix) Then
             Return False
-        ElseIf pt = PlatformID.MacOSX Then
+        ElseIf pt.ToString = NameOf(PlatformID.MacOSX) Then
             Return False
         End If
 
