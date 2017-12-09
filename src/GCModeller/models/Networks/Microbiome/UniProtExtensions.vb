@@ -24,6 +24,7 @@ Public Module UniProtExtensions
             Dim KO$() = (xml.TrimSuffix & ".txt") _
                 .ReadAllLines _
                 .Distinct _
+                .Where(Function(s) Not s.StringEmpty) _
                 .OrderBy(Function(id) id) _
                 .ToArray
             Dim terms As XmlProperty() = KO _

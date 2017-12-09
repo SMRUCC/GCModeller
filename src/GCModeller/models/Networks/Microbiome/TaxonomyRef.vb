@@ -12,6 +12,8 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
     ''' The NCBI taxonomy id
     ''' </summary>
     ''' <returns></returns>
+    ''' 
+    <XmlAttribute("ncbi_taxon_id")>
     Public Property TaxonID As String Implements IKeyedEntity(Of String).Key
     Public Property organism As organism
     Public Property genome As OrthologyTerms
