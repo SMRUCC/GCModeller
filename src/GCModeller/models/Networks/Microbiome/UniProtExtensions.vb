@@ -115,7 +115,7 @@ Public Module UniProtExtensions
     Const KO_list$ = "KO.list"
     Const Taxonomy_data$ = "taxonomy.txt"
     Const blank$ = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    Const blankPattern$ = "\+{10,}"
+    Const blankPattern$ = "\+{10,}\n"
 
     ''' <summary>
     ''' 函数返回来的是临时文件夹的路径位置
