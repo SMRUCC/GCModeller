@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Metagenomics
 ''' </summary>
 Public Class OTUTable : Inherits DataSet
 
-    Public Property Taxonomy As String()
+    Public Property Taxonomy As Taxonomy
 
     ''' <summary>
     ''' 这个函数会自动兼容csv或者tsv格式的
@@ -62,14 +62,18 @@ Public Class OTUTable : Inherits DataSet
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData)) As IEnumerable(Of OTUTable)
+    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData), Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
+        Dim parser As TaxonomyLineageParser = If(brief, BriefParser, CompleteParser)
+
         Return data _
             .SafeQuery _
             .Select(Function(d)
+                        Dim lineage As New Taxonomy(parser(d.Taxonomy))
+
                         Return New OTUTable With {
                             .ID = d.OTU,
                             .Properties = d.Data.AsNumeric,
-                            .Taxonomy = d.Taxonomy.Split(";"c)
+                            .Taxonomy = lineage
                         }
                     End Function)
     End Function
