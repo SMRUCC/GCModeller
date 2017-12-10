@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
@@ -39,6 +40,8 @@ Imports SMRUCC.genomics.Metagenomics
 ''' </summary>
 Public Class OTUTable : Inherits DataSet
 
+    <Column("OTU_ID")>
+    Public Overrides Property ID As String
     Public Property Taxonomy As Taxonomy
 
     ''' <summary>

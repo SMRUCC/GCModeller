@@ -71,6 +71,7 @@ Namespace Metagenomics
 #End Region
 
         Sub New(lineage As Dictionary(Of String, String))
+            lineage = lineage.FillLineageEmpty
             kingdom = lineage(NcbiTaxonomyTree.superkingdom)
             phylum = lineage(NcbiTaxonomyTree.phylum)
             [class] = lineage(NcbiTaxonomyTree.class)

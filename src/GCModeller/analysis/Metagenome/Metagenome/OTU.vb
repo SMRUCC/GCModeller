@@ -33,6 +33,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.Metagenomics.BIOMTaxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
 
@@ -113,8 +115,9 @@ Public Module OTU
             }
     End Function
 
-    Public Iterator Function LoadOTU_taxa_table(tableFile$, Optional tsv As Boolean = True) As IEnumerable(Of OTUTable)
+    Public Iterator Function LoadOTU_taxa_table(tableFile$, Optional tsv As Boolean = True, Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
         Dim csv As Table = If(tsv, Table.LoadTsv(tableFile), Table.Load(tableFile))
+        Dim parser As TaxonomyLineageParser = If(brief, BriefParser, CompleteParser)
         Dim taxonomyIndex%
 
         With csv.Headers.Indexing
@@ -144,7 +147,7 @@ Public Module OTU
             Yield New OTUTable With {
                 .ID = ID,
                 .Properties = data,
-                .Taxonomy = taxonomy.Split(";"c)
+                .Taxonomy = New Taxonomy(parser(taxonomy))
             }
         Next
     End Function

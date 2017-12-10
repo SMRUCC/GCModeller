@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
@@ -88,6 +89,17 @@ Namespace Metagenomics
             Next
 
             Return out
+        End Function
+
+        <Extension>
+        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String)) As Dictionary(Of String, String)
+            For Each level As String In NcbiTaxonomyTree.stdranks
+                If Not lineage.ContainsKey(level) Then
+                    Call lineage.Add(level, "NA")
+                End If
+            Next
+
+            Return lineage
         End Function
 
         ''' <summary>
