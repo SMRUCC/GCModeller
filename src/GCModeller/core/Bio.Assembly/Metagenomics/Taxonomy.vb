@@ -1,30 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::1344635b015ae23f19edee630459bea1, ..\GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
+
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
 
@@ -35,6 +37,9 @@ Namespace Metagenomics
         ''' 1. 域
         ''' </summary>
         Public Property domain As String
+
+#Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
+
         ''' <summary>
         ''' 2. 界
         ''' </summary>
@@ -63,6 +68,18 @@ Namespace Metagenomics
         ''' 8E. 种
         ''' </summary>
         Public Property species As String
+#End Region
+
+        Sub New(lineage As Dictionary(Of String, String))
+            lineage = lineage.FillLineageEmpty
+            kingdom = lineage(NcbiTaxonomyTree.superkingdom)
+            phylum = lineage(NcbiTaxonomyTree.phylum)
+            [class] = lineage(NcbiTaxonomyTree.class)
+            order = lineage(NcbiTaxonomyTree.order)
+            family = lineage(NcbiTaxonomyTree.family)
+            genus = lineage(NcbiTaxonomyTree.genus)
+            species = lineage(NcbiTaxonomyTree.species)
+        End Sub
 
         Public Overrides Function ToString() As String
             Return scientificName
