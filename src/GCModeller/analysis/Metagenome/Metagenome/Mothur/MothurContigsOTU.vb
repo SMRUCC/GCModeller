@@ -92,8 +92,14 @@ Public Module MothurContigsOTU
         Call mothur.Dist_seqs(align, processors:=processor).SaveTo("[8]dist.seqs.log")
         ' contigs.unique.phylip.dist
         Call mothur.Cluster(phylip:="contigs.unique.phylip.dist").SaveTo("[9]cluster.log")
-
-        Call mothur.Bin_seqs("contigs.fasta", "contigs.names").SaveTo("[10]bin.seqs.log")
+        ' contigs.unique.phylip.fn.sabund
+        ' contigs.unique.phylip.fn.rabund
+        ' contigs.unique.phylip.fn.list
+        Call mothur.Bin_seqs("contigs.unique.phylip.fn.list", "contigs.fasta", "contigs.names").SaveTo("[10]bin.seqs.log")
+        ' contigs.unique.phylip.fn.unique.fasta
+        ' contigs.unique.phylip.fn.0.01.fasta
+        ' contigs.unique.phylip.fn.0.02.fasta
+        ' contigs.unique.phylip.fn.0.03.fasta
         Call mothur.GetOTUrep(phylip:="contigs.unique.phylip.dist", fasta:="contigs.unique.fasta", list:="contigs.unique.phylip.fn.list", label:=0.03).SaveTo("[11]get.oturep.log")
 
         App.CurrentDirectory = App.PreviousDirectory

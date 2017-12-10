@@ -347,8 +347,8 @@ Public Class Mothur : Inherits InteropService
     ''' 
     <ExportAPI("bin.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Bin_seqs(fasta$, name$) As String
-        Return RunMothur($"bin.seqs(fasta={fasta},name={name})")
+    Public Function Bin_seqs(list$, fasta$, name$) As String
+        Return RunMothur($"bin.seqs(list={list},fasta={fasta},name={name})")
     End Function
 
     ''' <summary>
