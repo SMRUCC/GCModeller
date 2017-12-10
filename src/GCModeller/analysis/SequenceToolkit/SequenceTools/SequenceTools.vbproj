@@ -230,13 +230,14 @@
     <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\Aligner.vb" />
     <Compile Include="CLI\DNA_Comparative.vb" />
-    <Compile Include="CLI\SNP.vb" />
+    <Compile Include="CLI\SNP\SNP.vb" />
     <Compile Include="CLI\PalindromeBatch.vb" />
     <Compile Include="CLI\NTProps.vb" />
     <Compile Include="CLI\Repeats.vb" />
     <Compile Include="CLI\FastaTools.vb" />
     <Compile Include="CLI\Palindrome.vb" />
     <Compile Include="CLI\ORF.vb" />
+    <Compile Include="CLI\SNP\calcFst.vb" />
     <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="CLI\Utilities.vb" />
     <Compile Include="Program.vb" />
@@ -281,6 +282,18 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
+      <Project>{485965CD-DA31-4517-86F6-94DFD28379C1}</Project>
+      <Name>RDotNet.Extensions.Bioinformatics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
+      <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
