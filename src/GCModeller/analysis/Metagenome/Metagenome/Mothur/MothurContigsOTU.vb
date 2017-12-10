@@ -100,7 +100,12 @@ Public Module MothurContigsOTU
         ' contigs.unique.phylip.fn.0.01.fasta
         ' contigs.unique.phylip.fn.0.02.fasta
         ' contigs.unique.phylip.fn.0.03.fasta
-        Call mothur.GetOTUrep(phylip:="contigs.unique.phylip.dist", fasta:="contigs.unique.fasta", list:="contigs.unique.phylip.fn.list", label:=0.03).SaveTo("[11]get.oturep.log")
+        Call mothur.GetOTUrep(
+            phylip:="contigs.unique.phylip.dist",
+            fasta:="contigs.unique.fasta",
+            list:="contigs.unique.phylip.fn.list",
+            label:=0.03
+        ).SaveTo("[11]get.oturep.log")
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub
