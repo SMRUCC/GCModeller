@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -10,13 +11,33 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Public Module UniProtExtensions
 
-    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry)) As TaxonomyRepository
-        Dim list As New List(Of TaxonomyRef)
-        Dim KOCatalog = KO.ko00000
+    ''' <summary>
+    ''' 得到的都是相同的定义，区别只在于代谢途径不同，则只取出第一个对象即可
+    ''' </summary>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ko00000Provider() As Dictionary(Of String, NamedValue(Of String))
+        Return KO.ko00000 _
+            .ToDictionary(Function(term) term.Key,
+                          Function(term)
+                              Return term.Value _
+                                  .First _
+                                  .Description _
+                                  .GetTagValue(";", trim:=True)
+                          End Function)
+    End Function
 
+    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry)) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim cache$ = UniProtXml.ScanInternal
+        Dim model As TaxonomyRepository = ScanModels(cache)
+        Return model
+    End Function
+
+    Private Function ScanModels(cache As String) As TaxonomyRepository
+        Dim ko00000 = ko00000Provider()
+        Dim list As New List(Of TaxonomyRef)
 
         ' 之后再将信息提取出来整理为一个XML格式的信息库
         For Each xml As String In ls - l - r - "*.Xml" <= cache
@@ -29,15 +50,13 @@ Public Module UniProtExtensions
                 .ToArray
             Dim terms As XmlProperty() = KO _
                 .Select(Function(id)
-                            If KOCatalog.ContainsKey(id) Then
-                                ' 得到的都是相同的定义，区别只在于代谢途径不同，则只取出第一个对象即可
-                                Dim term = KOCatalog(id).First
-                                Dim info = term.Description.GetTagValue(";", trim:=True)
+                            If ko00000.ContainsKey(id) Then
+                                Dim term As NamedValue(Of String) = ko00000(id)
 
                                 Return New XmlProperty With {
                                     .name = id,
-                                    .value = info.Name,
-                                    .Comment = info.Value
+                                    .value = term.Name,
+                                    .Comment = term.Value
                                 }
                             Else
                                 Return New XmlProperty With {
