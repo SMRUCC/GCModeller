@@ -54,11 +54,28 @@ Public Module UniProtExtensions
         Next
 
         ' 之后再将信息提取出来整理为一个XML格式的信息库
-        For Each xml As String In r.Split(cache.taxonomy.ReadAllText, blankPattern, RegexOptions.Singleline)
+        For Each xml As String In r.Split(
+                input:=cache.taxonomy.ReadAllText,
+                pattern:=blankPattern,
+                options:=RegexOptions.Singleline
+            ) _
+            .Where(Function(str)
+                       Return InStr(str, "<") > 0 AndAlso InStr(str, ">") > 0
+                   End Function)
+
             Dim organism As organism = xml.LoadFromXml(Of organism)
             Dim taxon$ = organism.dbReference.id
-            Dim KO As IEnumerable(Of String) = If(organismKO.ContainsKey(taxon), organismKO(taxon), New List(Of String))
+            Dim KO As IEnumerable(Of String)
+
+            If organismKO.ContainsKey(taxon) Then
+                KO = organismKO(taxon)
+            Else
+                KO = {}
+            End If
+
             Dim terms As XmlProperty() = KO _
+                .Distinct _
+                .OrderBy(Function(id) id) _
                 .Select(Function(id)
                             If ko00000.ContainsKey(id) Then
                                 Dim term As NamedValue(Of String) = ko00000(id)
