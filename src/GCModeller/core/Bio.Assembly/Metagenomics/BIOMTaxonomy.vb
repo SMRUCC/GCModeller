@@ -67,7 +67,9 @@ Namespace Metagenomics
         ''' <param name="taxonomy$"></param>
         ''' <returns></returns>
         Public Function TaxonomyParser(taxonomy$) As Dictionary(Of String, String)
-            Dim tokens$() = taxonomy.Split(";"c)
+            Dim tokens$() = taxonomy.Split(";"c) _
+                .Select(AddressOf Strings.Trim) _
+                .ToArray
             Dim catalogs As NamedValue(Of String)() = tokens _
                 .Select(Function(t) t.GetTagValue("__")) _
                 .ToArray

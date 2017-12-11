@@ -214,6 +214,21 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|AnyCPU'">
+    <OutputPath>bin\Biodeep_UNIX_x64\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x64'">
+    <OutputPath>bin\x64\Biodeep_UNIX_x64\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x86'">
+    <OutputPath>bin\x86\Biodeep_UNIX_x64\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -249,6 +264,7 @@
     <Compile Include="Analysis\Models\Besthit.vb" />
     <Compile Include="Analysis\Models\KEGG_API.vb" />
     <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastXHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Extensions.vb" />
@@ -374,7 +390,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\deltablast\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\psiblast\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpsblast\" />

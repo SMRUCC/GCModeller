@@ -318,16 +318,20 @@ Namespace gast
                 For Each k In tallies.Keys
 
                     If k <> "NA" Then
-
                         rankCnt += 1
                         minRankIndex = i
-                        If tallies(k) > maxCnt Then maxCnt = tallies(k)
+
+                        If tallies(k) > maxCnt Then
+                            maxCnt = tallies(k)
+                        End If
                     Else
                         naCnt = tallies(k)
                     End If
 
                     Dim vote = (tallies(k) / taxCount) * 100
+
                     If ((k <> "NA") AndAlso (vote > topPct)) Then topPct = vote
+
                     ' vote = (100 * (tallies(k) / taxCount) + 0.5)
                     If ((Not done) AndAlso (vote >= majority)) Then
                         Push(newTax, k)
@@ -339,6 +343,7 @@ Namespace gast
 
                 ' If ($#newTax < $i) {push (@newTax, "NA");}
                 Push(rankCounts, rankCnt)
+
                 If (taxCount > 0) Then
                     Push(maxPcts, (100 * (maxCnt / taxCount) + 0.5))
                     Push(naPcts, (100 * (naCnt / taxCount) + 0.5))

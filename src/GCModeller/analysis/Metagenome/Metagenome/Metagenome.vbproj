@@ -293,6 +293,10 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
     <Compile Include="ACE.vb" />
+    <Compile Include="gast\Models.vb" />
+    <Compile Include="greengenes\Extensions.vb" />
+    <Compile Include="greengenes\otu_taxonomy.vb" />
+    <Compile Include="Mothur\SILVA_OTU.vb" />
     <Compile Include="Mothur\Extensions.vb" />
     <Compile Include="Mothur\MothurContigsOTU.vb" />
     <Compile Include="Mothur\Mothur.vb" />
@@ -345,6 +349,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.vbproj">
       <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>

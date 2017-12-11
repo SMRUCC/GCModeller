@@ -62,6 +62,43 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         End Function
     End Class
 
+    Public Structure Strand
+
+        Dim Query$, Subject$
+
+        Sub New(value As String)
+            With value.Split("/"c)
+                Query = .First
+                Subject = .Last
+            End With
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{Query}/{Subject}"
+        End Function
+    End Structure
+
+    Public Class BlastnScore : Inherits Score
+        Public Property Strand As Strand
+
+        Public Shared Function ParseBlastn(text As String) As BlastnScore
+            Dim items = ScoreTable(text)
+            Dim score$ = r _
+                .Match(items!Score, "\(\d+\)") _
+                .Value _
+                .GetStackValue("(", ")")
+
+            Return New BlastnScore With {
+                .Expect = items!Expect,
+                .Gaps = Percentage.TryParse(items!Gaps),
+                .Identities = Percentage.TryParse(items!Identities),
+                .Score = Val(items!Score),
+                .RawScore = Val(score),
+                .Strand = New Strand(items!Strand)
+            }
+        End Function
+    End Class
+
     ''' <summary>
     ''' Query和Subject之间的比对得分
     ''' </summary>
@@ -105,7 +142,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return TryParse(Of Score)(text)
         End Function
 
-        Public Shared Function TryParse(Of T As {New, Score})(text$, Optional ByRef table As Dictionary(Of String, String) = Nothing) As T
+        Public Shared Function ScoreTable(text As String) As Dictionary(Of String, String)
             Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").lTokens
             Dim items = lines _
                 .Select(Function(l) l.Trim.Split(","c)) _
@@ -113,10 +150,22 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
                 .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
                 .ToDictionary _
                 .FlatTable
-            Dim method$ = Strings _
-                .Split(lines(Scan0), "Method:") _
-                .Last _
-                .Trim
+
+            ' blastn 的结果是没有Method的，method只存在于blastp和blastx之中
+            If InStr(lines(Scan0), "Method:") > 0 Then
+                Dim method$ = Strings _
+                   .Split(lines(Scan0), "Method:") _
+                   .Last _
+                   .Trim
+
+                items!Method = method
+            End If
+
+            Return items
+        End Function
+
+        Public Shared Function TryParse(Of T As {New, Score})(text$, Optional ByRef table As Dictionary(Of String, String) = Nothing) As T
+            Dim items = ScoreTable(text)
             Dim score$ = items!Score
 
             table = items
@@ -127,7 +176,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
             Return New T With {
                 .Expect = items!Expect,
-                .Method = method,
+                .Method = items!Method,
                 .Gaps = Percentage.TryParse(items!Gaps),
                 .Identities = Percentage.TryParse(items!Identities),
                 .Positives = Percentage.TryParse(items!Positives),
