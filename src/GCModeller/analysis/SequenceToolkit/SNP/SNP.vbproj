@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiffVariation.vb" />
+    <Compile Include="Genotype.vb" />
     <Compile Include="VCF\MetaData.vb" />
     <Compile Include="VCF\VCFStream.vb" />
     <Compile Include="VCF\SNPVcf.vb" />

@@ -304,7 +304,6 @@
     <Compile Include="gast\subs.vb" />
     <Compile Include="gast\Taxonomy.vb" />
     <Compile Include="gast\gast_tools.vb" />
-    <Compile Include="Genotype.vb" />
     <Compile Include="RankAbundance.vb" />
     <Compile Include="OTU.vb" />
     <Compile Include="RelativeStatics.vb" />

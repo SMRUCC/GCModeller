@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
@@ -80,6 +81,17 @@ Namespace Metagenomics
             genus = lineage(NcbiTaxonomyTree.genus)
             species = lineage(NcbiTaxonomyTree.species)
         End Sub
+
+        Public Function CreateTable() As NamedValue(Of Dictionary(Of String, String))
+            Dim table As New Dictionary(Of String, String) From {
+                {NcbiTaxonomyTree.class, [class]}
+            }
+
+            Return New NamedValue(Of Dictionary(Of String, String)) With {
+                .Name = scientificName,
+                .Value = table
+            }
+        End Function
 
         Public Overrides Function ToString() As String
             Return scientificName
