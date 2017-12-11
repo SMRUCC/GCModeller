@@ -26,8 +26,10 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
@@ -77,6 +79,17 @@ Namespace Metagenomics
             family = lineage(NcbiTaxonomyTree.family)
             genus = lineage(NcbiTaxonomyTree.genus)
             species = lineage(NcbiTaxonomyTree.species)
+        End Sub
+
+        Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+
+        Sub New(lineage$())
+            Call Me.New(
+                lineage:=lineage _
+                    .SeqIterator _
+                    .ToDictionary(Function(rank) DescRanks(rank.i),
+                                  Function(rank) rank.value)
+            )
         End Sub
 
         Public Function CreateTable() As NamedValue(Of Dictionary(Of String, String))
@@ -149,6 +162,28 @@ Namespace Metagenomics
                 Return Relations.Equals
             End If
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator IsTrue(t As Taxonomy) As Boolean
+            Return Not IsEmpty(t)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function IsEmpty(t As Taxonomy) As Boolean
+            Return Not t.kingdom.StringEmpty OrElse
+                Not t.order.StringEmpty OrElse
+                Not t.class.StringEmpty OrElse
+                Not t.family.StringEmpty OrElse
+                Not t.genus.StringEmpty OrElse
+                Not t.phylum.StringEmpty OrElse
+                Not t.scientificName.StringEmpty OrElse
+                Not t.species.StringEmpty
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator IsFalse(t As Taxonomy) As Boolean
+            Return IsEmpty(t)
+        End Operator
 
         Public Overrides Function ToString() As String
             Return scientificName

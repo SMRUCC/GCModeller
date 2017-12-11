@@ -20,7 +20,7 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
     Public Property organism As organism
     Public Property genome As OrthologyTerms
 
-    Dim ts$
+    Dim ts As Taxonomy
 
     Public ReadOnly Property TaxonomyString As String
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
