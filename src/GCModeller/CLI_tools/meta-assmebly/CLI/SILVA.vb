@@ -74,7 +74,9 @@ Partial Module CLI
         Dim taxonomy$ = args <= "/taxonomy"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast.csv"
         Dim OTUs = StreamIterator.SeqSource(query).ParseOTUrep()
-        Dim otu_taxonomy = greengenes.otu_taxonomy.Load(taxonomy)
+        Dim otu_taxonomy = greengenes.otu_taxonomy _
+            .Load(taxonomy) _
+            .ToDictionary(Function(t) t.ID)
         Dim blastn As IEnumerable(Of Query) = BlastnOutputReader.RunParser([in])
         Dim gast As gastOUT() = blastn.OTUgreengenesTaxonomy(OTUs, otu_taxonomy).ToArray
 
