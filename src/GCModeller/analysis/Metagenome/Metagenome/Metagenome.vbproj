@@ -293,6 +293,7 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
     <Compile Include="ACE.vb" />
+    <Compile Include="greengenes\otu_taxonomy.vb" />
     <Compile Include="Mothur\SILVA_OTU.vb" />
     <Compile Include="Mothur\Extensions.vb" />
     <Compile Include="Mothur\MothurContigsOTU.vb" />

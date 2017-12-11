@@ -34,6 +34,7 @@ Namespace Metagenomics
     Public Structure Taxonomy
 
         Public Property scientificName As String
+
         ''' <summary>
         ''' 1. 域
         ''' </summary>
@@ -84,7 +85,13 @@ Namespace Metagenomics
 
         Public Function CreateTable() As NamedValue(Of Dictionary(Of String, String))
             Dim table As New Dictionary(Of String, String) From {
-                {NcbiTaxonomyTree.class, [class]}
+                {NcbiTaxonomyTree.class, [class]},
+                {NcbiTaxonomyTree.family, family},
+                {NcbiTaxonomyTree.genus, genus},
+                {NcbiTaxonomyTree.order, order},
+                {NcbiTaxonomyTree.phylum, phylum},
+                {NcbiTaxonomyTree.species, species},
+                {NcbiTaxonomyTree.superkingdom, kingdom}
             }
 
             Return New NamedValue(Of Dictionary(Of String, String)) With {

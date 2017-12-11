@@ -100,22 +100,26 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Private Shared Function BlastnTryParse(Text As String) As BlastnHit()
-            Dim Tokens As String() = Regex.Split(Text, "^\s*Score\s*=", RegexOptions.Multiline)
-            Dim Name As String = Strings.Split(Tokens.First, "Length=").First.TrimNewLine
-            Dim hitLen As Double = Text.Match("Length=\d+").RegexParseDouble
-            Dim LQuery As BlastnHit() = LinqAPI.Exec(Of BlastnHit) <=
+        Private Shared Function BlastnTryParse(text As String) As BlastnHit()
+            Dim blocks$() = Regex.Split(text, "^\s*Score\s*=", RegexOptions.Multiline)
+            Dim name$ = Strings.Split(blocks.First, "Length=") _
+                .First _
+                .TrimNewLine
+            Dim hitLen As Double = text.Match("Length=\d+").RegexParseDouble
+            Dim LQuery As BlastnHit() = LinqAPI.Exec(Of BlastnHit) _
  _
-                From s As String
-                In Tokens.Skip(1)
-                Select BlastnHit.__blastnTryParse(scoreFLAG & s, Name, hitLen)
+                () <= From s As String
+                      In blocks.Skip(1)
+                      Select BlastnHit.__blastnTryParse(scoreFLAG & s, Name, hitLen)
 
             Return LQuery
         End Function
 
         Private Shared Function __blastnTryParse(str As String, Name As String, len As Double) As BlastnHit
+            Dim scoreText$ = str.lTokens.Take(3).JoinBy(vbLf)
+            Dim score As Score = BlastnScore.ParseBlastn(scoreText)
             Dim blastnHit As New BlastnHit With {
-                .Score = Score.TryParse(Of Score)(str),
+                .Score = score,
                 .Name = Name,
                 .Length = len
             }

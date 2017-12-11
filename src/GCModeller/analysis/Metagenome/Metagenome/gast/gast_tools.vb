@@ -252,6 +252,7 @@ Namespace gast
         Public Property max_pcts As String
         Public Property na_pcts As String
         Public Property refhvr_ids As String
+        Public Property counts As Integer
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
