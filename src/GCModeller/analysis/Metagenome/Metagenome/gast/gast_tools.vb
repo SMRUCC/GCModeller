@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::3e68b4458046bf73626e7e27e17d0cfa, ..\GCModeller\analysis\Metagenome\Metagenome\gast\gast_tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace gast
@@ -43,6 +44,49 @@ Namespace gast
     ' http://www.cnblogs.com/leezx/p/6972226.html
 
     Public Module gast_tools
+
+        <Extension>
+        Friend Iterator Function gastTaxonomyInternal(blastn As IEnumerable(Of Query), getTaxonomy As Func(Of String, Taxonomy), getOTU As Dictionary(Of String, NamedValue(Of Integer))) As IEnumerable(Of gastOUT)
+            For Each query As Query In blastn
+                If Not getOTU.ContainsKey(query.QueryName) Then
+                    Continue For
+                End If
+
+                ' Create an array Of taxonomy objects For all the associated refssu_ids.
+                Dim hits = query _
+                    .SubjectHits _
+                    .Select(Function(h) getTaxonomy(h.Name)) _
+                    .ToArray
+                Dim counts = getOTU(query.QueryName)
+
+                ' Lookup the consensus taxonomy For the array
+                Dim taxReturn = gast.Taxonomy.consensus(hits, 0.97)
+                ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
+                Dim taxon = taxReturn(0).taxstring
+                Dim rank = taxReturn(0).depth
+
+                If (taxon Is Nothing) Then
+                    taxon = "Unknown"
+                End If
+
+                ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
+                Dim gastOut As New gastOUT With {
+                    .taxonomy = taxon,
+                    .rank = rank,
+                    .refssu_count = hits.Length,
+                    .vote = taxReturn(1).taxstring,
+                    .minrank = taxReturn(2).taxstring,
+                    .taxa_counts = taxReturn(3).taxstring,
+                    .max_pcts = taxReturn(4).taxstring,
+                    .na_pcts = taxReturn(5).taxstring,
+                    .read_id = counts.Name,
+                    .refhvr_ids = query.QueryName,
+                    .counts = counts.Value
+                }
+
+                Yield gastOut
+            Next
+        End Function
 
         <Extension>
         Public Function ExportSILVA([in] As String, EXPORT As String) As Boolean

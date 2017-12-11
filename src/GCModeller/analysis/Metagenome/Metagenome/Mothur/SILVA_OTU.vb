@@ -56,52 +56,18 @@ Public Module SILVA_OTU
     ''' </summary>
     ''' <param name="blastn"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Iterator Function OTUsilvaTaxonomy(blastn As IEnumerable(Of Query), OTUs As Dictionary(Of String, NamedValue(Of Integer))) As IEnumerable(Of gastOUT)
-        For Each query As Query In blastn
-            If Not OTUs.ContainsKey(query.QueryName) Then
-                Continue For
-            End If
-
-            ' Create an array Of taxonomy objects For all the associated refssu_ids.
-            Dim hits = query _
-                .SubjectHits _
-                .Select(Function(h) h.Name.GetTagValue(" ", trim:=True)) _
-                .Select(Function(h)
-                            Return New NamedValue(Of gast.Taxonomy) With {
-                                .Name = h.Name,
-                                .Value = New gast.Taxonomy(h.Value)
-                            }
-                        End Function) _
-                .ToArray
-            Dim counts = OTUs(query.QueryName)
-
-            ' Lookup the consensus taxonomy For the array
-            Dim taxReturn = gast.Taxonomy.consensus(hits.Values, 0.97)
-            ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
-            Dim taxon = taxReturn(0).taxstring
-            Dim rank = taxReturn(0).depth
-
-            If (taxon Is Nothing) Then
-                taxon = "Unknown"
-            End If
-
-            ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
-            Dim gastOut As New gastOUT With {
-                .taxonomy = taxon,
-                .rank = rank,
-                .refssu_count = hits.Length,
-                .vote = taxReturn(1).taxstring,
-                .minrank = taxReturn(2).taxstring,
-                .taxa_counts = taxReturn(3).taxstring,
-                .max_pcts = taxReturn(4).taxstring,
-                .na_pcts = taxReturn(5).taxstring,
-                .read_id = counts.Name,
-                .refhvr_ids = query.QueryName,
-                .counts = counts.Value
-            }
-
-            Yield gastOut
-        Next
+    Public Function OTUsilvaTaxonomy(blastn As IEnumerable(Of Query), OTUs As Dictionary(Of String, NamedValue(Of Integer))) As IEnumerable(Of gastOUT)
+        Return blastn.gastTaxonomyInternal(
+            getTaxonomy:=Function(hitName)
+                             Dim t$ = hitName _
+                                 .GetTagValue(vbTab, trim:=True) _
+                                 .Value
+                             Return New Taxonomy(t)
+                         End Function,
+            getOTU:=OTUs
+        )
     End Function
 End Module
