@@ -264,6 +264,7 @@
     <Compile Include="Analysis\Models\Besthit.vb" />
     <Compile Include="Analysis\Models\KEGG_API.vb" />
     <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastXHit.vb" />
