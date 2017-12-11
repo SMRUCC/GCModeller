@@ -71,11 +71,11 @@ Namespace gast
 
                 ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
                 Dim gastOut As New gastOUT With {
-                    .taxonomy = taxon,
+                    .taxonomy = taxon.Trim(";"c).Trim,
                     .rank = rank,
                     .refssu_count = hits.Length,
-                    .vote = taxReturn(1).taxstring,
-                    .minrank = taxReturn(2).taxstring,
+                    .vote = taxReturn(1).taxstring.Trim(";"c).Trim,
+                    .minrank = taxReturn(2).taxstring.Trim(";"c).Trim,
                     .taxa_counts = taxReturn(3).taxstring,
                     .max_pcts = taxReturn(4).taxstring,
                     .na_pcts = taxReturn(5).taxstring,
