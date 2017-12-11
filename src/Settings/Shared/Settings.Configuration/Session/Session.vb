@@ -202,6 +202,12 @@ Namespace Settings
                 directory = SettingsFile.Mothur
             End If
 
+            If directory.FileLength > -1 Then
+                ' 可能是被指定为一个文件的路径，而非目录路径了
+                ' 直接返回这个字符串的值作为目标文件路径？？？
+                Return directory
+            End If
+
             If App.IsMicrosoftPlatform Then
                 Return (directory & "/mothur.exe").GetFullPath
             Else

@@ -1,6 +1,9 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -25,5 +28,37 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/OTU.cluster")>
+    <Usage("/OTU.cluster /left <left.fq> /right <right.fq> /silva <silva.bacteria.fasta> [/out <out.directory> /processors <default=2> /@set mothur=path]")>
+    Public Function ClusterOTU(args As CommandLine) As Integer
+        Dim left$ = args <= "/left"
+        Dim right$ = args <= "/right"
+        Dim out$ = args("/out") Or "./"
+        Dim silva$ = args("/silva")
+        Dim num_threads% = args.GetValue("/processors", 2)
+
+        Call MothurContigsOTU.ClusterOTUByMothur(
+            left, right,
+            silva:=silva,
+            workspace:=out,
+            processor:=num_threads
+        )
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Metagenome.UniProt.Ref")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
+    Public Function BuildUniProtReference(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
+        Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
+
+        Return ref _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module

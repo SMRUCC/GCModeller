@@ -28,7 +28,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -40,13 +39,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
     Public Class GeneObject
         Implements INamedValue
         Implements IKeyValuePairObject(Of String, Feature())
-        Implements ITripleKeyValuesPair(Of String, String, Feature())
 
-        Public Property Gene As String Implements ITripleKeyValuesPair(Of String, String, Feature()).Value2
-        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Key,
-            ITripleKeyValuesPair(Of String, String, Feature()).Identifier
-        Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value,
-            ITripleKeyValuesPair(Of String, String, Feature()).Address
+        Public Property Gene As String
+        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Key
+        Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value
 
         Public Overrides Function ToString() As String
             Return LocusTag

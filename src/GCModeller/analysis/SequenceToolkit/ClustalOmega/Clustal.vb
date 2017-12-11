@@ -114,7 +114,7 @@ Public Class Clustal : Inherits CLI
             Throw New Exception(source.ToFileURL, ex)
         End If
 
-        Dim out As String = App.GetAppSysTempFile(".fasta")
+        Dim out As String = App.GetAppSysTempFile(".fasta", sessionID:=App.PID)
         Dim args As String = String.Format(CLUSTAL_ARGUMENTS, source, out)
 
         Call MyBase.RunProgram(args).Run()

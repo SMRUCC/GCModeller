@@ -79,7 +79,7 @@ Partial Module CLI
         Dim sp As String = args("/sp")
         Dim outXml As String = args("/out")
         Dim Modle = SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Compile(Pathways, Modules, Reactions, sp)
-        Return Modle.GetXml.SaveTo(outXml)
+        Return Modle.GetXml.SaveTo(outXml).CLICode
     End Function
 
     <ExportAPI("--Get.KO", Usage:="--Get.KO /in <KASS-query.txt>")>
@@ -167,15 +167,15 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Return New KOAnno With {
             .QueryId = prot,
             .KO = KO,
-            .COG = orthology.GetXRef("COG").Select(Function(x) x.Value2).JoinBy("; "),
+            .COG = orthology.GetXRef("COG").Select(Function(x) x.Comment).JoinBy("; "),
             .Definition = orthology.Definition,
             .Name = orthology.Name,
-            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Value2),
+            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Comment).ToArray,
             .Category = pwyBrite.Category,
             .Class = pwyBrite.Class,
             .PathwayId = pathway.Key,
             .PathwayName = pwyBrite.Entry.Value,
-            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Value2)
+            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Comment).ToArray
         }
     End Function
 
@@ -228,6 +228,6 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
         Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.Select(Function(x) New Prokaryote(x))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/KEGG_Organism.csv")
-        Return table.SaveTo(out)
+        Return table.SaveTo(out).CLICode
     End Function
 End Module

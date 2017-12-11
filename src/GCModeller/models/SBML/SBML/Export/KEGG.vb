@@ -86,7 +86,7 @@ Namespace ExportServices
                 .CommonNames = {rxn.name},
                 .Comments = rxn.Notes.Text,
                 .Equation = equation.ToString,
-                .ECNum = props.ECNumber,
+                .Enzyme = props.ECNumber,
                 .Definition = def.ToString
             }
             Return model

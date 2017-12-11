@@ -93,7 +93,7 @@ Namespace Assembly.KEGG.Archives.Xml
 
             Dim allNoEnzyme = (From x As bGetObject.Reaction
                                In MapAPI.GetReactions(allCompounds, source)
-                               Where StringHelpers.IsNullOrEmpty(x.ECNum)
+                               Where StringHelpers.IsNullOrEmpty(x.Enzyme)
                                Select x)
             Dim bufList As bGetObject.Reaction() = parts.Join(allNoEnzyme).Distinct.ToArray
             Return bufList

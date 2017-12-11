@@ -55,7 +55,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' hierarchies, and KEGG modules are automatically reconstructed, enabling biological interpretation of high-level 
         ''' functions. 
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' 因为一个基因会出现在若干个不同的代谢途径之中，所以某一个KO编号是会出现重复的内容定义的，但是他们的所属的代谢途径的定义却是不同的，
+        ''' 所以函数返回的字典为一个KO编号对应若干个KO term
+        ''' </returns>
         Public Shared Function ko00000() As Dictionary(Of String, BriteHText())
             Dim htext As htext = htext.StreamParser(My.Resources.ko00000)
             Dim maps = htext.Hierarchical _

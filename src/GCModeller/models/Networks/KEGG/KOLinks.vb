@@ -46,9 +46,10 @@ Public Class KOLinks
                 Continue For
             End If
 
-            Dim reactions$() = xml.xRefEntry _
-                .Where(Function(l) l.Key = "RN") _
-                .Select(Function(x) x.Value2) _
+            Dim reactions$() = xml.xref _
+                .Terms _
+                .Where(Function(l) l.name = "RN") _
+                .Select(Function(x) x.Comment) _
                 .ToArray
             Dim pathways As NamedValue() = xml.Pathway _
                 .Select(Function(x)

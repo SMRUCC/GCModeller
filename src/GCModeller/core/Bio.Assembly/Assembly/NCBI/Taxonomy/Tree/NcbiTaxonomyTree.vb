@@ -60,6 +60,8 @@ Namespace Assembly.NCBI.Taxonomy
     Public Class NcbiTaxonomyTree : Inherits BaseClass
 
         ''' <summary>
+        ''' 这个列表是从小到大进行排序的
+        ''' 
         ''' + species
         ''' + genus
         ''' + family
@@ -68,7 +70,7 @@ Namespace Assembly.NCBI.Taxonomy
         ''' + phylum
         ''' + superkingdom
         ''' </summary>
-        Friend Shared ReadOnly stdranks$() = {
+        Public Shared ReadOnly stdranks$() = {
             "species",
             "genus",
             "family",

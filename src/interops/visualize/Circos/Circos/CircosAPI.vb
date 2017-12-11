@@ -624,7 +624,7 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Variation.As.Dump")>
     Public Function VariationAsDump(var As IEnumerable(Of Double)) As GeneDumpInfo()
-        Dim regions As New List(Of TripleKeyValuesPair(Of Double))
+        Dim regions As New List(Of (value#, start%, end%))
         Dim pre As Double() = var.ToArray
 
         For i As Integer = 0 To pre.Length - 1
@@ -657,17 +657,13 @@ SET_END:    Dim ends = i
                 aavg = chun.Average
             End If
 
-            regions += New TripleKeyValuesPair(Of Double) With {
-                .Value3 = aavg,
-                .Value1 = CDbl(start),
-                .Value2 = CDbl(ends)
-            }
+            regions += (aavg, start, ends)
         Next
 
         Dim genesPretend = regions.Select(
             Function(r) New GeneDumpInfo With {
-                .Location = New NucleotideLocation(CInt(r.Value1), CInt(r.Value2)),
-                .GC_Content = CDbl(r.Value3)
+                .Location = New NucleotideLocation(r.start, r.end),
+                .GC_Content = r.value
             }).ToArray
         Dim mapsSrc As Integer() = genesPretend.Select(Function(g) g.GC_Content).GenerateMapping(100)
 
@@ -825,7 +821,7 @@ SET_END:    Dim ends = i
     '''
     <ExportAPI("RNA.Visualize")>
     <Extension>
-    Public Function RNAVisualize(doc As Configurations.Circos, anno As PTT)
+    Public Function RNAVisualize(doc As Configurations.Circos, anno As PTT) As Configurations.Circos
         Dim COGVector As String() = anno.GeneObjects _
             .Select(Function(g) g.Product) _
             .Distinct _
@@ -1068,8 +1064,8 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Skeleton.With.Bands")>
     Public Function SetBasicProperty(circos As Configurations.Circos,
-                                     NT As FASTA.FastaToken,
-                                     bands As IEnumerable(Of TripleKeyValuesPair),
+                                     NT As FastaToken,
+                                     bands As IEnumerable(Of NamedTuple(Of String)),
                                      Optional loopHole As Integer = 0) As Boolean
         Call circos.Includes.Add(New Ticks(Circos:=circos))
         Call circos.Includes.Add(New Ideogram(circos))
@@ -1077,7 +1073,7 @@ SET_END:    Dim ends = i
         circos.SkeletonKaryotype = New KaryotypeChromosomes(
             Len(NT.SequenceData) + loopHole,
             "white",
-            If(bands Is Nothing, Nothing, bands.ToArray))
+            bands.SafeQuery.ToArray)
         circos.SkeletonKaryotype.LoopHole.value = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
@@ -1118,18 +1114,18 @@ SET_END:    Dim ends = i
                                                       Distinct
                                                       Order By c Ascending).ToArray)
                       Select COG,
-                          band = New TripleKeyValuesPair With {
-                            .Value1 = CStr(Loci.Min),
-                            .Value2 = CStr(Loci.Max)}).ToArray
+                          band = New NamedTuple(Of String)(CStr(Loci.Min), CStr(Loci.Max))).ToArray
         Dim Color As Dictionary(Of String, String) =
             CircosColor.ColorProfiles((From obj In LQuery
                                        Select obj.COG
                                        Distinct).ToArray)
-        Dim setValue = New SetValue(Of TripleKeyValuesPair) <= NameOf(TripleKeyValuesPair.Key)
-        Dim BandsData As TripleKeyValuesPair() =
-            LinqAPI.Exec(Of TripleKeyValuesPair) <= From obj
-                                                    In LQuery.AsParallel
-                                                    Select setValue(obj.band, Color(obj.COG))
+        Dim setValue = New SetValue(Of NamedTuple(Of String)) <= NameOf(NamedTuple(Of String).Name)
+        Dim BandsData = LinqAPI.Exec(Of NamedTuple(Of String)) _
+ _
+            () <= From obj
+                  In LQuery
+                  Select setValue(obj.band, Color(obj.COG))
+
         Return SetBasicProperty(doc, NT, BandsData, loophole)
     End Function
 

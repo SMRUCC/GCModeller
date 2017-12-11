@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -39,7 +40,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Members As KeyValuePair()
         Public Property Remark As String
         Public Property Comment As String
-        Public Property Target As TripleKeyValuesPair()
+        Public Property Target As [Property]()
         Public Property Metabolism As String
 
     End Class
