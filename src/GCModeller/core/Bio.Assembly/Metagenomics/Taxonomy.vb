@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
@@ -35,39 +36,34 @@ Namespace Metagenomics
 
         Public Property scientificName As String
 
-        ''' <summary>
-        ''' 1. 域
-        ''' </summary>
-        Public Property domain As String
-
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
 
         ''' <summary>
-        ''' 2. 界
+        ''' 1. 界
         ''' </summary>
         Public Property kingdom As String
         ''' <summary>
-        ''' 3. 门
+        ''' 2. 门
         ''' </summary>
         Public Property phylum As String
         ''' <summary>
-        ''' 4A. 纲
+        ''' 3A. 纲
         ''' </summary>
         Public Property [class] As String
         ''' <summary>
-        ''' 5B. 目
+        ''' 4B. 目
         ''' </summary>
         Public Property order As String
         ''' <summary>
-        ''' 6C. 科
+        ''' 5C. 科
         ''' </summary>
         Public Property family As String
         ''' <summary>
-        ''' 7D. 属
+        ''' 6D. 属
         ''' </summary>
         Public Property genus As String
         ''' <summary>
-        ''' 8E. 种
+        ''' 7E. 种
         ''' </summary>
         Public Property species As String
 #End Region
@@ -98,6 +94,60 @@ Namespace Metagenomics
                 .Name = scientificName,
                 .Value = table
             }
+        End Function
+
+        ''' <summary>
+        ''' 这个函数不会比较<see cref="scientificName"/>
+        ''' </summary>
+        ''' <param name="another"></param>
+        ''' <returns></returns>
+        Public Function CompareWith(another As Taxonomy) As Relations
+            With another
+                If Not kingdom = .kingdom Then
+                    Return Relations.Irrelevant
+                End If
+
+                Dim rel As Relations
+
+                rel = compare(phylum, .phylum)
+                If rel <> Relations.Equals Then
+                    Return rel
+                End If
+
+                rel = compare([class], .class)
+                If rel <> Relations.Equals Then
+                    Return rel
+                End If
+
+                rel = compare(order, .order)
+                If rel <> Relations.Equals Then
+                    Return rel
+                End If
+
+                rel = compare(family, .family)
+                If rel <> Relations.Equals Then
+                    Return rel
+                End If
+
+                rel = compare(genus, .genus)
+                If rel <> Relations.Equals Then
+                    Return rel
+                End If
+
+                Return compare(species, .species)
+            End With
+        End Function
+
+        Private Shared Function compare(me$, another$) As Relations
+            If [me].StringEmpty Then
+                Return Relations.Include
+            ElseIf another.StringEmpty Then
+                Return Relations.IncludeBy
+            ElseIf Not me$ = another Then
+                Return Relations.Irrelevant
+            Else
+                Return Relations.Equals
+            End If
         End Function
 
         Public Overrides Function ToString() As String
