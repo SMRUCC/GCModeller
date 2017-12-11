@@ -22,11 +22,14 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
 
     Dim ts As Taxonomy
 
-    Public ReadOnly Property TaxonomyString As String
+    Public ReadOnly Property TaxonomyString As Taxonomy
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            If ts Is Nothing Then
-                ts = BIOMTaxonomy.TaxonomyString(organism.lineage.taxonlist)
+            ' IsFalse not equals not operator??
+            If ts Then
+                ' Do Nothing
+            Else
+                ts = New Taxonomy(organism.lineage.taxonlist)
             End If
 
             Return ts
