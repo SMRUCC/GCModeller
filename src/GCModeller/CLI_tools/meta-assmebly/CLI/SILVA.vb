@@ -67,18 +67,21 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/gast.Taxonomy.greengenes")>
-    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/out <gastOut.csv>]")>
+    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/min.pct <default=0.97> /out <gastOut.csv>]")>
     Public Function gastTaxonomy_greengenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim query$ = args <= "/query"
         Dim taxonomy$ = args <= "/taxonomy"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast.csv"
+        Dim minPct# = args.GetValue("/min.pct", 0.97)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast_min.pct={minPct}.csv"
         Dim OTUs = StreamIterator.SeqSource(query).ParseOTUrep()
         Dim otu_taxonomy = greengenes.otu_taxonomy _
             .Load(taxonomy) _
             .ToDictionary(Function(t) t.ID)
         Dim blastn As IEnumerable(Of Query) = BlastnOutputReader.RunParser([in])
-        Dim gast As gastOUT() = blastn.OTUgreengenesTaxonomy(OTUs, otu_taxonomy).ToArray
+        Dim gast As gastOUT() = blastn _
+            .OTUgreengenesTaxonomy(OTUs, otu_taxonomy, min_pct:=minPct) _
+            .ToArray
 
         Return gast.SaveTo(out).CLICode
     End Function

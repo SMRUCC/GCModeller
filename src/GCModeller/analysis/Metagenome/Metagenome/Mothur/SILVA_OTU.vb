@@ -59,7 +59,9 @@ Public Module SILVA_OTU
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function OTUsilvaTaxonomy(blastn As IEnumerable(Of Query), OTUs As Dictionary(Of String, NamedValue(Of Integer))) As IEnumerable(Of gastOUT)
+    Public Function OTUsilvaTaxonomy(blastn As IEnumerable(Of Query),
+                                     OTUs As Dictionary(Of String, NamedValue(Of Integer)),
+                                     Optional min_pct# = 0.97) As IEnumerable(Of gastOUT)
         Return blastn.gastTaxonomyInternal(
             getTaxonomy:=Function(hitName)
                              Dim t$ = hitName _
@@ -67,7 +69,8 @@ Public Module SILVA_OTU
                                  .Value
                              Return New Taxonomy(t)
                          End Function,
-            getOTU:=OTUs
+            getOTU:=OTUs,
+            min_pct:=min_pct
         )
     End Function
 End Module

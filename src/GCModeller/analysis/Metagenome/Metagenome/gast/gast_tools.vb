@@ -46,7 +46,10 @@ Namespace gast
     Public Module gast_tools
 
         <Extension>
-        Friend Iterator Function gastTaxonomyInternal(blastn As IEnumerable(Of Query), getTaxonomy As Func(Of String, Taxonomy), getOTU As Dictionary(Of String, NamedValue(Of Integer))) As IEnumerable(Of gastOUT)
+        Friend Iterator Function gastTaxonomyInternal(blastn As IEnumerable(Of Query),
+                                                      getTaxonomy As Func(Of String, Taxonomy),
+                                                      getOTU As Dictionary(Of String, NamedValue(Of Integer)),
+                                                      min_pct#) As IEnumerable(Of gastOUT)
             For Each query As Query In blastn
                 If Not getOTU.ContainsKey(query.QueryName) Then
                     Continue For
@@ -60,7 +63,7 @@ Namespace gast
                 Dim counts = getOTU(query.QueryName)
 
                 ' Lookup the consensus taxonomy For the array
-                Dim taxReturn = gast.Taxonomy.consensus(hits, 0.97)
+                Dim taxReturn = gast.Taxonomy.consensus(hits, majority:=min_pct)
                 ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
                 Dim taxon = taxReturn(0).taxstring
                 Dim rank = taxReturn(0).depth
