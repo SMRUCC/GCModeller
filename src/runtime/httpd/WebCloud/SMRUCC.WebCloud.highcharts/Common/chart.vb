@@ -7,6 +7,8 @@ Public Class chart
     Public Property options3d As options3d
     Public Property zoomType As String
     Public Property inverted As Boolean
+    Public Property renderTo As String
+    Public Property margin As Double
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
