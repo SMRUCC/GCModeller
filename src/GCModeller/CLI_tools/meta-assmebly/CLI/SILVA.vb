@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -82,14 +83,19 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/gast.Taxonomy.greengenes")>
-    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/min.pct <default=0.97> /out <gastOut.csv>]")>
+    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/removes.lt <default=0.0001> /min.pct <default=0.97> /out <gastOut.csv>]")>
     Public Function gastTaxonomy_greengenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim query$ = args <= "/query"
         Dim taxonomy$ = args <= "/taxonomy"
         Dim minPct# = args.GetValue("/min.pct", 0.97)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast_min.pct={minPct}.csv"
-        Dim OTUs = StreamIterator.SeqSource(query).ParseOTUrep()
+        Dim lt# = args.GetValue("/removes.lt", 0.0001)
+        Dim OTUs As Dictionary(Of String, NamedValue(Of Integer)) =
+            StreamIterator _
+            .SeqSource(query) _
+            .ParseOTUrep() _
+            .RemovesOTUlt(cutoff:=lt)
         Dim otu_taxonomy = greengenes.otu_taxonomy _
             .Load(taxonomy) _
             .ToDictionary(Function(t) t.ID)
