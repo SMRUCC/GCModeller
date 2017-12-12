@@ -2,4 +2,5 @@
     area
     bar
     pie
+    columnrange
 End Enum

@@ -6,6 +6,7 @@ Public Class chart
     Public Property type As String
     Public Property options3d As options3d
     Public Property zoomType As String
+    Public Property inverted As Boolean
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -29,6 +30,8 @@ Public Class chart
 End Class
 
 Public Class Axis
+    Public Property className As String
+    Public Property opposite As Boolean
     Public Property title As title
     Public Property min As Double
     Public Property labels As labelOptions
