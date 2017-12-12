@@ -43,6 +43,30 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/min.pct &lt;default=0.97> /out &lt;gastOut.csv>]
+''' ```
+''' </summary>
+'''
+Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional min_pct As String = "0.97", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gast.Taxonomy.greengenes")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    Call CLI.Append("/taxonomy " & """" & taxonomy & """ ")
+    If Not min_pct.StringEmpty Then
+            Call CLI.Append("/min.pct " & """" & min_pct & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /handle.hmp.manifest /in &lt;manifest.tsv> [/out &lt;save.directory>]
 ''' ```
 ''' </summary>
@@ -140,6 +164,25 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml> [/out &lt;out.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildUniProtReference([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Metagenome.UniProt.Ref")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.directory> [/out &lt;network.directory>]
 ''' ```
 ''' </summary>
@@ -152,6 +195,33 @@ Public Function MetabolicComplementationNetwork(metagenome As String, ref As Str
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /OTU.cluster /left &lt;left.fq> /right &lt;right.fq> /silva &lt;silva.bacteria.fasta> [/out &lt;out.directory> /processors &lt;default=2> /@set mothur=path]
+''' ```
+''' </summary>
+'''
+Public Function ClusterOTU(left As String, right As String, silva As String, Optional out As String = "", Optional processors As String = "2", Optional _set As String = "") As Integer
+    Dim CLI As New StringBuilder("/OTU.cluster")
+    Call CLI.Append(" ")
+    Call CLI.Append("/left " & """" & left & """ ")
+    Call CLI.Append("/right " & """" & right & """ ")
+    Call CLI.Append("/silva " & """" & silva & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not processors.StringEmpty Then
+            Call CLI.Append("/processors " & """" & processors & """ ")
+    End If
+    If Not _set.StringEmpty Then
+            Call CLI.Append("/@set " & """" & _set & """ ")
     End If
 
 
@@ -255,6 +325,25 @@ Public Function SignificantDifference([in] As String, groups As String, Optional
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/groups " & """" & groups & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /SILVA.bacteria /in &lt;silva.fasta> [/out &lt;silva.bacteria.fasta>]
+''' ```
+''' </summary>
+'''
+Public Function SILVABacterial([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/SILVA.bacteria")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
