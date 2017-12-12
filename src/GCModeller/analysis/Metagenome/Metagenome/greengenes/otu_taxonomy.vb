@@ -13,16 +13,22 @@ Namespace greengenes
             Return Taxonomy.CreateTable.Value.TaxonomyString
         End Function
 
-        Public Shared Iterator Function Load(path As String) As IEnumerable(Of otu_taxonomy)
-            For Each line As String In path.IterateAllLines
-                Dim data = line.GetTagValue(vbTab, trim:=True)
-                Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(data.Value))
+        Public Shared Function Load(path As String) As IEnumerable(Of otu_taxonomy)
+            Return path _
+                .IterateAllLines _
+                .AsParallel _
+                .Select(AddressOf Parser)
+        End Function
 
-                Yield New otu_taxonomy With {
-                    .ID = data.Name,
-                    .Taxonomy = taxonomy
-                }
-            Next
+        Private Shared Function Parser(line As String) As otu_taxonomy
+            Dim data = line.GetTagValue(vbTab, trim:=True)
+            Dim table = BIOMTaxonomy.TaxonomyParser(data.Value)
+            Dim taxonomy As New Taxonomy(table)
+
+            Return New otu_taxonomy With {
+                .ID = data.Name,
+                .Taxonomy = taxonomy
+            }
         End Function
     End Class
 End Namespace
