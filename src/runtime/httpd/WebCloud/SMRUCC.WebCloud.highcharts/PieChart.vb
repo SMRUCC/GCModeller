@@ -1,24 +1,63 @@
-﻿Public Class PieChart : Inherits Highcharts
+﻿Imports System.Runtime.CompilerServices
+
+Public Class PieChart : Inherits Highcharts
     Public Property chart As chart
     Public Property title As title
     Public Property tooltip As tooltip
     Public Property plotOptions As plotOptions
     Public Property series As serial()
+
+    Public Overrides Function ToString() As String
+        Return title.ToString
+    End Function
 End Class
 
 Public Class chart
+
     Public Property type As String
     Public Property options3d As options3d
+
+    Public Overrides Function ToString() As String
+        If options3d Is Nothing OrElse Not options3d.enabled Then
+            Return type
+        Else
+            Return $"[3D] {type}"
+        End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function PieChart3D() As chart
+        Return New chart With {
+            .type = "pie",
+            .options3d = New options3d With {
+                .enabled = True,
+                .alpha = 45,
+                .beta = 0
+            }
+        }
+    End Function
 End Class
 
 Public Class options3d
     Public Property enabled As Boolean
     Public Property alpha As Double
     Public Property beta As Double
+
+    Public Overrides Function ToString() As String
+        If enabled Then
+            Return NameOf(enabled)
+        Else
+            Return $"Not {NameOf(enabled)}"
+        End If
+    End Function
 End Class
 
 Public Class title
     Public Property text As String
+
+    Public Overrides Function ToString() As String
+        Return text
+    End Function
 End Class
 
 Public Class tooltip
@@ -44,17 +83,12 @@ End Class
 Public Class serial
     Public Property type As String
     Public Property name As String
-    Public Property data
-End Class
-
-Public Class data
-
     ''' <summary>
     ''' + <see cref="Double"/>
     ''' + <see cref="pieData"/>
     ''' </summary>
     ''' <returns></returns>
-    Public Property data As Dictionary(Of String, Object)
+    Public Property data As Object()
 End Class
 
 Public Class pieData
