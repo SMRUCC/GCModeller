@@ -34,4 +34,6 @@ Friend NotInheritable Class CLIGroups
     Public Const Alpha_Diversity$ = "02. Alpha diversity analysis tools"
     Public Const HMP_cli$ = "03. Human Microbiome Project cli tool"
     Public Const SILVA_cli$ = "SILVA database cli tools"
+    Public Const Taxonomy_cli$ = "Taxonomy assign cli tools"
+
 End Class
