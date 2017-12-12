@@ -13,4 +13,11 @@
         Public Property depth As String
         Public Property dataLabels As dataLabels
     End Class
+
+    Public Class pieData
+        Public Property name As String
+        Public Property y As Double
+        Public Property sliced As Boolean
+        Public Property selected As Boolean
+    End Class
 End Namespace

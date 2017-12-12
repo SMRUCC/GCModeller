@@ -9,4 +9,5 @@
     Public Property legend As legendOptions
     Public Property series As T()
     Public Property responsiveOptions As responsiveOptions
+    Public Property credits As credits
 End Class

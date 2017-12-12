@@ -64,8 +64,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Charts\ChartTypes.vb" />
+    <Compile Include="Charts\BarChart.vb" />
+    <Compile Include="Charts\ScatterChart.vb" />
     <Compile Include="Charts\PieChart.vb" />
     <Compile Include="Charts\LineChart.vb" />
+    <Compile Include="Common\plotOptions.vb" />
     <Compile Include="Highcharts.vb" />
     <Compile Include="Javascript.vb" />
     <Compile Include="Common\chart.vb" />

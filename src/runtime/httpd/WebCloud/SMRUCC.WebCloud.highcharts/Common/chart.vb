@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.WebCloud.highcharts.LineChart
 Imports SMRUCC.WebCloud.highcharts.PieChart
 
 Public Class chart
 
     Public Property type As String
     Public Property options3d As options3d
+    Public Property zoomType As String
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -30,6 +30,12 @@ End Class
 
 Public Class Axis
     Public Property title As title
+    Public Property min As Double
+    Public Property labels As labelOptions
+    Public Property categories As String()
+    Public Property startOnTick As Boolean
+    Public Property endOnTick As Boolean
+    Public Property showLastLabel As Boolean
 End Class
 
 Public Class options3d
@@ -50,10 +56,18 @@ Public Class legendOptions
     Public Property layout As String
     Public Property align As String
     Public Property verticalAlign As String
+    Public Property x As Double
+    Public Property y As Double
+    Public Property floating As Boolean
+    Public Property borderWidth As Double
+    Public Property backgroundColor As String
+    Public Property shadow As Boolean
 End Class
 
 Public Class title
     Public Property text As String
+    Public Property align As String
+    Public Property enable As Boolean
 
     Public Overrides Function ToString() As String
         Return text
@@ -61,16 +75,14 @@ Public Class title
 End Class
 
 Public Class tooltip
+    Public Property headerFormat As String
     Public Property pointFormat As String
+    Public Property valueSuffix As String
 End Class
 
 Public Class labelOptions
     Public Property connectorAllowed As Boolean
-End Class
-
-Public Class plotOptions
-    Public Property pie As pieOptions
-    Public Property series As seriesOptions
+    Public Property overflow As String
 End Class
 
 Public Class dataLabels
@@ -89,13 +101,6 @@ Public Class serial
     Public Property data As Object()
 End Class
 
-Public Class pieData
-    Public Property name As String
-    Public Property y As Double
-    Public Property sliced As Boolean
-    Public Property selected As Boolean
-End Class
-
 Public Class responsiveOptions
     Public Property rules As rule()
 End Class
@@ -111,4 +116,8 @@ End Class
 
 Public Class chartOptions
     Public Property legend As legendOptions
+End Class
+
+Public Class credits
+    Public Property enabled As Boolean
 End Class
