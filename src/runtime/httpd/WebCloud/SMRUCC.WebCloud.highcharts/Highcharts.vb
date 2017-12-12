@@ -8,4 +8,5 @@
     Public Property plotOptions As plotOptions
     Public Property legend As legendOptions
     Public Property series As T()
+    Public Property responsiveOptions As responsiveOptions
 End Class

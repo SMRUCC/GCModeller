@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Public Module Javascript
 
     <Extension>
-    Public Function WriteJavascript(Of T As Highcharts)(container$, chart As T) As String
+    Public Function WriteJavascript(Of S, T As Highcharts(Of S))(container$, chart As T) As String
         Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData)}
         Dim json$ = chart.GetJson(indent:=True, knownTypes:=knownTypes)
         Dim javascript$ = $"Highcharts.chart('{container}', {json});"

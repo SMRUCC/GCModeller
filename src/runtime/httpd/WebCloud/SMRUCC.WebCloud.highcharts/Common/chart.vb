@@ -95,3 +95,20 @@ Public Class pieData
     Public Property sliced As Boolean
     Public Property selected As Boolean
 End Class
+
+Public Class responsiveOptions
+    Public Property rules As rule()
+End Class
+
+Public Class rule
+    Public Property condition As ruleConditions
+    Public Property chartOptions As chartOptions
+End Class
+
+Public Class ruleConditions
+    Public Property maxWidth As Double
+End Class
+
+Public Class chartOptions
+    Public Property legend As legendOptions
+End Class
