@@ -1,8 +1,12 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -60,5 +64,25 @@ Partial Module CLI
             .GetXml _
             .SaveTo(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/gast.Taxonomy.greengenes")>
+    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/min.pct <default=0.97> /out <gastOut.csv>]")>
+    Public Function gastTaxonomy_greengenes(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim query$ = args <= "/query"
+        Dim taxonomy$ = args <= "/taxonomy"
+        Dim minPct# = args.GetValue("/min.pct", 0.97)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast_min.pct={minPct}.csv"
+        Dim OTUs = StreamIterator.SeqSource(query).ParseOTUrep()
+        Dim otu_taxonomy = greengenes.otu_taxonomy _
+            .Load(taxonomy) _
+            .ToDictionary(Function(t) t.ID)
+        Dim blastn As IEnumerable(Of Query) = BlastnOutputReader.RunParser([in])
+        Dim gast As gastOUT() = blastn _
+            .OTUgreengenesTaxonomy(OTUs, otu_taxonomy, min_pct:=minPct) _
+            .ToArray
+
+        Return gast.SaveTo(out).CLICode
     End Function
 End Module

@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
@@ -60,6 +61,14 @@ Namespace Metagenomics
         Public ReadOnly Property CompleteParser As DefaultValue(Of TaxonomyLineageParser) = New TaxonomyLineageParser(AddressOf TaxonomyParserAlt)
 
         Public Delegate Function TaxonomyLineageParser(taxonomy As String) As Dictionary(Of String, String)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TaxonomyString(lineage As String()) As String
+            Return lineage _
+                .SeqIterator _
+                .Select(Function(l) BIOMPrefix(l.i) & l.value) _
+                .JoinBy(";")
+        End Function
 
         ''' <summary>
         ''' For <see cref="BIOMPrefix"/>

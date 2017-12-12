@@ -134,7 +134,7 @@ Public Module BIOM
             .JoinBy(";")
     End Function
 
-    ReadOnly Unknown As Index(Of String) = {"", ""}
+    ReadOnly Unknown As Index(Of String) = {"", "Unassigned", "NA", NameOf(Unknown)}
     ReadOnly descRanks As SeqValue(Of String)() = NCBI.Taxonomy _
         .NcbiTaxonomyTree _
         .stdranks _
@@ -147,8 +147,8 @@ Public Module BIOM
         Dim l As New List(Of String)
 
         For Each rank As SeqValue(Of String) In descRanks
-            If tax.ContainsKey(rank) AndAlso Not tax(rank).IsOneOfA(Unknown) Then
-                l += BIOMTaxonomy.BIOMPrefix(rank) & tax(rank)
+            If tax.ContainsKey(rank.value) AndAlso Not tax(rank.value).IsOneOfA(Unknown) Then
+                l += BIOMTaxonomy.BIOMPrefix(rank) & tax(rank.value)
             Else
                 l += "NA"
             End If

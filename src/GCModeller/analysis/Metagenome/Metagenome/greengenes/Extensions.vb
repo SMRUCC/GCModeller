@@ -17,12 +17,17 @@ Namespace greengenes
         ''' <remarks>使用gast最多只能够注释到species，不能够具体的注释到某一个菌株？？</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function OTUgreengenesTaxonomy(blastn As IEnumerable(Of Query), OTUs As Dictionary(Of String, NamedValue(Of Integer)), taxonomy As Dictionary(Of String, otu_taxonomy)) As IEnumerable(Of gastOUT)
+        Public Function OTUgreengenesTaxonomy(blastn As IEnumerable(Of Query),
+                                              OTUs As Dictionary(Of String, NamedValue(Of Integer)),
+                                              taxonomy As Dictionary(Of String, otu_taxonomy),
+                                              Optional min_pct# = 0.97) As IEnumerable(Of gastOUT)
+
             Return blastn.gastTaxonomyInternal(
                 getTaxonomy:=Function(hitName)
                                  Return New Taxonomy(taxonomy(hitName).ToString)
                              End Function,
-                getOTU:=OTUs
+                getOTU:=OTUs,
+                min_pct:=min_pct
             )
         End Function
     End Module

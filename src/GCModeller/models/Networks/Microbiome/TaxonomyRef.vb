@@ -1,7 +1,9 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' Combine the UniProt taxonomy information with the KEGG orthology reference.
@@ -18,6 +20,22 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
     Public Property organism As organism
     Public Property genome As OrthologyTerms
 
+    Dim ts As Taxonomy
+
+    Public ReadOnly Property TaxonomyString As Taxonomy
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            ' IsFalse not equals not operator??
+            If ts Then
+                ' Do Nothing
+            Else
+                ts = New Taxonomy(organism.lineage.taxonlist)
+            End If
+
+            Return ts
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"[{TaxonID}] {organism.scientificName}"
     End Function
@@ -25,15 +43,18 @@ End Class
 
 Public Class TaxonomyRepository : Implements IRepositoryRead(Of String, TaxonomyRef)
 
-    Dim taxonomyTable As Dictionary(Of String, TaxonomyRef)
+    Dim taxonIDtable As Dictionary(Of String, TaxonomyRef)
 
     <XmlElement("taxonomy")>
     Public Property Taxonomy As TaxonomyRef()
         Get
-            Return taxonomyTable.Values.ToArray
+            Return taxonIDtable.Values.ToArray
         End Get
         Set(value As TaxonomyRef())
-            taxonomyTable = value.ToDictionary(Function(t) t.TaxonID)
+            taxonIDtable = value _
+                .ToDictionary(Function(t)
+                                  Return t.TaxonID
+                              End Function)
         End Set
     End Property
 
