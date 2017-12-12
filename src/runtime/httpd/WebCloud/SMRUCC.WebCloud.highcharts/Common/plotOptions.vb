@@ -6,7 +6,7 @@ Imports SMRUCC.WebCloud.highcharts.ScatterChart
 Public Class plotOptions
 
     Public Property pie As pieOptions
-    Public Property series As seriesOptions
+    Public Property series As lineOptions
     Public Property scatter As scatterOptions
     Public Property columnrange As columnrangeOptions
     Public Property column As columnOptions
@@ -28,3 +28,6 @@ Public Class plotOptions
     End Function
 End Class
 
+Public Class seriesOptions
+    Public Property type As String
+End Class

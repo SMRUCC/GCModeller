@@ -5,7 +5,7 @@
         Public Property data As Double()
     End Class
 
-    Public Class seriesOptions
+    Public Class lineOptions
         Public Property label As labelOptions
         Public Property pointStart As String
     End Class
