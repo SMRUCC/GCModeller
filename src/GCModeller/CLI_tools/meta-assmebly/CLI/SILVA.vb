@@ -34,6 +34,21 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/SILVA.bacteria")>
+    <Usage("/SILVA.bacteria /in <silva.fasta> [/out <silva.bacteria.fasta>]")>
+    Public Function SILVABacterial(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].ParentPath}/SILVA.bacterial_ssuref.fasta"
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each SSU As FastaToken In StreamIterator.SeqSource(handle:=[in]).SILVABacteria
+                Call writer.WriteLine(SSU.GenerateDocument(lineBreak:=120))
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/OTU.cluster")>
     <Usage("/OTU.cluster /left <left.fq> /right <right.fq> /silva <silva.bacteria.fasta> [/out <out.directory> /processors <default=2> /@set mothur=path]")>
     Public Function ClusterOTU(args As CommandLine) As Integer

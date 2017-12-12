@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module SILVABuild
@@ -8,6 +9,7 @@ Public Module SILVABuild
     ''' </summary>
     ''' <param name="silva"></param>
     ''' <returns></returns>
+    <Extension>
     Public Iterator Function SILVABacteria(silva As IEnumerable(Of FastaToken)) As IEnumerable(Of FastaToken)
         Dim title$
         Dim header As NamedValue(Of String)
@@ -26,6 +28,4 @@ Public Module SILVABuild
             End If
         Next
     End Function
-
-
 End Module
