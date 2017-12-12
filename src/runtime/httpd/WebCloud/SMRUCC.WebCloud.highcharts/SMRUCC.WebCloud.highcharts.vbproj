@@ -63,6 +63,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3D\options3d.vb" />
     <Compile Include="Charts\ChartTypes.vb" />
     <Compile Include="Charts\BarChart.vb" />
     <Compile Include="Charts\ScatterChart.vb" />

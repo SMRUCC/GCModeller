@@ -34,25 +34,14 @@ Public Class Axis
     Public Property opposite As Boolean
     Public Property title As title
     Public Property min As Double
+    Public Property max As Double
     Public Property labels As labelOptions
     Public Property categories As String()
     Public Property startOnTick As Boolean
     Public Property endOnTick As Boolean
     Public Property showLastLabel As Boolean
-End Class
-
-Public Class options3d
-    Public Property enabled As Boolean
-    Public Property alpha As Double
-    Public Property beta As Double
-
-    Public Overrides Function ToString() As String
-        If enabled Then
-            Return NameOf(enabled)
-        Else
-            Return $"Not {NameOf(enabled)}"
-        End If
-    End Function
+    Public Property gridLineWidth As Boolean
+    Public Property showFirstLabel As Boolean
 End Class
 
 Public Class legendOptions

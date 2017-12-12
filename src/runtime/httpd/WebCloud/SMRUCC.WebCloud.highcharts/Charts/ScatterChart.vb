@@ -28,6 +28,7 @@
     Public Class ScatterSerial
         Public Property name As String
         Public Property color As String
+        Public Property colorByPoint As Boolean
         Public Property data As Double()()
     End Class
 End Namespace
