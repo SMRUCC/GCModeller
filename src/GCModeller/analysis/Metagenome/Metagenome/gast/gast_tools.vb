@@ -38,6 +38,7 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace gast
 
@@ -70,6 +71,8 @@ Namespace gast
 
                 If (taxon Is Nothing) Then
                     taxon = "Unknown"
+                Else
+                    taxon = r.Replace(taxon, "(;NA)+$", "", RegexICMul).Trim
                 End If
 
                 ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)

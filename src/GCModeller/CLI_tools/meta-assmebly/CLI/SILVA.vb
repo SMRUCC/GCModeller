@@ -1,6 +1,8 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -28,6 +30,21 @@ Partial Module CLI
             For Each SSU As FastaToken In StreamIterator.SeqSource(handle:=[in], debug:=True)
                 Dim headers = SSU.Attributes.JoinBy("|").GetTagValue(" ", trim:=True)
                 Call writer.WriteLine(headers.Name & vbTab & headers.Value)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/SILVA.bacteria")>
+    <Usage("/SILVA.bacteria /in <silva.fasta> [/out <silva.bacteria.fasta>]")>
+    Public Function SILVABacterial(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].ParentPath}/SILVA.bacterial_ssuref.fasta"
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each SSU As FastaToken In StreamIterator.SeqSource(handle:=[in]).SILVABacteria
+                Call writer.WriteLine(SSU.GenerateDocument(lineBreak:=120))
             Next
         End Using
 
@@ -67,14 +84,25 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/gast.Taxonomy.greengenes")>
-    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/min.pct <default=0.97> /out <gastOut.csv>]")>
+    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/removes.lt <default=0.0001> /min.pct <default=0.6> /out <gastOut.csv>]")>
+    <Description("OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.")>
+    <Argument("/removes.lt", True, CLITypes.Double,
+              Description:="OTU contains members number less than the percentage value of this argument value(low abundance) will be removes from the result.")>
+    <Argument("/min.pct", True, CLITypes.Double,
+              Description:="The required minium vote percentage of the taxonomy assigned from a OTU reference alignment by using gast method, default is required level 60% agreement.")>
+    <Group(CLIGroups.Taxonomy_cli)>
     Public Function gastTaxonomy_greengenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim query$ = args <= "/query"
         Dim taxonomy$ = args <= "/taxonomy"
-        Dim minPct# = args.GetValue("/min.pct", 0.97)
+        Dim minPct# = args.GetValue("/min.pct", 0.6)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{taxonomy.BaseName}.gast_min.pct={minPct}.csv"
-        Dim OTUs = StreamIterator.SeqSource(query).ParseOTUrep()
+        Dim lt# = args.GetValue("/removes.lt", 0.0001)
+        Dim OTUs As Dictionary(Of String, NamedValue(Of Integer)) =
+            StreamIterator _
+            .SeqSource(query) _
+            .ParseOTUrep() _
+            .RemovesOTUlt(cutoff:=lt)
         Dim otu_taxonomy = greengenes.otu_taxonomy _
             .Load(taxonomy) _
             .ToDictionary(Function(t) t.ID)
