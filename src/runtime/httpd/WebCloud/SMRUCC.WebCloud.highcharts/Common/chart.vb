@@ -1,16 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-
-Public Class PieChart : Inherits Highcharts
-    Public Property chart As chart
-    Public Property title As title
-    Public Property tooltip As tooltip
-    Public Property plotOptions As plotOptions
-    Public Property series As serial()
-
-    Public Overrides Function ToString() As String
-        Return title.ToString
-    End Function
-End Class
+Imports SMRUCC.WebCloud.highcharts.LineChart
+Imports SMRUCC.WebCloud.highcharts.PieChart
 
 Public Class chart
 
@@ -38,6 +28,10 @@ Public Class chart
     End Function
 End Class
 
+Public Class Axis
+    Public Property title As title
+End Class
+
 Public Class options3d
     Public Property enabled As Boolean
     Public Property alpha As Double
@@ -52,6 +46,12 @@ Public Class options3d
     End Function
 End Class
 
+Public Class legendOptions
+    Public Property layout As String
+    Public Property align As String
+    Public Property verticalAlign As String
+End Class
+
 Public Class title
     Public Property text As String
 
@@ -64,15 +64,13 @@ Public Class tooltip
     Public Property pointFormat As String
 End Class
 
-Public Class plotOptions
-    Public Property pie As pie
+Public Class labelOptions
+    Public Property connectorAllowed As Boolean
 End Class
 
-Public Class pie
-    Public Property allowPointSelect As Boolean
-    Public Property cursor As String
-    Public Property depth As String
-    Public Property dataLabels As dataLabels
+Public Class plotOptions
+    Public Property pie As pieOptions
+    Public Property series As seriesOptions
 End Class
 
 Public Class dataLabels

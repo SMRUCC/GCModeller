@@ -63,9 +63,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\ChartTypes.vb" />
+    <Compile Include="Charts\PieChart.vb" />
+    <Compile Include="Charts\LineChart.vb" />
     <Compile Include="Highcharts.vb" />
     <Compile Include="Javascript.vb" />
-    <Compile Include="PieChart.vb" />
+    <Compile Include="Common\chart.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -123,5 +126,6 @@
       <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
