@@ -12,4 +12,8 @@
     Public Class columnrangeOptions
         Public Property dataLabels As dataLabels
     End Class
+
+    Public Class columnOptions
+        Public Property borderRadius As Double
+    End Class
 End Namespace
