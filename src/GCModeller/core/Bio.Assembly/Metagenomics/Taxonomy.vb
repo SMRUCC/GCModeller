@@ -70,6 +70,11 @@ Namespace Metagenomics
         Public Property species As String
 #End Region
 
+        ''' <summary>
+        ''' 这个函数会自动调用<see cref="FillLineageEmpty"/>函数来填充缺失掉的rank部分
+        ''' 所以这个构造方法是安全的构造方法，不需要担心会因为缺少否些rank而抛出错误
+        ''' </summary>
+        ''' <param name="lineage"></param>
         Sub New(lineage As Dictionary(Of String, String))
             lineage = lineage.FillLineageEmpty
             kingdom = lineage(NcbiTaxonomyTree.superkingdom)

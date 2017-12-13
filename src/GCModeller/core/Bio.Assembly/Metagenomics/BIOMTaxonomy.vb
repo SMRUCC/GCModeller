@@ -70,6 +70,35 @@ Namespace Metagenomics
                 .JoinBy(";")
         End Function
 
+        ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+
+        ''' <summary>
+        ''' 这个函数不像<see cref="TaxonomyParser"/>和<see cref="TaxonomyParserAlt"/>这两个是专门针对
+        ''' 具有分类信息前缀的字符串的解析。这个函数是主要针对于没有分类层次信息前缀的字符串的解析函数，
+        ''' 由于没有分类信息的前缀字符串，故而这个函数也主要是依靠tokens之间的前后顺序来赋值分类的rank信息
+        ''' </summary>
+        ''' <param name="lineage">从大到小排序的</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function TaxonomyFromString(lineage$, Optional deli As Char = ";"c) As Taxonomy
+            ' 有些分类字符串里面会存在[....]这种形式的格式，不清楚是什么意思
+            ' 在这里去除掉[和]
+            Dim tokens$() = lineage _
+                .Replace("[", "") _
+                .Replace("]", "") _
+                .Split(deli) _
+                .Select(AddressOf Trim) _
+                .ToArray
+            Dim taxonomyRanks = tokens _
+                .SeqIterator _
+                .ToDictionary(Function(i) descRanks(i),
+                              Function(rank) rank.value)
+
+            Return New Taxonomy(taxonomyRanks)
+        End Function
+
+#Region "Parsing BIOM style taxonomy string"
+
         ''' <summary>
         ''' For <see cref="BIOMPrefix"/>
         ''' </summary>
@@ -102,17 +131,6 @@ Namespace Metagenomics
             Return out
         End Function
 
-        <Extension>
-        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String)) As Dictionary(Of String, String)
-            For Each level As String In NcbiTaxonomyTree.stdranks
-                If Not lineage.ContainsKey(level) Then
-                    Call lineage.Add(level, "NA")
-                End If
-            Next
-
-            Return lineage
-        End Function
-
         ''' <summary>
         ''' For <see cref="BIOMPrefixAlt"/>
         ''' </summary>
@@ -132,6 +150,18 @@ Namespace Metagenomics
             Next
 
             Return out
+        End Function
+#End Region
+
+        <Extension>
+        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String)) As Dictionary(Of String, String)
+            For Each level As String In NcbiTaxonomyTree.stdranks
+                If Not lineage.ContainsKey(level) Then
+                    Call lineage.Add(level, "NA")
+                End If
+            Next
+
+            Return lineage
         End Function
     End Module
 End Namespace
