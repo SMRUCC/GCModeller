@@ -38,5 +38,11 @@ Namespace Metagenomics
                 End If
             Next
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SelectByTaxonomyRange(relativeAbundance As Dictionary(Of Taxonomy, Double), ref As Taxonomy) As IEnumerable(Of Double)
+            Return relativeAbundance.SelectByTaxonomyRange(ref, Function(tax) tax.Key, Function(tax) tax.Value)
+        End Function
     End Module
 End Namespace
