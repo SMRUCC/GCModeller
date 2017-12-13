@@ -110,9 +110,32 @@ Public Module UniProtBuild
         }
     End Function
 
+    ''' <summary>
+    ''' 任务意外中断可以使用这个函数来进行继续执行
+    ''' </summary>
+    ''' <param name="UniProtXml"></param>
+    ''' <param name="acc$"></param>
+    ''' <returns></returns>
     <Extension>
     Private Iterator Function skipUntil(UniProtXml As IEnumerable(Of entry), acc$) As IEnumerable(Of entry)
+        Dim skip As Boolean = True
 
+        If acc.StringEmpty Then
+            skip = False
+        End If
+
+        For Each protein As entry In UniProtXml
+            If skip Then
+                ' 假设在执行数据库构建任务的时候，acc编号是在成功写入数据之后才会被记录下来的
+                ' 那么也就是说当前的这个protein的数据已经被建立索引了
+                ' 所以不需要再yield返回了，这里只需要设置一下skip开关即可
+                If protein.accessions.IndexOf(acc) > -1 Then
+                    skip = False
+                End If
+            Else
+                Yield protein
+            End If
+        Next
     End Function
 
     Const KO_list$ = "KO.list"
