@@ -19,6 +19,12 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
     Public Property TaxonID As String Implements IKeyedEntity(Of String).Key
     Public Property organism As organism
     Public Property genome As OrthologyTerms
+    ''' <summary>
+    ''' 具有KEGG直系同源注释结果的基因的数量和该基因组内的总基因数量的比值结果
+    ''' </summary>
+    ''' <returns></returns>
+    <XmlAttribute>
+    Public Property Coverage As Double
 
     Dim ts As Taxonomy
 

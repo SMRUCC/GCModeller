@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -41,10 +42,11 @@ Public Module UniProtBuild
         Return model
     End Function
 
-    Private Function ScanModels(cache As (KO_list$, taxonomy$)) As TaxonomyRepository
+    Private Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim list As New List(Of TaxonomyRef)
         Dim organismKO As New Dictionary(Of String, List(Of String))
+        Dim counts As New Dictionary(Of String, Counter)
 
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
@@ -54,6 +56,14 @@ Public Module UniProtBuild
 
                 Call organismKO(.First).Add(.Last)
             End With
+        Next
+
+        For Each genomeID As String In cache.counts.IterateAllLines
+            If Not counts.ContainsKey(genomeID) Then
+                Call counts.Add(genomeID, New Counter)
+            End If
+
+            Call counts(genomeID).Hit()
         Next
 
         ' 之后再将信息提取出来整理为一个XML格式的信息库
@@ -76,6 +86,9 @@ Public Module UniProtBuild
                 KO = {}
             End If
 
+            ' 因为要了解覆盖度，所以这里需要计数一下KO的数目
+            ' 因为有些基因的功能可能会重复，即KO相同，所以要在Distinct之前做计数
+            Dim annotated% = KO.Count
             Dim terms As XmlProperty() = KO _
                 .Distinct _
                 .OrderBy(Function(id) id) _
@@ -101,7 +114,8 @@ Public Module UniProtBuild
                 .TaxonID = taxon,
                 .genome = New OrthologyTerms With {
                     .Terms = terms
-                }
+                },
+                .Coverage = annotated / counts(taxon)
             }
         Next
 
@@ -110,13 +124,37 @@ Public Module UniProtBuild
         }
     End Function
 
+    ''' <summary>
+    ''' 任务意外中断可以使用这个函数来进行继续执行
+    ''' </summary>
+    ''' <param name="UniProtXml"></param>
+    ''' <param name="acc$"></param>
+    ''' <returns></returns>
     <Extension>
     Private Iterator Function skipUntil(UniProtXml As IEnumerable(Of entry), acc$) As IEnumerable(Of entry)
+        Dim skip As Boolean = True
 
+        If acc.StringEmpty Then
+            skip = False
+        End If
+
+        For Each protein As entry In UniProtXml
+            If skip Then
+                ' 假设在执行数据库构建任务的时候，acc编号是在成功写入数据之后才会被记录下来的
+                ' 那么也就是说当前的这个protein的数据已经被建立索引了
+                ' 所以不需要再yield返回了，这里只需要设置一下skip开关即可
+                If protein.accessions.IndexOf(acc) > -1 Then
+                    skip = False
+                End If
+            Else
+                Yield protein
+            End If
+        Next
     End Function
 
     Const KO_list$ = "KO.list"
     Const Taxonomy_data$ = "taxonomy.txt"
+    Const gene_counts$ = "gene.counts"
     Const blank$ = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     Const blankPattern$ = "\+{10,}\n"
 
@@ -127,7 +165,7 @@ Public Module UniProtBuild
     ''' <param name="tmp">工作区缓存文件夹</param>
     ''' <returns></returns>
     <Extension>
-    Private Function ScanInternal(UniProtXml As IEnumerable(Of entry), tmp$) As (KO_list As String, taxonomy As String)
+    Private Function ScanInternal(UniProtXml As IEnumerable(Of entry), tmp$) As (KO_list$, taxonomy$, counts$)
         ' KO 缓存文件示例
         ' 
         ' taxonomy_id KO
@@ -138,7 +176,8 @@ Public Module UniProtBuild
         Dim taxonomyIndex As New Dictionary(Of String, String)
 
         Using KO As StreamWriter = $"{tmp}/{KO_list}".OpenWriter,
-            taxo As StreamWriter = $"{tmp}/{Taxonomy_data}".OpenWriter
+            taxon As StreamWriter = $"{tmp}/{Taxonomy_data}".OpenWriter,
+            counts As StreamWriter = $"{tmp}/{gene_counts}".OpenWriter
 
             For Each protein As entry In UniProtXml _
                 .Where(Function(org)
@@ -149,10 +188,15 @@ Public Module UniProtBuild
                 Dim taxonomy As organism = protein.organism
                 Dim taxonID$ = taxonomy.dbReference.id
 
+                ' 为了计算出覆盖度，需要知道基因组之中有多少个基因的记录
+                ' 在这里直接记录下物种的编号，在后面分组计数就可以了解基因组
+                ' 之中的基因的总数了
+                Call counts.WriteLine(taxonID)
+
                 ' 如果已经存在index了，则不会写入taxo文件之中
                 If Not taxonomyIndex.ContainsKey(taxonID) Then
-                    Call taxo.WriteLine(taxonomy.GetXml)
-                    Call taxo.WriteLine(blank)
+                    Call taxon.WriteLine(taxonomy.GetXml)
+                    Call taxon.WriteLine(blank)
                     Call taxonomyIndex.Add(taxonID, "null")
                 End If
 
@@ -172,8 +216,16 @@ Public Module UniProtBuild
                     )
                 End If
             Next
+
+            Call KO.Flush()
+            Call counts.Flush()
+            Call taxon.Flush()
         End Using
 
-        Return ($"{tmp}/{KO_list}", $"{tmp}/{Taxonomy_data}")
+        Return (
+            $"{tmp}/{KO_list}",
+            $"{tmp}/{Taxonomy_data}",
+            $"{tmp}/{gene_counts}"
+        )
     End Function
 End Module
