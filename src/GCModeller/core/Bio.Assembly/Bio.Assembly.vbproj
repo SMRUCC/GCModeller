@@ -83,7 +83,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>PARALLEL=1</DefineConstants>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
@@ -645,6 +645,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTT.vb" />
     <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
     <Compile Include="BioAssemblyExtensions.vb" />
+    <Compile Include="Metagenomics\TaxonomyExtensions.vb" />
     <Compile Include="Metagenomics\Taxonomy.vb" />
     <Compile Include="Query\IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
