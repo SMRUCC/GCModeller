@@ -9,7 +9,8 @@ Public Module Javascript
         Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData)}
         Dim json$ = chart _
             .GetType _
-            .GetObjectJson(chart, indent:=True, knownTypes:=knownTypes)
+            .GetObjectJson(chart, indent:=True, knownTypes:=knownTypes) _
+            .RemoveJsonNullItems
         Dim javascript$ = $"Highcharts.chart('{container}', {json});"
         Return javascript
     End Function
