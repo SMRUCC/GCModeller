@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/seqtools.exe
+' assembly: G:/GCModeller/GCModeller/bin/seqtools.exe
 
 Namespace GCModellerApps
 
@@ -206,6 +206,44 @@ Public Function SubsetFastaDb([in] As String, db As String, Optional out As Stri
     End If
     If keyword_map_multiple Then
         Call CLI.Append("/keyword.map.multiple ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Genotype /in &lt;raw.csv> [/out &lt;out.Csv>]
+''' ```
+''' </summary>
+'''
+Public Function Genotype([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Genotype")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Genotype.Statics /in &lt;in.DIR> [/out &lt;EXPORT>]
+''' ```
+''' </summary>
+'''
+Public Function GenotypeStatics([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Genotype.Statics")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

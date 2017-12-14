@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 Namespace GCModellerApps
 
@@ -296,15 +296,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Reaction [/save &lt;DIR>]
+''' /Download.Reaction [/save &lt;DIR> /@set sleep=2000]
 ''' ```
+''' Downloads the KEGG enzyme reaction reference model data.
 ''' </summary>
 '''
-Public Function DownloadKEGGReaction(Optional save As String = "") As Integer
+Public Function DownloadKEGGReaction(Optional save As String = "", Optional _set As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Reaction")
     Call CLI.Append(" ")
     If Not save.StringEmpty Then
             Call CLI.Append("/save " & """" & save & """ ")
+    End If
+    If Not _set.StringEmpty Then
+            Call CLI.Append("/@set " & """" & _set & """ ")
     End If
 
 
