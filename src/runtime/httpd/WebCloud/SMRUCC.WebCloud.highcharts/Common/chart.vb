@@ -6,9 +6,9 @@ Public Class chart
     Public Property type As String
     Public Property options3d As options3d
     Public Property zoomType As String
-    Public Property inverted As Boolean
+    Public Property inverted As Boolean?
     Public Property renderTo As String
-    Public Property margin As Double
+    Public Property margin As Double?
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -29,39 +29,51 @@ Public Class chart
             }
         }
     End Function
+
+    Public Shared Function BarChart3D() As chart
+        Return New chart With {
+            .type = "column",
+            .options3d = New options3d With {
+                .enabled = True,
+                .alpha = 10,
+                .beta = 25,
+                .depth = 70
+            }
+        }
+    End Function
 End Class
 
 Public Class Axis
     Public Property className As String
-    Public Property opposite As Boolean
+    Public Property opposite As Boolean?
     Public Property title As title
-    Public Property min As Double
-    Public Property max As Double
+    Public Property min As Double?
+    Public Property max As Double?
     Public Property labels As labelOptions
     Public Property categories As String()
-    Public Property startOnTick As Boolean
-    Public Property endOnTick As Boolean
-    Public Property showLastLabel As Boolean
-    Public Property gridLineWidth As Boolean
-    Public Property showFirstLabel As Boolean
+    Public Property startOnTick As Boolean?
+    Public Property endOnTick As Boolean?
+    Public Property showLastLabel As Boolean?
+    Public Property gridLineWidth As Boolean?
+    Public Property showFirstLabel As Boolean?
 End Class
 
 Public Class legendOptions
     Public Property layout As String
     Public Property align As String
     Public Property verticalAlign As String
-    Public Property x As Double
-    Public Property y As Double
-    Public Property floating As Boolean
-    Public Property borderWidth As Double
+    Public Property x As Double?
+    Public Property y As Double?
+    Public Property floating As Boolean?
+    Public Property borderWidth As Double?
     Public Property backgroundColor As String
-    Public Property shadow As Boolean
+    Public Property shadow As Boolean?
 End Class
 
 Public Class title
     Public Property text As String
     Public Property align As String
-    Public Property enable As Boolean
+    Public Property enable As Boolean?
 
     Public Overrides Function ToString() As String
         Return text
@@ -75,12 +87,18 @@ Public Class tooltip
 End Class
 
 Public Class labelOptions
-    Public Property connectorAllowed As Boolean
+    Public Property connectorAllowed As Boolean?
     Public Property overflow As String
+    Public Property skew3d As Boolean?
+    Public Property style As styleoptions
+End Class
+
+Public Class styleOptions
+    Public Property fontSize As String
 End Class
 
 Public Class dataLabels
-    Public Property enabled As Boolean
+    Public Property enabled As Boolean?
     Public Property format As String
 End Class
 
@@ -105,7 +123,7 @@ Public Class rule
 End Class
 
 Public Class ruleConditions
-    Public Property maxWidth As Double
+    Public Property maxWidth As Double?
 End Class
 
 Public Class chartOptions
@@ -113,5 +131,5 @@ Public Class chartOptions
 End Class
 
 Public Class credits
-    Public Property enabled As Boolean
+    Public Property enabled As Boolean?
 End Class

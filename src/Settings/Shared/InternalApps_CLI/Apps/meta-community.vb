@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/meta-community.exe
+' assembly: G:/GCModeller/GCModeller/bin/meta-community.exe
 
 Namespace GCModellerApps
 
@@ -43,16 +43,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/min.pct &lt;default=0.97> /out &lt;gastOut.csv>]
+''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/removes.lt &lt;default=0.0001> /min.pct &lt;default=0.6> /out &lt;gastOut.csv>]
 ''' ```
+''' OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.
 ''' </summary>
 '''
-Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional min_pct As String = "0.97", Optional out As String = "") As Integer
+Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional removes_lt As String = "0.0001", Optional min_pct As String = "0.6", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/gast.Taxonomy.greengenes")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/query " & """" & query & """ ")
     Call CLI.Append("/taxonomy " & """" & taxonomy & """ ")
+    If Not removes_lt.StringEmpty Then
+            Call CLI.Append("/removes.lt " & """" & removes_lt & """ ")
+    End If
     If Not min_pct.StringEmpty Then
             Call CLI.Append("/min.pct " & """" & min_pct & """ ")
     End If

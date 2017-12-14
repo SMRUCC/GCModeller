@@ -244,6 +244,9 @@ Namespace gast
         ''' For an array of tax objects and a majority required, calculate a consensus taxonomy
         ''' Return the consensus tax Object, As well As stats On the agreement
         ''' </summary>
+        ''' <param name="majority">
+        ''' 这个参数值必须要大于50%才能够正常的工作
+        ''' </param>
         ''' <returns></returns>
         Public Shared Function consensus(array As Taxonomy(), majority#) As Taxonomy()
             ' Set up variables To store the results
