@@ -212,7 +212,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>DisableCsvTemplate=1</DefineConstants>
     <DocumentationFile>vcsm.xml</DocumentationFile>
     <Optimize>true</Optimize>
