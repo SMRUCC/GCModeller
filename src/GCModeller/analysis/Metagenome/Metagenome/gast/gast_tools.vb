@@ -66,8 +66,8 @@ Namespace gast
                 ' Lookup the consensus taxonomy For the array
                 Dim taxReturn = gast.Taxonomy.consensus(hits, majority:=min_pct)
                 ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
-                Dim taxon = taxReturn(0).taxstring
-                Dim rank = taxReturn(0).depth
+                Dim taxon = taxReturn(0).TaxonomyString
+                Dim rank = taxReturn(0).depth.ToString
 
                 If (taxon Is Nothing) Then
                     taxon = "Unknown"
@@ -80,11 +80,11 @@ Namespace gast
                     .taxonomy = taxon.Trim(";"c).Trim,
                     .rank = rank,
                     .refssu_count = hits.Length,
-                    .vote = taxReturn(1).taxstring.Trim(";"c).Trim,
-                    .minrank = taxReturn(2).taxstring.Trim(";"c).Trim,
-                    .taxa_counts = taxReturn(3).taxstring,
-                    .max_pcts = taxReturn(4).taxstring,
-                    .na_pcts = taxReturn(5).taxstring,
+                    .vote = taxReturn(1).TaxonomyString.Trim(";"c).Trim,
+                    .minrank = taxReturn(2).TaxonomyString.Trim(";"c).Trim,
+                    .taxa_counts = taxReturn(3).TaxonomyString,
+                    .max_pcts = taxReturn(4).TaxonomyString,
+                    .na_pcts = taxReturn(5).TaxonomyString,
                     .read_id = counts.Name,
                     .refhvr_ids = query.QueryName,
                     .counts = counts.Value

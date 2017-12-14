@@ -26,9 +26,12 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Metagenomics
 
 'package Taxonomy;
 
@@ -72,7 +75,7 @@ Namespace gast
     ''' Return classes Or full text Of a taxonoDim Object,
     ''' Calculate consensus Of an array Of taxonomic objects.
     ''' </summary>
-    Public Class Taxonomy : Inherits BaseClass
+    Public Class Taxonomy : Inherits Vertex
 
         Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 
@@ -95,7 +98,7 @@ Namespace gast
         ''' </remarks>
         Private Shared Function __data(line As String) As String()
             If line Is Nothing Then
-                line = "Unknown"
+                line = "Unassigned"
             End If
 
             Dim data As String() = line.Split(";"c)
@@ -175,23 +178,19 @@ Namespace gast
         ''' <returns></returns>
         Public ReadOnly Property strain As String
 
-        Protected Overrides Function __toString() As String
-            Return taxstring()
-        End Function
-
         ''' <summary>
         ''' Return the object as a ";" delimited string
         ''' </summary>
         ''' <returns></returns>
-        Public Function taxstring() As String
-            Dim array As String() = {domain, phylum, [class], order, family, genus, species, strain}
+        Public Function TaxonomyString() As String
+            Dim array$() = {domain, phylum, [class], order, family, genus, species, strain}
             Return array.JoinBy(";")
         End Function
 
-        Public Function GetTree(rankLv As Integer) As String
+        Public Function GetTree(rankLevel As Integer) As String
             Dim ls As New List(Of String)
 
-            For i As Integer = 0 To rankLv
+            For i As Integer = 0 To rankLevel
                 ls += Me(i)
             Next
 
@@ -199,11 +198,12 @@ Namespace gast
         End Function
 
         ''' <summary>
-        ''' {domain, phylum, [class], order, family, genus, species, strain}
+        ''' ``{domain, phylum, [class], order, family, genus, species, strain}``
         ''' </summary>
         ''' <param name="l"></param>
         ''' <returns></returns>
         Default Public Property DepthLevel(l As Integer) As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case l
                     Case 0 : Return domain
@@ -238,24 +238,36 @@ Namespace gast
         ''' Return the depth of an object - last rank with valid taxonomy
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property depth As String
+        Public ReadOnly Property depth As TaxonomyRanks
             Get
-                Dim d As String = Nothing
+                Dim d As TaxonomyRanks = TaxonomyRanks.NA
                 Call GetDepth(d)
                 Return d
             End Get
         End Property
 
-        Public Function GetDepth(Optional ByRef depth As String = "NA") As Integer
-            Dim self As String() = {domain, phylum, [class], order, family, genus, species, strain}
-            Dim d As Integer
+        Shared ReadOnly RanksInteger As TaxonomyRanks() = {
+            TaxonomyRanks.Kingdom,
+            TaxonomyRanks.Phylum,
+            TaxonomyRanks.Class,
+            TaxonomyRanks.Order,
+            TaxonomyRanks.Family,
+            TaxonomyRanks.Genus,
+            TaxonomyRanks.Species,
+            TaxonomyRanks.Strain
+        }
 
-            For i As Integer = 0 To self.Length - 1
-                Dim lv As String = self(i)
+        Public Function GetDepth(Optional ByRef depth As TaxonomyRanks = TaxonomyRanks.NA) As Integer
+            Dim d As Integer = -1
 
-                If (Not lv.StringEmpty) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
+            For i As Integer = 0 To RanksInteger.Length - 1
+                Dim rank = DepthLevel(i)
+
+                If (Not rank.StringEmpty) AndAlso rank <> "NA" AndAlso rank <> "Unassigned" Then
                     depth = ranks(i)
                     d = i
+                Else
+                    Exit For
                 End If
             Next
 
@@ -377,7 +389,7 @@ Namespace gast
 
             ' if ($taxReturn[-1] eq "Unassigned") {pop @taxReturn;} 
             ' If resolvedThen To an Unassigned rank, remove it.
-            If taxReturn.Last.taxstring = "Unassigned" Then
+            If taxReturn.Last.TaxonomyString = "Unassigned" Then
                 ' If resolved to an Unassigned rank, remove it. -1表示最后一个元素
                 Pop(taxReturn)
             End If

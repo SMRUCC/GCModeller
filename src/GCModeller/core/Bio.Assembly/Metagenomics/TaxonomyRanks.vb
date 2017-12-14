@@ -30,5 +30,6 @@
         ''' 7E. 种
         ''' </summary>
         Species
+        Strain
     End Enum
 End Namespace

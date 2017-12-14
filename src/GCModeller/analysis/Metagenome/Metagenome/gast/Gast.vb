@@ -337,15 +337,15 @@ Namespace gast
                     Dim taxReturn = Taxonomy.consensus(taxObjects, majority)
 
                     ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
-                    Dim taxon = taxReturn(0).taxstring
-                    Dim rank = taxReturn(0).depth
+                    Dim taxon = taxReturn(0).TaxonomyString
+                    Dim rank = taxReturn(0).depth.ToString
 
                     If (taxon Is Nothing) Then
                         taxon = "Unknown"
                     End If
 
                     ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
-                    results(read) = {New String() {taxon, distance, rank, taxObjects.Length, taxReturn(1).taxstring, taxReturn(2).taxstring, taxReturn(3).taxstring, taxReturn(4).taxstring, taxReturn(5).taxstring}}
+                    results(read) = {New String() {taxon, distance, rank, taxObjects.Length, taxReturn(1).TaxonomyString, taxReturn(2).TaxonomyString, taxReturn(3).TaxonomyString, taxReturn(4).TaxonomyString, taxReturn(5).TaxonomyString}}
                 End If
 
                 ' Replace hash With final taxonomy results, For Each copy Of the sequence
