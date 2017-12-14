@@ -34,7 +34,10 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
 
-    Public Structure Taxonomy
+    ''' <summary>
+    ''' 主要是用来保存csv文件使用
+    ''' </summary>
+    Public Class Taxonomy
 
         Public Property scientificName As String
 
@@ -95,6 +98,12 @@ Namespace Metagenomics
                     .ToDictionary(Function(rank) DescRanks(rank.i),
                                   Function(rank) rank.value)
             )
+        End Sub
+
+        ''' <summary>
+        ''' 需要在这里使用无参的构造函数来提供按照属性赋值的初始化形式
+        ''' </summary>
+        Sub New()
         End Sub
 
         Public Function CreateTable() As NamedValue(Of Dictionary(Of String, String))
@@ -193,5 +202,5 @@ Namespace Metagenomics
         Public Overrides Function ToString() As String
             Return scientificName
         End Function
-    End Structure
+    End Class
 End Namespace

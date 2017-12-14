@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq
@@ -75,7 +74,7 @@ Namespace gast
     ''' Return classes Or full text Of a taxonoDim Object,
     ''' Calculate consensus Of an array Of taxonomic objects.
     ''' </summary>
-    Public Class Taxonomy : Inherits Vertex
+    Public Class Taxonomy : Inherits Metagenomics.Taxonomy
 
         Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 
@@ -114,13 +113,13 @@ Namespace gast
         End Function
 
         Sub New(data As String())
-            Dim assigned As New Pointer
+            Dim assigned As int = 0
 
             If data.Length < 8 Then
                 ReDim Preserve data(8)
             End If
 
-            domain = data(++assigned)
+            kingdom = data(++assigned)
             phylum = data(++assigned)
             [class] = data(++assigned)
             order = data(++assigned)
@@ -129,48 +128,6 @@ Namespace gast
             species = data(++assigned)
             strain = data(++assigned)
         End Sub
-
-        ''' <summary>
-        ''' Return the domain Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property domain As String
-
-        ''' <summary>
-        ''' Return the phylum Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property phylum As String
-
-        ''' <summary>
-        ''' Return the Class Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property [class] As String
-
-        ''' <summary>
-        ''' Return the order Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property order As String
-
-        ''' <summary>
-        ''' Return the family Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property family As String
-
-        ''' <summary>
-        ''' Return the genus Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property genus As String
-
-        ''' <summary>
-        ''' Return the species Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property species As String
 
         ''' <summary>
         ''' Return the strain Of an Object
@@ -183,8 +140,13 @@ Namespace gast
         ''' </summary>
         ''' <returns></returns>
         Public Function TaxonomyString() As String
-            Dim array$() = {domain, phylum, [class], order, family, genus, species, strain}
+            Dim array$() = {kingdom, phylum, [class], order, family, genus, species, strain}
             Return array.JoinBy(";")
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return TaxonomyString()
         End Function
 
         Public Function GetTree(rankLevel As Integer) As String
@@ -206,7 +168,7 @@ Namespace gast
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case l
-                    Case 0 : Return domain
+                    Case 0 : Return kingdom
                     Case 1 : Return phylum
                     Case 2 : Return [class]
                     Case 3 : Return order
@@ -220,13 +182,13 @@ Namespace gast
             End Get
             Set(value As String)
                 Select Case l
-                    Case 0 : _domain = value
-                    Case 1 : _phylum = value
-                    Case 2 : _class = value
-                    Case 3 : _order = value
-                    Case 4 : _family = value
-                    Case 5 : _genus = value
-                    Case 6 : _species = value
+                    Case 0 : kingdom = value
+                    Case 1 : phylum = value
+                    Case 2 : [class] = value
+                    Case 3 : order = value
+                    Case 4 : family = value
+                    Case 5 : genus = value
+                    Case 6 : species = value
                     Case 7 : _strain = value
                     Case Else
                         Throw New ArgumentOutOfRangeException(l)
