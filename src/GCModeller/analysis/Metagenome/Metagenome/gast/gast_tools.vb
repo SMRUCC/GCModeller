@@ -69,10 +69,10 @@ Namespace gast
                 Dim taxon = taxReturn(0).TaxonomyString
                 Dim rank = taxReturn(0).depth.ToString
 
-                If r.Matches(taxon, "g__", RegexICSng).Count = 2 Then
-                    taxReturn = gast.Taxonomy.consensus(hits, majority:=min_pct)
-                    Pause()
-                End If
+                'If r.Matches(taxon, "g__", RegexICSng).Count = 2 Then
+                '    taxReturn = gast.Taxonomy.consensus(hits, majority:=min_pct)
+                '    Pause()
+                'End If
 
                 If (taxon Is Nothing) Then
                     taxon = "Unknown"
