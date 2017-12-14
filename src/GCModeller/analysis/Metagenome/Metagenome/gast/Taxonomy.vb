@@ -76,7 +76,7 @@ Namespace gast
     ''' </summary>
     Public Class Taxonomy : Inherits Metagenomics.Taxonomy
 
-        Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
+        Friend Shared ReadOnly ranks$() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 
         ''' <summary>
         ''' Create a new taxonomy object
