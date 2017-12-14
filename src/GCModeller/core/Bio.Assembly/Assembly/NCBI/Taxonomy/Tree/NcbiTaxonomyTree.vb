@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports MapNode = System.Collections.Generic.KeyValuePair(Of Integer, SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode)
 
 Namespace Assembly.NCBI.Taxonomy
 
@@ -542,13 +543,12 @@ Namespace Assembly.NCBI.Taxonomy
             '    >>> tree.getTaxidsAtRank('superkingdom')
             '    [2, 2157, 2759, 10239, 12884]
             '""" 
-            Dim LQuery = LinqAPI.Exec(Of
-                KeyValuePair(Of Integer, TaxonomyNode)) <=
+            Dim LQuery = LinqAPI.Exec(Of MapNode) _
  _
-                From node As KeyValuePair(Of Integer, TaxonomyNode)
-                In Taxonomy
-                Where node.Value.rank = rank
-                Select node
+                () <= From node As MapNode
+                      In Taxonomy
+                      Where node.Value.rank = rank
+                      Select node
 
             Dim out = LQuery.Select(Function(x) x.Key).ToArray
             Return out
@@ -581,16 +581,17 @@ Namespace Assembly.NCBI.Taxonomy
             Dim result As Integer()
 
             If children IsNot Nothing Then
-                result = LinqAPI.Exec(Of Integer) <=
+                result = LinqAPI.Exec(Of Integer) _
  _
-                    From child As Integer
-                    In children
-                    Select __preorderTraversal(child) ', taxid )
+                    () <= From child As Integer
+                          In children
+                          Select __preorderTraversal(child) ', taxid )
 
                 result.Add(taxid)
             Else
                 result = {taxid}
             End If
+
             Return result
         End Function
 
@@ -601,10 +602,12 @@ Namespace Assembly.NCBI.Taxonomy
                 Return {taxid}
             End If
 
-            Dim result As Integer() =
-                LinqAPI.Exec(Of Integer) <= From child As Integer
-                                            In children
-                                            Select __preorderTraversalOnlyLeaves(child) 'for] if children else taxid
+            Dim result%() = LinqAPI.Exec(Of Integer) _
+ _
+                () <= From child As Integer
+                      In children
+                      Select __preorderTraversalOnlyLeaves(child) 'for] if children else taxid
+
             Return result
         End Function
 

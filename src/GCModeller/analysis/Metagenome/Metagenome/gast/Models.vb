@@ -26,8 +26,20 @@ Namespace gast
 
     Public Class gastOUT : Implements INamedValue
 
+        ''' <summary>
+        ''' 可以将这个属性看作为OTU的编号
+        ''' </summary>
+        ''' <returns></returns>
         Public Property read_id As String Implements INamedValue.Key
+        ''' <summary>
+        ''' lineage，物种分类信息
+        ''' </summary>
+        ''' <returns></returns>
         Public Property taxonomy As String
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property distance As Double
         Public Property rank As String
         Public Property refssu_count As String
@@ -37,6 +49,10 @@ Namespace gast
         Public Property max_pcts As String
         Public Property na_pcts As String
         Public Property refhvr_ids As String
+        ''' <summary>
+        ''' 当前的这个OTU的丰度数量
+        ''' </summary>
+        ''' <returns></returns>
         Public Property counts As Integer
 
         Public Overrides Function ToString() As String

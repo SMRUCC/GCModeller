@@ -1,36 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::76f98300316352482e65779b973741d0, ..\GCModeller\analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Metagenomics
 
 'package Taxonomy;
 
@@ -74,9 +74,9 @@ Namespace gast
     ''' Return classes Or full text Of a taxonoDim Object,
     ''' Calculate consensus Of an array Of taxonomic objects.
     ''' </summary>
-    Public Class Taxonomy : Inherits BaseClass
+    Public Class Taxonomy : Inherits Metagenomics.Taxonomy
 
-        Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
+        Friend Shared ReadOnly ranks$() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 
         ''' <summary>
         ''' Create a new taxonomy object
@@ -97,7 +97,7 @@ Namespace gast
         ''' </remarks>
         Private Shared Function __data(line As String) As String()
             If line Is Nothing Then
-                line = "Unknown"
+                line = "Unassigned"
             End If
 
             Dim data As String() = line.Split(";"c)
@@ -113,13 +113,13 @@ Namespace gast
         End Function
 
         Sub New(data As String())
-            Dim assigned As New Pointer
+            Dim assigned As int = 0
 
             If data.Length < 8 Then
                 ReDim Preserve data(8)
             End If
 
-            domain = data(++assigned)
+            kingdom = data(++assigned)
             phylum = data(++assigned)
             [class] = data(++assigned)
             order = data(++assigned)
@@ -130,70 +130,29 @@ Namespace gast
         End Sub
 
         ''' <summary>
-        ''' Return the domain Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property domain As String
-
-        ''' <summary>
-        ''' Return the phylum Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property phylum As String
-
-        ''' <summary>
-        ''' Return the Class Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property [class] As String
-
-        ''' <summary>
-        ''' Return the order Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property order As String
-
-        ''' <summary>
-        ''' Return the family Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property family As String
-
-        ''' <summary>
-        ''' Return the genus Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property genus As String
-
-        ''' <summary>
-        ''' Return the species Of an Object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property species As String
-
-        ''' <summary>
         ''' Return the strain Of an Object
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property strain As String
 
-        Protected Overrides Function __toString() As String
-            Return taxstring()
-        End Function
-
         ''' <summary>
         ''' Return the object as a ";" delimited string
         ''' </summary>
         ''' <returns></returns>
-        Public Function taxstring() As String
-            Dim array As String() = {domain, phylum, [class], order, family, genus, species, strain}
+        Public Function TaxonomyString() As String
+            Dim array$() = {kingdom, phylum, [class], order, family, genus, species, strain}
             Return array.JoinBy(";")
         End Function
 
-        Public Function GetTree(rankLv As Integer) As String
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return TaxonomyString()
+        End Function
+
+        Public Function GetTree(rankLevel As Integer) As String
             Dim ls As New List(Of String)
 
-            For i As Integer = 0 To rankLv
+            For i As Integer = 0 To rankLevel
                 ls += Me(i)
             Next
 
@@ -201,14 +160,15 @@ Namespace gast
         End Function
 
         ''' <summary>
-        ''' {domain, phylum, [class], order, family, genus, species, strain}
+        ''' ``{domain, phylum, [class], order, family, genus, species, strain}``
         ''' </summary>
         ''' <param name="l"></param>
         ''' <returns></returns>
         Default Public Property DepthLevel(l As Integer) As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case l
-                    Case 0 : Return domain
+                    Case 0 : Return kingdom
                     Case 1 : Return phylum
                     Case 2 : Return [class]
                     Case 3 : Return order
@@ -222,13 +182,13 @@ Namespace gast
             End Get
             Set(value As String)
                 Select Case l
-                    Case 0 : _domain = value
-                    Case 1 : _phylum = value
-                    Case 2 : _class = value
-                    Case 3 : _order = value
-                    Case 4 : _family = value
-                    Case 5 : _genus = value
-                    Case 6 : _species = value
+                    Case 0 : kingdom = value
+                    Case 1 : phylum = value
+                    Case 2 : [class] = value
+                    Case 3 : order = value
+                    Case 4 : family = value
+                    Case 5 : genus = value
+                    Case 6 : species = value
                     Case 7 : _strain = value
                     Case Else
                         Throw New ArgumentOutOfRangeException(l)
@@ -240,24 +200,36 @@ Namespace gast
         ''' Return the depth of an object - last rank with valid taxonomy
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property depth As String
+        Public ReadOnly Property depth As TaxonomyRanks
             Get
-                Dim d As String = Nothing
+                Dim d As TaxonomyRanks = TaxonomyRanks.NA
                 Call GetDepth(d)
                 Return d
             End Get
         End Property
 
-        Public Function GetDepth(Optional ByRef depth As String = "NA") As Integer
-            Dim self As String() = {domain, phylum, [class], order, family, genus, species, strain}
-            Dim d As Integer
+        Shared ReadOnly RanksInteger As TaxonomyRanks() = {
+            TaxonomyRanks.Kingdom,
+            TaxonomyRanks.Phylum,
+            TaxonomyRanks.Class,
+            TaxonomyRanks.Order,
+            TaxonomyRanks.Family,
+            TaxonomyRanks.Genus,
+            TaxonomyRanks.Species,
+            TaxonomyRanks.Strain
+        }
 
-            For i As Integer = 0 To self.Length - 1
-                Dim lv As String = self(i)
+        Public Function GetDepth(Optional ByRef depth As TaxonomyRanks = TaxonomyRanks.NA) As Integer
+            Dim d As Integer = -1
 
-                If (Not lv.StringEmpty) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
-                    depth = ranks(i)
+            For i As Integer = 0 To RanksInteger.Length - 1
+                Dim rank = DepthLevel(i)
+
+                If (Not rank.StringEmpty) AndAlso rank <> "NA" AndAlso rank <> "Unassigned" Then
+                    depth = CType(TaxonomyRanks.Kingdom + i, TaxonomyRanks)
                     d = i
+                Else
+                    Exit For
                 End If
             Next
 
@@ -379,7 +351,7 @@ Namespace gast
 
             ' if ($taxReturn[-1] eq "Unassigned") {pop @taxReturn;} 
             ' If resolvedThen To an Unassigned rank, remove it.
-            If taxReturn.Last.taxstring = "Unassigned" Then
+            If taxReturn.Last.TaxonomyString = "Unassigned" Then
                 ' If resolved to an Unassigned rank, remove it. -1表示最后一个元素
                 Pop(taxReturn)
             End If

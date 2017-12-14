@@ -66,25 +66,33 @@ Namespace gast
                 ' Lookup the consensus taxonomy For the array
                 Dim taxReturn = gast.Taxonomy.consensus(hits, majority:=min_pct)
                 ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
-                Dim taxon = taxReturn(0).taxstring
-                Dim rank = taxReturn(0).depth
+                Dim taxon = taxReturn(0).TaxonomyString
+                Dim rank = taxReturn(0).depth.ToString
 
                 If (taxon Is Nothing) Then
                     taxon = "Unknown"
                 Else
-                    taxon = r.Replace(taxon, "(;NA)+$", "", RegexICMul).Trim
+                    ' 因为分类在中间不可能出现NA，NA只会出现在末尾部分
+                    ' 所以在这里就直接使用字符串替换来删除多余的NA了
+                    ' 在这里还需要删除[]这类的字符串
+                    taxon = taxon _
+                        .Replace(";NA", "") _
+                        .Replace("[", "") _
+                        .Replace("]", "") _
+                        .Trim(";"c) _
+                        .Trim
                 End If
 
                 ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
                 Dim gastOut As New gastOUT With {
-                    .taxonomy = taxon.Trim(";"c).Trim,
+                    .taxonomy = taxon,
                     .rank = rank,
                     .refssu_count = hits.Length,
-                    .vote = taxReturn(1).taxstring.Trim(";"c).Trim,
-                    .minrank = taxReturn(2).taxstring.Trim(";"c).Trim,
-                    .taxa_counts = taxReturn(3).taxstring,
-                    .max_pcts = taxReturn(4).taxstring,
-                    .na_pcts = taxReturn(5).taxstring,
+                    .vote = taxReturn(1).TaxonomyString.Trim(";"c).Trim,
+                    .minrank = taxReturn(2).TaxonomyString.Trim(";"c).Trim,
+                    .taxa_counts = taxReturn(3).TaxonomyString,
+                    .max_pcts = taxReturn(4).TaxonomyString,
+                    .na_pcts = taxReturn(5).TaxonomyString,
                     .read_id = counts.Name,
                     .refhvr_ids = query.QueryName,
                     .counts = counts.Value

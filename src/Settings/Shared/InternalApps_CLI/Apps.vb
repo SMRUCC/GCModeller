@@ -1,6 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.InteropService
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
@@ -127,7 +128,8 @@ Public NotInheritable Class Apps
         Next
 
         If eggHTS Is Nothing Then
-            Call "GCModeller platform is not installed on your system!".Warning
+            Dim platform$ = If(App.IsMicrosoftPlatform, "MS Win_x86/x64", "UNIX_x64")
+            Call $"GCModeller platform is not installed on your system! (platform={platform})".Warning
         End If
     End Sub
 
