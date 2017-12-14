@@ -72,12 +72,20 @@ Namespace gast
                 If (taxon Is Nothing) Then
                     taxon = "Unknown"
                 Else
-                    taxon = r.Replace(taxon, "(;NA)+$", "", RegexICMul).Trim
+                    ' 因为分类在中间不可能出现NA，NA只会出现在末尾部分
+                    ' 所以在这里就直接使用字符串替换来删除多余的NA了
+                    ' 在这里还需要删除[]这类的字符串
+                    taxon = taxon _
+                        .Replace(";NA", "") _
+                        .Replace("[", "") _
+                        .Replace("]", "") _
+                        .Trim(";"c) _
+                        .Trim
                 End If
 
                 ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
                 Dim gastOut As New gastOUT With {
-                    .taxonomy = taxon.Trim(";"c).Trim,
+                    .taxonomy = taxon,
                     .rank = rank,
                     .refssu_count = hits.Length,
                     .vote = taxReturn(1).TaxonomyString.Trim(";"c).Trim,
