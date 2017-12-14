@@ -128,7 +128,7 @@ Public NotInheritable Class Apps
         Next
 
         If eggHTS Is Nothing Then
-            Dim platform$ = "MS Win_x86/x64" Or "UNIX_x64".AsDefault(Function() App.IsMicrosoftPlatform)
+            Dim platform$ = If(App.IsMicrosoftPlatform, "MS Win_x86/x64", "UNIX_x64")
             Call $"GCModeller platform is not installed on your system! (platform={platform})".Warning
         End If
     End Sub
