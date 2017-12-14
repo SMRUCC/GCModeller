@@ -112,6 +112,10 @@ Namespace gast
             Return data
         End Function
 
+        Sub New(taxonomy As Dictionary(Of String, String))
+            Call MyBase.New(taxonomy)
+        End Sub
+
         Sub New(data As String())
             Dim assigned As int = 0
 
