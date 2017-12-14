@@ -226,7 +226,7 @@ Namespace gast
                 Dim rank = DepthLevel(i)
 
                 If (Not rank.StringEmpty) AndAlso rank <> "NA" AndAlso rank <> "Unassigned" Then
-                    depth = ranks(i)
+                    depth = CType(TaxonomyRanks.Kingdom + i, TaxonomyRanks)
                     d = i
                 Else
                     Exit For
