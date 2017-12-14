@@ -1,4 +1,6 @@
-﻿Namespace BarChart
+﻿Imports SMRUCC.WebCloud.highcharts.LineChart
+
+Namespace BarChart
 
     Public Class barOptions
         Public Property dataLabels As dataLabels
@@ -15,5 +17,13 @@
 
     Public Class columnOptions
         Public Property borderRadius As Double
+        Public Property depth As Integer
+    End Class
+
+    Public Class BarChart : Inherits Highcharts(Of LineSerial)
+
+        Public Overrides Function ToString() As String
+            Return title.ToString
+        End Function
     End Class
 End Namespace

@@ -1,10 +1,10 @@
 ﻿Public Class options3d
-    Public Property enabled As Boolean
-    Public Property alpha As Double
-    Public Property beta As Double
-    Public Property depth As Double
-    Public Property viewDistance As Double
-    Public Property fitToPlot As Boolean
+    Public Property enabled As Boolean?
+    Public Property alpha As Double?
+    Public Property beta As Double?
+    Public Property depth As Double?
+    Public Property viewDistance As Double?
+    Public Property fitToPlot As Boolean?
     Public Property frame As frame3DOptions
 
     Public Overrides Function ToString() As String
@@ -23,6 +23,6 @@ Public Class frame3DOptions
 End Class
 
 Public Class frameOptions
-    Public Property size As Double
+    Public Property size As Double?
     Public Property color As String
 End Class
