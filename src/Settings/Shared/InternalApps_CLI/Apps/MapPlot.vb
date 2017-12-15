@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/MapPlot.exe
+' assembly: G:/GCModeller/GCModeller/bin/MapPlot.exe
 
 Namespace GCModellerApps
 
