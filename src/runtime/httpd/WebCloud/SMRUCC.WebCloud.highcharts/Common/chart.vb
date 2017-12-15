@@ -84,17 +84,6 @@ Public Class dataLabels
     Public Property format As String
 End Class
 
-Public Class serial
-    Public Property type As String
-    Public Property name As String
-    ''' <summary>
-    ''' + <see cref="Double"/>
-    ''' + <see cref="pieData"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property data As Object()
-End Class
-
 Public Class responsiveOptions
     Public Property rules As rule()
 End Class
