@@ -1,5 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace gast
 
@@ -32,6 +32,19 @@ Namespace gast
 
             Lineage = copy.Lineage
         End Sub
+
+        Public Overrides Function ToString() As String
+            Dim lineage$ = MyBase.ToString.Trim(";"c)
+            Dim rank As TaxonomyRanks
+
+            Call GetDepth(rank)
+
+            If lineage.StringEmpty AndAlso Me.Lineage = "*" Then
+                lineage = "*"
+            End If
+
+            Return $"{lineage} ({rank.ToString}={hits})"
+        End Function
 
         Public Shared Function AssignTaxonomy(tree As TaxonomyTree) As gastOUT
 
