@@ -200,7 +200,7 @@ Namespace Metagenomics
         End Operator
 
         Public Overrides Function ToString() As String
-            Return scientificName
+            Return {kingdom, phylum, [class], order, family, genus, species}.JoinBy("->")
         End Function
     End Class
 End Namespace
