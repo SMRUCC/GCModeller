@@ -68,6 +68,7 @@ Public Class legendOptions
     Public Property borderWidth As Double?
     Public Property backgroundColor As String
     Public Property shadow As Boolean?
+    Public Property reversed As Boolean?
 End Class
 
 Public Class title
