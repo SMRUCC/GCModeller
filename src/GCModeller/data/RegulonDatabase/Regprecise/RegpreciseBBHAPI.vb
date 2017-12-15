@@ -241,7 +241,7 @@ Namespace Regprecise
             If Cog IsNot Nothing Then
                 MatchedItem.COG = Cog.Category
                 MatchedItem.Description = Cog.Description
-                MatchedItem.Length = If(Cog.Length > 0, Cog.Length, "")
+                MatchedItem.Length = If(Cog.Length > 0, CStr(Cog.Length), "")
             End If
 
             If Pfam IsNot Nothing Then

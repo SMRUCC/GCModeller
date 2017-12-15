@@ -309,7 +309,7 @@ Imports RDotNET.SymbolicExpressionExtension
                         In data.Skip(1).AsParallel
                         Let ID As String = row.First
                         Let ExpressionData As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray
-                        Select ID, expr = BezierCurve.BezierSmoothInterpolation(ExpressionData, Sampling)).ToArray '加载数据并进行降噪处理
+                        Select ID, expr = BezierExtensions.BezierSmoothInterpolation(ExpressionData, Sampling)).ToArray '加载数据并进行降噪处理
 
         ' RDOTNET不能够使用并行？？？
         Dim wavletProcessLQuery = (From signal In LoadData Let dwt = Function() As Wavelets.Waveletmodwt

@@ -123,6 +123,11 @@ Namespace Metagenomics
             }
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToArray() As String()
+            Return {kingdom, phylum, [class], order, family, genus, species}
+        End Function
+
         ''' <summary>
         ''' 这个函数不会比较<see cref="scientificName"/>
         ''' </summary>
@@ -200,7 +205,7 @@ Namespace Metagenomics
         End Operator
 
         Public Overrides Function ToString() As String
-            Return {kingdom, phylum, [class], order, family, genus, species}.JoinBy("->")
+            Return ToArray.JoinBy("->")
         End Function
     End Class
 End Namespace

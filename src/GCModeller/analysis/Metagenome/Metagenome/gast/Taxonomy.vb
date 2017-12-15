@@ -133,6 +133,9 @@ Namespace gast
             strain = data(++assigned)
         End Sub
 
+        Protected Sub New()
+        End Sub
+
         ''' <summary>
         ''' Return the strain Of an Object
         ''' </summary>
@@ -166,12 +169,12 @@ Namespace gast
         ''' <summary>
         ''' ``{domain, phylum, [class], order, family, genus, species, strain}``
         ''' </summary>
-        ''' <param name="l"></param>
+        ''' <param name="level"></param>
         ''' <returns></returns>
-        Default Public Property DepthLevel(l As Integer) As String
+        Default Public Property RankValue(level As Integer) As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Select Case l
+                Select Case level
                     Case 0 : Return kingdom
                     Case 1 : Return phylum
                     Case 2 : Return [class]
@@ -181,11 +184,11 @@ Namespace gast
                     Case 6 : Return species
                     Case 7 : Return strain
                     Case Else
-                        Throw New ArgumentOutOfRangeException(l)
+                        Throw New ArgumentOutOfRangeException(level)
                 End Select
             End Get
             Set(value As String)
-                Select Case l
+                Select Case level
                     Case 0 : kingdom = value
                     Case 1 : phylum = value
                     Case 2 : [class] = value
@@ -195,7 +198,7 @@ Namespace gast
                     Case 6 : species = value
                     Case 7 : _strain = value
                     Case Else
-                        Throw New ArgumentOutOfRangeException(l)
+                        Throw New ArgumentOutOfRangeException(level)
                 End Select
             End Set
         End Property
@@ -227,7 +230,7 @@ Namespace gast
             Dim d As Integer = -1
 
             For i As Integer = 0 To RanksInteger.Length - 1
-                Dim rank = DepthLevel(i)
+                Dim rank = RankValue(i)
 
                 If (Not rank.StringEmpty) AndAlso rank <> "NA" AndAlso rank <> "Unassigned" Then
                     depth = CType(TaxonomyRanks.Kingdom + i, TaxonomyRanks)
