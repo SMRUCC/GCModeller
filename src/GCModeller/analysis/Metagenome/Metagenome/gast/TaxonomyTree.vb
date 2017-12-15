@@ -10,6 +10,7 @@ Namespace gast
     Public Class TaxonomyTree : Inherits Taxonomy
 
         Public Property Childs As New List(Of TaxonomyTree)
+        Public Property Parent As TaxonomyTree
         Public Property Lineage As String
         ''' <summary>
         ''' Count of the hits numbers on this node rank 
@@ -31,6 +32,7 @@ Namespace gast
             Next
 
             Lineage = copy.Lineage
+            Parent = copy
         End Sub
 
         Public Overrides Function ToString() As String

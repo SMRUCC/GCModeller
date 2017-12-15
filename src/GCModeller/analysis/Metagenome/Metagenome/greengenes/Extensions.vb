@@ -1,7 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace greengenes
 
@@ -24,7 +27,7 @@ Namespace greengenes
 
             Return blastn.gastTaxonomyInternal(
                 getTaxonomy:=Function(hitName)
-                                 Return New Taxonomy(taxonomy(hitName).ToString)
+                                 Return New gast.Taxonomy(taxonomy(hitName).ToString)
                              End Function,
                 getOTU:=OTUs,
                 min_pct:=min_pct
@@ -51,14 +54,27 @@ Namespace greengenes
                 .ToArray
             Dim tree As TaxonomyTree = TaxonomyTree.BuildTree(hits.Select(Function(t) t.Taxonomy))
             Dim cutoff% = If(min_pct > 1, min_pct / 100, min_pct) * hits.Length
+            Dim n As New List(Of Integer)
 
             ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
             Do While tree.hits >= cutoff AndAlso tree.Childs.Count > 0
                 tree = tree.Childs.OrderByDescending(Function(t) t.hits).First
+                n += tree.hits
             Loop
 
+            Dim rank As TaxonomyRanks
+
+            Call tree.GetDepth(rank)
+
             Dim result As New gastOUT With {
-                .taxonomy = DirectCast(tree, Taxonomy).ToString.Trim(";"c)
+                .taxonomy = DirectCast(tree, gast.Taxonomy).ToString.Trim(";"c),
+                .counts = OTU.Value,
+                .minrank = rank.ToString,
+                .read_id = OTU.Name,
+                .refhvr_ids = align.QueryName,
+                .max_pcts = Vector.round((New Vector(n) / hits.Length), 2).JoinBy(";"),
+                .refssu_count = hits.Length,
+                .taxa_counts = n.JoinBy(";")
             }
 
             Return result
