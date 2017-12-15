@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::f700c97f9220b97477dc1c639cb661bd, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Spline\BezierCurve.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -70,8 +71,14 @@ Namespace Interpolation
         ''' </summary>
         Public Property Iterations As Integer
 
-        Public Sub New(ctrl1 As PointF, ctrl2 As PointF, ctrl3 As PointF, iteration As Integer)
-            ReCalculate(ctrl1, ctrl2, ctrl3, iteration)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(ctrl1 As PointF, ctrl2 As PointF, ctrl3 As PointF, iteration%)
+            Call ReCalculate(ctrl1, ctrl2, ctrl3, iteration)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New()
+            _initPoints = New List(Of PointF)
         End Sub
 
         ''' <summary>
@@ -85,7 +92,7 @@ Namespace Interpolation
         Public Function ReCalculate(ctrl1 As PointF, ctrl2 As PointF, ctrl3 As PointF, iteration As Integer) As List(Of PointF)
             Iterations = iteration
             _initPoints.Clear()
-            _initPoints.AddRange(New PointF() {ctrl1, ctrl2, ctrl3})
+            _initPoints.AddRange({ctrl1, ctrl2, ctrl3})
             CreateBezier(ctrl1, ctrl2, ctrl3)
             Return _BezierPoints
         End Function
@@ -136,11 +143,16 @@ Namespace Interpolation
         ''' <summary>
         ''' Find mid point
         ''' </summary>
-        ''' <param name="controlPoint1">first control point</param>
-        ''' <param name="controlPoint2">second control point</param>
+        ''' <param name="control1">first control point</param>
+        ''' <param name="control2">second control point</param>
         ''' <returns></returns>
-        Private Function MidPoint(controlPoint1 As PointF, controlPoint2 As PointF) As PointF
-            Return New PointF((controlPoint1.X + controlPoint2.X) / 2, (controlPoint1.Y + controlPoint2.Y) / 2)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function MidPoint(control1 As PointF, control2 As PointF) As PointF
+            Return New PointF With {
+                .X = (control1.X + control2.X) / 2,
+                .Y = (control1.Y + control2.Y) / 2
+            }
         End Function
 
         ''' <summary>
