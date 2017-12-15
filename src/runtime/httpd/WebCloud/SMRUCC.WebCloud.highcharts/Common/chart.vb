@@ -44,6 +44,7 @@ Public Class chart
 End Class
 
 Public Class Axis
+    Public Property allowDecimals As Boolean?
     Public Property className As String
     Public Property opposite As Boolean?
     Public Property title As title
@@ -68,12 +69,14 @@ Public Class legendOptions
     Public Property borderWidth As Double?
     Public Property backgroundColor As String
     Public Property shadow As Boolean?
+    Public Property reversed As Boolean?
 End Class
 
 Public Class title
     Public Property text As String
     Public Property align As String
     Public Property enable As Boolean?
+    Public Property skew3d As Boolean?
 
     Public Overrides Function ToString() As String
         Return text
@@ -100,17 +103,6 @@ End Class
 Public Class dataLabels
     Public Property enabled As Boolean?
     Public Property format As String
-End Class
-
-Public Class serial
-    Public Property type As String
-    Public Property name As String
-    ''' <summary>
-    ''' + <see cref="Double"/>
-    ''' + <see cref="pieData"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property data As Object()
 End Class
 
 Public Class responsiveOptions

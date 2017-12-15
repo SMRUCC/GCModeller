@@ -166,11 +166,11 @@ Namespace Metagenomics
         End Function
 
         Private Shared Function compare(me$, another$) As Relations
-            If [me].StringEmpty Then
+            If [me].TaxonomyRankEmpty Then
                 Return Relations.Include
-            ElseIf another.StringEmpty Then
+            ElseIf another.TaxonomyRankEmpty Then
                 Return Relations.IncludeBy
-            ElseIf Not me$ = another Then
+            ElseIf Not me$.TextEquals(another) Then
                 Return Relations.Irrelevant
             Else
                 Return Relations.Equals
@@ -184,14 +184,14 @@ Namespace Metagenomics
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function IsEmpty(t As Taxonomy) As Boolean
-            Return Not t.kingdom.StringEmpty OrElse
-                Not t.order.StringEmpty OrElse
-                Not t.class.StringEmpty OrElse
-                Not t.family.StringEmpty OrElse
-                Not t.genus.StringEmpty OrElse
-                Not t.phylum.StringEmpty OrElse
-                Not t.scientificName.StringEmpty OrElse
-                Not t.species.StringEmpty
+            Return Not t.kingdom.TaxonomyRankEmpty OrElse
+                Not t.order.TaxonomyRankEmpty OrElse
+                Not t.class.TaxonomyRankEmpty OrElse
+                Not t.family.TaxonomyRankEmpty OrElse
+                Not t.genus.TaxonomyRankEmpty OrElse
+                Not t.phylum.TaxonomyRankEmpty OrElse
+                Not t.scientificName.TaxonomyRankEmpty OrElse
+                Not t.species.TaxonomyRankEmpty
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -200,7 +200,7 @@ Namespace Metagenomics
         End Operator
 
         Public Overrides Function ToString() As String
-            Return scientificName
+            Return {kingdom, phylum, [class], order, family, genus, species}.JoinBy("->")
         End Function
     End Class
 End Namespace

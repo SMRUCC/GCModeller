@@ -16,8 +16,9 @@ Namespace BarChart
     End Class
 
     Public Class columnOptions
-        Public Property borderRadius As Double
-        Public Property depth As Integer
+        Public Property borderRadius As Double?
+        Public Property depth As Integer?
+        Public Property stacking As String
     End Class
 
     Public Class BarChart : Inherits Highcharts(Of LineSerial)

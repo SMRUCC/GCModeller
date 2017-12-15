@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::f26cd786d483d207ec933ae3705be493, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\test\Testing\Module1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -34,8 +35,6 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical.Interpolation
 Imports names = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NameOf
 
 Module Module1
@@ -51,13 +50,15 @@ Module Module1
         NetworkVisualizer.DefaultEdgeColor = Color.DimGray
 
         Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, Repulsion:=2000, Stiffness:=40, Damping:=0.5, iterations:=500)
+        Call graph.doForceLayout(showProgress:=True, Repulsion:=2000, Stiffness:=40, Damping:=0.5, iterations:=1500)
         Call graph.Tabular.Save("./test")
 
         Dim canvas As Image = graph _
             .DrawImage(
-                canvasSize:="2000,2000",
-                scale:=4,
+                canvasSize:="2700,3000",
+                scale:=8.5,
+                fontSizeFactor:=20,
+                radiusScale:=5,
                 labelColorAsNodeColor:=True,
                 nodePoints:=nodePoints) _
             .AsGDIImage
@@ -80,7 +81,7 @@ Module Module1
                 End If
 
                 ' 凸包算法计算出边界
-                polygon = ConvexHull.JarvisMatch(polygon).Enlarge(1.5)
+                polygon = ConvexHull.JarvisMatch(polygon).Enlarge(1.5).Bezie
 
                 '' 凸包计算出来的多边形进行矢量放大1.5倍，并进行二次插值处理
                 'With polygon.Enlarge(scale:=2).AsList
@@ -100,5 +101,10 @@ Module Module1
 
         Call canvas.SaveAs("../../..\/viewer.png")
     End Sub
+
+    <Extension> Public Function Bezie(polygon As IEnumerable(Of Point)) As Point()
+        Dim newPolygon As New List(Of Point)
+        newPolygon = Microsoft.VisualBasic.Math.Interpolation.BezierCurve.BezierSmoothInterpolation
+    End Function
 End Module
 
