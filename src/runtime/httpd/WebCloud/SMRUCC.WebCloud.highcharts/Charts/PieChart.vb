@@ -7,6 +7,10 @@
         End Function
     End Class
 
+    Public Class PieChart3D : Inherits Highcharts3D(Of serial)
+
+    End Class
+
     Public Class pieOptions : Inherits seriesoptions
         Public Property allowPointSelect As Boolean
         Public Property cursor As String
