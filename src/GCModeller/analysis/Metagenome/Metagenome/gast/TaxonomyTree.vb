@@ -11,6 +11,11 @@ Namespace gast
 
         Public Property Childs As New List(Of TaxonomyTree)
         Public Property Lineage As String
+        ''' <summary>
+        ''' Count of the hits numbers on this node rank 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property hits As Integer
 
         Sub New(taxonomy As String)
             Call MyBase.New(taxonomy)
@@ -40,15 +45,16 @@ Namespace gast
         ''' <param name="hits"></param>
         ''' <returns></returns>
         Public Shared Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy)) As TaxonomyTree
-            Dim root As New TaxonomyTree With {
-                .Lineage = "*",
-                .Childs = New List(Of TaxonomyTree)
-            }
             Dim array As Dictionary(Of String, String)() = hits _
                 .Select(Function(tax)
                             Return tax.CreateTable.Value
                         End Function) _
                 .ToArray
+            Dim root As New TaxonomyTree With {
+                .Lineage = "*",
+                .Childs = New List(Of TaxonomyTree),
+                .hits = array.Length
+            }
 
             Call Split(root, array, i:=0)
 
@@ -74,6 +80,7 @@ Namespace gast
                     With g.First
                         append(level) = .Key
                         append.Lineage &= ";" & .Key
+                        append.hits = .Count
                     End With
 
                     walk.Childs.Add(append)
@@ -86,6 +93,7 @@ Namespace gast
                         }
                         append(level) = subType.Key
                         append.Lineage &= ";" & subType.Key
+                        append.hits = subType.Count
 
                         walk.Childs.Add(append)
 
