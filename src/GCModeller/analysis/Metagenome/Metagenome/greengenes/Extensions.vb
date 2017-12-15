@@ -30,5 +30,14 @@ Namespace greengenes
                 min_pct:=min_pct
             )
         End Function
+
+        <Extension>
+        Public Function TreeAssign(align As Query, OTU As NamedValue(Of Integer), taxonomy As Dictionary(Of String, otu_taxonomy), Optional min_pct# = 0.3) As gastOUT
+            Dim hits = align _
+                .SubjectHits _
+                .Select(Function(h) taxonomy(h.Name)) _
+                .ToArray
+            Dim tree As TaxonomyTree = TaxonomyTree.BuildTree(hits.Select(Function(t) t.Taxonomy))
+        End Function
     End Module
 End Namespace
