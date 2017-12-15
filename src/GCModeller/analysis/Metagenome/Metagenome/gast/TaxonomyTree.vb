@@ -58,7 +58,7 @@ Namespace gast
         Private Shared Sub Split(root As TaxonomyTree, hits As Dictionary(Of String, String)(), i%)
             Dim walk As TaxonomyTree = root
 
-            For level As Integer = i To 8
+            For level As Integer = i To DescRanks.Length - 1
                 Dim rank As String = DescRanks(level)
                 Dim g = hits _
                     .Select(Function(t) t(rank)) _
@@ -70,7 +70,12 @@ Namespace gast
                     Dim append As New TaxonomyTree(walk) With {
                         .Childs = New List(Of TaxonomyTree)
                     }
-                    append.Lineage &= ";" & g.First.Key
+
+                    With g.First
+                        append(level) = .Key
+                        append.Lineage &= ";" & .Key
+                    End With
+
                     walk.Childs.Add(append)
                     walk = append
                 Else
@@ -79,11 +84,15 @@ Namespace gast
                         Dim append As New TaxonomyTree(walk) With {
                             .Childs = New List(Of TaxonomyTree)
                         }
+                        append(level) = subType.Key
                         append.Lineage &= ";" & subType.Key
+
                         walk.Childs.Add(append)
 
                         Dim subHits = hits _
-                            .Where(Function(tax) tax(rank) = subType.Key) _
+                            .Where(Function(tax)
+                                       Return tax(rank) = subType.Key
+                                   End Function) _
                             .ToArray
 
                         Call Split(root:=append, hits:=subHits, i:=level + 1)
