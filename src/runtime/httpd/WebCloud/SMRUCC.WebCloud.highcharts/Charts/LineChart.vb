@@ -8,6 +8,7 @@
     Public Class lineOptions
         Public Property label As labelOptions
         Public Property pointStart As String
+        Public Property stacking As String
     End Class
 
     Public Class LineChart : Inherits Highcharts(Of LineSerial)
