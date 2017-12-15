@@ -44,6 +44,7 @@ Public Class chart
 End Class
 
 Public Class Axis
+    Public Property allowDecimals As Boolean?
     Public Property className As String
     Public Property opposite As Boolean?
     Public Property title As title
@@ -75,6 +76,7 @@ Public Class title
     Public Property text As String
     Public Property align As String
     Public Property enable As Boolean?
+    Public Property skew3d As Boolean?
 
     Public Overrides Function ToString() As String
         Return text
