@@ -59,7 +59,7 @@ Namespace gast
         ''' </summary>
         ''' <param name="hits"></param>
         ''' <returns></returns>
-        Public Shared Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy)) As TaxonomyTree
+        Public Shared Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy), ByRef taxa_counts%(), ByRef minrank$) As TaxonomyTree
             Dim array As Dictionary(Of String, String)() = hits _
                 .Select(Function(tax)
                             Return tax.CreateTable.Value
@@ -72,6 +72,22 @@ Namespace gast
             }
 
             Call Split(root, array, i:=0)
+
+            taxa_counts = DescRanks _
+                .Select(Function(rank)
+                            Return array _
+                                .Select(Function(t) t(rank)) _
+                                .Distinct _
+                                .Count
+                        End Function) _
+                .ToArray
+
+            For Each rank In NcbiTaxonomyTree.stdranks
+                If array.Any(Function(t) Not t(rank).TaxonomyRankEmpty) Then
+                    minrank = rank
+                    Exit For
+                End If
+            Next
 
             Return root
         End Function

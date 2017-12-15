@@ -52,7 +52,13 @@ Namespace greengenes
                 .SubjectHits _
                 .Select(Function(h) taxonomy(h.Name)) _
                 .ToArray
-            Dim tree As TaxonomyTree = TaxonomyTree.BuildTree(hits.Select(Function(t) t.Taxonomy))
+            Dim tax_counts%() = Nothing
+            Dim minrank$ = Nothing
+            Dim tree As TaxonomyTree = TaxonomyTree.BuildTree(
+                hits:=hits.Select(Function(t) t.Taxonomy),
+                taxa_counts:=tax_counts,
+                minrank:=minrank
+            )
             Dim cutoff% = If(min_pct > 1, min_pct / 100, min_pct) * hits.Length
             Dim n As New List(Of Integer)
 
@@ -66,15 +72,19 @@ Namespace greengenes
 
             Call tree.GetDepth(rank)
 
+            Dim pcts As Vector = Vector.round((New Vector(n) / hits.Length), 2) * 100
             Dim result As New gastOUT With {
                 .taxonomy = DirectCast(tree, gast.Taxonomy).ToString.Trim(";"c),
                 .counts = OTU.Value,
-                .minrank = rank.ToString,
+                .minrank = minrank,
                 .read_id = OTU.Name,
                 .refhvr_ids = align.QueryName,
-                .max_pcts = Vector.round((New Vector(n) / hits.Length), 2).JoinBy(";"),
+                .max_pcts = pcts.JoinBy(";"),
                 .refssu_count = hits.Length,
-                .taxa_counts = n.JoinBy(";")
+                .taxa_counts = tax_counts.JoinBy(";"),
+                .na_pcts = (100 - pcts).JoinBy(";"),
+                .rank = rank.ToString,
+                .vote = 0
             }
 
             Return result
