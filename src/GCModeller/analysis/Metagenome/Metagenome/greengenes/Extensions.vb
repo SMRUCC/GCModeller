@@ -31,6 +31,18 @@ Namespace greengenes
             )
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="align"></param>
+        ''' <param name="OTU"></param>
+        ''' <param name="taxonomy"></param>
+        ''' <param name="min_pct#">
+        ''' ``[0-1]`` or ``[0-100]``
+        ''' 
+        ''' 0.97 equals to 97
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function TreeAssign(align As Query, OTU As NamedValue(Of Integer), taxonomy As Dictionary(Of String, otu_taxonomy), Optional min_pct# = 0.3) As gastOUT
             Dim hits = align _
@@ -38,6 +50,18 @@ Namespace greengenes
                 .Select(Function(h) taxonomy(h.Name)) _
                 .ToArray
             Dim tree As TaxonomyTree = TaxonomyTree.BuildTree(hits.Select(Function(t) t.Taxonomy))
+            Dim cutoff% = If(min_pct > 1, min_pct / 100, min_pct) * hits.Length
+
+            ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
+            Do While tree.hits >= cutoff AndAlso tree.Childs.Count > 0
+                tree = tree.Childs.OrderByDescending(Function(t) t.hits).First
+            Loop
+
+            Dim result As New gastOUT With {
+                .taxonomy = DirectCast(tree, Taxonomy).ToString.Trim(";"c)
+            }
+
+            Return result
         End Function
     End Module
 End Namespace
