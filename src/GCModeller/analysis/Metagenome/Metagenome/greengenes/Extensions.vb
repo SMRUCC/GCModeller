@@ -84,7 +84,7 @@ Namespace greengenes
                 .taxa_counts = tax_counts.JoinBy(";"),
                 .na_pcts = (100 - pcts).JoinBy(";"),
                 .rank = rank.ToString,
-                .vote = 0
+                .vote = n.JoinBy(";")
             }
 
             Return result
