@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
@@ -86,6 +87,19 @@ Public Module MetabolicComplementation
         ' 在微生物组的营养互补竞争网络之中
         ' 节点为微生物的基因组编号
         ' 链接的边为营养物关系
+        Call "Fetch UniProt reference genome model data...".__DEBUG_ECHO
+        Call graph.FetchModels(metagenome, reactions)
+
+        ' 在构建完了所有的基因组的代谢网络的输入和输出端点之后
+        ' 开始装配营养互补和竞争网络
+        Call "Link microbiome metabolic network...".__DEBUG_ECHO
+        Call graph.linkNodes
+
+        Return graph
+    End Function
+
+    <Extension>
+    Private Sub FetchModels(graph As NetworkGraph, metagenome As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository)
         For Each genome As TaxonomyRef In metagenome
             Dim metabolicNetwork As NetworkGraph =
                 genome _
@@ -111,73 +125,83 @@ Public Module MetabolicComplementation
                     .ToArray _
                     .GetJson
             End With
+
+            Call genome.ToString.__INFO_ECHO
         Next
+    End Sub
 
-        ' 在构建完了所有的基因组的代谢网络的输入和输出端点之后
-        ' 开始装配营养互补和竞争网络
-        For Each genome As Node In graph.nodes
+    <Extension> Private Sub link(genome As Node, graph As NetworkGraph)
+        Dim Ainput$() = genome _
+            .Data _
+            !Essential_nutrients _
+            .LoadObject(Of String())
+        Dim Aoutput$() = genome _
+            .Data _
+            !Secondary_metabolite _
+            .LoadObject(Of String())
 
-            Dim Ainput$() = genome _
-                .Data _
-                !Essential_nutrients _
-                .LoadObject(Of String())
-            Dim Aoutput$() = genome _
-                .Data _
-                !Secondary_metabolite _
-                .LoadObject(Of String())
+        For Each member As Node In graph.nodes _
+            .Where(Function(n)
+                       ' 忽略掉自身对自身的边连接，无意义
+                       Return Not n Is genome
+                   End Function)
 
-            For Each member As Node In graph.nodes _
-                .Where(Function(n)
-                           ' 忽略掉自身对自身的边连接，无意义
-                           Return Not n Is genome
-                       End Function)
+            Dim B = member.Data
 
-                Dim B = member.Data
+            ' 通过查看A和B的输入输出端点是否有重合来了解二者是否存在营养互补的关系
+            ' A input vs B output
+            Dim Boutput = B!Secondary_metabolite.LoadObject(Of String())
 
-                ' 通过查看A和B的输入输出端点是否有重合来了解二者是否存在营养互补的关系
-                ' A input vs B output
-                Dim Boutput = B!Secondary_metabolite.LoadObject(Of String())
+            With Ainput.Intersect(Boutput).ToArray
+                If Not .IsNullOrEmpty Then
+                    ' 输入与输出有重叠部分，则可能存在营养互补
+                    Dim complementary = graph.CreateEdge(member, genome)
+                    complementary.Data!compounds = .GetJson
+                    complementary.Directed = True
+                    complementary.Weight = .Length
+                    complementary.Data.label = $"{member.Label} => {genome.Label}"
+                End If
+            End With
 
-                With Ainput.Intersect(Boutput).ToArray
-                    If Not .IsNullOrEmpty Then
-                        ' 输入与输出有重叠部分，则可能存在营养互补
-                        Dim complementary = graph.CreateEdge(member, genome)
-                        complementary.Data!compounds = .GetJson
-                        complementary.Directed = True
-                        complementary.Weight = .Length
-                        complementary.Data.label = $"{member.Label} => {genome.Label}"
-                    End If
-                End With
+            ' A output vs B input
+            Dim Binput = B!Essential_nutrients.LoadObject(Of String())
 
-                ' A output vs B input
-                Dim Binput = B!Essential_nutrients.LoadObject(Of String())
+            With Binput.Intersect(Aoutput).ToArray
+                If Not .IsNullOrEmpty Then
+                    ' 输入与输出有重叠部分，则可能存在营养互补
+                    Dim complementary = graph.CreateEdge(genome, member)
+                    complementary.Data!compounds = .GetJson
+                    complementary.Directed = True
+                    complementary.Weight = .Length
+                    complementary.Data.label = $"{genome.Label} => {member.Label}"
+                End If
+            End With
 
-                With Binput.Intersect(Aoutput).ToArray
-                    If Not .IsNullOrEmpty Then
-                        ' 输入与输出有重叠部分，则可能存在营养互补
-                        Dim complementary = graph.CreateEdge(genome, member)
-                        complementary.Data!compounds = .GetJson
-                        complementary.Directed = True
-                        complementary.Weight = .Length
-                        complementary.Data.label = $"{genome.Label} => {member.Label}"
-                    End If
-                End With
+            ' 通过查看A和B的输入输入端点是否有重合来了解二者是否存在营养竞争的关系
+            ' A input vs B input
+            With Ainput.Intersect(Binput).ToArray
+                If Not .IsNullOrEmpty Then
+                    ' 两个基因组的代谢网络输入端点存在重叠的部分，则可能存在营养竞争关系
+                    Dim competition = graph.CreateEdge(genome, member)
+                    competition.Data!compounds = .GetJson
+                    competition.Directed = False
+                    competition.Weight = .Length
+                    competition.Data.label = $"{genome.Label} vs {member.Label}"
+                End If
+            End With
+        Next
+    End Sub
 
-                ' 通过查看A和B的输入输入端点是否有重合来了解二者是否存在营养竞争的关系
-                ' A input vs B input
-                With Ainput.Intersect(Binput).ToArray
-                    If Not .IsNullOrEmpty Then
-                        ' 两个基因组的代谢网络输入端点存在重叠的部分，则可能存在营养竞争关系
-                        Dim competition = graph.CreateEdge(genome, member)
-                        competition.Data!compounds = .GetJson
-                        competition.Directed = False
-                        competition.Weight = .Length
-                        competition.Data.label = $"{genome.Label} vs {member.Label}"
-                    End If
-                End With
+    <Extension> Private Sub linkNodes(graph As NetworkGraph)
+        Using progress As New ProgressBar("Link networks...", 1)
+            Dim ticks As New ProgressProvider(graph.nodes.Count)
+            Dim msg$
+
+            For Each genome As Node In graph.nodes
+                genome.link(graph)
+                msg$ = $"{genome.Label} {ticks.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                progress.SetProgress(ticks.StepProgress, msg)
             Next
-        Next
-
-        Return graph
-    End Function
+        End Using
+    End Sub
 End Module

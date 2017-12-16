@@ -16,12 +16,15 @@ Partial Module CLI
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
-        Dim UniProt As TaxonomyRepository = args("/uniprot").LoadXml(Of TaxonomyRepository)
+        Dim UniProt As TaxonomyRepository = Nothing
         Dim ref As ReactionRepository = args("/ref") _
             .LoadXml(Of ReactionRepository) _
             .Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
+
+        Call "Load UniProt reference genome model....".__INFO_ECHO
+        Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
 
         If [in].ExtensionSuffix.TextEquals("csv") Then
             list = EntityObject.LoadDataSet([in]).Keys
