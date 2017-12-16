@@ -127,6 +127,7 @@ Public Module BIOM
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function TaxonomyString(tax$()) As String
         Return tax _
+            .TakeWhile(Function(s) Not s.TaxonomyRankEmpty) _
             .SeqIterator _
             .Select(Function(s)
                         Return BIOMTaxonomy.BIOMPrefix(s.i) & s.value

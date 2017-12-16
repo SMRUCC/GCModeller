@@ -96,7 +96,7 @@ Namespace gast
                 Dim g = hits _
                     .Select(Function(t) t(rank)) _
                     .GroupBy(Function(s) s) _
-                    .Where(Function(t) Not t.Key.StringEmpty) _
+                    .Where(Function(t) Not t.Key.TaxonomyRankEmpty) _
                     .ToArray
 
                 If g.Length = 1 Then
@@ -115,7 +115,7 @@ Namespace gast
                     walk = append
                 Else
                     ' 树分叉了，则添加新的节点
-                    For Each subType In g
+                    For Each subType As IGrouping(Of String, String) In g
                         Dim append As New TaxonomyTree(walk) With {
                             .Childs = New List(Of TaxonomyTree)
                         }

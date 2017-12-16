@@ -97,9 +97,12 @@ Namespace greengenes
 
             Call tree.GetDepth(rank)
 
+            Dim taxonomyString$ = DirectCast(tree, gast.Taxonomy) _
+                .BIOMTaxonomyString _
+                .Trim(";"c)
             Dim pcts As Vector = Vector.round((New Vector(n) / hits.Length), 2) * 100
             Dim result As New gastOUT With {
-                .taxonomy = DirectCast(tree, gast.Taxonomy).BIOMTaxonomyString.Trim(";"c),
+                .taxonomy = taxonomyString,
                 .counts = OTU.Value,
                 .minrank = minrank,
                 .read_id = OTU.Name,
