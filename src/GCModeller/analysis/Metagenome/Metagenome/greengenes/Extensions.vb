@@ -102,6 +102,11 @@ Namespace greengenes
                 End If
 
                 If tree.Childs = 0 Then
+                    ' 物种的比对注释结果一直到最低端的species都还具有高于cutoff的支持度
+                    ' 则assign此时仍然是空的，需要在这里判断一下，否则后面的代码会出现空引用错误
+                    If assign Is Nothing Then
+                        assign = tree
+                    End If
                     Exit Do
                 End If
             Loop
