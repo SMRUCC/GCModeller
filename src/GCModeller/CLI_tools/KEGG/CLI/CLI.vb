@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -384,6 +385,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     End Function
 
     <ExportAPI("/Build.Ko.repository", Usage:="/Build.Ko.repository /DIR <DIR> /repo <root>")>
+    <Group(CLIGroups.Repository_cli)>
     Public Function BuildKORepository(args As CommandLine) As Integer
         Dim DIR As String = args("/DIR")
         Dim repoRoot As String = args("/repo")
@@ -398,6 +400,20 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Call repo.BuildLocusIndex()
 
         Return 0
+    End Function
+
+    <ExportAPI("/Build.Reactions.Repository")>
+    <Usage("/Build.Reactions.Repository /in <directory> [/out <repository.XML>]")>
+    <Group(CLIGroups.Repository_cli)>
+    Public Function BuildReactionsRepository(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.repository.Xml"
+
+        Return ReactionRepository _
+            .ScanModel(directory:=[in]) _
+            .GetXml _
+            .SaveTo(out, TextEncodings.UTF8WithoutBOM) _
+            .CLICode
     End Function
 
     <ExportAPI("/Imports.KO",

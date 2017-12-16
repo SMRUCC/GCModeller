@@ -62,9 +62,7 @@ Partial Module CLI
                               .IteratesALL _
                               .OrderBy(Function(x) x.uid) _
                               .ToDictionary(Function(x) trimName(x.uid) & "." & x.Id)
-#If DEBUG Then
-        Call memeHash.GetJson.SaveTo([in].ParentPath & "/motifs.json")
-#End If
+
         Dim Groups = (From x As MotifMatch
                       In hits
                       Select x

@@ -7,9 +7,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -68,19 +66,6 @@ Partial Module CLI
         )
 
         Return 0
-    End Function
-
-    <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
-    Public Function BuildUniProtReference(args As CommandLine) As Integer
-        Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
-        Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
-
-        Return ref _
-            .GetXml _
-            .SaveTo(out) _
-            .CLICode
     End Function
 
     <ExportAPI("/gast.Taxonomy.greengenes")>
