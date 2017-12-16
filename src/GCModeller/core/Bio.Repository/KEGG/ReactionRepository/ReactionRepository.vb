@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -10,6 +11,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction)
 
     Dim table As Dictionary(Of String, Reaction)
+
+    <XmlNamespaceDeclarations()>
+    Public xmlns As New XmlSerializerNamespaces
+
+    Sub New()
+        Call xmlns.Add("KEGG", Reaction.Xmlns)
+    End Sub
 
     Public Property MetabolicNetwork As Reaction()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
