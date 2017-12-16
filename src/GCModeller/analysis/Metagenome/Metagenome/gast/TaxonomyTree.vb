@@ -48,10 +48,6 @@ Namespace gast
             Return $"{lineage} ({rank.ToString}={hits})"
         End Function
 
-        Public Shared Function AssignTaxonomy(tree As TaxonomyTree) As gastOUT
-
-        End Function
-
         Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
 
         ''' <summary>

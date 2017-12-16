@@ -34,6 +34,23 @@ Namespace greengenes
             )
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Iterator Public Function OTUgreengenesTaxonomyTreeAssign(blastn As IEnumerable(Of Query),
+                                                                 OTUs As Dictionary(Of String, NamedValue(Of Integer)),
+                                                                 taxonomy As Dictionary(Of String, otu_taxonomy),
+                                                                 Optional min_pct# = 0.97) As IEnumerable(Of gastOUT)
+            For Each query As Query In blastn
+                If Not OTUs.ContainsKey(query.QueryName) Then
+                    Continue For
+                Else
+                    Dim result As gastOUT = query.TreeAssign(OTUs(query.QueryName), taxonomy, min_pct)
+                    Yield result
+                End If
+            Next
+        End Function
+
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -47,7 +64,7 @@ Namespace greengenes
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function TreeAssign(align As Query, OTU As NamedValue(Of Integer), taxonomy As Dictionary(Of String, otu_taxonomy), Optional min_pct# = 0.3) As gastOUT
+        Public Function TreeAssign(align As Query, OTU As NamedValue(Of Integer), taxonomy As Dictionary(Of String, otu_taxonomy), Optional min_pct# = 0.05) As gastOUT
             Dim hits = align _
                 .SubjectHits _
                 .Select(Function(h) taxonomy(h.Name)) _
