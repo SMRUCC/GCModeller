@@ -58,7 +58,6 @@ Namespace greengenes
             Next
         End Function
 
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -86,18 +85,32 @@ Namespace greengenes
             )
             Dim cutoff% = If(min_pct > 1, min_pct / 100, min_pct) * hits.Length
             Dim n As New List(Of Integer)
+            Dim assign As TaxonomyTree = Nothing
 
-            ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
-            Do While tree.hits >= cutoff AndAlso tree.Childs.Count > 0
-                tree = tree.Childs.OrderByDescending(Function(t) t.hits).First
+            Do While True
+                ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
+                tree = tree _
+                    .Childs _
+                    .OrderByDescending(Function(t) t.hits) _
+                    .First
                 n += tree.hits
+
+                If tree.hits < cutoff AndAlso assign Is Nothing Then
+                    ' 因为假若需要知道所有ranks的数量分布的话
+                    ' 在这里达到cutoff之后还不能够立刻退出
+                    assign = tree.Parent
+                End If
+
+                If tree.Childs = 0 Then
+                    Exit Do
+                End If
             Loop
 
             Dim rank As TaxonomyRanks
 
-            Call tree.GetDepth(rank)
+            Call assign.GetDepth(rank)
 
-            Dim taxonomyString$ = DirectCast(tree, gast.Taxonomy) _
+            Dim taxonomyString$ = DirectCast(assign, gast.Taxonomy) _
                 .BIOMTaxonomyString _
                 .Trim(";"c)
             Dim pcts As Vector = Vector.round((New Vector(n) / hits.Length), 2) * 100

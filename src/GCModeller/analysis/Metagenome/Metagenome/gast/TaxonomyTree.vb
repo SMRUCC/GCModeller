@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+﻿Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace gast
@@ -17,6 +18,16 @@ Namespace gast
         ''' </summary>
         ''' <returns></returns>
         Public Property hits As Integer
+
+        Public ReadOnly Property TreeRoot As TaxonomyTree
+            Get
+                If Parent Is Nothing OrElse Parent.Lineage = "*" Then
+                    Return Me
+                Else
+                    Return Parent.TreeRoot
+                End If
+            End Get
+        End Property
 
         Sub New(taxonomy As String)
             Call MyBase.New(taxonomy)
