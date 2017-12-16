@@ -88,6 +88,15 @@ Namespace greengenes
             Dim assign As TaxonomyTree = Nothing
 
             Do While True
+                If tree.Childs = 0 Then
+                    ' 物种的比对注释结果一直到最低端的species都还具有高于cutoff的支持度
+                    ' 则assign此时仍然是空的，需要在这里判断一下，否则后面的代码会出现空引用错误
+                    If assign Is Nothing Then
+                        assign = tree
+                    End If
+                    Exit Do
+                End If
+
                 ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
                 tree = tree _
                     .Childs _
@@ -99,15 +108,6 @@ Namespace greengenes
                     ' 因为假若需要知道所有ranks的数量分布的话
                     ' 在这里达到cutoff之后还不能够立刻退出
                     assign = tree.Parent
-                End If
-
-                If tree.Childs = 0 Then
-                    ' 物种的比对注释结果一直到最低端的species都还具有高于cutoff的支持度
-                    ' 则assign此时仍然是空的，需要在这里判断一下，否则后面的代码会出现空引用错误
-                    If assign Is Nothing Then
-                        assign = tree
-                    End If
-                    Exit Do
                 End If
             Loop
 
