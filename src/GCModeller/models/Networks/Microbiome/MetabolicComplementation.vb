@@ -12,6 +12,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
+Imports names = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NameOf
 
 ''' <summary>
 ''' 微生物组营养互补网络，在这个模块之中节点为微生物，网络的边为互补或者竞争的营养物
@@ -145,6 +146,7 @@ Public Module MetabolicComplementation
             ' 将该微生物的代谢网络端点写入缓存之中
             With node.Data
                 !Family = family
+                .ItemValue(names.REFLECTION_ID_MAPPING_NODETYPE) = family
 
                 ' 当前的这个基因组所必须的营养物，无法进行自身的合成
                 !Essential_nutrients = endPoints _
@@ -209,6 +211,7 @@ Public Module MetabolicComplementation
                     complementary.Directed = True
                     complementary.Weight = .Length
                     complementary.Data.label = $"{genome.Label} => {member.Label}"
+                    complementary.Data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(complementary)
                 End If
             End With
 
@@ -222,6 +225,7 @@ Public Module MetabolicComplementation
                     competition.Directed = False
                     competition.Weight = .Length
                     competition.Data.label = $"{genome.Label} vs {member.Label}"
+                    competition.Data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(competition)
                 End If
             End With
         Next

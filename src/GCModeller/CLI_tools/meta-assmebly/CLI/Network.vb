@@ -45,7 +45,7 @@ Partial Module CLI
             .BuildMicrobiomeMetabolicNetwork(reactions:=ref)
 
         Return network _
-            .Tabular _
+            .Tabular(properties:={"Color", "Family"}) _
             .Save(out) _
             .CLICode
     End Function
