@@ -79,6 +79,7 @@ Public Module MetabolicComplementation
     ''' <param name="metagenome">从Uniprot上批量下载的基因组蛋白注释数据</param>
     ''' <param name="reactions">KEGG参考代谢反应模型库</param>
     ''' <returns></returns>
+    <Extension>
     Public Function BuildMicrobiomeMetabolicNetwork(metagenome As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository) As NetworkGraph
         Dim graph As New NetworkGraph
 

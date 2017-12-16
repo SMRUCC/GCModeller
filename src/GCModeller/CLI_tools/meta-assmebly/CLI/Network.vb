@@ -1,8 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.Microbiome
+Imports SMRUCC.genomics.Metagenomics
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 
 Partial Module CLI
 
@@ -10,7 +14,29 @@ Partial Module CLI
     <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/metagenome"
+        Dim ref As ReactionRepository = args("/ref").LoadXml(Of ReactionRepository)
+        Dim UniProt As TaxonomyRepository = args("/uniprot").LoadXml(Of TaxonomyRepository)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
+        Dim list$()
 
+        If [in].ExtensionSuffix.TextEquals("csv") Then
+            list = EntityObject.LoadDataSet([in]).Keys
+        Else
+            list = [in].ReadAllLines
+        End If
+
+        Dim taxonomy As Taxonomy() = list _
+            .Distinct _
+            .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
+            .ToArray
+        Dim models As IEnumerable(Of TaxonomyRef) = UniProt.PopulateModels(taxonomy, distinct:=True)
+        Dim network = models.BuildMicrobiomeMetabolicNetwork(reactions:=ref)
+
+        Return network _
+            .Tabular _
+            .Save(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/Metagenome.UniProt.Ref")>
