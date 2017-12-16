@@ -39,7 +39,8 @@ Namespace greengenes
         Iterator Public Function OTUgreengenesTaxonomyTreeAssign(blastn As IEnumerable(Of Query),
                                                                  OTUs As Dictionary(Of String, NamedValue(Of Integer)),
                                                                  taxonomy As Dictionary(Of String, otu_taxonomy),
-                                                                 Optional min_pct# = 0.97) As IEnumerable(Of gastOUT)
+                                                                 Optional min_pct# = 0.97,
+                                                                 Optional skipNoResult As Boolean = True) As IEnumerable(Of gastOUT)
             For Each query As Query In blastn
                 If Not OTUs.ContainsKey(query.QueryName) Then
                     Continue For
@@ -48,6 +49,10 @@ Namespace greengenes
 
                     If result.rank <> "NA" Then
                         Yield result
+                    Else
+                        If Not skipNoResult Then
+                            Yield result
+                        End If
                     End If
                 End If
             Next
