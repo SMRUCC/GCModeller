@@ -59,7 +59,7 @@ Partial Module CLI
         Dim ref As TaxonomyRepository
 
         If [in].FileExists Then
-            Dim cache As (String, String, String)
+            Dim cache As (String, String, String) = Nothing
 
             out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
             ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(cache)
@@ -69,7 +69,7 @@ Partial Module CLI
             End If
         Else
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.Xml")
-            UniProtBuild.ScanModels(cache:=[in])
+            ref = UniProtBuild.ScanModels(cache:=[in])
         End If
 
         Return ref _
