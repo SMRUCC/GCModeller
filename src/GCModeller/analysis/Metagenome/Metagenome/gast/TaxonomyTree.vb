@@ -96,6 +96,7 @@ Namespace gast
                 Dim g = hits _
                     .Select(Function(t) t(rank)) _
                     .GroupBy(Function(s) s) _
+                    .Where(Function(t) Not t.Key.StringEmpty) _
                     .ToArray
 
                 If g.Length = 1 Then
