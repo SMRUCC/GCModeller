@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.FindPath
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -91,6 +93,7 @@ Public Module MetabolicComplementation
         ' 链接的边为营养物关系
         Call "Fetch UniProt reference genome model data...".__DEBUG_ECHO
         Call graph.FetchModels(metagenome, reactions)
+        Call graph.RenderColors
 
         ' 在构建完了所有的基因组的代谢网络的输入和输出端点之后
         ' 开始装配营养互补和竞争网络
@@ -99,6 +102,33 @@ Public Module MetabolicComplementation
 
         Return graph
     End Function
+
+    ''' <summary>
+    ''' Set category colors
+    ''' </summary>
+    ''' <param name="graph"></param>
+    <Extension> Private Sub RenderColors(graph As NetworkGraph)
+        Dim families$() = graph.nodes _
+            .Select(Function(n) n.Data!Family) _
+            .Distinct _
+            .ToArray
+        Dim colors$() = Designer _
+            .GetColors(
+                term:="scibasic.category31()",
+                n:=families.Length
+            ) _
+            .Select(Function(c) c.ToHtmlColor) _
+            .ToArray
+        Dim colorRender As Dictionary(Of String, String) = families _
+            .SeqIterator _
+            .ToDictionary(Function(family) family.value, Function(i) colors(i))
+
+        For Each node As Node In graph.nodes
+            With node.Data
+                !Color = colorRender(!Family)
+            End With
+        Next
+    End Sub
 
     <Extension>
     Private Sub FetchModels(graph As NetworkGraph, metagenome As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository)
