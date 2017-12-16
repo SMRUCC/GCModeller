@@ -84,7 +84,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/gast.Taxonomy.greengenes")>
-    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/removes.lt <default=0.0001> /min.pct <default=0.6> /out <gastOut.csv>]")>
+    <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/removes.lt <default=0.0001> /gast.consensus /min.pct <default=0.6> /out <gastOut.csv>]")>
     <Description("OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.")>
     <Argument("/removes.lt", True, CLITypes.Double,
               Description:="OTU contains members number less than the percentage value of this argument value(low abundance) will be removes from the result.")>
@@ -107,9 +107,17 @@ Partial Module CLI
             .Load(taxonomy) _
             .ToDictionary(Function(t) t.ID)
         Dim blastn As IEnumerable(Of Query) = BlastnOutputReader.RunParser([in])
-        Dim gast As gastOUT() = blastn _
-            .OTUgreengenesTaxonomy(OTUs, otu_taxonomy, min_pct:=minPct) _
-            .ToArray
+        Dim gast As gastOUT()
+
+        If args.IsTrue("/gast.consensus") Then
+            gast = blastn _
+                .OTUgreengenesTaxonomy(OTUs, otu_taxonomy, min_pct:=minPct) _
+                .ToArray
+        Else
+            gast = blastn _
+                .OTUgreengenesTaxonomyTreeAssign(OTUs, otu_taxonomy, min_pct:=minPct) _
+                .ToArray
+        End If
 
         Return gast.SaveTo(out).CLICode
     End Function

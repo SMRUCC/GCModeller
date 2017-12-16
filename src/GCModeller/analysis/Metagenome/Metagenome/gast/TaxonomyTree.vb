@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+﻿Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace gast
@@ -17,6 +18,16 @@ Namespace gast
         ''' </summary>
         ''' <returns></returns>
         Public Property hits As Integer
+
+        Public ReadOnly Property TreeRoot As TaxonomyTree
+            Get
+                If Parent Is Nothing OrElse Parent.Lineage = "*" Then
+                    Return Me
+                Else
+                    Return Parent.TreeRoot
+                End If
+            End Get
+        End Property
 
         Sub New(taxonomy As String)
             Call MyBase.New(taxonomy)
@@ -46,10 +57,6 @@ Namespace gast
             End If
 
             Return $"{lineage} ({rank.ToString}={hits})"
-        End Function
-
-        Public Shared Function AssignTaxonomy(tree As TaxonomyTree) As gastOUT
-
         End Function
 
         Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
@@ -100,6 +107,7 @@ Namespace gast
                 Dim g = hits _
                     .Select(Function(t) t(rank)) _
                     .GroupBy(Function(s) s) _
+                    .Where(Function(t) Not t.Key.TaxonomyRankEmpty) _
                     .ToArray
 
                 If g.Length = 1 Then
@@ -118,7 +126,7 @@ Namespace gast
                     walk = append
                 Else
                     ' 树分叉了，则添加新的节点
-                    For Each subType In g
+                    For Each subType As IGrouping(Of String, String) In g
                         Dim append As New TaxonomyTree(walk) With {
                             .Childs = New List(Of TaxonomyTree)
                         }
