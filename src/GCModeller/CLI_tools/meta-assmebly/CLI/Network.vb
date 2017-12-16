@@ -37,7 +37,9 @@ Partial Module CLI
 
         models.Taxonomy = models.Taxonomy _
             .Where(Function(genome)
-                       Return genome.Coverage >= coverage AndAlso genome.genome.Terms.Length >= terms
+                       Return (Not genome.organism Is Nothing) AndAlso
+                                   genome.Coverage >= coverage AndAlso
+                                   genome.genome.Terms.Length >= terms
                    End Function) _
             .ToArray
 
