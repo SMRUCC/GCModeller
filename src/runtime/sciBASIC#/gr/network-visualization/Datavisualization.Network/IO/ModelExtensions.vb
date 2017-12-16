@@ -108,6 +108,7 @@ Namespace FileStream
                     .FromNode = l.U.Label,
                     .ToNode = l.V.Label,
                     .Interaction = l.Data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE),
+                    .value = l.Weight,
                     .Properties = New Dictionary(Of String, String) From {
                         {NameOf(EdgeData.label), l.Data.label}
                     }
