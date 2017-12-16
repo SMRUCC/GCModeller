@@ -7,13 +7,15 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.metabolic.network")>
-    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.directory> [/out <network.directory>]")>
+    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
 
     End Function
 
     <ExportAPI("/Metagenome.UniProt.Ref")>
     <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
@@ -28,6 +30,7 @@ Partial Module CLI
     <ExportAPI("/UniProt.screen.model")>
     <Usage("/UniProt.screen.model /in <model.Xml> [/coverage <default=0.6> /terms <default=1000> /out <subset.xml>]")>
     <Argument("/in", Description:="The metagenome network UniProt reference database that build from ``/Metagenome.UniProt.Ref`` command.")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function ScreenModels(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim coverage# = args.GetValue("/coverage", 0.6)
