@@ -29,6 +29,22 @@ Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction
         End Set
     End Property
 
+    ''' <summary>
+    ''' KEGG代谢反应模型数据之中还包含有非酶促过程
+    ''' 使用这个函数将会筛选出所有的酶促过程
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function Enzymetic() As ReactionRepository
+        Return New ReactionRepository With {
+            .MetabolicNetwork = table _
+                .Values _
+                .Where(Function(r)
+                           Return Not r.Orthology.Terms.IsNullOrEmpty
+                       End Function) _
+                .ToArray
+        }
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, Reaction).Exists
         Return table.ContainsKey(key)

@@ -94,6 +94,7 @@ Namespace Metagenomics
         Sub New(lineage$())
             Call Me.New(
                 lineage:=lineage _
+                    .Take(7) _
                     .SeqIterator _
                     .ToDictionary(Function(rank) DescRanks(rank.i),
                                   Function(rank) rank.value)
@@ -189,14 +190,18 @@ Namespace Metagenomics
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function IsEmpty(t As Taxonomy) As Boolean
-            Return Not t.kingdom.TaxonomyRankEmpty OrElse
-                Not t.order.TaxonomyRankEmpty OrElse
-                Not t.class.TaxonomyRankEmpty OrElse
-                Not t.family.TaxonomyRankEmpty OrElse
-                Not t.genus.TaxonomyRankEmpty OrElse
-                Not t.phylum.TaxonomyRankEmpty OrElse
-                Not t.scientificName.TaxonomyRankEmpty OrElse
-                Not t.species.TaxonomyRankEmpty
+            If t Is Nothing Then
+                Return True
+            Else
+                Return Not t.kingdom.TaxonomyRankEmpty OrElse
+                    Not t.order.TaxonomyRankEmpty OrElse
+                    Not t.class.TaxonomyRankEmpty OrElse
+                    Not t.family.TaxonomyRankEmpty OrElse
+                    Not t.genus.TaxonomyRankEmpty OrElse
+                    Not t.phylum.TaxonomyRankEmpty OrElse
+                    Not t.scientificName.TaxonomyRankEmpty OrElse
+                    Not t.species.TaxonomyRankEmpty
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -2,11 +2,12 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.genomics.Metagenomics
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports SMRUCC.genomics.Model.Network.Microbiome
 
 Partial Module CLI
 
@@ -15,8 +16,10 @@ Partial Module CLI
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
-        Dim ref As ReactionRepository = args("/ref").LoadXml(Of ReactionRepository)
         Dim UniProt As TaxonomyRepository = args("/uniprot").LoadXml(Of TaxonomyRepository)
+        Dim ref As ReactionRepository = args("/ref") _
+            .LoadXml(Of ReactionRepository) _
+            .Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
 
@@ -30,8 +33,13 @@ Partial Module CLI
             .Distinct _
             .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
             .ToArray
-        Dim models As IEnumerable(Of TaxonomyRef) = UniProt.PopulateModels(taxonomy, distinct:=True)
-        Dim network = models.BuildMicrobiomeMetabolicNetwork(reactions:=ref)
+        Dim network As NetworkGraph = UniProt _
+            .PopulateModels(taxonomy, distinct:=True) _
+            .Where(Function(g)
+                       ' 有些基因组的数据是空的？？
+                       Return Not g.genome.Terms.IsNullOrEmpty
+                   End Function) _
+            .BuildMicrobiomeMetabolicNetwork(reactions:=ref)
 
         Return network _
             .Tabular _
