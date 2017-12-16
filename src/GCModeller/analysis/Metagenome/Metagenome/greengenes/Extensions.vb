@@ -45,7 +45,10 @@ Namespace greengenes
                     Continue For
                 Else
                     Dim result As gastOUT = query.TreeAssign(OTUs(query.QueryName), taxonomy, min_pct)
-                    Yield result
+
+                    If result.rank <> "NA" Then
+                        Yield result
+                    End If
                 End If
             Next
         End Function
@@ -91,7 +94,7 @@ Namespace greengenes
 
             Dim pcts As Vector = Vector.round((New Vector(n) / hits.Length), 2) * 100
             Dim result As New gastOUT With {
-                .taxonomy = DirectCast(tree, gast.Taxonomy).ToString.Trim(";"c),
+                .taxonomy = DirectCast(tree, gast.Taxonomy).BIOMTaxonomyString.Trim(";"c),
                 .counts = OTU.Value,
                 .minrank = minrank,
                 .read_id = OTU.Name,

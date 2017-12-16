@@ -134,6 +134,12 @@ Public Module BIOM
             .JoinBy(";")
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function BIOMTaxonomyString(taxonomy As Metagenomics.Taxonomy) As String
+        Return taxonomy.ToArray.TaxonomyString
+    End Function
+
     ReadOnly Unknown As Index(Of String) = {"", "Unassigned", "NA", NameOf(Unknown)}
     ReadOnly descRanks As SeqValue(Of String)() = NCBI.Taxonomy _
         .NcbiTaxonomyTree _
