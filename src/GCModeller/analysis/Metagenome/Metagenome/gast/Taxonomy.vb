@@ -86,6 +86,17 @@ Namespace gast
             Call Me.New(__data(line))
         End Sub
 
+        Sub New(taxonomy As Metagenomics.Taxonomy)
+            kingdom = taxonomy.kingdom
+            phylum = taxonomy.phylum
+            [class] = taxonomy.class
+            order = taxonomy.order
+            family = taxonomy.family
+            genus = taxonomy.genus
+            species = taxonomy.species
+            scientificName = taxonomy.scientificName
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>

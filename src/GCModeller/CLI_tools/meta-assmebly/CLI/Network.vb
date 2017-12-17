@@ -51,12 +51,26 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml> [/out <out.XML>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.XML>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
-        Dim ref = UniProtXML.EnumerateEntries([in]).ScanUniProt
+        Dim out$
+        Dim ref As TaxonomyRepository
+
+        If [in].FileExists Then
+            Dim cache As (String, String, String) = Nothing
+
+            out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
+            ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(cache)
+
+            If args.IsTrue("/cache") Then
+                Call cache.CopyTo(destination:=out.TrimSuffix)
+            End If
+        Else
+            out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.Xml")
+            ref = UniProtBuild.ScanModels(cache:=[in])
+        End If
 
         Return ref _
             .GetXml _
@@ -77,9 +91,10 @@ Partial Module CLI
 
         models.Taxonomy = models.Taxonomy _
             .Where(Function(genome)
-                       Return (Not genome.organism Is Nothing) AndAlso
-                                   genome.Coverage >= coverage AndAlso
-                                   genome.genome.Terms.Length >= terms
+                       Return Not genome.organism Is Nothing AndAlso
+                              Not genome.genome.Terms.IsNullOrEmpty AndAlso
+                                  genome.Coverage >= coverage AndAlso
+                                  genome.genome.Terms.Length >= terms
                    End Function) _
             .ToArray
 
