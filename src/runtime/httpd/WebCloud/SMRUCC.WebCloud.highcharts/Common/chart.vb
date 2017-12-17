@@ -57,6 +57,7 @@ Public Class Axis
     Public Property showLastLabel As Boolean?
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?
+    Public Property crosshair As Boolean?
 End Class
 
 Public Class legendOptions
@@ -87,6 +88,9 @@ Public Class tooltip
     Public Property headerFormat As String
     Public Property pointFormat As String
     Public Property valueSuffix As String
+    Public Property footerFormat As String
+    Public Property [shared] As Boolean?
+    Public Property useHTML As Boolean?
 End Class
 
 Public Class labelOptions
