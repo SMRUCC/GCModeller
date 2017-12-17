@@ -128,7 +128,7 @@ Namespace KEGG.Compiler
             Dim SbmlModels = Sbml.Model.listOfReactions.ToDictionary(Function(item As Level2.Elements.Reaction) item.id)
 
             For Each Enzyme In ECTable
-                Dim LQuery = (From item In KEGGReactions.AsParallel Where EC_Mapping.IsECEquals(item.ECNum, Enzyme.Class) Select item).ToArray
+                Dim LQuery = (From item In KEGGReactions.AsParallel Where EC_Mapping.IsECEquals(item.Enzyme, Enzyme.Class) Select item).ToArray
 
                 If LQuery.IsNullOrEmpty Then
                     If Not MetaCycEnzymaticsReactions.ContainsKey(Enzyme.Class) Then
@@ -145,7 +145,7 @@ Namespace KEGG.Compiler
                                   .Definition = mRxn.CommonName,
                                   .CommonNames = If(mRxn.Names.IsNullOrEmpty, Nothing, mRxn.Names.ToArray),
                                   .Comments = mRxn.Comment,
-                                  .ECNum = {Enzyme.Class},
+                                  .Enzyme = {Enzyme.Class},
                                   .Equation = Convert(SbmlModels(mRxn.Identifier))
                                   }).ToArray
                 End If
@@ -317,7 +317,7 @@ Download:
 
             fluxModel.Enzymes = If(Enzymes.IsNullOrEmpty, Nothing, Enzymes.ToArray)
             fluxModel.KEGGReaction = If(IsKEGGReaction, Model.Entry, "")
-            fluxModel.EnzymeClass = Model.ECNum.First
+            fluxModel.EnzymeClass = Model.Enzyme.First
 
             Return fluxModel
         End Function

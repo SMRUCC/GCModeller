@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b1de1829ac995df6913fc9ed2ea18b6a, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
@@ -115,8 +116,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return out
         End Function
 
-        <Extension> Private Function MarkerList(html$) As TripleKeyValuesPair()
-            Dim list As New List(Of TripleKeyValuesPair)
+        <Extension> Private Function MarkerList(html$) As [Property]()
+            Dim list As New List(Of [Property])
 
             html = html.DivInternals.FirstOrDefault
 
@@ -131,10 +132,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     .Matches(line, "\[.+?\]", RegexICSng) _
                     .ToArray
 
-                list += New TripleKeyValuesPair With {
-                    .Key = line,
-                    .Value1 = refs(0),
-                    .Value2 = refs(1)
+                list += New [Property] With {
+                    .name = line,
+                    .value = refs(0),
+                    .Comment = refs(1)
                 }
             Next
 

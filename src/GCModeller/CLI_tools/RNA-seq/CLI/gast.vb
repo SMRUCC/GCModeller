@@ -100,7 +100,7 @@ Partial Module CLI
         Dim outNt As String = out & "/nt.fasta"
         Dim outContigs As String = out & "/contigs.csv"
         Dim il As Integer = Interval.Length
-        Dim sam As New SamStream(inSam)
+        Dim sam As New SAMStream(inSam)
 
         Using writer = outNt.OpenWriter(Encodings.ASCII)
             Dim seqHash = (From x As FastaToken
@@ -114,7 +114,7 @@ Partial Module CLI
 
             Dim list As New List(Of FastaToken)
 
-            For Each readMap As AlignmentReads In sam.ReadBlock.Where(Function(x) Not x.RNAME = "*")
+            For Each readMap As AlignmentReads In sam.IteratesAllReads.Where(Function(x) Not x.RNAME = "*")
                 list += seqHash(readMap.RNAME)
             Next
 

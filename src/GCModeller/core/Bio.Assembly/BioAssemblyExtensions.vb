@@ -80,7 +80,7 @@ Public Module BioAssemblyExtensions
     ''' </summary>
     ''' <param name="base"></param>
     ''' <returns></returns>
-    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function IsPure(base As Char) As Integer
         Select Case base
@@ -130,6 +130,8 @@ Public Module BioAssemblyExtensions
     ''' </summary>
     ''' <param name="strand"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function GetBriefCode(strand As Strands) As String
         Select Case strand
             Case Strands.Forward : Return "+"
@@ -145,6 +147,8 @@ Public Module BioAssemblyExtensions
     ''' </summary>
     ''' <param name="strand"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function GetBriefStrandCode(strand As String) As String
         Dim value As Strands = GetStrand(strand)
         Return value.GetBriefCode
@@ -156,6 +160,8 @@ Public Module BioAssemblyExtensions
     ''' <param name="c">从文本文件之中所读取出来关于链方向的字符串描述数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function GetStrands(c As Char) As Strands
         Return CStr(c).GetStrand
     End Function
@@ -213,8 +219,8 @@ Public Module BioAssemblyExtensions
             If hash < 1 Then
                 Call Groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
             Else
-                Dim lst As List(Of Contig) = Groups(hash)
-                Call lst.Add(item:=loci)
+                Dim list As List(Of Contig) = Groups(hash)
+                Call list.Add(item:=loci)
             End If
         Next
 

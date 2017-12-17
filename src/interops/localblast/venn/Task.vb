@@ -57,7 +57,7 @@ Namespace BlastAPI
     Public Module ParallelTaskAPI
 
         Sub New()
-            Call Settings.Initialize(GetType(ParallelTaskAPI))
+            Call Settings.Initialize()
         End Sub
 
 #Region "Creates Handle"

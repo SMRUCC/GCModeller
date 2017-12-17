@@ -1,32 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::c440cbf79e2e2723ff12ace364e6ba13, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 
 Namespace SAM
 
@@ -36,7 +36,7 @@ Namespace SAM
     Public Class SAMHeader
 
         Public Property TAGValues As Dictionary(Of String, String)
-        Public Property TAG As String
+        Public Property Tag As String
 
         ''' <summary>
         ''' 
@@ -50,62 +50,35 @@ Namespace SAM
         ''' (每一行都是从@符号开始，后面跟随者两个字母的数据类型码，使用TAB进行分割除了@CO行，每一个域都以键值对的形式出现:  TAG:Value)
         ''' </param>
         Sub New(str As String)
-            Dim Tokens As String() = Strings.Split(str, vbTab)
-            Me.TAG = Tokens(0)
-            Me.TAGValues = (From s As String
-                            In Tokens.Skip(1)
-                            Let arr As String() = s.Split(":"c)
-                            Select key = arr(0), value = arr(1)).ToArray.ToDictionary(Function(obj) obj.key, elementSelector:=Function(obj) obj.value)
+            Dim tokens$() = Strings.Split(str, vbTab)
+            Dim tuples = From s As String
+                         In tokens.Skip(1)
+                         Let arr As String() = s.Split(":"c)
+                         Select (key:=arr(0), value:=arr(1))
+
+            Tag = tokens(0)
+            TAGValues = tuples _
+                .ToDictionary(Function(t) t.key,
+                              Function(t) t.value)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GenerateDocumentLine() As String
-            Return TAG & vbTab & String.Join(vbTab, (From obj In Me.TAGValues Select $"{obj.Key}:{obj.Value}").ToArray)
+            Return Tag & vbTab & String.Join(vbTab, (From obj In Me.TAGValues Select $"{obj.Key}:{obj.Value}").ToArray)
         End Function
 
-        Public Enum TAGS As Integer
-            ''' <summary>
-            ''' The header line. The first line if present.
-            ''' </summary>
-            ''' 
-            <Description("The header line. The first line if present.")>
-            HD = 0
-            ''' <summary>
-            ''' Reference sequence dictionary. The order of @SQ lines defines the alignment sorting order.
-            ''' </summary>
-            ''' 
-            <Description("Reference sequence dictionary. The order of @SQ lines defines the alignment sorting order.")>
-            SQ
-            ''' <summary>
-            ''' Read group. Unordered multiple @RG lines are allowed.
-            ''' </summary>
-            ''' 
-            <Description("Read group. Unordered multiple @RG lines are allowed.")>
-            RG
-            ''' <summary>
-            ''' Program.
-            ''' </summary>
-            ''' 
-            <Description("Program.")>
-            PG
-            ''' <summary>
-            ''' One-line text comment. Unordered multiple @CO lines are allowed.
-            ''' </summary>
-            ''' 
-            <Description("One-line text comment. Unordered multiple @CO lines are allowed.")>
-            CO
-        End Enum
+        Const TagsArray = "@HD@SQ@RG@PG@CO"
 
-        Const TAGS_STRING = "@HD@SQ@RG@PG@CO"
-
-        Public ReadOnly Property TAGValue As TAGS
+        Public ReadOnly Property TagValue As Tags
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Dim index As Integer = InStr(TAGS_STRING, Me.TAG) / 3
-                Return CType(index, TAGS)
+                Return CByte(InStr(TagsArray, Tag) / 3)
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return Me.TAGValue.Description
+            Return TagValue.Description
         End Function
     End Class
 End Namespace

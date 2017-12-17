@@ -183,7 +183,7 @@ Namespace Assembly.Expasy.AnnotationsTool
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function __getKEGGReaction(EC As EnzymeClass, KEGG As Generic.IEnumerable(Of KEGG.DBGET.bGetObject.Reaction)) As EnzymeClass
-            Dim LQuery = (From item In KEGG Where Array.IndexOf(EC.EC_Class, item.ECNum) > -1 Select item).ToArray
+            Dim LQuery = (From item In KEGG Where Array.IndexOf(EC.EC_Class, item.Enzyme) > -1 Select item).ToArray
             EC.KEGG_ENTRIES = (From item In LQuery Select String.Format("[{0}] {1}", item.Entry, item.Equation)).ToArray
             Return EC
         End Function

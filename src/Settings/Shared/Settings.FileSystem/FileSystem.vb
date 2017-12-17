@@ -58,7 +58,7 @@ Namespace GCModeller.FileSystem
 
         Sub New()
             If Not Settings.Session.Initialized Then
-                Call Settings.Session.Initialize(GetType(FileSystem))
+                Call Settings.Session.Initialize()
             End If
         End Sub
 

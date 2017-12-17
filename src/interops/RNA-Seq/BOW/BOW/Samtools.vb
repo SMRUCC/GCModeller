@@ -128,7 +128,7 @@ Public Module Samtools
 
     <ExportAPI("BitFLAGS")>
     Public Function GetBitFLAGSDescription(BitFLAG As Integer) As String
-        Dim FLAGS As BitFLAGS() = BitFLAGS_API.ComputeBitFLAGS(BitFLAG)
+        Dim FLAGS As BitFlags() = BitFLAGS_API.ComputeBitFLAGS(BitFLAG)
         Dim s As String = BitFLAGS_API.GetBitFLAGDescriptions(FLAGS)
         Return s
     End Function

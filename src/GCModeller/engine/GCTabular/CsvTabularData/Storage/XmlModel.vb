@@ -246,7 +246,7 @@ Namespace FileStream.XmlFormat
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function SaveOrCopy(Optional FilePath As String = "") As Boolean
-            Dim SavedDir As String = FileIO.FileSystem.GetParentPath(FilePath.InvokeSet(getPath(FilePath)))
+            Dim SavedDir As String = FileIO.FileSystem.GetParentPath(FilePath.SetValue(getPath(FilePath)))
             Dim Current As String = Me.get_ParentDirectory
 
             If String.Equals(SavedDir, Current) Then

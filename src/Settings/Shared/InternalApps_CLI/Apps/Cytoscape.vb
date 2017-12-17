@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/Cytoscape.exe
+' assembly: G:/GCModeller/GCModeller/bin/Cytoscape.exe
 
 Namespace GCModellerApps
 
@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class Cytoscape : Inherits InteropService
 
-Public Const App$ = "Cytoscape.exe"
+    Public Const App$ = "Cytoscape.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -27,26 +27,26 @@ End Sub
 ''' ```
 ''' </summary>
 '''
-Public Function AnalysisNetworkProperty(_in As String, Optional _colors As String = "", Optional _ignores As String = "", Optional _tick As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & _colors & """ ")
-End If
-If Not _ignores.StringEmpty Then
-Call CLI.Append("/ignores " & """" & _ignores & """ ")
-End If
-If Not _tick.StringEmpty Then
-Call CLI.Append("/tick " & """" & _tick & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function AnalysisNetworkProperty([in] As String, Optional colors As String = "", Optional ignores As String = "", Optional tick As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not ignores.StringEmpty Then
+            Call CLI.Append("/ignores " & """" & ignores & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -55,26 +55,26 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NodeCluster(_in As String, Optional _size As String = "10000,10000", Optional _schema As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _size.StringEmpty Then
-Call CLI.Append("/size " & """" & _size & """ ")
-End If
-If Not _schema.StringEmpty Then
-Call CLI.Append("/schema " & """" & _schema & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _spcc Then
-Call CLI.Append("/spcc ")
-End If
+Public Function NodeCluster([in] As String, Optional size As String = "10000,10000", Optional schema As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not schema.StringEmpty Then
+            Call CLI.Append("/schema " & """" & schema & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If spcc Then
+        Call CLI.Append("/spcc ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -83,18 +83,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Assciates(_in As String, _nodes As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/associate")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/nodes " & """" & _nodes & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function Assciates([in] As String, nodes As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/associate")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/nodes " & """" & nodes & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -103,20 +103,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimpleBBH(_in As String, Optional _evalue As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/BBH.Simple")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _evalue.StringEmpty Then
-Call CLI.Append("/evalue " & """" & _evalue & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function SimpleBBH([in] As String, Optional evalue As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/BBH.Simple")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not evalue.StringEmpty Then
+            Call CLI.Append("/evalue " & """" & evalue & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -125,20 +125,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BBHTrimIdentities(_in As String, Optional _identities As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/bbh.Trim.Indeitites")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _identities.StringEmpty Then
-Call CLI.Append("/identities " & """" & _identities & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function BBHTrimIdentities([in] As String, Optional identities As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/bbh.Trim.Indeitites")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not identities.StringEmpty Then
+            Call CLI.Append("/identities " & """" & identities & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -148,43 +148,43 @@ End Function
 ''' > Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
 ''' </summary>
 '''
-Public Function SSU_MetagenomeNetwork(_net As String, _tax As String, _taxonomy As String, Optional _x2taxid As String = "", Optional _theme_color As String = "'Paired:c12'", Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "", Optional _tax_build_in As Boolean = False, Optional _skip_exists As Boolean = False, Optional _gi2taxid As Boolean = False, Optional _parallel As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/BLAST.Metagenome.SSU.Network")
-Call CLI.Append(" ")
-Call CLI.Append("/net " & """" & _net & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-Call CLI.Append("/taxonomy " & """" & _taxonomy & """ ")
-If Not _x2taxid.StringEmpty Then
-Call CLI.Append("/x2taxid " & """" & _x2taxid & """ ")
-End If
-If Not _theme_color.StringEmpty Then
-Call CLI.Append("/theme-color " & """" & _theme_color & """ ")
-End If
-If Not _identities.StringEmpty Then
-Call CLI.Append("/identities " & """" & _identities & """ ")
-End If
-If Not _coverage.StringEmpty Then
-Call CLI.Append("/coverage " & """" & _coverage & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _tax_build_in Then
-Call CLI.Append("/tax-build-in ")
-End If
-If _skip_exists Then
-Call CLI.Append("/skip-exists ")
-End If
-If _gi2taxid Then
-Call CLI.Append("/gi2taxid ")
-End If
-If _parallel Then
-Call CLI.Append("/parallel ")
-End If
+Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As String, Optional x2taxid As String = "", Optional theme_color As String = "'Paired:c12'", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional tax_build_in As Boolean = False, Optional skip_exists As Boolean = False, Optional gi2taxid As Boolean = False, Optional parallel As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/BLAST.Metagenome.SSU.Network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/net " & """" & net & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    Call CLI.Append("/taxonomy " & """" & taxonomy & """ ")
+    If Not x2taxid.StringEmpty Then
+            Call CLI.Append("/x2taxid " & """" & x2taxid & """ ")
+    End If
+    If Not theme_color.StringEmpty Then
+            Call CLI.Append("/theme-color " & """" & theme_color & """ ")
+    End If
+    If Not identities.StringEmpty Then
+            Call CLI.Append("/identities " & """" & identities & """ ")
+    End If
+    If Not coverage.StringEmpty Then
+            Call CLI.Append("/coverage " & """" & coverage & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If tax_build_in Then
+        Call CLI.Append("/tax-build-in ")
+    End If
+    If skip_exists Then
+        Call CLI.Append("/skip-exists ")
+    End If
+    If gi2taxid Then
+        Call CLI.Append("/gi2taxid ")
+    End If
+    If parallel Then
+        Call CLI.Append("/parallel ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -193,23 +193,23 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GenerateBlastNetwork(_in As String, Optional _out As String = "", Optional _type As String = "", Optional _dict As String = "") As Integer
-Dim CLI As New StringBuilder("/BLAST.Network")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _type.StringEmpty Then
-Call CLI.Append("/type " & """" & _type & """ ")
-End If
-If Not _dict.StringEmpty Then
-Call CLI.Append("/dict " & """" & _dict & """ ")
-End If
+Public Function GenerateBlastNetwork([in] As String, Optional out As String = "", Optional type As String = "", Optional dict As String = "") As Integer
+    Dim CLI As New StringBuilder("/BLAST.Network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not type.StringEmpty Then
+            Call CLI.Append("/type " & """" & type & """ ")
+    End If
+    If Not dict.StringEmpty Then
+            Call CLI.Append("/dict " & """" & dict & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -218,20 +218,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MetaBuildBLAST(_in As String, Optional _out As String = "", Optional _dict As String = "") As Integer
-Dim CLI As New StringBuilder("/BLAST.Network.MetaBuild")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _dict.StringEmpty Then
-Call CLI.Append("/dict " & """" & _dict & """ ")
-End If
+Public Function MetaBuildBLAST([in] As String, Optional out As String = "", Optional dict As String = "") As Integer
+    Dim CLI As New StringBuilder("/BLAST.Network.MetaBuild")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not dict.StringEmpty Then
+            Call CLI.Append("/dict " & """" & dict & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -240,23 +240,23 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET(_in As String, Optional _out As String = "", Optional _familyinfo As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _familyinfo.StringEmpty Then
-Call CLI.Append("/familyinfo " & """" & _familyinfo & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
+Public Function BuildTreeNET([in] As String, Optional out As String = "", Optional familyinfo As String = "", Optional brief As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not familyinfo.StringEmpty Then
+            Call CLI.Append("/familyinfo " & """" & familyinfo & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -265,18 +265,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNETCOGs(_cluster As String, _COGs As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.COGs")
-Call CLI.Append(" ")
-Call CLI.Append("/cluster " & """" & _cluster & """ ")
-Call CLI.Append("/COGs " & """" & _COGs & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function BuildTreeNETCOGs(cluster As String, COGs As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.COGs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/cluster " & """" & cluster & """ ")
+    Call CLI.Append("/COGs " & """" & COGs & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -285,22 +285,22 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_DEGs(_in As String, _up As String, _down As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/up " & """" & _up & """ ")
-Call CLI.Append("/down " & """" & _down & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
+Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/up " & """" & up & """ ")
+    Call CLI.Append("/down " & """" & down & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -309,24 +309,24 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_KEGGModules(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/mods " & """" & _mods & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
-If _trim Then
-Call CLI.Append("/trim ")
-End If
+Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/mods " & """" & mods & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
+    If trim Then
+        Call CLI.Append("/trim ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -335,24 +335,24 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_KEGGPathways(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/mods " & """" & _mods & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
-If _trim Then
-Call CLI.Append("/trim ")
-End If
+Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/mods " & """" & mods & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
+    If trim Then
+        Call CLI.Append("/trim ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -361,21 +361,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_MergeRegulons(_in As String, _family As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.Merged_Regulons")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/family " & """" & _family & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
+Public Function BuildTreeNET_MergeRegulons([in] As String, family As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.Merged_Regulons")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/family " & """" & family & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -384,26 +384,26 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNetTF(_in As String, _maps As String, _map As String, _mods As String, Optional _out As String = "", Optional _cuts As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/maps " & """" & _maps & """ ")
-Call CLI.Append("/map " & """" & _map & """ ")
-Call CLI.Append("/mods " & """" & _mods & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _cuts.StringEmpty Then
-Call CLI.Append("/cuts " & """" & _cuts & """ ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
+Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mods As String, Optional out As String = "", Optional cuts As String = "", Optional brief As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    Call CLI.Append("/map " & """" & map & """ ")
+    Call CLI.Append("/mods " & """" & mods & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not cuts.StringEmpty Then
+            Call CLI.Append("/cuts " & """" & cuts & """ ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -412,32 +412,32 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ModsNET(_in As String, Optional _out As String = "", Optional _footprints As String = "", Optional _cut As String = "", Optional _pcc As String = "", Optional _pathway As Boolean = False, Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/KEGG.Mods.NET")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _footprints.StringEmpty Then
-Call CLI.Append("/footprints " & """" & _footprints & """ ")
-End If
-If Not _cut.StringEmpty Then
-Call CLI.Append("/cut " & """" & _cut & """ ")
-End If
-If Not _pcc.StringEmpty Then
-Call CLI.Append("/pcc " & """" & _pcc & """ ")
-End If
-If _pathway Then
-Call CLI.Append("/pathway ")
-End If
-If _brief Then
-Call CLI.Append("/brief ")
-End If
+Public Function ModsNET([in] As String, Optional out As String = "", Optional footprints As String = "", Optional cut As String = "", Optional pcc As String = "", Optional pathway As Boolean = False, Optional brief As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/KEGG.Mods.NET")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not footprints.StringEmpty Then
+            Call CLI.Append("/footprints " & """" & footprints & """ ")
+    End If
+    If Not cut.StringEmpty Then
+            Call CLI.Append("/cut " & """" & cut & """ ")
+    End If
+    If Not pcc.StringEmpty Then
+            Call CLI.Append("/pcc " & """" & pcc & """ ")
+    End If
+    If pathway Then
+        Call CLI.Append("/pathway ")
+    End If
+    If brief Then
+        Call CLI.Append("/brief ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -446,20 +446,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KEGGPathwayMapNetwork(_in As String, Optional _node As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/KEGG.pathwayMap.Network")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _node.StringEmpty Then
-Call CLI.Append("/node " & """" & _node & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.pathwayMap.Network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not node.StringEmpty Then
+            Call CLI.Append("/node " & """" & node & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -468,17 +468,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildKOLinks(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/KO.link")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function BuildKOLinks([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KO.link")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -487,23 +487,23 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function LinkageKnowledgeNetwork(_in As String, Optional _schema As String = "", Optional _out As String = "", Optional _no_type_prefix As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/linkage.knowledge.network")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _schema.StringEmpty Then
-Call CLI.Append("/schema " & """" & _schema & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _no_type_prefix Then
-Call CLI.Append("/no-type_prefix ")
-End If
+Public Function LinkageKnowledgeNetwork([in] As String, Optional schema As String = "", Optional out As String = "", Optional no_type_prefix As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/linkage.knowledge.network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not schema.StringEmpty Then
+            Call CLI.Append("/schema " & """" & schema & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If no_type_prefix Then
+        Call CLI.Append("/no-type_prefix ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -513,29 +513,29 @@ End Function
 ''' Converts a generic distance matrix or kmeans clustering result to network model.
 ''' </summary>
 '''
-Public Function MatrixToNetwork(_in As String, Optional _out As String = "", Optional _colors As String = "", Optional _cutoff As String = "", Optional _generic As Boolean = False, Optional _cutoff_paired As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Matrix.NET")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _colors.StringEmpty Then
-Call CLI.Append("/colors " & """" & _colors & """ ")
-End If
-If Not _cutoff.StringEmpty Then
-Call CLI.Append("/cutoff " & """" & _cutoff & """ ")
-End If
-If _generic Then
-Call CLI.Append("/generic ")
-End If
-If _cutoff_paired Then
-Call CLI.Append("/cutoff.paired ")
-End If
+Public Function MatrixToNetwork([in] As String, Optional out As String = "", Optional colors As String = "", Optional cutoff As String = "", Optional generic As Boolean = False, Optional cutoff_paired As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Matrix.NET")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not cutoff.StringEmpty Then
+            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
+    End If
+    If generic Then
+        Call CLI.Append("/generic ")
+    End If
+    If cutoff_paired Then
+        Call CLI.Append("/cutoff.paired ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -544,20 +544,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimpleModesNET(_in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/modNET.Simple")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _pathway Then
-Call CLI.Append("/pathway ")
-End If
+Public Function SimpleModesNET([in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/modNET.Simple")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If pathway Then
+        Call CLI.Append("/pathway ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -566,21 +566,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MotifCluster(_query As String, _LDM As String, Optional _clusters As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster")
-Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-Call CLI.Append("/LDM " & """" & _LDM & """ ")
-If Not _clusters.StringEmpty Then
-Call CLI.Append("/clusters " & """" & _clusters & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function MotifCluster(query As String, LDM As String, Optional clusters As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Motif.Cluster")
+    Call CLI.Append(" ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    Call CLI.Append("/LDM " & """" & LDM & """ ")
+    If Not clusters.StringEmpty Then
+            Call CLI.Append("/clusters " & """" & clusters & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -589,29 +589,29 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function FastCluster(_query As String, Optional _ldm As String = "", Optional _out As String = "", Optional _map As String = "", Optional _maxw As String = "", Optional _ldm_loads As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.Fast")
-Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _ldm.StringEmpty Then
-Call CLI.Append("/ldm " & """" & _ldm & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _map.StringEmpty Then
-Call CLI.Append("/map " & """" & _map & """ ")
-End If
-If Not _maxw.StringEmpty Then
-Call CLI.Append("/maxw " & """" & _maxw & """ ")
-End If
-If _ldm_loads Then
-Call CLI.Append("/ldm_loads ")
-End If
+Public Function FastCluster(query As String, Optional ldm As String = "", Optional out As String = "", Optional map As String = "", Optional maxw As String = "", Optional ldm_loads As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Motif.Cluster.Fast")
+    Call CLI.Append(" ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    If Not ldm.StringEmpty Then
+            Call CLI.Append("/ldm " & """" & ldm & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not map.StringEmpty Then
+            Call CLI.Append("/map " & """" & map & """ ")
+    End If
+    If Not maxw.StringEmpty Then
+            Call CLI.Append("/maxw " & """" & maxw & """ ")
+    End If
+    If ldm_loads Then
+        Call CLI.Append("/ldm_loads ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -620,20 +620,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MotifClusterSites(_in As String, Optional _out As String = "", Optional _ldm As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.Fast.Sites")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _ldm.StringEmpty Then
-Call CLI.Append("/ldm " & """" & _ldm & """ ")
-End If
+Public Function MotifClusterSites([in] As String, Optional out As String = "", Optional ldm As String = "") As Integer
+    Dim CLI As New StringBuilder("/Motif.Cluster.Fast.Sites")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not ldm.StringEmpty Then
+            Call CLI.Append("/ldm " & """" & ldm & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -642,23 +642,23 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ClusterMatrix(_query As String, Optional _ldm As String = "", Optional _clusters As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.MAT")
-Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _ldm.StringEmpty Then
-Call CLI.Append("/ldm " & """" & _ldm & """ ")
-End If
-If Not _clusters.StringEmpty Then
-Call CLI.Append("/clusters " & """" & _clusters & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function ClusterMatrix(query As String, Optional ldm As String = "", Optional clusters As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Motif.Cluster.MAT")
+    Call CLI.Append(" ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    If Not ldm.StringEmpty Then
+            Call CLI.Append("/ldm " & """" & ldm & """ ")
+    End If
+    If Not clusters.StringEmpty Then
+            Call CLI.Append("/clusters " & """" & clusters & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -667,20 +667,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildModelNet(_model As String, Optional _out As String = "", Optional _not_trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/net.model")
-Call CLI.Append(" ")
-Call CLI.Append("/model " & """" & _model & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _not_trim Then
-Call CLI.Append("/not-trim ")
-End If
+Public Function BuildModelNet(model As String, Optional out As String = "", Optional not_trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/net.model")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If not_trim Then
+        Call CLI.Append("/not-trim ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -689,20 +689,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PathwayNet(_model As String, Optional _out As String = "", Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/net.pathway")
-Call CLI.Append(" ")
-Call CLI.Append("/model " & """" & _model & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _trim Then
-Call CLI.Append("/trim ")
-End If
+Public Function PathwayNet(model As String, Optional out As String = "", Optional trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/net.pathway")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If trim Then
+        Call CLI.Append("/trim ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -711,18 +711,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function net_rFBA(_in As String, _fba_out As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Net.rFBA")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/fba.out " & """" & _fba_out & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function net_rFBA([in] As String, fba_out As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Net.rFBA")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/fba.out " & """" & fba_out & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -732,20 +732,20 @@ End Function
 ''' Builds the regulation network between the TF.
 ''' </summary>
 '''
-Public Function TFNet(_in As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI As New StringBuilder("/NetModel.TF_regulates")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _cut.StringEmpty Then
-Call CLI.Append("/cut " & """" & _cut & """ ")
-End If
+Public Function TFNet([in] As String, Optional out As String = "", Optional cut As String = "") As Integer
+    Dim CLI As New StringBuilder("/NetModel.TF_regulates")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not cut.StringEmpty Then
+            Call CLI.Append("/cut " & """" & cut & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -755,21 +755,21 @@ End Function
 ''' Regulator phenotype relationship cluster from virtual footprints.
 ''' </summary>
 '''
-Public Function KEGGModulesPhenotypeRegulates(_mods As String, _in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Phenotypes.KEGG")
-Call CLI.Append(" ")
-Call CLI.Append("/mods " & """" & _mods & """ ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _pathway Then
-Call CLI.Append("/pathway ")
-End If
+Public Function KEGGModulesPhenotypeRegulates(mods As String, [in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Phenotypes.KEGG")
+    Call CLI.Append(" ")
+    Call CLI.Append("/mods " & """" & mods & """ ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If pathway Then
+        Call CLI.Append("/pathway ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -778,20 +778,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PlotCytoscapeTable(_in As String, Optional _size As String = "1600,1440", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Plot.Cytoscape.Table")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _size.StringEmpty Then
-Call CLI.Append("/size " & """" & _size & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function PlotCytoscapeTable([in] As String, Optional size As String = "1600,1440", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Plot.Cytoscape.Table")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -800,22 +800,22 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ReactionNET(Optional _model As String = "", Optional _source As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/reaction.NET")
-Call CLI.Append(" ")
-If Not _model.StringEmpty Then
-Call CLI.Append("/model " & """" & _model & """ ")
-End If
-If Not _source.StringEmpty Then
-Call CLI.Append("/source " & """" & _source & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function ReactionNET(Optional model As String = "", Optional source As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/reaction.NET")
+    Call CLI.Append(" ")
+    If Not model.StringEmpty Then
+            Call CLI.Append("/model " & """" & model & """ ")
+    End If
+    If Not source.StringEmpty Then
+            Call CLI.Append("/source " & """" & source & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -824,16 +824,16 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function replaceName(_in As String, _nodes As String, _out As String) As Integer
-Dim CLI As New StringBuilder("/replace")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/nodes " & """" & _nodes & """ ")
-Call CLI.Append("/out " & """" & _out & """ ")
+Public Function replaceName([in] As String, nodes As String, out As String) As Integer
+    Dim CLI As New StringBuilder("/replace")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/nodes " & """" & nodes & """ ")
+    Call CLI.Append("/out " & """" & out & """ ")
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -843,20 +843,20 @@ End Function
 ''' This method is not recommended.
 ''' </summary>
 '''
-Public Function TreeCluster(_in As String, Optional _out As String = "", Optional _locus_map As String = "") As Integer
-Dim CLI As New StringBuilder("/Tree.Cluster")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _locus_map.StringEmpty Then
-Call CLI.Append("/locus.map " & """" & _locus_map & """ ")
-End If
+Public Function TreeCluster([in] As String, Optional out As String = "", Optional locus_map As String = "") As Integer
+    Dim CLI As New StringBuilder("/Tree.Cluster")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not locus_map.StringEmpty Then
+            Call CLI.Append("/locus.map " & """" & locus_map & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -865,17 +865,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function rFBATreeCluster(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function rFBATreeCluster([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -884,17 +884,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function WriteReactionTable(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Write.Reaction.Table")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function WriteReactionTable([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Write.Reaction.Table")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -904,27 +904,27 @@ End Function
 ''' Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
 ''' </summary>
 '''
-Public Function DrawingInvoke(_network As String, _parser As String, Optional _size As String = "", Optional _out As String = "", Optional _style As String = "", Optional _style_parser As String = "") As Integer
-Dim CLI As New StringBuilder("-draw")
-Call CLI.Append(" ")
-Call CLI.Append("/network " & """" & _network & """ ")
-Call CLI.Append("/parser " & """" & _parser & """ ")
-If Not _size.StringEmpty Then
-Call CLI.Append("-size " & """" & _size & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("-out " & """" & _out & """ ")
-End If
-If Not _style.StringEmpty Then
-Call CLI.Append("/style " & """" & _style & """ ")
-End If
-If Not _style_parser.StringEmpty Then
-Call CLI.Append("/style_parser " & """" & _style_parser & """ ")
-End If
+Public Function DrawingInvoke(network As String, parser As String, Optional size As String = "", Optional out As String = "", Optional style As String = "", Optional style_parser As String = "") As Integer
+    Dim CLI As New StringBuilder("-draw")
+    Call CLI.Append(" ")
+    Call CLI.Append("/network " & """" & network & """ ")
+    Call CLI.Append("/parser " & """" & parser & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("-size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("-out " & """" & out & """ ")
+    End If
+    If Not style.StringEmpty Then
+            Call CLI.Append("/style " & """" & style & """ ")
+    End If
+    If Not style_parser.StringEmpty Then
+            Call CLI.Append("/style_parser " & """" & style_parser & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -933,17 +933,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimpleRegulation(_footprint As String, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--graph.regulates")
-Call CLI.Append(" ")
-Call CLI.Append("/footprint " & """" & _footprint & """ ")
-If _trim Then
-Call CLI.Append("/trim ")
-End If
+Public Function SimpleRegulation(footprint As String, Optional trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("--graph.regulates")
+    Call CLI.Append(" ")
+    Call CLI.Append("/footprint " & """" & footprint & """ ")
+    If trim Then
+        Call CLI.Append("/trim ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -952,25 +952,25 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ModuleRegulations(_model As String, _footprints As String, _out As String, Optional _pathway As Boolean = False, Optional _class As Boolean = False, Optional _type As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--mod.regulations")
-Call CLI.Append(" ")
-Call CLI.Append("/model " & """" & _model & """ ")
-Call CLI.Append("/footprints " & """" & _footprints & """ ")
-Call CLI.Append("/out " & """" & _out & """ ")
-If _pathway Then
-Call CLI.Append("/pathway ")
-End If
-If _class Then
-Call CLI.Append("/class ")
-End If
-If _type Then
-Call CLI.Append("/type ")
-End If
+Public Function ModuleRegulations(model As String, footprints As String, out As String, Optional pathway As Boolean = False, Optional [class] As Boolean = False, Optional type As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("--mod.regulations")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    Call CLI.Append("/footprints " & """" & footprints & """ ")
+    Call CLI.Append("/out " & """" & out & """ ")
+    If pathway Then
+        Call CLI.Append("/pathway ")
+    End If
+    If [class] Then
+        Call CLI.Append("/class ")
+    End If
+    If type Then
+        Call CLI.Append("/type ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -979,19 +979,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TCS(_in As String, _regulations As String, _out As String, Optional _fill_pcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--TCS")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/regulations " & """" & _regulations & """ ")
-Call CLI.Append("/out " & """" & _out & """ ")
-If _fill_pcc Then
-Call CLI.Append("/fill-pcc ")
-End If
+Public Function TCS([in] As String, regulations As String, out As String, Optional fill_pcc As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("--TCS")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/regulations " & """" & regulations & """ ")
+    Call CLI.Append("/out " & """" & out & """ ")
+    If fill_pcc Then
+        Call CLI.Append("/fill-pcc ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

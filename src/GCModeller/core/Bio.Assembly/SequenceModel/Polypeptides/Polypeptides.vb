@@ -28,9 +28,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 
 Namespace SequenceModel.Polypeptides
 
@@ -46,15 +44,15 @@ Namespace SequenceModel.Polypeptides
         ''' <param name="prot$"></param>
         ''' <returns></returns>
         Public Function ConstructVector(prot$) As AminoAcid()
-            Dim LQuery = LinqAPI.Exec(Of AminoAcid) <=
+            Dim LQuery = LinqAPI.Exec(Of AminoAcid) _
  _
-                From ch As Char
-                In prot.ToUpper
-                Let AA As AminoAcid = If(
-                    ToEnums.ContainsKey(ch),
-                    ToEnums(ch),
-                    AminoAcid.NULL)
-                Select AA
+                () <= From ch As Char
+                      In prot.ToUpper
+                      Let AA As AminoAcid = If(
+                          ToEnums.ContainsKey(ch),
+                          ToEnums(ch),
+                          AminoAcid.NULL)
+                      Select AA
 
             Return LQuery
         End Function
@@ -63,8 +61,7 @@ Namespace SequenceModel.Polypeptides
         ''' 值的氨基酸字符都是大写的
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ToChar As Dictionary(Of AminoAcid, Char) =
-            New Dictionary(Of AminoAcid, Char) From {
+        Public ReadOnly Property ToChar As New Dictionary(Of AminoAcid, Char) From {
  _
             {AminoAcid.Alanine, "A"c},
             {AminoAcid.Arginine, "R"c},
@@ -92,8 +89,7 @@ Namespace SequenceModel.Polypeptides
         ''' 键名字符应该是大写的字母
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ToEnums As Dictionary(Of Char, AminoAcid) =
-            New Dictionary(Of Char, AminoAcid) From {
+        Public ReadOnly Property ToEnums As New Dictionary(Of Char, AminoAcid) From {
  _
              {"A"c, AminoAcid.Alanine},
              {"R"c, AminoAcid.Arginine},
@@ -123,8 +119,7 @@ Namespace SequenceModel.Polypeptides
         ''' Protein sequence display color schema from MEGA software.(MEGA软件的显示蛋白质序列的残基颜色)
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property MEGASchema As Dictionary(Of Char, Color) =
-            New Dictionary(Of Char, Color) From {
+        Public ReadOnly Property MEGASchema As New Dictionary(Of Char, Color) From {
  _
             {"B"c, Color.FromArgb(192, 192, 192)},
             {"D"c, Color.FromArgb(255, 0, 0)},
@@ -183,38 +178,38 @@ Namespace SequenceModel.Polypeptides
             Return New Integer() {B, D, E, F, H, I, J, K, L, M, N, O, P, Q, R, S, V, W, X, Y, Z}
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function GetCount(sequence As Char(), aa As Char) As Integer
             Dim LQuery = (From ch In sequence Where ch = aa Select 1).Count
             Return LQuery
         End Function
 
-        Public ReadOnly Property Abbreviate As Dictionary(Of String, String) =
-            New Dictionary(Of String, String) From {
+        Public ReadOnly Property Abbreviate As New Dictionary(Of String, String) From {
  _
-                {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},
-                {"Cys", "C"},
-                {"Gln", "Q"}, {"Glu", "E"}, {"Gly", "G"},
-                {"His", "H"},
-                {"Ile", "I"},
-                {"Leu", "L"}, {"Lys", "K"},
-                {"Met", "M"},
-                {"Phe", "F"}, {"Pro", "P"},
-                {"Ser", "S"},
-                {"Thr", "T"}, {"Trp", "W"}, {"Tyr", "Y"},
-                {"Val", "V"},
+            {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},
+            {"Cys", "C"},
+            {"Gln", "Q"}, {"Glu", "E"}, {"Gly", "G"},
+            {"His", "H"},
+            {"Ile", "I"},
+            {"Leu", "L"}, {"Lys", "K"},
+            {"Met", "M"},
+            {"Phe", "F"}, {"Pro", "P"},
+            {"Ser", "S"},
+            {"Thr", "T"}, {"Trp", "W"}, {"Tyr", "Y"},
+            {"Val", "V"},
  _
-                {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
-                {"CYS", "C"},
-                {"GLN", "Q"}, {"GLU", "E"}, {"GLY", "G"},
-                {"HIS", "H"},
-                {"ILE", "I"},
-                {"LEU", "L"}, {"LYS", "K"},
-                {"MET", "M"},
-                {"PHE", "F"}, {"PRO", "P"},
-                {"SER", "S"},
-                {"THR", "T"}, {"TRP", "W"}, {"TYR", "Y"},
-                {"VAL", "V"}
+            {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
+            {"CYS", "C"},
+            {"GLN", "Q"}, {"GLU", "E"}, {"GLY", "G"},
+            {"HIS", "H"},
+            {"ILE", "I"},
+            {"LEU", "L"}, {"LYS", "K"},
+            {"MET", "M"},
+            {"PHE", "F"}, {"PRO", "P"},
+            {"SER", "S"},
+            {"THR", "T"}, {"TRP", "W"}, {"TYR", "Y"},
+            {"VAL", "V"}
         }
     End Module
 End Namespace

@@ -127,18 +127,18 @@ Module SAM_TSSs
     ''' 将一些标签去除一应用于下游的TSS分析
     ''' </summary>
     ''' <param name="doc">
-    ''' 会将文档里面的<see cref="BitFLAGS.Bit0x200"/>,
-    ''' <see cref="BitFLAGS.Bit0x4"/>的Reads进行剔除
+    ''' 会将文档里面的<see cref="BitFlags.Bit0x200"/>,
+    ''' <see cref="BitFlags.Bit0x4"/>的Reads进行剔除
     ''' </param>
     ''' <returns></returns>
     ''' 
     <ExportAPI("TrimFlags")>
     Public Function TrimForTSSs(doc As SAM.SAM) As SAM.SAM
-        Dim Unmapped As Integer = BitFLAGS.Bit0x4
-        Dim LowQuality As Integer = BitFLAGS.Bit0x200
+        Dim Unmapped As Integer = BitFlags.Bit0x4
+        Dim LowQuality As Integer = BitFlags.Bit0x200
 
         Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file   {doc.FilePath.ToFileURL}".__DEBUG_ECHO
-        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFLAGS.Bit0x200} or [{NameOf(Unmapped)}]{BitFLAGS.Bit0x4}".__DEBUG_ECHO
+        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".__DEBUG_ECHO
         doc = New SAM.SAM With {
             .FilePath = doc.FilePath,
             .Head = doc.Head,

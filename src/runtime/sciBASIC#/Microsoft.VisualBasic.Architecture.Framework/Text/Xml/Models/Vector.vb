@@ -61,9 +61,19 @@ Namespace Text.Xml.Models
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Vector?.Length
+                Return CInt(Vector?.Length)
             End Get
         End Property
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class TermsVector
+
+        <XmlAttribute>
+        Public Property Terms As String()
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

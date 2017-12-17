@@ -54,7 +54,7 @@ Namespace RegpreciseRegulations
 
         Sub New()
             If Not Settings.Session.Initialized Then
-                Call Settings.Initialize(GetType(ShellScriptAPI))
+                Call Settings.Initialize()
             End If
         End Sub
 

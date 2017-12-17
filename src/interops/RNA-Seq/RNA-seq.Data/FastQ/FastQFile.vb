@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 
-Namespace Fastaq
+Namespace FQ
 
     ''' <summary>
     ''' There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.

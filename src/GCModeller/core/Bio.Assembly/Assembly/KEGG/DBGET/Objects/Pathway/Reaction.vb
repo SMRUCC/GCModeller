@@ -1,48 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::95e1f4cdb45bcd23dfb60cda7f95a3ee, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports r = System.Text.RegularExpressions.Regex
+Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Namespace Assembly.KEGG.DBGET.bGetObject
+
+    Public Structure OrthologyTerms
+        <XmlElement("Term")>
+        Public Property Terms As XmlProperty()
+    End Structure
 
     ''' <summary>
     ''' KEGG reaction annotation data.
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("bGetObject.Reaction", [Namespace]:="http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID")>
+    <XmlRoot("bGetObject.Reaction", [Namespace]:=Reaction.Xmlns)>
     Public Class Reaction : Implements INamedValue
 
+        Public Const Xmlns$ = "http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID"
+
+        ''' <summary>
+        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
@@ -60,17 +73,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ECNum As String()
+        Public Property Enzyme As String()
         Public Property Comments As String
-        Public Property Pathway As KeyValuePair()
-        Public Property [Module] As KeyValuePair()
-        Public Property Orthology As TripleKeyValuesPair()
+        Public Property Pathway As NamedValue()
+        Public Property [Module] As NamedValue()
+        Public Property Orthology As OrthologyTerms
 
         ''' <summary>
         ''' The reaction class
         ''' </summary>
         ''' <returns></returns>
-        Public Property [Class] As KeyValuePair()
+        Public Property [Class] As NamedValue()
 
         ''' <summary>
         ''' + (...)
@@ -99,7 +112,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1}:  {2}", ECNum, Entry, Definition)
+            Return String.Format("[{0}] {1}:  {2}", Enzyme, Entry, Definition)
         End Function
 
         ''' <summary>
@@ -107,6 +120,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Reversible As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return InStr(Equation, " <=> ") > 0
             End Get

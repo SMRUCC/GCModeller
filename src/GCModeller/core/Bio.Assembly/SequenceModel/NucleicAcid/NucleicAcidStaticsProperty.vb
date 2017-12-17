@@ -1,41 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::0903caed35bc2537375c2859f6a68510, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 
 Namespace SequenceModel.NucleotideModels
 
@@ -44,6 +42,8 @@ Namespace SequenceModel.NucleotideModels
     ''' </summary>
     <Package("NucleicAcid.Property", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module NucleicAcidStaticsProperty
+
+        ReadOnly defaultProperty As New DefaultValue(Of NtProperty)(AddressOf GCSkew)
 
         ''' <summary>
         ''' 批量计算出GCSkew或者GC%
@@ -59,21 +59,24 @@ Namespace SequenceModel.NucleotideModels
                                Optional steps As Integer = 50,
                                Optional method As NtProperty = Nothing) As NamedValue(Of Double())()
 
-            If method Is Nothing Then
-                method = AddressOf GCSkew
-            End If
-            Dim LQuery = From genome As SeqValue(Of FastaToken)
+            Dim LQuery As IEnumerable(Of (genome As SeqValue(Of FastaToken), skew As Double()))
+
+            With method Or defaultProperty
+                LQuery = From genome As SeqValue(Of FastaToken)
                          In nts.SeqIterator.AsParallel
-                         Select genome,
-                             skew = method(genome.value, winSize, steps, True)
                          Order By genome.i Ascending  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
-            Return LinqAPI.Exec(Of NamedValue(Of Double())) <=
-                From g
-                In LQuery
-                Select New NamedValue(Of Double()) With {
-                    .Name = g.genome.value.ToString,
-                    .Value = g.skew
-                }
+                         Let vector = .ref(genome.value, winSize, steps, True)
+                         Select (genome:=genome, skew:=vector)
+            End With
+
+            Return LinqAPI.Exec(Of NamedValue(Of Double())) _
+ _
+                () <= From g
+                      In LQuery
+                      Select New NamedValue(Of Double()) With {
+                          .Name = g.genome.value.ToString,
+                          .Value = g.skew
+                      }
         End Function
 
         ''' <summary>
@@ -136,6 +139,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GCContent(Sequence As IPolymerSequenceModel) As Double
             Return GCContent(Sequence.SequenceData)
         End Function
@@ -145,7 +149,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="NT">序列数据大小写不敏感</param>
         ''' <returns></returns>
-        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
         Public Function GCContent(NT As String) As Double
             Return (Count(NT, "G"c, "g"c) + Count(NT, "C"c, "c"c)) / Len(NT)
@@ -158,6 +162,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Tm", Info:="The melting temperature of P1 is Tm(P1), which is a reference temperature for a primer to perform annealing and known as the Wallace formula")>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Tm(<Parameter("Primer", "Short DNA sequence which its length is less than 35nt.")> Primer As String) As Double
             Return (Count(Primer, "C"c, "c"c) + Count(Primer, "G"c, "g"c)) * 4 + (Count(Primer, "A"c, "a"c) + Count(Primer, "T"c, "t"c)) * 2
         End Function
@@ -184,6 +189,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="Circular"></param>
         ''' <returns></returns>
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GCContent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"G", "C"})
         End Function
@@ -253,6 +259,7 @@ Namespace SequenceModel.NucleotideModels
             Return n
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("AT%")>
         Public Function ATPercent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"A", "T"})

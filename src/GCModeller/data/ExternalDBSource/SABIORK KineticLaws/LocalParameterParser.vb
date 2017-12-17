@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
 Namespace SabiorkKineticLaws
@@ -43,7 +42,7 @@ Namespace SabiorkKineticLaws
         Const KM_ID As String = "^Km_(.+?_)?SPC_.+?"
 
         Public Function TryParseEnzymeCatalyst(DataModel As SABIORK) As EnzymeCatalystKineticLaw()
-            Dim LQuery = (From item In DataModel.LocalParameters Where Regex.Match(item.Key, KM_ID).Success Select item).ToArray
+            Dim LQuery = (From item In DataModel.LocalParameters Where Regex.Match(item.name, KM_ID).Success Select item).ToArray
             Dim Enzyme As SabiorkKineticLaws.SBMLParser.CompoundSpecie
 
             If LQuery.IsNullOrEmpty Then
@@ -59,15 +58,15 @@ Namespace SabiorkKineticLaws
             Return EnzCatalystLQuery
         End Function
 
-        Private Function TryParseEnzymeCatalyst(Km As TripleKeyValuesPair, Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As EnzymeCatalystKineticLaw
-            Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.Key, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
-            Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.Value2))
-            Dim SubstrateId As String = Regex.Match(Km.Key, "SPC.+").Value
+        Private Function TryParseEnzymeCatalyst(Km As [property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As EnzymeCatalystKineticLaw
+            Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.name, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
+            Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.value))
+            Dim SubstrateId As String = Regex.Match(Km.name, "SPC.+").Value
             Dim CatalystSubstrate = DataModel.CompoundSpecies.GetItem(SubstrateId)
             Dim KineticLaw As New EnzymeCatalystKineticLaw With {
                 .Metabolite = CatalystSubstrate.Id,
                 .Enzyme = Enzyme.Id,
-                .Km = Val(Km.Value2),
+                .Km = Val(Km.value),
                 .Kcat = KcatValue,
                 .Buffer = DataModel.Buffer,
                 .KineticRecord = DataModel.kineticLawID,
@@ -121,7 +120,7 @@ Namespace SabiorkKineticLaws
         Private Function TryParseModifierKinetic(Modifier As SBMLParser.CompoundSpecie, Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As ModifierKinetics
             Dim ModifierType As ModifierKinetics.ModifierTypes = ModifierKinetics.TryGetType(Modifier.modifierType)
             Dim Id As String = If(ModifierType = ModifierKinetics.ModifierTypes.Inhibitor, "Ki_" & Modifier.Id, "Ka_" & Modifier.Id)
-            Dim Parameters = (From item In DataModel.LocalParameters Where String.Equals(Id, item.Key) Select item).ToArray
+            Dim Parameters = (From item In DataModel.LocalParameters Where String.Equals(Id, item.name) Select item).ToArray
             If Parameters.IsNullOrEmpty Then
                 Return Nothing
             End If
@@ -130,7 +129,7 @@ Namespace SabiorkKineticLaws
                                         Schema.PropertyAttributes.ToString(DataModel.kineticLawID, New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "REACTION-ACTIVITY")}),
                                         Schema.PropertyAttributes.ToString(GetIdentifier(Enzyme.Identifiers, "uniprot"), New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "ENZYME-ACTIVITY")}))
             Dim KineticsData As New ModifierKinetics With {
-                .K = Val(Parameters.First.Value2),
+                .K = Val(Parameters.First.value),
                 .Modifier = Modifier.Id,
                 .ModifierType = ModifierType,
                 .ObjectId = ObjectId,

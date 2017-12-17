@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/NCBI_tools.exe
+' assembly: G:/GCModeller/GCModeller/bin/NCBI_tools.exe
 
 Namespace GCModellerApps
 
@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class NCBI_tools : Inherits InteropService
 
-Public Const App$ = "NCBI_tools.exe"
+    Public Const App$ = "NCBI_tools.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -27,21 +27,21 @@ End Sub
 ''' ```
 ''' </summary>
 '''
-Public Function accidMatch(_in As String, _acc2taxid As String, Optional _out As String = "", Optional _gb_priority As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/accid2taxid.Match")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/acc2taxid " & """" & _acc2taxid & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _gb_priority Then
-Call CLI.Append("/gb_priority ")
-End If
+Public Function accidMatch([in] As String, acc2taxid As String, Optional out As String = "", Optional gb_priority As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/accid2taxid.Match")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/acc2taxid " & """" & acc2taxid & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If gb_priority Then
+        Call CLI.Append("/gb_priority ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -50,21 +50,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignTaxonomy(_in As String, _gi As String, _index As String, _tax As String, _gi2taxi As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Assign.Taxonomy")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/gi " & """" & _gi & """ ")
-Call CLI.Append("/index " & """" & _index & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-Call CLI.Append("/gi2taxi " & """" & _gi2taxi & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function AssignTaxonomy([in] As String, gi As String, index As String, tax As String, gi2taxi As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Assign.Taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/gi " & """" & gi & """ ")
+    Call CLI.Append("/index " & """" & index & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    Call CLI.Append("/gi2taxi " & """" & gi2taxi & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -73,24 +73,24 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignTaxonomyFromRef(_in As String, _ref As String, Optional _index As String = "", Optional _out As String = "", Optional _non_biom As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Assign.Taxonomy.From.Ref")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/ref " & """" & _ref & """ ")
-If Not _index.StringEmpty Then
-Call CLI.Append("/index " & """" & _index & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _non_biom Then
-Call CLI.Append("/non-biom ")
-End If
+Public Function AssignTaxonomyFromRef([in] As String, ref As String, Optional index As String = "", Optional out As String = "", Optional non_biom As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Assign.Taxonomy.From.Ref")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    If Not index.StringEmpty Then
+            Call CLI.Append("/index " & """" & index & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If non_biom Then
+        Call CLI.Append("/non-biom ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -99,19 +99,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignTaxonomy2(_in As String, _index As String, _ref As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Assign.Taxonomy.SSU")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/index " & """" & _index & """ ")
-Call CLI.Append("/ref " & """" & _ref & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function AssignTaxonomy2([in] As String, index As String, ref As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Assign.Taxonomy.SSU")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/index " & """" & index & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -120,22 +120,22 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssociateTaxonomy(_in As String, _tax As String, _gi2taxi As String, Optional _gi As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Associate.Taxonomy")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-Call CLI.Append("/gi2taxi " & """" & _gi2taxi & """ ")
-If Not _gi.StringEmpty Then
-Call CLI.Append("/gi " & """" & _gi & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function AssociateTaxonomy([in] As String, tax As String, gi2taxi As String, Optional gi As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Associate.Taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    Call CLI.Append("/gi2taxi " & """" & gi2taxi & """ ")
+    If Not gi.StringEmpty Then
+            Call CLI.Append("/gi " & """" & gi & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -144,21 +144,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Associates(_in As String, _ls As String, Optional _index As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Associates.Brief")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/ls " & """" & _ls & """ ")
-If Not _index.StringEmpty Then
-Call CLI.Append("/index " & """" & _index & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function Associates([in] As String, ls As String, Optional index As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Associates.Brief")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/ls " & """" & ls & """ ")
+    If Not index.StringEmpty Then
+            Call CLI.Append("/index " & """" & index & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -167,17 +167,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Build_gi2taxi(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Build_gi2taxi")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function Build_gi2taxi([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Build_gi2taxi")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -186,17 +186,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportGI(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Export.GI")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function ExportGI([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Export.GI")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -206,20 +206,20 @@ End Function
 ''' String similarity match of the fasta title with given terms for search and export by taxonomy.
 ''' </summary>
 '''
-Public Function FilterExports(_in As String, _tax As String, _gi2taxid As String, _words As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Filter.Exports")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
-Call CLI.Append("/words " & """" & _words & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function FilterExports([in] As String, tax As String, gi2taxid As String, words As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Filter.Exports")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
+    Call CLI.Append("/words " & """" & words & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -228,18 +228,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function giMatch(_in As String, _gi2taxid As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/gi.Match")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function giMatch([in] As String, gi2taxid As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gi.Match")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -248,21 +248,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function giMatchs(_in As String, _gi2taxid As String, Optional _out As String = "", Optional _num_threads As String = "") As Integer
-Dim CLI As New StringBuilder("/gi.Matchs")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If Not _num_threads.StringEmpty Then
-Call CLI.Append("/num_threads " & """" & _num_threads & """ ")
-End If
+Public Function giMatchs([in] As String, gi2taxid As String, Optional out As String = "", Optional num_threads As String = "") As Integer
+    Dim CLI As New StringBuilder("/gi.Matchs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not num_threads.StringEmpty Then
+            Call CLI.Append("/num_threads " & """" & num_threads & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -271,17 +271,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetMapHitsList(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/MapHits.list")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function GetMapHitsList([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/MapHits.list")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -290,18 +290,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NtKeyMatches(_in As String, _list As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/nt.matches.key")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/list " & """" & _list & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function NtKeyMatches([in] As String, list As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/nt.matches.key")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/list " & """" & list & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -310,18 +310,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NtNameMatches(_in As String, _list As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/nt.matches.name")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/list " & """" & _list & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function NtNameMatches([in] As String, list As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/nt.matches.name")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/list " & """" & list & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -330,19 +330,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NtTaxonomy(_in As String, _gi2taxi As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Nt.Taxonomy")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/gi2taxi " & """" & _gi2taxi & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function NtTaxonomy([in] As String, gi2taxi As String, tax As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Nt.Taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/gi2taxi " & """" & gi2taxi & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -351,24 +351,24 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function OTUAssociated(_in As String, _maps As String, Optional _rawmap As String = "", Optional _otu_field As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/OTU.associated")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/maps " & """" & _maps & """ ")
-If Not _rawmap.StringEmpty Then
-Call CLI.Append("/rawmap " & """" & _rawmap & """ ")
-End If
-If Not _otu_field.StringEmpty Then
-Call CLI.Append("/otu_field " & """" & _otu_field & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function OTUAssociated([in] As String, maps As String, Optional rawmap As String = "", Optional otu_field As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/OTU.associated")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not rawmap.StringEmpty Then
+            Call CLI.Append("/rawmap " & """" & rawmap & """ ")
+    End If
+    If Not otu_field.StringEmpty Then
+            Call CLI.Append("/otu_field " & """" & otu_field & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -377,18 +377,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function OTUDiff(_ref As String, _parts As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/OTU.diff")
-Call CLI.Append(" ")
-Call CLI.Append("/ref " & """" & _ref & """ ")
-Call CLI.Append("/parts " & """" & _parts & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function OTUDiff(ref As String, parts As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/OTU.diff")
+    Call CLI.Append(" ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    Call CLI.Append("/parts " & """" & parts & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -397,19 +397,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function OTU_Taxonomy(_in As String, _maps As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/OTU.Taxonomy")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/maps " & """" & _maps & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function OTU_Taxonomy([in] As String, maps As String, tax As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/OTU.Taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -419,18 +419,18 @@ End Function
 ''' Using ``MapHits`` property
 ''' </summary>
 '''
-Public Function OTUTaxonomyReplace(_in As String, _maps As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/OTU.Taxonomy.Replace")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/maps " & """" & _maps & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function OTUTaxonomyReplace([in] As String, maps As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/OTU.Taxonomy.Replace")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -439,27 +439,27 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SearchTaxonomy(_in As String, _ncbi_taxonomy As String, Optional _top As String = "", Optional _cut As String = "", Optional _out As String = "", Optional _expression As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Search.Taxonomy")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/ncbi_taxonomy " & """" & _ncbi_taxonomy & """ ")
-If Not _top.StringEmpty Then
-Call CLI.Append("/top " & """" & _top & """ ")
-End If
-If Not _cut.StringEmpty Then
-Call CLI.Append("/cut " & """" & _cut & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _expression Then
-Call CLI.Append("/expression ")
-End If
+Public Function SearchTaxonomy([in] As String, ncbi_taxonomy As String, Optional top As String = "", Optional cut As String = "", Optional out As String = "", Optional expression As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Search.Taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/ncbi_taxonomy " & """" & ncbi_taxonomy & """ ")
+    If Not top.StringEmpty Then
+            Call CLI.Append("/top " & """" & top & """ ")
+    End If
+    If Not cut.StringEmpty Then
+            Call CLI.Append("/cut " & """" & cut & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If expression Then
+        Call CLI.Append("/expression ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -469,20 +469,20 @@ End Function
 ''' Split the input fasta file by taxid grouping.
 ''' </summary>
 '''
-Public Function SplitByTaxid(_in As String, Optional _gi2taxid As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Split.By.Taxid")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _gi2taxid.StringEmpty Then
-Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function SplitByTaxid([in] As String, Optional gi2taxid As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Split.By.Taxid")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not gi2taxid.StringEmpty Then
+            Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -491,20 +491,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SplitByTaxidBatch(_in As String, Optional _num_threads As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Split.By.Taxid.Batch")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _num_threads.StringEmpty Then
-Call CLI.Append("/num_threads " & """" & _num_threads & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function SplitByTaxidBatch([in] As String, Optional num_threads As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Split.By.Taxid.Batch")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not num_threads.StringEmpty Then
+            Call CLI.Append("/num_threads " & """" & num_threads & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -513,20 +513,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TaxonomyTreeData(_data As String, _field_gi As String, _gi2taxid As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Taxonomy.Data")
-Call CLI.Append(" ")
-Call CLI.Append("/data " & """" & _data & """ ")
-Call CLI.Append("/field.gi " & """" & _field_gi & """ ")
-Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function TaxonomyTreeData(data As String, field_gi As String, gi2taxid As String, tax As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Taxonomy.Data")
+    Call CLI.Append(" ")
+    Call CLI.Append("/data " & """" & data & """ ")
+    Call CLI.Append("/field.gi " & """" & field_gi & """ ")
+    Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -535,17 +535,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TaxidMapHitViews(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Taxonomy.Maphits.Overview")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function TaxidMapHitViews([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Taxonomy.Maphits.Overview")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -555,18 +555,18 @@ End Function
 ''' Output taxonomy query info by a given NCBI taxid list.
 ''' </summary>
 '''
-Public Function TaxonomyTree(_taxid As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Taxonomy.Tree")
-Call CLI.Append(" ")
-Call CLI.Append("/taxid " & """" & _taxid & """ ")
-Call CLI.Append("/tax " & """" & _tax & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function TaxonomyTree(taxid As String, tax As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Taxonomy.Tree")
+    Call CLI.Append(" ")
+    Call CLI.Append("/taxid " & """" & taxid & """ ")
+    Call CLI.Append("/tax " & """" & tax & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -575,17 +575,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetWordTokens(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/word.tokens")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function GetWordTokens([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/word.tokens")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

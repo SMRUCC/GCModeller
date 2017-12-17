@@ -81,32 +81,32 @@ Public Module ShellScriptAPI
                            Where Not InternalLinkLabel.IsNullOrEmpty
                            Select InternalLinkLabel).Unlist
         For Each NodeLabel As String In TreeNodeLabels
-            Dim FindEntry = (From Entry In EntryLQuery.AsParallel Where InStr(Entry.Key, NodeLabel) = 1 Select Entry).ToArray
+            Dim FindEntry = (From Entry In EntryLQuery.AsParallel Where InStr(Entry.Name, NodeLabel) = 1 Select Entry).ToArray
             '还必须要在Csv去重复的数据源之中存在
-            FindEntry = (From Entry As TripleKeyValuesPair
+            FindEntry = (From Entry
                          In FindEntry
                          Where Not (From Line In EntryData.AsParallel
-                                    Where String.Equals(Line.Locus, Entry.Value1, StringComparison.OrdinalIgnoreCase)
+                                    Where String.Equals(Line.Locus, Entry.Item1, StringComparison.OrdinalIgnoreCase)
                                     Select Line).ToArray.IsNullOrEmpty
                          Select Entry).ToArray
             If Not FindEntry.IsNullOrEmpty Then
-                Call OutTree.Replace(NodeLabel, FindEntry.First.Value2)
+                Call OutTree.Replace(NodeLabel, FindEntry.First.Item2)
             End If
         Next
 
         Return OutTree.ToString
     End Function
 
-    Private Function __linkLabel(entryName As String, genbanks As String()) As TripleKeyValuesPair()
+    Private Function __linkLabel(entryName As String, genbanks As String()) As NamedTuple(Of String)()
         If genbanks.IsNullOrEmpty Then
             Return Nothing
         End If
         If genbanks.Length = 1 Then
-            Return {New TripleKeyValuesPair(genbanks(Scan0), genbanks(Scan0), entryName & "(" & genbanks.First & ")")}
+            Return {New NamedTuple(Of String)(genbanks(Scan0), genbanks(Scan0), entryName & "(" & genbanks.First & ")")}
         Else
             Return (From ID As String
                     In genbanks
-                    Select New TripleKeyValuesPair(ID.__labelTrimming, ID, entryName & "(" & ID & ")")).ToArray
+                    Select New NamedTuple(Of String)(ID.__labelTrimming, ID, entryName & "(" & ID & ")")).ToArray
         End If
     End Function
 

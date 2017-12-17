@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Webservices.Bing
 
 Public Module BingSearch
@@ -25,6 +25,14 @@ Public Module BingSearch
         Dim url$ = $"https://en.wikipedia.org/w/index.php?title={term}&action=edit"
         Dim html$ = url.GET()
 
+    End Function
+
+    Public Function GetWikiPageText(term As String) As String
+        Dim url$ = $"https://en.wikipedia.org/wiki/{term}"
+        Dim html = url.GET
+        Dim text$ = html.StripHTMLTags(stripBlank:=True)
+
+        Return text
     End Function
 
     Public Iterator Function WikiBingSearch(term As String, Optional limits% = 100) As IEnumerable(Of WebResult)

@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::43431bf845ed1aea9a1020acffad7314, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace Fastaq
+Namespace FQ
 
     ''' <summary>
     ''' FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and 
@@ -69,8 +70,9 @@ Namespace Fastaq
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return SEQ_ID.Identifier
+                Return SEQ_ID.instrument_name
             End Get
         End Property
 
@@ -80,9 +82,13 @@ Namespace Fastaq
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property SEQ_ID As FastQIdentifier
-        Public Property SEQ_ID2 As FastQIdentifier
-        Public Property Quantities As String
+        Public Property SEQ_ID As IlluminaFastQID
+        Public Property SEQ_ID2 As IlluminaFastQID
+        ''' <summary>
+        ''' <see cref="GetQualityOrder"/> for each char in this string.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Quality As String
 
         Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
 
@@ -91,13 +97,24 @@ Namespace Fastaq
         End Function
 
         ''' <summary>
-        ''' The character '!' represents the lowest quality while '~' is the highest. Here are the quality value characters in left-to-right increasing order of quality (ASCII):
+        ''' The character '!' represents the lowest quality while '~' is the highest. 
+        ''' Here are the quality value characters in left-to-right increasing order 
+        ''' of quality (ASCII):
         ''' </summary>
         ''' <remarks></remarks>
-        Public Const QUANTITY_ORDERS As String = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+        Public Const QualityOrders$ = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
-        Public Shared Function GetQuantityOrder(q As Char) As Integer
-            Return FastQ.QUANTITY_ORDERS.IndexOf(q)
+        ''' <summary>
+        ''' 测序质量，每个字符对应第2行每个碱基，第四行每个字符对应的ASCII值减去33，
+        ''' 即为该碱基的测序质量值，比如@对应的ASCII值为64，那么其对应的碱基质量值是31。
+        ''' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetQualityOrder(q As Char) As Integer
+            Return Asc(q) - 33
         End Function
 
         ''' <summary>
@@ -114,9 +131,9 @@ Namespace Fastaq
         Public Shared Function FastaqParser(str As String()) As FastQ
             Dim Fastaq As New FastQ With {
                 .SequenceData = str(1),
-                .SEQ_ID = FastQIdentifier.IDParser(str(0)),
-                .SEQ_ID2 = FastQIdentifier.IDParser(str(2)),
-                .Quantities = str(3)
+                .SEQ_ID = IlluminaFastQID.IDParser(str(0)),
+                .SEQ_ID2 = IlluminaFastQID.IDParser(str(2)),
+                .Quality = str(3)
             }
 
             Return Fastaq

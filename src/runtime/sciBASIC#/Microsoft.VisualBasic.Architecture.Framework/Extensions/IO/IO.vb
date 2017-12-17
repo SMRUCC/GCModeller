@@ -91,10 +91,28 @@ Public Module IOExtensions
     ''' <returns></returns>
     <ExportAPI("Open.File")>
     <Extension>
-    Public Function Open(path$, Optional mode As FileMode = FileMode.OpenOrCreate) As FileStream
-        Call path.ParentPath.MkDIR
-        Return IO.File.Open(path, mode)
+    Public Function Open(path$, Optional mode As FileMode = FileMode.OpenOrCreate, Optional doClear As Boolean = True) As FileStream
+        With path.ParentPath
+            If Not .DirectoryExists Then
+                Call .MkDIR()
+            End If
+        End With
+
+        If doClear Then
+            ' 在这里调用FlushStream函数的话会导致一个循环引用的问题
+            Call ClearFileBytes(path)
+        End If
+
+        Return File.Open(path, mode)
     End Function
+
+    ''' <summary>
+    ''' 将文件之中的所有数据都清空
+    ''' </summary>
+    ''' <param name="path"></param>
+    Public Sub ClearFileBytes(path As String)
+        Call IO.File.WriteAllBytes(path, New Byte() {})
+    End Sub
 
     ''' <summary>
     ''' Open a text file and returns its file handle.

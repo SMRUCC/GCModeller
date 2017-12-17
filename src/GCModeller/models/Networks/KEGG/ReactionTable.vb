@@ -77,7 +77,7 @@ Public Class ReactionTable
         Dim eq As DefaultTypes.Equation = xml.ReactionModel
         Return New ReactionTable With {
             .definition = xml.Definition,
-            .EC = xml.ECNum,
+            .EC = xml.Enzyme,
             .entry = xml.Entry,
             .name = xml.CommonNames.JoinBy("; "),
             .products = eq.Products _

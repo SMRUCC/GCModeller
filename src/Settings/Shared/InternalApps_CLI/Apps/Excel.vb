@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/Excel.exe
+' assembly: G:/GCModeller/GCModeller/bin/Excel.exe
 
 Namespace GCModellerApps
 
@@ -15,11 +15,11 @@ Namespace GCModellerApps
 '''
 Public Class Excel : Inherits InteropService
 
-Public Const App$ = "Excel.exe"
+    Public Const App$ = "Excel.exe"
 
-Sub New(App$)
-MyBase._executableAssembly = App$
-End Sub
+    Sub New(App$)
+        MyBase._executableAssembly = App$
+    End Sub
 
 ''' <summary>
 ''' ```
@@ -28,21 +28,21 @@ End Sub
 ''' Join of two table by a unique ID.
 ''' </summary>
 '''
-Public Function cbind(_in As String, _append As String, Optional _token0_id As String = "<SPACE", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/cbind")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/append " & """" & _append & """ ")
-If Not _token0_id.StringEmpty Then
-Call CLI.Append("/token0.id " & """" & _token0_id & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function cbind([in] As String, append As String, Optional token0_id As String = "<SPACE", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/cbind")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/append " & """" & append & """ ")
+    If Not token0_id.StringEmpty Then
+            Call CLI.Append("/token0.id " & """" & token0_id & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -52,14 +52,14 @@ End Function
 ''' Create an empty Excel xlsx package file on a specific file path
 ''' </summary>
 '''
-Public Function newEmpty(_target As String) As Integer
-Dim CLI As New StringBuilder("/Create")
-Call CLI.Append(" ")
-Call CLI.Append("/target " & """" & _target & """ ")
+Public Function newEmpty(target As String) As Integer
+    Dim CLI As New StringBuilder("/Create")
+    Call CLI.Append(" ")
+    Call CLI.Append("/target " & """" & target & """ ")
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -69,18 +69,18 @@ End Function
 ''' Open target excel file and get target table and save into a csv file.
 ''' </summary>
 '''
-Public Function Extract(_open As String, _sheetName As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Extract")
-Call CLI.Append(" ")
-Call CLI.Append("/open " & """" & _open & """ ")
-Call CLI.Append("/sheetName " & """" & _sheetName & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function Extract(open As String, sheetName As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Extract")
+    Call CLI.Append(" ")
+    Call CLI.Append("/open " & """" & open & """ ")
+    Call CLI.Append("/sheetName " & """" & sheetName & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -90,21 +90,21 @@ End Function
 ''' Write target csv table its content data as a worksheet into the target Excel package.
 ''' </summary>
 '''
-Public Function PushTable(_write As String, _table As String, Optional _sheetname As String = "", Optional _saveas As String = "") As Integer
-Dim CLI As New StringBuilder("/push")
-Call CLI.Append(" ")
-Call CLI.Append("/write " & """" & _write & """ ")
-Call CLI.Append("/table " & """" & _table & """ ")
-If Not _sheetname.StringEmpty Then
-Call CLI.Append("/sheetname " & """" & _sheetname & """ ")
-End If
-If Not _saveas.StringEmpty Then
-Call CLI.Append("/saveas " & """" & _saveas & """ ")
-End If
+Public Function PushTable(write As String, table As String, Optional sheetname As String = "", Optional saveas As String = "") As Integer
+    Dim CLI As New StringBuilder("/push")
+    Call CLI.Append(" ")
+    Call CLI.Append("/write " & """" & write & """ ")
+    Call CLI.Append("/table " & """" & table & """ ")
+    If Not sheetname.StringEmpty Then
+            Call CLI.Append("/sheetname " & """" & sheetname & """ ")
+    End If
+    If Not saveas.StringEmpty Then
+            Call CLI.Append("/saveas " & """" & saveas & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 
 ''' <summary>
@@ -114,17 +114,17 @@ End Function
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
 '''
-Public Function rbind(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/rbind")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
+Public Function rbind([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/rbind")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
 End Function
 End Class
 End Namespace

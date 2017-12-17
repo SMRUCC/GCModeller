@@ -244,7 +244,7 @@ Namespace Configurations
             End If
 
             Dim dataDIR As String = $"{outDIR}/data/"
-            Call FilePath.InvokeSet($"{outDIR}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
+            Call FilePath.SetValue($"{outDIR}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
             Call FileIO.FileSystem.CreateDirectory(dataDIR)
 
             App.CurrentDirectory = outDIR

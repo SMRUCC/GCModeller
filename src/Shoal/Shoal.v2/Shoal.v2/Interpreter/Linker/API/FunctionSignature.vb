@@ -69,7 +69,7 @@ Namespace Interpreter.Linker.APIHandler
         Dim _numOfNonOptional As Integer
 
         Sub New(EntryPoint As EntryPoints.APIEntryPoint, [Handles] As OverloadsSignatureHandle())
-            Call Me._EntryPoint.InvokeSet(EntryPoint)
+            Call Me._EntryPoint.SetValue(EntryPoint)
             Call Me.__handlesTypeSignature([Handles])
 
             Dim pInfo As System.Reflection.ParameterInfo() = EntryPoint.EntryPoint.GetParameters '在这里生成变量名的别名
