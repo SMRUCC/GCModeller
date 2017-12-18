@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::8f69f5a4f46ddb4aa996530f18e4d3b6, ..\GCModeller\analysis\Metagenome\Metagenome\RankAbundance.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' ``Rank Abundance``曲线
@@ -54,8 +56,8 @@ Public Module RankAbundance
         Dim vector = otus.ToArray
         Dim OTU_seqs = vector _
             .Select(Function(OTU)
-                        Dim currentTotal As Double = Aggregate sample 
-                                                     In OTU.Properties 
+                        Dim currentTotal As Double = Aggregate sample
+                                                     In OTU.Properties
                                                      Into Sum(sample.Value)
                         Return (ID:=OTU.ID, sum:=currentTotal, OTU:=OTU)
                     End Function) _
@@ -98,6 +100,54 @@ Public Module RankAbundance
     ''' <returns></returns>
     <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable), sampleGroups As Dictionary(Of String, String())) As OTUTable()
         Throw New NotImplementedException
+    End Function
+
+    ''' <summary>
+    ''' 按照rank等级来查看物种的含量为多少
+    ''' </summary>
+    ''' <param name="OTUs"></param>
+    ''' <param name="rank"></param>
+    ''' <param name="percentage"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function TaxonomyProfile(OTUs As IEnumerable(Of gastOUT), rank As TaxonomyRanks, Optional percentage As Boolean = True) As Dictionary(Of String, Double)
+        Dim counts = OTUs _
+            .Select(Function(otu)
+                        Return (tax:=otu.TaxonomyLineage.TaxonomyRankString(rank), counts:=otu.counts)
+                    End Function) _
+            .GroupBy(Function(otu) otu.tax) _
+            .ToArray
+
+        If percentage Then
+
+            Dim all As Integer = counts _
+                .Select(Function(t) t) _
+                .IteratesALL _
+                .Select(Function(t) t.counts) _
+                .Sum
+
+            Return counts.ToDictionary(Function(t) t.Key,
+                                       Function(g)
+                                           Return g.Select(Function(t) t.counts).Sum / all
+                                       End Function)
+        Else
+            Return counts.ToDictionary(Function(t) t.Key,
+                                       Function(g)
+                                           Return CDbl(g.Select(Function(t) t.counts).Sum)
+                                       End Function)
+        End If
+    End Function
+
+    <Extension>
+    Public Function TaxonomyRankString(taxonomy As Metagenomics.Taxonomy, rank As TaxonomyRanks) As String
+        Dim length% = rank - 100
+        Dim array = taxonomy.ToArray.Take(length).AsList
+
+        If array.Count < length Then
+            array += Repeats("NA", length - array.Count)
+        End If
+
+        Return BIOMTaxonomy.TaxonomyString(array)
     End Function
 End Module
 

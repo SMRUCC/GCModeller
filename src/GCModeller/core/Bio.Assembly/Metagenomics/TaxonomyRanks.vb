@@ -1,5 +1,8 @@
 ﻿Namespace Metagenomics
 
+    ''' <summary>
+    ''' 枚举值减去100即可得到index值
+    ''' </summary>
     Public Enum TaxonomyRanks As Integer
         NA
         ''' <summary>

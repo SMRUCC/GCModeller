@@ -1,6 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Metagenomics
+Imports RDotNET.Extensions.VisualBasic.API
 
 ''' <summary>
 ''' The microbiome KEGG pathway profile.
@@ -32,5 +36,53 @@ Public Module PathwayProfile
         Next
 
         Return profile.AsNumeric
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function PathwayProfiles(taxonomy As Taxonomy, uniprot As TaxonomyRepository, ref As MapRepository) As Dictionary(Of String, Double)
+        Return uniprot.PopulateModels({taxonomy}, distinct:=True).PathwayProfile(ref)
+    End Function
+
+    <Extension>
+    Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
+                                    uniprot As TaxonomyRepository,
+                                    ref As MapRepository,
+                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+
+        Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
+        Dim profiles = taxonomyGroup _
+            .Select(Function(tax)
+                        Dim name$ = tax.Key
+                        Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
+                        Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
+
+                        Return (tax:=name, profile:=profile, pct:=tax.Value)
+                    End Function) _
+            .ToArray
+
+        ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
+        Dim ZERO#() = Repeats(0R, profiles.Length)
+        Dim profileTable = profiles _
+            .Select(Function(tax) tax.profile.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .OrderBy(Function(id) id) _
+            .ToDictionary(Function(mapID) mapID,
+                          Function(mapID)
+                              Dim vector#() = profiles _
+                                  .Select(Function(tax)
+                                              Return If(tax.profile.ContainsKey(mapID), tax.profile(mapID), 0) * tax.pct
+                                          End Function) _
+                                  .ToArray
+
+                              ' student t test
+                              Dim pvalue# = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
+                              Dim profile# = vector.Sum
+
+                              Return (profile, pvalue)
+                          End Function)
+
+        Return profileTable
     End Function
 End Module

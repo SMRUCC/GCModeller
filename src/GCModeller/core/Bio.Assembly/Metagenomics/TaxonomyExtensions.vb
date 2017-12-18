@@ -14,7 +14,7 @@ Namespace Metagenomics
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Taxonomy(tax As ITaxonomyLineage) As Taxonomy
+        Public Function TaxonomyLineage(tax As ITaxonomyLineage) As Taxonomy
             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax.Taxonomy))
         End Function
 
