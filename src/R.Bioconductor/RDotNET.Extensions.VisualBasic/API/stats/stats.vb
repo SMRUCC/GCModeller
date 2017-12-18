@@ -46,7 +46,7 @@ Namespace API
         ''' The print method for anova objects prints tables in a ‘pretty’ form.
         ''' </returns>
         Public Function anova(object$, Optional additional As Dictionary(Of String, String) = Nothing) As String
-
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

@@ -748,6 +748,7 @@ Namespace API
                                 Optional immediate As Boolean = False,
                                 Optional noBreaks As Boolean = False,
                                 Optional domain As String = NULL) As String()
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

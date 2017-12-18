@@ -97,7 +97,7 @@ Public Module RankAbundance
     ''' <param name="sampleGroups">样品的分组信息</param>
     ''' <returns></returns>
     <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable), sampleGroups As Dictionary(Of String, String())) As OTUTable()
-
+        Throw New NotImplementedException
     End Function
 End Module
 

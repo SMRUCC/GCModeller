@@ -124,6 +124,10 @@ Namespace Metagenomics
             }
         End Function
 
+        ''' <summary>
+        ''' Convert current <see cref="Taxonomy"/> object as a string array
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToArray() As String()
             Return {kingdom, phylum, [class], order, family, genus, species}
@@ -167,7 +171,42 @@ Namespace Metagenomics
                     Return rel
                 End If
 
-                Return compare(species, .species)
+                ' 2017-12-18
+                '
+                ' 在这里需要注意双名法可能会带来BUG
+                ' 例如脆弱拟杆菌可能会被注释为：
+                '
+                ' k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Bacteroides;s__Bacteroides fragilis（双名法全写形式）
+                ' k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Bacteroides;s__fragilis（双名法简写形式）
+                '
+                ' 假若直接对二者的species name进行比较的话，肯定会因为字符串不相等而返回Irrelevant不相关的结果
+                ' 但是因为species name是使用双名法来进行命名的，所以将简写形式使用genus属名称补全就可以相等了
+
+                ' 先进行直接比较
+                rel = compare(species, .species)
+
+                If rel = Relations.Irrelevant Then
+                    ' 可能是双名法带来的问题，尝试判断一下，如果有任何一个只有一个token，
+                    ' 则尝试将其添加上genus名称再做比较
+                    Dim s1 = species, s2 = .species
+
+                    ' 因为经过前面的比较genus是一样的，所以在这里可以
+                    ' 直接使用当前的这个taxonomy对象的genus值
+
+                    If s1.IndexOf(" "c) = -1 Then
+                        ' 可能是s1为简写形式
+                        s1 = genus & " " & s1
+                    End If
+                    If s2.IndexOf(" "c) = -1 Then
+                        ' 可能是s2为简写形式
+                        s2 = genus & " " & s2
+                    End If
+
+                    ' 再做一次比较
+                    Return compare(s1, s2)
+                Else
+                    Return rel
+                End If
             End With
         End Function
 

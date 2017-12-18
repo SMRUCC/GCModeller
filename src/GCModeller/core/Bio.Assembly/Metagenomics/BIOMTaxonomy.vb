@@ -62,7 +62,15 @@ Namespace Metagenomics
 
         Public Delegate Function TaxonomyLineageParser(taxonomy As String) As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' Contact the taxonomy lineage tokens as a taxonomy lineage string uin BIOM format. 
+        ''' </summary>
+        ''' <param name="lineage">
+        ''' Lineage tokens text array data from <see cref="Taxonomy.ToArray()"/> method.
+        ''' </param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
                 .SeqIterator _
@@ -95,6 +103,17 @@ Namespace Metagenomics
                               Function(rank) rank.value)
 
             Return New Taxonomy(taxonomyRanks)
+        End Function
+
+        ''' <summary>
+        ''' ``New <see cref="Taxonomy"/>(<paramref name="lineage"/>)``
+        ''' </summary>
+        ''' <param name="lineage"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsTaxonomy(lineage As Dictionary(Of String, String)) As Taxonomy
+            Return New Taxonomy(lineage)
         End Function
 
 #Region "Parsing BIOM style taxonomy string"

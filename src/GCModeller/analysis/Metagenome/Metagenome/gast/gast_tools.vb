@@ -38,7 +38,6 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace gast
 
@@ -271,11 +270,6 @@ Namespace gast
                 .taxonomy = "null",
                 .Unique = TagNoAssign
             }
-        End Function
-
-        <Extension>
-        Public Function RefPercentage(source As IEnumerable(Of Names)) As Dictionary(Of String, String)
-
         End Function
     End Module
 End Namespace
