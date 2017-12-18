@@ -124,6 +124,10 @@ Namespace Metagenomics
             }
         End Function
 
+        ''' <summary>
+        ''' Convert current <see cref="Taxonomy"/> object as a string array
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToArray() As String()
             Return {kingdom, phylum, [class], order, family, genus, species}
