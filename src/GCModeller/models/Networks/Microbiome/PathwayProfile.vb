@@ -79,9 +79,17 @@ Public Module PathwayProfile
                                           End Function) _
                                   .ToArray
 
-                              ' student t test
-                              Dim pvalue# = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
                               Dim profile# = vector.Sum
+                              ' student t test
+                              Dim pvalue#
+
+                              If vector.All(Function(x) x = vector.First) Then
+                                  pvalue = 0
+                              ElseIf vector.Length < 3 Then
+                                  pvalue = 1
+                              Else
+                                  pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
+                              End If
 
                               Return (profile, pvalue)
                           End Function)
