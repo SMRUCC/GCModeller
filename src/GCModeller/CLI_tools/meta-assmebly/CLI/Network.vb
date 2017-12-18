@@ -30,8 +30,10 @@ Partial Module CLI
         Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
 
         ' 进行绘图
+        ' 绘制profile
 
 
+        ' 绘制enrichment
 
         ' 生成网络模型
         Return profiles _
