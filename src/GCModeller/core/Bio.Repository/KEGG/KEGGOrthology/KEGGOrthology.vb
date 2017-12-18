@@ -169,7 +169,7 @@ Public Class KEGGOrthology
                 If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
 #If DEBUG Then
-                    Call gene.GetJson.__DEBUG_ECHO
+                    Call Serialization.JSON.GetJson(gene).__DEBUG_ECHO
 #End If
                 End If
 
