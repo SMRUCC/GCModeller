@@ -127,11 +127,18 @@ Public Module BIOM
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function TaxonomyString(tax$()) As String
         Return tax _
+            .TakeWhile(Function(s) Not s.TaxonomyRankEmpty) _
             .SeqIterator _
             .Select(Function(s)
                         Return BIOMTaxonomy.BIOMPrefix(s.i) & s.value
                     End Function) _
             .JoinBy(";")
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function BIOMTaxonomyString(taxonomy As Metagenomics.Taxonomy, Optional ranks As TaxonomyRanks = TaxonomyRanks.Strain) As String
+        Return taxonomy.ToArray.Take(ranks - 100).ToArray.TaxonomyString
     End Function
 
     ReadOnly Unknown As Index(Of String) = {"", "Unassigned", "NA", NameOf(Unknown)}

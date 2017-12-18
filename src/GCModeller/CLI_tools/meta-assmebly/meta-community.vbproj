@@ -238,6 +238,10 @@
       <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
+      <Project>{076315EE-B598-40DC-9280-C71CDF9B6A48}</Project>
+      <Name>Network.GraphTheory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
@@ -261,6 +265,10 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98b68c31-ea5a-4b07-a748-3a009fabfa39}</Project>

@@ -47,8 +47,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' KEGG reaction annotation data.
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("bGetObject.Reaction", [Namespace]:="http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID")>
+    <XmlRoot("bGetObject.Reaction", [Namespace]:=Reaction.Xmlns)>
     Public Class Reaction : Implements INamedValue
+
+        Public Const Xmlns$ = "http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID"
 
         ''' <summary>
         ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>

@@ -29,5 +29,6 @@
 Module CLIGroups
 
     Public Const DBGET_tools$ = "KEGG dbget API tools"
+    Public Const Repository_cli$ = "KEGG models repository cli tools"
 
 End Module

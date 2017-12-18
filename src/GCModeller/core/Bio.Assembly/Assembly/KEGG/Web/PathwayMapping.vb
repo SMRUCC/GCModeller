@@ -150,7 +150,7 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add(NameOf(target), If(target, "alias", ""))
             Call args.Add(NameOf(reference), If(reference, "white", ""))
             Call args.Add(NameOf(warning), If(warning, "yes", ""))
-            Call args.Add(NameOf(all), If(all, 1, ""))
+            Call args.Add(NameOf(all), If(all, "1", ""))
             Call args.Add("submit", "Exec")
 
             Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html")

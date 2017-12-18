@@ -33,16 +33,34 @@ Public Module UniProtBuild
                           End Function)
     End Function
 
-    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry)) As TaxonomyRepository
+    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), Optional ByRef cache As (KO_list$, taxonomy$, counts$) = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim tmp$ = App.GetAppSysTempFile(, App.PID)
-        Dim cache = UniProtXml.ScanInternal(tmp)
-        Dim model As TaxonomyRepository = ScanModels(cache)
+        Dim model As TaxonomyRepository
+
+        cache = UniProtXml.ScanInternal(tmp)
+        model = ScanModels(cache)
+
         Return model
     End Function
 
-    Private Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
+    <Extension>
+    Public Sub CopyTo(cache As (KO_list$, taxonomy$, counts$), destination$)
+        With destination & "/"
+            Call cache.KO_list.FileCopy(.ref)
+            Call cache.taxonomy.FileCopy(.ref)
+            Call cache.counts.FileCopy(.ref)
+        End With
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ScanModels(cache As String) As TaxonomyRepository
+        Return (cache & "/" & KO_list, cache & "/" & Taxonomy_data, cache & "/" & gene_counts).ScanModels
+    End Function
+
+    <Extension>
+    Public Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim list As New List(Of TaxonomyRef)
         Dim organismKO As New Dictionary(Of String, List(Of String))

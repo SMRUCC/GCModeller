@@ -498,7 +498,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), EXPORT As String) As Boolean
             For Each i As SeqValue(Of PFSNetResultOut) In data.SeqIterator
                 Dim net As PFSNetResultOut = i.value
-                Dim name As String = If(String.IsNullOrEmpty(net.DataTag), i.i, net.DataTag)
+                Dim name As String = If(String.IsNullOrEmpty(net.DataTag), CStr(i.i), net.DataTag)
                 Dim path As String = $"{EXPORT}/{name}.xml"
 
                 Call SavePfsNET(net, path)
@@ -521,7 +521,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                 Next
             Next
 
-            Return CMD.SaveTo(saveto, Encoding.ASCII)
+            Return CMD.SaveTo(saveto, Encoding.ASCII).CLICode
         End Function
 
         ''' <summary>
