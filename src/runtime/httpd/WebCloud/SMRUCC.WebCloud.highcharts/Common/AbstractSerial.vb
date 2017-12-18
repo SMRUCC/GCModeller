@@ -11,3 +11,7 @@ Public MustInherit Class AbstractSerial(Of T)
         Return $"Dim {name} As {type} = {data.GetJson}"
     End Function
 End Class
+
+Public Class GenericDataSerial : Inherits AbstractSerial(Of Double)
+
+End Class

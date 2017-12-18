@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.WebCloud.highcharts.PieChart
 
 Public Class chart
 
@@ -9,6 +8,7 @@ Public Class chart
     Public Property inverted As Boolean?
     Public Property renderTo As String
     Public Property margin As Double?
+    Public Property polar As Boolean?
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -58,6 +58,7 @@ Public Class Axis
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
+    Public Property tickInterval As Boolean?
 End Class
 
 Public Class legendOptions
@@ -97,7 +98,12 @@ Public Class labelOptions
     Public Property connectorAllowed As Boolean?
     Public Property overflow As String
     Public Property skew3d As Boolean?
-    Public Property style As styleoptions
+    Public Property style As styleOptions
+    Public Property formatter As lambda
+End Class
+
+Public Class lambda
+    Public Property func As String
 End Class
 
 Public Class styleOptions

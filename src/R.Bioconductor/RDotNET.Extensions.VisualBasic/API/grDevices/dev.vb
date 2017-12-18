@@ -37,6 +37,7 @@ Namespace API.grDevices
         ''' <returns></returns>
         Public Function off(Optional which As String = "dev.cur()") As Integer
             Dim dev = $"dev.off(which={which})".__call
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace
