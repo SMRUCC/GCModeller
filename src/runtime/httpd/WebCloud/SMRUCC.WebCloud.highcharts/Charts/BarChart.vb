@@ -20,10 +20,11 @@ Namespace BarChart
         Public Property depth As Integer?
         Public Property stacking As String
         Public Property pointPadding As Double?
+        Public Property groupPadding As Double?
         Public Property borderWidth As Double?
     End Class
 
-    Public Class BarChart : Inherits Highcharts(Of LineSerial)
+    Public Class BarChart : Inherits Highcharts(Of GenericDataSerial)
 
         Public Overrides Function ToString() As String
             Return title.ToString
