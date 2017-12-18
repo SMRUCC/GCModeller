@@ -4,12 +4,28 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 
 Partial Module CLI
+
+    <ExportAPI("/microbiome.pathway.profile")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> [/out <out.directory>]")>
+    Public Function PathwayProfiles(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim ref$ = args <= "/ref"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
+        Dim gast As gast.gastOUT() = [in].LoadCsv(Of gast.gastOUT)
+        Dim UniProt As TaxonomyRepository = Nothing
+
+        Call "Load UniProt reference genome model....".__INFO_ECHO
+        Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
+
+        Dim taxonomy As Taxonomy() = gast.Select(Function(t) t.)
+    End Function
 
     <ExportAPI("/microbiome.metabolic.network")>
     <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>
