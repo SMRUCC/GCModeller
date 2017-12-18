@@ -32,7 +32,6 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -170,7 +169,7 @@ Public Class KEGGOrthology
                 If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
 #If DEBUG Then
-                    Call gene.GetJson.__DEBUG_ECHO
+                    Call Serialization.JSON.GetJson(gene).__DEBUG_ECHO
 #End If
                 End If
 

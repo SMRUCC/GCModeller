@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace gast
 
@@ -8,12 +9,13 @@ Namespace gast
     ''' *.names
     ''' </summary>
     Public Class Names : Implements INamedValue
+        Implements ITaxonomyLineage
 
         Public Property Unique As String Implements INamedValue.Key
         <Ignored>
         Public Property members As String()
         Public Property NumOfSeqs As Integer
-        Public Property taxonomy As String
+        Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
         Public Property distance As Double
         Public Property refs As String
         <Meta>
@@ -25,6 +27,7 @@ Namespace gast
     End Class
 
     Public Class gastOUT : Implements INamedValue
+        Implements ITaxonomyLineage
 
         ''' <summary>
         ''' 可以将这个属性看作为OTU的编号
@@ -35,7 +38,7 @@ Namespace gast
         ''' lineage，物种分类信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property taxonomy As String
+        Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
         ''' <summary>
         ''' 
         ''' </summary>

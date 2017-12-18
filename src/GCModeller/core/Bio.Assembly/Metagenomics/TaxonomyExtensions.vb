@@ -4,9 +4,19 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 
 Namespace Metagenomics
 
+    Public Interface ITaxonomyLineage
+        Property Taxonomy As String
+    End Interface
+
     Public Module TaxonomyExtensions
 
         Public Delegate Function TaxonomyProjector(Of T)(obj As T) As Taxonomy
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function TaxonomyLineage(tax As ITaxonomyLineage) As Taxonomy
+            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax.Taxonomy))
+        End Function
 
         ''' <summary>
         ''' 判断当前的这个<paramref name="rank"/>字符串所代表的物种分类名称是否是空的？？

@@ -25,6 +25,10 @@ Namespace Assembly.KEGG.WebServices
         End Property
         Public Property Map As Map
 
+        ''' <summary>
+        ''' KO, compoundID, reactionID, etc.
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property Index As Index(Of String)
 
@@ -57,11 +61,11 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         Dim table As Dictionary(Of String, MapIndex)
 
-        Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of Map)
+        Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of MapIndex)
             For Each key As String In entity
                 For Each map As MapIndex In table.Values
                     If map.Index.IndexOf(key) > -1 Then
-                        Yield map.Map
+                        Yield map
                     End If
                 Next
             Next

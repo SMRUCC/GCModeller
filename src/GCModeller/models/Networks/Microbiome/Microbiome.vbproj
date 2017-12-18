@@ -187,6 +187,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathwayProfile.vb" />
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuild.vb" />
     <Compile Include="TaxonomyRef.vb" />
@@ -228,6 +229,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
+      <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
@@ -259,6 +268,10 @@
     <ProjectReference Include="..\..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KEGG\KEGG.vbproj">
+      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

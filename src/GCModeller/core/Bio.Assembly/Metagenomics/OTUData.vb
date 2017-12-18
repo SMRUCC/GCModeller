@@ -36,6 +36,7 @@ Namespace Metagenomics
     ''' <see cref="OTUData.Data"/> that associated with <see cref="OTUData.OTU"/> tag
     ''' </summary>
     Public Class OTUData : Implements INamedValue
+        Implements ITaxonomyLineage
 
         ''' <summary>
         ''' ``#OTU_num``
@@ -47,7 +48,7 @@ Namespace Metagenomics
         ''' Usually this property is the BIOM format taxonomy information
         ''' </summary>
         ''' <returns></returns>
-        Public Property Taxonomy As String
+        Public Property Taxonomy As String Implements ITaxonomyLineage.Taxonomy
         Public Property Data As Dictionary(Of String, String)
 
         Sub New()

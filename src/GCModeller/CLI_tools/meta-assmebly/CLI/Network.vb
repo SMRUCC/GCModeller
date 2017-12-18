@@ -4,12 +4,44 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 
 Partial Module CLI
+
+    <ExportAPI("/microbiome.pathway.profile")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/out <out.directory>]")>
+    Public Function PathwayProfiles(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim ref$ = args <= "/ref"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
+        Dim gast As gast.gastOUT() = [in].LoadCsv(Of gast.gastOUT)
+        Dim UniProt As TaxonomyRepository = Nothing
+        Dim maps As MapRepository = args("/maps").LoadXml(Of MapRepository)
+
+        Call "Load UniProt reference genome model....".__INFO_ECHO
+        Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
+
+        Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
+
+        ' 进行绘图
+        ' 绘制profile
+
+
+        ' 绘制enrichment
+
+        ' 生成网络模型
+        Return profiles _
+            .MicrobiomePathwayNetwork(KEGG:=maps) _
+            .Tabular(properties:={"pvalue", "profile"}) _
+            .Save(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/microbiome.metabolic.network")>
     <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>

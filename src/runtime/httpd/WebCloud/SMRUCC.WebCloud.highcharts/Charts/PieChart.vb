@@ -35,4 +35,25 @@
         ''' <returns></returns>
         Public Overrides Property data As Object()
     End Class
+
+    Public Class VariablePieSerial : Inherits AbstractSerial(Of VariablePieSerialData)
+
+        Public Property minPointSize As Double?
+        Public Property innerSize As String
+        Public Property zMin As Double?
+
+    End Class
+
+    Public Class VariablePieSerialData
+        Public Property name As String
+        Public Property y As Double?
+        Public Property z As Double?
+    End Class
+
+    Public Class VariablePieChart : Inherits Highcharts(Of VariablePieSerial)
+
+        Public Shared Function ChartType() As chart
+            Return New chart With {.type = "variablepie"}
+        End Function
+    End Class
 End Namespace
