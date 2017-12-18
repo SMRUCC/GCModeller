@@ -98,7 +98,7 @@ Namespace BEBaC
         '''   increase In the marginal likelihood.
         ''' </remarks>
         Public Function StochasticSearch()
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

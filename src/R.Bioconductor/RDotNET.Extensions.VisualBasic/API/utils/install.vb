@@ -52,6 +52,7 @@ Namespace API.utils
                 $"installed.packages(lib.loc = {libloc}, priority = {priority},
                                      noCache = {noCache.λ}, fields = {fields},
                                      subarch = {subarch})".__call
+            Throw New NotImplementedException
         End Function
     End Module
 
