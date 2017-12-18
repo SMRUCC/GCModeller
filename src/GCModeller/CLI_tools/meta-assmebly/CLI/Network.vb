@@ -25,7 +25,7 @@ Partial Module CLI
         Dim maps As MapRepository = args("/maps").LoadXml(Of MapRepository)
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
+        Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
 
         Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
 

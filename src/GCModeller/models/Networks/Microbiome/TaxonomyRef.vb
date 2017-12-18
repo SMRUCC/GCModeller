@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Metagenomics
@@ -43,9 +44,11 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
     End Property
 
     Public ReadOnly Property KOTerms As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return genome _
                 .Terms _
+                .SafeQuery _
                 .Select(Function(t) t.name) _
                 .ToArray
         End Get

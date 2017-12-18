@@ -22,7 +22,7 @@ Public Module PathwayProfile
             Dim pathways = maps _
                 .QueryMapsByMembers(KOlist) _
                 .Where(Function(map)
-                           With map.Index.Objects.Where(Function(id) id.IsPattern("KO\d+")).ToArray
+                           With map.Index.Objects.Where(Function(id) id.IsPattern("K\d+")).ToArray
                                Return .Intersect(KOlist).Count / .Length >= coverage
                            End With
                        End Function) _
@@ -54,6 +54,7 @@ Public Module PathwayProfile
 
         Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
         Dim profiles = taxonomyGroup _
+            .AsParallel _
             .Select(Function(tax)
                         Dim name$ = tax.Key
                         Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
