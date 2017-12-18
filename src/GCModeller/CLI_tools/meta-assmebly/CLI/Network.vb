@@ -16,6 +16,7 @@ Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
     <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/out <out.directory>]")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function PathwayProfiles(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ref$ = args <= "/ref"
@@ -34,6 +35,19 @@ Partial Module CLI
 
 
         ' 绘制enrichment
+
+        Call profiles _
+            .Select(Function(profile)
+                        Return New EntityObject With {
+                            .ID = profile.Key,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"pvalue", profile.Value.pvalue},
+                                {"profile", profile.Value.profile}
+                            }
+                        }
+                    End Function) _
+            .ToArray _
+            .SaveDataSet(out & "/profiles.csv")
 
         ' 生成网络模型
         Return profiles _
