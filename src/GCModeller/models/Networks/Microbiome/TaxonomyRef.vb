@@ -42,6 +42,15 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
         End Get
     End Property
 
+    Public ReadOnly Property KOTerms As String()
+        Get
+            Return genome _
+                .Terms _
+                .Select(Function(t) t.name) _
+                .ToArray
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"[{TaxonID}] {organism.scientificName}"
     End Function

@@ -187,6 +187,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathwayProfile.vb" />
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuild.vb" />
     <Compile Include="TaxonomyRef.vb" />
