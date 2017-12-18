@@ -5,6 +5,8 @@ Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports RDotNET.Extensions.VisualBasic.API
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics.Model.Network.KEGG
 
 ''' <summary>
 ''' The microbiome KEGG pathway profile.
@@ -84,5 +86,20 @@ Public Module PathwayProfile
                           End Function)
 
         Return profileTable
+    End Function
+
+    <Extension>
+    Public Function MicrobiomePathwayNetwork(profiles As Dictionary(Of String, (profile#, pvalue#)), KEGG As MapRepository, Optional cutoff# = 0.05) As NetworkGraph
+        Dim idlist = profiles.Where(Function(map) map.Value.pvalue <= cutoff).Keys
+        Dim maps = idlist.Select(Function(mapID) KEGG.GetByKey(mapID).Map).ToArray
+        Dim network As NetworkGraph = maps.BuildNetwork(
+            Sub(mapNode)
+                With profiles(mapNode.Label)
+                    mapNode.Data!pvalue = -Math.Log10(.pvalue)
+                    mapNode.Data!profile = .profile
+                End With
+            End Sub)
+
+        Return network
     End Function
 End Module

@@ -27,10 +27,18 @@ Partial Module CLI
         Call "Load UniProt reference genome model....".__INFO_ECHO
         Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
 
-        Dim profiles As Dictionary(Of String, Double) = gast.PathwayProfiles(UniProt, ref:=maps)
+        Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
 
         ' 进行绘图
 
+
+
+        ' 生成网络模型
+        Return profiles _
+            .MicrobiomePathwayNetwork(KEGG:=maps) _
+            .Tabular(properties:={"pvalue", "profile"}) _
+            .Save(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/microbiome.metabolic.network")>

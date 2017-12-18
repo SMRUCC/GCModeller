@@ -262,6 +262,10 @@
       <Project>{da7a7b6b-b27d-4b76-ac56-cf8c47917656}</Project>
       <Name>microbiomeGWAS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\annotations\KEGG\KEGG.vbproj">
+      <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
