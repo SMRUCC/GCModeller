@@ -82,11 +82,12 @@ Public Module PathwayProfile
                               Dim profile# = vector.Sum
                               ' student t test
                               Dim pvalue#
+                              Dim x0 = vector.FirstOrDefault
 
-                              If vector.All(Function(x) x = vector.First) Then
-                                  pvalue = 0
-                              ElseIf vector.Length < 3 Then
+                              If vector.Length < 3 Then
                                   pvalue = 1
+                              ElseIf vector.All(Function(x) x = x0) Then
+                                  pvalue = 0
                               Else
                                   pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
                               End If
