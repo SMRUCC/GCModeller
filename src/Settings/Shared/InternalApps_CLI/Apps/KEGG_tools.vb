@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 Namespace GCModellerApps
 
@@ -71,6 +71,25 @@ Public Function BuildKORepository(DIR As String, repo As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/DIR " & """" & DIR & """ ")
     Call CLI.Append("/repo " & """" & repo & """ ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Build.Reactions.Repository /in &lt;directory> [/out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildReactionsRepository([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Build.Reactions.Repository")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -477,6 +496,25 @@ Public Function IndexSubMatch(index As String, maps As String, key As String, ma
     Call CLI.Append("/maps " & """" & maps & """ ")
     Call CLI.Append("/key " & """" & key & """ ")
     Call CLI.Append("/map " & """" & map & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Maps.Repository.Build /imports &lt;directory> [/out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildPathwayMapsRepository([imports] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Maps.Repository.Build")
+    Call CLI.Append(" ")
+    Call CLI.Append("/imports " & """" & [imports] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
