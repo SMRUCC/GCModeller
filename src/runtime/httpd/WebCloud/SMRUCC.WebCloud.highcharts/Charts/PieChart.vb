@@ -26,16 +26,6 @@
         Public Property selected As Boolean
     End Class
 
-    Public Class serial : Inherits AbstractSerial(Of Object)
-
-        ''' <summary>
-        ''' + <see cref="Double"/>
-        ''' + <see cref="pieData"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Overrides Property data As Object()
-    End Class
-
     Public Class VariablePieSerial : Inherits AbstractSerial(Of VariablePieSerialData)
 
         Public Property minPointSize As Double?
