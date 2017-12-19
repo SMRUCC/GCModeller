@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -55,6 +56,8 @@ Partial Module CLI
 
     <Extension>
     Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$) As Integer
+        Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
+
         ' 进行绘图
         ' 绘制profile
 
@@ -63,11 +66,15 @@ Partial Module CLI
 
         Call profiles _
             .Select(Function(profile)
+                        Dim info As Pathway = KO(profile.Key)
+
                         Return New EntityObject With {
                             .ID = profile.Key,
                             .Properties = New Dictionary(Of String, String) From {
                                 {"pvalue", profile.Value.pvalue},
-                                {"profile", profile.Value.profile}
+                                {"profile", profile.Value.profile},
+                                {"name", info.Entry.Value},
+                                {"category", info.Category}
                             }
                         }
                     End Function) _
