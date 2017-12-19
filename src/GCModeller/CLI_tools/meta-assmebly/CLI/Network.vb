@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -18,6 +19,7 @@ Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
     <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /out <out.directory>]")>
+    <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function PathwayProfiles(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
