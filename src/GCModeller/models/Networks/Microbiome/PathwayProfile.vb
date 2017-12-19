@@ -87,47 +87,59 @@ Public Module PathwayProfile
     End Class
 
     <Extension>
+    Public Function ProfileEnrichment(profileData As IEnumerable(Of Profile)) As Dictionary(Of String, (profile#, pvalue#))
+        ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
+        Dim profiles = profileData.ToArray
+        Dim ZERO#() = Repeats(0R, profiles.Length)
+        Dim profileTable = profiles _
+            .Select(Function(tax) tax.Profile.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .OrderBy(Function(id) id) _
+            .ToDictionary(Function(mapID) mapID,
+                          Function(mapID)
+                              Return profiles.EnrichmentTestInternal(mapID, ZERO)
+                          End Function)
+
+        Return profileTable
+    End Function
+
+    <Extension>
+    Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$, ZERO#()) As (profile#, pvalue#)
+        Dim vector#() = profiles _
+            .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
+            .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
+            .ToArray
+
+        Dim profile# = vector.Sum
+        ' student t test
+        Dim pvalue#
+        Dim x0 = vector.FirstOrDefault
+
+        If vector.Length < 3 Then
+            pvalue = 1
+        ElseIf vector.All(Function(x) x = x0) Then
+            If x0 = 0R Then
+                pvalue = 1
+            Else
+                pvalue = 0
+            End If
+        Else
+            ' 可能有很多零
+            pvalue = stats.Ttest(vector, ZERO, varEqual:=False).pvalue
+        End If
+
+        Return (profile, pvalue)
+    End Function
+
+    <Extension>
     Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
                                     uniprot As TaxonomyRepository,
                                     ref As MapRepository,
                                     Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
 
         Dim profiles = gast.CreateProfile(uniprot, ref, rank)
-
-        ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
-        Dim ZERO#() = Repeats(0R, profiles.Length)
-        Dim profileTable = profiles _
-            .Select(Function(tax) tax.profile.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .OrderBy(Function(id) id) _
-            .ToDictionary(Function(mapID) mapID,
-                          Function(mapID)
-                              Dim vector#() = profiles _
-                                  .Where(Function(tax) tax.profile.ContainsKey(mapID)) _
-                                  .Select(Function(tax) tax.profile(mapID) * tax.pct) _
-                                  .ToArray
-
-                              Dim profile# = vector.Sum
-                              ' student t test
-                              Dim pvalue#
-                              Dim x0 = vector.FirstOrDefault
-
-                              If vector.Length < 3 Then
-                                  pvalue = 1
-                              ElseIf vector.All(Function(x) x = x0) Then
-                                  If x0 = 0R Then
-                                      pvalue = 1
-                                  Else
-                                      pvalue = 0
-                                  End If
-                              Else
-                                  ' 可能有很多零
-                                  pvalue = stats.Ttest(vector, ZERO, varEqual:=False).pvalue
-                              End If
-
-                              Return (profile, pvalue)
-                          End Function)
+        Dim profileTable = profiles.ProfileEnrichment
 
         Return profileTable
     End Function
