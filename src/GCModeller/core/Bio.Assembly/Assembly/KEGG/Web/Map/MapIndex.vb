@@ -14,6 +14,7 @@ Namespace Assembly.KEGG.WebServices
         <XmlAttribute>
         Public Property MapID As String Implements IKeyedEntity(Of String).Key
         Public Property KeyVector As TermsVector
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New TermsVector With {
                     .Terms = Index.Objects
@@ -21,16 +22,23 @@ Namespace Assembly.KEGG.WebServices
             End Get
             Set(value As TermsVector)
                 _Index = New Index(Of String)(value.Terms)
+                _KOIndex = value _
+                    .Terms _
+                    .Where(Function(id)
+                               Return id.IsPattern("K\d+", RegexICSng)
+                           End Function) _
+                    .Indexing
             End Set
         End Property
+
         Public Property Map As Map
 
         ''' <summary>
         ''' KO, compoundID, reactionID, etc.
         ''' </summary>
         ''' <returns></returns>
-        <XmlIgnore>
-        Public ReadOnly Property Index As Index(Of String)
+        <XmlIgnore> Public ReadOnly Property Index As Index(Of String)
+        <XmlIgnore> Public ReadOnly Property KOIndex As Index(Of String)
 
         Public ReadOnly Property MapTitle As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -51,6 +59,7 @@ Namespace Assembly.KEGG.WebServices
             Get
                 Return table.Values.ToArray
             End Get
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As MapIndex())
                 table = value.ToDictionary(Function(map) map.MapID)
             End Set
@@ -102,22 +111,25 @@ Namespace Assembly.KEGG.WebServices
             Return New MapRepository With {
                 .Maps = (ls - l - r - "*.XML" <= directory) _
                     .Select(AddressOf LoadXml(Of Map)) _
-                    .Select(Function(map)
-                                Return New MapIndex With {
-                                    .Map = map,
-                                    .MapID = map.ID,
-                                    .KeyVector = New TermsVector With {
-                                        .Terms = map _
-                                            .Areas _
-                                            .Select(Function(a) a.IDVector) _
-                                            .IteratesALL _
-                                            .Distinct _
-                                            .OrderBy(Function(s) s) _
-                                            .ToArray
-                                    }
-                                }
-                            End Function) _
+                    .Select(AddressOf CreateIndex) _
                     .ToArray
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function CreateIndex(map As Map) As MapIndex
+            Return New MapIndex With {
+                .Map = map,
+                .MapID = map.ID,
+                .KeyVector = New TermsVector With {
+                    .Terms = map _
+                        .Areas _
+                        .Select(Function(a) a.IDVector) _
+                        .IteratesALL _
+                        .Distinct _
+                        .OrderBy(Function(s) s) _
+                        .ToArray
+                }
             }
         End Function
     End Class

@@ -19,11 +19,12 @@ Public Module PathwayProfile
 
         For Each genome As TaxonomyRef In metagenome
             Dim KOlist$() = genome.KOTerms
+            ' query KEGG map这里是主要的限速步骤
             Dim pathways = maps _
                 .QueryMapsByMembers(KOlist) _
                 .Where(Function(map)
-                           With map.Index.Objects.Where(Function(id) id.IsPattern("K\d+")).ToArray
-                               Return .Intersect(KOlist).Count / .Length >= coverage
+                           With map.KOIndex
+                               Return .Intersect(KOlist).Count / .Count >= coverage
                            End With
                        End Function) _
                 .ToArray
