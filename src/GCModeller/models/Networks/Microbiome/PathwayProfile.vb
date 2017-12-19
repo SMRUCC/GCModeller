@@ -108,6 +108,7 @@ Public Module PathwayProfile
     Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$, ZERO#()) As (profile#, pvalue#)
         Dim vector#() = profiles _
             .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
+            .Where(Function(tax) tax.Profile(mapID) > 0R) _
             .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
             .ToArray
 
