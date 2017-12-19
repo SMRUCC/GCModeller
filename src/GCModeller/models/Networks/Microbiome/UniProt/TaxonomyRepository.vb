@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
@@ -25,6 +26,17 @@ Public Class TaxonomyRepository : Implements IRepositoryRead(Of String, Taxonomy
     End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function TaxonomyGroup(rank As TaxonomyRanks) As Dictionary(Of String, TaxonomyRef())
+        Return taxonIDtable _
+            .Values _
+            .GroupBy(Function(t)
+                         Return t.TaxonomyString.TaxonomyRankString(rank)
+                     End Function) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(g) g.ToArray)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Selects(range As Taxonomy) As IEnumerable(Of TaxonomyRef)
         Return taxonIDtable _
             .Values _
@@ -47,7 +59,10 @@ Public Class TaxonomyRepository : Implements IRepositoryRead(Of String, Taxonomy
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetWhere(clause As Func(Of TaxonomyRef, Boolean)) As IReadOnlyDictionary(Of String, TaxonomyRef) Implements IRepositoryRead(Of String, TaxonomyRef).GetWhere
-        Return taxonIDtable.Values.Where(clause).ToDictionary(Function(taxon) taxon.TaxonID)
+        Return taxonIDtable _
+            .Values _
+            .Where(clause) _
+            .ToDictionary(Function(taxon) taxon.TaxonID)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
