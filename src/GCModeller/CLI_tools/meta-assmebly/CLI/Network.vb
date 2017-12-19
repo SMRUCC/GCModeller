@@ -45,19 +45,23 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/microbiome.pathway.run.profile")>
-    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/out <out.directory>]")>
+    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/p.value <default=0.05> /out <out.directory>]")>
+    <Description("Build pathway interaction network based on the microbiome profile result.")>
+    <Argument("/p.value", True, CLITypes.Double,
+              Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. By default is 0.05. If no cutoff, please set this value to 1.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function RunProfile(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
         Dim profiles = [in].LoadCsv(Of Profile).ProfileEnrichment
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
 
-        Return profiles.RunProfile(maps, out)
+        Return profiles.RunProfile(maps, out, pvalue)
     End Function
 
     <Extension>
-    Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$) As Integer
+    Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$, Optional pvalue# = 0.05) As Integer
         Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
 
         ' 进行绘图
@@ -85,7 +89,7 @@ Partial Module CLI
 
         ' 生成网络模型
         Return profiles _
-            .MicrobiomePathwayNetwork(KEGG:=maps) _
+            .MicrobiomePathwayNetwork(KEGG:=maps, cutoff:=pvalue) _
             .Tabular(properties:={"pvalue", "profile"}) _
             .Save(out) _
             .CLICode
