@@ -239,15 +239,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /microbiome.pathway.run.profile /in &lt;profile.csv> /maps &lt;kegg.maps.ref.Xml> [/out &lt;out.directory>]
+''' /microbiome.pathway.run.profile /in &lt;profile.csv> /maps &lt;kegg.maps.ref.Xml> [/p.value &lt;default=0.05> /out &lt;out.directory>]
 ''' ```
+''' Build pathway interaction network based on the microbiome profile result.
 ''' </summary>
 '''
-Public Function RunProfile([in] As String, maps As String, Optional out As String = "") As Integer
+Public Function RunProfile([in] As String, maps As String, Optional p_value As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
