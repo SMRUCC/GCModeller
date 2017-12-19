@@ -74,9 +74,8 @@ Public Module PathwayProfile
             .ToDictionary(Function(mapID) mapID,
                           Function(mapID)
                               Dim vector#() = profiles _
-                                  .Select(Function(tax)
-                                              Return If(tax.profile.ContainsKey(mapID), tax.profile(mapID), 0) * tax.pct
-                                          End Function) _
+                                  .Where(Function(tax) tax.profile.ContainsKey(mapID)) _
+                                  .Select(Function(tax) tax.profile(mapID) * tax.pct) _
                                   .ToArray
 
                               Dim profile# = vector.Sum
@@ -87,7 +86,11 @@ Public Module PathwayProfile
                               If vector.Length < 3 Then
                                   pvalue = 1
                               ElseIf vector.All(Function(x) x = x0) Then
-                                  pvalue = 0
+                                  If x0 = 0R Then
+                                      pvalue = 1
+                                  Else
+                                      pvalue = 0
+                                  End If
                               Else
                                   ' 可能有很多零
                                   pvalue = stats.Ttest(vector, ZERO, varEqual:=False).pvalue
