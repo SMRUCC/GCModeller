@@ -86,6 +86,10 @@ Namespace gast
             Call Me.New(__data(line))
         End Sub
 
+        ''' <summary>
+        ''' Makes the property value copy
+        ''' </summary>
+        ''' <param name="taxonomy"></param>
         Sub New(taxonomy As Metagenomics.Taxonomy)
             kingdom = taxonomy.kingdom
             phylum = taxonomy.phylum

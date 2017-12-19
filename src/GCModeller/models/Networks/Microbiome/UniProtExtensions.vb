@@ -8,6 +8,7 @@ Public Module UniProtExtensions
                                             taxonomyList As IEnumerable(Of Metagenomics.Taxonomy),
                                             Optional distinct As Boolean = True) As IEnumerable(Of TaxonomyRef)
         Dim hitsID As New Index(Of String)
+        ' Dim taxonomyGroup = repo.TaxonomyGroup
 
         For Each taxonomy As Metagenomics.Taxonomy In taxonomyList
             For Each hit As TaxonomyRef In repo.Selects(range:=taxonomy)

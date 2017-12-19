@@ -4,7 +4,147 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/localblast.exe
+' assembly: D:/GCModeller/GCModeller/bin/localblast.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' Wrapper tools for the ncbi blast+ program and the blast output data analysis program.
+' For running a large scale parallel alignment task, using ``/venn.BlastAll`` command for ``blastp``
+' and ``/blastn.Query.All`` command for ``blastn``.
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Bash.Venn:                        
+'  /bbh.topbest:                      
+'  /COG.myva:                         COG myva annotation using blastp raw output or exports sbh/bbh
+'                                     table result.
+'  /COG2014.result:                   
+'  /Copy.Fasta:                       Copy target type files from different sub directory into a directory.
+'  /hits.ID.list:                     
+'  /Identities.Matrix:                
+'  /MAT.evalue:                       
+'  /Paralog:                          
+'  /SBH.tophits:                      Filtering the sbh result with top SBH Score
+'  /to.kobas:                         
+'  /Whog.XML:                         Converts the whog text file into a XML data file.
+'  --bbh.export:                      Batch export bbh result data from a directory.
+'  --blast.self:                      Query fasta query against itself for paralogs.
+'  --Export.Fasta:                    
+'  --Export.Overviews:                
+'  --Export.SBH:                      
+'  --Xml2Excel:                       
+'  --Xml2Excel.Batch:                 
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. Blastn alignment tools
+' 
+' 
+'    /Blastn.Maps.Taxid:                
+'    /blastn.Query:                     Using target fasta sequence query against all of the fasta sequence
+'                                       in target direcotry. This function is single thread.
+'    /blastn.Query.All:                 Using the fasta sequence in a directory query against all of the
+'                                       sequence in another directory.
+'    /BlastnMaps.Match.Taxid:           
+'    /BlastnMaps.Select:                
+'    /BlastnMaps.Select.Top:            
+'    /BlastnMaps.Summery:               
+'    /Chromosomes.Export:               
+'    /Export.Blastn:                    
+'    /Export.blastnMaps:                
+'    /Export.blastnMaps.Batch:          Multiple processor task.
+'    /Export.blastnMaps.littles:        
+'    /Export.blastnMaps.Write:          Exports large amount of blastn output files and write all data
+'                                       into a specific csv file.
+' 
+' 
+' 2. Blastp BBH tools
+' 
+' 
+'    /bbh.EXPORT:                       Export bbh mapping result from the blastp raw output.
+'    /BBH.Merge:                        
+'    /Blastp.BBH.Query:                 Using query fasta invoke blastp against the fasta files in a directory.
+'                                       
+' 
+'                                       * This command tools required of NCBI blast+ suite,
+'                                       you must config the blast bin path by using ``settings.exe`` before
+'                                       running this command.
+'    /Export.Locus:                     
+'    /Fasta.Filters:                    Filter the fasta sequence subset from a larger fasta database
+'                                       by using the regexp for match on the fasta title.
+'    /locus.Selects:                    
+'    /SBH.BBH.Batch:                    
+'    /SBH.Export.Large:                 Using this command for export the sbh result of your blastp raw
+'                                       data.
+'    /SBH.Trim:                         
+'    /sbh2bbh:                          Export bbh result from the sbh pairs.
+'    /Select.Meta:                      
+'    /venn.BBH:                         2. Build venn table And bbh data from the blastp result out Or
+'                                       sbh data cache.
+'    /venn.BlastAll:                    Completely paired combos blastp bbh operations for the venn diagram
+'                                       Or network builder.
+'    /venn.cache:                       1. [SBH_Batch] Creates the sbh cache data for the downstream bbh
+'                                       analysis.
+'                                       And this batch function is suitable with any scale of the
+'                                       blastp sbh data output.
+'    /venn.sbh.thread:                  
+' 
+' 
+' 3. COG annotation tools
+' 
+' 
+'    /COG.Statics:                      Statics the COG profiling in your analysised genome.
+'    /EXPORT.COGs.from.DOOR:            
+'    /install.cog2003-2014:             Config the ``prot2003-2014.fasta`` database for GCModeller localblast
+'                                       tools. This database will be using for the COG annotation.
+'                                       This command required of the blast+ install first.
+'    /query.cog2003-2014:               Protein COG annotation by using NCBI cog2003-2014.fasta database.
+' 
+' 
+' 4. NCBI genbank tools
+' 
+' 
+'    /add.locus_tag:                    Add locus_tag qualifier into the feature slot.
+'    /add.names:                        
+'    /Copy.PTT:                         
+'    /Copys:                            
+'    /Export.BlastX:                    Export the blastx alignment result into a csv table.
+'    /Export.gb:                        Export the *.fna, *.faa, *.ptt file from the gbk file.
+'    /Export.gb.genes:                  
+'    /Export.gpff:                      
+'    /Export.gpffs:                     
+'    /Export.Protein:                   Export all of the protein sequence from the genbank database file.
+'    /Merge.faa:                        
+'    /Print:                            
+' 
+' 
+' 5. NCBI taxonomy tools
+' 
+' 
+'    /Reads.OTU.Taxonomy:               If the blastnmapping data have the duplicated OTU tags, then this
+'                                       function will makes a copy of the duplicated OTU tag data. top-best
+'                                       data will not.
+'    /ref.acc.list:                     
+'    /ref.gi.list:                      
+' 
+' 
+' 6. NCBI Web Blast Tools
+' 
+' 
+'    /AlignmentTable.TopBest:           
+'    /Export.AlignmentTable:            
+'    /Export.AlignmentTable.giList:     
+'    /Taxonomy.efetch:                  Fetch the taxonomy information of the fasta sequence from NCBI
+'                                       web server.
+'    /Taxonomy.efetch.Merge:            
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 

@@ -126,24 +126,28 @@ Public Module RankAbundance
                 .Select(Function(t) t.counts) _
                 .Sum
 
-            Return counts.ToDictionary(Function(t) t.Key,
-                                       Function(g)
-                                           Return g.Select(Function(t) t.counts).Sum / all
-                                       End Function)
+            Return counts _
+                .ToDictionary(Function(t) t.Key,
+                              Function(g)
+                                  Return g.Select(Function(t) t.counts).Sum / all
+                              End Function)
         Else
-            Return counts.ToDictionary(Function(t) t.Key,
-                                       Function(g)
-                                           Return CDbl(g.Select(Function(t) t.counts).Sum)
-                                       End Function)
+            Return counts _
+                .ToDictionary(Function(t) t.Key,
+                              Function(g)
+                                  Return CDbl(g.Select(Function(t) t.counts).Sum)
+                              End Function)
         End If
     End Function
 
     <Extension>
-    Public Function TaxonomyRankString(taxonomy As Metagenomics.Taxonomy, rank As TaxonomyRanks) As String
-        Dim length% = rank - 100
+    Public Function TaxonomyRankString(taxonomy As Metagenomics.Taxonomy, rank As TaxonomyRanks, Optional fillNA As Boolean = True) As String
+        ' 2017-12-19 当指定rank为Genus的时候，直接减去100则只会返回family级别的结果
+        ' 在这里添加1来修复这个BUG
+        Dim length% = rank - 100 + 1
         Dim array = taxonomy.ToArray.Take(length).AsList
 
-        If array.Count < length Then
+        If fillNA AndAlso array.Count < length Then
             array += Repeats("NA", length - array.Count)
         End If
 

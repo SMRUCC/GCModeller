@@ -4,7 +4,71 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/meta-community.exe
+' assembly: D:/GCModeller/GCModeller/bin/meta-community.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < meta_community.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /box.plot:                               
+'  /heatmap.plot:                           
+'  /LefSe.Matrix:                           Processing the relative aboundance matrix to the input format
+'                                           file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
+'  /OTU.cluster:                            
+'  /Relative_abundance.barplot:             
+'  /Relative_abundance.stacked.barplot:     
+'  /significant.difference:                 
+'  /SILVA.bacteria:                         
+'  /UPGMA.Tree:                             
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. 02. Alpha diversity analysis tools
+' 
+' 
+'    /Rank_Abundance:                         https://en.wikipedia.org/wiki/Rank_abundance_curve
+' 
+' 
+' 2. 03. Human Microbiome Project cli tool
+' 
+' 
+'    /handle.hmp.manifest:                    
+'    /hmp.manifest.files:                     
+' 
+' 
+' 3. Microbiome network cli tools
+' 
+' 
+'    /Metagenome.UniProt.Ref:                 
+'    /microbiome.metabolic.network:           
+'    /microbiome.pathway.profile:             Generates the pathway network profile for the microbiome
+'                                             OTU result based on the KEGG and UniProt reference.
+'    /microbiome.pathway.run.profile:         Build pathway interaction network based on the microbiome
+'                                             profile result.
+'    /UniProt.screen.model:                   
+' 
+' 
+' 4. SILVA database cli tools
+' 
+' 
+'    /SILVA.headers:                          
+' 
+' 
+' 5. Taxonomy assign cli tools
+' 
+' 
+'    /gast.Taxonomy.greengenes:               OTU taxonomy assign by apply gast method on the result of
+'                                             OTU rep sequence alignment against the greengenes.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -43,12 +107,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/removes.lt &lt;default=0.0001> /min.pct &lt;default=0.6> /out &lt;gastOut.csv>]
+''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/removes.lt &lt;default=0.0001> /gast.consensus /min.pct &lt;default=0.6> /out &lt;gastOut.csv>]
 ''' ```
 ''' OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.
 ''' </summary>
 '''
-Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional removes_lt As String = "0.0001", Optional min_pct As String = "0.6", Optional out As String = "") As Integer
+Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional removes_lt As String = "0.0001", Optional min_pct As String = "0.6", Optional out As String = "", Optional gast_consensus As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/gast.Taxonomy.greengenes")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -62,6 +126,9 @@ Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonom
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If gast_consensus Then
+        Call CLI.Append("/gast.consensus ")
     End If
 
 
@@ -168,14 +235,38 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml> [/out &lt;out.XML>]
+''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /out &lt;out.XML>]
 ''' ```
 ''' </summary>
 '''
-Public Function BuildUniProtReference([in] As String, Optional out As String = "") As Integer
+Public Function BuildUniProtReference([in] As String, Optional out As String = "", Optional cache As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Metagenome.UniProt.Ref")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If cache Then
+        Call CLI.Append("/cache ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.XML> [/out &lt;network.directory>]
+''' ```
+''' </summary>
+'''
+Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/microbiome.metabolic.network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/metagenome " & """" & metagenome & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -187,16 +278,44 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.directory> [/out &lt;network.directory>]
+''' /microbiome.pathway.profile /in &lt;gastout.csv> /ref &lt;UniProt.ref.XML> /maps &lt;kegg.maps.ref.XML> [/just.profiles /out &lt;out.directory>]
 ''' ```
+''' Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.
 ''' </summary>
 '''
-Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/microbiome.metabolic.network")
+Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/microbiome.pathway.profile")
     Call CLI.Append(" ")
-    Call CLI.Append("/metagenome " & """" & metagenome & """ ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/ref " & """" & ref & """ ")
-    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If just_profiles Then
+        Call CLI.Append("/just.profiles ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /microbiome.pathway.run.profile /in &lt;profile.csv> /maps &lt;kegg.maps.ref.Xml> [/p.value &lt;default=0.05> /out &lt;out.directory>]
+''' ```
+''' Build pathway interaction network based on the microbiome profile result.
+''' </summary>
+'''
+Public Function RunProfile([in] As String, maps As String, Optional p_value As String = "0.05", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -368,6 +487,31 @@ Public Function SILVA_headers([in] As String, out As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /UniProt.screen.model /in &lt;model.Xml> [/coverage &lt;default=0.6> /terms &lt;default=1000> /out &lt;subset.xml>]
+''' ```
+''' </summary>
+'''
+Public Function ScreenModels([in] As String, Optional coverage As String = "0.6", Optional terms As String = "1000", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.screen.model")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not coverage.StringEmpty Then
+            Call CLI.Append("/coverage " & """" & coverage & """ ")
+    End If
+    If Not terms.StringEmpty Then
+            Call CLI.Append("/terms " & """" & terms & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

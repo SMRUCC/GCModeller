@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
-Imports RDotNET.Extensions.VisualBasic.API
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 ''' <summary>
@@ -19,11 +19,12 @@ Public Module PathwayProfile
 
         For Each genome As TaxonomyRef In metagenome
             Dim KOlist$() = genome.KOTerms
+            ' query KEGG map这里是主要的限速步骤
             Dim pathways = maps _
                 .QueryMapsByMembers(KOlist) _
                 .Where(Function(map)
-                           With map.Index.Objects.Where(Function(id) id.IsPattern("K\d+")).ToArray
-                               Return .Intersect(KOlist).Count / .Length >= coverage
+                           With map.KOIndex
+                               Return .Intersect(KOlist).Count / .Count >= coverage
                            End With
                        End Function) _
                 .ToArray
@@ -47,10 +48,10 @@ Public Module PathwayProfile
     End Function
 
     <Extension>
-    Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
-                                    uniprot As TaxonomyRepository,
-                                    ref As MapRepository,
-                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+                                  uniprot As TaxonomyRepository,
+                                  ref As MapRepository,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Profile()
 
         Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
         Dim profiles = taxonomyGroup _
@@ -60,31 +61,87 @@ Public Module PathwayProfile
                         Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
-                        Return (tax:=name, profile:=profile, pct:=tax.Value)
+                        Return New Profile(
+                            tax:=name,
+                            profile:=profile,
+                            pct:=tax.Value
+                        )
                     End Function) _
             .ToArray
 
+        Return profiles
+    End Function
+
+    Public Class Profile
+        Public Property Taxonomy As String
+        Public Property Profile As Dictionary(Of String, Double)
+        Public Property pct As Double
+
+        Sub New()
+        End Sub
+
+        Sub New(tax$, profile As Dictionary(Of String, Double), pct#)
+            Me.Taxonomy = tax
+            Me.Profile = profile
+            Me.pct = pct
+        End Sub
+    End Class
+
+    <Extension>
+    Public Function ProfileEnrichment(profileData As IEnumerable(Of Profile)) As Dictionary(Of String, (profile#, pvalue#))
         ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
+        Dim profiles = profileData.ToArray
         Dim ZERO#() = Repeats(0R, profiles.Length)
         Dim profileTable = profiles _
-            .Select(Function(tax) tax.profile.Keys) _
+            .Select(Function(tax) tax.Profile.Keys) _
             .IteratesALL _
             .Distinct _
             .OrderBy(Function(id) id) _
             .ToDictionary(Function(mapID) mapID,
                           Function(mapID)
-                              Dim vector#() = profiles _
-                                  .Select(Function(tax)
-                                              Return If(tax.profile.ContainsKey(mapID), tax.profile(mapID), 0) * tax.pct
-                                          End Function) _
-                                  .ToArray
-
-                              ' student t test
-                              Dim pvalue# = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
-                              Dim profile# = vector.Sum
-
-                              Return (profile, pvalue)
+                              Return profiles.EnrichmentTestInternal(mapID, ZERO)
                           End Function)
+
+        Return profileTable
+    End Function
+
+    <Extension>
+    Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$, ZERO#()) As (profile#, pvalue#)
+        Dim vector#() = profiles _
+            .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
+            .Where(Function(tax) tax.Profile(mapID) > 0R) _
+            .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
+            .ToArray
+
+        Dim profile# = vector.Sum
+        ' student t test
+        Dim pvalue#
+        Dim x0 = vector.FirstOrDefault
+
+        If vector.Length < 3 Then
+            pvalue = 1
+        ElseIf vector.All(Function(x) x = x0) Then
+            If x0 = 0R Then
+                pvalue = 1
+            Else
+                pvalue = 0
+            End If
+        Else
+            ' 可能有很多零
+            pvalue = stats.Ttest(vector, ZERO, varEqual:=False).pvalue
+        End If
+
+        Return (profile, pvalue)
+    End Function
+
+    <Extension>
+    Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
+                                    uniprot As TaxonomyRepository,
+                                    ref As MapRepository,
+                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+
+        Dim profiles = gast.CreateProfile(uniprot, ref, rank)
+        Dim profileTable = profiles.ProfileEnrichment
 
         Return profileTable
     End Function

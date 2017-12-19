@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -6,6 +8,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -15,7 +18,9 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
-    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/out <out.directory>]")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /out <out.directory>]")>
+    <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function PathwayProfiles(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ref$ = args <= "/ref"
@@ -27,7 +32,37 @@ Partial Module CLI
         Call "Load UniProt reference genome model....".__INFO_ECHO
         Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
 
-        Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
+        If args.IsTrue("/just.profiles") Then
+            Return gast _
+                .CreateProfile(UniProt, ref:=maps) _
+                .SaveTo(out & "/taxonomy.maps.csv") _
+                .CLICode
+        Else
+            Return gast _
+                .PathwayProfiles(UniProt, ref:=maps) _
+                .RunProfile(maps, out)
+        End If
+    End Function
+
+    <ExportAPI("/microbiome.pathway.run.profile")>
+    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/p.value <default=0.05> /out <out.directory>]")>
+    <Description("Build pathway interaction network based on the microbiome profile result.")>
+    <Argument("/p.value", True, CLITypes.Double,
+              Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. By default is 0.05. If no cutoff, please set this value to 1.")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    Public Function RunProfile(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
+        Dim profiles = [in].LoadCsv(Of Profile).ProfileEnrichment
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
+
+        Return profiles.RunProfile(maps, out, pvalue)
+    End Function
+
+    <Extension>
+    Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$, Optional pvalue# = 0.05) As Integer
+        Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
 
         ' 进行绘图
         ' 绘制profile
@@ -35,9 +70,26 @@ Partial Module CLI
 
         ' 绘制enrichment
 
+        Call profiles _
+            .Select(Function(profile)
+                        Dim info As Pathway = KO(profile.Key)
+
+                        Return New EntityObject With {
+                            .ID = profile.Key,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"pvalue", profile.Value.pvalue},
+                                {"profile", profile.Value.profile},
+                                {"name", info.Entry.Value},
+                                {"category", info.Category}
+                            }
+                        }
+                    End Function) _
+            .ToArray _
+            .SaveDataSet(out & "/profiles.csv")
+
         ' 生成网络模型
         Return profiles _
-            .MicrobiomePathwayNetwork(KEGG:=maps) _
+            .MicrobiomePathwayNetwork(KEGG:=maps, cutoff:=pvalue) _
             .Tabular(properties:={"pvalue", "profile"}) _
             .Save(out) _
             .CLICode

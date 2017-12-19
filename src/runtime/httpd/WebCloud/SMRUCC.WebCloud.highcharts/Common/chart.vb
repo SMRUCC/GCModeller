@@ -44,6 +44,7 @@ Public Class chart
 End Class
 
 Public Class Axis
+    Public Property type As String
     Public Property allowDecimals As Boolean?
     Public Property className As String
     Public Property opposite As Boolean?
@@ -62,6 +63,7 @@ Public Class Axis
 End Class
 
 Public Class legendOptions
+    Public Property enabled As Boolean?
     Public Property layout As String
     Public Property align As String
     Public Property verticalAlign As String

@@ -4,7 +4,41 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/FBA.exe
+' assembly: D:/GCModeller/GCModeller/bin/FBA.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Analysis.Phenotype:         
+'  /Export:                     
+'  /Flux.Coefficient:           
+'  /Flux.KEGG.Filter:           
+'  /Func.Coefficient:           
+'  /gcFBA.Batch:                
+'  /heatmap:                    Draw heatmap from the correlations between the genes and the metabolism
+'                               flux.
+'  /heatmap.scale:              
+'  /Imports:                    
+'  /phenos.MAT:                 Merges the objective function result as a Matrix. For calculation the
+'                               coefficient of the genes with the phenotype objective function.
+'  /phenos.out.Coefficient:     2. Coefficient of the genes with the metabolism fluxs from the batch
+'                               analysis result.
+'  /phenos.out.MAT:             1. Merge flux.csv result as a Matrix, for the calculation of the coefficient
+'                               of the genes with the metabolism flux.
+'  /Solve:                      solve a FBA model from a specific (SBML) model file.
+'  /Solver.KEGG:                
+'  /Solver.rFBA:                
+'  compile:                     Compile data source into a model file so that the fba program can using
+'                               the data to performing the simulation calculation.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
