@@ -133,20 +133,23 @@ Public Module ParserIO
     ''' <returns></returns>
     Public Function LoadClassSchema(Of T As Class)() As Dictionary(Of BindProperty(Of Field))
         Dim type As TypeInfo = GetType(T)
-        Dim Properties = type.GetProperties(BindingFlags.Instance Or BindingFlags.Public)
-        Dim LQuery = LinqAPI.Exec(Of BindProperty(Of Field)) <=
+        Dim properties = type.GetProperties(BindingFlags.Instance Or BindingFlags.Public)
+        Dim stringListType As Type = GetType(String())
+        Dim LQuery = LinqAPI.Exec(Of BindProperty(Of Field)) _
  _
-            From [property] As PropertyInfo
-            In Properties
-            Let attrs As Object() = [property].GetCustomAttributes(
-                attributeType:=Field.TypeInfo,
-                inherit:=True)
-            Where Not attrs.IsNullOrEmpty AndAlso
-                DataFramework.IsPrimitive([property].PropertyType) OrElse
-                [property].PropertyType = GetType(String())
-            Select New BindProperty(Of Field)(DirectCast(attrs.First, Field), [property])
+            () <= From [property] As PropertyInfo
+                  In properties
+                  Let attrs As Object() = [property].GetCustomAttributes(
+                      attributeType:=Field.TypeInfo,
+                      inherit:=True)
+                  Let tName = [property].PropertyType
+                  Where Not attrs.IsNullOrEmpty AndAlso DataFramework.IsPrimitive(tName) OrElse tName = stringListType
+                  Let field = DirectCast(attrs.First, Field)
+                  Select New BindProperty(Of Field)(field, [property])
 
-        If LQuery.IsNullOrEmpty Then Return Nothing
+        If LQuery.IsNullOrEmpty Then
+            Return Nothing
+        End If
 
         Dim schema As New Dictionary(Of BindProperty(Of Field))
 
@@ -154,6 +157,7 @@ Public Module ParserIO
             If String.IsNullOrEmpty(f.Field._Name) Then
                 f.Field._Name = If(f.Field._toLower, f.Identity.ToLower, f.Identity)
             End If
+
             Call schema.Add(f)
         Next
 
@@ -174,9 +178,11 @@ Public Module ParserIO
         For Each [property] As BindProperty(Of Field) In schema.Values
             If [property].Type = GetType(String) Then
                 Dim value As Object = [property].GetValue(target)
+
                 If value Is Nothing Then
                     Continue For
                 End If
+
                 Call bufs.Add(String.Format("{0}: {1}", [property].Field._Name, value.ToString))
             Else
                 Dim vals As Object() = [property].GetValue(target)
@@ -192,7 +198,8 @@ Public Module ParserIO
 
                 bufs += From value As String
                         In pvalue
-                        Select String.Format("{0}: {1}", [property].Field._Name, value)
+                        Let Name As String = [property].Field._Name
+                        Select String.Format("{0}: {1}", Name, value)
             End If
         Next
 
@@ -205,6 +212,8 @@ Public Module ParserIO
     ''' <typeparam name="T"></typeparam>
     ''' <param name="target"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ToLines(Of T As Class)(target As T) As String()
         Return target.ToLines(LoadClassSchema(Of T)())
