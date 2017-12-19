@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -33,10 +34,27 @@ Partial Module CLI
                 .CreateProfile(UniProt, ref:=maps) _
                 .SaveTo(out & "/taxonomy.maps.csv") _
                 .CLICode
+        Else
+            Return gast _
+                .PathwayProfiles(UniProt, ref:=maps) _
+                .RunProfile(maps, out)
         End If
+    End Function
 
-        Dim profiles As Dictionary(Of String, (profile#, pvalue#)) = gast.PathwayProfiles(UniProt, ref:=maps)
+    <ExportAPI("/microbiome.pathway.run.profile")>
+    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/out <out.directory>]")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    Public Function RunProfile(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
+        Dim profiles = [in].LoadCsv(Of Profile).ProfileEnrichment
 
+        Return profiles.RunProfile(maps, out)
+    End Function
+
+    <Extension>
+    Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$) As Integer
         ' 进行绘图
         ' 绘制profile
 
