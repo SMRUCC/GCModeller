@@ -6,6 +6,56 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/RegPrecise.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Build.Operons:                     If the /regprecise parameter is not presented, then you should
+'                                      install the regprecise in the GCModeller database repostiory
+'                                      first.
+'  /Build.Regulons.Batch:              
+'  /CORN:                              Join two vertices by edge if the correspondent operons:
+'                                      i) are orthologous;
+'                                      ii) have cantiodate transcription factor binding
+'                                      sites.
+'                                      Collect all linked components. Two operons from
+'                                      two different genomes are called orthologous if they share at
+'                                      least one orthologous gene.
+'  /CORN.Batch:                        
+'  /CORN.thread:                       
+'  /DOOR.Merge:                        
+'  /Download.Motifs:                   
+'  /Download.Regprecise:               Download Regprecise database from Web API
+'  /Effector.FillNames:                
+'  /Export.Regulators:                 Exports all of the fasta sequence of the TF regulator from the
+'                                      download RegPrecsie FASTA database.
+'  /Family.Hits:                       
+'  /Fasta.Downloads:                   Download protein fasta sequence from KEGG database.
+'  /Fetches:                           
+'  /Fetches.Thread:                    
+'  /Gets.Sites.Genes:                  
+'  /heap.Supports:                     
+'  /install.motifs:                    
+'  /Maps.Effector:                     
+'  /Merge.CORN:                        
+'  /Merge.RegPrecise.Fasta:            
+'  /Prot_Motifs.EXPORT.pfamString:     
+'  /Prot_Motifs.PfamString:            
+'  /ProtMotifs.Downloads:              Download protein domain motifs structures from KEGG ssdb.
+'  /Repository.Fetch:                  
+'  /Rfam.Regulates:                    
+'  /Select.TF.BBH:                     
+'  /Select.TF.Pfam-String:             
+'  /siRNA.Maps:                        
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

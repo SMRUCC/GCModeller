@@ -6,6 +6,177 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/eggHTS.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < eggHTS.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /COG.profiling.plot:                   Plots the COGs category statics profiling of the target genome
+'                                         from the COG annotation file.
+'  /DEPs.takes.values:                    
+'  /DEPs.union:                           
+'  /Exocarta.Hits:                        
+'  /Fasta.IDlist:                         
+'  /iBAQ.Cloud:                           Cloud plot of the iBAQ DEPs result.
+'  /KO.Catalogs:                          Display the barplot of the KEGG orthology match.
+'  /KOBAS.Sim.Heatmap:                    
+'  /KOBAS.similarity:                     
+'  /KOBAS.Term.Kmeans:                    
+'  /labelFree.t.test:                     
+'  /Network.PCC:                          
+'  /paired.sample.designer:               
+'  /Perseus.MajorityProteinIDs:           Export the uniprot ID list from ``Majority Protein IDs`` row
+'                                         and generates a text file for batch search of the uniprot
+'                                         database.
+'  /Perseus.Table.annotations:            
+'  /protein.annotations.shotgun:          
+'  /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
+'                                         and using this ID list for downlaods the uniprot annotation
+'                                         data.
+'  /Uniprot.Mappings:                     Retrieve the uniprot annotation data by using ID mapping operations.
+'  /UniRef.map.organism:                  
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. 0. Samples CLI tools
+' 
+' 
+'    /Data.Add.Mappings:                    
+'    /Data.Add.ORF:                         
+'    /Data.Add.uniprotIDs:                  
+'    /Perseus.Stat:                         
+'    /Perseus.Table:                        
+'    /plot.pimw:                            'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw
+'                                           sample data.
+'    /Sample.Species.Normalization:         
+'    /Shotgun.Data.Strip:                   
+' 
+' 
+' 2. 0. Samples expression analysis
+' 
+' 
+'    /FoldChange.Matrix.Invert:             Reverse the FoldChange value from the source result matrix.
+'    /proteinGroups.venn:                   
+'    /Relative.amount:                      Statistics of the relative expression value of the total proteins.
+' 
+' 
+' 3. 1. uniprot annotation CLI tools
+' 
+' 
+'    /blastX.fill.ORF:                      
+'    /ID.Replace.bbh:                       Replace the source ID to a unify organism protein ID by using
+'                                           ``bbh`` method.
+'                                           This tools required the protein in ``datatset.csv`` associated
+'                                           with the alignment result in ``bbh.csv`` by using the ``query_name``
+'                                           property.
+'    /KEGG.Color.Pathway:                   
+'    /protein.annotations:                  Total proteins functional annotation by using uniprot database.
+'    /protein.EXPORT:                       Export the protein sequence and save as fasta format from
+'                                           the uniprot database dump XML.
+'    /proteins.Go.plot:                     ProteinGroups sample data go profiling plot from the uniprot
+'                                           annotation data.
+'    /proteins.KEGG.plot:                   KEGG function catalog profiling plot of the TP sample.
+'    /Species.Normalization:                
+'    /UniRef.UniprotKB:                     
+'    /update.uniprot.mapped:                
+' 
+' 
+' 4. 2. DEP analysis CLI tools
+' 
+' 
+'    /DEP.heatmap.scatter.3D:               Visualize the DEPs' kmeans cluster result by using 3D scatter
+'                                           plot.
+'    /DEP.kmeans.scatter2D:                 
+'    /DEP.logFC.hist:                       Using for plots the FC histogram when the experiment have
+'                                           no biological replicates.
+'    /DEP.logFC.Volcano:                    Volcano plot of the DEPs' analysis result.
+'    /DEP.uniprot.list:                     
+'    /DEP.uniprot.list2:                    
+'    /DEP.venn:                             Generate the VennDiagram plot data and the venn plot tiff.
+'                                           The default parameter profile is using for the iTraq data.
+'    /DEPs.heatmap:                         Generates the heatmap plot input data. The default label profile
+'                                           is using for the iTraq result.
+'    /DEPs.stat:                            https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
+'    /edgeR.Designer:                       Generates the edgeR inputs table
+'    /Merge.DEPs:                           Usually using for generates the heatmap plot matrix of the
+'                                           DEPs. This function call will generates two dataset, one is
+'                                           using for the heatmap plot and another is using for the venn
+'                                           diagram plot.
+'    /T.test.Designer.iTraq:                Generates the iTraq data t.test DEP method inputs table
+'    /T.test.Designer.LFQ:                  Generates the LFQ data t.test DEP method inputs table
+' 
+' 
+' 5. 3. Enrichment analysis tools
+' 
+' 
+'    /Enrichment.Term.Filter:               Filter the specific term result from the analysis output by
+'                                           using pattern keyword
+'    /Enrichments.ORF.info:                 Retrive KEGG/GO info for the genes in the enrichment result.
+'    /GO.cellular_location.Plot:            Visualize of the subcellular location result from the GO enrichment
+'                                           analysis.
+'    /Go.enrichment.plot:                   Go enrichment plot base on the KOBAS enrichment analysis result.
+'    /KEGG.Enrichment.PathwayMap:           Show the KEGG pathway map image by using KOBAS KEGG pathway
+'                                           enrichment result.
+'    /KEGG.enrichment.plot:                 Bar plots of the KEGG enrichment analysis result.
+'    /KOBAS.add.ORF:                        
+'    /KOBAS.split:                          Split the KOBAS run output result text file as seperated csv
+'                                           file.
+' 
+' 
+' 6. 3. Enrichment analysis tools: clusterProfiler
+' 
+' 
+'    /enricher.background:                  Create enrichment analysis background based on the uniprot
+'                                           xml database.
+'    /enrichment.go:                        
+'    /Term2genes:                           
+' 
+' 
+' 7. 3. Enrichment analysis tools: DAVID
+' 
+' 
+'    /DAVID.Split:                          
+'    /GO.enrichment.DAVID:                  
+'    /KEGG.enrichment.DAVID:                
+'    /KEGG.enrichment.DAVID.pathwaymap:     
+' 
+' 
+' 8. 4. Network enrichment visualize tools
+' 
+' 
+'    /func.rich.string:                     DEPs' functional enrichment network based on string-db exports,
+'                                           and color by KEGG pathway.
+'    /Gene.list.from.KOBAS:                 Using this command for generates the gene id list input for
+'                                           the STRING-db search.
+'    /richfun.KOBAS:                        
+' 
+' 
+' 9. iTraq data analysis tool
+' 
+' 
+'    /iTraq.matrix.split:                   Split the raw matrix into different compare group based on
+'                                           the experimental designer information.
+'    /iTraq.RSD-P.Density:                  
+'    /iTraq.Symbol.Replacement:             * Using this CLI tool for processing the tag header of iTraq
+'                                           result at first.
+'    /iTraq.t.test:                         
+' 
+' 
+' 10. Repository data tools
+' 
+' 
+'     /Imports.Go.obo.mysql:                 Dumping GO obo database as mysql database files.
+'     /Imports.Uniprot.Xml:                  Dumping the UniprotKB XML database as mysql database file.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

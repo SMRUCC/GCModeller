@@ -6,6 +6,97 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/Cytoscape.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' Cytoscape model generator and visualization tools utils for GCModeller
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Analysis.Graph.Properties:          
+'  /Analysis.Node.Clusters:             
+'  /associate:                          
+'  /Build.Tree.NET:                     
+'  /Build.Tree.NET.COGs:                
+'  /Build.Tree.NET.DEGs:                
+'  /Build.Tree.NET.KEGG_Modules:        
+'  /Build.Tree.NET.KEGG_Pathways:       
+'  /Build.Tree.NET.Merged_Regulons:     
+'  /Build.Tree.NET.TF:                  
+'  /KO.link:                            
+'  /linkage.knowledge.network:          
+'  /Motif.Cluster:                      
+'  /Motif.Cluster.Fast:                 
+'  /Motif.Cluster.Fast.Sites:           
+'  /Motif.Cluster.MAT:                  
+'  /Plot.Cytoscape.Table:               
+'  /replace:                            
+'  /Tree.Cluster:                       This method is not recommended.
+'  /Tree.Cluster.rFBA:                  
+'  /Write.Reaction.Table:               
+'  -Draw:                               Drawing a network image visualization based on the generate
+'                                       network layout from the officials cytoscape software.
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. Bacterial TCS network tools
+' 
+' 
+'    --TCS:                               
+' 
+' 
+' 2. KEGG phenotype network analysis tools
+' 
+'    Associates the KEGG pathway category information with the gene annotations.
+' 
+' 
+'    /modNET.Simple:                      
+'    /net.model:                          
+'    /net.pathway:                        
+'    /Phenotypes.KEGG:                    Regulator phenotype relationship cluster from virtual footprints.
+' 
+' 
+' 3. KEGG tools
+' 
+' 
+'    /KEGG.Mods.NET:                      
+'    /KEGG.pathwayMap.Network:            
+'    /reaction.NET:                       
+'    --mod.regulations:                   
+' 
+' 
+' 4. MetaCyc pathway network tools
+' 
+' 
+'    /Net.rFBA:                           
+' 
+' 
+' 5. Metagenomics tools
+' 
+' 
+'    /BBH.Simple:                         
+'    /bbh.Trim.Indeitites:                
+'    /BLAST.Metagenome.SSU.Network:       > Viral assemblage composition in Yellowstone acidic hot springs
+'                                         assessed by network analysis, DOI: 10.1038/ismej.2015.28
+'    /BLAST.Network:                      
+'    /BLAST.Network.MetaBuild:            
+'    /Matrix.NET:                         Converts a generic distance matrix or kmeans clustering result
+'                                         to network model.
+' 
+' 
+' 6. TF/Regulon network tools
+' 
+' 
+'    /NetModel.TF_regulates:              Builds the regulation network between the TF.
+'    --graph.regulates:                   
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

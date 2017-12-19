@@ -6,6 +6,77 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' KEGG web services API tools.
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /16S_rRNA:                               Download 16S rRNA data from KEGG.
+'  /blastn:                                 Blastn analysis of your DNA sequence on KEGG server for
+'                                           the functional analysis.
+'  /Compile.Model:                          KEGG pathway model compiler
+'  /Compound.Map.Render:                    Render draw of the KEGG pathway map by using a given KEGG
+'                                           compound id list.
+'  /Cut_sequence.upstream:                  
+'  /Download.human.genes:                   
+'  /Download.Module.Maps:                   Download the KEGG reference modules map data.
+'  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
+'                                           web server.
+'  /Download.Pathway.Maps.Bacteria.All:     
+'  /Dump.sp:                                
+'  /Fasta.By.Sp:                            
+'  /Get.prot_motif:                         
+'  /Gets.prot_motif:                        
+'  /Imports.KO:                             Imports the KEGG reference pathway map and KEGG orthology
+'                                           data as mysql dumps.
+'  /Imports.SSDB:                           
+'  /ko.index.sub.match:                     
+'  /Organism.Table:                         
+'  /Pathway.geneIDs:                        
+'  /Query.KO:                               
+'  /Views.mod_stat:                         
+'  -Build.KO:                               Download data from KEGG database to local server.
+'  Download.Sequence:                       
+'  --Dump.Db:                               
+'  -function.association.analysis:          
+'  --Get.KO:                                
+'  --part.from:                             source and ref should be in KEGG annotation format.
+'  -query:                                  Query the KEGG database for nucleotide sequence and protein
+'                                           sequence by using a keywork.
+'  -query.orthology:                        
+'  -query.ref.map:                          
+'  -Table.Create:                           
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. KEGG dbget API tools
+' 
+' 
+'    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
+'                                             dbget API
+'    /Download.Pathway.Maps:                  
+'    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
+'    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
+'    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.
+'    -ref.map.download:                       
+' 
+' 
+' 2. KEGG models repository cli tools
+' 
+' 
+'    /Build.Ko.repository:                    
+'    /Build.Reactions.Repository:             
+'    /Maps.Repository.Build:                  
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

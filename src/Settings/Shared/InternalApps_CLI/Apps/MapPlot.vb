@@ -6,6 +6,28 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/MapPlot.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < Map.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Config.Template:                 
+'  /Visual.BBH:                      Visualize the blastp result.
+'  /Visualize.blastn.alignment:      Blastn result alignment visualization from the NCBI web blast.
+'                                    This tools is only works for a plasmid blastn search result or
+'                                    a small gene cluster region in a large genome.
+'  --Draw.ChromosomeMap:             Drawing the chromosomes map from the PTT object as the basically
+'                                    genome information source.
+'  --Draw.ChromosomeMap.genbank:     
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

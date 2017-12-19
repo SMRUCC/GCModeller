@@ -6,6 +6,151 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/MEME.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial
+' genome.
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Copys:                              
+'  /Copys.DIR:                          
+'  /EXPORT.MotifDraws:                  
+'  /Footprints:                         3 - Generates the regulation footprints.
+'  /Hits.Context:                       2
+'  /LDM.Compares:                       
+'  /LDM.Selects:                        
+'  /MAST.MotifMatches:                  
+'  /MAST.MotifMatchs.Family:            1
+'  /mast.Regulations:                   
+'  /MEME.Batch:                         Batch meme task by using tmod toolbox.
+'  /MEME.LDMs:                          
+'  /Motif.BuildRegulons:                
+'  /Motif.Info:                         Assign the phenotype information And genomic context Info for
+'                                       the motif sites. [SimpleSegment] -> [MotifLog]
+'  /Motif.Info.Batch:                   [SimpleSegment] -> [MotifLog]
+'  /Motif.Similarity:                   Export of the calculation result from the tomtom program.
+'  /MotifHits.Regulation:               
+'  /MotifSites.Fasta:                   
+'  /Regulator.Motifs:                   
+'  /Regulator.Motifs.Test:              
+'  /RfamSites:                          
+'  /seq.logo:                           
+'  /Site.MAST_Scan:                     [MAST.Xml] -> [SimpleSegment]
+'  /Site.MAST_Scan.Batch:               [MAST.Xml] -> [SimpleSegment]
+'  /Site.RegexScan:                     
+'  /site.scan:                          
+'  /SiteHits.Footprints:                Generates the regulation information.
+'  /SWTOM.Compares:                     
+'  /SWTOM.Compares.Batch:               
+'  /SWTOM.LDM:                          
+'  /SWTOM.Query:                        
+'  /SWTOM.Query.Batch:                  
+'  /Tom.Query:                          
+'  /Tom.Query.Batch:                    
+'  /TomTOM:                             
+'  /TomTom.LDM:                         
+'  /TomTOM.Similarity:                  
+'  /TOMTOM.Similarity.Batch:            
+'  /TomTom.Sites.Groups:                
+'  /Trim.MastSite:                      
+'  /Trim.MEME.Dataset:                  Trim meme input data set for duplicated sequence and short seqeucne
+'                                       which its min length is smaller than the required min length.
+'  --CExpr.WGCNA:                       
+'  --family.statics:                    
+'  --GetFasta:                          
+'  --hits.diff:                         
+'  --Intersect.Max:                     
+'  --logo.Batch:                        
+'  --modules.regulates:                 Exports the Venn diagram model for the module regulations.
+'  Motif.Locates:                       
+'  MotifScan:                           Scan for the motif site by using fragment similarity.
+'  --pathway.regulates:                 Associates of the pathway regulation information for the predicted
+'                                       virtual footprint information.
+'  --site.Match:                        
+'  --site.Matches:                      
+'  --site.Matches.text:                 Using this function for processing the meme text output from
+'                                       the tmod toolbox.
+'  --site.stat:                         Statics of the PCC correlation distribution of the regulation
+'  VirtualFootprint.DIP:                Associate the dip information with the Sigma 70 virtual footprints.
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. MEME analysis sequence parser
+' 
+' 
+'    /Parser.DEGs:                        
+'    /Parser.Locus:                       
+'    /Parser.Log2:                        
+'    /Parser.MAST:                        
+'    /Parser.Modules:                     
+'    /Parser.Operon:                      
+'    /Parser.Pathway:                     
+'    /Parser.RegPrecise.Operons:          
+'    /Parser.Regulon:                     
+'    /Parser.Regulon.gb:                  
+'    /Parser.Regulon.Merged:              
+' 
+' 
+' 2. MEME tools database utilities
+' 
+' 
+'    /Export.Regprecise.Motifs:           This commandline tool have no argument parameters.
+'    /MAST_LDM.Build:                     
+'    --Get.Intergenic:                    
+' 
+' 
+' 3. Motif Sites Analysis Tools
+' 
+' 
+'    /Export.MotifSites:                  Motif iteration step 1
+'    /Export.Similarity.Hits:             Motif iteration step 2
+'    /Similarity.Union:                   Motif iteration step 3
+' 
+' 
+' 4. RegPrecise Analysis Tools
+' 
+' 
+'    /BBH.Select.Regulators:              Select bbh result for the regulators in RegPrecise database
+'                                         from the regulon bbh data.
+'    /Build.FamilyDb:                     
+'    /CORN:                               
+'    /LDM.MaxW:                           
+'    /regulators.compile:                 Regprecise regulators data source compiler.
+'    --build.Regulations:                 Genome wide step 2
+'    --build.Regulations.From.Motifs:     
+'    Download.Regprecise:                 Download Regprecise database from Web API
+'    --Dump.KEGG.Family:                  
+'    --mapped-Back:                       
+'    mast.compile:                        
+'    mast.compile.bulk:                   Genome wide step 1
+'    Regprecise.Compile:                  The repository parameter is a directory path which is the regprecise
+'                                         database root directory in the GCModeller directory, if you
+'                                         didn't know how to set this value, please leave it blank.
+'    regulators.bbh:                      Compiles for the regulators in the bacterial genome mapped on
+'                                         the regprecise database using bbh method.
+'    --TCS.Module.Regulations:            
+'    --TCS.Regulations:                   
+'    wGet.Regprecise:                     Download Regprecise database from REST API
+' 
+' 
+' 5. Regulon tools
+' 
+' 
+'    /regulon.export:                     
+'    /Regulon.Reconstruct:                
+'    /Regulon.Reconstruct2:               
+'    /Regulon.Reconstructs:               Doing the regulon reconstruction job in batch mode.
+'    /Regulon.Test:                       
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

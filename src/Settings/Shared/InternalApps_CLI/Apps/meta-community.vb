@@ -6,6 +6,70 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: D:/GCModeller/GCModeller/bin/meta-community.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < meta_community.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /box.plot:                               
+'  /heatmap.plot:                           
+'  /LefSe.Matrix:                           Processing the relative aboundance matrix to the input format
+'                                           file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
+'  /OTU.cluster:                            
+'  /Relative_abundance.barplot:             
+'  /Relative_abundance.stacked.barplot:     
+'  /significant.difference:                 
+'  /SILVA.bacteria:                         
+'  /UPGMA.Tree:                             
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. 02. Alpha diversity analysis tools
+' 
+' 
+'    /Rank_Abundance:                         https://en.wikipedia.org/wiki/Rank_abundance_curve
+' 
+' 
+' 2. 03. Human Microbiome Project cli tool
+' 
+' 
+'    /handle.hmp.manifest:                    
+'    /hmp.manifest.files:                     
+' 
+' 
+' 3. Microbiome network cli tools
+' 
+' 
+'    /Metagenome.UniProt.Ref:                 
+'    /microbiome.metabolic.network:           
+'    /microbiome.pathway.profile:             Generates the pathway network profile for the microbiome
+'                                             OTU result based on the KEGG and UniProt reference.
+'    /microbiome.pathway.run.profile:         Build pathway interaction network based on the microbiome
+'                                             profile result.
+'    /UniProt.screen.model:                   
+' 
+' 
+' 4. SILVA database cli tools
+' 
+' 
+'    /SILVA.headers:                          
+' 
+' 
+' 5. Taxonomy assign cli tools
+' 
+' 
+'    /gast.Taxonomy.greengenes:               OTU taxonomy assign by apply gast method on the result of
+'                                             OTU rep sequence alignment against the greengenes.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 
