@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
-Imports RDotNET.Extensions.VisualBasic.API
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 ''' <summary>
@@ -47,10 +47,10 @@ Public Module PathwayProfile
     End Function
 
     <Extension>
-    Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
-                                    uniprot As TaxonomyRepository,
-                                    ref As MapRepository,
-                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+                                  uniprot As TaxonomyRepository,
+                                  ref As MapRepository,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Profile()
 
         Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
         Dim profiles = taxonomyGroup _
@@ -60,9 +60,39 @@ Public Module PathwayProfile
                         Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
-                        Return (tax:=name, profile:=profile, pct:=tax.Value)
+                        Return New Profile(
+                            tax:=name,
+                            profile:=profile,
+                            pct:=tax.Value
+                        )
                     End Function) _
             .ToArray
+
+        Return profiles
+    End Function
+
+    Public Class Profile
+        Public Property Taxonomy As String
+        Public Property Profile As Dictionary(Of String, Double)
+        Public Property pct As Double
+
+        Sub New()
+        End Sub
+
+        Sub New(tax$, profile As Dictionary(Of String, Double), pct#)
+            Me.Taxonomy = tax
+            Me.Profile = profile
+            Me.pct = pct
+        End Sub
+    End Class
+
+    <Extension>
+    Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
+                                    uniprot As TaxonomyRepository,
+                                    ref As MapRepository,
+                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+
+        Dim profiles = gast.CreateProfile(uniprot, ref, rank)
 
         ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
         Dim ZERO#() = Repeats(0R, profiles.Length)
