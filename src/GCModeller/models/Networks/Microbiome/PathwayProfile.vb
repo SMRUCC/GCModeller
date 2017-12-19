@@ -89,7 +89,8 @@ Public Module PathwayProfile
                               ElseIf vector.All(Function(x) x = x0) Then
                                   pvalue = 0
                               Else
-                                  pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
+                                  ' 可能有很多零
+                                  pvalue = stats.Ttest(vector, ZERO, varEqual:=False).pvalue
                               End If
 
                               Return (profile, pvalue)
