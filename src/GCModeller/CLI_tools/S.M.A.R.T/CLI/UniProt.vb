@@ -31,7 +31,7 @@ Partial Module CLI
     Private Iterator Function UniProt2Pfam(protein As entry) As IEnumerable(Of PfamString)
         For Each ID As String In protein.accessions
             Yield New PfamString With {
-                .ProteinId = protein.accessions.JoinBy("; "),
+                .ProteinId = ID,
                 .Description = protein.proteinFullName,
                 .Length = protein.sequence.length,
                 .Domains = protein.features _
