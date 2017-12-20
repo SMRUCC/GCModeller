@@ -1,0 +1,27 @@
+{
+  "name": "sciBASIC#",
+  "description": "scientific computing runtime for VisualBasic.NET",
+  "version": "1.1.0",
+  "author": "xieguigang <xie.guigang@gcmodeller.org>",
+  "main": "src/runtime/sciBASIC#/",
+  "scripts": {
+    "test": "tap test/simple/* && eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xieguigang/sciBASIC.git"
+  },
+  "keywords": [
+    "hypothesis",
+    "student t"
+  ],
+  "dependencies": {
+    "summary": "0.3.x",
+    "distributions": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "tap": "^6.3.0"
+  },
+  "license": "GPL3"
+}
