@@ -64,8 +64,8 @@ Public Module CompilerShellScriptAPI
         As TCS.SensorInducers()
 
         Dim IDList As String() = {
-            (From protein In MiST2.MajorModules.First.OneComponent Select protein.Identifier).ToArray,
-            (From protein In MiST2.MajorModules.First.Chemotaxis Select protein.Identifier).ToArray
+            (From protein In MiST2.MajorModules.First.OneComponent Select protein.ID).ToArray,
+            (From protein In MiST2.MajorModules.First.Chemotaxis Select protein.ID).ToArray
         }.ToVector
 
         Dim Profile = (From strId As String

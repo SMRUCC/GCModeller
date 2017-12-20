@@ -146,8 +146,8 @@ Namespace Assembly.MiST2
             Dim Tokens = Strings.Split(strText, "</td>").Skip(3).ToArray
             Dim p As int = Scan0
 
-            Protein.Identifier = Regex.Match(Tokens(++p), ">[^>]+?</").Value
-            Protein.Identifier = GetValue(Protein.Identifier)
+            Protein.ID = Regex.Match(Tokens(++p), ">[^>]+?</").Value
+            Protein.ID = GetValue(Protein.ID)
 
             Protein.GeneName = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.GeneName = GetValue(Protein.GeneName)

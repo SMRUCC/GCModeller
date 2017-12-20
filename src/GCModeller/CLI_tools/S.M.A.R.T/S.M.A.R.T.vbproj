@@ -242,6 +242,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLI\UniProt.vb" />
     <Compile Include="CLI\MPAlignment.vb" />
     <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="DomainVisualize.vb" />

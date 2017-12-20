@@ -75,10 +75,10 @@ Namespace Compiler.Components
             Me.StringNetwork = StringNetwork
             Me.ModelIO = ModelIo
             Dim MisT2 As SMRUCC.genomics.Assembly.MiST2.MiST2 = ModelIo.MisT2
-            Me.CheB = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEB) > 0 Select Protein.Identifier Distinct).ToArray
-            Me.CheR = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHER) > 0 Select Protein.Identifier Distinct).ToArray
-            Me.CheW = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEW) > 0 Select Protein.Identifier Distinct).ToArray
-            Me.MCPs = (From Protein In MisT2.MajorModules.First.Chemotaxis Where String.Equals(Protein.Class, "MCP") Select Protein.Identifier Distinct).ToArray
+            Me.CheB = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEB) > 0 Select Protein.ID Distinct).ToArray
+            Me.CheR = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHER) > 0 Select Protein.ID Distinct).ToArray
+            Me.CheW = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEW) > 0 Select Protein.ID Distinct).ToArray
+            Me.MCPs = (From Protein In MisT2.MajorModules.First.Chemotaxis Where String.Equals(Protein.Class, "MCP") Select Protein.ID Distinct).ToArray
             Me._Logging = Logging
 
             KEGG_Compounds = (From item In ModelIo.MetabolitesModel.AsParallel Where Not String.IsNullOrEmpty(item.Value.KEGGCompound) Select item.Value).ToArray.ToDictionary(Function(item) item.KEGGCompound)
@@ -244,7 +244,7 @@ Namespace Compiler.Components
                                  In ModelIO.MisT2.MajorModules.First.Chemotaxis
                           Where String.Equals(Item.Class, "MCP")
                           Select New TCS.SensorInducers With {
-                                     .SensorId = String.Format("[{0}][CH3]", Item.Identifier),
+                                     .SensorId = String.Format("[{0}][CH3]", Item.ID),
                                      .Inducers = New String() {}}).AsList
             Return LQuery
         End Function
@@ -256,14 +256,14 @@ Namespace Compiler.Components
                 Dim CheBPI As String = String.Format("[{0}][PI]", CheB)
 
                 Dim LQuery = (From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HisK
-                              Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                              Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList
+                              Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.ID) + 0.05
+                              Select New With {.HK = HK.ID, .Conf = Confidence}).AsList
                 Call LQuery.AddRange((From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HHK
-                                      Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList)
+                                      Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.ID) + 0.05
+                                      Select New With {.HK = HK.ID, .Conf = Confidence}).AsList)
                 Call LQuery.AddRange((From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HRR
-                                      Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList)
+                                      Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.ID) + 0.05
+                                      Select New With {.HK = HK.ID, .Conf = Confidence}).AsList)
                 If LQuery.IsNullOrEmpty Then
                     Continue For
                 End If
