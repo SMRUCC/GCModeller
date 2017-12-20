@@ -34,7 +34,7 @@ Partial Module CLI
                                     Dim uniprotID$ = map.Value _
                                         .Where(Function(acc) .ContainsKey(acc)) _
                                         .First
-                                    Dim protein As PfamString = .ref(uniprotID).UniProt2Pfam
+                                    Dim protein As PfamString = .ref(uniprotID).UniProt2Pfam.First
                                     protein.ProteinId = ID
                                     Return protein
                                 End Function) _
