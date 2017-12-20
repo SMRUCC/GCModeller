@@ -72,7 +72,7 @@ Namespace Assembly.MiST2
         Public Function GetRR() As String()
             Dim LQuery = (From transducin As Transducin
                           In {RR, HRR}.ToVector
-                          Select transducin.Identifier
+                          Select transducin.ID
                           Distinct).ToArray
             Return LQuery
         End Function
@@ -82,7 +82,7 @@ Namespace Assembly.MiST2
         ''' </summary>
         ''' <returns></returns>
         Public Function get_HisKinase() As String()
-            Dim LQuery = (From item In {HisK, HHK}.ToVector Select item.Identifier Distinct).ToArray
+            Dim LQuery = (From item In {HisK, HHK}.ToVector Select item.ID Distinct).ToArray
             Return LQuery
         End Function
 

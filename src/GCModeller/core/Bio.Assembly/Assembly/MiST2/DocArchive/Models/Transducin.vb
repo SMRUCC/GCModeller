@@ -56,7 +56,7 @@ Namespace Assembly.MiST2
         <XmlAttribute> Public Property [Class] As String
 
         Public Overrides Function ToString() As String
-            Return Identifier
+            Return ID
         End Function
 
         ''' <summary>

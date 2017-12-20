@@ -64,7 +64,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         Private Sub __fillBasicInfo(ByRef prot As ProteinModel.Protein, table As String)
             Dim rows As String() = HtmlParser.GetRowsHTML(table)
             prot.Organism = HtmlParser.GetColumnsHTML(rows(0)).Last
-            prot.Identifier = HtmlParser.GetColumnsHTML(rows(1)).Last.GetValue
+            prot.ID = HtmlParser.GetColumnsHTML(rows(1)).Last.GetValue
             prot.Description = HtmlParser.GetColumnsHTML(rows(2)).Last
         End Sub
 

@@ -70,10 +70,10 @@ Namespace Assembly.MiST2
 
         Public Function IsHisK(Id As String) As Boolean
             For Each [Module] In MajorModules
-                If Not (From item In [Module].TwoComponent.HHK Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HHK Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
-                If Not (From item In [Module].TwoComponent.HisK Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HisK Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
             Next
@@ -87,10 +87,10 @@ Namespace Assembly.MiST2
 
         Public Function IsRR(Id As String) As Boolean
             For Each [Module] In MajorModules
-                If Not (From item In [Module].TwoComponent.HRR Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HRR Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
-                If Not (From item In [Module].TwoComponent.RR Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.RR Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
             Next
