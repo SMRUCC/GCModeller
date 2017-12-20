@@ -317,8 +317,8 @@ Partial Module CLI
             out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
             With list.ExtensionSuffix
-                If .TextEquals("csv") OrElse .TextEquals("tsv") Then
-                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv")) _
+                If .TextEquals("csv") OrElse .TextEquals("tsv") OrElse .TextEquals("tab") Then
+                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv") OrElse .TextEquals("tab")) _
                         .Select(Function(x) x.ID) _
                         .Distinct _
                         .ToArray
