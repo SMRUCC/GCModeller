@@ -143,7 +143,7 @@ Public Class DomainVisualize
             Gr.CompositingMode = CompositingMode.SourceOver
             Gr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit
 
-            Call DrawTitle(Gr, String.Format("Domain Architectures of ""{0}""", Protein.Identifier), Seq)
+            Call DrawTitle(Gr, String.Format("Domain Architectures of ""{0}""", Protein.Id), Seq)
             Call CreateMainRule(Gr, Protein.Length)
             Call Gr.FillRectangle(Brushes.Black, Seq)
             Call DrawCite(Gr, DiagramImage.Size)

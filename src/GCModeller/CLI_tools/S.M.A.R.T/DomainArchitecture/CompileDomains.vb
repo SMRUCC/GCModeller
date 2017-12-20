@@ -129,7 +129,7 @@ Public Class CompileDomains
 
         If QueryIteration.Hits.IsNullOrEmpty Then
             Return New Protein With {
-                .Identifier = QueryIteration.QueryDef.Split.First,
+                .ID = QueryIteration.QueryDef.Split.First,
                 .Domains = New DomainObject() {},
                 .SequenceData = SeqData,
                 .Description = QueryIteration.QueryDef.Split(CChar("|")).Last}
@@ -146,7 +146,7 @@ Public Class CompileDomains
                              }
                          } '
             Dim Protein As New Protein With {
-                .Identifier = QueryIteration.QueryDef.Split.First,
+                .ID = QueryIteration.QueryDef.Split.First,
                 .Domains = LQuery.ToArray,
                 .SequenceData = SeqData,
                 .Description = QueryIteration.QueryDef.Split(CChar("|")).Last
@@ -184,7 +184,7 @@ Public Class SMARTDB
     Private Shared ReadOnly FilledEmptys As String() = New String() {"", "", ""}
 
     Private Shared Function Generate(Protein As Protein) As RowObject
-        If Protein.Identifier.IsNullOrEmpty Then
+        If Protein.ID.IsNullOrEmpty Then
             Return Nothing
         End If
 
