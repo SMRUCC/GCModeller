@@ -288,7 +288,7 @@ Partial Module CLI
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
-              Description:="Using for the iTraq method result.")>
+              Description:="* Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.")>
     <Argument("/mapping", True, CLITypes.File,
               Extensions:="*.tsv, *.txt",
               Description:="The id mapping table, only works when the argument ``/list`` is presented.")>
