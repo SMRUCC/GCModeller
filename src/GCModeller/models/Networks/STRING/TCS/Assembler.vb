@@ -157,32 +157,32 @@ Public Class Assembler
     End Function
 
     Public Function IsOneComponent(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.OneComponent Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.OneComponent Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHK(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HisK Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HisK Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHHK(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HHK Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HHK Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsRR(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.RR Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.RR Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHRR(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HRR Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HRR Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsChemotaxis(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.Chemotaxis Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.Chemotaxis Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 End Class

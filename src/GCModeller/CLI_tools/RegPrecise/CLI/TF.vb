@@ -86,7 +86,7 @@ Partial Module CLI
         Dim motifs As ProteinModel.DomainObject()
 
         For Each x As Protein In source
-            l = If(hash.ContainsKey(x.Identifier), hash(x.Identifier), x.Length)
+            l = If(hash.ContainsKey(x.ID), hash(x.ID), x.Length)
             motifs = (From m As ProteinModel.DomainObject In x.Domains Where Val(m.EValue) <= cut Select m).ToArray
 
             If motifs.Length <= 1 Then
@@ -100,7 +100,7 @@ Partial Module CLI
             End If
 
             Yield New PfamString With {
-                .ProteinId = x.Identifier,
+                .ProteinId = x.ID,
                 .Length = l,
                 .Description = x.Description,
                 .PfamString = motifs.Select(Function(d) $"{d.Name.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),

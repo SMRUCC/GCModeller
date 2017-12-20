@@ -188,8 +188,8 @@ Public Class SMARTDB
             Return Nothing
         End If
 
-        Dim Row As RowObject = New RowObject
-        Dim Tokens As List(Of String) = Protein.Identifier.Split(CChar("|")).AsList
+        Dim Row As New RowObject
+        Dim Tokens As List(Of String) = Protein.Id.Split(CChar("|")).AsList
 
         Call Tokens.AddRange(FilledEmptys)
         Call Row.Add(Tokens(0))
