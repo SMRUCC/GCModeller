@@ -18,6 +18,7 @@ Partial Module CLI
         Dim proteins = UniProtXML _
             .EnumerateEntries(path:=[in]) _
             .Select(AddressOf UniProt2Pfam) _
+            .IteratesALL _
             .ToArray
 
         Return proteins _
@@ -27,27 +28,29 @@ Partial Module CLI
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Private Function UniProt2Pfam(protein As entry) As PfamString
-        Return New PfamString With {
-            .ProteinId = protein.accessions.JoinBy("; "),
-            .Description = protein.proteinFullName,
-            .Length = protein.sequence.length,
-            .Domains = protein.features _
-                .SafeQuery _
-                .Where(Function(f) f.type = "domain") _
-                .Select(Function(feature) feature.description) _
-                .Distinct _
-                .ToArray,
-            .PfamString = protein.features _
-                .SafeQuery _
-                .Where(Function(f) f.type = "domain") _
-                .OrderBy(Function(feature)
-                             Return feature.location.begin.position
-                         End Function) _
-                .Select(Function(feature)
-                            Return $"{feature.description}({feature.location.begin.position}|{feature.location.end.position})"
-                        End Function) _
-                .ToArray
-        }
+    Private Iterator Function UniProt2Pfam(protein As entry) As IEnumerable(Of PfamString)
+        For Each ID As String In protein.accessions
+            Yield New PfamString With {
+                .ProteinId = protein.accessions.JoinBy("; "),
+                .Description = protein.proteinFullName,
+                .Length = protein.sequence.length,
+                .Domains = protein.features _
+                    .SafeQuery _
+                    .Where(Function(f) f.type = "domain") _
+                    .Select(Function(feature) feature.description) _
+                    .Distinct _
+                    .ToArray,
+                .PfamString = protein.features _
+                    .SafeQuery _
+                    .Where(Function(f) f.type = "domain") _
+                    .OrderBy(Function(feature)
+                                 Return feature.location.begin.position
+                             End Function) _
+                    .Select(Function(feature)
+                                Return $"{feature.description}({feature.location.begin.position}|{feature.location.end.position})"
+                            End Function) _
+                    .ToArray
+            }
+        Next
     End Function
 End Module
