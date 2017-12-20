@@ -18,7 +18,7 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
-    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /out <out.directory>]")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function PathwayProfiles(args As CommandLine) As Integer
@@ -28,6 +28,7 @@ Partial Module CLI
         Dim gast As gast.gastOUT() = [in].LoadCsv(Of gast.gastOUT)
         Dim UniProt As TaxonomyRepository = Nothing
         Dim maps As MapRepository = args("/maps").LoadXml(Of MapRepository)
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
         Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
@@ -40,7 +41,7 @@ Partial Module CLI
         Else
             Return gast _
                 .PathwayProfiles(UniProt, ref:=maps) _
-                .RunProfile(maps, out)
+                .RunProfile(maps, out, pvalue)
         End If
     End Function
 
