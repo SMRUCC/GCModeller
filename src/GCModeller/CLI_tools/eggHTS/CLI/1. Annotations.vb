@@ -334,6 +334,7 @@ Partial Module CLI
             Return geneIDs _
                 .GenerateAnnotations(uniprot, iTraq, accID, mappings:=mappings) _
                 .Select(Function(x) x.Item1) _
+                .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
                 .SaveDataSet(out) _
                 .CLICode
@@ -343,6 +344,7 @@ Partial Module CLI
             Return uniprot _
                 .ExportAnnotations(iTraq:=iTraq, accID:=accID) _
                 .Select(Function(x) x.Item1) _
+                .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
                 .SaveDataSet(out) _
                 .CLICode
