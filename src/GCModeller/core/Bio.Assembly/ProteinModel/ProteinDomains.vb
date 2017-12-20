@@ -52,7 +52,7 @@ Namespace ProteinModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute("Identifier", [Namespace]:="http://gcmodeller.org/programming/language/visualbasic/Identifier")>
-        Public Overridable Property Identifier As String Implements INamedValue.Key
+        Public Overridable Property ID As String Implements INamedValue.Key
         Public Property Organism As String
 
         <XmlElement> Public Property Description As String
@@ -78,7 +78,7 @@ Namespace ProteinModel
         End Property
 
         Public Function EXPORT() As FASTA.FastaToken
-            Return New FASTA.FastaToken({Identifier, Description}, SequenceData)
+            Return New FASTA.FastaToken({ID, Description}, SequenceData)
         End Function
 
         Public Function ContainsDomain(DomainAccession As String) As Boolean
