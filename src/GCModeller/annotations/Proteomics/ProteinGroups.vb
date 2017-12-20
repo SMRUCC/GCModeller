@@ -268,14 +268,14 @@ Public Module ProteinGroups
                                      scientifcName$,
                                      iTraq As Boolean) As (protein As protein, mapsId As String())
 
-        Dim mappsId$() = source _
+        Dim maps = source _
             .Select(Function(s) UCase(s)) _
             .Where(Function(ref) mappings.ContainsKey(ref)) _
-            .Select(Function(ref) mappings(ref)) _
-            .Unlist _
-            .Distinct _
+            .Select(Function(ref) (ref:=ref, ID:=mappings(ref))) _
             .ToArray  ' 从uniprot ref90 转换为标准基因号
-        Dim uniprots As Uniprot.XML.entry() = mappsId _
+        Dim mapsID$() = maps.Select(Function(t) t.ID).IteratesALL.Distinct.ToArray
+        Dim refIDs = maps.Select(Function(t) t.ref).Distinct.JoinBy("; ")
+        Dim uniprots As Uniprot.XML.entry() = mapsID _
             .Where(Function(acc) uniprot.ContainsKey(acc)) _
             .Select(Function(acc) uniprot(acc)) _
             .ToArray
@@ -289,7 +289,7 @@ Public Module ProteinGroups
 
                 If Not protein.organism Is Nothing AndAlso protein.organism.scientificName = scientifcName Then
                     uniprots = {protein}  ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
-                    mappsId = {
+                    mapsID = {
                         DirectCast(protein, INamedValue).Key
                     }
                     found = True
@@ -309,7 +309,7 @@ Public Module ProteinGroups
                 Next
 
                 uniprots = {uniprots(Scan0)}
-                mappsId = {
+                mapsID = {
                     DirectCast(uniprots(Scan0), INamedValue).Key
                 }
             End If
@@ -358,7 +358,7 @@ Public Module ProteinGroups
         Call annotations.Add("ORF", ORF)
         Call annotations.Add("Entrez", Entrez.JoinBy("; "))
         Call annotations.Add("fullName", names.JoinBy("; "))
-        Call annotations.Add("uniprot", mappsId.JoinBy("; "))
+        Call annotations.Add("uniprot", mapsID.JoinBy("; "))
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
@@ -382,6 +382,8 @@ Public Module ProteinGroups
 
         If Not String.IsNullOrEmpty(prefix) Then
             geneID = prefix & "_" & geneID.FormatZero("0000")
+        Else
+            geneID = refIDs
         End If
 
         If iTraq Then
@@ -391,7 +393,7 @@ Public Module ProteinGroups
         Return (New protein With {
             .ID = geneID,
             .Properties = annotations
-        }, mappsId)
+        }, mapsID)
     End Function
 
     <Extension>

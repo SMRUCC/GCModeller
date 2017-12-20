@@ -93,7 +93,7 @@ Public Module ShellScriptAPI
     Public Function CreateArchitectureData(pfamData As IEnumerable(Of PfamString)) As Protein()
         Dim LQuery = (From pfam As PfamString In pfamData.AsParallel
                       Select New Protein With {
-                          .Identifier = pfam.ProteinId,
+                          .ID = pfam.ProteinId,
                           .Description = pfam.Description,
                           .SequenceData = New String("-"c, pfam.Length),
                           .Domains = pfam.GetDomainData(True)}).ToArray

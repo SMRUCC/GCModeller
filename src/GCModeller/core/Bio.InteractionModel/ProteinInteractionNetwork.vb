@@ -93,11 +93,11 @@ Public Class ProteinInteractionNetwork
                 Dim LQuery = From Pro As Protein
                              In Proteins
                              Where Pro.ContainsDomain(DomainId)
-                             Select Pro.Identifier '
+                             Select Pro.ID '
                 Call InteractionProteins.AddRange(LQuery.ToArray)
             Next
 
-            Call InteractionList.Add(New Interaction With {.Protein = Protein.Identifier, .InteractionWith = InteractionProteins.ToArray})
+            Call InteractionList.Add(New Interaction With {.Protein = Protein.ID, .InteractionWith = InteractionProteins.ToArray})
         Next
 
         Return InteractionList.ToArray

@@ -288,7 +288,7 @@ Partial Module CLI
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
-              Description:="Using for the iTraq method result.")>
+              Description:="* Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.")>
     <Argument("/mapping", True, CLITypes.File,
               Extensions:="*.tsv, *.txt",
               Description:="The id mapping table, only works when the argument ``/list`` is presented.")>
@@ -317,8 +317,8 @@ Partial Module CLI
             out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
             With list.ExtensionSuffix
-                If .TextEquals("csv") OrElse .TextEquals("tsv") Then
-                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv")) _
+                If .TextEquals("csv") OrElse .TextEquals("tsv") OrElse .TextEquals("tab") Then
+                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv") OrElse .TextEquals("tab")) _
                         .Select(Function(x) x.ID) _
                         .Distinct _
                         .ToArray
@@ -334,6 +334,7 @@ Partial Module CLI
             Return geneIDs _
                 .GenerateAnnotations(uniprot, iTraq, accID, mappings:=mappings) _
                 .Select(Function(x) x.Item1) _
+                .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
                 .SaveDataSet(out) _
                 .CLICode
@@ -343,6 +344,7 @@ Partial Module CLI
             Return uniprot _
                 .ExportAnnotations(iTraq:=iTraq, accID:=accID) _
                 .Select(Function(x) x.Item1) _
+                .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
                 .SaveDataSet(out) _
                 .CLICode
