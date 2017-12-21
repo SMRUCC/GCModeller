@@ -1,10 +1,5 @@
 +C	Environmental compound
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Endocrine Disrupting Compounds</h2>
-#<!---
-#ENTRY       br08006
-#NAME        EDC
-#DEFINITION  Endocrine disrupting compounds
-#--->
 !
 A<b>Pesticides and herbicides</b>
 B  Carbamate pesticides

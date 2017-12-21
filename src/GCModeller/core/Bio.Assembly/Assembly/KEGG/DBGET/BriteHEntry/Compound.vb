@@ -1,34 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::dbe711789c9c860563ee735a62abacf7, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
@@ -169,7 +171,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Function Lipids() As Compound()
-            Return Compound.Build(BriteHText.Load(My.Resources.br08002))
+            Dim satellite As New ResourcesSatellite(GetType(LICENSE))
+            Return Compound.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
         End Function
 
         ''' <summary>
@@ -201,6 +204,47 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Next
         End Sub
 
+#Region "Internal resource ID"
+
+        ''' <summary>
+        ''' ``br08001``  Compounds with biological roles
+        ''' </summary>
+        Const cpd_br08001 = "br08001"
+        ''' <summary>
+        ''' ``br08002``  Lipids
+        ''' </summary>
+        Const cpd_br08002 = "br08002"
+        ''' <summary>
+        ''' ``br08003``  Phytochemical compounds
+        ''' </summary>
+        Const cpd_br08003 = "br08003"
+        ''' <summary>
+        ''' ``br08005``  Bioactive peptides
+        ''' </summary>
+        Const cpd_br08005 = "br08005"
+        ''' <summary>
+        ''' ``br08006``  Endocrine disrupting compounds
+        ''' </summary>
+        Const cpd_br08006 = "br08006"
+        ''' <summary>
+        ''' ``br08007``  Pesticides
+        ''' </summary>
+        Const cpd_br08007 = "br08007"
+        ''' <summary>
+        ''' ``br08008``  Carcinogens
+        ''' </summary>
+        Const cpd_br08008 = "br08008"
+        ''' <summary>
+        ''' ``br08009``  Natural toxins
+        ''' </summary>
+        Const cpd_br08009 = "br08009"
+        ''' <summary>
+        ''' ``br08010``  Target-based classification of compounds
+        ''' </summary>
+        Const cpd_br08010 = "br08010"
+
+#End Region
+
         ''' <summary>
         ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
         ''' 
@@ -225,23 +269,25 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                                     Optional forceUpdate As Boolean = False,
                                                     Optional structInfo As Boolean = False,
                                                     Optional maxID% = 25000) As String()
-            Dim Resource = {
-                New KeyValuePair(Of String, Compound())("Compounds with biological roles", Build(BriteHText.Load(My.Resources.br08001))),
-                New KeyValuePair(Of String, Compound())("Lipids", Build(BriteHText.Load(My.Resources.br08002))),
-                New KeyValuePair(Of String, Compound())("Phytochemical compounds", Build(BriteHText.Load(My.Resources.br08003))),
-                New KeyValuePair(Of String, Compound())("Bioactive peptides", Build(BriteHText.Load(My.Resources.br08005))),
-                New KeyValuePair(Of String, Compound())("Endocrine disrupting compounds", Build(BriteHText.Load(My.Resources.br08006))),
-                New KeyValuePair(Of String, Compound())("Pesticides", Build(BriteHText.Load(My.Resources.br08007))),
-                New KeyValuePair(Of String, Compound())("Carcinogens", Build(BriteHText.Load(My.Resources.br08008))),
-                New KeyValuePair(Of String, Compound())("Natural toxins", Build(BriteHText.Load(My.Resources.br08009))),
-                New KeyValuePair(Of String, Compound())("Target-based classification of compounds", Build(BriteHText.Load(My.Resources.br08010)))
+
+            Dim satellite As New ResourcesSatellite(GetType(LICENSE))
+            Dim resource = {
+                New NamedValue(Of Compound())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
+                New NamedValue(Of Compound())("Lipids", Build(BriteHText.Load(satellite.GetString(cpd_br08002)))),
+                New NamedValue(Of Compound())("Phytochemical compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08003)))),
+                New NamedValue(Of Compound())("Bioactive peptides", Build(BriteHText.Load(satellite.GetString(cpd_br08005)))),
+                New NamedValue(Of Compound())("Endocrine disrupting compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08006)))),
+                New NamedValue(Of Compound())("Pesticides", Build(BriteHText.Load(satellite.GetString(cpd_br08007)))),
+                New NamedValue(Of Compound())("Carcinogens", Build(BriteHText.Load(satellite.GetString(cpd_br08008)))),
+                New NamedValue(Of Compound())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
+                New NamedValue(Of Compound())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
             }
             Dim failures As New List(Of String)
 
-            For Each briteEntry In Resource
+            For Each briteEntry As NamedValue(Of Compound()) In resource
                 With briteEntry
                     Call __downloadsInternal(
-                        .Key, .Value,
+                        .Name, .Value,
                         failures,
                         EXPORT,
                         DirectoryOrganized,
@@ -272,7 +318,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
                     If Not skip Then
-                        Call Thread.Sleep(1000)
+                        Call Thread.Sleep(thread_sleep)
                     End If
                     Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
                 Next
@@ -281,6 +327,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
+        ''' <summary>
+        ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
+        ''' </summary>
+        ''' <param name="entryID$"></param>
+        ''' <param name="saveDIR$"></param>
+        ''' <param name="forceUpdate"></param>
+        ''' <param name="structInfo"></param>
+        ''' <param name="skip"></param>
+        ''' <returns></returns>
         Private Shared Function Download(entryID$, saveDIR$, forceUpdate As Boolean, structInfo As Boolean, ByRef skip As Boolean) As Boolean
             Dim xml$ = $"{saveDIR}/{entryID}.xml"
 
@@ -317,6 +372,18 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return True
         End Function
 
+        Shared ReadOnly thread_sleep% = 2000
+
+        Shared Sub New()
+            With App.GetVariable("sleep")
+                If Not .StringEmpty AndAlso Val(.ref) > 1 Then
+                    thread_sleep = Val(.ref)
+                Else
+                    thread_sleep = 2000
+                End If
+            End With
+        End Sub
+
         Private Shared Sub __downloadsInternal(key$,
                                                briteEntry As Compound(),
                                                ByRef failures As List(Of String),
@@ -351,7 +418,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
                     If Not skip Then
-                        Call Thread.Sleep(1000)
+                        Call Thread.Sleep(thread_sleep)
                     End If
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next

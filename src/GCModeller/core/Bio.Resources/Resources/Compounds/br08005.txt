@@ -1,10 +1,5 @@
 +C	Peptide
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Bioactive Peptides</h2>
-#<!---
-#ENTRY       br08005
-#NAME        Peptide
-#DEFINITION  Bioactive Peptides
-#--->
 !
 A<b>Neuropeptides</b>
 B  Tachykinin

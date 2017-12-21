@@ -1,10 +1,6 @@
 +E	Compound	Remark
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Target-based Classification of Compounds</h2>
 %<style type="text/css"><!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--></style>
-#<!---
-#ENTRY       br08010
-#DEFINITION  Target-based classification of compounds
-#--->
 !
 A<b>G Protein-coupled receptors</b>
 B  Rhodopsin family: amine receptors

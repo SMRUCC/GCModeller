@@ -148,6 +148,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="html"></param>
         ''' <param name="type"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As KeyValuePair()
             If String.IsNullOrEmpty(html) Then
                 Return {}

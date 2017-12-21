@@ -1,10 +1,5 @@
 +E	Lipid
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Lipids</h2>
-#<!---
-#ENTRY       br08002
-#NAME        Lipid
-#DEFINITION  Lipids
-#--->
 !
 A<b>FA  Fatty acyls</b>
 B  FA01 Fatty Acids and Conjugates
@@ -641,6 +636,8 @@ B  GP02 Glycerophosphoethanolamines
 C    GP0201 Diacylglycerophosphoethanolamines
 D      C00350  1-Acyl-2-acyl-sn-glycero-3-phosphoethanolamine
 D      C13877  1-Hexadecanoyl-2-(9Z-octadecenoyl)-sn-glycero-3-phosphoethanolamine
+D      C21480  1-Octadecanoyl-2-(5Z,8Z,11Z,14Z-eicosatetraenoyl)-sn-glycero-3-phosphoethanolamine
+D      C21481  1-Octadecanoyl-2-(7Z,10Z,13Z,16Z-docosatetraenoyl)-sn-glycero-3-phosphoethanolamine
 C    GP0202 1-alkyl,2-acylglycerophosphoethanolamines
 D      C04475  2-Acyl-1-alkyl-sn-glycero-3-phosphoethanolamine
 D      C05210  1-Alkyl-2-arachidonyl-sn-glycero-3-phosphoethanolamine
@@ -649,6 +646,7 @@ C    GP0204 Dialkylglycerophosphoethanolamines
 C    GP0205 Monoacylglycerophosphoethanolamines
 D      C04438  1-Acyl-sn-glycero-3-phosphoethanolamine
 D      C05973  2-Acyl-sn-glycero-3-phosphoethanolamine
+D      C21484  1-Octadecanoyl-sn-glycero-3-phosphoethanolamine
 C    GP0206 Monoalkylglycerophosphoethanolamines
 D      C04476  1-Alkyl-sn-glycero-3-phosphoethanolamine
 D      C05209  1-Alkyl-2-lyso-sn-glycero-3-phosphoethanolamine
@@ -823,10 +821,13 @@ C    C13896  sn-Caldarchaeo-1-phosphoethanolamine
 B  GP19 Glycerol-nonitol tetraether phospholipids
 C    C13897  sn-Caldito-1-phosphoethanolamine
 B  GP20 Oxidized glycerophospholipids
-C    C13898  1-Palmitoyl-2-(5-hydroxy-8-oxo-6-octenedioyl)-sn-glycero-3-phosphatidylcholine
-C    C13900  1-Palmitoyl-2-(5-keto-6-octendioyl)-sn-glycero-3-phosphatidylcholine
-C    C13901  1-Palmitoyl-2-(5-hydroxy-8-oxo-6-octenoyl)-sn-glycero-3-phosphatidylcholine
-C    C13902  1-Palmitoyl-2-(5-keto-8-oxo-6-octenoyl)-sn-glycero-3-phosphatidylcholine
+C    GP2001 Oxidized glycerophosphocholines
+D      C13898  1-Palmitoyl-2-(5-hydroxy-8-oxo-6-octenedioyl)-sn-glycero-3-phosphocholine
+D      C13900  1-Palmitoyl-2-(5-keto-6-octenedioyl)-sn-glycero-3-phosphocholine
+D      C13901  1-Palmitoyl-2-(5-hydroxy-8-oxo-6-octenoyl)-sn-glycero-3-phosphocholine
+D      C13902  1-Palmitoyl-2-(5-keto-8-oxo-6-octenoyl)-sn-glycero-3-phosphocholine
+C    GP2002 Oxidized glycerophosphoethanolamines
+D      C21482  1-Octadecanoyl-2-(15S-hydroxy-5Z,8Z,11Z,13E-eicosatetraenoyl)-sn-glycero-3-phosphoethanolamine
 B  GP00 Other
 #
 A<b>SP  Sphingolipids</b>
@@ -1507,9 +1508,9 @@ D      PR010212 Bicyclic monoterpenoids
 E        C00808  (+)-Camphor
 E        C00809  (-)-Camphor
 E        C03448  (+)-exo-5-Hydroxycamphor
-E        C06076  Comphene
-E        C06304  (+)-Comphene
-E        C06305  (-)-Comphene
+E        C06076  Camphene
+E        C06304  (+)-Camphene
+E        C06305  (-)-Camphene
 E        C01411  Borneol
 E        C01765  (+)-Borneol
 E        C01766  (-)-Borneol
@@ -2807,5 +2808,5 @@ B  PK00 Other Polyketides
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: October 14, 2014
+#Last updated: March 17, 2017
 #<br>Classification based on <a href="http://www.lipidmaps.org/">LIPID MAPS</a> [ <a href="http://www.ncbi.nlm.nih.gov/pubmed/15722563,19098281">pubmed</a> ]

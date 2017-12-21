@@ -1,10 +1,5 @@
 +D
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Phytochemical Compounds</h2>
-#<!---
-#ENTRY       br08003
-#NAME        Phytochemical Compounds
-#DEFINITION  Phytochemical Compounds
-#--->
 !
 A<b>Alkaloids</b>
 B  Alkaloids derived from ornithine
@@ -1557,6 +1552,9 @@ D      C01766  (-)-Borneol
 D      C11338  (1R,2S,4R)-(+)-Bornyl acetate
 D      C09837  (1S,2R,4S)-(-)-Bornyl acetate
 D      C03190  (+)-Bornyl-diphosphate
+D      C06076  Camphene
+D      C06304  (+)-Camphene
+D      C06305  (-)-Camphene
 D      C18369  dl-Camphor
 D      C00808  (+)-Camphor
 D      C00809  (-)-Camphor
@@ -1580,9 +1578,6 @@ D      C09843  Chrysanthenone
 D      C11394  (+)-Chrysanthenone
 D      C16909  1,4-Cineole
 D      C09844  1,8-Cineole
-D      C06076  Comphene
-D      C06304  (+)-Comphene
-D      C06305  (-)-Comphene
 D      C06575  p-Cymene
 D      C06576  p-Cumic alcohol
 D      C06577  p-Cumic aldehyde
@@ -3081,4 +3076,4 @@ D      C10839  Urushiol III
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: October 14, 2014
+#Last updated: March 13, 2017

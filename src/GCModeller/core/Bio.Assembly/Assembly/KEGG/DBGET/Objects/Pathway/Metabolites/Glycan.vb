@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::3687d4ef78b5a2933f41bbe3369fbe75, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
@@ -49,6 +50,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Sub New()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(links As DBLinks)
             MyBase._DBLinks = links
         End Sub
@@ -60,6 +62,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="ID$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function Download(ID$) As Glycan
             Return DownloadFrom(url:=String.Format(URL, ID))
         End Function
@@ -74,7 +78,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = base.Pathway,
                 .MolWeight = base.MolWeight,
                 .Module = base.Module,
-                .KEGG_reactions = base.KEGG_reactions,
+                .reactionId = base.reactionId,
                 .ExactMass = base.ExactMass,
                 .Formula = base.Formula,
                 .Enzyme = base.Enzyme,
@@ -100,13 +104,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return out
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToCompound() As Compound
             Return New Compound With {
                 .Entry = Entry,
                 .CommonNames = CommonNames,
                 .DbLinks = DbLinks,
                 .Formula = Me.Composition,
-                .KEGG_reactions = KEGG_reactions,
+                .reactionId = reactionId,
                 .Module = Me.Module,
                 .MolWeight = Val(Mass),
                 .Pathway = Pathway,
