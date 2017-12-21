@@ -5,8 +5,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
-Public Class CompoundRepository
-    Implements IRepositoryRead(Of String, CompoundIndex)
+Public Class CompoundRepository : Implements IRepositoryRead(Of String, CompoundIndex)
 
     Public Property Compounds As CompoundIndex()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
