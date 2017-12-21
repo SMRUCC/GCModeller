@@ -57,18 +57,27 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Download.Compounds",
-               Info:="Downloads the KEGG compounds data from KEGG web server using dbget API",
-               Usage:="/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
+    <ExportAPI("/Download.Compounds")>
+    <Description("Downloads the KEGG compounds data from KEGG web server using dbget API")>
+    <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, then you can using this option for downloads the complete compounds data in the KEGG database.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", "./KEGG_cpd/")
+        Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args.GetBoolean("/flat")
         Dim updates As Boolean = args.GetBoolean("/updates")
-        Dim failures As New List(Of String)(BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates))
+        Dim failures As List(Of String) = BriteHEntry _
+            .Compound _
+            .DownloadFromResource(
+                EXPORT:=save,
+                DirectoryOrganized:=Not flat,
+                forceUpdate:=updates,
+                structInfo:=True
+            ) _
+            .AsList
+
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
         If accs.FileExists(True) Then

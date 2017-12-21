@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::f46d7ba8993598c3c7f94553381fff44, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -48,7 +49,8 @@ Namespace ComponentModel.DBLinkBuilder
         ''' Entity uid in the target database
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
+        <XmlText>
+        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
 
         Sub New()
         End Sub
@@ -58,14 +60,17 @@ Namespace ComponentModel.DBLinkBuilder
             Entry = ID
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return ToString(Me)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function ToString(DBLink As DBLink) As String
             Return ToString(DBLink.DBName, DBLink.Entry)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function ToString(DBName As String, Entry As String) As String
             Return String.Format("[{0}] {1}", DBName, Entry)
         End Function
@@ -73,6 +78,7 @@ Namespace ComponentModel.DBLinkBuilder
         Public Shared Function CreateObject(strData As String) As DBLink
             Dim Name As String = Regex.Match(strData, "\[.+?\] ").Value
             Dim Entry = strData.Replace(Name, "").Trim
+
             Return New DBLink With {
                 .DBName = Name.Trim.GetString,
                 .Entry = Entry
@@ -85,6 +91,7 @@ Namespace ComponentModel.DBLinkBuilder
             End With
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFormatValue() As String Implements IDBLink.GetFormatValue
             Return ToString(Me)
         End Function

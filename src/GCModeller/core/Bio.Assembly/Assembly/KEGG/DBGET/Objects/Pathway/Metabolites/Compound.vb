@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::d554b6be488cccebb32b96f5408c13c4, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    <XmlRoot("KEGG.Compound", Namespace:="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id")>
     Public Class Compound : Implements ICompoundObject
+
+        Public Const xmlns_kegg$ = "http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id"
 
         ''' <summary>
         ''' KEGG compound ID: ``cpd:C\d+``
@@ -60,29 +60,39 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property KEGG_reactions As String()
-        Public Property Pathway As String()
-        Public Property [Module] As String()
+        Public Property reactionId As String()
+        <XmlArray("pathway", [Namespace]:=xmlns_kegg)>
+        Public Property Pathway As NamedValue()
+        <XmlArray("module", [Namespace]:=xmlns_kegg)>
+        Public Property [Module] As NamedValue()
         Public Property Remarks As String()
         Public Property Enzyme As String()
 
         Protected Friend _DBLinks As DBLinks
-        Public Property DbLinks As String() 'Implements MetaCyc.Schema.CompoundsMapping.ICompoundObject.DBLinks
+
+        <XmlArray("DBlinks", [Namespace]:=xmlns_kegg)>
+        Public Property DbLinks As DBLink()
             Get
                 If _DBLinks Is Nothing Then
-                    Return New String() {}
+                    Return {}
+                Else
+                    Return _DBLinks.DBLinkObjects
                 End If
-                Return _DBLinks.DBLinks
             End Get
-            Set(value As String())
-                _DBLinks = New DBLinks(value)
+            Set
+                _DBLinks = New DBLinks(Value)
             End Set
         End Property
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
         Sub New()
+            xmlns.Add("KEGG", xmlns_kegg)
         End Sub
 
         Sub New(dblinks As DBLinks)
+            Call Me.New
             _DBLinks = dblinks
         End Sub
 
@@ -95,8 +105,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="save">所下载的结构图的保存文件路径</param>
         Public Sub DownloadStructureImage(save As String)
-            Dim Url As String = String.Format("http://www.kegg.jp/Fig/compound/{0}.gif", Entry)
-            Call Url.DownloadFile(save)
+            Dim Url As String = $"http://www.kegg.jp/Fig/compound/{Entry}.gif"
+            Call Url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{Entry}")
         End Sub
 
         ''' <summary>
@@ -111,7 +121,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim url$ = "http://www.kegg.jp/dbget-bin/www_bget?-f+k+compound+" & cpdID
             Dim save$ = saveDIR & "/" & cpdID & ".txt"
 
-            If url.DownloadFile(save) Then
+            If url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{cpdID}") Then
                 Return save.ReadAllText
             Else
                 Return Nothing
@@ -119,30 +129,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Public Function GetPathways() As NamedValue(Of String)()
-            Return __parseNamedData(Pathway)
+            Return Pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         Public Function GetModules() As NamedValue(Of String)()
-            Return __parseNamedData([Module])
+            Return [Module].Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         Public Function GetDBLinks() As DBLink()
             Return _DBLinks.DBLinkObjects.ToArray
-        End Function
-
-        Private Shared Function __parseNamedData(strData As String()) As NamedValue(Of String)()
-            Dim LQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
- _
-                From s As String
-                In strData
-                Let Id As String = Regex.Match(s, "\[.+?\]", RegexICSng).Value
-                Let value As String = s.Replace(Id, "").Trim
-                Select New NamedValue(Of String) With {
-                    .Name = Id,
-                    .Value = value
-                }
-
-            Return LQuery
         End Function
 
         Public Overrides Function ToString() As String
