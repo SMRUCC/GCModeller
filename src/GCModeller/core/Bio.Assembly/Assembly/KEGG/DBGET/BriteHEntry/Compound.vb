@@ -242,6 +242,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' ``br08010``  Target-based classification of compounds
         ''' </summary>
         Const cpd_br08010 = "br08010"
+
 #End Region
 
         ''' <summary>
@@ -317,7 +318,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
                     If Not skip Then
-                        Call Thread.Sleep(1000)
+                        Call Thread.Sleep(thread_sleep)
                     End If
                     Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
                 Next
@@ -371,6 +372,18 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return True
         End Function
 
+        Shared ReadOnly thread_sleep% = 2000
+
+        Shared Sub New()
+            With App.GetVariable("sleep")
+                If Not .StringEmpty AndAlso Val(.ref) > 1 Then
+                    thread_sleep = Val(.ref)
+                Else
+                    thread_sleep = 2000
+                End If
+            End With
+        End Sub
+
         Private Shared Sub __downloadsInternal(key$,
                                                briteEntry As Compound(),
                                                ByRef failures As List(Of String),
@@ -405,7 +418,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
                     If Not skip Then
-                        Call Thread.Sleep(1000)
+                        Call Thread.Sleep(thread_sleep)
                     End If
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next

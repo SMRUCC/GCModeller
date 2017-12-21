@@ -107,8 +107,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="save">所下载的结构图的保存文件路径</param>
         Public Sub DownloadStructureImage(save As String)
-            Dim Url As String = String.Format("http://www.kegg.jp/Fig/compound/{0}.gif", Entry)
-            Call Url.DownloadFile(save)
+            Dim Url As String = $"http://www.kegg.jp/Fig/compound/{Entry}.gif"
+            Call Url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{Entry}")
         End Sub
 
         ''' <summary>
@@ -123,7 +123,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim url$ = "http://www.kegg.jp/dbget-bin/www_bget?-f+k+compound+" & cpdID
             Dim save$ = saveDIR & "/" & cpdID & ".txt"
 
-            If url.DownloadFile(save) Then
+            If url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{cpdID}") Then
                 Return save.ReadAllText
             Else
                 Return Nothing
