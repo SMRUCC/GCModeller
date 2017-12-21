@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d757a6d732eeefd4cbd66a8899b3d275, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -77,15 +78,25 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Entry = Regex.Match(html.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value,
                 .CommonNames = GetCommonNames(html.GetValue("Name").FirstOrDefault()),
                 .Formula = html.GetValue("Formula").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True),
-                .KEGG_reactions = html _
+                .reactionId = html _
                     .GetValue("Reaction") _
                     .FirstOrDefault _
                     .GetLinks() _
                     .Where(Function(s) Not s.IsShowAllLink) _
                     .ToArray,
                 .Enzyme = html.GetValue("Enzyme").FirstOrDefault.GetLinks.Where(Function(s) Not s.IsShowAllLink).ToArray,
-                .Pathway = __parseHTML_ModuleList(html.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
-                .Module = __parseHTML_ModuleList(html.GetValue("Module").FirstOrDefault, LIST_TYPES.Module).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
+                .Pathway = html.GetValue("Pathway") _
+                    .FirstOrDefault _
+                    .__parseHTML_ModuleList(LIST_TYPES.Pathway) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .ToArray _
+                    .__parseNamedData,
+                .Module = html.GetValue("Module") _
+                    .FirstOrDefault _
+                    .__parseHTML_ModuleList(LIST_TYPES.Module) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .ToArray _
+                    .__parseNamedData,
                 .MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
                 .ExactMass = Val(html.GetValue("Exact mass").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
                 .Remarks = html _
@@ -94,6 +105,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     .ToArray
             }
             Return cpd
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Friend Function __parseNamedData(strData As String()) As NamedValue()
+            Dim LQuery = LinqAPI.Exec(Of NamedValue) _
+ _
+                () <= From s As String
+                      In strData
+                      Let Id As String = Regex.Match(s, "\[.+?\]", RegexICSng).Value
+                      Let value As String = s.Replace(Id, "").Trim
+                      Select New NamedValue With {
+                          .name = Id,
+                          .text = value
+                      }
+
+            Return LQuery
         End Function
 
         ''' <summary>

@@ -38,7 +38,6 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    <XmlRoot("Compound", Namespace:=Compound.xmlns_kegg)>
     Public Class Compound : Implements ICompoundObject
 
         Public Const xmlns_kegg$ = "http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id"
@@ -63,9 +62,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property KEGG_reactions As String()
-        Public Property Pathway As String()
-        Public Property [Module] As String()
+        Public Property reactionId As String()
+        <XmlArray("pathway", [Namespace]:=xmlns_kegg)>
+        Public Property Pathway As NamedValue()
+        <XmlArray("module", [Namespace]:=xmlns_kegg)>
+        Public Property [Module] As NamedValue()
         Public Property Remarks As String()
         Public Property Enzyme As String()
 
@@ -86,7 +87,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         <XmlNamespaceDeclarations()>
-        Public xmlns As XmlSerializerNamespaces
+        Public xmlns As New XmlSerializerNamespaces
 
         Sub New()
             xmlns.Add("KEGG", xmlns_kegg)
@@ -130,30 +131,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Public Function GetPathways() As NamedValue(Of String)()
-            Return __parseNamedData(Pathway)
+            Return Pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         Public Function GetModules() As NamedValue(Of String)()
-            Return __parseNamedData([Module])
+            Return [Module].Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         Public Function GetDBLinks() As DBLink()
             Return _DBLinks.DBLinkObjects.ToArray
-        End Function
-
-        Private Shared Function __parseNamedData(strData As String()) As NamedValue(Of String)()
-            Dim LQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
- _
-                From s As String
-                In strData
-                Let Id As String = Regex.Match(s, "\[.+?\]", RegexICSng).Value
-                Let value As String = s.Replace(Id, "").Trim
-                Select New NamedValue(Of String) With {
-                    .Name = Id,
-                    .Value = value
-                }
-
-            Return LQuery
         End Function
 
         Public Overrides Function ToString() As String
