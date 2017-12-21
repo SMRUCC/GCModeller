@@ -58,6 +58,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="ID">``cpd:ID``</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function DownloadCompound(ID As String) As Compound
             Return DownloadCompoundFrom(url:=String.Format(URL, ID))
         End Function
@@ -67,6 +69,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="url"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function DownloadCompoundFrom(url As String) As Compound
             Return New WebForm(url).ParseCompound
         End Function
@@ -179,12 +183,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Select(AddressOf Trim) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .ToArray
-            Dim LQuery As String = LinqAPI.DefaultFirst(Of String) <=
+            Dim LQuery$ = LinqAPI.DefaultFirst(Of String) _
  _
-                From prefixName As String
-                In DBLinks.PrefixDB
-                Where InStr(DBName, prefixName, CompareMethod.Text) > 0
-                Select prefixName
+                () <= From prefixName As String
+                      In DBLinks.PrefixDB
+                      Where InStr(DBName, prefixName, CompareMethod.Text) > 0
+                      Select prefixName
 
             DBName = If(String.IsNullOrEmpty(LQuery), DBName, LQuery)
 
@@ -201,15 +205,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
 
             Dim buf As String() = str.Strip_NOBR.HtmlLines
-            buf = LinqAPI.Exec(Of String) <=
+            Dim names = LinqAPI.Exec(Of String) _
  _
-                From s As String
-                In buf
-                Let line As String = s.StripHTMLTags(stripBlank:=True).Trim(";"c, " "c)
-                Where Not String.IsNullOrEmpty(line)
-                Select line
+                () <= From s As String
+                      In buf
+                      Let line As String = s _
+                          .StripHTMLTags(stripBlank:=True) _
+                          .Trim(";"c, " "c)
+                      Where Not String.IsNullOrEmpty(line)
+                      Select line
 
-            Return buf
+            Return names
         End Function
 
         ''' <summary>
