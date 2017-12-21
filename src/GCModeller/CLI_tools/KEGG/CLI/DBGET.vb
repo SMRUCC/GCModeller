@@ -65,7 +65,7 @@ Partial Module CLI
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, then you can using this option for downloads the complete compounds data in the KEGG database.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", "./KEGG_cpd/")
+        Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args.GetBoolean("/flat")
         Dim updates As Boolean = args.GetBoolean("/updates")
         Dim failures As New List(Of String)(BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates))
