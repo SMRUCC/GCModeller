@@ -236,17 +236,17 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNET.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
+      <Name>RDotNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
