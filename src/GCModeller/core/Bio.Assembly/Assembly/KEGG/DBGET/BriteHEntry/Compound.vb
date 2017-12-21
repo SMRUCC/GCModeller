@@ -326,6 +326,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
+        ''' <summary>
+        ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
+        ''' </summary>
+        ''' <param name="entryID$"></param>
+        ''' <param name="saveDIR$"></param>
+        ''' <param name="forceUpdate"></param>
+        ''' <param name="structInfo"></param>
+        ''' <param name="skip"></param>
+        ''' <returns></returns>
         Private Shared Function Download(entryID$, saveDIR$, forceUpdate As Boolean, structInfo As Boolean, ByRef skip As Boolean) As Boolean
             Dim xml$ = $"{saveDIR}/{entryID}.xml"
 
