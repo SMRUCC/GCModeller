@@ -222,7 +222,7 @@
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>

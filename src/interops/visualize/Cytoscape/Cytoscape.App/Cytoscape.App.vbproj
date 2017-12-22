@@ -269,7 +269,7 @@
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
