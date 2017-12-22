@@ -33,4 +33,18 @@ Partial Module CLI
             .SaveTo(out, TextEncodings.UTF8WithoutBOM) _
             .CLICode
     End Function
+
+    <ExportAPI("/Build.Compounds.Repository")>
+    <Usage("/Build.Compounds.Repository /in <directory> [/out <repository.XML>]")>
+    <Group(CLIGroups.Repository_cli)>
+    Public Function BuildCompoundsRepository(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.repository.Xml"
+
+        Return CompoundRepository _
+            .ScanModels(directory:=[in]) _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 End Module
