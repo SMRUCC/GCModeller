@@ -32,13 +32,17 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports XmlLinq = Microsoft.VisualBasic.Text.Xml.Linq.Data
 
 Namespace Assembly.EBI.ChEBI.XML
 
-    <XmlRoot("ChEBI-DataSet", [Namespace]:="http://gcmodeller.org/core/chebi/dataset.XML")>
+    <XmlRoot("ChEBI-DataSet", [Namespace]:=EntityList.Xmlns)>
     Public Class EntityList
 
-        <XmlElement("chebi-entity")>
+        Public Const Xmlns$ = "http://gcmodeller.org/core/chebi/dataset.XML"
+        Public Const nodeName$ = "chebi-entity"
+
+        <XmlElement(nodeName)>
         Public Property DataSet As ChEBIEntity()
 
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
@@ -76,6 +80,14 @@ Namespace Assembly.EBI.ChEBI.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadDirectory(folder$) As EntityList
             Return Extensions.Compile(folder)
+        End Function
+
+        Public Shared Function PopulateModels(xml As String) As IEnumerable(Of ChEBIEntity)
+            Return XmlLinq.LoadUltraLargeXMLDataSet(Of ChEBIEntity)(
+                path:=xml,
+                typeName:=nodeName,
+                xmlns:=Xmlns
+            )
         End Function
     End Class
 
