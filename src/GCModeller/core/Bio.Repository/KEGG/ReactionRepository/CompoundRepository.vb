@@ -47,11 +47,21 @@ Public Class CompoundRepository : Implements IRepositoryRead(Of String, Compound
         Return New Dictionary(Of String, CompoundIndex)(compoundTable)
     End Function
 
-    Public Shared Function ScanModels(directory As String) As CompoundRepository
+    Public Shared Function ScanModels(directory As String, Optional ignoreGlycan As Boolean = True) As CompoundRepository
         Dim table As New Dictionary(Of String, CompoundIndex)
 
         For Each xml As String In ls - l - r - "*.Xml" <= directory
-            Dim compound As Compound = xml.LoadXml(Of Compound)()
+            Dim compound As Compound
+
+            If xml.BaseName.First = "G"c Then
+                If ignoreGlycan Then
+                    Continue For
+                Else
+                    compound = xml.LoadXml(Of Glycan).ToCompound
+                End If
+            Else
+                compound = xml.LoadXml(Of Compound)()
+            End If
 
             If Not table.ContainsKey(compound.Entry) Then
                 Dim index As New CompoundIndex With {

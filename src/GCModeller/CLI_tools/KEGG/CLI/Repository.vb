@@ -35,14 +35,15 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Build.Compounds.Repository")>
-    <Usage("/Build.Compounds.Repository /in <directory> [/out <repository.XML>]")>
+    <Usage("/Build.Compounds.Repository /in <directory> [/glycan.ignore /out <repository.XML>]")>
     <Group(CLIGroups.Repository_cli)>
     Public Function BuildCompoundsRepository(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.repository.Xml"
+        Dim ignoreGlycan As Boolean = args.IsTrue("/glycan.ignore")
 
         Return CompoundRepository _
-            .ScanModels(directory:=[in]) _
+            .ScanModels(directory:=[in], ignoreGlycan:=ignoreGlycan) _
             .GetXml _
             .SaveTo(out) _
             .CLICode
