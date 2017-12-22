@@ -195,6 +195,11 @@ Namespace AppEngine.APIMethods.Arguments
             Call WriteHTML(sprintf(html.ToString, args))
         End Sub
 
+        ''' <summary>
+        ''' 如果还没有添加header的话，这个函数会自动的添加http header
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="obj"></param>
         Public Sub WriteJSON(Of T)(obj As T)
             Dim json As String = obj.GetJson
             Dim bytes As Byte() = Encoding.UTF8.GetBytes(json)
