@@ -3,6 +3,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Class CompoundRepository : Implements IRepositoryRead(Of String, CompoundIndex)
@@ -43,6 +46,42 @@ Public Class CompoundRepository : Implements IRepositoryRead(Of String, Compound
     Public Function GetAll() As IReadOnlyDictionary(Of String, CompoundIndex) Implements IRepositoryRead(Of String, CompoundIndex).GetAll
         Return New Dictionary(Of String, CompoundIndex)(compoundTable)
     End Function
+
+    Public Shared Function ScanModels(directory As String, Optional ignoreGlycan As Boolean = True) As CompoundRepository
+        Dim table As New Dictionary(Of String, CompoundIndex)
+
+        For Each xml As String In ls - l - r - "*.Xml" <= directory
+            Dim compound As Compound
+
+            If xml.BaseName.First = "G"c Then
+                If ignoreGlycan Then
+                    Continue For
+                Else
+                    compound = xml.LoadXml(Of Glycan).ToCompound
+                End If
+            Else
+                compound = xml.LoadXml(Of Compound)()
+            End If
+
+            If Not table.ContainsKey(compound.Entry) Then
+                Dim index As New CompoundIndex With {
+                    .Entity = compound,
+                    .ID = compound.Entry,
+                    .DbTerms = New OrthologyTerms With {
+                        .Terms = New List(Of [Property]) From {
+                            {TermKeys.KEGG, compound.Entry}
+                        }
+                    }
+                }
+
+                Call table.Add(index.ID, index)
+            End If
+        Next
+
+        Return New CompoundRepository With {
+            .compoundTable = table
+        }
+    End Function
 End Class
 
 Public Class CompoundIndex
@@ -67,7 +106,7 @@ Public Class CompoundIndex
             terms = value
             _Index = terms _
                 .Terms _
-                .Select(Function(term) term.value) _
+                .Select(Function(term) $"{term.name}:{term.value}") _
                 .Indexing
         End Set
     End Property
