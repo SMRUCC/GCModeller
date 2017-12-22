@@ -83,10 +83,11 @@ Namespace Assembly.EBI.ChEBI.XML
         End Function
 
         Public Shared Function PopulateModels(xml As String) As IEnumerable(Of ChEBIEntity)
-            Return XmlLinq.LoadUltraLargeXMLDataSet(Of ChEBIEntity)(
-                path:=xml,
+            Return XmlLinq.LoadXmlDataSet(Of ChEBIEntity)(
+                XML:=xml,
                 typeName:=nodeName,
-                xmlns:=Xmlns
+                xmlns:=Xmlns,
+                forceLargeMode:=True
             )
         End Function
     End Class
