@@ -37,8 +37,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
     <XmlRoot("getCompleteEntityResponse", [Namespace]:="http://www.ebi.ac.uk/webservices/chebi")>
     Public Structure REST
 
-        <XmlElement>
-        Public Property [return] As ChEBIEntity()
+        <XmlElement("return")> Public Property [return] As ChEBIEntity
 
         Public Shared Function ParsingRESTData(result$) As ChEBIEntity()
             Dim xml As XmlDocument = result.LoadXmlDocument
@@ -46,14 +45,23 @@ Namespace Assembly.EBI.ChEBI.WebServices
             Dim out As New List(Of ChEBIEntity)
 
             For Each node As XmlNode In nodes
-                result = node.InnerXml
-                Try
-                    out += result _
-                        .CreateObjectFromXmlFragment(Of REST) _
-                        .return
-                Catch ex As Exception
-                    Throw New Exception(node.InnerText)
-                End Try
+                For Each rep As XmlNode In node.ChildNodes
+                    For Each child As XmlNode In rep.ChildNodes
+                        If child.Name <> "return" Then
+                            Continue For
+                        End If
+
+                        result = child.InnerXml
+                        result = $"<{NameOf(ChEBIEntity)}>" & result & $"</{NameOf(ChEBIEntity)}>"
+                        result = result.Replace(" xmlns=""https://www.ebi.ac.uk/webservices/chebi""", "")
+
+                        Try
+                            out += result.CreateObjectFromXmlFragment(Of ChEBIEntity)
+                        Catch ex As Exception
+                            Throw New Exception(node.InnerText, ex)
+                        End Try
+                    Next
+                Next
             Next
 
             Return out
