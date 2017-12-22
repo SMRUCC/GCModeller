@@ -281,7 +281,7 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\CRISPR\CRT\CRISPR.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\CRISPR\CRT\CRISPR.vbproj">
       <Project>{8da3bd48-13da-4f7e-b9d3-b258eae76363}</Project>
       <Name>CRISPR</Name>
     </ProjectReference>

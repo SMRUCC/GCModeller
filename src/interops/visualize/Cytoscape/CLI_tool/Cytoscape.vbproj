@@ -293,7 +293,7 @@
     <Content Include="Cytoscape.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>

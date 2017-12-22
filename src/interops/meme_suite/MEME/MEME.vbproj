@@ -349,7 +349,7 @@
       <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
       <Name>SmithWaterman</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>

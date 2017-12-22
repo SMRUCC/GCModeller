@@ -370,7 +370,7 @@
       <Project>{43c14bc7-22f6-4340-9af8-b01908619911}</Project>
       <Name>MicrobesOnline</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>

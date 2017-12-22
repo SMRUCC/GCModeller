@@ -305,7 +305,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\MotifTools\PrimerDesigner\PrimerDesigner.vbproj">
+    <ProjectReference Include="..\..\analysis\Motifs\PrimerDesigner\PrimerDesigner.vbproj">
       <Project>{4d83f459-ac49-4569-b40d-5a9d35edd397}</Project>
       <Name>PrimerDesigner</Name>
     </ProjectReference>
@@ -341,7 +341,7 @@
       <Project>{DF1C1740-08B7-40D3-84DC-35C94FACA108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
