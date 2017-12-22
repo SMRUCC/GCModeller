@@ -91,6 +91,10 @@ Namespace Assembly.EBI.ChEBI.WebServices
                 Dim data = GetCompleteEntity(chebiID)
                 hitCache = False
                 For Each compound As ChEBIEntity In data
+                    ' 2017-12-22 因为使用主编号和次级编号进行查询返回来的结果都是一模一样的
+                    ' 所以在这里进行次级编号的数据保存操作，这样子就不会进行重复查询了
+                    ' 减少服务器的压力
+
                     For Each id In compound.IDlist
                         path = localCache & $"/{Mid(id, 1, 3)}/{id}.XML"
                         data.GetXml.SaveTo(path)

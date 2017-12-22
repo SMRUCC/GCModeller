@@ -28,6 +28,12 @@ Namespace Assembly.KEGG.WebServices
                                Return id.IsPattern("K\d+", RegexICSng)
                            End Function) _
                     .Indexing
+                _CompoundIndex = value _
+                    .Terms _
+                    .Where(Function(id)
+                               Return id.IsPattern("C\d+", RegexICSng)
+                           End Function) _
+                    .Indexing
             End Set
         End Property
 
@@ -39,6 +45,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <XmlIgnore> Public ReadOnly Property Index As Index(Of String)
         <XmlIgnore> Public ReadOnly Property KOIndex As Index(Of String)
+        <XmlIgnore> Public ReadOnly Property CompoundIndex As Index(Of String)
 
         Public ReadOnly Property MapTitle As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
