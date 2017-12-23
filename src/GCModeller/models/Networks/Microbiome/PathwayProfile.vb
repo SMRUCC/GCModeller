@@ -2,11 +2,13 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports Numeric = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' The microbiome KEGG pathway profile.
@@ -180,14 +182,23 @@ Public Module PathwayProfile
     End Function
 
     <Extension>
-    Public Function MicrobiomePathwayNetwork(profiles As Dictionary(Of String, (profile#, pvalue#)), KEGG As MapRepository, Optional cutoff# = 0.05) As NetworkGraph
-        Dim idlist = profiles.Where(Function(map) map.Value.pvalue <= cutoff).Keys
-        Dim maps = idlist.Select(Function(mapID) KEGG.GetByKey(mapID).Map).ToArray
+    Public Function MicrobiomePathwayNetwork(profiles As EnrichmentProfiles(), KEGG As MapRepository, Optional cutoff# = 0.05) As NetworkGraph
+        Dim idlist = profiles _
+            .Where(Function(map) map.pvalue <= cutoff) _
+            .Select(Function(map) map.pathway) _
+            .ToArray
+        Dim mapGroup = profiles _
+            .GroupBy(Function(map) map.pathway) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(mapProfiles) mapProfiles.ToArray)
+        Dim maps = idlist _
+            .Select(Function(mapID) KEGG.GetByKey(mapID).Map) _
+            .ToArray
         Dim network As NetworkGraph = maps.BuildNetwork(
             Sub(mapNode)
-                With profiles(mapNode.Label)
-                    mapNode.Data!pvalue = -Math.Log10(.pvalue)
-                    mapNode.Data!profile = .profile
+                With mapGroup(mapNode.Label).Shadows
+                    mapNode.Data!pvalue = (-Numeric.Log10(!pvalue)).Average
+                    mapNode.Data!profile = !profile.Average
                 End With
             End Sub)
 
