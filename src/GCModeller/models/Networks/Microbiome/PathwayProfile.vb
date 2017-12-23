@@ -55,19 +55,19 @@ Public Module PathwayProfile
                                   ref As MapRepository,
                                   Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
 
-        Dim taxonomyGroup = gast.ToDictionary(Function(tax) tax.taxonomy, Function(c) c.counts)
-        Dim ALL = taxonomyGroup.Values.Sum
+        Dim taxonomyGroup As gast.gastOUT() = gast.ToArray
+        Dim ALL = taxonomyGroup.Select(Function(tax) tax.counts).Sum
         Dim profiles = taxonomyGroup _
             .AsParallel _
             .Select(Function(tax)
-                        Dim name$ = tax.Key
+                        Dim name$ = tax.taxonomy
                         Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
                         Return New Profile(
                             tax:=taxonomy,
                             profile:=profile,
-                            pct:=tax.Value
+                            pct:=tax.counts / ALL
                         ) With {
                             .RankGroup = taxonomy.TaxonomyRankString(rank)
                         }
