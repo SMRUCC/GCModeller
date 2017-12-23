@@ -51,9 +51,10 @@ Public Module PathwayProfile
     Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
                                   uniprot As TaxonomyRepository,
                                   ref As MapRepository,
-                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Profile()
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
 
-        Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
+        Dim taxonomyGroup = gast.ToDictionary(Function(tax) tax.taxonomy, Function(c) c.counts)
+        Dim ALL = taxonomyGroup.Values.Sum
         Dim profiles = taxonomyGroup _
             .AsParallel _
             .Select(Function(tax)
@@ -62,25 +63,34 @@ Public Module PathwayProfile
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
                         Return New Profile(
-                            tax:=name,
+                            tax:=taxonomy,
                             profile:=profile,
                             pct:=tax.Value
-                        )
+                        ) With {
+                            .RankGroup = taxonomy.TaxonomyRankString(rank)
+                        }
                     End Function) _
             .ToArray
 
-        Return profiles
+        ' 下面按照rank进行数据分组
+        Dim profileGroup = profiles _
+            .GroupBy(Function(tax) tax.RankGroup) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(profile) profile.ToArray)
+
+        Return profileGroup
     End Function
 
     Public Class Profile
-        Public Property Taxonomy As String
+        Public Property Taxonomy As Taxonomy
         Public Property Profile As Dictionary(Of String, Double)
         Public Property pct As Double
+        Public Property RankGroup As String
 
         Sub New()
         End Sub
 
-        Sub New(tax$, profile As Dictionary(Of String, Double), pct#)
+        Sub New(tax As Taxonomy, profile As Dictionary(Of String, Double), pct#)
             Me.Taxonomy = tax
             Me.Profile = profile
             Me.pct = pct
@@ -134,14 +144,37 @@ Public Module PathwayProfile
         Return (profile, pvalue)
     End Function
 
+    Public Class EnrichmentProfiles
+        Public Property RankGroup As String
+        Public Property pathway As String
+        Public Property profile As Double
+        Public Property pvalue As Double
+    End Class
+
     <Extension>
     Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
                                     uniprot As TaxonomyRepository,
                                     ref As MapRepository,
-                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
 
         Dim profiles = gast.CreateProfile(uniprot, ref, rank)
-        Dim profileTable = profiles.ProfileEnrichment
+        Dim profileTable = profiles _
+            .Select(Function(group)
+                        Dim tax = group.Key
+                        Dim enrichment = group.Value.ProfileEnrichment
+
+                        Return enrichment _
+                            .Select(Function(pathway)
+                                        Return New EnrichmentProfiles With {
+                                            .pathway = pathway.Key,
+                                            .profile = pathway.Value.profile,
+                                            .pvalue = pathway.Value.pvalue,
+                                            .RankGroup = tax
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
 
         Return profileTable
     End Function
