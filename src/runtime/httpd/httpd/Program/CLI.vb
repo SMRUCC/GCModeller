@@ -45,7 +45,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
     <ExportAPI("/start",
                Info:="Run start the httpd web server.",
-               Usage:="/start [/port 80 /wwwroot <wwwroot_DIR> /threads -1 /cache]")>
+               Usage:="/start [/port 80 /wwwroot <wwwroot_DIR> /threads <default=-1> /cache]")>
     <Argument("/port", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The server port of this httpd web server to listen.")>
@@ -76,7 +76,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
     <ExportAPI("/run",
                Info:="Run start the web server with specific Web App.",
-               Usage:="/run /dll <app.dll> [/port <80> /wwwroot <wwwroot_DIR>]")>
+               Usage:="/run /dll <app.dll> [/port <default=80> /wwwroot <wwwroot_DIR>]")>
     <Group(httpdServerCLI)>
     Public Function RunApp(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
@@ -87,7 +87,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
     <ExportAPI("/GET",
                Info:="Tools for http get request the content of a specific url.",
-               Usage:="/GET /url [<url>/std_in] [/out <file/std_out>]")>
+               Usage:="/GET /url <url, /std_in> [/out <file/std_out>]")>
     <Argument("/url", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The resource URL on the web.")>

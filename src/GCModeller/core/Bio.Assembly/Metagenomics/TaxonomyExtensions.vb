@@ -70,5 +70,28 @@ Namespace Metagenomics
         Public Function SelectByTaxonomyRange(relativeAbundance As IEnumerable(Of KeyValuePair(Of Taxonomy, Double)), ref As Taxonomy) As IEnumerable(Of Double)
             Return relativeAbundance.SelectByTaxonomyRange(ref, Function(tax) tax.Key, Function(tax) tax.Value)
         End Function
+
+        Public Function ParseRank(value As String) As TaxonomyRanks
+            Select Case LCase(value)
+                Case "kingdom", "k"
+                    Return TaxonomyRanks.Kingdom
+                Case "phylum", "p"
+                    Return TaxonomyRanks.Phylum
+                Case "class", "c"
+                    Return TaxonomyRanks.Class
+                Case "order", "o"
+                    Return TaxonomyRanks.Order
+                Case "family", "f"
+                    Return TaxonomyRanks.Family
+                Case "genus", "g"
+                    Return TaxonomyRanks.Genus
+                Case "species", "s"
+                    Return TaxonomyRanks.Species
+                Case "strain"
+                    Return TaxonomyRanks.Strain
+                Case Else
+                    Return TaxonomyRanks.NA
+            End Select
+        End Function
     End Module
 End Namespace

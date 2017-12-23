@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -18,7 +19,7 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
-    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /p.value <default=0.05> /out <out.directory>]")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function PathwayProfiles(args As CommandLine) As Integer
@@ -29,6 +30,7 @@ Partial Module CLI
         Dim UniProt As TaxonomyRepository = Nothing
         Dim maps As MapRepository = args("/maps").LoadXml(Of MapRepository)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim rank As TaxonomyRanks = args.GetValue("/rank", TaxonomyRanks.Family, AddressOf ParseRank)
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
         Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
@@ -36,6 +38,8 @@ Partial Module CLI
         If args.IsTrue("/just.profiles") Then
             Return gast _
                 .CreateProfile(UniProt, ref:=maps) _
+                .Values _
+                .IteratesALL _
                 .SaveTo(out & "/taxonomy.maps.csv") _
                 .CLICode
         Else
@@ -55,14 +59,28 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
-        Dim profiles = [in].LoadCsv(Of Profile).ProfileEnrichment
         Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim profiles = [in].LoadCsv(Of Profile) _
+            .GroupBy(Function(tax) tax.RankGroup) _
+            .Select(Function(tax)
+                        Return tax.ProfileEnrichment _
+                            .Select(Function(pathway As KeyValuePair(Of String, (profile#, pvalue#)))
+                                        Return New EnrichmentProfiles With {
+                                            .pathway = pathway.Key,
+                                            .RankGroup = tax.Key,
+                                            .profile = pathway.Value.profile,
+                                            .pvalue = pathway.Value.pvalue
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
 
         Return profiles.RunProfile(maps, out, pvalue)
     End Function
 
     <Extension>
-    Public Function RunProfile(profiles As Dictionary(Of String, (profile#, pvalue#)), maps As MapRepository, out$, Optional pvalue# = 0.05) As Integer
+    Public Function RunProfile(profiles As EnrichmentProfiles(), maps As MapRepository, out$, Optional pvalue# = 0.05) As Integer
         Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
 
         ' 进行绘图
@@ -73,15 +91,16 @@ Partial Module CLI
 
         Call profiles _
             .Select(Function(profile)
-                        Dim info As Pathway = KO(profile.Key)
+                        Dim info As Pathway = KO(profile.pathway)
 
                         Return New EntityObject With {
-                            .ID = profile.Key,
+                            .ID = profile.pathway,
                             .Properties = New Dictionary(Of String, String) From {
-                                {"pvalue", profile.Value.pvalue},
-                                {"profile", profile.Value.profile},
+                                {"pvalue", profile.pvalue},
+                                {"profile", profile.profile},
                                 {"name", info.Entry.Value},
-                                {"category", info.Category}
+                                {"category", info.Category},
+                                {"taxonomy", profile.RankGroup}
                             }
                         }
                     End Function) _

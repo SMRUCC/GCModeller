@@ -6,6 +6,25 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/Excel.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < Excel_CLI.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Cbind:       Join of two table by a unique ID.
+'  /Create:      Create an empty Excel xlsx package file on a specific file path
+'  /Extract:     Open target excel file and get target table and save into a csv file.
+'  /push:        Write target csv table its content data as a worksheet into the target Excel package.
+'  /rbind:       Row bind(merge tables directly) of the csv tables
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

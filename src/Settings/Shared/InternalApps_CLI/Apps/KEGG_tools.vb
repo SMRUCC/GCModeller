@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 2. KEGG models repository cli tools
 ' 
 ' 
+'    /Build.Compounds.Repository:             
 '    /Build.Ko.repository:                    
 '    /Build.Reactions.Repository:             
 '    /Maps.Repository.Build:                  
@@ -124,6 +125,28 @@ Public Function Blastn(query As String, Optional out As String = "") As Integer
     Call CLI.Append("/query " & """" & query & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Build.Compounds.Repository /in &lt;directory> [/glycan.ignore /out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildCompoundsRepository([in] As String, Optional out As String = "", Optional glycan_ignore As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Compounds.Repository")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If glycan_ignore Then
+        Call CLI.Append("/glycan.ignore ")
     End If
 
 

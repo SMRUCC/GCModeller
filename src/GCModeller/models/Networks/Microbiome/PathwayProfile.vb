@@ -2,11 +2,13 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports Numeric = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' The microbiome KEGG pathway profile.
@@ -51,36 +53,46 @@ Public Module PathwayProfile
     Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
                                   uniprot As TaxonomyRepository,
                                   ref As MapRepository,
-                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Profile()
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
 
-        Dim taxonomyGroup = gast.TaxonomyProfile(rank, percentage:=True)
+        Dim taxonomyGroup As gast.gastOUT() = gast.ToArray
+        Dim ALL = taxonomyGroup.Select(Function(tax) tax.counts).Sum
         Dim profiles = taxonomyGroup _
             .AsParallel _
             .Select(Function(tax)
-                        Dim name$ = tax.Key
+                        Dim name$ = tax.taxonomy
                         Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
                         Return New Profile(
-                            tax:=name,
+                            tax:=taxonomy,
                             profile:=profile,
-                            pct:=tax.Value
-                        )
+                            pct:=tax.counts / ALL
+                        ) With {
+                            .RankGroup = taxonomy.TaxonomyRankString(rank)
+                        }
                     End Function) _
             .ToArray
 
-        Return profiles
+        ' 下面按照rank进行数据分组
+        Dim profileGroup = profiles _
+            .GroupBy(Function(tax) tax.RankGroup) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(profile) profile.ToArray)
+
+        Return profileGroup
     End Function
 
     Public Class Profile
-        Public Property Taxonomy As String
+        Public Property Taxonomy As Taxonomy
         Public Property Profile As Dictionary(Of String, Double)
         Public Property pct As Double
+        Public Property RankGroup As String
 
         Sub New()
         End Sub
 
-        Sub New(tax$, profile As Dictionary(Of String, Double), pct#)
+        Sub New(tax As Taxonomy, profile As Dictionary(Of String, Double), pct#)
             Me.Taxonomy = tax
             Me.Profile = profile
             Me.pct = pct
@@ -134,27 +146,59 @@ Public Module PathwayProfile
         Return (profile, pvalue)
     End Function
 
+    Public Class EnrichmentProfiles
+        Public Property RankGroup As String
+        Public Property pathway As String
+        Public Property profile As Double
+        Public Property pvalue As Double
+    End Class
+
     <Extension>
     Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
                                     uniprot As TaxonomyRepository,
                                     ref As MapRepository,
-                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, (profile#, pvalue#))
+                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
 
         Dim profiles = gast.CreateProfile(uniprot, ref, rank)
-        Dim profileTable = profiles.ProfileEnrichment
+        Dim profileTable = profiles _
+            .Select(Function(group)
+                        Dim tax = group.Key
+                        Dim enrichment = group.Value.ProfileEnrichment
+
+                        Return enrichment _
+                            .Select(Function(pathway)
+                                        Return New EnrichmentProfiles With {
+                                            .pathway = pathway.Key,
+                                            .profile = pathway.Value.profile,
+                                            .pvalue = pathway.Value.pvalue,
+                                            .RankGroup = tax
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
 
         Return profileTable
     End Function
 
     <Extension>
-    Public Function MicrobiomePathwayNetwork(profiles As Dictionary(Of String, (profile#, pvalue#)), KEGG As MapRepository, Optional cutoff# = 0.05) As NetworkGraph
-        Dim idlist = profiles.Where(Function(map) map.Value.pvalue <= cutoff).Keys
-        Dim maps = idlist.Select(Function(mapID) KEGG.GetByKey(mapID).Map).ToArray
+    Public Function MicrobiomePathwayNetwork(profiles As EnrichmentProfiles(), KEGG As MapRepository, Optional cutoff# = 0.05) As NetworkGraph
+        Dim idlist = profiles _
+            .Where(Function(map) map.pvalue <= cutoff) _
+            .Select(Function(map) map.pathway) _
+            .ToArray
+        Dim mapGroup = profiles _
+            .GroupBy(Function(map) map.pathway) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(mapProfiles) mapProfiles.ToArray)
+        Dim maps = idlist _
+            .Select(Function(mapID) KEGG.GetByKey(mapID).Map) _
+            .ToArray
         Dim network As NetworkGraph = maps.BuildNetwork(
             Sub(mapNode)
-                With profiles(mapNode.Label)
-                    mapNode.Data!pvalue = -Math.Log10(.pvalue)
-                    mapNode.Data!profile = .profile
+                With mapGroup(mapNode.Label).Shadows
+                    mapNode.Data!pvalue = (-Numeric.Log10(!pvalue)).Average
+                    mapNode.Data!profile = !profile.Average
                 End With
             End Sub)
 
