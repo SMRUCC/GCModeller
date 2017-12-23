@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Metagenome assembly analysis tool")>
-<Assembly: AssemblyDescription("Metagenome assembly analysis tool")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyTitle("Metagenome/Microbiome assembly analysis CLI tool")>
+<Assembly: AssemblyDescription("Metagenome/Microbiome assembly analysis CLI tool")>
+<Assembly: AssemblyCompany("GPL3")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © SMRUCC 2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("metaProfiler")>
 
 <Assembly: ComVisible(False)>
 
