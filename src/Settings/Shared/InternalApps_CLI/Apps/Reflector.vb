@@ -6,6 +6,34 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/Reflector.exe
 
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' 
+' All of the command that available in this program has been list below:
+' 
+' API list that with functional grouping
+' 
+' 1. MySQL documentation tool
+' 
+' 
+'    /MySQL.Markdown:     Generates the SDK document of your mysql database.
+' 
+' 
+' 2. MySQL ORM code solution tool
+' 
+' 
+'    --export.dump:       Scans for the table schema sql files in a directory and converts these sql file
+'                         as visualbasic source code.
+'    --reflects:          Automatically generates visualbasic source code from the MySQL database schema
+'                         dump.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
+
 Namespace GCModellerApps
 
 

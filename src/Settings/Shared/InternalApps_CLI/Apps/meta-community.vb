@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/meta-community.exe
+' assembly: G:/GCModeller/GCModeller/bin/meta-community.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -278,17 +278,23 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /microbiome.pathway.profile /in &lt;gastout.csv> /ref &lt;UniProt.ref.XML> /maps &lt;kegg.maps.ref.XML> [/just.profiles /out &lt;out.directory>]
+''' /microbiome.pathway.profile /in &lt;gastout.csv> /ref &lt;UniProt.ref.XML> /maps &lt;kegg.maps.ref.XML> [/just.profiles /rank &lt;default=family> /p.value &lt;default=0.05> /out &lt;out.directory>]
 ''' ```
 ''' Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.
 ''' </summary>
 '''
-Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
+Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional rank As String = "family", Optional p_value As String = "0.05", Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/ref " & """" & ref & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not rank.StringEmpty Then
+            Call CLI.Append("/rank " & """" & rank & """ ")
+    End If
+    If Not p_value.StringEmpty Then
+            Call CLI.Append("/p.value " & """" & p_value & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
