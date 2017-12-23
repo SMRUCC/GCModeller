@@ -56,11 +56,14 @@ Namespace Language.Perl
                 ElseIf .ref Is GetType(String) Then
                     Return String.IsNullOrEmpty(DirectCast(obj, String))
 
-                ElseIf .ref.IsInheritsFrom(GetType(Array)) Then
+                ElseIf .IsInheritsFrom(GetType(Array)) Then
                     Return DirectCast(obj, Array).Length = 0
 
-                ElseIf .ref.ImplementInterface(GetType(IEnumerable)) Then
+                ElseIf .ImplementInterface(GetType(IEnumerable)) Then
                     Return DirectCast(obj, IEnumerable).ToArray(Of Object).Length = 0
+
+                ElseIf .ImplementInterface(GetType(IsEmpty)) Then
+                    Return DirectCast(obj, IsEmpty).IsEmpty
 
                 Else
                     Return False ' False表示没有错误
