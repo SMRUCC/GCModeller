@@ -94,7 +94,7 @@ Public Class SeqHeader
             .Location = loc,
             .ARO = headers(4),
             .name = name,
-            .species = sp
+            .species = sp.GetStackValue("[", "]")
         }
     End Function
 
