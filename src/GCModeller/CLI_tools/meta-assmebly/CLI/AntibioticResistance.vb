@@ -10,7 +10,7 @@ Partial Module CLI
     <Group(CLIGroups.AntibioticResistance_cli)>
     Public Function AROSeqTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or $"{[in].TrimDIR}.ARO.csv"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.ARO_fasta.headers.csv"
         Dim table = CARDdata.FastaParser([in]).ToArray
 
         Return table.SaveTo(out).CLICode

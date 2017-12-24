@@ -342,6 +342,11 @@ Namespace ComponentModel.Loci
             End Get
         End Property
 
+        ''' <summary>
+        ''' 解析<see cref="ToString"/>的结果数据
+        ''' </summary>
+        ''' <param name="loci$"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(loci$) As NucleotideLocation
             Return LociAPI.TryParse(loci)
