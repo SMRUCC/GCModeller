@@ -248,14 +248,19 @@ Public Class OBOFile : Implements IDisposable
                     In bufs
                     Select x = line.GetTagValue(": ")
                     Group x By id = x.Name Into Group
-            Dim data As NamedValue(Of String())() =
-                LinqAPI.Exec(Of NamedValue(Of String())) <=
-                From x
-                In g
-                Select New NamedValue(Of String()) With {
-                    .Name = x.id,
-                    .Value = x.Group.Select(Function(o) o.Value).ToArray
-                }
+
+            Dim data = LinqAPI.Exec(Of NamedValue(Of String())) _
+ _
+                () <= From x
+                      In g
+                      Let values As String() = x _
+                          .Group _
+                          .Select(Function(o) o.Value) _
+                          .ToArray
+                      Select New NamedValue(Of String()) With {
+                          .Name = x.id,
+                          .Value = values
+                      }
 
             Yield New RawTerm With {
                 .Type = name,
