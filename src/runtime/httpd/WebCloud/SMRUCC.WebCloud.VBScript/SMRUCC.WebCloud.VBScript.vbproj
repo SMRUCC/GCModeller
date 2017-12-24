@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Syntax.md" />
+    <Compile Include="DimVar.vb" />
     <Compile Include="InterpolateArgs.vb" />
     <Compile Include="ForEach.vb" />
     <Compile Include="ReflectionExtensions.vb" />

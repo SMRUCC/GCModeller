@@ -31,14 +31,13 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 
 Partial Module vbhtml
 
-    Const ForEachLoop$ = "<\?vb\s+For\s+.+?\s+As\s+<%= [^>]+? %>\s+\?>"
+    Const ForEachLoop$ = "<\?vb\s+For\s+.+?\s+As\s+" & PartialIncludes & "\s+\?>"
 
     ''' <summary>
     ''' Returns tuple: ``[expression, template_path]``
@@ -57,7 +56,7 @@ Partial Module vbhtml
     Private Function parserInternal(input As String) As NamedValue(Of String)
         Dim value$ = input.GetStackValue("<?vb", "?>").Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
         Dim t = r _
-            .Split(value, "(For\s+)|(\s+As\s+)", RegexICSng) _
+            .Split(value, "(Dim\s+)|(For\s+)|(\s+As\s+)", RegexICSng) _
             .Where(Function(s) Not s.StringEmpty) _
             .ToArray
 
@@ -89,6 +88,13 @@ Partial Module vbhtml
         Return list
     End Function
 
+    ''' <summary>
+    ''' Iterates for loop in this page
+    ''' </summary>
+    ''' <param name="html"></param>
+    ''' <param name="parent$"></param>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Iterates(html As StringBuilder, parent$, args As InterpolateArgs) As StringBuilder
         Dim expressions = ParseForEach(html.ToString)
