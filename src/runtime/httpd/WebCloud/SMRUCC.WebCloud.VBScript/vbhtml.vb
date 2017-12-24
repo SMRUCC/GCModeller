@@ -103,7 +103,9 @@ Public Module vbhtml
 
     <Extension>
     Public Function TemplateInterplot(vbhtml As StringBuilder, parent$, args As InterpolateArgs) As String
-        Dim html As StringBuilder = vbhtml.Iterates(parent, args)
+        Dim html As StringBuilder = vbhtml _
+            .Iterates(parent, args) _
+            .InterplotDimVar(parent, args)
         Dim includes$() = r _
             .Matches(html.ToString, PartialIncludes, RegexICSng) _
             .ToArray
