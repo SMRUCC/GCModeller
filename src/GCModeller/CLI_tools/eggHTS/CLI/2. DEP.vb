@@ -295,7 +295,7 @@ Partial Module CLI
 
         Call Union(DIR, True, "", nonDEP_blank:=True, outGroup:=True) _
             .SaveDataSet(dataOUT)
-        Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
+        Call Apps.VennDiagram.VennDiagramA(dataOUT, title, o:=out & "/venn.tiff", first_id_skip:=True)
 
         Return 0
     End Function

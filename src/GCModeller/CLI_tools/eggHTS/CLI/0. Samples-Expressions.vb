@@ -91,10 +91,12 @@ Partial Module CLI
         Dim dataOUT$ = out & "/proteinGroups.venn.csv"
 
         Call venn.SaveTo(dataOUT)
-        Call Apps.VennDiagram.Draw(
+        Call Apps.VennDiagram.VennDiagramA(
             dataOUT,
             "proteinGroups.venn",
-            out:=out & "/venn.tiff")
+            o:=out & "/venn.tiff",
+            first_id_skip:=True
+        )
 
         Return 0
     End Function

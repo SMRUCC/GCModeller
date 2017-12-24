@@ -12,15 +12,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Cytoscape.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\eggHTS.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\Excel.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\FBA.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\httpd.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\KEGG_tools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MapPlot.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MEME.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\meta-community.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\metaProfiler.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\NCBI_tools.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\Reflector.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\RegPrecise.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\seqtools.vb" />
-    <Compile Include="$(MSBuildThisFileDirectory)Apps\VennDiagram.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\venn.vb" />
   </ItemGroup>
 </Project>

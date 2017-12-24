@@ -44,7 +44,7 @@ Public NotInheritable Class Apps
         End Get
     End Property
 
-    Public Shared ReadOnly Property VennDiagram As GCModellerApps.VennDiagram
+    Public Shared ReadOnly Property VennDiagram As GCModellerApps.venn
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return _VennDiagram
@@ -70,7 +70,7 @@ Public NotInheritable Class Apps
     Shared ReadOnly _MEME As GCModellerApps.MEME
     Shared ReadOnly _KEGG_tools As GCModellerApps.KEGG_tools
     Shared ReadOnly _seqtools As GCModellerApps.seqtools
-    Shared ReadOnly _VennDiagram As GCModellerApps.VennDiagram
+    Shared ReadOnly _VennDiagram As GCModellerApps.venn
     Shared ReadOnly _eggHTS As GCModellerApps.eggHTS
     Shared ReadOnly _Microbiome As GCModellerApps.meta_community
 
@@ -120,7 +120,7 @@ Public NotInheritable Class Apps
                 _MEME = New GCModellerApps.MEME(HOME & "/MEME.exe")
                 _KEGG_tools = New GCModellerApps.KEGG_tools(HOME & "/KEGG_tools.exe")
                 _seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
-                _VennDiagram = New GCModellerApps.VennDiagram(HOME & "/venn.exe")
+                _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
                 _Microbiome = New GCModellerApps.meta_community(HOME & "/" & GCModellerApps.meta_community.App)
 
                 Exit For
