@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::c713cb8bf99d32c03fe4a0db9250c74a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -109,10 +109,17 @@ Namespace Assembly.NCBI.Taxonomy
                                         Optional gb_priority? As Boolean = False,
                                         Optional debug? As Boolean = False) As IEnumerable(Of String)
 
+            ' 2017-12-25 
+            ' 因为后面的循环之中需要进行已经被match上的对象的remove操作
+            ' 所以在这里就不适用Index对象了，直接使用Dictionary
             Dim list As Dictionary(Of String, String) = acc_list _
                 .Distinct _
-                .ToDictionary(Function(id) id.Split("."c).First,  ' 在这里移除版本号
-                              Function(s) null)
+                .Select(Function(id)
+                            ' 在这里移除版本号
+                            Return id.Split("."c).First
+                        End Function) _
+                .ToDictionary(Function(id) id)
+
             Yield {
                 "accession", "accession.version", "taxid", "gi"
             }.JoinBy(vbTab)

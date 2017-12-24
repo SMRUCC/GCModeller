@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -53,9 +54,9 @@ Public Module CARDdata
     End Function
 End Module
 
-Public Class SeqHeader
+Public Class SeqHeader : Implements INamedValue
 
-    Public Property AccessionID As String
+    Public Property AccessionID As String Implements INamedValue.Key
     Public Property ARO As String
     Public Property name As String
     Public Property species As String
