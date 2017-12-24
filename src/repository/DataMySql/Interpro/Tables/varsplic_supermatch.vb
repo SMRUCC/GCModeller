@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16e1f75c964539deb527a8c07131e21e, ..\repository\DataMySql\Interpro\Tables\varsplic_supermatch.vb"
+﻿#Region "Microsoft.VisualBasic::8322621b694a9a3781cc3c159dff3746, ..\repository\DataMySql\Interpro\Tables\varsplic_supermatch.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -136,4 +136,3 @@ End Class
 
 
 End Namespace
-

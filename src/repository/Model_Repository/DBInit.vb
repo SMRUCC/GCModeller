@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee10a57384d6a587343a9b2720b04bef, ..\repository\Model_Repository\DBInit.vb"
+﻿#Region "Microsoft.VisualBasic::21899f3c83a9961fa5560130775cc0b3, ..\repository\Model_Repository\DBInit.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -111,5 +111,3 @@
 '        Return True
 '    End Function
 'End Module
-
-

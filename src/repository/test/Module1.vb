@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db090effc41c72d3916eb0fc273a317, ..\repository\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::90603cfd8633faf7654e214648e0970d, ..\repository\test\Module1.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -108,4 +108,3 @@
 '        Pause()
 '    End Sub
 'End Module
-

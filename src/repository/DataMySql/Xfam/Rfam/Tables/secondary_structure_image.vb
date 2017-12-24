@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a44925e6c735bb84a90e9e1fa6b2315b, ..\repository\DataMySql\Xfam\Rfam\Tables\secondary_structure_image.vb"
+﻿#Region "Microsoft.VisualBasic::7c50ade054fded4de70464146ebcfee9, ..\repository\DataMySql\Xfam\Rfam\Tables\secondary_structure_image.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ End Class
 
 
 End Namespace
-

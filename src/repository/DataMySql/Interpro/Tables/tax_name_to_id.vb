@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b10f876c73b28852a294c074134d9b2, ..\repository\DataMySql\Interpro\Tables\tax_name_to_id.vb"
+﻿#Region "Microsoft.VisualBasic::cd46a4bac74bbabcb223affe72b78eea, ..\repository\DataMySql\Interpro\Tables\tax_name_to_id.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -119,4 +119,3 @@ End Class
 
 
 End Namespace
-

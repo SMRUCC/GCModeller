@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aabe38b07b01cb092b7ac0e5cec5201b, ..\repository\DataMySql\Xfam\Rfam\Tables\alignment_and_tree.vb"
+﻿#Region "Microsoft.VisualBasic::e50a9b82069b095b622c02e2c72a0952, ..\repository\DataMySql\Xfam\Rfam\Tables\alignment_and_tree.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

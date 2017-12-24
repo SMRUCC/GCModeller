@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3dd59481fa340e2ee89f827017a2bf0, ..\repository\DataMySql\Xfam\Rfam\Tables\clan_literature_reference.vb"
+﻿#Region "Microsoft.VisualBasic::e8fd2cb7d6d7902e9701a1587af2cc62, ..\repository\DataMySql\Xfam\Rfam\Tables\clan_literature_reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

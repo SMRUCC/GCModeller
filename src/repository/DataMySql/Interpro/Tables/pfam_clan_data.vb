@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ae6eccd842bf54077bd613bca54a9d8, ..\repository\DataMySql\Interpro\Tables\pfam_clan_data.vb"
+﻿#Region "Microsoft.VisualBasic::6c38effdfc28beaf1ca06535f2120e47, ..\repository\DataMySql\Interpro\Tables\pfam_clan_data.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -124,4 +124,3 @@ End Class
 
 
 End Namespace
-

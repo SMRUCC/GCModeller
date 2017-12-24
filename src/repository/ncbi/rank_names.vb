@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1c379eef92e05f87ba7297f36980c6c, ..\repository\ncbi\rank_names.vb"
+﻿#Region "Microsoft.VisualBasic::b032224ca62445ded2f18260880fb083, ..\repository\ncbi\rank_names.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -112,4 +112,3 @@ End Class
 
 
 End Namespace
-

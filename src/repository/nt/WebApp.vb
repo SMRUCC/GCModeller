@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68ff776b2cae0cd542bc1238aff52277, ..\repository\nt\WebApp.vb"
+﻿#Region "Microsoft.VisualBasic::b9ad86a3aa8656dd6e630431b8fb5e1e, ..\repository\nt\WebApp.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -119,4 +119,3 @@ Public Class RepositoryWebApp : Inherits WebApp
         Return True
     End Function
 End Class
-

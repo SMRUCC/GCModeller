@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c1d30158d2b1893b077f82387eb31d0, ..\repository\test\UniProtKB.vb"
+﻿#Region "Microsoft.VisualBasic::d43ef543f0099648c2ddba3954b4f43a, ..\repository\test\UniProtKB.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -38,4 +38,3 @@ Module UniProtKB
             .DumpMySQL(path.TrimSuffix & ".sql")
     End Sub
 End Module
-

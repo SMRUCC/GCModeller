@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c5c4efdc782b6e2405c0ef606fe87b7, ..\repository\nt\Index\Index.vb"
+﻿#Region "Microsoft.VisualBasic::8bbf6afe9926693b5fabf78c6da8d401, ..\repository\nt\Index\Index.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -114,4 +114,3 @@ Public Class Index : Inherits IndexAbstract
         MyBase.Dispose(disposing)
     End Sub
 End Class
-

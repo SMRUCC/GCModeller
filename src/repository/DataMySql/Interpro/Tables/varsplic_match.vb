@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4baefa27c67cd341987e4057f5248b9f, ..\repository\DataMySql\Interpro\Tables\varsplic_match.vb"
+﻿#Region "Microsoft.VisualBasic::c0d0774b2b0f8d6d73e4152e4a4851ab, ..\repository\DataMySql\Interpro\Tables\varsplic_match.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

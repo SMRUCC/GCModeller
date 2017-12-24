@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2add289e1bcdbb7972d4b2550952d85c, ..\repository\DataMySql\Interpro\Tables\protein_ida.vb"
+﻿#Region "Microsoft.VisualBasic::ba1f6d954ebc9e9c37b3058e81a472fd, ..\repository\DataMySql\Interpro\Tables\protein_ida.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -123,4 +123,3 @@ End Class
 
 
 End Namespace
-

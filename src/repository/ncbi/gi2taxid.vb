@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c591d44316830e6b5b02f35411625c2, ..\repository\ncbi\gi2taxid.vb"
+﻿#Region "Microsoft.VisualBasic::827ddb54b5871ad64cb73792ee19a3f1, ..\repository\ncbi\gi2taxid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -112,4 +112,3 @@ End Class
 
 
 End Namespace
-

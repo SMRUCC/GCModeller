@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b21950a9b8ece399cbe04daeb71dce79, ..\repository\DataMySql\Interpro\Tables\etaxi.vb"
+﻿#Region "Microsoft.VisualBasic::14d4e8efb81ef68abe2088dc8d4e650f, ..\repository\DataMySql\Interpro\Tables\etaxi.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -143,4 +143,3 @@ End Class
 
 
 End Namespace
-

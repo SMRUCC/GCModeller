@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::839ec921c675ca8482e083e26b124260, ..\repository\DataMySql\Xfam\Rfam\Tables\keywords.vb"
+﻿#Region "Microsoft.VisualBasic::1bf7ca6b419f94ffa1608e60c03e1ba4, ..\repository\DataMySql\Xfam\Rfam\Tables\keywords.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -141,4 +141,3 @@ End Class
 
 
 End Namespace
-
