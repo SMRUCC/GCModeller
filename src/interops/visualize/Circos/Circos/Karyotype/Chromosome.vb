@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1873b845602d17409c38f0c9f4215f53, ..\interops\visualize\Circos\Circos\Karyotype\Chromosome.vb"
+﻿#Region "Microsoft.VisualBasic::eb76c853d3ce73e8927e00c96a745512, ..\interops\visualize\Circos\Circos\Karyotype\Chromosome.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

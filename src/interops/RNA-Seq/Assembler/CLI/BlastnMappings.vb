@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::055e76b9d990952a9a1bae9a193d30c6, ..\interops\RNA-Seq\.NET Bio\Assembler\CLI\BlastnMappings.vb"
+﻿#Region "Microsoft.VisualBasic::055e76b9d990952a9a1bae9a193d30c6, ..\interops\RNA-Seq\Assembler\CLI\BlastnMappings.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

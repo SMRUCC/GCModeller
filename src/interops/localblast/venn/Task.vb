@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce3a0f8e9ac12a97bdd2235244c66a96, ..\interops\localblast\venn\Task.vb"
+﻿#Region "Microsoft.VisualBasic::e832f151937b4af26c3dbf3545db7ef0, ..\interops\localblast\venn\Task.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

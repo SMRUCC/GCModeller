@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc25e4288818588f2f67a5f66db87b2e, ..\interops\RNA-Seq\BOW\BOW\Samtools.vb"
+﻿#Region "Microsoft.VisualBasic::717fae892161aec3043ec86608297773, ..\interops\RNA-Seq\BOW\BOW\Samtools.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
