@@ -113,16 +113,19 @@ Namespace Assembly.NCBI.Taxonomy
             ' 因为后面的循环之中需要进行已经被match上的对象的remove操作
             ' 所以在这里就不适用Index对象了，直接使用Dictionary
             Dim list As Dictionary(Of String, String) = acc_list _
-                .Distinct _
                 .Select(Function(id)
                             ' 在这里移除版本号
                             Return id.Split("."c).First
                         End Function) _
+                .Distinct _
                 .ToDictionary(Function(id) id)
 
             Yield {
                 "accession", "accession.version", "taxid", "gi"
             }.JoinBy(vbTab)
+
+            Dim n% = 0
+            Dim ALL% = list.Count
 
             For Each x As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
                 If list.ContainsKey(x.Name) Then
@@ -132,6 +135,7 @@ Namespace Assembly.NCBI.Taxonomy
                         Exit For
                     Else
                         Call list.Remove(x.Name)
+                        Call n.SetValue(n + 1)
 
                         If debug Then
                             Call x.Description.__DEBUG_ECHO
@@ -139,6 +143,8 @@ Namespace Assembly.NCBI.Taxonomy
                     End If
                 End If
             Next
+
+            Call $"{ALL} accession id match {n} taxonomy info.".__INFO_ECHO
         End Function
     End Module
 End Namespace
