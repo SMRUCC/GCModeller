@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::320d87a7a7557487e04090c3fd1c2ea1, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\AppHelper.vb"
+﻿#Region "Microsoft.VisualBasic::9f6134186136e3964ed0e1a364af8a54, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\AppHelper.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -49,4 +49,3 @@ Public Module AppHelper
         Return apps
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a23afd3061049b0f73cdc3e37c405344, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\QRCodeReader.vb"
+﻿#Region "Microsoft.VisualBasic::b39729fc61b58297922e3888c89d47f0, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\QRCodeReader.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -29,4 +29,3 @@
 Public Class QRCodeReader
 
 End Class
-

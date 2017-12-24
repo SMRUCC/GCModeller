@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::270588b9b00d89e36a6ccac69670a7e8, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\vbhtml.vb"
+﻿#Region "Microsoft.VisualBasic::008a2f2664779b9aade8ca26081ece81, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\vbhtml.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

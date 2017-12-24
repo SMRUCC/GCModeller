@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de9efc64a95000fae29cccc7e4fc80a0, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Arguments.vb"
+﻿#Region "Microsoft.VisualBasic::512b9a2793525b341bfcdd2ce7a5127e, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Arguments.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f23c8221396dab7990b635964ae7c4f, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
+﻿#Region "Microsoft.VisualBasic::72df5bfcc22671401d6f9a91a9075f97, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -177,4 +177,3 @@ End Class
 
 
 End Namespace
-

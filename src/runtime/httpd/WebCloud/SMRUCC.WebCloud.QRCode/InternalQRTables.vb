@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d3a5789ac0b860993227f7e77817202, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\InternalQRTables.vb"
+﻿#Region "Microsoft.VisualBasic::1a228fe1d02b76de7a16723aa0590ec8, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\InternalQRTables.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -880,4 +880,3 @@ Module InternalQRTables
         8, 163, 238}
     }
 End Module
-
