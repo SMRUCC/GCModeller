@@ -36,5 +36,6 @@ Friend NotInheritable Class CLIGroups
     Public Const SILVA_cli$ = "SILVA database cli tools"
     Public Const Taxonomy_cli$ = "Taxonomy assign cli tools"
     Public Const MicrobiomeNetwork_cli$ = "Microbiome network cli tools"
+    Public Const AntibioticResistance_cli$ = "Microbiome antibiotic resistance composition analysis tools"
 
 End Class
