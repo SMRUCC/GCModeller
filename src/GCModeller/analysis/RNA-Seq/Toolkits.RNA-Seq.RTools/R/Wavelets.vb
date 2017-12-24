@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2de31d28f4311aec1f5c44c6badf8e40, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
+﻿#Region "Microsoft.VisualBasic::9ef50fd0b61dd1444dee0bf7b84dde9a, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe0c0497c16332e20413c9336b1fe7f, ..\GCModeller\data\KEGG\jp_kegg2\class_ko00001_orthology.vb"
+﻿#Region "Microsoft.VisualBasic::ff82b2318b91cabc9823ddf3accf1dbf, ..\GCModeller\data\KEGG\jp_kegg2\class_ko00001_orthology.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -182,4 +182,3 @@ End Class
 
 
 End Namespace
-

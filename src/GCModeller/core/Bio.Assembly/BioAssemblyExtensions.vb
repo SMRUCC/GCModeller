@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e15eb4639791097d53b60fddeb6f625d, ..\GCModeller\core\Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::99266878ca043c14544bcd5071f2d921, ..\GCModeller\core\Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

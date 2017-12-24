@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7f68fb881f4800d664fc757ace04482, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::d4c86228d1c0bea46021218d923e049e, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

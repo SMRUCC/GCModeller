@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f7b30ab442fcb5c0bed9e00bc8b78a6, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::01d496fadb51ced2f9e4aad13f0baad4, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidcontactwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

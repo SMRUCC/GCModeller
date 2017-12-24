@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1a252253d324cfad2237813a414f242, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::96a4ed1ccc7acd8426bdcfd34de92a83, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

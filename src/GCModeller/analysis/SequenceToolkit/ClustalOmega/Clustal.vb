@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94498e10dfa47def5caf6da17936b734, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::ec8b349aed704e963f7de8aa6e9ad8b7, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

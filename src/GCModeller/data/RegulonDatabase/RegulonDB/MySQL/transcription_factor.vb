@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d690f704493c05b5da544fbd81b31db, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
+﻿#Region "Microsoft.VisualBasic::38bf0cb3ab16de32f41d92f8dc9ac2a1, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

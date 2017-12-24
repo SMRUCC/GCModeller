@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfc81a4b2a20175f1dd0a7be63b8d7d6, ..\GCModeller\analysis\Metagenome\Metagenome\ACE.vb"
+﻿#Region "Microsoft.VisualBasic::118749193baa7a0fb3af8ca1eeb84d43, ..\GCModeller\analysis\Metagenome\Metagenome\ACE.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ Public Module ACE
         Return v
     End Function
 End Module
-

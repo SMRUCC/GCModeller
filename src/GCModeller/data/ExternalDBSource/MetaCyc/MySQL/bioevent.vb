@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc2639f5b6970916529cbaf56e185454, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioevent.vb"
+﻿#Region "Microsoft.VisualBasic::87fcfe64139783564abe301601d3cd1a, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioevent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -270,4 +270,3 @@ End Class
 
 
 End Namespace
-

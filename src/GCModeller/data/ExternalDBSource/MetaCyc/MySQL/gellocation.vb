@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::262f2e2daf8cf5e81814861d62f509f3, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
+﻿#Region "Microsoft.VisualBasic::ca3b0cda541a151095f590ed738a802e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

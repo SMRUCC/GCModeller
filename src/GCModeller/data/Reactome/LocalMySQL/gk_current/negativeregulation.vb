@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba173d8609c2ec6942598aef47d571de, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\negativeregulation.vb"
+﻿#Region "Microsoft.VisualBasic::f892743d9918277a9a2fe195aceedd0b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\negativeregulation.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ End Class
 
 
 End Namespace
-

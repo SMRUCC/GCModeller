@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc1cf23335639236b89fa13c9b172c78, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityset_2_hasmember.vb"
+﻿#Region "Microsoft.VisualBasic::d82ba4b7e5f28c94fe4718ebccfacfe2, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityset_2_hasmember.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13ca604726944ae6620efc614e54da5c, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
+﻿#Region "Microsoft.VisualBasic::46e8a79eca0f5e40bc48467f198682f2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -138,4 +138,3 @@ End Class
 
 
 End Namespace
-

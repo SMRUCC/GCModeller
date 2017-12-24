@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::038afd6db047392d27be075c7af0f3e3, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::a4fd0e862c254be213a1fde8682e3c5e, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

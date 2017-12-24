@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c44ee4fefbdab4815779864803423575, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\factorvalue.vb"
+﻿#Region "Microsoft.VisualBasic::c4999da4c4bc8c1d048a25f0c8dd59e1, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\factorvalue.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -159,4 +159,3 @@ End Class
 
 
 End Namespace
-

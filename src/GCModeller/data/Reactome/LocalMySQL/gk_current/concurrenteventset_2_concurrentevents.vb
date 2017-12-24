@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b5a02e0335b1aaa4cc3de3aa5e1a825, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb"
+﻿#Region "Microsoft.VisualBasic::91919fcad178a69cf9fcfce968d49457, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

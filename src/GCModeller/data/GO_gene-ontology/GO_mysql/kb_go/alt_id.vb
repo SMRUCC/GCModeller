@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28f85d3048feaef0aff36a9b1f710a73, ..\GCModeller\data\GO_gene-ontology\GO_mysql\kb_go\alt_id.vb"
+﻿#Region "Microsoft.VisualBasic::32905df63829f6d82683fee301c9a33f, ..\GCModeller\data\GO_gene-ontology\GO_mysql\kb_go\alt_id.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -135,4 +135,3 @@ End Class
 
 
 End Namespace
-

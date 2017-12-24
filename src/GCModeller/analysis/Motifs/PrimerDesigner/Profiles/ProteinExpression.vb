@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c35d0824df391d413e1575dd42d6251, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Profiles\ProteinExpression.vb"
+﻿#Region "Microsoft.VisualBasic::5c35d0824df391d413e1575dd42d6251, ..\GCModeller\analysis\Motifs\PrimerDesigner\Profiles\ProteinExpression.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a44a7eed47ed8ccb52ffa904f2808add, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
+﻿#Region "Microsoft.VisualBasic::a065f88dcc62978c736cade53e9c3bab, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -128,4 +128,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39d7670efc5f3817835b662496aa3e96, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::be168feb738a94ec301e8f7b2f421f51, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

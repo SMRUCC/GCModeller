@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, ..\GCModeller\analysis\Metagenome\Metagenome\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, ..\GCModeller\analysis\SequenceToolkit\SNP\Genotype.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

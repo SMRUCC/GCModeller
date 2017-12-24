@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c252a2f46763301ec1778ef3bd1de1e, ..\GCModeller\models\SBML\SBML\Export\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::1b51ba88418a67b084a55a42de39405d, ..\GCModeller\models\SBML\SBML\Export\KEGG.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dd4d3440f4b413b9c40aabfc39697af, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::2142e6729ee0793fe4ed8fb436c1f8a5, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -140,4 +140,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::672877d3221adb384a4d83924abd1ed9, ..\GCModeller\core\Bio.Assembly\Query\MatchContext.vb"
+﻿#Region "Microsoft.VisualBasic::9716dbdde19318f5939c82a397444de2, ..\GCModeller\core\Bio.Assembly\Query\MatchContext.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -30,4 +30,3 @@ Public Module MatchContext
 
 
 End Module
-

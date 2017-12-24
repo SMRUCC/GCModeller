@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d4899bac6cbc6a71fb95718c09e025b, ..\GCModeller\models\Networks\KEGG\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::9bcd7e6f7d147de8fcd8a579841aa4ce, ..\GCModeller\models\Networks\KEGG\ReactionNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -238,4 +238,3 @@ Public Module ReactionNetwork
         Return New NetworkTables(nodes.Values, edges.Values)
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2aa94d4c82907893f0503236c0a378a, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::4e5c0a56109baf840381bcd13c1486ca, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -140,4 +140,3 @@ End Class
 
 
 End Namespace
-

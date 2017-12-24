@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa98eab6a622c46727bd3d3bc8844493, ..\GCModeller\annotations\Proteomics\DATA\UniprotAnnotations.vb"
+﻿#Region "Microsoft.VisualBasic::e4dd432bfc49fd62b296cf7f34deaaab, ..\GCModeller\annotations\Proteomics\DATA\UniprotAnnotations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -45,4 +45,3 @@ Public Class UniprotAnnotations
         Return Me.GetJson
     End Function
 End Class
-

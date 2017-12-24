@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a68ebe9c767a38bca243bb30cce8898e, ..\GCModeller\CLI_tools\eggHTS\CLI\1. Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::e6865b09a3a32c2fdc23db39a024c944, ..\GCModeller\CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

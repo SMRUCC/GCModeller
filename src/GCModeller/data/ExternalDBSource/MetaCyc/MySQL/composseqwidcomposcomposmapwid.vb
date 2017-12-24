@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99e1d401a662ef73ece088798151a152, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\composseqwidcomposcomposmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::3e7ff180af247e18baa1590024eb304d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\composseqwidcomposcomposmapwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

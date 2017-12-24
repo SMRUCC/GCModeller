@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dbf63a0909b294474f89b333c71f73e9, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\BoyerMooreAlgorithmSearcher.vb"
+﻿#Region "Microsoft.VisualBasic::dbf63a0909b294474f89b333c71f73e9, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\BoyerMooreAlgorithmSearcher.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

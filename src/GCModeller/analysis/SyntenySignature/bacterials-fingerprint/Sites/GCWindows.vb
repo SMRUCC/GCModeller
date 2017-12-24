@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee79442638b1468d32b53b0db5491a93, ..\GCModeller\analysis\bacgFingerprints\Sites\GCWindows.vb"
+﻿#Region "Microsoft.VisualBasic::ee79442638b1468d32b53b0db5491a93, ..\GCModeller\analysis\SyntenySignature\bacterials-fingerprint\Sites\GCWindows.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

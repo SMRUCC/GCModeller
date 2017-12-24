@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6d04ffd57b75581f1b940d3dbb31505, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\TSSsIdentification.vb"
+﻿#Region "Microsoft.VisualBasic::c481c782334674ea9ba71063c5d01cbc, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\TSSsIdentification.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

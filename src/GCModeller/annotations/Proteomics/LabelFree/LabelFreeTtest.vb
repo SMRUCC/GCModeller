@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d092b5e21ad607b41aa69cbca0b9035, ..\GCModeller\annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::97ee87b501ecbcf8a5e607b29eb27738, ..\GCModeller\annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -91,4 +91,3 @@ Public Module LabelFreeTtest
         Return calc
     End Function
 End Module
-

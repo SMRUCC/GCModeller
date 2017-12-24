@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dc60bb2e02b019fe96ef8019ec487ff, ..\GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\ModuleClassAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9dc60bb2e02b019fe96ef8019ec487ff, ..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\ModuleClassAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

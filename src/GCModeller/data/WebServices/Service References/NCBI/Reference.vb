@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7eb7dedebd1ddba853cefaf4d4db1a2, ..\GCModeller\data\WebServices\Service References\NCBI\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::ccce4312746f08a8375d250aa658a2ba, ..\GCModeller\data\WebServices\Service References\NCBI\Reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -2854,4 +2854,3 @@ Namespace NCBI
         End Function
     End Class
 End Namespace
-

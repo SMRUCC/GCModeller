@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2ce5fc884b9fbefbc46a3800b62ab83, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\ontology.vb"
+﻿#Region "Microsoft.VisualBasic::d9261e4afedd78071eee2d774f6c6b0c, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\ontology.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

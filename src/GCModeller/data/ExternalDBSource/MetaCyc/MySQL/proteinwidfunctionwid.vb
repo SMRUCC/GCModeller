@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::debe50212ce31295a219d7a6019f4651, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\proteinwidfunctionwid.vb"
+﻿#Region "Microsoft.VisualBasic::fcef3a220aebb57f29ac9aecdca8fdaa, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\proteinwidfunctionwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

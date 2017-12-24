@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25e060db63c7433f39ae688a521dd757, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
+﻿#Region "Microsoft.VisualBasic::881ae8c94135e1a2b46f775f62bb37ec, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -149,4 +149,3 @@ End Class
 
 
 End Namespace
-

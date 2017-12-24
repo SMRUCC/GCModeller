@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b13eba0674101c575a6fe5d664a1bcd, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
+﻿#Region "Microsoft.VisualBasic::3a125dbefad570e7345a1ffcddb8313f, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -165,4 +165,3 @@ End Class
 
 
 End Namespace
-

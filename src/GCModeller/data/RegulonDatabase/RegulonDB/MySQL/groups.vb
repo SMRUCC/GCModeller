@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::432ef3e42f530f486a87bde065b65aec, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\groups.vb"
+﻿#Region "Microsoft.VisualBasic::9b6edbf7bf1976cf2b83798f420bcda0, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\groups.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -119,4 +119,3 @@ End Class
 
 
 End Namespace
-

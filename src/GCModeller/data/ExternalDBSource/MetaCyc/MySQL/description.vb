@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95f6ab1fad0edaba1ab86a5978960a2b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\description.vb"
+﻿#Region "Microsoft.VisualBasic::1487988f64980c198bec403ee6740e85, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\description.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -122,4 +122,3 @@ End Class
 
 
 End Namespace
-

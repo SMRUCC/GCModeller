@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b02e6d4f46f751995e19644a387f805b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\reactionlikeevent.vb"
+﻿#Region "Microsoft.VisualBasic::616cbddb0acfb9895d05481f08ebfff5, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\reactionlikeevent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -132,4 +132,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03abe4656d057e9ab41681447e1ff36f, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quanttymapwidquanttymapwi.vb"
+﻿#Region "Microsoft.VisualBasic::3ab44da2abe22824dc8ebbbc8150efda, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quanttymapwidquanttymapwi.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

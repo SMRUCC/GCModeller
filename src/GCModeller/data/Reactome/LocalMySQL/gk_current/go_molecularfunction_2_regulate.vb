@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b557450f0d1d22e300efd1368589b4c2, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_regulate.vb"
+﻿#Region "Microsoft.VisualBasic::5c7022705b23c6317e30b727f9558ab3, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_regulate.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

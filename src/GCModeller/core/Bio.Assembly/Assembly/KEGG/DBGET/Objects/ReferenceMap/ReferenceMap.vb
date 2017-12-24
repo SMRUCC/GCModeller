@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e0ee62b650d4583cd122990a032b8de, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::6fedc6429c0078997c7c569ab21034e3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

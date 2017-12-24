@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c311be8f0f21a74603fcdd585daf262f, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -36,4 +36,3 @@ Partial Module Matrix
         SmithWaterman
     End Enum
 End Module
-

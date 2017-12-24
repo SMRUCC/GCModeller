@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ae3d25b89e699cdf0f7aff883b77e33, ..\GCModeller\core\Bio.Assembly\ComponentModel\IMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::30a2acf86e147de6f8a6c71cbb744898, ..\GCModeller\core\Bio.Assembly\ComponentModel\IMolecule.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace ComponentModel
 

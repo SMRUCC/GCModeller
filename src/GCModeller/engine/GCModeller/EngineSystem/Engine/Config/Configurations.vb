@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35c41c0f37f28f71a9b24cc002d494e4, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Config\Configurations.vb"
+﻿#Region "Microsoft.VisualBasic::a8bba30734020e88f58e8223aa5cf0c5, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Config\Configurations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

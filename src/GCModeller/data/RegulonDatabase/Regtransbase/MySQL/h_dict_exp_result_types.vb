@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68382d65997286406dd335bd904929e9, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_result_types.vb"
+﻿#Region "Microsoft.VisualBasic::4e51a764470df79fbeb19aca31538842, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_result_types.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0c6dd3c290b70f664ba90052c4eab6a, ..\GCModeller\analysis\VirtualFootprint\KEGGRegulon.vb"
+﻿#Region "Microsoft.VisualBasic::d0c6dd3c290b70f664ba90052c4eab6a, ..\GCModeller\analysis\Motifs\VirtualFootprint\KEGGRegulon.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

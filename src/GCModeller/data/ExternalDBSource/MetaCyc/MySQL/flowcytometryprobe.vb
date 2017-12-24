@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc90fd148bb518bf9b7503d6919bae14, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\flowcytometryprobe.vb"
+﻿#Region "Microsoft.VisualBasic::a83bdf0a9781a3e5f5b34ca07a60fb00, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\flowcytometryprobe.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -128,4 +128,3 @@ End Class
 
 
 End Namespace
-

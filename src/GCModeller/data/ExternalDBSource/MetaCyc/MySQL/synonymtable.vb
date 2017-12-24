@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b29a489a362752445690677c7421b344, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
+﻿#Region "Microsoft.VisualBasic::9047420cf2fbc671d7c257bacd4e444b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

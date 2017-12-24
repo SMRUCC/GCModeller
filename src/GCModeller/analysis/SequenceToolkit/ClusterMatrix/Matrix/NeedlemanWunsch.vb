@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcb6078792844deb6763815e31fd4544, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::9828cbdfc1e1f62896219540b9f13ada, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -102,4 +102,3 @@ Public Module Matrix
         title:=query.Title)
     End Function
 End Module
-

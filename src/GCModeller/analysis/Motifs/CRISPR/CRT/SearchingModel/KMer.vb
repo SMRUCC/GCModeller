@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea564e5efa374af6056c09d3eaaec89e, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\KMer.vb"
+﻿#Region "Microsoft.VisualBasic::ea564e5efa374af6056c09d3eaaec89e, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\KMer.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

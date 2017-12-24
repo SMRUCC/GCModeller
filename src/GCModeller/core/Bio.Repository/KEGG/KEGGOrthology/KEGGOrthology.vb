@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::570bd6746c3dd2985ea7e36e92d74d0f, ..\GCModeller\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::3f81e13543cbdbb0ddf67a323bc05ea1, ..\GCModeller\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

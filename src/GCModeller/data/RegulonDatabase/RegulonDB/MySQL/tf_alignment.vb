@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39305c455a819da87d991c8c08cdded1, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
+﻿#Region "Microsoft.VisualBasic::930d37ab2324539d9707ad1d87c78e52, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -134,4 +134,3 @@ End Class
 
 
 End Namespace
-

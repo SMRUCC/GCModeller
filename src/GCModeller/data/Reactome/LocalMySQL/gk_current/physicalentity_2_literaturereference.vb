@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1a23329f19d9e78e8a6346ed3e0352c, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\physicalentity_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::d833b8e9f0b845eee214a3014d13a6db, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\physicalentity_2_literaturereference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

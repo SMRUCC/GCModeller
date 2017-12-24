@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be99f6f93a697b688ba20545910a878, ..\GCModeller\analysis\CRISPR\CRT\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5be99f6f93a697b688ba20545910a878, ..\GCModeller\analysis\Motifs\CRISPR\CRT\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

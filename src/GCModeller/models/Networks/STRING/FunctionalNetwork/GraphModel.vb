@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38ae0320ad1c5785aca0113dec9843d8, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\GraphModel.vb"
+﻿#Region "Microsoft.VisualBasic::743d22d313dcb0161faaf60f5c7cefe1, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\GraphModel.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -75,4 +75,3 @@ Public Module GraphModel
         Return g
     End Function
 End Module
-

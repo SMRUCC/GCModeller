@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fc83faf0871178f6d19b8a776931ec3, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tu_terminator_link.vb"
+﻿#Region "Microsoft.VisualBasic::6afcc3708b64899d7600b3ebf8183401, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tu_terminator_link.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -119,4 +119,3 @@ End Class
 
 
 End Namespace
-

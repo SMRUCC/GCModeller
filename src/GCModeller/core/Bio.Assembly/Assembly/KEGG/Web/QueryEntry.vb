@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32c808c09dabc1eb82ca11eedaa59c57, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::1b7fe3bba3d89dfa47898b2f1618244c, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

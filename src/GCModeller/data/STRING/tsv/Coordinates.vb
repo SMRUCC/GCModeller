@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::831645ab5d37676388c7a949ae0fa29c, ..\GCModeller\data\STRING\tsv\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, ..\GCModeller\data\STRING\tsv\Coordinates.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -46,4 +46,3 @@ Public Class Coordinates : Implements ILayoutCoordinate
         Return annotation
     End Function
 End Class
-

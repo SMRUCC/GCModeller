@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60aeaff92a12934bf7675e742431cdd1, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::9b319bfb262ded08c1682629e536e109, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

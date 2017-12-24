@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74fade42c3c5bd4ed5673228bc7d5cdf, ..\GCModeller\data\GO_gene-ontology\Test\DAGtest.vb"
+﻿#Region "Microsoft.VisualBasic::e21861573956ff833fcf35dc464d4b03, ..\GCModeller\data\GO_gene-ontology\Test\DAGtest.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -58,4 +58,3 @@ Module DAGtest
         Pause()
     End Sub
 End Module
-

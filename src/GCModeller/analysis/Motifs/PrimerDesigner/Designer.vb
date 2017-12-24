@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f866c60899656138b8c6e40e907ff266, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f866c60899656138b8c6e40e907ff266, ..\GCModeller\analysis\Motifs\PrimerDesigner\Designer.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

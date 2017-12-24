@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e039be0798a60c01395940ff3b2b7f0f, ..\GCModeller\annotations\Proteomics\iTraq\iTraq_csvReader.vb"
+﻿#Region "Microsoft.VisualBasic::49900a56cfca6096b87b81c92f61ef25, ..\GCModeller\annotations\Proteomics\iTraq\iTraq_csvReader.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -215,4 +215,3 @@ Public Module iTraq_csvReader
         Return table.Values.IteratesAll.ToArray
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5a75bdd70019730c7ca16bad1ba9ca, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_cellularcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::d15ebfe3eb2e0b9679b26da209a56cbf, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_cellularcomponent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -136,4 +136,3 @@ End Class
 
 
 End Namespace
-

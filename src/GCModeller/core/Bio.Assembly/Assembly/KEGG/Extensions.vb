@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::254ec44b06d58a4abcb5f7a773cbefbf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e5529fe0781b90f17289ce1580353db3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

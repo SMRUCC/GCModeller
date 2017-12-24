@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b774f91438b15ba003bdb315769cced, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::f20623e0ab50d5c7fa7386912f37027e, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

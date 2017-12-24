@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df9de54e9b52cf69ed322574651729a7, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::df9de54e9b52cf69ed322574651729a7, ..\GCModeller\analysis\Motifs\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

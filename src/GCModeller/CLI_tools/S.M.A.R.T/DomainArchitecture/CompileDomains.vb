@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21ed4d582d99d445172504788a35f0a1, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
+﻿#Region "Microsoft.VisualBasic::525e10ceeecfc3ad8d279def2b175daf, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

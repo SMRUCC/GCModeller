@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01ecc86b8033d89557bccd7b7beae5e6, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::344d0eca03e59c38c0f5fbca6897f611, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

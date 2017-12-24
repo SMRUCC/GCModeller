@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50ac3e04641e457459d626259af864b2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::24613c8e8b3054b1ea70cd0dddcdbb40, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -156,4 +156,3 @@ End Class
 
 
 End Namespace
-

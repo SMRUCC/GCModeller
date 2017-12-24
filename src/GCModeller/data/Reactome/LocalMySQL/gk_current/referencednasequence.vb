@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d40d7acc4ac1747d69a97acc346fb1ab, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\referencednasequence.vb"
+﻿#Region "Microsoft.VisualBasic::f181e707c773fe64ad3acbbfae0087b0, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\referencednasequence.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d560f1ee7559fa395f6d353728195c1, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_biologicalprocess.vb"
+﻿#Region "Microsoft.VisualBasic::2217f9805c882f65fba26cbe9641951d, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_biologicalprocess.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -136,4 +136,3 @@ End Class
 
 
 End Namespace
-

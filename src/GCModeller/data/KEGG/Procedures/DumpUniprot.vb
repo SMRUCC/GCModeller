@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf79446dbab98557bc990a0f945c090d, ..\GCModeller\data\KEGG\Procedures\DumpUniprot.vb"
+﻿#Region "Microsoft.VisualBasic::1d200019fc4fdcfe23c7caa23e830939, ..\GCModeller\data\KEGG\Procedures\DumpUniprot.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -39,4 +39,3 @@ Public Module DumpUniprot
 
     End Function
 End Module
-

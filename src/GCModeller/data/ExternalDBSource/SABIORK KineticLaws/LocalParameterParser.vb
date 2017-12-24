@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54c9e61a3bcc7e438e4433a6c78b96e9, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\LocalParameterParser.vb"
+﻿#Region "Microsoft.VisualBasic::09df17824c6cb9b423e6126a51eae213, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\LocalParameterParser.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

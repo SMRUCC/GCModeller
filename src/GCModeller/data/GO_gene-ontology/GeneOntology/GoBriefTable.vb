@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acc9a7b4d65b13897daae61559af951d, ..\GCModeller\data\GO_gene-ontology\GeneOntology\GoBriefTable.vb"
+﻿#Region "Microsoft.VisualBasic::d810181b7493d4b4a3e4a76966190f9c, ..\GCModeller\data\GO_gene-ontology\GeneOntology\GoBriefTable.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -38,4 +38,3 @@ Public Class GoBriefTable
         Return Me.GetJson
     End Function
 End Class
-

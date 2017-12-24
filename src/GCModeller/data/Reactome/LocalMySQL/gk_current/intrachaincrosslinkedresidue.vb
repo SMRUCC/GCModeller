@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ef90d0f1a4b9df2f791911a1456565d, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\intrachaincrosslinkedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::4b0ebf50a89ebb4861a389923ecc2dd1, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\intrachaincrosslinkedresidue.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6567d06820b3eff9caf1cc75458163f4, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::c713cb8bf99d32c03fe4a0db9250c74a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

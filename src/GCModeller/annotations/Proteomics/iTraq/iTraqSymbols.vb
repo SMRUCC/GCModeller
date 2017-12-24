@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5c5e2cb3ac213b863e0eb2276ddf690, ..\GCModeller\annotations\Proteomics\iTraq\iTraqSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::d009cad694a50d640d6c8f16894344d4, ..\GCModeller\annotations\Proteomics\iTraq\iTraqSymbols.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -54,4 +54,3 @@ Imports Microsoft.VisualBasic.Data.csv
         Return $"{Symbol} -> {SampleID}"
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d22af8f87f6747b43b9fab3bf49176aa, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
+﻿#Region "Microsoft.VisualBasic::a2b1860c7690d8533963b3db4b287551, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

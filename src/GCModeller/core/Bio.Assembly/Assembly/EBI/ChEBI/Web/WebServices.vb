@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb5e0e2b8125269e02e27c20cccc0aed, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::97ee8cc97bfe6660333fb6b56a76fd2d, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

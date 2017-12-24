@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6e07cd6fe36e09393634b45a64a5879, ..\GCModeller\data\GO_gene-ontology\GO_mysql\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::fc2f7f0d1b127e30d26746864866c4c3, ..\GCModeller\data\GO_gene-ontology\GO_mysql\DATA.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -174,4 +174,3 @@ Public Module DATA
         End Using
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::141ef09bd5ae4d6fbab61cd88b2246e0, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
+﻿#Region "Microsoft.VisualBasic::ccaeafb4ab7cd0106b5dc5d69e57659e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -149,4 +149,3 @@ End Class
 
 
 End Namespace
-
