@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::872772163057d09516cea75d8dccf65f, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\grDevices\dev.vb"
+﻿#Region "Microsoft.VisualBasic::db41f91c73b3edeb967aa95b6af5a43c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\grDevices\dev.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

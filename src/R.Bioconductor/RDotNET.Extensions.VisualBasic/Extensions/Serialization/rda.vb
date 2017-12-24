@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b44fe6f98f552d552a171d05a38b93ef, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\rda.vb"
+﻿#Region "Microsoft.VisualBasic::e4a4bdd2df1ca40851e0835511f7362e, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\rda.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -175,4 +175,3 @@ Public Module rda
         Return var
     End Function
 End Module
-

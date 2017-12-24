@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a201905d78df07548935fdfd6aaf4422, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::9857b961bd2e0ddb369d776e658170fb, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\test\Module1.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -39,4 +39,3 @@ Public Module Module1
     Public Declare Function test2 Lib "stat" Alias "invoke.test" (args$, int%) As Boolean
 
 End Module
-

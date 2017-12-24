@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ec9daa2f995eea988706adbc3cabf9a, ..\R.Bioconductor\RDotNET.Extensions.GCModeller\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::53450f4adbc61b8b7f26758da7a26aed, ..\R.Bioconductor\RDotNET.Extensions.GCModeller\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -195,4 +195,3 @@ Public Module PathwayMap
         Next
     End Sub
 End Module
-
