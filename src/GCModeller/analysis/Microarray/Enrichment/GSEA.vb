@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c92f96bf186e19af800ffbfc4f3257f, ..\GCModeller\analysis\Microarray\Enrichment\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::49a44ac038080e263c5c741ddcd6af18, ..\GCModeller\analysis\Microarray\Enrichment\GSEA.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -26,7 +26,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' Gene set enrichment analysis (GSEA) (also functional enrichment analysis) is a method 
 ''' to identify classes of genes or proteins that are over-represented in a large set of 
@@ -38,4 +37,3 @@
 Public Module GSEA
 
 End Module
-

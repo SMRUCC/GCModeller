@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba844097c8a88b065ad20c2f28f0961e, ..\GCModeller\visualize\ChromosomeMap\Data\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d7223e8e3b459b2dea13455d125578f2, ..\GCModeller\visualize\ChromosomeMap\Data\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

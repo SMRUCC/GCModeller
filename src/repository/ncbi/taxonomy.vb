@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3a502be51de3183af419d96a3a9e630, ..\repository\ncbi\taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::766e65e172b6d92ccac4baee426afcc9, ..\repository\ncbi\taxonomy.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -132,4 +132,3 @@ End Class
 
 
 End Namespace
-

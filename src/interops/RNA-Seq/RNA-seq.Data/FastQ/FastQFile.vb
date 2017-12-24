@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04e6294c1ff74bab207dfbd57c4c0008, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
+﻿#Region "Microsoft.VisualBasic::cb105ea20fa5c446af5b45c469f4d920, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

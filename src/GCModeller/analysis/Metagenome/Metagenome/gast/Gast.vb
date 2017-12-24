@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61eaa609ffd73f4c02f24cb92367753b, ..\GCModeller\analysis\Metagenome\Metagenome\gast\gast.vb"
+﻿#Region "Microsoft.VisualBasic::a4a7a558ed9d651b17ac553b0546f099, ..\GCModeller\analysis\Metagenome\Metagenome\gast\Gast.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

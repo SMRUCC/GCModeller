@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3098712fffcbd5f569ca9b7058663350, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
+﻿#Region "Microsoft.VisualBasic::9f7ffd6e6e0e4a4fb8833ebc99476057, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -1016,4 +1016,3 @@ Public Class QRCodeCreator
     End Function
 #End Region
 End Class
-

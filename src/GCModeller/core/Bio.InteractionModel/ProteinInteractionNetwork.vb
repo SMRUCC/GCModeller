@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a126e9b79e05ce3d598c20d89335d61, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::86b7ea505afc86d5ebc53fcab404600d, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

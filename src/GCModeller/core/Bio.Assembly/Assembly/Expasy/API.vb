@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f210ff0e5008835da2d56c335a3ee56, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
+﻿#Region "Microsoft.VisualBasic::2db43b45d0d9130de33db6151711dca5, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04cd82787ac05e6ec73785af61bc423f, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_haspart.vb"
+﻿#Region "Microsoft.VisualBasic::651d295d1fac96e5ccbc5cd6f9c77cbf, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_haspart.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

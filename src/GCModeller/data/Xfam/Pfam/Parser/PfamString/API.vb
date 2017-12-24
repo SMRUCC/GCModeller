@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b4c66740da259b04e135424db0f3656, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\API.vb"
+﻿#Region "Microsoft.VisualBasic::c12e66650fd9b1a2ed9412658d6348ae, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\API.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

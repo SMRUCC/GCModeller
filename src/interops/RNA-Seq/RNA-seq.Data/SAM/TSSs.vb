@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56f2cadefe23a5c3c18a70f54a500547, ..\interops\RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::8fea4eaefc5b990246980092970959ed, ..\interops\RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

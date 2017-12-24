@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::854c4ce3de45981af8137095eb1e4bcd, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::854c4ce3de45981af8137095eb1e4bcd, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

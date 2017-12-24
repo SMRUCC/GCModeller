@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::447f87d7ed2f9167051d71c6e0a9bbd3, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::447f87d7ed2f9167051d71c6e0a9bbd3, ..\GCModeller\analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

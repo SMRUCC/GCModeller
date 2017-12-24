@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64a4084ba3876218ee4ffcc0a2f0fb9b, ..\repository\nt\mysql\NCBI\nt.vb"
+﻿#Region "Microsoft.VisualBasic::e0d7c837b6c5f9d342bc409958a85392, ..\repository\nt\mysql\NCBI\nt.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

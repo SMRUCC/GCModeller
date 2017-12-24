@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc79cfad919eabd5937b5bc3017aced6, ..\GCModeller\models\Networks\KEGG\FunctionalNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::bcc2a42be6debcf6b00693fbc943996d, ..\GCModeller\models\Networks\KEGG\FunctionalNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -228,4 +228,3 @@ Public Module FunctionalNetwork
         Return image
     End Function
 End Module
-

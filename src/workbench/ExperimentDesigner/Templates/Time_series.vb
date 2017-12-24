@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::577ba52866d1bc7b03e546634b049780, ..\workbench\ExperimentDesigner\Templates\Time_series.vb"
+﻿#Region "Microsoft.VisualBasic::854177ea1acb81ca2050acb7de43ff6e, ..\workbench\ExperimentDesigner\Templates\Time_series.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -29,4 +29,3 @@
 Public Class Time_series : Inherits SampleInfo
 
 End Class
-

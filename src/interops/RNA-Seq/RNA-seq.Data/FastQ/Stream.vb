@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ba95fe763947395affba6cf6379e02f, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
+﻿#Region "Microsoft.VisualBasic::ac1cf7e93879ebc0454a09d4d1f1c2a9, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

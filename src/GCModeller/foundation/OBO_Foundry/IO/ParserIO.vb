@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e522104595db36a287683373173151f, ..\GCModeller\foundation\OBO_Foundry\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, ..\GCModeller\foundation\OBO_Foundry\ParserIO.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

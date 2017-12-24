@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::469e292aeb1adc9db22a36115ee20e19, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\CRISPR.vb"
+﻿#Region "Microsoft.VisualBasic::469e292aeb1adc9db22a36115ee20e19, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\CRISPR.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

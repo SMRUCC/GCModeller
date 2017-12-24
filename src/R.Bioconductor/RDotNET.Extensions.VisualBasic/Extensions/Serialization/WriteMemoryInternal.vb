@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af1cdedd7e0f488b57bc76b2290ca588, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\WriteMemoryInternal.vb"
+﻿#Region "Microsoft.VisualBasic::849105d9be602f67d02afdfc922646bb, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\WriteMemoryInternal.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -134,4 +134,3 @@ Module WriteMemoryInternal
         End SyncLock
     End Sub
 End Module
-

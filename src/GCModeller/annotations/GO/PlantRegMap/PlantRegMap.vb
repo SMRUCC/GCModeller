@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c0f210184c0fe61fb6b78ec6ec7529d, ..\GCModeller\annotations\GO\PlantRegMap\PlantRegMap.vb"
+﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, ..\GCModeller\annotations\GO\PlantRegMap\PlantRegMap.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON

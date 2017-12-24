@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cefa2238cff4432dc9b59da128512e20, ..\GCModeller\core\Bio.Assembly\Metagenomics\OTUData.vb"
+﻿#Region "Microsoft.VisualBasic::09e3d8a142feda38c5b036f03f873be5, ..\GCModeller\core\Bio.Assembly\Metagenomics\OTUData.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

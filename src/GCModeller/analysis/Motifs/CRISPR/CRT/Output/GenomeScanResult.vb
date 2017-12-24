@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcb2777bdb1a198545ef322d70413d76, ..\GCModeller\analysis\CRISPR\CRT\Output\GenomeScanResult.vb"
+﻿#Region "Microsoft.VisualBasic::fcb2777bdb1a198545ef322d70413d76, ..\GCModeller\analysis\Motifs\CRISPR\CRT\Output\GenomeScanResult.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

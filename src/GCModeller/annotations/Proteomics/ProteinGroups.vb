@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a341de471fcfd6691457113d5bc79c2, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::5c116ab574910b76efce74ae9919d7b5, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

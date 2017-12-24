@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d8ef897bc5357239333705dd62e8cd, ..\repository\DataMySql\Interpro\Tables\proteome_rank.vb"
+﻿#Region "Microsoft.VisualBasic::c0f5f3bed594fe92ade4f0495d86a2e8, ..\repository\DataMySql\Interpro\Tables\proteome_rank.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -130,4 +130,3 @@ End Class
 
 
 End Namespace
-

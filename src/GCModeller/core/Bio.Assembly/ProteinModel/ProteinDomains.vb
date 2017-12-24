@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3be26d8d8d806a102bc355d20ac89d9, ..\GCModeller\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
+﻿#Region "Microsoft.VisualBasic::8d6eff89af6c52abb7ab2aa08b1ee646, ..\GCModeller\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

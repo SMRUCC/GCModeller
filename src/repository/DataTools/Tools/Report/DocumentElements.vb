@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c858a561f3789aa40360f548bc68823a, ..\repository\DataTools\Tools\Report\DocumentElements.vb"
+﻿#Region "Microsoft.VisualBasic::368432ea069d00779f89cfee9cd35f88, ..\repository\DataTools\Tools\Report\DocumentElements.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

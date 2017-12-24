@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8bc454e7fc23e81b257c4264e48c711, ..\GCModeller\visualize\GCModeller.DataVisualization\MapLabelLayout.vb"
+﻿#Region "Microsoft.VisualBasic::5fc4cecbccf4c4c1419a901be8ad3bf7, ..\GCModeller\visualize\GCModeller.DataVisualization\MapLabelLayout.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -79,4 +79,3 @@ Public Structure MapLabelLayout
         Return rect
     End Function
 End Structure
-

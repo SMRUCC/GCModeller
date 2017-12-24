@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59d66cb0369910364e8e7be08161187e, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
+﻿#Region "Microsoft.VisualBasic::c785cb9e91dc9a9e449823c133bc938b, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

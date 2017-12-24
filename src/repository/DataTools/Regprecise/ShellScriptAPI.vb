@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52e64e41cca35aa75bbeb16d59c1ba44, ..\repository\DataTools\Regprecise\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::05673ac41c6621bc0fb24dfd361dcdea, ..\repository\DataTools\Regprecise\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

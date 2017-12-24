@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c089bbe5404610ce4485b76ebde35f6, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SSR\SSRSearch.vb"
+﻿#Region "Microsoft.VisualBasic::284f77bc4ce82288e050feba596c6c27, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SSR\SSRSearch.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions

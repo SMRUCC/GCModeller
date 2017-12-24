@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2d902919123a1a9d7512e15a3d96392, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
+﻿#Region "Microsoft.VisualBasic::7b5bda212ccc038ef823acd0c972e484, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

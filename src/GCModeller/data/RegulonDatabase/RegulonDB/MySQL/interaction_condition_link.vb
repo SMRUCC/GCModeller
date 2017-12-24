@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30bbc8937cb79b22f322ba8b94a49d6f, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
+﻿#Region "Microsoft.VisualBasic::9ff208d9d6aa996726712c2d55a6a6d6, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -119,4 +119,3 @@ End Class
 
 
 End Namespace
-

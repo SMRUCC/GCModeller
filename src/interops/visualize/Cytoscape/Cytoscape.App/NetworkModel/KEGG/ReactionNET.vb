@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a68a9a6808d8c44b17d2dfdd6879af50, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\ReactionNET.vb"
+﻿#Region "Microsoft.VisualBasic::491100fd08daa5338baf8ae5f283683b, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\ReactionNET.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

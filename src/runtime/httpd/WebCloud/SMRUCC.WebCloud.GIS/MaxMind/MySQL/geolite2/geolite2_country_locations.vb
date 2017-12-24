@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fc0ed77a3a769fb74569ef703858dd4, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geolite2_country_locations.vb"
+﻿#Region "Microsoft.VisualBasic::e7a5b18129c32377e990f88dd7a3c391, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geolite2_country_locations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

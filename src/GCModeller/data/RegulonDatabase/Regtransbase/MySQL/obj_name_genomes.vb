@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8630fac2c3e068dbcc76a4af5783360f, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_name_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::e736662ecd6e703d898f389f0f9f5ae2, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_name_genomes.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -145,4 +145,3 @@ End Class
 
 
 End Namespace
-

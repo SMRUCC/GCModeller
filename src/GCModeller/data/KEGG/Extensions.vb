@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eded010f7ee1c689a26098c0b00bee48, ..\GCModeller\data\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::917871a29a8c3d81bb413285a9b0d761, ..\GCModeller\data\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -37,4 +37,3 @@ Public Module Extensions
         Return hash
     End Function
 End Module
-

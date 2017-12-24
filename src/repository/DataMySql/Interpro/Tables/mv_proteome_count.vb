@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2a2fb1b97c351bb3ff279712935379b, ..\repository\DataMySql\Interpro\Tables\mv_proteome_count.vb"
+﻿#Region "Microsoft.VisualBasic::0719bbe6e40daa86918f2700c084195c, ..\repository\DataMySql\Interpro\Tables\mv_proteome_count.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -136,4 +136,3 @@ End Class
 
 
 End Namespace
-

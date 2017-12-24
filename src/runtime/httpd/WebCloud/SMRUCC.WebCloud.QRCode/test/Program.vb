@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ef6fedd58e1693b8b075db8463186df, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::6ad315992e8369fdf16d00834a9e0b26, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\test\Program.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -53,4 +53,3 @@ Class Program
         code.Save("Longer Bytes.png", 4)
     End Sub
 End Class
-

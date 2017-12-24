@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d71563c85aea2a0a4130d7372457a3c, ..\interops\visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8deee67fdad7db403ca9107109c2435f, ..\interops\visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

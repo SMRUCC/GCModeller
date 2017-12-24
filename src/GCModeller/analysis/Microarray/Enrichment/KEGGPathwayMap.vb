@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56236b2d681a7263130371d6bcfcd66c, ..\GCModeller\analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::3ce90227d4c941f0dd8ac1b4a3f7f11e, ..\GCModeller\analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -153,4 +153,3 @@ Public Module KEGGPathwayMap
         Return ORFpvalues
     End Function
 End Module
-

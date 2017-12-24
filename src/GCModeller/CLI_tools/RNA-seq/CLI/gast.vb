@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f148e8d2da093699ea50243f90a1210, ..\GCModeller\CLI_tools\RNA-seq\CLI\gast.vb"
+﻿#Region "Microsoft.VisualBasic::e545c647fcd0d6f0350f7c24a58eec4c, ..\GCModeller\CLI_tools\RNA-seq\CLI\gast.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

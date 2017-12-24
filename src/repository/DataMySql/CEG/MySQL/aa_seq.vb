@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec72e3c07f88948b4cf1667001d68fc6, ..\repository\DataMySql\CEG\MySQL\aa_seq.vb"
+﻿#Region "Microsoft.VisualBasic::37314db1b91a93d765b36a5ae7585a13, ..\repository\DataMySql\CEG\MySQL\aa_seq.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -122,4 +122,3 @@ End Class
 
 
 End Namespace
-

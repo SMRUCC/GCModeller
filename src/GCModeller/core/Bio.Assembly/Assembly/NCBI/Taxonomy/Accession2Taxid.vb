@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::6567d06820b3eff9caf1cc75458163f4, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::c713cb8bf99d32c03fe4a0db9250c74a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -98,7 +98,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
 
         ''' <summary>
-        ''' 这个函数所返回来的数据之中是包含有表头的
+        ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的
         ''' </summary>
         ''' <param name="acc_list"></param>
         ''' <param name="DIR$"></param>
@@ -109,13 +109,23 @@ Namespace Assembly.NCBI.Taxonomy
                                         Optional gb_priority? As Boolean = False,
                                         Optional debug? As Boolean = False) As IEnumerable(Of String)
 
+            ' 2017-12-25 
+            ' 因为后面的循环之中需要进行已经被match上的对象的remove操作
+            ' 所以在这里就不适用Index对象了，直接使用Dictionary
             Dim list As Dictionary(Of String, String) = acc_list _
+                .Select(Function(id)
+                            ' 在这里移除版本号
+                            Return id.Split("."c).First
+                        End Function) _
                 .Distinct _
-                .ToDictionary(Function(id) id.Split("."c).First,  ' 在这里移除版本号
-                              Function(s) null)
+                .ToDictionary(Function(id) id)
+
             Yield {
                 "accession", "accession.version", "taxid", "gi"
             }.JoinBy(vbTab)
+
+            Dim n% = 0
+            Dim ALL% = list.Count
 
             For Each x As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
                 If list.ContainsKey(x.Name) Then
@@ -125,6 +135,7 @@ Namespace Assembly.NCBI.Taxonomy
                         Exit For
                     Else
                         Call list.Remove(x.Name)
+                        Call n.SetValue(n + 1)
 
                         If debug Then
                             Call x.Description.__DEBUG_ECHO
@@ -132,6 +143,8 @@ Namespace Assembly.NCBI.Taxonomy
                     End If
                 End If
             Next
+
+            Call $"{ALL} accession id match {n} taxonomy info.".__INFO_ECHO
         End Function
     End Module
 End Namespace

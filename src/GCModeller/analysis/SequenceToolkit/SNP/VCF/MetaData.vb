@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::159f31e1023f54c1ce1c1700e78d7f0d, ..\GCModeller\analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
+﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, ..\GCModeller\analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -90,4 +90,3 @@ Namespace VCF
         End Function
     End Class
 End Namespace
-

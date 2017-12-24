@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
@@ -248,14 +247,19 @@ Public Class OBOFile : Implements IDisposable
                     In bufs
                     Select x = line.GetTagValue(": ")
                     Group x By id = x.Name Into Group
-            Dim data As NamedValue(Of String())() =
-                LinqAPI.Exec(Of NamedValue(Of String())) <=
-                From x
-                In g
-                Select New NamedValue(Of String()) With {
-                    .Name = x.id,
-                    .Value = x.Group.Select(Function(o) o.Value).ToArray
-                }
+
+            Dim data = LinqAPI.Exec(Of NamedValue(Of String())) _
+ _
+                () <= From x
+                      In g
+                      Let values As String() = x _
+                          .Group _
+                          .Select(Function(o) o.Value) _
+                          .ToArray
+                      Select New NamedValue(Of String()) With {
+                          .Name = x.id,
+                          .Value = values
+                      }
 
             Yield New RawTerm With {
                 .Type = name,

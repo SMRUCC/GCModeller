@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ced045d140721cbcc88596a940eb121, ..\GCModeller\models\Networks\KEGG\ReactionTable.vb"
+﻿#Region "Microsoft.VisualBasic::38c0f423be81dc93523265936ab749f9, ..\GCModeller\models\Networks\KEGG\ReactionTable.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -89,4 +89,3 @@ Public Class ReactionTable
         }
     End Function
 End Class
-

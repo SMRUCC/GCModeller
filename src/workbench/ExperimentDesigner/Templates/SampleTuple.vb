@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20ad113f881487210c06a71b47635740, ..\workbench\ExperimentDesigner\Templates\SampleTuple.vb"
+﻿#Region "Microsoft.VisualBasic::5dd8b90894326203ebbeeb0c1d4ae15c, ..\workbench\ExperimentDesigner\Templates\SampleTuple.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -54,4 +54,3 @@ Public Class SampleTuple
         Return $"{Sample1} vs {Sample2}"
     End Function
 End Class
-

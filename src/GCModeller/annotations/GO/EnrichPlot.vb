@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6de87356a0a80a637d4ad48d0f0d568e, ..\GCModeller\annotations\GO\EnrichPlot.vb"
+﻿#Region "Microsoft.VisualBasic::4a3641e50641d5f8a9549314bc8e0fba, ..\GCModeller\annotations\GO\EnrichPlot.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -291,4 +291,3 @@ Public Module EnrichPlot
         Return s
     End Function
 End Module
-

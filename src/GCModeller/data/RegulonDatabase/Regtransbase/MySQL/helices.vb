@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bc2175f4f4d48d78d90eb2fc7a3e6af, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::5cf5017097b2eff44d60773154d7c88e, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -169,4 +169,3 @@ End Class
 
 
 End Namespace
-

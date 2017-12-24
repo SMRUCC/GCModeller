@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18b6df81283a46aa2ead8d18c18f9baa, ..\repository\DataMySql\Correlations\CorrsDbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::52fe54cbea2eb820a8c0c566dc99a341, ..\repository\DataMySql\Correlations\CorrsDbAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -191,4 +191,3 @@
 
 '    'Call "Job Done!".__DEBUG_ECHO
 'End Module
-

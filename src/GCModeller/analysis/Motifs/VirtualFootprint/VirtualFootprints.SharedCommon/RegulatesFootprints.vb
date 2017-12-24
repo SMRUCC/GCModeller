@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c05b1b4211b3404531200cef011b959, ..\GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\RegulatesFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::0c05b1b4211b3404531200cef011b959, ..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\RegulatesFootprints.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

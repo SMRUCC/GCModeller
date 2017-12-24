@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46fbbf09f4e847056e55dd846fe6a7b1, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\blackboxevent_2_hasevent.vb"
+﻿#Region "Microsoft.VisualBasic::47d68fb510609fe47165d7781e34cea4, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\blackboxevent_2_hasevent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

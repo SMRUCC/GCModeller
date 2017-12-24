@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::809a5ef664176fd4d2a07480343f1fe1, ..\repository\DataMySql\Interpro\Tables\uniprot_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::16b971422020b540355ebca17e804fba, ..\repository\DataMySql\Interpro\Tables\uniprot_taxonomy.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

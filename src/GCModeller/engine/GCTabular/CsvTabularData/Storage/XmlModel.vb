@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd671a99b256529ada671de6bf32ce46, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\XmlModel.vb"
+﻿#Region "Microsoft.VisualBasic::d3c5400c187e45babe9608ad1f1980bc, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\XmlModel.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

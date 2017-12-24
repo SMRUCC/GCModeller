@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dbb4e0a3025a8ce04a0370388f75d30, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Disease.vb"
+﻿#Region "Microsoft.VisualBasic::59e4841cbc2078be0f9ce2eefc58b206, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Disease.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

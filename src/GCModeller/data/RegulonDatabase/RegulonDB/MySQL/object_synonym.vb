@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7aad9ad15ea68f05b3c553fc085fefe, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::180234f38c7024549a2ace7f656028ce, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cd8ef919b0a21a9d5c5b087888fe38b, ..\repository\DataMySql\Interpro\Tables\mv_tax_entry_count.vb"
+﻿#Region "Microsoft.VisualBasic::aaa89d438fd662791917da728cde3fb7, ..\repository\DataMySql\Interpro\Tables\mv_tax_entry_count.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -124,4 +124,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e6c8d5f05d07ff587d4c00381f8af54, ..\GCModeller\foundation\OBO_Foundry\header.vb"
+﻿#Region "Microsoft.VisualBasic::f7a61c24bdfb33ca8eda7af3815db022, ..\GCModeller\foundation\OBO_Foundry\RawTerm.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -26,26 +26,23 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.foundation.OBO_Foundry
 
-''' <summary>
-''' 
-''' </summary>
-Public Class header
+Public Structure RawTerm
 
-    <Field("format-version")> Public Property Version As String
-    <Field("data-version")> Public Property DataVersion As String
-    <Field("date")> Public Property [Date] As String
-    <Field("saved-by")> Public Property Author As String
-    <Field("auto-generated-by")> Public Property Tools As String = "GCModeller"
-    <Field("subsetdef")> Public Property SubsetDef As String()
-    <Field("synonymtypedef")> Public Property SynonymTypeDef As String()
-    <Field("default-namespace")> Public Property DefaultNamespace As String
-    <Field("remark")> Public Property Remark As String
-    <Field("ontology")> Public Property Ontology As String
+    ''' <summary>
+    ''' Example: ``[Term]``
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Type As String
+    Public Property data As NamedValue(Of String())()
+
+    Public Function GetData() As Dictionary(Of String, String())
+        Return data.ToDictionary(Function(x) x.Name, Function(x) x.Value)
+    End Function
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function
-End Class
+End Structure

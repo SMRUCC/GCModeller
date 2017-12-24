@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f13bfd7e35a69fb3b6ac818fceda88b1, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\fragmentmodification.vb"
+﻿#Region "Microsoft.VisualBasic::96f7795e2165d7defb40f72c2d01cb72, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\fragmentmodification.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -128,4 +128,3 @@ End Class
 
 
 End Namespace
-

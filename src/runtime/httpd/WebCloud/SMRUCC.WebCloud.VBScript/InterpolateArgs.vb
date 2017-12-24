@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9da3c3e4faf4fce21f68d9650437e5a0, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\InterpolateArgs.vb"
+﻿#Region "Microsoft.VisualBasic::6ebd6e2f99c4a902aaf34910a9dda4aa, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\InterpolateArgs.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -44,4 +44,3 @@ Public Structure InterpolateArgs
         Return wwwroot
     End Function
 End Structure
-

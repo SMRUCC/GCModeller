@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fa5224834ac69ec297fb2738137e80d, ..\GCModeller\visualize\GCModeller.DataVisualization\Abstract\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, ..\GCModeller\visualize\GCModeller.DataVisualization\Abstract\Ideg.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -33,4 +33,3 @@ Public Interface IDeg
     Property pvalue As Double
 
 End Interface
-

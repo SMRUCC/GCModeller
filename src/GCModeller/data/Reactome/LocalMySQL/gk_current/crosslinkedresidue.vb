@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::182cb21f2ee4ce18d79635e1917d27e9, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\crosslinkedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::c80cff7249cfc8ede130bd6f6d4d4b90, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\crosslinkedresidue.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ End Class
 
 
 End Namespace
-

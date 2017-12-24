@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecefcc0d7fe3809a13b436994558b356, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
+﻿#Region "Microsoft.VisualBasic::00a1c8baef8783401f7b482640cf724a, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -93,4 +93,3 @@ Public Module AnalysisAPI
                End Function
     End Function
 End Module
-

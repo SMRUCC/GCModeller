@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0b75de103b2ae7ff9400a4f0ed07388, ..\GCModeller\data\WebServices\Service References\EbiWS.WsDbfetchSOAP\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::42bbb337e50731f1cb16c83ab67c1b99, ..\GCModeller\data\WebServices\Service References\EbiWS.WsDbfetchSOAP\Reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -177,4 +177,3 @@ Namespace EbiWS.WsDbfetchSOAP
         End Sub
     End Class
 End Namespace
-

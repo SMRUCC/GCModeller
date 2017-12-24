@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9d7521df3b5d67e25fa1cb9961dcf56, ..\GCModeller\CLI_tools\meta-assmebly\CLI\HMP\HMP.vb"
+﻿#Region "Microsoft.VisualBasic::d224fce2caa0baa183c86607d2b13eda, ..\GCModeller\CLI_tools\meta-assmebly\CLI\HMP\HMP.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -73,4 +73,3 @@ Partial Module CLI
         Return 0
     End Function
 End Module
-

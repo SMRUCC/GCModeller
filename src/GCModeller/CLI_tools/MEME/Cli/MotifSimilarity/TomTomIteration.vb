@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ac1e0f8e74bc4e898c429ad79ae6328, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\TomTomIteration.vb"
+﻿#Region "Microsoft.VisualBasic::f3b8898322d9e5ae88226aadd69b65ed, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\TomTomIteration.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

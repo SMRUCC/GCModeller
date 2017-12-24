@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59980c507e36dd775fcf1e0e349d7319, ..\repository\DataMySql\Xfam\Rfam\Tables\sunburst.vb"
+﻿#Region "Microsoft.VisualBasic::7a0bf1205ec40a8f32745a9f7a74bbea, ..\repository\DataMySql\Xfam\Rfam\Tables\sunburst.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -124,4 +124,3 @@ End Class
 
 
 End Namespace
-

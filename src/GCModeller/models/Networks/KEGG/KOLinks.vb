@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11537087aabe50eb6b9b3aa691de13d5, ..\GCModeller\models\Networks\KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::0cc80cbcfb259ae25bd17456a9f3a7ff, ..\GCModeller\models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -67,4 +67,3 @@ Public Class KOLinks
         Next
     End Function
 End Class
-

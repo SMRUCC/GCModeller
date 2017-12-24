@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::608bd679fa1aa88793297db6f03a806c, ..\interops\visualize\Circos\Circos\ConfFiles\Circos.vb"
+﻿#Region "Microsoft.VisualBasic::3c2afa6dbd67f985a11e45d60e4371f9, ..\interops\visualize\Circos\Circos\ConfFiles\Circos.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

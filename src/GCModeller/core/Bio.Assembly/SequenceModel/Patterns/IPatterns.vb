@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1651976c45076e72fc719a191cbb8fe9, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::8750dce0f8f0bf447e1f46b460addae1, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

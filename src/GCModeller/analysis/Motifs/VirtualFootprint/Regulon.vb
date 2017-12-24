@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b94c8970086a34691d06daf217b12872, ..\GCModeller\analysis\VirtualFootprint\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::b94c8970086a34691d06daf217b12872, ..\GCModeller\analysis\Motifs\VirtualFootprint\Regulon.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

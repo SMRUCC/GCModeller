@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9300db00b35fd349d847d2396ae242, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
+﻿#Region "Microsoft.VisualBasic::48c9fd0baf8d4aab5e35bf2c81a8b33f, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -147,4 +147,3 @@ End Class
 
 
 End Namespace
-

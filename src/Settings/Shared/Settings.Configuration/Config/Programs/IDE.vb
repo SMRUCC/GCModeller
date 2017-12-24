@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::827bd79c6f8a5aa76cca177ed69fce4e, ..\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb"
+﻿#Region "Microsoft.VisualBasic::ba054ac5ee54b966bc51950449599ca6, ..\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

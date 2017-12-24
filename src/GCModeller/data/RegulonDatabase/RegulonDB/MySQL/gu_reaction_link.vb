@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1e99b2dbc0b967199272466ba0ae1a6, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
+﻿#Region "Microsoft.VisualBasic::d0e35a56f5387993572272521443bc51, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

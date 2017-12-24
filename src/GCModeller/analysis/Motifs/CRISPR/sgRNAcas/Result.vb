@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8044e4ccffba27325141bf5441b83bf, ..\GCModeller\analysis\CRISPR\sgRNAcas\Result.vb"
+﻿#Region "Microsoft.VisualBasic::b8044e4ccffba27325141bf5441b83bf, ..\GCModeller\analysis\Motifs\CRISPR\sgRNAcas\Result.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::339ff77560b98a7622788488f4ec9b51, ..\httpd\httpd\Program\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::e5eca7eebc7d22dcc3a36efc714c8a9e, ..\httpd\httpd\Program\CLI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

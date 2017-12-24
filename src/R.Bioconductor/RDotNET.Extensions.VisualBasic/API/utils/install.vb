@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83078a8df8c56b6eb1b7a8899f351f59, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\utils\install.vb"
+﻿#Region "Microsoft.VisualBasic::85ca8b039d4eb298e9e5d6440a291ee1, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\utils\install.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

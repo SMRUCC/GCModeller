@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a24045a76c5d32449bab20d40714c0b, ..\repository\DataMySql\Interpro\Tables\entry_deleted.vb"
+﻿#Region "Microsoft.VisualBasic::8192e06df7d4741fb646a2c776dfbb34, ..\repository\DataMySql\Interpro\Tables\entry_deleted.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

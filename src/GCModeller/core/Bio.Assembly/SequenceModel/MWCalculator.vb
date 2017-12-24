@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa0dd6c9a364b8d3ed04f82dd9708dc7, ..\GCModeller\core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::bf2ef4c732834a46a0a8f9b24adbf6ad, ..\GCModeller\core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

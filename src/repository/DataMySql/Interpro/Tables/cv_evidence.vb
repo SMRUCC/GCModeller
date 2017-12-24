@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7242ee094ea1d16e0aad4498feb61b5, ..\repository\DataMySql\Interpro\Tables\cv_evidence.vb"
+﻿#Region "Microsoft.VisualBasic::09b7632a659bed0f1df3d6fdad567543, ..\repository\DataMySql\Interpro\Tables\cv_evidence.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ End Class
 
 
 End Namespace
-

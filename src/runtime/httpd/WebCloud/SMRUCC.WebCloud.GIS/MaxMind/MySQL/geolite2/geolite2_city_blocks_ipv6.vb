@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0502fdd2e19584cf64f418750a7e6b5, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv6.vb"
+﻿#Region "Microsoft.VisualBasic::75c80e5a1973d2b1acef0ee225433e52, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv6.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -212,4 +212,3 @@ End Class
 
 
 End Namespace
-

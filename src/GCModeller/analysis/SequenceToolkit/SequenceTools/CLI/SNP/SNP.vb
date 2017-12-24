@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2838377e9204ddca61bcbe99b17d297a, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::1db1294d153ef182a5c7f7991166d94c, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

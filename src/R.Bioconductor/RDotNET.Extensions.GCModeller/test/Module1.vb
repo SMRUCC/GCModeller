@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88983bada103b891065981bb14358f2e, ..\R.Bioconductor\RDotNET.Extensions.GCModeller\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::991e6aafe7ff653e396be90bf4ab7fc8, ..\R.Bioconductor\RDotNET.Extensions.GCModeller\test\Module1.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -45,4 +45,3 @@ Module Module1
             .SaveRda(drugMaps, "./KEGG.rda")
     End Sub
 End Module
-

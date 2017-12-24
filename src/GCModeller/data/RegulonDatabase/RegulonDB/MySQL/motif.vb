@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3042bfe0648fa920db21d2dff6337f0f, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
+﻿#Region "Microsoft.VisualBasic::8eb613b293731e89804be32560a9b356, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -143,4 +143,3 @@ End Class
 
 
 End Namespace
-
