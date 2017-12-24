@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::3c3c8aae0bae5b27df43fb90e1d957d5, ..\Settings\Shared\Settings.FileSystem\KEGG\Directories.vb"
+﻿#Region "Microsoft.VisualBasic::0ed832df89f5bf23844f2cb21722c4f0, ..\Settings\Shared\Settings.FileSystem\KEGG\Directories.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

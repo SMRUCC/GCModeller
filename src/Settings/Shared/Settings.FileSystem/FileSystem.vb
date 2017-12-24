@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::ed4a5cd849877d50141f7dfbf89146c9, ..\Settings\Shared\Settings.FileSystem\FileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::9123b4300c67f321417613e605a3fc0c, ..\Settings\Shared\Settings.FileSystem\FileSystem.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
