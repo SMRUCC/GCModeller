@@ -137,7 +137,7 @@ Namespace SequenceModel.FASTA
         ''' </param>
         ''' <returns></returns>
         Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaToken)
-            If handle.FixPath.FileExists Then
+            If (handle.Last <> "/"c AndAlso handle.Last <> "\"c) AndAlso handle.FixPath.FileExists Then
                 If debug Then
                     Call "File exists, reading fasta data from file...".__DEBUG_ECHO
                 End If
