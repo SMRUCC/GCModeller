@@ -98,7 +98,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
 
         ''' <summary>
-        ''' 这个函数所返回来的数据之中是包含有表头的
+        ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的
         ''' </summary>
         ''' <param name="acc_list"></param>
         ''' <param name="DIR$"></param>
