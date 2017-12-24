@@ -177,6 +177,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
       <Name>OBO_Foundry</Name>
