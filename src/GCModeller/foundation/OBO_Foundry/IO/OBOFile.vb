@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
