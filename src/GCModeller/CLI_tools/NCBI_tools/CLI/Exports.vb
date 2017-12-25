@@ -82,7 +82,7 @@ Partial Module CLI
                 Next
 
                 If Not write Then
-                    Dim hash = TaxonomyNode.ToHash(taxon)
+                    Dim hash = TaxonomyNode.RankTable(taxon)
                     Dim sp As String = hash.TryGetValue("species", [default]:=Nothing)
 
                     If Not String.IsNullOrEmpty(sp) Then

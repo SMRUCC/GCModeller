@@ -166,7 +166,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     Dim taxi As Integer = taxiHash(gi)
                     Dim tree = taxTree.GetAscendantsWithRanksAndNames({taxi}, True)
                     Dim taxonomy As String = TaxonomyNode.Taxonomy(tree.First.Value)
-                    Dim hash = TaxonomyNode.ToHash(tree.First.Value)
+                    Dim hash = TaxonomyNode.RankTable(tree.First.Value)
 
 #If DEBUG Then
                     VBDebugger.Mute = True
@@ -237,7 +237,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     Dim taxid As Integer = giTaxidhash(gi)
                     x.taxid = taxid
                     Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
-                    Dim hash = TaxonomyNode.ToHash(nodes.First.Value)
+                    Dim hash = TaxonomyNode.RankTable(nodes.First.Value)
 
                     With x
                         .class = hash.TryGetValue(NcbiTaxonomyTree.class)
@@ -455,7 +455,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End Sub
 
         Sub New(tree As IEnumerable(Of TaxonomyNode))
-            Dim data = TaxonomyNode.ToHash(tree)
+            Dim data = TaxonomyNode.RankTable(tree)
 
             With Me
                 .class = data.TryGetValue(NcbiTaxonomyTree.class)
