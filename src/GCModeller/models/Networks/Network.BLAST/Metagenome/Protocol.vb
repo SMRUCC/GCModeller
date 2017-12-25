@@ -119,7 +119,7 @@ Namespace Metagenome
                         .Extensions(Protocol.taxid) = (taxid.value)
 
                         Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(+taxid, True)
-                        Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
+                        Dim tree$ = nodes.BuildBIOM
                         Dim name$ = taxonomy(taxid)?.name
 
                         .Extensions(Protocol.taxonomyName) = name
