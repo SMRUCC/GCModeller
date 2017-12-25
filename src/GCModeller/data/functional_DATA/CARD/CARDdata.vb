@@ -88,7 +88,7 @@ Public Module CARDdata
     ''' <returns></returns>
     <Extension>
     Public Iterator Function TravelAntibioticResistance(term As GenericTree) As IEnumerable(Of (drug$, term As GenericTree))
-        Dim data = term.Data.ToDictionary(Function(d) d.Name, Function(d) d.Value)
+        Dim data As Dictionary(Of String, String()) = term.data
 
         ' 查看自身具备哪些抗性特征
         If data.ContainsKey(RawTerm.Key_relationship) Then

@@ -14,6 +14,10 @@ Public Class GenericTree
     Public Property is_a As GenericTree()
     Public Property data As Dictionary(Of String, String())
 
+    Public Overrides Function ToString() As String
+        Return $"[{ID}] {name}"
+    End Function
+
     ''' <summary>
     ''' Does the term with <paramref name="id"/> is my root or parent?
     ''' </summary>
@@ -36,7 +40,7 @@ Public Class GenericTree
 
     Public Shared Function BuildTree(terms As IEnumerable(Of RawTerm)) As Dictionary(Of String, GenericTree)
         Dim vertex As Dictionary(Of String, GenericTree) = terms _
-            .Where(Function(t) t.Type = "Term") _
+            .Where(Function(t) t.Type = "[Term]") _
             .Select(Function(t)
                         Dim data = t.GetData
                         Dim id = (data!id).First
@@ -53,15 +57,19 @@ Public Class GenericTree
                           End Function)
 
         For Each v As GenericTree In vertex.Values
-            Dim is_a = v.data!is_a _
-                .Select(Function(value)
-                            Return value.StringSplit("\s*!\s*").First.Trim
-                        End Function) _
-                .ToArray
+            If Not v.data.ContainsKey("is_a") Then
+                v.is_a = {}
+            Else
+                Dim is_a = v.data!is_a _
+                    .Select(Function(value)
+                                Return value.StringSplit("\s*!\s*").First.Trim
+                            End Function) _
+                    .ToArray
 
-            v.is_a = is_a _
-                .Select(Function(id) vertex(id)) _
-                .ToArray
+                v.is_a = is_a _
+                    .Select(Function(id) vertex(id)) _
+                    .ToArray
+            End If
         Next
 
         Return vertex
