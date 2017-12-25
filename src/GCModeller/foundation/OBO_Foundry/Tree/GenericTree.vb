@@ -12,7 +12,7 @@ Public Class GenericTree
     ''' </summary>
     ''' <returns></returns>
     Public Property is_a As GenericTree()
-    Public Property Data As NamedValue(Of String())()
+    Public Property data As Dictionary(Of String, String())
 
     ''' <summary>
     ''' Does the term with <paramref name="id"/> is my root or parent?
@@ -38,33 +38,22 @@ Public Class GenericTree
         Dim vertex As Dictionary(Of String, GenericTree) = terms _
             .Where(Function(t) t.Type = "Term") _
             .Select(Function(t)
-                        Dim id = t.data _
-                            .Where(Function(k) k.Name = "id") _
-                            .First _
-                            .Value _
-                            .First
-                        Return (id:=id, term:=t)
+                        Dim data = t.GetData
+                        Dim id = (data!id).First
+                        Return (id:=id, term:=t, data:=data)
                     End Function) _
             .ToDictionary(Function(t) t.id,
                           Function(k)
-                              Dim name = k.term _
-                                  .data _
-                                  .Where(Function(t) t.Name = "name") _
-                                  .First _
-                                  .Value _
-                                  .First
+                              Dim name = k.data!name.First
                               Return New GenericTree With {
                                   .ID = k.id,
-                                  .Data = k.term.data,
+                                  .data = k.data,
                                   .name = name
                               }
                           End Function)
 
         For Each v As GenericTree In vertex.Values
-            Dim is_a = v.Data _
-                .Where(Function(t) t.Name = "is_a") _
-                .First _
-                .Value _
+            Dim is_a = v.data!is_a _
                 .Select(Function(value)
                             Return value.StringSplit("\s*!\s*").First.Trim
                         End Function) _

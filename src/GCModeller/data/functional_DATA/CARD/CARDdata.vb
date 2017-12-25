@@ -54,6 +54,8 @@ Public Module CARDdata
     ''' 函数返回``{aro_id, antibiotic_aro_id()}``
     ''' </summary>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function AntibioticResistanceRelationship(aro As IEnumerable(Of RawTerm)) As Dictionary(Of String, String())
         Dim tree As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(terms:=aro)
         Dim relationships As New Dictionary(Of String, String())

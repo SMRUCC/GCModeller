@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports r = System.Text.RegularExpressions.Regex
 
 Public Class SeqHeader : Implements INamedValue
 
