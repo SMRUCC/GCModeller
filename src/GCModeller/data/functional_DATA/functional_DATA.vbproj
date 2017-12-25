@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CARD\CARDdata.vb" />
+    <Compile Include="CARD\Fasta.vb" />
     <Compile Include="CARD\Tables.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

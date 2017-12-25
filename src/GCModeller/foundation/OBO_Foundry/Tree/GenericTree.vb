@@ -1,14 +1,38 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ''' <summary>
-''' 仅仅依靠``is_a``关系来构建出直系同源树
+''' A very simple orthology tree.(仅仅依靠``is_a``关系来构建出直系同源树)
 ''' </summary>
 Public Class GenericTree
 
     Public Property ID As String
     Public Property name As String
+    ''' <summary>
+    ''' multiple inheritance? (basetype)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property is_a As GenericTree()
     Public Property Data As NamedValue(Of String())()
+
+    ''' <summary>
+    ''' Does the term with <paramref name="id"/> is my root or parent?
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    Public Function IsBaseType(id As String) As Boolean
+        If id = Me.ID Then
+            ' 自己也应该是自己的base type？？
+            Return True
+        Else
+            For Each parent As GenericTree In is_a
+                If parent.IsBaseType(id) Then
+                    Return True
+                End If
+            Next
+        End If
+
+        Return False
+    End Function
 
     Public Shared Function BuildTree(terms As IEnumerable(Of RawTerm)) As Dictionary(Of String, GenericTree)
         Dim vertex As Dictionary(Of String, GenericTree) = terms _
