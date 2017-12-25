@@ -143,7 +143,7 @@ Partial Module CLI
         Next
 
         Return profile _
-            .SaveDataSet(out) _
+            .SaveDataSet(out, blank:="0", transpose:=True) _
             .CLICode
     End Function
 
