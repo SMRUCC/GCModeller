@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::241708ec07e7640860c9466f416b7125, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports MapNode = System.Collections.Generic.KeyValuePair(Of Integer, SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode)
 
 Namespace Assembly.NCBI.Taxonomy
@@ -151,11 +152,13 @@ Namespace Assembly.NCBI.Taxonomy
 
             Dim taxid2name As New Dictionary(Of Integer, String)
             Dim taxid As Integer
+            Dim parent_taxid As Integer
 
             Call $"{names_filename.ToFileURL} parsing ...".__DEBUG_ECHO
 
             For Each line In names_filename.IterateAllLines
-                Dim lineToken As String() = line.Replace(vbTab, "").Split("|"c)
+                Dim lineToken$() = line.Replace(ASCII.TAB, "").Split("|"c)
+
                 If lineToken(3).TextEquals(sciNdeli) Then
                     taxid = CInt(lineToken(0))
                     taxid2name(taxid) = lineToken(1)
@@ -166,19 +169,19 @@ Namespace Assembly.NCBI.Taxonomy
             Call $"{nodes_filename} parsing ...".__DEBUG_ECHO
 
             For Each line As String In nodes_filename.IterateAllLines
-                Dim lineTokens As String() = line.Replace(vbTab, "").Split("|"c)
-                'LinqAPI.Exec(Of String) <= From elt As String
-                '                           In line.Split("|"c)
-                '                           Select New String(elt.slice(0, 2).ToArray)
-                taxid = CInt(lineTokens(0))
-                Dim parent_taxid As Integer = CInt(lineTokens(1))
+                Dim lineTokens$() = line.Replace(ASCII.TAB, "").Split("|"c)
 
-                If Taxonomy.ContainsKey(taxid) Then ': # 18204/1308852
-                    Dim x As TaxonomyNode = Taxonomy(taxid)
-                    x.rank = lineTokens(2)
-                    x.parent = parent_taxid
-                    Taxonomy(taxid) = x ' dic(taxid).Replace(rank = line[2][1:             -1], parent=parent_taxid)
-                Else ':           # 1290648/1308852
+                taxid = CInt(lineTokens(0))
+                parent_taxid = CInt(lineTokens(1))
+
+                ' : # 18204/1308852
+                If Taxonomy.ContainsKey(taxid) Then
+                    With Taxonomy(taxid)
+                        .rank = lineTokens(2)
+                        .parent = parent_taxid
+                    End With
+                Else
+                    ' : # 1290648/1308852
                     Taxonomy(taxid) = New TaxonomyNode With {
                         .name = taxid2name(taxid),
                         .rank = lineTokens(2),
@@ -196,7 +199,9 @@ Namespace Assembly.NCBI.Taxonomy
                         .name = taxid2name(parent_taxid),
                         .rank = Nothing,
                         .parent = Nothing,
-                        .children = New List(Of Integer)({taxid})
+                        .children = New List(Of Integer) From {
+                            taxid
+                        }
                     }
                     Call taxid2name.Remove(parent_taxid)
                 End If
@@ -204,13 +209,14 @@ Namespace Assembly.NCBI.Taxonomy
 
             Call "nodes.dmp parsed".__DEBUG_ECHO
 
-            '# To avoid infinite Loop
+            ' # To avoid infinite Loop
             Dim root_children = Taxonomy(1).children
             root_children.Remove(1)
-            Dim xx = Taxonomy(1)
-            xx.parent = Nothing
-            xx.children = root_children
-            Taxonomy(1) = xx 'dic(1)._replace(parent = None, children = root_children)
+
+            With Taxonomy(1)
+                .parent = Nothing
+                .children = root_children
+            End With
 
             Call "NcbiTaxonomyTree built".__DEBUG_ECHO
         End Sub
@@ -355,12 +361,13 @@ Namespace Assembly.NCBI.Taxonomy
             Loop
 
             If only_std_ranks Then
-                Dim std_lineage = LinqAPI.MakeList(Of TaxonomyNode) <=
+
+                Dim std_lineage = LinqAPI.MakeList(Of TaxonomyNode) _
  _
-                    From lvl As TaxonomyNode
-                    In lineage
-                    Where Array.IndexOf(stdranks, lvl.rank) > -1
-                    Select lvl
+                    () <= From lvl As TaxonomyNode
+                          In lineage
+                          Where Array.IndexOf(stdranks, lvl.rank) > -1
+                          Select lvl
 
                 Dim lastlevel As Integer = 0
 
@@ -385,11 +392,12 @@ Namespace Assembly.NCBI.Taxonomy
 
             If Not children.IsNullOrEmpty Then
 
-                result =
-                    LinqAPI.MakeList(Of Integer) <=
-                    From child As Integer
-                    In children
-                    Select __descendants(child)
+                result = LinqAPI.MakeList(Of Integer) _
+ _
+                    () <= From child As Integer
+                          In children
+                          Select __descendants(child)
+
                 result.Insert(0, taxid)
 
             Else

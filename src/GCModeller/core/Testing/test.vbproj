@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3E9F14CA-CB21-4487-A01A-02F23D84CC00}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Project.KEGGRefMaps</StartupObject>
+    <StartupObject>Test.Project.DEBUG_MAIN</StartupObject>
     <RootNamespace>Test.Project</RootNamespace>
     <AssemblyName>Test.Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -115,7 +115,6 @@
     <Compile Include="DEBUG_MAIN.vb" />
     <Compile Include="Feature.vb" />
     <Compile Include="GFF.vb" />
-    <Compile Include="KEGGRefMaps.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -153,13 +152,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
