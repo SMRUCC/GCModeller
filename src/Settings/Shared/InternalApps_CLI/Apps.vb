@@ -86,10 +86,10 @@ Public NotInheritable Class Apps
         End Get
     End Property
 
-    Public Shared ReadOnly Property Microbiome As GCModellerApps.meta_community
+    Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return _Microbiome
+            Return _metaProfiler
         End Get
     End Property
 
@@ -100,7 +100,7 @@ Public NotInheritable Class Apps
     Shared ReadOnly _seqtools As GCModellerApps.seqtools
     Shared ReadOnly _VennDiagram As GCModellerApps.venn
     Shared ReadOnly _eggHTS As GCModellerApps.eggHTS
-    Shared ReadOnly _Microbiome As GCModellerApps.meta_community
+    Shared ReadOnly _metaProfiler As GCModellerApps.metaProfiler
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -149,7 +149,7 @@ Public NotInheritable Class Apps
                 _KEGG_tools = New GCModellerApps.KEGG_tools(HOME & "/KEGG_tools.exe")
                 _seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
                 _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
-                _Microbiome = New GCModellerApps.meta_community(HOME & "/" & GCModellerApps.meta_community.App)
+                _metaProfiler = New GCModellerApps.metaProfiler(HOME & "/" & GCModellerApps.metaProfiler.App)
 
                 Exit For
             End If
