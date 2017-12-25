@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Public Class SeqHeader : Implements INamedValue
