@@ -16,6 +16,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -60,6 +61,33 @@ Partial Module CLI
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/matrix.clustering")>
+    <Usage("/matrix.clustering /in <matrix.csv> [/cluster.n <default:=10> /out <EntityClusterModel.csv>]")>
+    <Group(CLIGroups.DataVisualize_cli)>
+    Public Function MatrixClustering(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.kmeans_clusters.csv"
+        Dim matrix = DataSet.LoadDataSet([in])
+        Dim n% = args.GetValue("/cluster.n", 10)
+
+        matrix = matrix _
+           .Where(Function(d)
+                      Return d.Properties.Values.Any(Function(x) x <> 0R)
+                  End Function) _
+           .AsList
+
+        With matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=n)
+
+            ' 保存用于绘制3D/2D聚类图的数据集
+            Return .ToEntityObjects _
+                .ToArray _
+                .SaveDataSet(out, Encodings.UTF8) _
+                .CLICode
+        End With
     End Function
 
     <ExportAPI("/pfamstring.enrichment")>
