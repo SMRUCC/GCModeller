@@ -543,6 +543,7 @@
     <Compile Include="Assembly\NCBI\SeqDump\NTheader.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Accession2Taxid.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\TaxidMaps.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\names.dmp.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\Ranks.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb" />

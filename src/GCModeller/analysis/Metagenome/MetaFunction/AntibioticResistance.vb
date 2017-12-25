@@ -13,14 +13,39 @@ Public Module AntibioticResistance
                                     taxonomyID As IEnumerable(Of ncbi_taxomony)) As TaxonomyAntibioticResistance()
 
         Dim terms As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(ARO)
+        ' 基因对抗生素的抗性信息
         Dim antibiotic_resistance = terms.AntibioticResistanceRelationship
+        ' 抗生素的名字等描述信息
+        Dim antibiotic = terms.TravelAntibioticTree
         Dim resistances As New List(Of TaxonomyAntibioticResistance)
-        Dim acc2taxonID = taxonomyID.ToDictionary(Function(tax) tax.Name, Function(tax) tax.Accession)
+        ' 用于生成taxonomy的lineage信息
+        Dim acc2taxonID = taxonomyID _
+            .ToDictionary(Function(tax) tax.Name,
+                          Function(tax) tax)
+        Dim AROseqs = seq _
+            .GroupBy(Function(s)
+                         Return s.AccessionID.Split("."c).First
+                     End Function) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a) a.First)
 
         For Each rel In antibiotic_resistance.EnumerateTuples
             Dim ARO_id$ = rel.name
             Dim drugs$() = rel.obj
+            Dim header As SeqHeader = AROseqs(ARO_id)
+            Dim tax As ncbi_taxomony = acc2taxonID(header.species)
+            Dim lineage$ = taxonomy.GetAscendantsWithRanksAndNames(Val(tax.Accession), only_std_ranks:=True).BuildBIOM
 
+            For Each drug As String In drugs
+                resistances += New TaxonomyAntibioticResistance With {
+                    .AccessionID = header.AccessionID,
+                    .antibiotic_resistance = drug,
+                    .ARO = ARO_id,
+                    .Name = header.name,
+                    .sp = header.species,
+                    .Taxonomy = lineage
+                }
+            Next
         Next
 
         Return resistances
@@ -38,4 +63,8 @@ Public Class TaxonomyAntibioticResistance
     ''' </summary>
     ''' <returns></returns>
     Public Property antibiotic_resistance As String
+
+    Public Overrides Function ToString() As String
+        Return Name
+    End Function
 End Class

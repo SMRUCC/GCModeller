@@ -63,7 +63,7 @@ Namespace Assembly.NCBI.Taxonomy
             Return String.Join(delimiter, tree.Select(Function(x) x.name).ToArray)
         End Function
 
-        Public Shared Function ToHash(tree As IEnumerable(Of TaxonomyNode)) As Dictionary(Of String, String)
+        Public Shared Function RankTable(tree As IEnumerable(Of TaxonomyNode)) As Dictionary(Of String, String)
             Return (From x As TaxonomyNode
                     In tree
                     Where Not String.IsNullOrEmpty(x.rank)
@@ -71,31 +71,6 @@ Namespace Assembly.NCBI.Taxonomy
                     Group x By x.rank Into Group) _
                          .ToDictionary(Function(x) x.rank,
                                        Function(x) x.Group.First.name)
-        End Function
-
-        ''' <summary>
-        ''' <see cref="BIOMPrefix"/>
-        ''' </summary>
-        ''' <param name="nodes"></param>
-        ''' <returns></returns>
-        Public Shared Function BuildBIOM(nodes As IEnumerable(Of TaxonomyNode)) As String
-            Dim data As Dictionary(Of String, String) = ToHash(nodes)
-            Dim list As New List(Of String)
-
-            For Each r$ In NcbiTaxonomyTree.stdranks.Reverse
-                If data.ContainsKey(r) Then
-                    list.Add(data(r$))
-                Else
-                    list.Add("")
-                End If
-            Next
-
-            SyncLock BIOMPrefix
-                Return list _
-                    .SeqIterator _
-                    .Select(Function(x) BIOMPrefix(x.i) & x.value) _
-                    .JoinBy(";")
-            End SyncLock
         End Function
     End Class
 End Namespace
