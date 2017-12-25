@@ -23,9 +23,7 @@ Public Module AntibioticResistance
             .ToDictionary(Function(tax) tax.Name,
                           Function(tax) tax)
         Dim AROseqs = seq _
-            .GroupBy(Function(s)
-                         Return s.AccessionID.Split("."c).First
-                     End Function) _
+            .GroupBy(Function(s) s.ARO) _
             .ToDictionary(Function(a) a.Key,
                           Function(a) a.First)
 
