@@ -1,14 +1,29 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Data.Functional
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 Public Module AntibioticResistance
 
     <Extension>
-    Public Function TaxonomyProfile(seq As IEnumerable(Of SeqHeader), ARO As IEnumerable(Of RawTerm)) As TaxonomyAntibioticResistance()
+    Public Function TaxonomyProfile(seq As IEnumerable(Of SeqHeader),
+                                    ARO As IEnumerable(Of RawTerm),
+                                    taxonomy As NcbiTaxonomyTree,
+                                    taxonomyID As IEnumerable(Of ncbi_taxomony)) As TaxonomyAntibioticResistance()
+
         Dim terms As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(ARO)
         Dim antibiotic_resistance = terms.AntibioticResistanceRelationship
+        Dim resistances As New List(Of TaxonomyAntibioticResistance)
+        Dim acc2taxonID = taxonomyID.ToDictionary(Function(tax) tax.Name, Function(tax) tax.Accession)
 
+        For Each rel In antibiotic_resistance.EnumerateTuples
+            Dim ARO_id$ = rel.name
+            Dim drugs$() = rel.obj
+
+        Next
+
+        Return resistances
     End Function
 End Module
 

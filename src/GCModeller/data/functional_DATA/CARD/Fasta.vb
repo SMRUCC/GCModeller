@@ -10,13 +10,17 @@ Public Class SeqHeader : Implements INamedValue
     Public Property AccessionID As String Implements INamedValue.Key
     Public Property ARO As String
     Public Property name As String
+    ''' <summary>
+    ''' scientific name.(菌株或者物种的名称)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property species As String
     ''' <summary>
     ''' 只针对核酸序列存在这个属性的值
     ''' </summary>
     ''' <returns></returns>
     <Column("loci", GetType(LocationParser))>
-    Public Property Location As NucleotideLocation
+    Public Property loci As NucleotideLocation
 
     Public Overrides Function ToString() As String
         Return name
@@ -43,7 +47,7 @@ Public Class SeqHeader : Implements INamedValue
 
         Return New SeqHeader With {
             .AccessionID = headers(1),
-            .Location = loc,
+            .loci = loc,
             .ARO = headers(4),
             .name = name,
             .species = sp.GetStackValue("[", "]")
