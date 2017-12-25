@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ad05ba1522f2a0b09f385acf7ec2983, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_matrix.vb"
+﻿#Region "Microsoft.VisualBasic::3e1f821bbfe6d383d140d6719be0713f, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_matrix.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -143,4 +143,3 @@ End Class
 
 
 End Namespace
-

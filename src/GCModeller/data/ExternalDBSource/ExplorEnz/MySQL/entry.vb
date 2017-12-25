@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f01b0976950184649d5ae268769ef57, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\entry.vb"
+﻿#Region "Microsoft.VisualBasic::4bb24d696a6ce68e8160974133b33d6c, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\entry.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -170,4 +170,3 @@ End Class
 
 
 End Namespace
-

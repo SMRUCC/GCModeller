@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a66c87e0fb429176709fcac3677d2ca, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::cf49021e5538d39ceeadef4901e0eadd, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e73eeb8a023e8d7b922197cd275ee9b5, ..\GCModeller\annotations\Proteomics\DEP.vb"
+﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, ..\GCModeller\annotations\Proteomics\DEP.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -51,4 +51,3 @@ Public Class DEP_iTraq : Inherits EntityObject
         Return Me.GetJson
     End Function
 End Class
-

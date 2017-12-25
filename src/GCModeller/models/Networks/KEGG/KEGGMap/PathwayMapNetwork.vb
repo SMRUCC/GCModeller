@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f898bfa803a332fd31e925837eb68dea, ..\GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::381ff17f065d30b6227ea0954796cf1c, ..\GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -105,4 +105,3 @@ Public Module PathwayMapNetwork
         Return New NetworkTables(edges, nodes)
     End Function
 End Module
-

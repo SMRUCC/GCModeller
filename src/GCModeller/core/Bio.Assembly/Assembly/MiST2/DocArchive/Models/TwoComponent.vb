@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45de4dcca5fda42ece971e3a721b4490, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\TwoComponent.vb"
+﻿#Region "Microsoft.VisualBasic::f92b55d1339792d1229a1f101fc7b5f5, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\TwoComponent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -72,7 +72,7 @@ Namespace Assembly.MiST2
         Public Function GetRR() As String()
             Dim LQuery = (From transducin As Transducin
                           In {RR, HRR}.ToVector
-                          Select transducin.Identifier
+                          Select transducin.ID
                           Distinct).ToArray
             Return LQuery
         End Function
@@ -82,7 +82,7 @@ Namespace Assembly.MiST2
         ''' </summary>
         ''' <returns></returns>
         Public Function get_HisKinase() As String()
-            Dim LQuery = (From item In {HisK, HHK}.ToVector Select item.Identifier Distinct).ToArray
+            Dim LQuery = (From item In {HisK, HHK}.ToVector Select item.ID Distinct).ToArray
             Return LQuery
         End Function
 

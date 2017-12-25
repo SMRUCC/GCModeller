@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::179b12ca5c860ed5b80fdde55a75d194, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioassaywidchannelwid.vb"
+﻿#Region "Microsoft.VisualBasic::b08e9cc94ab29dff1e9c354836669c20, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioassaywidchannelwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

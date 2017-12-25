@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2ecea9a6986e39735d0a2a3870055d9, ..\GCModeller\CLI_tools\Solver.FBA\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::bea1f90f9fecc8f259b2baca920849df, ..\GCModeller\CLI_tools\Solver.FBA\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

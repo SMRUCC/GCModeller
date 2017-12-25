@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55084fcb565d71ce01e1ae3cad4f213e, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::7aa0f097d9af09ece4d325084c1337d7, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainVisualize.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -143,7 +143,7 @@ Public Class DomainVisualize
             Gr.CompositingMode = CompositingMode.SourceOver
             Gr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit
 
-            Call DrawTitle(Gr, String.Format("Domain Architectures of ""{0}""", Protein.Identifier), Seq)
+            Call DrawTitle(Gr, String.Format("Domain Architectures of ""{0}""", Protein.Id), Seq)
             Call CreateMainRule(Gr, Protein.Length)
             Call Gr.FillRectangle(Brushes.Black, Seq)
             Call DrawCite(Gr, DiagramImage.Size)

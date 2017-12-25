@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86638d65fe15553e1a18867db8329333, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\polymer_2_repeatedunit.vb"
+﻿#Region "Microsoft.VisualBasic::d076774dc7970983ef67a6246ca67466, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\polymer_2_repeatedunit.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

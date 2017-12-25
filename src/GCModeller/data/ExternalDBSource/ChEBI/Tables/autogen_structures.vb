@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0eeaefb0be00e1bc45cb1b31ed7b2a36, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
+﻿#Region "Microsoft.VisualBasic::07c62383312abd0c681f61cd15312ef3, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

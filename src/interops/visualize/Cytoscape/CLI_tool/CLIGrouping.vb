@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90ce4d20f3be384d4cf89ac4513d9cd1, ..\interops\visualize\Cytoscape\CLI_tool\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::49c0d484c2eab2a9bbf6eb6975e36730, ..\interops\visualize\Cytoscape\CLI_tool\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -36,4 +36,3 @@ Public Class CLIGrouping
     Public Const RegulationNetwork = "TF/Regulon network tools"
     Public Const TCS = "Bacterial TCS network tools"
 End Class
-

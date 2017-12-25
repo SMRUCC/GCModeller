@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b95234bba63debe24efccf8ac3d7bfe, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::ec76d0a0f06e1fad465038f51ffd10e0, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

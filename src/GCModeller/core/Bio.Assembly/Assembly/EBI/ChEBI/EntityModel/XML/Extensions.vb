@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd565b8e2580dd528fa37969e60b7fba, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c82b06dc0ddac599778c1fc0aab3d0b2, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -32,13 +32,17 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports XmlLinq = Microsoft.VisualBasic.Text.Xml.Linq.Data
 
 Namespace Assembly.EBI.ChEBI.XML
 
-    <XmlRoot("ChEBI-DataSet", [Namespace]:="http://gcmodeller.org/core/chebi/dataset.XML")>
+    <XmlRoot("ChEBI-DataSet", [Namespace]:=EntityList.Xmlns)>
     Public Class EntityList
 
-        <XmlElement("chebi-entity")>
+        Public Const Xmlns$ = "http://gcmodeller.org/core/chebi/dataset.XML"
+        Public Const nodeName$ = "chebi-entity"
+
+        <XmlElement(nodeName)>
         Public Property DataSet As ChEBIEntity()
 
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
@@ -76,6 +80,15 @@ Namespace Assembly.EBI.ChEBI.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadDirectory(folder$) As EntityList
             Return Extensions.Compile(folder)
+        End Function
+
+        Public Shared Function PopulateModels(xml As String) As IEnumerable(Of ChEBIEntity)
+            Return XmlLinq.LoadXmlDataSet(Of ChEBIEntity)(
+                XML:=xml,
+                typeName:=nodeName,
+                xmlns:=Xmlns,
+                forceLargeMode:=True
+            )
         End Function
     End Class
 

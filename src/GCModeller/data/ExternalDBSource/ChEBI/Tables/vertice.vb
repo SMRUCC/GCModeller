@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24a13c0e3083199067fc7f0042988588, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\vertice.vb"
+﻿#Region "Microsoft.VisualBasic::43b58a1c976d114fd3e4e8f9113c218d, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\vertice.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3593a054e1714d81c5267491912a88b, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
+﻿#Region "Microsoft.VisualBasic::ad1df6e2b14e492abfa5b389de5dc3b0, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -64,4 +64,3 @@ Public Module Clusters
         Return clusters
     End Function
 End Module
-

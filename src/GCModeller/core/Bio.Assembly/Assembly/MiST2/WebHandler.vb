@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66e5bff75890f257f507040f66d7b4e9, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::649579f340a08b30793e55ba5122073c, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -146,8 +146,8 @@ Namespace Assembly.MiST2
             Dim Tokens = Strings.Split(strText, "</td>").Skip(3).ToArray
             Dim p As int = Scan0
 
-            Protein.Identifier = Regex.Match(Tokens(++p), ">[^>]+?</").Value
-            Protein.Identifier = GetValue(Protein.Identifier)
+            Protein.ID = Regex.Match(Tokens(++p), ">[^>]+?</").Value
+            Protein.ID = GetValue(Protein.ID)
 
             Protein.GeneName = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.GeneName = GetValue(Protein.GeneName)

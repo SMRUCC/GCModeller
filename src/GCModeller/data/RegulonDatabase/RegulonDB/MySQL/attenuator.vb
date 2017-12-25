@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fb0bad20e6646317648e5c41f37e337, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
+﻿#Region "Microsoft.VisualBasic::1649426cec1bc504da133a4c3007d0ac, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

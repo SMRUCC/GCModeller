@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6659f934942c4fad05c11d91b5485658, ..\GCModeller\annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::c9aa7ef85de27aa8388b1d25c511a72a, ..\GCModeller\annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -94,4 +94,3 @@ Module AnalysisCommon
         End With
     End Function
 End Module
-

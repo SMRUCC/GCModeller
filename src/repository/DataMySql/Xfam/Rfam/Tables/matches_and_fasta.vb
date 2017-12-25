@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a806e3627143f68e32aa18cbd35935fe, ..\repository\DataMySql\Xfam\Rfam\Tables\matches_and_fasta.vb"
+﻿#Region "Microsoft.VisualBasic::64f0f17f2edfb29a4e602432f3952371, ..\repository\DataMySql\Xfam\Rfam\Tables\matches_and_fasta.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

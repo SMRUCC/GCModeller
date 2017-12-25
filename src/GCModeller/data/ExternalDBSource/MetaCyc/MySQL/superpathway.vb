@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6685bb78337f3b5f9dd27b5455c1776, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\superpathway.vb"
+﻿#Region "Microsoft.VisualBasic::b54f08aa1cac8e7f805c5c5b381fc33b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\superpathway.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

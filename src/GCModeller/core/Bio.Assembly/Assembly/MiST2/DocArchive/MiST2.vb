@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::038afd6db047392d27be075c7af0f3e3, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::a4fd0e862c254be213a1fde8682e3c5e, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -70,10 +70,10 @@ Namespace Assembly.MiST2
 
         Public Function IsHisK(Id As String) As Boolean
             For Each [Module] In MajorModules
-                If Not (From item In [Module].TwoComponent.HHK Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HHK Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
-                If Not (From item In [Module].TwoComponent.HisK Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HisK Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
             Next
@@ -87,10 +87,10 @@ Namespace Assembly.MiST2
 
         Public Function IsRR(Id As String) As Boolean
             For Each [Module] In MajorModules
-                If Not (From item In [Module].TwoComponent.HRR Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.HRR Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
-                If Not (From item In [Module].TwoComponent.RR Where String.Equals(item.Identifier, Id) Select 1).ToArray.IsNullOrEmpty Then
+                If Not (From item In [Module].TwoComponent.RR Where String.Equals(item.ID, Id) Select 1).ToArray.IsNullOrEmpty Then
                     Return True
                 End If
             Next

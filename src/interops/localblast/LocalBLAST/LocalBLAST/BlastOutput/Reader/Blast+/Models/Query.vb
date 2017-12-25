@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aebf4959d905c0395345e342cc23aea1, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Query.vb"
+﻿#Region "Microsoft.VisualBasic::aebf4959d905c0395345e342cc23aea1, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

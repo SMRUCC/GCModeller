@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03dae1a9e813fb2c3616b1fc498cc4e9, ..\GCModeller\annotations\Proteomics\CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::f7b145a1714feff95705f2cd94c36992, ..\GCModeller\annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -140,4 +140,3 @@ Public Module CloudPlot
         Return GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ab466c8f97786eb499c719a2e4b0d8, ..\GCModeller\annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::c1ed3b6cac33a5389a7f12de90079003, ..\GCModeller\annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -112,4 +112,3 @@ Public Module RSDPdensity
         End With
     End Function
 End Module
-

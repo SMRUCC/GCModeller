@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f5925b3e58500afceba733875f0a159, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\ReflectionExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a4a277a4fda343ec3ce98987cbc625a1, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\ReflectionExtensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -92,4 +92,3 @@ Module ReflectionExtensions
         Return table
     End Function
 End Module
-

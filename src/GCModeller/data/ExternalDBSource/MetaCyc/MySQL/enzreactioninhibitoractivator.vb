@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed10945668db5427780d64707a6c6852, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
+﻿#Region "Microsoft.VisualBasic::4b1f57c3cf8ecc1dc35bbc7d543dc197, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -132,4 +132,3 @@ End Class
 
 
 End Namespace
-

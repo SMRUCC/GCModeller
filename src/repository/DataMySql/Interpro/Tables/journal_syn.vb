@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c14062f33c609934c730225b51f9a375, ..\repository\DataMySql\Interpro\Tables\journal_syn.vb"
+﻿#Region "Microsoft.VisualBasic::5154b15fa56538c2f6bc5f9f73474101, ..\repository\DataMySql\Interpro\Tables\journal_syn.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -133,4 +133,3 @@ End Class
 
 
 End Namespace
-

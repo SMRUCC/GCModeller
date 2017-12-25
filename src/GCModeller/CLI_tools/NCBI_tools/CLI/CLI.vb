@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::10d4414d24aae28f1ed8d2df37e0a1bf, ..\GCModeller\CLI_tools\NCBI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -109,7 +110,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue)),
             New Dictionary(Of String, String))
 
-        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
             Dim data As IEnumerable(Of TaxiValue) = file.LoadCsv(Of TaxiValue)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
             Dim LQuery = (From x As TaxiValue
@@ -165,7 +166,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     Dim taxi As Integer = taxiHash(gi)
                     Dim tree = taxTree.GetAscendantsWithRanksAndNames({taxi}, True)
                     Dim taxonomy As String = TaxonomyNode.Taxonomy(tree.First.Value)
-                    Dim hash = TaxonomyNode.ToHash(tree.First.Value)
+                    Dim hash = TaxonomyNode.RankTable(tree.First.Value)
 
 #If DEBUG Then
                     VBDebugger.Mute = True
@@ -225,7 +226,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             Taxonomy.AcquireAuto(gi2taxi)
         Dim getGI = Taxono.Parser_gi(regexp)
 
-        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
@@ -236,7 +237,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     Dim taxid As Integer = giTaxidhash(gi)
                     x.taxid = taxid
                     Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
-                    Dim hash = TaxonomyNode.ToHash(nodes.First.Value)
+                    Dim hash = TaxonomyNode.RankTable(nodes.First.Value)
 
                     With x
                         .class = hash.TryGetValue(NcbiTaxonomyTree.class)
@@ -273,7 +274,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                                .ToDictionary(Function(x) x.sid,
                                              Function(x) x.Group.First.Title.Replace(x.sid, "").Trim)
 
-        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
@@ -331,7 +332,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             tax(uid) = title
         Next
 
-        For Each file As String In ls - l - R - wildcards("*.csv") <= [in]
+        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
 
@@ -361,7 +362,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
 
         Using output As StreamWriter = outDIR.OpenWriter(Encodings.ASCII)
-            For Each file As String In ls - l - R - wildcards("*.csv") <= [in]
+            For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
                 Dim data = Taxono.Load(file, index)
                 Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
 
@@ -454,7 +455,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End Sub
 
         Sub New(tree As IEnumerable(Of TaxonomyNode))
-            Dim data = TaxonomyNode.ToHash(tree)
+            Dim data = TaxonomyNode.RankTable(tree)
 
             With Me
                 .class = data.TryGetValue(NcbiTaxonomyTree.class)
@@ -515,13 +516,19 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return 0
     End Function
 
-    <ExportAPI("/accid2taxid.Match",
-               Usage:="/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]")>
+    ''' <summary>
+    ''' 进行accessionID物种信息数据库的subset操作
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/accid2taxid.Match")>
+    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]")>
+    <Description("Creates the subset of the ultra-large accession to ncbi taxonomy id database.")>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function accidMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim acc2taxid As String = args("/acc2taxid")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".acc2taxid_match.txt")
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.acc2taxid_match.txt"
         Dim acclist As List(Of String)
 
         If FastaFile.IsValidFastaFile([in]) Then
@@ -540,6 +547,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             acc2taxid,
             debug:=True,
             gb_priority:=gb_priority)
+
         Return result.SaveTo(out, Encoding.ASCII)
     End Function
 

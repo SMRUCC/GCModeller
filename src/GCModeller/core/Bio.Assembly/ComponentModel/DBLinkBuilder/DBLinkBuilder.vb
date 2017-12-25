@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57dff9eea2ac4c0b9a496d92796e719d, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::efcc30d0ca53e913cd067cd8ea5099a5, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -26,11 +26,9 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel.DBLinkBuilder
 
@@ -43,11 +41,16 @@ Namespace ComponentModel.DBLinkBuilder
             If strData.IsNullOrEmpty Then
                 MyBase.DBLinkObjects = New DBLink() {}
             End If
-            Call Initialize((From strValue As String In strData Select DBLink.CreateObject(strValue)).ToArray)
+            Call Initialize(From strValue As String In strData Select DBLink.CreateObject(strValue))
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(objects As IEnumerable(Of DBLink))
             Call Initialize(objects)
+        End Sub
+
+        Sub New(links As IEnumerable(Of NamedValue))
+            Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .Entry = link.text}))
         End Sub
 
         Private Sub Initialize(objects As IEnumerable(Of DBLink))

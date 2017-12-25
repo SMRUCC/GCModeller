@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56f941151b73e250772ca37878954a3f, ..\GCModeller\analysis\Metagenome\Metagenome\UPGMATree.vb"
+﻿#Region "Microsoft.VisualBasic::20f11b18f83e31c0d9264c14f0d6ad13, ..\GCModeller\analysis\Metagenome\Metagenome\UPGMATree.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -159,4 +159,3 @@ Public Module UPGMATree
         Return tree
     End Function
 End Module
-

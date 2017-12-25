@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b3e09a67052aaa7487921944e82a57b, ..\GCModeller\data\WebServices\Service References\WSDbfetch\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::4bf4cb3e6b4799bc6a626ed8077ee740, ..\GCModeller\data\WebServices\Service References\WSDbfetch\Reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -177,4 +177,3 @@ Namespace WSDbfetch
         End Sub
     End Class
 End Namespace
-

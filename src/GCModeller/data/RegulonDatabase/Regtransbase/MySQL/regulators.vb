@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f83cb6cb6bc2dd3d4cdbad9aafaadbb, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
+﻿#Region "Microsoft.VisualBasic::ea09a3a4657500bab8686af434fea548, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -186,4 +186,3 @@ End Class
 
 
 End Namespace
-

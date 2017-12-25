@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93aef38e388d08e31034a754dfecb006, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
+﻿#Region "Microsoft.VisualBasic::3a2c4ffab9b7df1883b17d9348f1a8e8, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -46,7 +46,7 @@ Namespace API
         ''' The print method for anova objects prints tables in a ‘pretty’ form.
         ''' </returns>
         Public Function anova(object$, Optional additional As Dictionary(Of String, String) = Nothing) As String
-
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

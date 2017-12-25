@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d9432440fd4abad1494234402972758, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::b3f6401cef622d56d5e24ce032982e9d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathway.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -140,4 +140,3 @@ End Class
 
 
 End Namespace
-

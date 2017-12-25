@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0cf5aa99c5e129cf5887103097a81d8, ..\GCModeller\CLI_tools\KEGG\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::d33108bf55af79b00f3606fef99f588c, ..\GCModeller\CLI_tools\KEGG\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

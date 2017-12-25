@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::532e80b201f31a50abdeb7bba2cd9d31, ..\repository\DataMySql\Interpro\Tables\protein2genome.vb"
+﻿#Region "Microsoft.VisualBasic::814a5f617d7f9712aa579bcd5cd7d04f, ..\repository\DataMySql\Interpro\Tables\protein2genome.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

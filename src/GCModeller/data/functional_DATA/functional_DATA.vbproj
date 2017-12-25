@@ -8,8 +8,8 @@
     <OutputType>Library</OutputType>
     <StartupObject>
     </StartupObject>
-    <RootNamespace>functional_DATA</RootNamespace>
-    <AssemblyName>functional_DATA</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Data.Functional</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Data.Functional</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -61,8 +61,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -71,7 +71,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -91,7 +91,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -101,7 +101,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
-    <DocumentationFile>functional_DATA.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Functional.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -111,6 +111,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -130,8 +131,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ARDB\ARDB_tabs.vb" />
-    <Compile Include="ARDB\ardbAnno.vb" />
+    <Compile Include="CARD\CARDdata.vb" />
+    <Compile Include="CARD\Fasta.vb" />
+    <Compile Include="CARD\Tables.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -170,14 +172,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_DataFrame</Name>
+      <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
+      <Name>OBO_Foundry</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

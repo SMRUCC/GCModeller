@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdc94e5bc0990e9d166e666372a84984, ..\GCModeller\models\Networks\STRING-network-test\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::32948ca206d3255b68a5756df5f960b6, ..\GCModeller\models\Networks\STRING-network-test\test\Module1.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -45,4 +45,3 @@ Module Module1
         Pause()
     End Sub
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9f21c5c0c5a627944c15155d0467a5e, ..\GCModeller\analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
+﻿#Region "Microsoft.VisualBasic::df093f7524ac4a09392e318394e8d05c, ..\GCModeller\analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

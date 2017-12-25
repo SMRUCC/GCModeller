@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::025c884e86814cca502abd996ba08413, ..\repository\DataMySql\CEG\MySQL\reference.vb"
+﻿#Region "Microsoft.VisualBasic::3b0498e2c5402150d6d11898a18e05f7, ..\repository\DataMySql\CEG\MySQL\reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -137,4 +137,3 @@ End Class
 
 
 End Namespace
-

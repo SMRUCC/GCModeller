@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::f1e638f9c6be63232d3a290f824f9c2e, ..\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb"
+﻿#Region "Microsoft.VisualBasic::25a5f033f393c67e27a4fd7672487b70, ..\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -43,5 +44,3 @@ Namespace Settings.Programs
 
     End Class
 End Namespace
-
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39d7670efc5f3817835b662496aa3e96, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::be168feb738a94ec301e8f7b2f421f51, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -157,32 +157,32 @@ Public Class Assembler
     End Function
 
     Public Function IsOneComponent(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.OneComponent Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.OneComponent Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHK(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HisK Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HisK Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHHK(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HHK Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HHK Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsRR(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.RR Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.RR Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsHRR(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HRR Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.TwoComponent.HRR Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 
     Public Function IsChemotaxis(ProteinId As String) As Boolean
-        Dim LQuery = (From strp In MisT2.MajorModules.First.Chemotaxis Where String.Equals(strp.Identifier, ProteinId) Select strp).ToArray
+        Dim LQuery = (From strp In MisT2.MajorModules.First.Chemotaxis Where String.Equals(strp.ID, ProteinId) Select strp).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
 End Class

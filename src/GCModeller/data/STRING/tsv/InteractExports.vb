@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e7bcf5eba3940baf3841e7571164c5e, ..\GCModeller\data\STRING\tsv\InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, ..\GCModeller\data\STRING\tsv\InteractExports.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -80,4 +80,3 @@ Public Class InteractExports
         Return DataImports.ImportsTsv(Of InteractExports)(tsv.ReadAllLines)
     End Function
 End Class
-

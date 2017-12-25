@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cba317dda41fd3a2c8ce5f58d52d7855, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::c96e7f05590a393184acf1b5709c4aef, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

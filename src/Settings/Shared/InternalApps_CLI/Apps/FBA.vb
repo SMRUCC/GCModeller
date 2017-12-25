@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::2c4a88543f53141fbfe12bd5a6179c3b, ..\Settings\Shared\InternalApps_CLI\Apps\FBA.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,40 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/FBA.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Analysis.Phenotype:         
+'  /Export:                     
+'  /Flux.Coefficient:           
+'  /Flux.KEGG.Filter:           
+'  /Func.Coefficient:           
+'  /gcFBA.Batch:                
+'  /heatmap:                    Draw heatmap from the correlations between the genes and the metabolism
+'                               flux.
+'  /heatmap.scale:              
+'  /Imports:                    
+'  /phenos.MAT:                 Merges the objective function result as a Matrix. For calculation the
+'                               coefficient of the genes with the phenotype objective function.
+'  /phenos.out.Coefficient:     2. Coefficient of the genes with the metabolism fluxs from the batch
+'                               analysis result.
+'  /phenos.out.MAT:             1. Merge flux.csv result as a Matrix, for the calculation of the coefficient
+'                               of the genes with the metabolism flux.
+'  /Solve:                      solve a FBA model from a specific (SBML) model file.
+'  /Solver.KEGG:                
+'  /Solver.rFBA:                
+'  compile:                     Compile data source into a model file so that the fba program can using
+'                               the data to performing the simulation calculation.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -440,3 +502,4 @@ Public Function Compile(i As String, o As String, Optional [if] As String = "", 
 End Function
 End Class
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5d1849d20e98393b68a8c097f11be16, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::bfb5632df1c81dd2fb526bb4176ebe52, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15c475fc21311d823aeb84ab8c2e67d4, ..\GCModeller\analysis\Microarray\Type.vb"
+﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, ..\GCModeller\analysis\Microarray\Type.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -31,4 +31,3 @@ Public Enum Types As SByte
     Up = 1
     Down = -1
 End Enum
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d215eb6a8e6d4c1ee9dd3a9992b2630, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
+﻿#Region "Microsoft.VisualBasic::73f598884f18deb14c1229e5afea0372, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

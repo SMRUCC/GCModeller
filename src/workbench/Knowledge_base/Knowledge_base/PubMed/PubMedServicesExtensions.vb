@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61b71a58dae16a2e6e94e3dcdffc0b6, ..\workbench\Knowledge_base\Knowledge_base\PubMed\PubMedServicesExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a2b98e3b4115ed094444d39d43f0d84f, ..\workbench\Knowledge_base\Knowledge_base\PubMed\PubMedServicesExtensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -61,4 +61,3 @@ Public Module PubMedServicesExtensions
         Return info
     End Function
 End Module
-

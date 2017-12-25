@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f11eac494651f914c9c571e84dbde4e, ..\GCModeller\core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::958e69b812b6db380f976f910f522207, ..\GCModeller\core\Bio.Assembly\SequenceModel\CutSequence.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

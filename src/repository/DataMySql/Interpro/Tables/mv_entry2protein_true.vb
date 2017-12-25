@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4e34477c2989c2040c02fb25f80c8c6, ..\repository\DataMySql\Interpro\Tables\mv_entry2protein_true.vb"
+﻿#Region "Microsoft.VisualBasic::3df9e0b6f32e96b0309a33f1a4376eb6, ..\repository\DataMySql\Interpro\Tables\mv_entry2protein_true.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -130,4 +130,3 @@ End Class
 
 
 End Namespace
-

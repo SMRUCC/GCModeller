@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eec374fd91cc01d6481b9989c8d934f3, ..\repository\DataMySql\Interpro\Tables\entry2pub.vb"
+﻿#Region "Microsoft.VisualBasic::14c3d6ada73b4f8d460cba941b899e6d, ..\repository\DataMySql\Interpro\Tables\entry2pub.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -130,4 +130,3 @@ End Class
 
 
 End Namespace
-

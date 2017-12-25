@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0056560499998bfc746557491b611752, ..\GCModeller\annotations\Proteomics\iTraq\iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::ffefea87ad0f039085f36ba5401dc3ca, ..\GCModeller\annotations\Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -156,4 +156,3 @@ Public Module iTraqTtest
             .ToArray
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb23a5a75068b35ace90666847f9c8cc, ..\repository\nt\mysql\NCBI\gi2taxid.vb"
+﻿#Region "Microsoft.VisualBasic::dbaadb0eb2d478dd36a14c905c33f2af, ..\repository\nt\mysql\NCBI\gi2taxid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::78f2b0b043da078fa1caae51ffc41ac7, ..\Settings\Shared\InternalApps_CLI\Apps\MapPlot.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,28 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/MapPlot.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < Map.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Config.Template:                 
+'  /Visual.BBH:                      Visualize the blastp result.
+'  /Visualize.blastn.alignment:      Blastn result alignment visualization from the NCBI web blast.
+'                                    This tools is only works for a plasmid blastn search result or
+'                                    a small gene cluster region in a large genome.
+'  --Draw.ChromosomeMap:             Drawing the chromosomes map from the PTT object as the basically
+'                                    genome information source.
+'  --Draw.ChromosomeMap.genbank:     
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -146,3 +196,4 @@ Public Function DrawGenbank(gb As String, Optional conf As String = "", Optional
 End Function
 End Class
 End Namespace
+

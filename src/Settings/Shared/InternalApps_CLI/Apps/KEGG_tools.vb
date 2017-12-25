@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::1a6ac9889fe4dd715b7236cd29a95be6, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,78 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' KEGG web services API tools.
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /16S_rRNA:                               Download 16S rRNA data from KEGG.
+'  /blastn:                                 Blastn analysis of your DNA sequence on KEGG server for
+'                                           the functional analysis.
+'  /Compile.Model:                          KEGG pathway model compiler
+'  /Compound.Map.Render:                    Render draw of the KEGG pathway map by using a given KEGG
+'                                           compound id list.
+'  /Cut_sequence.upstream:                  
+'  /Download.human.genes:                   
+'  /Download.Module.Maps:                   Download the KEGG reference modules map data.
+'  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
+'                                           web server.
+'  /Download.Pathway.Maps.Bacteria.All:     
+'  /Dump.sp:                                
+'  /Fasta.By.Sp:                            
+'  /Get.prot_motif:                         
+'  /Gets.prot_motif:                        
+'  /Imports.KO:                             Imports the KEGG reference pathway map and KEGG orthology
+'                                           data as mysql dumps.
+'  /Imports.SSDB:                           
+'  /ko.index.sub.match:                     
+'  /Organism.Table:                         
+'  /Pathway.geneIDs:                        
+'  /Query.KO:                               
+'  /Views.mod_stat:                         
+'  -Build.KO:                               Download data from KEGG database to local server.
+'  Download.Sequence:                       
+'  --Dump.Db:                               
+'  -function.association.analysis:          
+'  --Get.KO:                                
+'  --part.from:                             source and ref should be in KEGG annotation format.
+'  -query:                                  Query the KEGG database for nucleotide sequence and protein
+'                                           sequence by using a keywork.
+'  -query.orthology:                        
+'  -query.ref.map:                          
+'  -Table.Create:                           
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. KEGG dbget API tools
+' 
+' 
+'    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
+'                                             dbget API
+'    /Download.Pathway.Maps:                  
+'    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
+'    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
+'    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.
+'    -ref.map.download:                       
+' 
+' 
+' 2. KEGG models repository cli tools
+' 
+' 
+'    /Build.Compounds.Repository:             
+'    /Build.Ko.repository:                    
+'    /Build.Reactions.Repository:             
+'    /Maps.Repository.Build:                  
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -62,6 +162,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Build.Compounds.Repository /in &lt;directory> [/glycan.ignore /out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildCompoundsRepository([in] As String, Optional out As String = "", Optional glycan_ignore As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Build.Compounds.Repository")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If glycan_ignore Then
+        Call CLI.Append("/glycan.ignore ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Build.Ko.repository /DIR &lt;DIR> /repo &lt;root>
 ''' ```
 ''' </summary>
@@ -71,6 +193,25 @@ Public Function BuildKORepository(DIR As String, repo As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/DIR " & """" & DIR & """ ")
     Call CLI.Append("/repo " & """" & repo & """ ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Build.Reactions.Repository /in &lt;directory> [/out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildReactionsRepository([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Build.Reactions.Repository")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -488,6 +629,25 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Maps.Repository.Build /imports &lt;directory> [/out &lt;repository.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildPathwayMapsRepository([imports] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Maps.Repository.Build")
+    Call CLI.Append(" ")
+    Call CLI.Append("/imports " & """" & [imports] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Organism.Table [/in &lt;br08601-htext.keg> /Bacteria /out &lt;out.csv>]
 ''' ```
 ''' </summary>
@@ -802,3 +962,4 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
+

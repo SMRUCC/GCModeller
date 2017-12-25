@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fb995c6d3b2c673caeb568b7c7e3dbe, ..\interops\RNA-Seq\.NET Bio\Assembler\API\API.vb"
+﻿#Region "Microsoft.VisualBasic::8fb995c6d3b2c673caeb568b7c7e3dbe, ..\interops\RNA-Seq\Assembler\API\API.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

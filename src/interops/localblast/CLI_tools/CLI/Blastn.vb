@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -430,7 +430,7 @@ Partial Module CLI
 
                 If Not tax Is Nothing Then
                     Dim nodes = tax.GetAscendantsWithRanksAndNames(+taxid, True)
-                    Dim tree = TaxonomyNode.BuildBIOM(nodes)
+                    Dim tree = nodes.BuildBIOM
                     Dim name = tax(taxid)?.name
 
                     x.Extensions("Taxonomy.Name") = name

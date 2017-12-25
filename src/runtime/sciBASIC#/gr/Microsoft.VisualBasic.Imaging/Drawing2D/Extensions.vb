@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6de8ec33547807871abd1623f610a2ed, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0ac4cd10210283ed4cfecfa9e1d2fc6c, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -74,13 +74,18 @@ Namespace Drawing2D
             End With
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function Enlarge(shape As IEnumerable(Of Point), scale#) As Point()
+            Return shape.PointF.Enlarge(scale).ToPoints
+        End Function
+
         ''' <summary>
         ''' 将一个多边形放大指定的倍数<paramref name="scale"/>
         ''' </summary>
         ''' <param name="shape">矢量图形的点集合</param>
         ''' <param name="scale#"></param>
         ''' <returns></returns>
-        <Extension> Public Function Enlarge(shape As IEnumerable(Of Point), scale#) As Point()
+        <Extension> Public Function Enlarge(shape As IEnumerable(Of PointF), scale#) As PointF()
             Dim shapeVector = shape.ToArray
             Dim center = shapeVector.Centre
             Dim x As New Vector(shapeVector.Select(Function(pt) pt.X))
@@ -99,7 +104,7 @@ Namespace Drawing2D
             ' 返回放大之后的矢量图形向量
             Return shapeVector _
                 .Sequence _
-                .Select(Function(i) New Point(x(i), y(i))) _
+                .Select(Function(i) New PointF(x(i), y(i))) _
                 .ToArray
         End Function
 

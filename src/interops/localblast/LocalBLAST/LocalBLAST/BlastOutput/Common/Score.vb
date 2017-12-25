@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e132ed47334b62810d03b48e26bdad33, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
+﻿#Region "Microsoft.VisualBasic::4ec3caaf5b90fd3bfad2f66a041fe659, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6929047298d72f5c87039a28d82f160, ..\repository\DataTools\Interpro\Xml\Family.vb"
+﻿#Region "Microsoft.VisualBasic::44af93241d380cd687926499663ac19b, ..\repository\DataTools\Interpro\Xml\Family.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

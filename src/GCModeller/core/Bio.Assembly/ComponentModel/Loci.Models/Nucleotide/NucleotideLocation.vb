@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::b2310bae452fd6e5b97cd77f7003c5a7, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Nucleotide\NucleotideLocation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace ComponentModel.Loci
@@ -155,6 +156,11 @@ Namespace ComponentModel.Loci
             Me.Strand = Copy.Strand
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(loc As IntRange, strand As Strands)
+            Call Me.New(loc.Min, loc.Max, strand)
+        End Sub
+
         ''' <summary>
         ''' 使用片段的位置进行初始化本位点对象
         ''' </summary>
@@ -239,6 +245,8 @@ Namespace ComponentModel.Loci
         ''' <seealso cref="Location.Normalization()"/>
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Normalization() As NucleotideLocation
             Return DirectCast(MyBase.Normalization, NucleotideLocation)
         End Function
@@ -258,6 +266,8 @@ Namespace ComponentModel.Loci
         ''' <param name="Length"></param>
         ''' <param name="Strand"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function CreateObject(Start As Long, Length As Integer, Strand As Strands) As NucleotideLocation
             Return NucleotideLocation.CreateObject(Start, Length, Strand = Strands.Reverse)
         End Function
@@ -268,6 +278,8 @@ Namespace ComponentModel.Loci
         ''' <param name="Start"></param>
         ''' <param name="Ends"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function CreateObject(Start As Long, Ends As Long) As NucleotideLocation
             Return New NucleotideLocation(Start, Ends, If(Start < Ends, Strands.Forward, Strands.Reverse))
         End Function
@@ -278,6 +290,8 @@ Namespace ComponentModel.Loci
         ''' <param name="Loci"></param>
         ''' <param name="AllowedOffset">当这个值为0的时候就是绝对相等</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Equals(Loci As NucleotideLocation, Optional AllowedOffset As Integer = 10) As Boolean
             Return LociAPI.Equals(Me, Loci, AllowedOffset)
         End Function
@@ -288,6 +302,8 @@ Namespace ComponentModel.Loci
         ''' <param name="lcl">在计算之前请先调用<see cref="Location.Normalization()"/>方法来修正</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelationship(lcl As NucleotideLocation) As SegmentRelationships
             Return LociAPI.GetRelationship(Me, lcl)
         End Function
@@ -299,6 +315,7 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         Public Function LociIsContact(Loci As NucleotideLocation) As Boolean
             Dim r = Me.GetRelationship(Loci)
+
             Return r = SegmentRelationships.Equals OrElse
                 r = SegmentRelationships.Inside OrElse
                 r = SegmentRelationships.Cover OrElse
@@ -319,11 +336,18 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property IsValid As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Not (Left = 0 OrElse Right = 0)
             End Get
         End Property
 
+        ''' <summary>
+        ''' 解析<see cref="ToString"/>的结果数据
+        ''' </summary>
+        ''' <param name="loci$"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(loci$) As NucleotideLocation
             Return LociAPI.TryParse(loci)
         End Function

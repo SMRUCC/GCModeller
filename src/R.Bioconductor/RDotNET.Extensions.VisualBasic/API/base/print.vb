@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f671f6ab1e32a117a622b8cd578cd6db, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\print.vb"
+﻿#Region "Microsoft.VisualBasic::2ab2697873ca62ebec8cba746ee04bc2, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\print.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -43,7 +43,7 @@ Namespace API
         ''' See noquote As an example Of a Class whose main purpose Is a specific print method.
         ''' </remarks>
         Public Function print(x As String, ParamArray additionals As String())
-
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>
@@ -60,6 +60,7 @@ Namespace API
                               Optional maxlevels As String = Nothing,
                               Optional width As String = Nothing,
                               Optional additionals As IEnumerable(Of String) = Nothing)
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>
@@ -80,6 +81,7 @@ Namespace API
                               Optional zeroprint As String = "0",
                               Optional justify As String = "none",
                               Optional additionals As IEnumerable(Of String) = Nothing)
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>
@@ -90,7 +92,7 @@ Namespace API
         ''' <param name="additionals">further arguments passed to or from other methods.</param>
         ''' <returns></returns>
         Public Function print(x As String, Optional useSource As Boolean = True, Optional additionals As IEnumerable(Of String) = Nothing)
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

@@ -1,4 +1,32 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::fca95d9f3e54637e7c901686c5cb812d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -14,6 +42,7 @@ Namespace Assembly.KEGG.WebServices
         <XmlAttribute>
         Public Property MapID As String Implements IKeyedEntity(Of String).Key
         Public Property KeyVector As TermsVector
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New TermsVector With {
                     .Terms = Index.Objects
@@ -21,12 +50,30 @@ Namespace Assembly.KEGG.WebServices
             End Get
             Set(value As TermsVector)
                 _Index = New Index(Of String)(value.Terms)
+                _KOIndex = value _
+                    .Terms _
+                    .Where(Function(id)
+                               Return id.IsPattern("K\d+", RegexICSng)
+                           End Function) _
+                    .Indexing
+                _CompoundIndex = value _
+                    .Terms _
+                    .Where(Function(id)
+                               Return id.IsPattern("C\d+", RegexICSng)
+                           End Function) _
+                    .Indexing
             End Set
         End Property
+
         Public Property Map As Map
 
-        <XmlIgnore>
-        Public ReadOnly Property Index As Index(Of String)
+        ''' <summary>
+        ''' KO, compoundID, reactionID, etc.
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlIgnore> Public ReadOnly Property Index As Index(Of String)
+        <XmlIgnore> Public ReadOnly Property KOIndex As Index(Of String)
+        <XmlIgnore> Public ReadOnly Property CompoundIndex As Index(Of String)
 
         Public ReadOnly Property MapTitle As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -47,6 +94,7 @@ Namespace Assembly.KEGG.WebServices
             Get
                 Return table.Values.ToArray
             End Get
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As MapIndex())
                 table = value.ToDictionary(Function(map) map.MapID)
             End Set
@@ -57,11 +105,11 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         Dim table As Dictionary(Of String, MapIndex)
 
-        Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of Map)
+        Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of MapIndex)
             For Each key As String In entity
                 For Each map As MapIndex In table.Values
                     If map.Index.IndexOf(key) > -1 Then
-                        Yield map.Map
+                        Yield map
                     End If
                 Next
             Next
@@ -98,22 +146,25 @@ Namespace Assembly.KEGG.WebServices
             Return New MapRepository With {
                 .Maps = (ls - l - r - "*.XML" <= directory) _
                     .Select(AddressOf LoadXml(Of Map)) _
-                    .Select(Function(map)
-                                Return New MapIndex With {
-                                    .Map = map,
-                                    .MapID = map.ID,
-                                    .KeyVector = New TermsVector With {
-                                        .Terms = map _
-                                            .Areas _
-                                            .Select(Function(a) a.IDVector) _
-                                            .IteratesALL _
-                                            .Distinct _
-                                            .OrderBy(Function(s) s) _
-                                            .ToArray
-                                    }
-                                }
-                            End Function) _
+                    .Select(AddressOf CreateIndex) _
                     .ToArray
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function CreateIndex(map As Map) As MapIndex
+            Return New MapIndex With {
+                .Map = map,
+                .MapID = map.ID,
+                .KeyVector = New TermsVector With {
+                    .Terms = map _
+                        .Areas _
+                        .Select(Function(a) a.IDVector) _
+                        .IteratesALL _
+                        .Distinct _
+                        .OrderBy(Function(s) s) _
+                        .ToArray
+                }
             }
         End Function
     End Class

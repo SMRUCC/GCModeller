@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91df299201cc9b32932252ecbe3650eb, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\xl\worksheets\sheet.xml.vb"
+﻿#Region "Microsoft.VisualBasic::f049868a9611d2a57953320f2dfc54b9, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\xl\worksheets\sheet.xml.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -40,6 +40,7 @@ Namespace XML.xl.worksheets
         Public Property sheetData As sheetData
         Public Property phoneticPr As phoneticPr
         Public Property pageMargins As pageMargins
+        Public Property pageSetup As pageSetup
         Public Property sheetViews As sheetView()
 
         <XmlAttribute("uid", [Namespace]:=xr)>
@@ -171,5 +172,12 @@ Namespace XML.xl.worksheets
         <XmlAttribute> Public Property bottom As Double
         <XmlAttribute> Public Property header As Double
         <XmlAttribute> Public Property footer As Double
+    End Class
+
+    Public Class pageSetup
+        <XmlAttribute> Public Property paperSize As String
+        <XmlAttribute> Public Property orientation As String
+        <XmlAttribute("id", [Namespace]:=Xmlns.r)>
+        Public Property id As String
     End Class
 End Namespace

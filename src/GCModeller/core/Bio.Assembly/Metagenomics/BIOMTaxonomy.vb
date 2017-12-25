@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::21c653407fefa1c4fdffb96a564b8248, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::833cb0796229f14fc789811512e30747, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -62,7 +62,15 @@ Namespace Metagenomics
 
         Public Delegate Function TaxonomyLineageParser(taxonomy As String) As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' Contact the taxonomy lineage tokens as a taxonomy lineage string uin BIOM format. 
+        ''' </summary>
+        ''' <param name="lineage">
+        ''' Lineage tokens text array data from <see cref="Taxonomy.ToArray()"/> method.
+        ''' </param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
                 .SeqIterator _
@@ -95,6 +103,17 @@ Namespace Metagenomics
                               Function(rank) rank.value)
 
             Return New Taxonomy(taxonomyRanks)
+        End Function
+
+        ''' <summary>
+        ''' ``New <see cref="Taxonomy"/>(<paramref name="lineage"/>)``
+        ''' </summary>
+        ''' <param name="lineage"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsTaxonomy(lineage As Dictionary(Of String, String)) As Taxonomy
+            Return New Taxonomy(lineage)
         End Function
 
 #Region "Parsing BIOM style taxonomy string"

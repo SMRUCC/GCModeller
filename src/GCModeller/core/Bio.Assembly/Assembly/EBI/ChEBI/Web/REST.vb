@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adfed2485fa504f7e6fe5dbad916c474, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\REST.vb"
+﻿#Region "Microsoft.VisualBasic::2b73ed2a653b9d0554d31dbeebc3156d, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\REST.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -37,8 +37,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
     <XmlRoot("getCompleteEntityResponse", [Namespace]:="http://www.ebi.ac.uk/webservices/chebi")>
     Public Structure REST
 
-        <XmlElement>
-        Public Property [return] As ChEBIEntity()
+        <XmlElement("return")> Public Property [return] As ChEBIEntity
 
         Public Shared Function ParsingRESTData(result$) As ChEBIEntity()
             Dim xml As XmlDocument = result.LoadXmlDocument
@@ -46,14 +45,23 @@ Namespace Assembly.EBI.ChEBI.WebServices
             Dim out As New List(Of ChEBIEntity)
 
             For Each node As XmlNode In nodes
-                result = node.InnerXml
-                Try
-                    out += result _
-                        .CreateObjectFromXmlFragment(Of REST) _
-                        .return
-                Catch ex As Exception
-                    Throw New Exception(node.InnerText)
-                End Try
+                For Each rep As XmlNode In node.ChildNodes
+                    For Each child As XmlNode In rep.ChildNodes
+                        If child.Name <> "return" Then
+                            Continue For
+                        End If
+
+                        result = child.InnerXml
+                        result = $"<{NameOf(ChEBIEntity)}>" & result & $"</{NameOf(ChEBIEntity)}>"
+                        result = result.Replace(" xmlns=""https://www.ebi.ac.uk/webservices/chebi""", "")
+
+                        Try
+                            out += result.CreateObjectFromXmlFragment(Of ChEBIEntity)
+                        Catch ex As Exception
+                            Throw New Exception(node.InnerText, ex)
+                        End Try
+                    Next
+                Next
             Next
 
             Return out

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4827667062cbe3c87448918f25d9f2d1, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::ab4e636d4ac681fafe8944bedf49d57e, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

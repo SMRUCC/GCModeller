@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::339c9718bd30fc931597092ecc66f8a3, ..\repository\DataMySql\Interpro\Tables\common_annotation.vb"
+﻿#Region "Microsoft.VisualBasic::6469610a8942a1c21c18a0d3f1fe590c, ..\repository\DataMySql\Interpro\Tables\common_annotation.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

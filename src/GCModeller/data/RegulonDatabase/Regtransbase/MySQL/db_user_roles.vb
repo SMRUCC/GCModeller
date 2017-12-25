@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::955f6b871232ba7fc1e52b0a85fa62cb, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
+﻿#Region "Microsoft.VisualBasic::0258f2ccf4796032bf34cef041237061, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,4 +121,3 @@ End Class
 
 
 End Namespace
-

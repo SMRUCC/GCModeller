@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::3bfa0f0c922e7f558603b40d84becbd7, ..\Settings\Shared\InternalApps_CLI\Apps\Reflector.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,34 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/Reflector.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' 
+' All of the command that available in this program has been list below:
+' 
+' API list that with functional grouping
+' 
+' 1. MySQL documentation tool
+' 
+' 
+'    /MySQL.Markdown:     Generates the SDK document of your mysql database.
+' 
+' 
+' 2. MySQL ORM code solution tool
+' 
+' 
+'    --export.dump:       Scans for the table schema sql files in a directory and converts these sql file
+'                         as visualbasic source code.
+'    --reflects:          Automatically generates visualbasic source code from the MySQL database schema
+'                         dump.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -102,3 +158,4 @@ Public Function ReflectsConvert(sql As String, Optional o As String = "", Option
 End Function
 End Class
 End Namespace
+

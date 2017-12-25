@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eea7f5af4ff39b56ef3b8508f02865b9, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::da2b09efbed0952a18397625307e1596, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\PfamString.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -29,13 +29,8 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.CDD
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ProteinModel
 
 Namespace PfamString
 
@@ -61,9 +56,9 @@ Namespace PfamString
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> <CollectionAttribute("Pfam-string", "+")>
+        <XmlAttribute> <Collection("Pfam-string", "+")>
         Public Property PfamString As String()
-        <XmlAttribute> <CollectionAttribute("Domain.Ids")>
+        <XmlAttribute> <Collection("Domain.Ids")>
         Public Property Domains As String()
 
         ''' <summary>

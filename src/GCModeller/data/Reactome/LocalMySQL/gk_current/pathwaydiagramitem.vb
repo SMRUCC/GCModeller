@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db0681467be428db6710c718eaf15183, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathwaydiagramitem.vb"
+﻿#Region "Microsoft.VisualBasic::a9d43f24dab781e90325706777bb276e, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathwaydiagramitem.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19486e032dc2055b88950c7687f73a5f, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
+﻿#Region "Microsoft.VisualBasic::217d5d200a2c23b91d9f2545635e02d7, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

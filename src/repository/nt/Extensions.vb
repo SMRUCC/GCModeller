@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::714e32c94e0f6e9e0ca6669240a258a8, ..\repository\nt\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::11537fecac189af80fcc2d27138c0a64, ..\repository\nt\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -98,4 +98,3 @@ Public Module Extensions
         Return True
     End Function
 End Module
-

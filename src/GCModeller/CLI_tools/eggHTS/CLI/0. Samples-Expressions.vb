@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed026c3b212ae9a6e1d5796367fa3b0c, ..\GCModeller\CLI_tools\eggHTS\CLI\0. Samples-Expressions.vb"
+﻿#Region "Microsoft.VisualBasic::15fd871828fae163683ffc76d37bd8a5, ..\GCModeller\CLI_tools\eggHTS\CLI\0. Samples-Expressions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -91,10 +91,12 @@ Partial Module CLI
         Dim dataOUT$ = out & "/proteinGroups.venn.csv"
 
         Call venn.SaveTo(dataOUT)
-        Call Apps.VennDiagram.Draw(
+        Call Apps.VennDiagram.VennDiagramA(
             dataOUT,
             "proteinGroups.venn",
-            out:=out & "/venn.tiff")
+            o:=out & "/venn.tiff",
+            first_id_skip:=True
+        )
 
         Return 0
     End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2fc7c5f28880871bd6a6ec99fb7eae6, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml.vb"
+﻿#Region "Microsoft.VisualBasic::d7d9b31c11e55b6d00d469e173f3cbd0, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -29,6 +29,8 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Text
+Imports System.Xml
+Imports System.Xml.Schema
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -40,7 +42,7 @@ Namespace SVG.XML
     ''' <summary>
     ''' The basically SVG XML document node, it can be tweaks on the style by using CSS
     ''' </summary>
-    Public MustInherit Class node
+    Public MustInherit Class node ' : Implements IXmlSerializable
 
         ''' <summary>
         ''' CSS style definition <see cref="ICSSValue"/>.(请注意，假若是SVG对象则赋值这个属性无效)
@@ -53,7 +55,16 @@ Namespace SVG.XML
         ''' <returns></returns>
         <XmlAttribute> Public Property [class] As String
         <XmlAttribute> Public Property id As String
-        <XmlAttribute> Public Property attributes As Dictionary(Of String, String)
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 暂时未找到动态属性的解决方法，暂时忽略掉
+        ''' </remarks>
+        <XmlIgnore>
+        Public Property attributes As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String
             Return MyClass.GetJson

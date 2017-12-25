@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb5e0e2b8125269e02e27c20cccc0aed, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::97ee8cc97bfe6660333fb6b56a76fd2d, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -91,6 +91,10 @@ Namespace Assembly.EBI.ChEBI.WebServices
                 Dim data = GetCompleteEntity(chebiID)
                 hitCache = False
                 For Each compound As ChEBIEntity In data
+                    ' 2017-12-22 因为使用主编号和次级编号进行查询返回来的结果都是一模一样的
+                    ' 所以在这里进行次级编号的数据保存操作，这样子就不会进行重复查询了
+                    ' 减少服务器的压力
+
                     For Each id In compound.IDlist
                         path = localCache & $"/{Mid(id, 1, 3)}/{id}.XML"
                         data.GetXml.SaveTo(path)

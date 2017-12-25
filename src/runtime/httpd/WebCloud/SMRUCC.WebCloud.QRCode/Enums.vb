@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4e2e2317d92a580b1b16a1de2c21312, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::0296e79a5b829f60bc3925ea4628756d, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\Enums.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -74,4 +74,3 @@ Public Enum ErrorCorrection
     <Description("H (30%)")>
     H = 4
 End Enum
-

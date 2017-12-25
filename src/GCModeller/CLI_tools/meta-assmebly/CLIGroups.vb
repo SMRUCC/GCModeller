@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ba918659e962870417dae3d0c35fd03, ..\GCModeller\CLI_tools\meta-assmebly\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::c34e3beb02ca95461accbe857e8e77d4, ..\GCModeller\CLI_tools\meta-assmebly\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -36,5 +36,6 @@ Friend NotInheritable Class CLIGroups
     Public Const SILVA_cli$ = "SILVA database cli tools"
     Public Const Taxonomy_cli$ = "Taxonomy assign cli tools"
     Public Const MicrobiomeNetwork_cli$ = "Microbiome network cli tools"
+    Public Const AntibioticResistance_cli$ = "Microbiome antibiotic resistance composition analysis tools"
 
 End Class

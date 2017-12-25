@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d922ec486e19492ef82f31d350d79511, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
+﻿#Region "Microsoft.VisualBasic::01652da3ebbb2ebcf95ff38da2889a37, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -239,4 +239,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a126e9b79e05ce3d598c20d89335d61, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::86b7ea505afc86d5ebc53fcab404600d, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -93,11 +93,11 @@ Public Class ProteinInteractionNetwork
                 Dim LQuery = From Pro As Protein
                              In Proteins
                              Where Pro.ContainsDomain(DomainId)
-                             Select Pro.Identifier '
+                             Select Pro.ID '
                 Call InteractionProteins.AddRange(LQuery.ToArray)
             Next
 
-            Call InteractionList.Add(New Interaction With {.Protein = Protein.Identifier, .InteractionWith = InteractionProteins.ToArray})
+            Call InteractionList.Add(New Interaction With {.Protein = Protein.ID, .InteractionWith = InteractionProteins.ToArray})
         Next
 
         Return InteractionList.ToArray

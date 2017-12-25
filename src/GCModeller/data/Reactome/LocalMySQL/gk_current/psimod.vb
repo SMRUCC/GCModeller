@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa6430bb507b54ecf113bd8cdea678ad, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\psimod.vb"
+﻿#Region "Microsoft.VisualBasic::44b0a76c22244e758ca5f0ce39ce0edd, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\psimod.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ End Class
 
 
 End Namespace
-

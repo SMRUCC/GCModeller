@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91961d1a2533ef921c71877a6fcffcf2, ..\GCModeller\core\Testing\DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::e9a6b43c72fa29b574faf9a937ba41e5, ..\GCModeller\core\Testing\DEBUG_MAIN.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

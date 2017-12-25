@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::708329377a56401b31d8b16f6af70e33, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
+﻿#Region "Microsoft.VisualBasic::39a2d6cda635fc3ae557e33c646d7dc4, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -57,18 +57,27 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Download.Compounds",
-               Info:="Downloads the KEGG compounds data from KEGG web server using dbget API",
-               Usage:="/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
+    <ExportAPI("/Download.Compounds")>
+    <Description("Downloads the KEGG compounds data from KEGG web server using dbget API")>
+    <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, then you can using this option for downloads the complete compounds data in the KEGG database.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", "./KEGG_cpd/")
+        Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args.GetBoolean("/flat")
         Dim updates As Boolean = args.GetBoolean("/updates")
-        Dim failures As New List(Of String)(BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates))
+        Dim failures As List(Of String) = BriteHEntry _
+            .Compound _
+            .DownloadFromResource(
+                EXPORT:=save,
+                DirectoryOrganized:=Not flat,
+                forceUpdate:=updates,
+                structInfo:=True
+            ) _
+            .AsList
+
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
         If accs.FileExists(True) Then

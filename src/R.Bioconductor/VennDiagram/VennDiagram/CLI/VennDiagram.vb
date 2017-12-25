@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c68466dcc62b27610ec116110df6a2fd, ..\R.Bioconductor\VennDiagram\VennDiagram\CLI\VennDiagram.vb"
+﻿#Region "Microsoft.VisualBasic::479a78fd97390648a59031833fdb96f2, ..\R.Bioconductor\VennDiagram\VennDiagram\CLI\VennDiagram.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -28,6 +28,7 @@
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -43,7 +44,7 @@ Imports RDotNET.Extensions.VisualBasic.RSystem
                   Publisher:="xie.guigang@gmail.com",
                   Url:="http://gcmodeller.org")>
 <GroupingDefine(Program.PlotTools, Description:="The R language API tools for invoke the venn diagram plot.")>
-Public Module CLI
+<CLI> Public Module CLI
 
     <ExportAPI(".Draw", Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
     <Usage(".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]")>

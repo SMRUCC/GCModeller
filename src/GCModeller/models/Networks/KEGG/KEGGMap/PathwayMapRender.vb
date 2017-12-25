@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::410b14a2db37f00fcd6ef054c91c4268, ..\GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::fd866e55fda5a8309ed0bfa903277167, ..\GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapRender.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -118,4 +118,3 @@ Public Module PathwayMapRender
         Return maplist
     End Function
 End Module
-

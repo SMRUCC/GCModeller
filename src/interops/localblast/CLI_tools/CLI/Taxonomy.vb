@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -121,7 +121,7 @@ Partial Module CLI
                 Dim taxid% = CInt(o.Extensions("taxid"))
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)
                 copy.Data("taxid") = taxid
-                copy.Data("Taxonomy") = TaxonomyNode.BuildBIOM(nodes)
+                copy.Data("Taxonomy") = nodes.BuildBIOM
                 copy.Data("Reference") = o.Reference
                 copy.Data("gi") = Regex.Match(o.Reference, "gi\|\d+").Value
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8731db0228ae0554e4a65b5bc771dfb, ..\repository\Model_Repository\MySQL\xcb.vb"
+﻿#Region "Microsoft.VisualBasic::bd854b44a9b441e3865011b0bf84b32b, ..\repository\Model_Repository\MySQL\xcb.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -144,4 +144,3 @@ End Class
 
 
 End Namespace
-

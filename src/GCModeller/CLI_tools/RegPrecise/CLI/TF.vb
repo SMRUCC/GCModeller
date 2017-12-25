@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59d66cb0369910364e8e7be08161187e, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
+﻿#Region "Microsoft.VisualBasic::c785cb9e91dc9a9e449823c133bc938b, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -86,7 +86,7 @@ Partial Module CLI
         Dim motifs As ProteinModel.DomainObject()
 
         For Each x As Protein In source
-            l = If(hash.ContainsKey(x.Identifier), hash(x.Identifier), x.Length)
+            l = If(hash.ContainsKey(x.ID), hash(x.ID), x.Length)
             motifs = (From m As ProteinModel.DomainObject In x.Domains Where Val(m.EValue) <= cut Select m).ToArray
 
             If motifs.Length <= 1 Then
@@ -100,7 +100,7 @@ Partial Module CLI
             End If
 
             Yield New PfamString With {
-                .ProteinId = x.Identifier,
+                .ProteinId = x.ID,
                 .Length = l,
                 .Description = x.Description,
                 .PfamString = motifs.Select(Function(d) $"{d.Name.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),

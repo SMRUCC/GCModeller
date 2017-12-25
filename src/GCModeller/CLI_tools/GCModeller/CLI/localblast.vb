@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -174,7 +174,7 @@ Partial Module CLI
 
             For Each taxid In data
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key, True)
-                Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
+                Dim tree$ = nodes.BuildBIOM
 
                 output += New QueryArgument With {
                     .Name = x.x.Name,

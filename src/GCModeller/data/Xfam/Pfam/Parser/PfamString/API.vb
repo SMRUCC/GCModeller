@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b4c66740da259b04e135424db0f3656, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\API.vb"
+﻿#Region "Microsoft.VisualBasic::c12e66650fd9b1a2ed9412658d6348ae, ..\GCModeller\data\Xfam\Pfam\Parser\PfamString\API.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -130,7 +130,7 @@ Namespace PfamString
                           In BLASTOutput.Queries
                           Let item = New KeyValuePair(Of Long, Protein)(Query.QueryLength, CreateProteinDescription(Query))
                           Select item
-                          Order By item.Value.Identifier Ascending).ToArray
+                          Order By item.Value.ID Ascending).ToArray
 
             Dim strData As String() = (From Protein In LQuery Select GenerateData(Protein)).ToArray
             Call IO.File.WriteAllLines(SavedFile, strData)
@@ -138,7 +138,7 @@ Namespace PfamString
 
         Private Function GenerateData(Protein As KeyValuePair(Of Long, Protein)) As String
             Dim sBuilder As StringBuilder = New StringBuilder(2048)
-            Call sBuilder.Append(String.Format("{0}    {1} ", Protein.Value.Identifier, Protein.Key))
+            Call sBuilder.Append(String.Format("{0}    {1} ", Protein.Value.ID, Protein.Key))
             For Each Domain In Protein.Value.Domains
                 Call sBuilder.Append(String.Format("{0},{1},{2},Pfam-A,,,{3},{4},{5}   ", Domain.Position.Left, Domain.Position.Right, Domain.CommonName, Domain.Name, Domain.EValue, Domain.BitScore))
             Next
@@ -158,10 +158,10 @@ Namespace PfamString
                           Let Protein = CreateProteinDescription(Query)
                           Let item = New KeyValuePair(Of Long, Protein)(Query.QueryLength, Protein)
                           Select item
-                          Order By item.Value.Identifier Ascending).ToArray
+                          Order By item.Value.ID Ascending).ToArray
             Dim ChunkBuffer = (From Protein In LQuery
                                Select New PfamString With {
-                                   .ProteinId = Protein.Value.Identifier,
+                                   .ProteinId = Protein.Value.ID,
                                    .Length = Protein.Key,
                                    .Description = Protein.Value.Description,
                                    .PfamString = CreateDistruction(Protein.Value.Domains),
@@ -202,7 +202,7 @@ Namespace PfamString
 
             If QueryIteration.SubjectHits.IsNullOrEmpty Then
                 Return New Protein With {
-                    .Identifier = UniqueId,
+                    .ID = UniqueId,
                     .Domains = New SMRUCC.genomics.ProteinModel.DomainObject() {},
                     .SequenceData = "",
                     .Description = Description
@@ -221,7 +221,7 @@ Namespace PfamString
 
                 Dim Domains = LQuery.ToArray
                 Dim Protein As New Protein With {
-                    .Identifier = UniqueId,
+                    .ID = UniqueId,
                     .Domains = Domains,
                     .SequenceData = "",
                     .Description = Description

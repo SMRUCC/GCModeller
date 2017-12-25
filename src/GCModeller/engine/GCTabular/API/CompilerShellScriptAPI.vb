@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc7fd80aafa75ebae5c9bd8aa535dfb6, ..\GCModeller\engine\GCTabular\API\CompilerShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1dfad197c513bf42614f7ff788580035, ..\GCModeller\engine\GCTabular\API\CompilerShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -64,8 +64,8 @@ Public Module CompilerShellScriptAPI
         As TCS.SensorInducers()
 
         Dim IDList As String() = {
-            (From protein In MiST2.MajorModules.First.OneComponent Select protein.Identifier).ToArray,
-            (From protein In MiST2.MajorModules.First.Chemotaxis Select protein.Identifier).ToArray
+            (From protein In MiST2.MajorModules.First.OneComponent Select protein.ID).ToArray,
+            (From protein In MiST2.MajorModules.First.Chemotaxis Select protein.ID).ToArray
         }.ToVector
 
         Dim Profile = (From strId As String

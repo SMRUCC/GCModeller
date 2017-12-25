@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::254ec44b06d58a4abcb5f7a773cbefbf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e5529fe0781b90f17289ce1580353db3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -83,20 +83,11 @@ Namespace Assembly.KEGG
         ''' </summary>
         ''' <param name="cpd"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function DirectGetChEBI(cpd As DBGET.bGetObject.Compound) As String()
-            Dim ms = cpd.DbLinks.Where(Function(s) InStr(s, "[ChEBI]") > 0)
-            Dim out As New List(Of String)
-
-            For Each id As String In ms
-                Dim name = Regex.Match(id, "\[.+\]", RegexICSng).Value
-                name = name.Trim("["c, "]"c)
-                If name = "ChEBI" Then
-                    out += Regex.Matches(id, "\d+").ToArray
-                End If
-            Next
-
-            Return out
+            Return cpd.DbLinks.Where(Function(s) s.DBName.TextEquals("ChEBI")).Select(Function(l) l.Entry).ToArray
         End Function
 
         ''' <summary>

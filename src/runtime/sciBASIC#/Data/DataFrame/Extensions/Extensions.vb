@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94d75bc7ba2c8847d0783bcd4baced1c, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::746fd34a205d299d1f83a98a2f1abc98, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -442,7 +442,8 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
                                              Optional maps As Dictionary(Of String, String) = Nothing,
                                              Optional reorderKeys As Integer = 0,
                                              Optional layout As Dictionary(Of String, Integer) = Nothing,
-                                             Optional tsv As Boolean = False) As Boolean
+                                             Optional tsv As Boolean = False,
+                                             Optional transpose As Boolean = False) As Boolean
         Try
             path = FileIO.FileSystem.GetFileInfo(path).FullName
         Catch ex As Exception
@@ -460,6 +461,14 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
             maps,
             Not nonParallel,
             metaBlank, reorderKeys, layout)
+
+        If transpose Then
+            csv = csv _
+                .Select(Function(r) r.ToArray) _
+                .MatrixTranspose _
+                .Select(Function(r) New RowObject(r)) _
+                .ToArray
+        End If
 
         Dim success = csv.SaveDataFrame(
             path:=path,
@@ -495,7 +504,8 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
                                                       Optional encoding As Encodings = Encodings.UTF8,
                                                       Optional KeyMap$ = Nothing,
                                                       Optional blank$ = "",
-                                                      Optional reorderKeys As Integer = 0) As Boolean
+                                                      Optional reorderKeys As Integer = 0,
+                                                      Optional transpose As Boolean = False) As Boolean
 
         Dim modify As Dictionary(Of String, String) = Nothing
         Dim layout As New Dictionary(Of String, Integer) From {
@@ -510,7 +520,7 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
             layout.Add(KeyMap, -10000)
         End If
 
-        Return source.SaveTo(path, , encoding.CodePage, blank,, modify, reorderKeys, layout)
+        Return source.SaveTo(path, , encoding.CodePage, blank,, modify, reorderKeys, layout, transpose:=transpose)
     End Function
 
     <Extension> Public Function SaveTo(Of T)(source As IEnumerable(Of T),

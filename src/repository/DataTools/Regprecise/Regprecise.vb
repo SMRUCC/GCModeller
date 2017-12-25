@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::147b9507a10a0a873d902274b5a6ef2b, ..\repository\DataTools\Regprecise\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::91475f983eed962b9bd57dae162a8fc8, ..\repository\DataTools\Regprecise\Regprecise.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -279,4 +279,3 @@
 '        End Function
 '    End Class
 'End Namespace
-

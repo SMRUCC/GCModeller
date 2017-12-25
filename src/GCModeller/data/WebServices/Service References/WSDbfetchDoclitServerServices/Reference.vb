@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dee1ebbb0c60acd947bf1a9299bb502, ..\GCModeller\data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::7cf953676a5e2d039f34eba5cc0bff0d, ..\GCModeller\data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -1088,4 +1088,3 @@ Namespace WSDbfetchDoclitServerServices
         End Function
     End Class
 End Namespace
-

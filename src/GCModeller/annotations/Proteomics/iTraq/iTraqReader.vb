@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fda0853e46909916d094bd99deab29d1, ..\GCModeller\annotations\Proteomics\iTraq\iTraqReader.vb"
+﻿#Region "Microsoft.VisualBasic::aa7c131d6c8113c1f519fbf15ff05275, ..\GCModeller\annotations\Proteomics\iTraq\iTraqReader.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -105,4 +105,3 @@ Public Class iTraqReader : Inherits DataSet
         End Function
     End Structure
 End Class
-

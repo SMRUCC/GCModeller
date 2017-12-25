@@ -1,4 +1,32 @@
-﻿Imports System.Reflection
+﻿#Region "Microsoft.VisualBasic::a3ff47f73f8e1de6dd047dc438078a88, ..\Settings\Shared\InternalApps_CLI\Apps.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.Language
@@ -44,7 +72,7 @@ Public NotInheritable Class Apps
         End Get
     End Property
 
-    Public Shared ReadOnly Property VennDiagram As GCModellerApps.VennDiagram
+    Public Shared ReadOnly Property VennDiagram As GCModellerApps.venn
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return _VennDiagram
@@ -58,10 +86,10 @@ Public NotInheritable Class Apps
         End Get
     End Property
 
-    Public Shared ReadOnly Property Microbiome As GCModellerApps.meta_community
+    Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return _Microbiome
+            Return _metaProfiler
         End Get
     End Property
 
@@ -70,9 +98,9 @@ Public NotInheritable Class Apps
     Shared ReadOnly _MEME As GCModellerApps.MEME
     Shared ReadOnly _KEGG_tools As GCModellerApps.KEGG_tools
     Shared ReadOnly _seqtools As GCModellerApps.seqtools
-    Shared ReadOnly _VennDiagram As GCModellerApps.VennDiagram
+    Shared ReadOnly _VennDiagram As GCModellerApps.venn
     Shared ReadOnly _eggHTS As GCModellerApps.eggHTS
-    Shared ReadOnly _Microbiome As GCModellerApps.meta_community
+    Shared ReadOnly _metaProfiler As GCModellerApps.metaProfiler
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -120,8 +148,8 @@ Public NotInheritable Class Apps
                 _MEME = New GCModellerApps.MEME(HOME & "/MEME.exe")
                 _KEGG_tools = New GCModellerApps.KEGG_tools(HOME & "/KEGG_tools.exe")
                 _seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
-                _VennDiagram = New GCModellerApps.VennDiagram(HOME & "/venn.exe")
-                _Microbiome = New GCModellerApps.meta_community(HOME & "/" & GCModellerApps.meta_community.App)
+                _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
+                _metaProfiler = New GCModellerApps.metaProfiler(HOME & "/" & GCModellerApps.metaProfiler.App)
 
                 Exit For
             End If
@@ -160,3 +188,4 @@ Public NotInheritable Class Apps
         Return False
     End Function
 End Class
+

@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::b3ccfa25c2eb6b042d2d3d283e9371f3, ..\Settings\Shared\InternalApps_CLI\Apps\seqtools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,151 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/seqtools.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' Sequence operation utilities
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Count:                                  
+'  /Fasta.Subset.Large:                     
+'  /Genotype:                               
+'  /Genotype.Statics:                       
+'  /Loci.describ:                           Testing
+'  /logo:                                   * Drawing the sequence logo from the clustal alignment result.
+'  /NeedlemanWunsch.NT:                     
+'  /Promoter.Palindrome.Fasta:              
+'  /Promoter.Regions.Palindrome:            
+'  /Promoter.Regions.Parser.gb:             
+'  /Rule.dnaA_gyrB:                         
+'  /Rule.dnaA_gyrB.Matrix:                  
+'  /Screen.sites:                           
+'  /Sites2Fasta:                            Converts the simple segment object collection as fasta file.
+'  /SSR:                                    Search for SSR on a nt sequence.
+'  -321:                                    Polypeptide sequence 3 letters to 1 lettes sequence.
+'  -complement:                             
+'  --Drawing.ClustalW:                      
+'  -pattern_search:                         Parsing the sequence segment from the sequence source using
+'                                           regular expression.
+'  -reverse:                                
+'  --translates:                            Translates the ORF gene as protein sequence. If any error
+'                                           was output from the console, please using > operator dump
+'                                           the output to a log file for the analysis.
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. DNA_Comparative tools
+' 
+' 
+'    /CAI:                                    
+'    /gwANI:                                  
+'    /Sigma:                                  
+' 
+' 
+' 2. Fasta Sequence Tools
+' 
+'    Tools command that works around the fasta format data.
+' 
+' 
+'    /Compare.By.Locis:                       
+'    /Distinct:                               Distinct fasta sequence by sequence content.
+'    /Excel.2Fasta:                           Convert the sequence data in a excel annotation file into
+'                                             a fasta sequence file.
+'    /Get.Locis:                              
+'    /Gff.Sites:                              
+'    /Merge:                                  Only search for 1 level folder, dit not search receve.
+'    /Merge.Simple:                           This tools just merge the fasta sequence into one larger
+'                                             file.
+'    /Select.By_Locus:                        Select fasta sequence by local_tag.
+'    /Split:                                  
+'    /subset:                                 
+'    -segment:                                
+'    --segments:                              
+'    --Trim:                                  
+' 
+' 
+' 3. Nucleotide Sequence Property Calculation tools
+' 
+' 
+'    /Mirrors.Context:                        This function will convert the mirror data to the simple
+'                                             segment object data
+'    /Mirrors.Context.Batch:                  This function will convert the mirror data to the simple
+'                                             segment object data
+'    /Mirrors.Group:                          
+'    /Mirrors.Group.Batch:                    
+'    /SimpleSegment.AutoBuild:                
+'    /SimpleSegment.Mirrors:                  
+'    /SimpleSegment.Mirrors.Batch:            
+' 
+' 
+' 4. Palindrome batch task tools
+' 
+' 
+'    /check.attrs:                            
+'    /Palindrome.BatchTask:                   
+'    /Palindrome.Workflow:                    
+' 
+' 
+' 5. Sequence Aligner
+' 
+' 
+'    /align.SmithWaterman:                    
+'    /Clustal.Cut:                            
+'    /nw:                                     RunNeedlemanWunsch
+'    --align:                                 
+'    --align.Self:                            
+' 
+' 
+' 6. Sequence Palindrome Features Analysis
+' 
+'    Tools command that using for finding Palindrome sites.
+' 
+' 
+'    /Mirror.Batch:                           
+'    /Mirror.Fuzzy:                           
+'    /Mirror.Fuzzy.Batch:                     
+'    /Mirror.Vector:                          
+'    /Mirrors.Nt.Trim:                        
+'    /Palindrome.Screen.MaxMatches:           
+'    /Palindrome.Screen.MaxMatches.Batch:     
+'    --Hairpinks:                             
+'    --Hairpinks.batch.task:                  
+'    --ImperfectsPalindrome.batch.Task:       
+'    --Mirror.From.Fasta:                     Mirror Palindrome, search from a fasta file.
+'    --Mirror.From.NT:                        Mirror Palindrome, and this function is for the debugging
+'                                             test
+'    --Palindrome.batch.Task:                 
+'    --Palindrome.From.FASTA:                 
+'    --Palindrome.From.NT:                    This function is just for debugger test, /nt parameter is
+'                                             the nucleotide sequence data as ATGCCCC
+'    --Palindrome.Imperfects:                 
+'    --PerfectPalindrome.Filtering:           
+'    --ToVector:                              
+' 
+' 
+' 7. Sequence Repeats Loci Search
+' 
+' 
+'    /Write.Seeds:                            
+'    Repeats.Density:                         
+'    rev-Repeats.Density:                     
+'    Search.Batch:                            Batch search for repeats.
+' 
+' 
+' 8. SNP search tools
+' 
+' 
+'    /SNP:                                    
+'    /Time.Mutation:                          The ongoing time mutation of the genome sequence.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -1887,3 +2060,4 @@ Public Function Trim([in] As String, Optional [case] As String = "", Optional br
 End Function
 End Class
 End Namespace
+

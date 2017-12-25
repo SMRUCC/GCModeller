@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9142a3d534cce5e768982141fc1fe985, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
+﻿#Region "Microsoft.VisualBasic::fdafb9fef9c5f47664e70714a4e42b85, ..\httpd\WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -143,4 +143,3 @@ End Class
 
 
 End Namespace
-

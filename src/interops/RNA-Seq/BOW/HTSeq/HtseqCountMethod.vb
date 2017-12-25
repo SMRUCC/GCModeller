@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe462f823102179e9835e12dd85b095, ..\interops\RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
+﻿#Region "Microsoft.VisualBasic::ad60477cf28f33a2c003770c922495af, ..\interops\RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a124f9713426b453d102ffdfc237d3f1, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
+﻿#Region "Microsoft.VisualBasic::d0f27cbaf204546cbc919c6c49eadb6a, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -748,6 +748,7 @@ Namespace API
                                 Optional immediate As Boolean = False,
                                 Optional noBreaks As Boolean = False,
                                 Optional domain As String = NULL) As String()
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

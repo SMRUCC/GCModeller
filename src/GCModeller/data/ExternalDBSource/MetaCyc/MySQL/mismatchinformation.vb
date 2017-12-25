@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::292c55fcc89d9763c3b850d7990666c2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
+﻿#Region "Microsoft.VisualBasic::908a3095958cface7fef91eefb598e6b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

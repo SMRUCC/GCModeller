@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33a23ebda4894217dfb954b2110b67fe, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::0821f8e69735c63a0d98bbf05ff1d3bb, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

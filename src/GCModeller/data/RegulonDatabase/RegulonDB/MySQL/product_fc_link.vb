@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::510734279abb3059c2919898689f919e, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
+﻿#Region "Microsoft.VisualBasic::12cbd7054b1bd8ed87e3fe8d3c05f4c6, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -122,4 +122,3 @@ End Class
 
 
 End Namespace
-

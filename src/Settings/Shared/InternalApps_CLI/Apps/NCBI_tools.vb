@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::6e5f7c9c677cdf620689e7d7a41cb4fa, ..\Settings\Shared\InternalApps_CLI\Apps\NCBI_tools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,87 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/NCBI_tools.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis,
+' genbank database, and sequence query tools.
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Assign.Taxonomy.From.Ref:      
+'  /Assign.Taxonomy.SSU:           
+'  /Associates.Brief:              
+'  /MapHits.list:                  
+'  /OTU.Taxonomy.Replace:          Using ``MapHits`` property
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. NCBI ``nt`` database tools
+' 
+' 
+'    /nt.matches.key:                
+'    /nt.matches.name:               
+'    /word.tokens:                   
+' 
+' 
+' 2. NCBI data export tools
+' 
+' 
+'    /Filter.Exports:                String similarity match of the fasta title with given terms for search
+'                                    and export by taxonomy.
+' 
+' 
+' 3. NCBI GI tools(Obsolete from NCBI, 2016-10-20)
+' 
+'    > https://www.ncbi.nlm.nih.gov/news/03-02-2016-phase-out-of-GI-numbers/
+'    
+' 
+'    ###### NCBI is phasing out sequence GIs - use Accession.Version instead!
+'    
+' 
+'    As of September 2016, the integer sequence identifiers known as "GIs" will no longer be included in the GenBank,
+'    GenPept, and FASTA formats supported by NCBI for sequence records. The FASTA header will be further simplified
+'    to report only the sequence accession.version and record title for accessions managed by the International Sequence
+'    Database Collaboration (INSDC) and NCBI’s Reference Sequence (RefSeq) project. As NCBI makes this transition, we
+'    encourage any users who have workflows that depend on GI's to begin planning to use accession.version identifiers
+'    instead. After September 2016, any processes solely dependent on GIs will no longer function as expected.
+' 
+' 
+'    /Assign.Taxonomy:               
+'    /Associate.Taxonomy:            
+'    /Build_gi2taxi:                 
+'    /Export.GI:                     
+'    /Filter.Exports:                String similarity match of the fasta title with given terms for search
+'                                    and export by taxonomy.
+'    /gi.Match:                      
+'    /gi.Matchs:                     
+'    /Nt.Taxonomy:                   
+'    /Split.By.Taxid:                Split the input fasta file by taxid grouping.
+'    /Taxonomy.Data:                 
+' 
+' 
+' 4. NCBI taxonomy tools
+' 
+' 
+'    /accid2taxid.Match:             
+'    /OTU.associated:                
+'    /OTU.diff:                      
+'    /OTU.Taxonomy:                  
+'    /Search.Taxonomy:               
+'    /Split.By.Taxid:                Split the input fasta file by taxid grouping.
+'    /Split.By.Taxid.Batch:          
+'    /Taxonomy.Data:                 
+'    /Taxonomy.Maphits.Overview:     
+'    /Taxonomy.Tree:                 Output taxonomy query info by a given NCBI taxid list.
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -589,3 +698,4 @@ Public Function GetWordTokens([in] As String, Optional out As String = "") As In
 End Function
 End Class
 End Namespace
+

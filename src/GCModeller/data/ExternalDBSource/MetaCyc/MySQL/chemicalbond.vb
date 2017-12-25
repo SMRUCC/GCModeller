@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c41afc6c5d15ab77f0abbee23823deae, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\chemicalbond.vb"
+﻿#Region "Microsoft.VisualBasic::97d9944a3f49853c19d2c97d3157f955, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\chemicalbond.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -132,4 +132,3 @@ End Class
 
 
 End Namespace
-

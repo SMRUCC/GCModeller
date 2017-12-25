@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -318,7 +318,7 @@ Partial Module CLI
                 For Each k In x.Data
                     find.Data(k.Key) = k.Value
                 Next
-                find.Data("Taxonomy") = TaxonomyNode.BuildBIOM(taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True))
+                find.Data("Taxonomy") = taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True).BuildBIOM()
                 find.Data(NameOf(Track)) = Track
 
                 output += find
@@ -413,7 +413,7 @@ Partial Module CLI
 
         For Each x As NamedValue(Of Integer) In taxids
             Dim nodes = data.GetAscendantsWithRanksAndNames(x.Value, True)
-            Dim tree = TaxonomyNode.BuildBIOM(nodes)
+            Dim tree = nodes.BuildBIOM
 
             output += New IntegerTagged(Of String) With {
                 .Tag = x.Value%,
@@ -450,7 +450,7 @@ Partial Module CLI
             If giMapTaxid.ContainsKey(gi%) Then
                 Dim taxid% = giMapTaxid(gi%)
                 Dim nodes = taxTree.GetAscendantsWithRanksAndNames(taxid, True)
-                Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
+                Dim tree$ = nodes.BuildBIOM
                 Dim Taxonomy$ = TaxonomyNode.Taxonomy(nodes)
 
                 x.Properties("Taxonomy") = Taxonomy

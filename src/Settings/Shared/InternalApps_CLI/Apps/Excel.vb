@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::5792bc2665c943dec9bcb8fe9b18122b, ..\Settings\Shared\InternalApps_CLI\Apps\Excel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -5,6 +33,25 @@ Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/Excel.exe
+
+' ====================================================
+' SMRUCC genomics GCModeller Programs Profiles Manager
+' ====================================================
+' 
+' < Excel_CLI.CLI >
+' 
+' All of the command that available in this program has been list below:
+' 
+'  /Cbind:       Join of two table by a unique ID.
+'  /Create:      Create an empty Excel xlsx package file on a specific file path
+'  /Extract:     Open target excel file and get target table and save into a csv file.
+'  /push:        Write target csv table its content data as a worksheet into the target Excel package.
+'  /rbind:       Row bind(merge tables directly) of the csv tables
+' 
+' 
+' ----------------------------------------------------------------------------------------------------
+' 
+'    You can using "Settings ??<commandName>" for getting more details command help.
 
 Namespace GCModellerApps
 
@@ -128,3 +175,4 @@ Public Function rbind([in] As String, Optional out As String = "") As Integer
 End Function
 End Class
 End Namespace
+

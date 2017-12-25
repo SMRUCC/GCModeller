@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c097bf3988ada3edc7344369225bdf3b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathway_2_hasevent.vb"
+﻿#Region "Microsoft.VisualBasic::4dd820dce4c48a28030d740adab336ad, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathway_2_hasevent.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -129,4 +129,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3d8c021b4afd925cef887fd82fc229c, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::29c999e50140b407a87a76490f3a1dd6, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

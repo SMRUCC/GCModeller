@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58b6b82ebe5413385a3231f156d9b01b, ..\repository\ncbi\nt.vb"
+﻿#Region "Microsoft.VisualBasic::1d352333c3ff08953306c00a273e2b0e, ..\repository\ncbi\nt.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -130,4 +130,3 @@ End Class
 
 
 End Namespace
-

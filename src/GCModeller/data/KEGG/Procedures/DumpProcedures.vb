@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c328d1fd5b99bdabd8412f68f7665f9, ..\GCModeller\data\KEGG\Procedures\DumpProcedures.vb"
+﻿#Region "Microsoft.VisualBasic::7a0f58d5b84f1519c99882cea305d422, ..\GCModeller\data\KEGG\Procedures\DumpProcedures.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -184,4 +184,3 @@ Public Module DumpProcedures
 
     End Sub
 End Module
-

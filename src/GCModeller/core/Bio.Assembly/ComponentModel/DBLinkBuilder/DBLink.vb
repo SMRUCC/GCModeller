@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f46d7ba8993598c3c7f94553381fff44, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::9ca28c5175bda22685ffb6cef4274538, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -48,7 +49,8 @@ Namespace ComponentModel.DBLinkBuilder
         ''' Entity uid in the target database
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
+        <XmlText>
+        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
 
         Sub New()
         End Sub
@@ -58,14 +60,17 @@ Namespace ComponentModel.DBLinkBuilder
             Entry = ID
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return ToString(Me)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function ToString(DBLink As DBLink) As String
             Return ToString(DBLink.DBName, DBLink.Entry)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function ToString(DBName As String, Entry As String) As String
             Return String.Format("[{0}] {1}", DBName, Entry)
         End Function
@@ -73,6 +78,7 @@ Namespace ComponentModel.DBLinkBuilder
         Public Shared Function CreateObject(strData As String) As DBLink
             Dim Name As String = Regex.Match(strData, "\[.+?\] ").Value
             Dim Entry = strData.Replace(Name, "").Trim
+
             Return New DBLink With {
                 .DBName = Name.Trim.GetString,
                 .Entry = Entry
@@ -85,6 +91,7 @@ Namespace ComponentModel.DBLinkBuilder
             End With
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFormatValue() As String Implements IDBLink.GetFormatValue
             Return ToString(Me)
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f69f5a4f46ddb4aa996530f18e4d3b6, ..\GCModeller\analysis\Metagenome\Metagenome\RankAbundance.vb"
+﻿#Region "Microsoft.VisualBasic::9a3774f691ecfb58ea0045ba1afa842c, ..\GCModeller\analysis\Metagenome\Metagenome\RankAbundance.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -30,6 +30,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' ``Rank Abundance``曲线
@@ -54,8 +56,8 @@ Public Module RankAbundance
         Dim vector = otus.ToArray
         Dim OTU_seqs = vector _
             .Select(Function(OTU)
-                        Dim currentTotal As Double = Aggregate sample 
-                                                     In OTU.Properties 
+                        Dim currentTotal As Double = Aggregate sample
+                                                     In OTU.Properties
                                                      Into Sum(sample.Value)
                         Return (ID:=OTU.ID, sum:=currentTotal, OTU:=OTU)
                     End Function) _
@@ -97,7 +99,58 @@ Public Module RankAbundance
     ''' <param name="sampleGroups">样品的分组信息</param>
     ''' <returns></returns>
     <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable), sampleGroups As Dictionary(Of String, String())) As OTUTable()
+        Throw New NotImplementedException
+    End Function
 
+    ''' <summary>
+    ''' 按照rank等级来查看物种的含量为多少
+    ''' </summary>
+    ''' <param name="OTUs"></param>
+    ''' <param name="rank"></param>
+    ''' <param name="percentage"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function TaxonomyProfile(OTUs As IEnumerable(Of gastOUT), rank As TaxonomyRanks, Optional percentage As Boolean = True) As Dictionary(Of String, Double)
+        Dim counts = OTUs _
+            .Select(Function(otu)
+                        Return (tax:=otu.TaxonomyLineage.TaxonomyRankString(rank), counts:=otu.counts)
+                    End Function) _
+            .GroupBy(Function(otu) otu.tax) _
+            .ToArray
+
+        If percentage Then
+
+            Dim all As Integer = counts _
+                .Select(Function(t) t) _
+                .IteratesALL _
+                .Select(Function(t) t.counts) _
+                .Sum
+
+            Return counts _
+                .ToDictionary(Function(t) t.Key,
+                              Function(g)
+                                  Return g.Select(Function(t) t.counts).Sum / all
+                              End Function)
+        Else
+            Return counts _
+                .ToDictionary(Function(t) t.Key,
+                              Function(g)
+                                  Return CDbl(g.Select(Function(t) t.counts).Sum)
+                              End Function)
+        End If
+    End Function
+
+    <Extension>
+    Public Function TaxonomyRankString(taxonomy As Metagenomics.Taxonomy, rank As TaxonomyRanks, Optional fillNA As Boolean = True) As String
+        ' 2017-12-19 当指定rank为Genus的时候，直接减去100则只会返回family级别的结果
+        ' 在这里添加1来修复这个BUG
+        Dim length% = rank - 100 + 1
+        Dim array = taxonomy.ToArray.Take(length).AsList
+
+        If fillNA AndAlso array.Count < length Then
+            array += Repeats("NA", length - array.Count)
+        End If
+
+        Return BIOMTaxonomy.TaxonomyString(array)
     End Function
 End Module
-

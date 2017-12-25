@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cc20363cb268ad8a673ff99aeafe063, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::562c072dc6d8c4c5c15bbbc8455e81ea, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -224,4 +224,3 @@ Public Module FunctionalEnrichmentNetwork
         Return model
     End Function
 End Module
-

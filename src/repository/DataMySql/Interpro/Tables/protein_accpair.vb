@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::145f1fd93d615a87a5f61fd36ff2026f, ..\repository\DataMySql\Interpro\Tables\protein_accpair.vb"
+﻿#Region "Microsoft.VisualBasic::3215a2591f85d4472a8c33d411972222, ..\repository\DataMySql\Interpro\Tables\protein_accpair.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -123,4 +123,3 @@ End Class
 
 
 End Namespace
-

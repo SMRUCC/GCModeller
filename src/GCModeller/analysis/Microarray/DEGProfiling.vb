@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed9fcf93bc10b23e138020a93200ae40, ..\GCModeller\analysis\Microarray\DEGProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::89305fa9d44d117be96106d05e2396b5, ..\GCModeller\analysis\Microarray\DEGProfiling.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -111,4 +111,3 @@ Public Module DEGProfiling
         Return profiles
     End Function
 End Module
-

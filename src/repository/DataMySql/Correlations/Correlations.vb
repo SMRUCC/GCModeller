@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3069e56b30fb8b9d910a3b07c593acdc, ..\repository\DataMySql\Correlations\Correlations.vb"
+﻿#Region "Microsoft.VisualBasic::f39dd0166a5c212bb4a374b5b1997c65, ..\repository\DataMySql\Correlations\Correlations.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -167,4 +167,3 @@
 
 '    End Function
 'End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fdfe9bd24fe1c7d74f8d4dad708e2c9, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\Map.vb"
+﻿#Region "Microsoft.VisualBasic::5b2f08a34413b5aa90e0e35a9b15fb68, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\Map.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -27,11 +27,13 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.HtmlParser
@@ -59,6 +61,15 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <XmlText>
         Public Property PathwayImage As String
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetMembers() As String()
+            Return Areas _
+                .Select(Function(a) a.IDVector) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End Function
 
         Public Function GetImage() As Image
             Dim lines$() = PathwayImage.lTokens

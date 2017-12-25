@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a3ca5d5fabde20c6a107d3389614537, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
+﻿#Region "Microsoft.VisualBasic::1678642fa06b35a9ffacf4ac3f61db2b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -134,4 +134,3 @@ End Class
 
 
 End Namespace
-

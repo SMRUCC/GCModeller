@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1fe6afe0bb41d3131b05fa01e7fe3d2, ..\GCModeller\data\GO_gene-ontology\GO_mysql\kb_go\term_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::639585931d5b81f51f5e5c6e60a48b58, ..\GCModeller\data\GO_gene-ontology\GO_mysql\kb_go\term_synonym.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -167,4 +167,3 @@ End Class
 
 
 End Namespace
-

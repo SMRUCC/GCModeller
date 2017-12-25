@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4017d317e64aefd0c310714aa696c50, ..\repository\Model_Repository\SQLEngine\SQLiteIndex.vb"
+﻿#Region "Microsoft.VisualBasic::56db176ffda4409377f3566b7817a7d1, ..\repository\Model_Repository\SQLEngine\SQLiteIndex.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -151,4 +151,3 @@
 '        End Function
 '    End Class
 'End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5defd66c470aa2a74546fdf0b04b5dc8, ..\GCModeller\annotations\Proteomics\iTraq\iTraqSample.vb"
+﻿#Region "Microsoft.VisualBasic::dd6ccb00a3bd8c77542d671301186fbd, ..\GCModeller\annotations\Proteomics\iTraq\iTraqSample.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -101,4 +101,3 @@ Public Module iTraqSample
         }
     End Function
 End Module
-

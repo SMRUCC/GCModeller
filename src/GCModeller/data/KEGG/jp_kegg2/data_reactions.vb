@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::727c5ed7a9522f9fc5306c6619a846cb, ..\GCModeller\data\KEGG\jp_kegg2\data_reactions.vb"
+﻿#Region "Microsoft.VisualBasic::57dd4e11f1301f5caa5ee87f5662320c, ..\GCModeller\data\KEGG\jp_kegg2\data_reactions.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -163,4 +163,3 @@ End Class
 
 
 End Namespace
-

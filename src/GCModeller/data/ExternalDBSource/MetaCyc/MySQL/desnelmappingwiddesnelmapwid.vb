@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e8aa87bdf7e6eae7ced39b47bdae618, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::7edc0969d83ee9d192426cafa08ed01a, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

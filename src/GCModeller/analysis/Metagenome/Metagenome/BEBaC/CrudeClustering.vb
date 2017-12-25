@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d78c7b943eb97a6d76bf1a4531a2fe00, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
+﻿#Region "Microsoft.VisualBasic::94ee0e0ca73075aae7e577c5d2c012f2, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -98,7 +98,7 @@ Namespace BEBaC
         '''   increase In the marginal likelihood.
         ''' </remarks>
         Public Function StochasticSearch()
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

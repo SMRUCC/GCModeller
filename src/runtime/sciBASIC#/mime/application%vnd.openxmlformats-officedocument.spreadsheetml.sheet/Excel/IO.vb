@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5da61710b9f3913d032b8974672a1e4c, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO.vb"
+﻿#Region "Microsoft.VisualBasic::1114304d2c61735585d7ba5d2edb4bc6, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -28,7 +28,6 @@
 
 Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml
@@ -80,20 +79,20 @@ Public Module IO
                 Call .worksheets.Save()
                 Call .workbook _
                     .ToXML _
-                    .SaveTo(workbook, Encoding.UTF8)
+                    .SaveTo(workbook, UTF8WithoutBOM)
                 Call .sharedStrings _
                     .ToXML _
-                    .SaveTo(sharedStrings, Encoding.UTF8)
+                    .SaveTo(sharedStrings, UTF8WithoutBOM)
 
                 Call xlsx.ContentTypes _
                     .ToXML _
-                    .SaveTo(ContentTypes, Encoding.UTF8)
+                    .SaveTo(ContentTypes, UTF8WithoutBOM)
             End With
         ElseIf xlsx.modify("worksheet.update") > -1 Then
             Call xlsx.xl.worksheets.Save()
             Call xlsx.xl.sharedStrings _
                 .ToXML _
-                .SaveTo(sharedStrings, Encoding.UTF8)
+                .SaveTo(sharedStrings, UTF8WithoutBOM)
         End If
 
         ' 重新进行zip打包

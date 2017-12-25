@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba3be9dd03cee5a9746aeea1d20463eb, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\reporterdimenswidreporterwid.vb"
+﻿#Region "Microsoft.VisualBasic::62d8068ac7af302ee581fcb33db2b56d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\reporterdimenswidreporterwid.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -127,4 +127,3 @@ End Class
 
 
 End Namespace
-

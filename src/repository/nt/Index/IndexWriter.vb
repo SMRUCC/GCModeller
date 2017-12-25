@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a746f9e7d57e4eb80455e55671c8a72f, ..\repository\nt\Index\IndexWriter.vb"
+﻿#Region "Microsoft.VisualBasic::d06fff5034d25bd2267563bd8f61cebf, ..\repository\nt\Index\IndexWriter.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -77,4 +77,3 @@ Public Class IndexWriter : Inherits IndexAbstract
         MyBase.Dispose(disposing)
     End Sub
 End Class
-

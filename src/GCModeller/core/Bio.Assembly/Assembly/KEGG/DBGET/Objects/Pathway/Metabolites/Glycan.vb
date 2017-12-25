@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3687d4ef78b5a2933f41bbe3369fbe75, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::fc480edc8523f47008225da2e646dd7f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
@@ -49,6 +50,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Sub New()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(links As DBLinks)
             MyBase._DBLinks = links
         End Sub
@@ -60,6 +62,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="ID$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function Download(ID$) As Glycan
             Return DownloadFrom(url:=String.Format(URL, ID))
         End Function
@@ -74,7 +78,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = base.Pathway,
                 .MolWeight = base.MolWeight,
                 .Module = base.Module,
-                .KEGG_reactions = base.KEGG_reactions,
+                .reactionId = base.reactionId,
                 .ExactMass = base.ExactMass,
                 .Formula = base.Formula,
                 .Enzyme = base.Enzyme,
@@ -100,13 +104,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return out
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToCompound() As Compound
             Return New Compound With {
                 .Entry = Entry,
                 .CommonNames = CommonNames,
                 .DbLinks = DbLinks,
                 .Formula = Me.Composition,
-                .KEGG_reactions = KEGG_reactions,
+                .reactionId = reactionId,
                 .Module = Me.Module,
                 .MolWeight = Val(Mass),
                 .Pathway = Pathway,

@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -82,7 +82,7 @@ Partial Module CLI
                 Next
 
                 If Not write Then
-                    Dim hash = TaxonomyNode.ToHash(taxon)
+                    Dim hash = TaxonomyNode.RankTable(taxon)
                     Dim sp As String = hash.TryGetValue("species", [default]:=Nothing)
 
                     If Not String.IsNullOrEmpty(sp) Then

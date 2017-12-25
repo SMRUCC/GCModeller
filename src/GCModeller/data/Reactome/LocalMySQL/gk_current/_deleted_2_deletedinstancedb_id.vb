@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8109f90a0810fbb46a9e954434a02db8, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\_deleted_2_deletedinstancedb_id.vb"
+﻿#Region "Microsoft.VisualBasic::a7e31921dd5ba8b2c53af18b7105ee5e, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\_deleted_2_deletedinstancedb_id.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ End Class
 
 
 End Namespace
-

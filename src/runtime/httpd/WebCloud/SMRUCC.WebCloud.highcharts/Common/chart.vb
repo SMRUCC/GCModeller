@@ -1,5 +1,32 @@
-﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.WebCloud.highcharts.PieChart
+﻿#Region "Microsoft.VisualBasic::2a4e15c3f46e566e955a577fc7e280ab, ..\httpd\WebCloud\SMRUCC.WebCloud.highcharts\Common\chart.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 
 Public Class chart
 
@@ -9,6 +36,7 @@ Public Class chart
     Public Property inverted As Boolean?
     Public Property renderTo As String
     Public Property margin As Double?
+    Public Property polar As Boolean?
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -44,6 +72,7 @@ Public Class chart
 End Class
 
 Public Class Axis
+    Public Property type As String
     Public Property allowDecimals As Boolean?
     Public Property className As String
     Public Property opposite As Boolean?
@@ -58,9 +87,11 @@ Public Class Axis
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
+    Public Property tickInterval As Boolean?
 End Class
 
 Public Class legendOptions
+    Public Property enabled As Boolean?
     Public Property layout As String
     Public Property align As String
     Public Property verticalAlign As String
@@ -97,7 +128,12 @@ Public Class labelOptions
     Public Property connectorAllowed As Boolean?
     Public Property overflow As String
     Public Property skew3d As Boolean?
-    Public Property style As styleoptions
+    Public Property style As styleOptions
+    Public Property formatter As lambda
+End Class
+
+Public Class lambda
+    Public Property func As String
 End Class
 
 Public Class styleOptions

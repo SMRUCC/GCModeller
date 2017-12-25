@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::153dfd2c730c13518eca0ff7d44168a7, ..\interops\visualize\Phylip\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2447a097843be07b9fa520c1299af2d7, ..\interops\visualize\Phylip\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)

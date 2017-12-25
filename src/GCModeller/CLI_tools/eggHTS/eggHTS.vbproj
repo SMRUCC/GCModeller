@@ -177,6 +177,7 @@
     <Compile Include="CLI\Repository.vb" />
     <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="CLI\Samples\LabelFree.vb" />
+    <Compile Include="CLI\Visualize\Clustering.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -239,13 +240,13 @@
       <Project>{2C34A044-1BDE-44E8-A86E-E9971C87DA21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\DataFramework.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
-      <Name>+VB_DataFrame.Extensions</Name>
+      <Name>DataFramework.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>+VB_DataFrame</Name>
+      <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hierarchical-clustering.vbproj">
       <Project>{6CA54AF6-CADC-457E-94B9-384F2990F07E}</Project>
@@ -283,9 +284,9 @@
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\application.vnd.openxmlformats-officedocument.spreadsheetml.sheet.vbproj">
       <Project>{e695d793-c970-422b-ba74-703ee43194fc}</Project>
@@ -334,6 +335,10 @@
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
       <Name>STRING-db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\Xfam\Pfam\Pfam.vbproj">
+      <Project>{F5FAD2BD-2274-4BD9-91A6-95A0C6A93C95}</Project>
+      <Name>Pfam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>

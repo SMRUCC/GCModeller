@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d702d850981ece8cb5136b04b5c71cb5, ..\repository\DataMySql\Xfam\Rfam\Tables\motif_ss_image.vb"
+﻿#Region "Microsoft.VisualBasic::fc474d0d6f54d333aff38d026189232d, ..\repository\DataMySql\Xfam\Rfam\Tables\motif_ss_image.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -126,4 +126,3 @@ End Class
 
 
 End Namespace
-

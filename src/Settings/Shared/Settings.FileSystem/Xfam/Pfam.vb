@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::3f6f05d8a7972d1801bf7d6d6d12d64c, ..\Settings\Shared\Settings.FileSystem\Xfam\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::b900ffac63f8e328e02a856bb0c6d7d3, ..\Settings\Shared\Settings.FileSystem\Xfam\Pfam.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -36,5 +37,3 @@ Namespace GCModeller.FileSystem.Xfam
         End Property
     End Module
 End Namespace
-
-

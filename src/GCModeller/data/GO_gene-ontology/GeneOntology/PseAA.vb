@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86c8d8db88b36a9f8b02fbea710ff79d, ..\GCModeller\data\GO_gene-ontology\GeneOntology\PseAA.vb"
+﻿#Region "Microsoft.VisualBasic::a500594d57989c063a6cbe7c8130fd7a, ..\GCModeller\data\GO_gene-ontology\GeneOntology\PseAA.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -80,4 +80,3 @@ Public Module PseAA
         Return vectors
     End Function
 End Module
-

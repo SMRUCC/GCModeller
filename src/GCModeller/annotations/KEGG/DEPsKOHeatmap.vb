@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e695c8b0cb0077578385eec68c1642f, ..\GCModeller\annotations\KEGG\DEPsKOHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::e171cc2970e9191f8efb1b72a9edd6e5, ..\GCModeller\annotations\KEGG\DEPsKOHeatmap.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
@@ -105,4 +104,3 @@ Public Module DEPsKOHeatmap
         Return average
     End Function
 End Module
-

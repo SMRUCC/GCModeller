@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02c965c5a2c9dcb17013736d0f305a06, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\default_structures.vb"
+﻿#Region "Microsoft.VisualBasic::b84909cf114ce8958c3eeb91d1795660, ..\GCModeller\data\ExternalDBSource\ChEBI\Tables\default_structures.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -125,4 +125,3 @@ End Class
 
 
 End Namespace
-

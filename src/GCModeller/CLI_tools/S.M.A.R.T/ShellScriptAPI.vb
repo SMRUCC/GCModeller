@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abe564eff022fecc7825047c5101d22d, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ec43559a61d146911da2f21eeca79b89, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -93,7 +93,7 @@ Public Module ShellScriptAPI
     Public Function CreateArchitectureData(pfamData As IEnumerable(Of PfamString)) As Protein()
         Dim LQuery = (From pfam As PfamString In pfamData.AsParallel
                       Select New Protein With {
-                          .Identifier = pfam.ProteinId,
+                          .ID = pfam.ProteinId,
                           .Description = pfam.Description,
                           .SequenceData = New String("-"c, pfam.Length),
                           .Domains = pfam.GetDomainData(True)}).ToArray

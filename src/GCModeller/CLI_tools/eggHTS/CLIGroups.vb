@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -44,6 +44,7 @@ Friend NotInheritable Class CLIGroups
     Public Const Repository_CLI$ = "Repository data tools"
 
     Public Const iTraqTool$ = "iTraq data analysis tool"
+    Public Const DataVisualize_cli$ = "Data visualization tool"
 
     Private Sub New()
     End Sub

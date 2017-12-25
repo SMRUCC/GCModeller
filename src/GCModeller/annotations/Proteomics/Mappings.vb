@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e48eed95c45d047b39a2a8e623b40c46, ..\GCModeller\annotations\Proteomics\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::8ed8a4197667849ac0077fbeda753b7f, ..\GCModeller\annotations\Proteomics\Mappings.vb"
 
     ' Author:
     ' 
@@ -6,7 +6,7 @@
     '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
@@ -82,4 +82,3 @@ Public Module Mappings
             .ToArray
     End Function
 End Module
-
