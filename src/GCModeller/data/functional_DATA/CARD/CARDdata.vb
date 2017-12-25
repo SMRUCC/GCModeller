@@ -82,8 +82,12 @@ Public Module CARDdata
                                 Return rel.drug
                             End Function) _
                     .Distinct _
+                    .Where(Function(id) id.IsPattern("ARO[:]\d+", RegexICSng)) _
                     .ToArray
-                relationships(term.ID) = antibiotic
+
+                If antibiotic.Length > 0 Then
+                    relationships(term.ID) = antibiotic
+                End If
             End If
         Next
 

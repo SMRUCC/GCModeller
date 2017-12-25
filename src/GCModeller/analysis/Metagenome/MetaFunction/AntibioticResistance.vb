@@ -27,7 +27,12 @@ Public Module AntibioticResistance
             .ToDictionary(Function(a) a.Key,
                           Function(a) a.First)
 
-        For Each rel In antibiotic_resistance.EnumerateTuples
+        For Each rel In antibiotic_resistance _
+            .EnumerateTuples _
+            .Where(Function(relationship)
+                       Return AROseqs.ContainsKey(relationship.name)
+                   End Function)
+
             Dim ARO_id$ = rel.name
             Dim drugs$() = rel.obj
             Dim header As SeqHeader = AROseqs(ARO_id)
@@ -41,7 +46,8 @@ Public Module AntibioticResistance
                     .ARO = ARO_id,
                     .Name = header.name,
                     .sp = header.species,
-                    .Taxonomy = lineage
+                    .Taxonomy = lineage,
+                    .antibiotic = antibiotic(drug).name
                 }
             Next
         Next
@@ -55,12 +61,13 @@ Public Class TaxonomyAntibioticResistance
     Public Property ARO As String
     Public Property sp As String
     Public Property Name As String
-    Public Property Taxonomy As String
     ''' <summary>
     ''' 当前的这个菌株所具有的抗生素抗性
     ''' </summary>
     ''' <returns></returns>
     Public Property antibiotic_resistance As String
+    Public Property antibiotic As String
+    Public Property Taxonomy As String
 
     Public Overrides Function ToString() As String
         Return Name
