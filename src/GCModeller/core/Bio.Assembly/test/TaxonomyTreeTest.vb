@@ -4,7 +4,8 @@ Module TaxonomyTreeTest
     Sub Main()
         Dim tree As New NcbiTaxonomyTree("T:\Resources\NCBI_taxonomy")
 
-        Dim nodes = tree.GetAscendantsWithRanksAndNames(526962, only_std_ranks:=True)
+        Dim nodes = tree.GetAscendantsWithRanksAndNames(526962, only_std_ranks:=True).BuildBIOM
+        Dim lll = tree.GetAscendantsWithRanksAndNames(1051655, only_std_ranks:=True)
 
         Pause()
     End Sub
