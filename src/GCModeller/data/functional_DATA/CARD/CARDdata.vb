@@ -54,10 +54,19 @@ Public Module CARDdata
     ''' 函数返回``{aro_id, antibiotic_aro_id()}``
     ''' </summary>
     ''' <returns></returns>
-    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AntibioticResistanceRelationship(aro As IEnumerable(Of RawTerm)) As Dictionary(Of String, String())
-        Dim tree As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(terms:=aro)
+        Return GenericTree.BuildTree(terms:=aro).AntibioticResistanceRelationship
+    End Function
+
+    ''' <summary>
+    ''' 函数返回``{aro_id, antibiotic_aro_id()}``
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function AntibioticResistanceRelationship(tree As Dictionary(Of String, GenericTree)) As Dictionary(Of String, String())
         Dim relationships As New Dictionary(Of String, String())
         Dim antibiotic$()
 

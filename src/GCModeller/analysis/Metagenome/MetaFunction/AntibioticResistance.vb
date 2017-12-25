@@ -5,7 +5,9 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry
 Public Module AntibioticResistance
 
     <Extension>
-    Public Function TaxonomyProfile(seq As IEnumerable(Of SeqHeader)) As TaxonomyAntibioticResistance()
+    Public Function TaxonomyProfile(seq As IEnumerable(Of SeqHeader), ARO As IEnumerable(Of RawTerm)) As TaxonomyAntibioticResistance()
+        Dim terms As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(ARO)
+        Dim antibiotic_resistance = terms.AntibioticResistanceRelationship
 
     End Function
 End Module
