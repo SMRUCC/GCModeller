@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MapPlot.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MEME.vb" />
-    <Compile Include="$(MSBuildThisFileDirectory)Apps\meta-community.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\metaProfiler.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\NCBI_tools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Reflector.vb" />

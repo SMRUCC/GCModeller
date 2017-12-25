@@ -177,6 +177,7 @@
     <Compile Include="CLI\Repository.vb" />
     <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="CLI\Samples\LabelFree.vb" />
+    <Compile Include="CLI\Visualize\Clustering.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -334,6 +335,10 @@
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
       <Name>STRING-db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\Xfam\Pfam\Pfam.vbproj">
+      <Project>{F5FAD2BD-2274-4BD9-91A6-95A0C6A93C95}</Project>
+      <Name>Pfam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>

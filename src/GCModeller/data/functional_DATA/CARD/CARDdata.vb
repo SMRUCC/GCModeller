@@ -26,12 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.ComponentModel.Loci
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.foundation.OBO_Foundry
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
 ''' the Comprehensive Antibiotic Resistance Database
@@ -52,66 +49,115 @@ Public Module CARDdata
             End If
         Next
     End Function
-End Module
 
-Public Class SeqHeader : Implements INamedValue
-
-    Public Property AccessionID As String Implements INamedValue.Key
-    Public Property ARO As String
-    Public Property name As String
-    Public Property species As String
     ''' <summary>
-    ''' 只针对核酸序列存在这个属性的值
+    ''' 函数返回``{aro_id, antibiotic_aro_id()}``
     ''' </summary>
     ''' <returns></returns>
-    <Column("loci", GetType(LocationParser))>
-    Public Property Location As NucleotideLocation
-
-    Public Overrides Function ToString() As String
-        Return name
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AntibioticResistanceRelationship(aro As IEnumerable(Of RawTerm)) As Dictionary(Of String, String())
+        Return GenericTree.BuildTree(terms:=aro).AntibioticResistanceRelationship
     End Function
 
-    Public Shared Function ProteinHeader(headers$()) As SeqHeader
-        Dim sp$ = r.Match(headers(3), "\[.+\]").Value
-        Dim name$ = headers(3).Replace(sp, "").Trim
+    ''' <summary>
+    ''' 函数返回``{aro_id, antibiotic_aro_id()}``
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function AntibioticResistanceRelationship(tree As Dictionary(Of String, GenericTree)) As Dictionary(Of String, String())
+        Dim relationships As New Dictionary(Of String, String())
+        Dim antibiotic$()
 
-        Return New SeqHeader With {
-            .AccessionID = headers(1),
-            .ARO = headers(2),
-            .name = name,
-            .species = sp.GetStackValue("[", "]")
-        }
-    End Function
+        ' 自身具备有对抗生素的抗性或者他的parent具有对抗生素的抗性
+        For Each term As GenericTree In tree.Values
+            Dim resistance = term _
+                .TravelAntibioticResistance _
+                .ToArray
 
-    Public Shared Function NucleotideHeader(headers$()) As SeqHeader
-        Dim strand As Strands = headers(2).GetStrand
-        Dim range As IntRange = headers(3)
-        Dim loc As New NucleotideLocation(range, strand)
-        Dim sp$ = r.Match(headers(5), "\[.+\]").Value
-        Dim name$ = headers(5).Replace(sp, "").Trim
+            If resistance.Length > 0 Then
+                antibiotic = resistance _
+                    .Select(Function(rel)
+                                Return rel.drug
+                            End Function) _
+                    .Distinct _
+                    .Where(Function(id) id.IsPattern("ARO[:]\d+", RegexICSng)) _
+                    .ToArray
 
-        Return New SeqHeader With {
-            .AccessionID = headers(1),
-            .Location = loc,
-            .ARO = headers(4),
-            .name = name,
-            .species = sp.GetStackValue("[", "]")
-        }
-    End Function
-
-    Public Class LocationParser
-        Implements IParser
-
-        Public Overloads Function ToString(obj As Object) As String Implements IParser.ToString
-            If obj Is Nothing Then
-                Return ""
-            Else
-                Return DirectCast(obj, NucleotideLocation).ToString
+                If antibiotic.Length > 0 Then
+                    relationships(term.ID) = antibiotic
+                End If
             End If
-        End Function
+        Next
 
-        Public Function TryParse(cell As String) As Object Implements IParser.TryParse
-            Return NucleotideLocation.Parse(cell)
-        End Function
-    End Class
-End Class
+        Return relationships
+    End Function
+
+    ''' <summary>
+    ''' 获取当前的这个节点所有的对抗生素标记出抗性的父节点
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function TravelAntibioticResistance(term As GenericTree) As IEnumerable(Of (drug$, term As GenericTree))
+        Dim data As Dictionary(Of String, String()) = term.data
+
+        ' 查看自身具备哪些抗性特征
+        If data.ContainsKey(RawTerm.Key_relationship) Then
+            Dim rel = data(RawTerm.Key_relationship) _
+                .Where(Function(x) InStr(x, "confers_resistance_to") = 1) _
+                .Select(Function(r)
+                            Return r.Split("!"c) _
+                                .First _
+                                .GetTagValue(" ", trim:=True) _
+                                .Value
+                        End Function) _
+                .ToArray
+
+            If rel.Length > 0 Then
+                ' 自身具备有抗性
+                For Each drug In rel
+                    Yield (drug, term)
+                Next
+            End If
+        End If
+
+        ' 这个递归不能够放在上面的If的Else分支之中
+        ' 因为
+        ' 除了自身具备有某一种抗性，可能其parent也会具备有其他的抗性
+        For Each parent As GenericTree In term.is_a
+            For Each rel In parent.TravelAntibioticResistance
+                Yield rel
+            Next
+        Next
+    End Function
+
+    ''' <summary>
+    ''' Antibiotics are commonly classified based on their mechanism of action, chemical structure or spectrum of activity.
+    ''' 
+    ''' ```
+    ''' is_a: ARO:1000001 ! process or component of antibiotic biology or chemistry
+    ''' ```
+    ''' </summary>
+    Const antibiotic_molecule$ = "ARO:1000003"
+
+    ''' <summary>
+    ''' ``ARO:1000003``为所有抗生素药物的root节点，所以在这函数之中查询出所有的归属于这个节点的
+    ''' ARO term即可
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function TravelAntibioticTree(tree As Dictionary(Of String, GenericTree)) As Dictionary(Of String, GenericTree)
+        Dim antibiotic_molecule As New Dictionary(Of String, GenericTree)
+
+        For Each term In tree.Values
+            If term.IsBaseType(CARDdata.antibiotic_molecule) Then
+                antibiotic_molecule(term.ID) = term
+            End If
+        Next
+
+        Return antibiotic_molecule
+    End Function
+End Module

@@ -174,7 +174,7 @@ Partial Module CLI
 
             For Each taxid In data
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key, True)
-                Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
+                Dim tree$ = nodes.BuildBIOM
 
                 output += New QueryArgument With {
                     .Name = x.x.Name,

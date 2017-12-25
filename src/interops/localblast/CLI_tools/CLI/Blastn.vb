@@ -430,7 +430,7 @@ Partial Module CLI
 
                 If Not tax Is Nothing Then
                     Dim nodes = tax.GetAscendantsWithRanksAndNames(+taxid, True)
-                    Dim tree = TaxonomyNode.BuildBIOM(nodes)
+                    Dim tree = nodes.BuildBIOM
                     Dim name = tax(taxid)?.name
 
                     x.Extensions("Taxonomy.Name") = name
