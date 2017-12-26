@@ -32,6 +32,13 @@ Imports SMRUCC.WebCloud.highcharts.PieChart
 
 Public Module Javascript
 
+    ''' <summary>
+    ''' Generates the javascript call for highcharts.js charting from a given data model. 
+    ''' </summary>
+    ''' <typeparam name="S"></typeparam>
+    ''' <param name="container$">The ``id`` attribute of a ``&lt;div>`` html tag.</param>
+    ''' <param name="chart">highcharts.js data model.</param>
+    ''' <returns></returns>
     <Extension>
     Public Function WriteJavascript(Of S)(container$, chart As Highcharts(Of S)) As String
         Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData)}
