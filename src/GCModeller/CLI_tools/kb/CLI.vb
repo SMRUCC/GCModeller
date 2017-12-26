@@ -83,7 +83,15 @@ Module CLI
         Dim translation As New List(Of WordTranslation)
 
         For Each word As String In [in].IterateAllLines
-            translation += BingTranslation.GetTranslation(word)
+            With BingTranslation.GetTranslation(word)
+                If Not .IsNothing Then
+                    Call .GetXml.SaveTo(out.ParentPath & $"/{word.NormalizePathString}.Xml")
+                    Call translation.Add(.ref)
+                Else
+                    Call word.Warning
+                End If
+            End With
+
             Call Thread.Sleep(sleep)
         Next
 
