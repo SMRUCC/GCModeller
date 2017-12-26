@@ -301,6 +301,7 @@
     <Compile Include="Mothur\Extensions.vb" />
     <Compile Include="Mothur\MothurContigsOTU.vb" />
     <Compile Include="Mothur\Mothur.vb" />
+    <Compile Include="newickParser.vb" />
     <Compile Include="SILVA\SILVABuild.vb" />
     <Compile Include="UPGMATree.vb" />
     <Compile Include="OTUTable.vb" />
