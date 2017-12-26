@@ -94,7 +94,9 @@ Namespace SymbolBuilder.packages.gplots
             result = result.Replace("list", "")
             Call result.__DEBUG_ECHO
             Dim node As TreeNode(Of String) = New TreeNode(Of String)
-            Call NewickParser.TreeParser(result, New Dictionary(Of String, String), node)
+            ' Call NewickParser.TreeParser(result, New Dictionary(Of String, String), node)
+            Throw New NotImplementedException
+
             Return node
         End Function
 
