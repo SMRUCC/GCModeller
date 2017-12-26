@@ -5,6 +5,8 @@
 
 ###### [WARNING] This project is a work in progress and is not recommended for production use.
 
+<img src="images/logo.png" height="250px">
+
 # GCModeller
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 

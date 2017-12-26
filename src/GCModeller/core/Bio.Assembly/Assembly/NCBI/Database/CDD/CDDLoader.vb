@@ -1,34 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::2f8cfc63656e3a5c59e46018188686ba, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Dir = System.String
-Imports System.Text
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Dir = System.String
 
 Namespace Assembly.NCBI.CDD
 
@@ -49,15 +51,20 @@ Namespace Assembly.NCBI.CDD
         }
 
         Public Function GetItem(Id As String) As CDD.SmpFile
-            Dim LQuery = (From Db As Func(Of DbFile) In _getDBMethods.AsParallel
-                          Let DbFile As DbFile = Db()
-                          Let SmpItem As CDD.SmpFile = DbFile.ContainsId(Id)
-                          Where Not SmpItem Is Nothing
-                          Select SmpItem).FirstOrDefault
+            Dim LQuery = LinqAPI.DefaultFirst(Of CDD.SmpFile) _
+ _
+                () <= From Db As Func(Of DbFile)
+                      In _getDBMethods.AsParallel
+                      Let DbFile As DbFile = Db()
+                      Let SmpItem As CDD.SmpFile = DbFile.ContainsId(Id)
+                      Where Not SmpItem Is Nothing
+                      Select SmpItem
+
             Return LQuery
         End Function
 
         Default Public ReadOnly Property Item(id As String) As CDD.SmpFile
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetItem(id)
             End Get
@@ -125,7 +132,7 @@ Namespace Assembly.NCBI.CDD
         End Function
 
         Public Function LoadFASTA(DbName As String) As FASTA.FastaFile
-            Return SequenceModel.FASTA.FastaFile.Read(String.Format("{0}/{1}.fasta", DIR, DbName))
+            Return FastaFile.Read(String.Format("{0}/{1}.fasta", DIR, DbName))
         End Function
 
         Public Function GetFastaUrl(DbName As String) As String
