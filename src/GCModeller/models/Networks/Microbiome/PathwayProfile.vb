@@ -78,18 +78,16 @@ Public Module PathwayProfile
     End Function
 
     <Extension>
-    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+    Public Function CreateProfile(taxonomyGroup As (taxonomy As Taxonomy, counts#)(),
                                   uniprot As TaxonomyRepository,
                                   ref As MapRepository,
                                   Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
 
-        Dim taxonomyGroup As gast.gastOUT() = gast.ToArray
         Dim ALL = taxonomyGroup.Select(Function(tax) tax.counts).Sum
         Dim profiles = taxonomyGroup _
             .AsParallel _
             .Select(Function(tax)
-                        Dim name$ = tax.taxonomy
-                        Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
+                        Dim taxonomy As Taxonomy = tax.taxonomy
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
                         Return New Profile(
@@ -109,6 +107,30 @@ Public Module PathwayProfile
                           Function(profile) profile.ToArray)
 
         Return profileGroup
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="gast">其实只需要Taxonomy和对应的丰度数量信息即可</param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="ref"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+                                  uniprot As TaxonomyRepository,
+                                  ref As MapRepository,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
+        Return gast _
+            .Select(Function(tax)
+                        Dim name$ = tax.taxonomy
+                        Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
+
+                        Return (taxonomy, CDbl(tax.counts))
+                    End Function) _
+            .ToArray _
+            .CreateProfile(uniprot, ref, rank)
     End Function
 
     Public Class Profile
