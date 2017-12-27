@@ -353,6 +353,19 @@ Public Module ProteinGroups
             .Select(Function(prot) prot.OrganismScientificName) _
             .Distinct _
             .JoinBy("; ")
+        Dim pfamString = uniprots _
+            .Select(Function(u)
+                        Dim pfam$ = u.features _
+                            .Where(Function(f) f.type = "domain") _
+                            .Select(Function(d)
+                                        Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
+                                    End Function) _
+                            .JoinBy("+")
+                        Return (ID:=u.accessions.JoinBy("|"), s:=pfam)
+                    End Function) _
+            .Where(Function(s) Not s.s.StringEmpty) _
+            .Select(Function(u) $"{u.ID}:{u.s}") _
+            .JoinBy("; ")
 
         Call annotations.Add("geneName", geneNames)
         Call annotations.Add("ORF", ORF)
@@ -362,6 +375,7 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
+        Call annotations.Add("pfam", pfamString)
         Call annotations.Add("organism", orgNames)
 
         'getKeyValue = Function(key)
