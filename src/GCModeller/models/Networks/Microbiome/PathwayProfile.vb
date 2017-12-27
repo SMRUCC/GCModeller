@@ -210,7 +210,15 @@ Public Module PathwayProfile
                                     Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
 
         Dim profiles = gast.CreateProfile(uniprot, ref, rank)
-        Dim profileTable = profiles _
+        Dim profileTable = profiles.PathwayProfiles
+
+        Return profileTable
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function PathwayProfiles(profiles As Dictionary(Of String, Profile())) As EnrichmentProfiles()
+        Return profiles _
             .Select(Function(group)
                         Dim tax = group.Key
                         Dim enrichment = group.Value.ProfileEnrichment
@@ -227,8 +235,6 @@ Public Module PathwayProfile
                     End Function) _
             .IteratesALL _
             .ToArray
-
-        Return profileTable
     End Function
 
     <Extension>
