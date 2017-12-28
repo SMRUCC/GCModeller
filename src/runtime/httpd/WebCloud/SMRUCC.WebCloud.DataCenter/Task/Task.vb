@@ -61,7 +61,7 @@ Namespace Platform
             Set(value As String)
                 With TaskData
                     .md5 = value
-                    .uid = .md5.StringHash
+                    .uid = .md5.StringHashCode
                 End With
             End Set
         End Property

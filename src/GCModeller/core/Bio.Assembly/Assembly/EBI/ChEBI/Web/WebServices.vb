@@ -117,7 +117,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <param name="localCache$"></param>
         ''' <param name="failures$"></param>
         ''' <returns></returns>
-        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
+        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional ByRef failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
             Dim failureList As New List(Of String)
             Dim out As New List(Of ChEBIEntity)
 
