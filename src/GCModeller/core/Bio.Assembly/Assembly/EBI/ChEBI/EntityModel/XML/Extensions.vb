@@ -110,6 +110,7 @@ Namespace Assembly.EBI.ChEBI.XML
                 End If
             Next
 
+            ' 返回的列表都是主编号唯一的
             Return New EntityList With {
                 .DataSet = list _
                     .Values _
