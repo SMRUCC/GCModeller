@@ -1,10 +1,14 @@
 ﻿''' <summary>
-''' 将二叉树序列化为二进制文件作为索引文件
+''' Using the binary tree as the search index.
+''' (将二叉树序列化为二进制文件作为索引文件)
 ''' </summary>
 Public Class BinarySearchIndex
 
 End Class
 
+''' <summary>
+''' The node of the binary search tree
+''' </summary>
 Public Class Index
 
     ''' <summary>
