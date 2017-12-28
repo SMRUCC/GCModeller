@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::97ee8cc97bfe6660333fb6b56a76fd2d, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -89,15 +90,17 @@ Namespace Assembly.EBI.ChEBI.WebServices
                 Return path.LoadXml(Of ChEBIEntity())
             Else
                 Dim data = GetCompleteEntity(chebiID)
+
                 hitCache = False
+
                 For Each compound As ChEBIEntity In data
+
                     ' 2017-12-22 因为使用主编号和次级编号进行查询返回来的结果都是一模一样的
                     ' 所以在这里进行次级编号的数据保存操作，这样子就不会进行重复查询了
                     ' 减少服务器的压力
-
-                    For Each id In compound.IDlist
+                    For Each id As String In compound.IDlist.SafeQuery
                         path = localCache & $"/{Mid(id, 1, 3)}/{id}.XML"
-                        data.GetXml.SaveTo(path)
+                        compound.GetXml.SaveTo(path)
                     Next
                 Next
 
@@ -124,7 +127,16 @@ Namespace Assembly.EBI.ChEBI.WebServices
 
                 For Each id As String In chebiIDlist
                     Dim hitCache As Boolean = False
-                    Dim result = QueryChEBI(id, localCache, hitCache)
+                    Dim result As ChEBIEntity()
+
+                    Try
+                        result = QueryChEBI(id, localCache, hitCache)
+                    Catch ex As Exception
+                        result = Nothing
+                        ex = New Exception(id, ex)
+
+                        Call App.LogException(ex)
+                    End Try
 
                     If Not result.IsNullOrEmpty Then
                         out += result
