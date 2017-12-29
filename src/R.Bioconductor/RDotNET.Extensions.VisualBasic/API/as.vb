@@ -99,5 +99,21 @@ Namespace API.as
                 End With
             End SyncLock
         End Function
+
+        ''' <summary>
+        ''' as.numeric
+        ''' 
+        ''' Creates or coerces objects of type "numeric". is.numeric is a more general test of an 
+        ''' object being interpretable as numbers.
+        ''' </summary>
+        ''' <param name="x$"></param>
+        ''' <returns></returns>
+        Public Function numeric(x$) As Double()
+            SyncLock R
+                With R
+                    Return .Evaluate($"as.numeric({x})").AsNumeric.ToArray
+                End With
+            End SyncLock
+        End Function
     End Module
 End Namespace

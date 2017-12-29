@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.RSystem
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
@@ -182,6 +184,24 @@ Namespace survival
                     Dim var$ = App.NextTempName
                     .call = $"{var} <- coxph({formula}, data = {data});"
                     Return var
+                End With
+            End SyncLock
+        End Function
+
+        Public Function GetCoefficients(coxph As String) As Dictionary(Of String, Double)
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- {coxph}$coefficients;"
+
+                    Dim names$() = base.names(var)
+                    Dim coeff#() = [as].numeric(var)
+
+                    Return names _
+                        .SeqIterator _
+                        .ToDictionary(Function(name) name.value,
+                                      Function(i) coeff(i))
                 End With
             End SyncLock
         End Function
