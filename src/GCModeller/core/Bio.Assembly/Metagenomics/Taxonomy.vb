@@ -125,7 +125,7 @@ Namespace Metagenomics
         End Function
 
         ''' <summary>
-        ''' Convert current <see cref="Taxonomy"/> object as a string array
+        ''' Convert current <see cref="Taxonomy"/> object as a string array.(返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
         ''' </summary>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

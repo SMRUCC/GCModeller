@@ -95,7 +95,7 @@ Namespace Metagenomics
                 .Replace("[", "") _
                 .Replace("]", "") _
                 .Split(deli) _
-                .Select(AddressOf Trim) _
+                .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
