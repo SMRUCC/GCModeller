@@ -169,6 +169,12 @@ Namespace SymbolBuilder
             End Select
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Rstring(Of T As {Structure})([enum] As T) As String
+            Return [enum].ToString.Rstring
+        End Function
+
         ''' <summary>
         '''  Escaping the boolean value in VisualBasic as the bool value in R language
         ''' </summary>
