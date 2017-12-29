@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Language
 
 Namespace Metagenomics
 
@@ -44,6 +45,27 @@ Namespace Metagenomics
         <Extension>
         Public Function TaxonomyLineage(tax As ITaxonomyLineage) As Taxonomy
             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax.Taxonomy))
+        End Function
+
+        ''' <summary>
+        ''' Removes the NA/unknown/unclassified from the tails ranks of <paramref name="tax"/>.
+        ''' </summary>
+        ''' <param name="tax"></param>
+        ''' <returns></returns>
+        <Extension> Public Function Trim(tax As Taxonomy) As String
+            Dim lineage$() = tax.ToArray
+            Dim ranks As New List(Of String)
+
+            ' 从大到小
+            For i As Integer = 0 To lineage.Length - 1
+                If Not lineage(i).TaxonomyRankEmpty Then
+                    ranks.Add(lineage(i))
+                Else
+                    Exit For
+                End If
+            Next
+
+            Return BIOMTaxonomy.TaxonomyString(lineage:=ranks)
         End Function
 
         ''' <summary>

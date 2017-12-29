@@ -190,6 +190,7 @@
     <Compile Include="PathwayProfile.vb" />
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuild.vb" />
+    <Compile Include="UniProt\TaxonomyIndex.vb" />
     <Compile Include="UniProt\TaxonomyRepository.vb" />
     <Compile Include="UniProt\TaxonomyRef.vb" />
     <Compile Include="MetabolicComplementation.vb" />

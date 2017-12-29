@@ -99,5 +99,49 @@ Namespace API.as
                 End With
             End SyncLock
         End Function
+
+        ''' <summary>
+        ''' as.numeric
+        ''' 
+        ''' Creates or coerces objects of type "numeric". is.numeric is a more general test of an 
+        ''' object being interpretable as numbers.
+        ''' </summary>
+        ''' <param name="x$"></param>
+        ''' <returns></returns>
+        Public Function numeric(x$) As Double()
+            SyncLock R
+                With R
+                    Return .Evaluate($"as.numeric({x})").AsNumeric.ToArray
+                End With
+            End SyncLock
+        End Function
+
+        ''' <summary>
+        ''' as.character
+        ''' 
+        ''' Create or test for objects of type "character".
+        ''' </summary>
+        ''' <param name="x$"></param>
+        ''' <returns></returns>
+        Public Function Character(x$) As String()
+            SyncLock R
+                With R
+                    Return .Evaluate($"as.character({x})").AsCharacter.ToArray
+                End With
+            End SyncLock
+        End Function
+
+        ''' <summary>
+        ''' Create or test for objects of type "logical", and the basic logical constants.
+        ''' </summary>
+        ''' <param name="x$"></param>
+        ''' <returns></returns>
+        Public Function Logical(x$) As Boolean()
+            SyncLock R
+                With R
+                    Return .Evaluate($"as.logical({x})").AsLogical.ToArray
+                End With
+            End SyncLock
+        End Function
     End Module
 End Namespace
