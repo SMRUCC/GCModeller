@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("RDotNet.Extensions.Bioinformatics")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("RDotNet.Extensions.Bioinformatics")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("R.NET bioinformatics API from bioconductor and CRAN")>
+<Assembly: AssemblyDescription("R.NET bioinformatics API from bioconductor and CRAN")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("RDotNet.Extensions.Bioinformatics")>
+<Assembly: AssemblyCopyright("Copyright © I@xieguigang.me 2018")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 
