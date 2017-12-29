@@ -247,6 +247,8 @@
     <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
     <Compile Include="Declares\bioconductor\clusterProfiler\Enricher.vb" />
     <Compile Include="Declares\bioconductor\clusterProfiler\clusterProfiler.vb" />
+    <Compile Include="Declares\CRAN\COX\survminer.vb" />
+    <Compile Include="Declares\CRAN\COX\survival.vb" />
     <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\deSolve\integrator.vb" />
     <Compile Include="Declares\forecast\Class1.vb" />
