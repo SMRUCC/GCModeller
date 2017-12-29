@@ -169,5 +169,21 @@ Namespace survival
                               Optional tt$ = NULL, Optional method$ = NULL, Optional argumentList As Dictionary(Of String, Object) = Nothing) As String
 
         End Function
+
+        ''' <summary>
+        ''' 更加长使用的是这个方法
+        ''' </summary>
+        ''' <param name="formula$"></param>
+        ''' <param name="data$"></param>
+        ''' <returns></returns>
+        Public Function coxph(formula$, data$) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+                    .call = $"{var} <- coxph({formula}, data = {data});"
+                    Return var
+                End With
+            End SyncLock
+        End Function
     End Module
 End Namespace
