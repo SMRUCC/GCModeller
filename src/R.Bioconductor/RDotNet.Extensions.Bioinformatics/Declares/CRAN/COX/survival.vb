@@ -163,12 +163,16 @@ Namespace survival
         ''' large offset value is a purposefully used. Users should not use normally allow large numeric 
         ''' offset values.
         ''' </remarks>
-        Public Function coxph(formula$, data$, Optional weights$ = NULL, Optional subset$ = NULL,
-     Optional na_action$ = NULL, Optional init$ = NULL, Optional control$ = NULL,
-      Optional ties As ties = ties.efron,
-    Optional singular_ok As Boolean = True, Optional robust As Boolean = False,
-    Optional model As Boolean = False, Optional x As Boolean = False, Optional y As Boolean = True,
-                              Optional tt$ = NULL, Optional method$ = NULL, Optional argumentList As Dictionary(Of String, Object) = Nothing) As String
+        Public Function coxph(formula$, data$,
+                              Optional weights$ = NULL, Optional subset$ = NULL,
+                              Optional na_action$ = NULL, Optional init$ = NULL,
+                              Optional control$ = NULL,
+                              Optional ties As ties = ties.efron,
+                              Optional singular_ok As Boolean = True, Optional robust As Boolean = False,
+                              Optional model As Boolean = False,
+                              Optional x As Boolean = False, Optional y As Boolean = True,
+                              Optional tt$ = NULL, Optional method$ = NULL,
+                              Optional argumentList As Dictionary(Of String, Object) = Nothing) As String
 
         End Function
 
@@ -188,6 +192,11 @@ Namespace survival
             End SyncLock
         End Function
 
+        ''' <summary>
+        ''' Get ``res.cox$coefficients``
+        ''' </summary>
+        ''' <param name="coxph"></param>
+        ''' <returns></returns>
         Public Function GetCoefficients(coxph As String) As Dictionary(Of String, Double)
             SyncLock R
                 With R
