@@ -13,6 +13,12 @@ Namespace survival
         mstate
     End Enum
 
+    Public Enum ties
+        efron
+        breslow
+        exact
+    End Enum
+
     Public Module survival
 
         ''' <summary>
@@ -96,6 +102,72 @@ Namespace survival
                     Return .Evaluate($"is.Surv({x})").AsLogical.ToArray.First
                 End With
             End SyncLock
+        End Function
+
+        ''' <summary>
+        ''' Fit Proportional Hazards Regression Model
+        ''' 
+        ''' Fits a Cox proportional hazards regression model. Time dependent variables, time dependent 
+        ''' strata, multiple events per subject, and other extensions are incorporated using the 
+        ''' counting process formulation of Andersen and Gill.
+        ''' </summary>
+        ''' <param name="formula$">a formula object, with the response on the left of a ~ operator, 
+        ''' and the terms on the right. The response must be a survival object as returned by the Surv 
+        ''' function.</param>
+        ''' <param name="data$">a data.frame in which to interpret the variables named in the formula, 
+        ''' or in the subset and the weights argument.</param>
+        ''' <param name="weights$">vector of case weights. For a thorough discussion of these see the 
+        ''' book by Therneau and Grambsch.</param>
+        ''' <param name="subset$">expression indicating which subset of the rows of data should be used 
+        ''' in the fit. All observations are included by default.</param>
+        ''' <param name="na_action$">a missing-data filter function. This is applied to the model.frame 
+        ''' after any subset argument has been used. Default is options()\$na.action.</param>
+        ''' <param name="init$">vector of initial values of the iteration. Default initial value is zero 
+        ''' for all variables.</param>
+        ''' <param name="control$">Object of class coxph.control specifying iteration limit and other 
+        ''' control options. Default is coxph.control(...).</param>
+        ''' <param name="ties">a character string specifying the method for tie handling. If there are 
+        ''' no tied death times all the methods are equivalent. Nearly all Cox regression programs use 
+        ''' the Breslow method by default, but not this one. The Efron approximation is used as the 
+        ''' default here, it is more accurate when dealing with tied death times, and is as efficient 
+        ''' computationally. The “exact partial likelihood” is equivalent to a conditional logistic 
+        ''' model, and is appropriate when the times are a small set of discrete values. See further 
+        ''' below.</param>
+        ''' <param name="singular_ok">logical value indicating how to handle collinearity in the model 
+        ''' matrix. If TRUE, the program will automatically skip over columns of the X matrix that are 
+        ''' linear combinations of earlier columns. In this case the coefficients for such columns will 
+        ''' be NA, and the variance matrix will contain zeros. For ancillary calculations, such as the 
+        ''' linear predictor, the missing coefficients are treated as zeros.</param>
+        ''' <param name="robust">this argument has been deprecated, use a cluster term in the model 
+        ''' instead. (The two options accomplish the same goal – creation of a robust variance – 
+        ''' but the second is more flexible).</param>
+        ''' <param name="model">logical value: if TRUE, the model frame is returned in component model.</param>
+        ''' <param name="x">logical value: if TRUE, the x matrix is returned in component x.</param>
+        ''' <param name="y">logical value: if TRUE, the response vector is returned in component y.</param>
+        ''' <param name="tt$">optional list of time-transform functions.</param>
+        ''' <param name="method$">alternate name for the ties argument.</param>
+        ''' <param name="argumentList">Other arguments will be passed to coxph.control</param>
+        ''' <returns>an object of class coxph representing the fit. See coxph.object for details.</returns>
+        ''' <remarks>
+        ''' The proportional hazards model is usually expressed in terms of a single survival time value 
+        ''' for each person, with possible censoring. Andersen and Gill reformulated the same problem 
+        ''' as a counting process; as time marches onward we observe the events for a subject, rather 
+        ''' like watching a Geiger counter. The data for a subject is presented as multiple rows or 
+        ''' "observations", each of which applies to an interval of observation (start, stop].
+        ''' 
+        ''' The routine internally scales and centers data to avoid overflow in the argument to the 
+        ''' exponential function. These actions do not change the result, but lead to more numerical 
+        ''' stability. However, arguments to offset are not scaled since there are situations where a 
+        ''' large offset value is a purposefully used. Users should not use normally allow large numeric 
+        ''' offset values.
+        ''' </remarks>
+        Public Function coxph(formula$, data$, Optional weights$ = NULL, Optional subset$ = NULL,
+     Optional na_action$ = NULL, Optional init$ = NULL, Optional control$ = NULL,
+      Optional ties As ties = ties.efron,
+    Optional singular_ok As Boolean = True, Optional robust As Boolean = False,
+    Optional model As Boolean = False, Optional x As Boolean = False, Optional y As Boolean = True,
+                              Optional tt$ = NULL, Optional method$ = NULL, Optional argumentList As Dictionary(Of String, Object) = Nothing) As String
+
         End Function
     End Module
 End Namespace
