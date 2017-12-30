@@ -136,6 +136,21 @@ Partial Module CLI
         End If
     End Function
 
+    <ExportAPI("/Download.Pathway.Maps.Batch")>
+    <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
+    Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
+        Dim sp$ = args("/sp")
+        Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
+        Dim isKGML As Boolean = args.IsTrue("/KGML")
+
+        For Each id As String In sp.IterateAllLines
+            Dim directory$ = $"{out}/{id}/"
+            Call Apps.KEGG_tools.DownloadPathwayMaps(sp:=id, out:=directory, kgml:=isKGML)
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
     <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /KGML /out <out.directory>]")>
     Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
