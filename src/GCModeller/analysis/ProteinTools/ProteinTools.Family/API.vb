@@ -27,15 +27,13 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
-Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Data
 
 <Package("SMART.PfamFamily",
