@@ -95,10 +95,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim out As New List(Of DBLink)
 
             For Each s As SlideWindow(Of String) In slides
-                out += New DBLink With {
-                    .DBName = s(Scan0).Trim(":"c),
-                    .Entry = s(1)
-                }
+                Dim idList = s(1).StringSplit("\s+")
+
+                out += idList _
+                    .Where(Function(str) Not str.StringEmpty) _
+                    .Select(Function(id)
+                                Return New DBLink With {
+                                    .DBName = s(Scan0).Trim(":"c),
+                                    .Entry = id
+                                }
+                            End Function)
             Next
 
             Return out
