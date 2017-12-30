@@ -114,6 +114,11 @@ Namespace Text.Xml.Models
             End With
         End Sub
 
+        Sub New(name$, vector As T())
+            Me.name = name
+            Me.vector = vector
+        End Sub
+
         Public Overrides Function ToString() As String
             Return name
         End Function
