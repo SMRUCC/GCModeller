@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -114,7 +115,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Else
                     entries += entry
                     url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
-                    data.Genes = KEGGgenes.Download(url).ToArray
+                    data.Genes = KEGGgenes.Download(url).Select(Function(t) New namedvalue(t.Key, t.Value)).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If

@@ -85,7 +85,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Dim parts = (From bMod As bGetObject.Pathway In Modules Select MapAPI.GetReactions(bMod, source)).IteratesALL
             Dim allCompounds As String() = Modules _
                 .Select(Function(x As bGetObject.Pathway)
-                            Return x.Compound.Select(Function(cp) cp.Key)
+                            Return x.Compound.Select(Function(cp) cp.name)
                         End Function) _
                 .IteratesALL _
                 .Distinct _

@@ -69,8 +69,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
                 .Description = WebForm.__description,
                 .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
-                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
-                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
+                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
                 .References = WebForm.References,
                 .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
                 .Drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs

@@ -68,23 +68,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Compound As KeyValuePair()
+        Public Property Compound As NamedValue()
         Public Property Drugs As KeyValuePair()
         Public Property OtherDBs As KeyValuePair()
         Public Property PathwayMap As NamedValue
 
-        Public Property Genes As KeyValuePair()
+        Public Property Genes As NamedValue()
             Get
                 Return _genes
             End Get
-            Set(value As KeyValuePair())
-                _genes = value
+            Set
+                _genes = Value
 
-                If Not value.IsNullOrEmpty Then
-                    _geneTable = value.ToDictionary(
-                        Function(x) x.Key.Split(":"c).Last)
+                If Not Value.IsNullOrEmpty Then
+                    _geneTable = Value.ToDictionary(
+                        Function(x) x.name.Split(":"c).Last)
                 Else
-                    _geneTable = New Dictionary(Of String, KeyValuePair)
+                    _geneTable = New Dictionary(Of String, NamedValue)
                 End If
             End Set
         End Property
@@ -110,8 +110,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Property References As Reference()
 
-        Dim _genes As KeyValuePair()
-        Dim _geneTable As New Dictionary(Of String, KeyValuePair)
+        Dim _genes As NamedValue()
+        Dim _geneTable As New Dictionary(Of String, NamedValue)
 
         Const SEARCH_URL As String = "http://www.kegg.jp/kegg-bin/search_pathway_text?map={0}&keyword=&mode=1&viewImage=false"
         Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
@@ -121,14 +121,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return False
             End If
 
-            Dim thisLinq = LinqAPI.DefaultFirst(Of KeyValuePair)() <=
+            Dim thisLinq = LinqAPI.DefaultFirst(Of NamedValue)() <=
  _
-                From comp As KeyValuePair
+                From comp As NamedValue
                 In Compound
-                Where String.Equals(comp.Key, KEGGCompound)
+                Where String.Equals(comp.name, KEGGCompound)
                 Select comp
 
-            Return Not [Class](Of KeyValuePair).IsNullOrEmpty Like thisLinq
+            Return Not [Class](Of NamedValue).IsNullOrEmpty Like thisLinq
         End Function
 
         Public Function IsContainsGeneObject(GeneId As String) As Boolean
@@ -252,9 +252,9 @@ Exit_LOOP:
                     Continue For
                 End If
 
-                out += From met As KeyValuePair
+                out += From met As NamedValue
                        In pwy.Compound
-                       Select met.Key
+                       Select met.name
             Next
 
             Return LinqAPI.Exec(Of String) <=
@@ -294,7 +294,7 @@ Exit_LOOP:
             End If
 
             Dim LQuery As String() = Genes _
-                .Select(Function(g) g.Key.Split(":"c).Last) _
+                .Select(Function(g) g.name.Split(":"c).Last) _
                 .ToArray
             Return LQuery
         End Function
