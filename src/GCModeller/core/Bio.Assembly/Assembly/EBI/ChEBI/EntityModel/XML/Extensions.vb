@@ -97,19 +97,20 @@ Namespace Assembly.EBI.ChEBI.XML
         ''' <summary>
         ''' 将单个的chebi分子数据文件合并在一个大文件之中，方便进行数据的加载
         ''' </summary>
-        ''' <param name="DIR$"></param>
+        ''' <param name="directory$"></param>
         ''' <returns></returns>
-        Public Function Compile(DIR$) As EntityList
+        Public Function Compile(directory As String) As EntityList
             Dim list As New Dictionary(Of ChEBIEntity)
 
-            For Each path As String In ls - l - r - "*.XML" <= DIR
-                For Each chemical As ChEBIEntity In path.LoadXml(Of ChEBIEntity())
-                    If Not list & chemical Then
-                        list += chemical
-                    End If
-                Next
+            For Each path$ In ls - l - r - "*.XML" <= directory
+                Dim chemical As ChEBIEntity = path.LoadXml(Of ChEBIEntity)
+
+                If Not list & chemical Then
+                    list += chemical
+                End If
             Next
 
+            ' 返回的列表都是主编号唯一的
             Return New EntityList With {
                 .DataSet = list _
                     .Values _

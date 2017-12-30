@@ -245,8 +245,10 @@
     <Compile Include="Declares\bnlearn\ArcOperations.vb" />
     <Compile Include="Declares\bnlearn\bnFit.vb" />
     <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
-    <Compile Include="Declares\clusterProfiler\Enricher.vb" />
-    <Compile Include="Declares\clusterProfiler\clusterProfiler.vb" />
+    <Compile Include="Declares\bioconductor\clusterProfiler\Enricher.vb" />
+    <Compile Include="Declares\bioconductor\clusterProfiler\clusterProfiler.vb" />
+    <Compile Include="Declares\CRAN\COX\survminer.vb" />
+    <Compile Include="Declares\CRAN\COX\survival.vb" />
     <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\deSolve\integrator.vb" />
     <Compile Include="Declares\forecast\Class1.vb" />
@@ -263,12 +265,12 @@
     <Compile Include="Declares\polysat\API.vb" />
     <Compile Include="Declares\r-sparcc\API.vb" />
     <Compile Include="Declares\vegan\veganAPI.vb" />
-    <Compile Include="Declares\VennDiagram\drawQuadVenn.vb" />
-    <Compile Include="Declares\VennDiagram\VennDiagram\Extensions.vb" />
-    <Compile Include="Declares\VennDiagram\VennDiagram\RModelAPI.vb" />
-    <Compile Include="Declares\VennDiagram\VennDiagram\Partition.vb" />
-    <Compile Include="Declares\VennDiagram\VennDiagram\VennDiagram.vb" />
-    <Compile Include="Declares\xcms\API.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\drawQuadVenn.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\VennDiagram\Extensions.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\VennDiagram\RModelAPI.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\VennDiagram\Partition.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\VennDiagram\VennDiagram.vb" />
+    <Compile Include="Declares\bioconductor\xcms\API.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -293,10 +295,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Declares\bnlearn\alarm.vb" />
-    <Compile Include="Declares\VennDiagram\makeTruthTable.vb" />
-    <Compile Include="Declares\VennDiagram\getVennPartitions.vb" />
-    <Compile Include="Declares\VennDiagram\vennBase.vb" />
-    <Compile Include="Declares\VennDiagram\vennDiagram.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\makeTruthTable.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\getVennPartitions.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\vennBase.vb" />
+    <Compile Include="Declares\CRAN\VennDiagram\vennDiagram.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

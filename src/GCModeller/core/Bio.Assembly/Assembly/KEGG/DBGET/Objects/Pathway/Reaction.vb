@@ -39,6 +39,19 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Structure OrthologyTerms
+
+        <XmlIgnore>
+        Public ReadOnly Property EntityList As String()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Terms.Keys
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' The KO terms?
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("Term")>
         Public Property Terms As XmlProperty()
     End Structure
