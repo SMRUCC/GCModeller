@@ -42,7 +42,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' The kegg pathway annotation data.(这个代谢途径模型是针对某一个物种而言的)
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("KEGG.PathwayBrief", Namespace:="http://www.genome.jp/kegg/pathway.html")>
+    <XmlRoot("KEGG_pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     Public Class Pathway : Inherits ComponentModel.PathwayBrief
 
         ''' <summary>
@@ -51,7 +51,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Name As String
+        Public Property name As String
 
         ''' <summary>
         ''' The module entry collection data in this pathway.
@@ -59,7 +59,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Modules As NamedValue()
+        Public Property modules As NamedValue()
         ''' <summary>
         ''' The kegg compound entry collection data in this pathway.
         ''' (可以通过这个代谢物的列表得到可以出现在当前的这个代谢途径之中的所有的非酶促反应过程，
@@ -68,12 +68,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Compound As NamedValue()
-        Public Property Drugs As NamedValue()
-        Public Property OtherDBs As DBLink()
-        Public Property PathwayMap As NamedValue
+        Public Property compound As NamedValue()
+        Public Property drugs As NamedValue()
+        Public Property otherDBs As DBLink()
+        Public Property pathwayMap As NamedValue
 
-        Public Property Genes As NamedValue()
+        Public Property genes As NamedValue()
             Get
                 Return _genes
             End Get
@@ -89,6 +89,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Set
         End Property
 
+        <XmlIgnore>
         Public Overrides ReadOnly Property BriteId As String
             Get
                 Dim id As String = Regex.Match(EntryId, "\d+").Value
@@ -100,15 +101,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Get
         End Property
 
-        Public Property Disease As NamedValue()
-        Public Property Organism As KeyValuePair
+        Public Property disease As NamedValue()
+        Public Property organism As KeyValuePair
         Public Property KOpathway As NamedValue()
 
         ''' <summary>
         ''' Reference list of this biological pathway
         ''' </summary>
         ''' <returns></returns>
-        Public Property References As Reference()
+        Public Property references As Reference()
 
         Dim _genes As NamedValue()
         Dim _geneTable As New Dictionary(Of String, NamedValue)
