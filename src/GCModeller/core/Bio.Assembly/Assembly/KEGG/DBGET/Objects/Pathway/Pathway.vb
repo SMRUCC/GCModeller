@@ -147,9 +147,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
             Dim LQuery As KeyValuePair = LinqAPI.DefaultFirst(Of KeyValuePair) <=
  _
-                From [mod] As KeyValuePair
+                From [mod] As NamedValue
                 In Modules
-                Where String.Equals([mod].Key, ModuleId)
+                Where String.Equals([mod].name, ModuleId)
                 Select [mod]
 
             Return Not LQuery Is Nothing
