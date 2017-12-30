@@ -70,6 +70,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Property compound As NamedValue()
         Public Property drugs As NamedValue()
+        <XmlArray("otherDB", [Namespace]:=LICENSE.GCModeller)>
         Public Property otherDBs As DBLink()
         Public Property pathwayMap As NamedValue
 
@@ -116,6 +117,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Const SEARCH_URL As String = "http://www.kegg.jp/kegg-bin/search_pathway_text?map={0}&keyword=&mode=1&viewImage=false"
         Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Sub New()
+            xmlns = New XmlSerializerNamespaces
+
+            xmlns.Add("gcmodeller", LICENSE.GCModeller)
+        End Sub
 
         Public Function IsContainsCompound(KEGGCompound As String) As Boolean
             If Compound.IsNullOrEmpty Then

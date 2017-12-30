@@ -82,4 +82,7 @@ Public Module LICENSE
     Public Sub GithubRepository()
         Call Process.Start("https://github.com/SMRUCC/GCModeller.Core")
     End Sub
+
+    Public Const GCModeller$ = "http://gcmodeller.org"
+
 End Module
