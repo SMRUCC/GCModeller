@@ -69,8 +69,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
                 .Description = WebForm.__description,
                 .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
-                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
-                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
+                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
                 .References = WebForm.References,
                 .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
                 .Drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
@@ -79,14 +79,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return Pathway
         End Function
 
-        <Extension> Private Function __pathwayDrugs(html$) As KeyValuePair()
+        <Extension> Private Function __pathwayDrugs(html$) As NamedValue()
             Dim divs = html.Strip_NOBR.DivInternals
-            Dim out As New List(Of KeyValuePair)
+            Dim out As New List(Of NamedValue)
 
             For Each d In divs.SlideWindows(2, 2)
-                out += New KeyValuePair With {
-                    .Key = d(0).StripHTMLTags(stripBlank:=True),
-                    .Value = d(1).StripHTMLTags(stripBlank:=True)
+                out += New NamedValue With {
+                    .name = d(0).StripHTMLTags(stripBlank:=True),
+                    .text = d(1).StripHTMLTags(stripBlank:=True)
                 }
             Next
 
@@ -94,7 +94,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <Extension>
-        Private Function __koPathways(webForm As WebForm) As KeyValuePair()
+        Private Function __koPathways(webForm As WebForm) As NamedValue()
             Dim KOpathway = webForm.GetValue("KO pathway") _
                 .FirstOrDefault _
                 .GetTablesHTML _
@@ -102,9 +102,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .GetRowsHTML _
                 .Select(Function(row$)
                             Dim cols As String() = row.GetColumnsHTML
-                            Return New KeyValuePair With {
-                                .Key = cols(0).StripHTMLTags.StripBlank,
-                                .Value = cols(1).StripHTMLTags.StripBlank
+                            Return New NamedValue With {
+                                .name = cols(0).StripHTMLTags.StripBlank,
+                                .text = cols(1).StripHTMLTags.StripBlank
                             }
                         End Function).ToArray
             Return KOpathway

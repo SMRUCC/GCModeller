@@ -112,19 +112,19 @@ Namespace RegulationSignature
                     Continue For
                 End If
 
-                For Each gene As KeyValuePair In Pathway.Genes
+                For Each gene As NamedValue In Pathway.genes
                     Dim GeneObject As GeneObject
 
-                    If Not GenomeHashShaodows.ContainsKey(gene.Key) Then
-                        If TFHash.ContainsKey(gene.Key) Then
-                            GeneObject = TFHash(gene.Key)
+                    If Not GenomeHashShaodows.ContainsKey(gene.name) Then
+                        If TFHash.ContainsKey(gene.name) Then
+                            GeneObject = TFHash(gene.name)
                             GeneObject.GeneID.ClassType = GeneID.ClassTypes.Hybrids
                         Else
-                            Call Console.WriteLine("Unable to found the information of gene " & gene.Key)
+                            Call Console.WriteLine("Unable to found the information of gene " & gene.name)
                             Continue For
                         End If
                     Else
-                        GeneObject = GenomeHashShaodows(gene.Key)
+                        GeneObject = GenomeHashShaodows(gene.name)
                         GeneObject.GeneID.ClassType = GeneID.ClassTypes.KO
                     End If
 
@@ -133,8 +133,8 @@ Namespace RegulationSignature
                     End If
 
                     Call GeneObject.KO.Add(Pathway.EntryId)
-                    If Not KOHash.ContainsKey(gene.Key) Then Call KOHash.Add(gene.Key, GeneObject)
-                    Call GenomeHashShaodows.Remove(gene.Key)
+                    If Not KOHash.ContainsKey(gene.name) Then Call KOHash.Add(gene.name, GeneObject)
+                    Call GenomeHashShaodows.Remove(gene.name)
                 Next
             Next
 

@@ -109,7 +109,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Download.Pathway.Maps")>
-    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR>]")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR> /@set <progress_bar=disabled>]")>
     <Description("Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.")>
     <Argument("/sp", False, CLITypes.String,
               PipelineTypes.std_in,
@@ -134,6 +134,21 @@ Partial Module CLI
                 .SaveTo(EXPORT & "/failures.txt") _
                 .CLICode
         End If
+    End Function
+
+    <ExportAPI("/Download.Pathway.Maps.Batch")>
+    <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
+    Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
+        Dim sp$ = args("/sp")
+        Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
+        Dim isKGML As Boolean = args.IsTrue("/KGML")
+
+        For Each id As String In sp.IterateAllLines.Select(Function(l) l.StringSplit("\s+").First)
+            Dim directory$ = $"{out}/{id}/"
+            Call Apps.KEGG_tools.DownloadPathwayMaps(sp:=id, out:=directory, kgml:=isKGML, _set:="progress_bar=disabled")
+        Next
+
+        Return 0
     End Function
 
     <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>

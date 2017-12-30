@@ -35,9 +35,9 @@ Namespace ComponentModel
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
-        <XmlAttribute>
+        <XmlAttribute("id")>
         Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
-        Public Property Description As String Implements IKeyValuePairObject(Of String, String).Value
+        Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
         ''' Gets the pathway related genes.
@@ -49,6 +49,8 @@ Namespace ComponentModel
         ''' 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <XmlIgnore>
         Public Overridable ReadOnly Property BriteId As String
             Get
                 Return EntryId

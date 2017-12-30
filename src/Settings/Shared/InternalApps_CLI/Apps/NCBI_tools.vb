@@ -1,38 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6e5f7c9c677cdf620689e7d7a41cb4fa, ..\Settings\Shared\InternalApps_CLI\Apps\NCBI_tools.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/NCBI_tools.exe
+' assembly: E:/GCModeller/GCModeller/bin/NCBI_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -99,7 +71,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 4. NCBI taxonomy tools
 ' 
 ' 
-'    /accid2taxid.Match:             
+'    /accid2taxid.Match:             Creates the subset of the ultra-large accession to ncbi taxonomy
+'                                    id database.
 '    /OTU.associated:                
 '    /OTU.diff:                      
 '    /OTU.Taxonomy:                  
@@ -134,6 +107,7 @@ Public Class NCBI_tools : Inherits InteropService
 ''' ```
 ''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt> /acc2taxid &lt;acc2taxid.dmp/DIR> [/gb_priority /out &lt;acc2taxid_match.txt>]
 ''' ```
+''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
 '''
 Public Function accidMatch([in] As String, acc2taxid As String, Optional out As String = "", Optional gb_priority As Boolean = False) As Integer
@@ -698,4 +672,3 @@ Public Function GetWordTokens([in] As String, Optional out As String = "") As In
 End Function
 End Class
 End Namespace
-

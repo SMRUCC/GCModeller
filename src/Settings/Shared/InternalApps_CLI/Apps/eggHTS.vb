@@ -1,38 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c421bb618c045d64dc1a4cbd5dd0b1f6, ..\Settings\Shared\InternalApps_CLI\Apps\eggHTS.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/eggHTS.exe
+' assembly: E:/GCModeller/GCModeller/bin/eggHTS.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -60,6 +32,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                         and generates a text file for batch search of the uniprot
 '                                         database.
 '  /Perseus.Table.annotations:            
+'  /pfamstring.enrichment:                
 '  /protein.annotations.shotgun:          
 '  /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
 '                                         and using this ID list for downlaods the uniprot annotation
@@ -116,9 +89,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 4. 2. DEP analysis CLI tools
 ' 
 ' 
-'    /DEP.heatmap.scatter.3D:               Visualize the DEPs' kmeans cluster result by using 3D scatter
-'                                           plot.
-'    /DEP.kmeans.scatter2D:                 
 '    /DEP.logFC.hist:                       Using for plots the FC histogram when the experiment have
 '                                           no biological replicates.
 '    /DEP.logFC.Volcano:                    Volcano plot of the DEPs' analysis result.
@@ -183,18 +153,27 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /richfun.KOBAS:                        
 ' 
 ' 
-' 9. iTraq data analysis tool
+' 9. Data visualization tool
 ' 
 ' 
-'    /iTraq.matrix.split:                   Split the raw matrix into different compare group based on
-'                                           the experimental designer information.
-'    /iTraq.RSD-P.Density:                  
-'    /iTraq.Symbol.Replacement:             * Using this CLI tool for processing the tag header of iTraq
-'                                           result at first.
-'    /iTraq.t.test:                         
+'    /DEP.heatmap.scatter.3D:               Visualize the DEPs' kmeans cluster result by using 3D scatter
+'                                           plot.
+'    /DEP.kmeans.scatter2D:                 
+'    /matrix.clustering:                    
 ' 
 ' 
-' 10. Repository data tools
+' 10. iTraq data analysis tool
+' 
+' 
+'     /iTraq.matrix.split:                   Split the raw matrix into different compare group based on
+'                                            the experimental designer information.
+'     /iTraq.RSD-P.Density:                  
+'     /iTraq.Symbol.Replacement:             * Using this CLI tool for processing the tag header of iTraq
+'                                            result at first.
+'     /iTraq.t.test:                         
+' 
+' 
+' 11. Repository data tools
 ' 
 ' 
 '     /Imports.Go.obo.mysql:                 Dumping GO obo database as mysql database files.
@@ -352,12 +331,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /out &lt;out.png>]
+''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /cluster.title &lt;names.csv> /out &lt;out.png>]
 ''' ```
 ''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional out As String = "") As Integer
+Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional cluster_title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -376,6 +355,9 @@ Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional clus
     End If
     If Not view_distance.StringEmpty Then
             Call CLI.Append("/view.distance " & """" & view_distance & """ ")
+    End If
+    If Not cluster_title.StringEmpty Then
+            Call CLI.Append("/cluster.title " & """" & cluster_title & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
@@ -1582,6 +1564,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /matrix.clustering /in &lt;matrix.csv> [/cluster.n &lt;default:=10> /out &lt;EntityClusterModel.csv>]
+''' ```
+''' </summary>
+'''
+Public Function MatrixClustering([in] As String, Optional cluster_n As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/matrix.clustering")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not cluster_n.StringEmpty Then
+            Call CLI.Append("/cluster.n " & """" & cluster_n & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Merge.DEPs /in &lt;*.csv,DIR> [/log2 /threshold "log(1.5,2)" /raw &lt;sample.csv> /out &lt;out.csv>]
 ''' ```
 ''' Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.
@@ -1724,6 +1728,26 @@ Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optio
     If Not scientifcname.StringEmpty Then
             Call CLI.Append("/scientifcname " & """" & scientifcname & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /pfamstring.enrichment /in &lt;EntityClusterModel.csv> /pfamstring &lt;pfamstring.csv> [/out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function PfamStringEnrichment([in] As String, pfamstring As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/pfamstring.enrichment")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/pfamstring " & """" & pfamstring & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -2290,4 +2314,3 @@ Public Function Update2UniprotMappedID([in] As String, mapping As String, Option
 End Function
 End Class
 End Namespace
-

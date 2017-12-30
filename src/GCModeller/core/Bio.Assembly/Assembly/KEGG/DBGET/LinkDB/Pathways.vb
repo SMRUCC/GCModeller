@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -70,6 +71,20 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 }
             Next
         End Function
+
+        ReadOnly sleep% = 2500
+
+        Sub New()
+            With App.GetVariable("/sleep")
+                If Not .StringEmpty Then
+                    sleep = Val(.ref)
+                End If
+
+                If sleep <= 0 Then
+                    sleep = 2500
+                End If
+            End With
+        End Sub
 
         ''' <summary>
         ''' 下载某一个物种所注释的代谢途径的数据
@@ -114,12 +129,12 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Else
                     entries += entry
                     url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
-                    data.Genes = KEGGgenes.Download(url).ToArray
+                    data.Genes = KEGGgenes.Download(url).Select(Function(t) New namedvalue(t.Key, t.Value)).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If
 
-                Call Thread.Sleep(1000)
+                Call Thread.Sleep(sleep)
 EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 

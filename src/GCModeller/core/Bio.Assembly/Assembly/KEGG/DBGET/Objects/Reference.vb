@@ -39,10 +39,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     Public Class Reference
 
-        <XmlElement> Public Property Authors As String()
-        <XmlText> Public Property Title As String
+        <XmlElement>
+        Public Property Authors As String()
+        Public Property Title As String
+
         <XmlAttribute> Public Property Journal As String
         <XmlAttribute> Public Property Reference As String
+        <XmlAttribute> Public Property DOI As String
 
         Public ReadOnly Property PMID As Long
             Get
@@ -101,16 +104,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim Authors As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Title As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Journal As String = tokens.ElementAtOrDefault(++i).GetValue
+            Dim DOI$
 
             If Regex.Match(PMID, "PMID[:]<a").Success Then
                 PMID = PMID.GetValue
             End If
 
+            Dim ref = Journal.GetTagValue("DOI:")
+
+            Journal = ref.Name.StripHTMLTags(stripBlank:=True)
+            DOI = ref.Value.href
+
             Return New Reference With {
                 .Authors = Strings.Split(Authors, ", "),
                 .Title = Title,
                 .Journal = Journal,
-                .Reference = PMID
+                .Reference = PMID,
+                .DOI = DOI
             }
         End Function
 
