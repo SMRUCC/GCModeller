@@ -53,7 +53,7 @@ Public Class KOLinks
                 .ToArray
             Dim pathways As NamedValue() = xml.Pathway _
                 .Select(Function(x)
-                            Return New NamedValue(x.Key, x.Value.TrimNewLine().Trim)
+                            Return New NamedValue(x.name, x.text.TrimNewLine().Trim)
                         End Function) _
                 .ToArray
 

@@ -204,7 +204,7 @@ Partial Module CLI
             End If
 
             Dim LQuery = (From m In ph.Modules
-                          Let km = networks.TryGetValue(m.Key)
+                          Let km = networks.TryGetValue(m.name)
                           Where Not km Is Nothing
                           Select km).ToArray
             Dim net = __mergeCommon(LQuery)

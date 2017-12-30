@@ -77,8 +77,8 @@ Public Module DumpProcedures
             For Each m In map.Modules.SafeQuery
                 pathwayModules += New mysql.xref_pathway_modules With {
                     .pathway = pathway,
-                    .module = Val(m.Key.Trim("M"c)),
-                    .name = MySqlEscaping(m.Value),
+                    .module = Val(m.name.Trim("M"c)),
+                    .name = MySqlEscaping(m.text),
                     .KO = KO
                 }
             Next
