@@ -143,7 +143,7 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
         Dim isKGML As Boolean = args.IsTrue("/KGML")
 
-        For Each id As String In sp.IterateAllLines.Select(Function(l) l.Split.First)
+        For Each id As String In sp.IterateAllLines.Select(Function(l) l.StringSplit("\s+").First)
             Dim directory$ = $"{out}/{id}/"
             Call Apps.KEGG_tools.DownloadPathwayMaps(sp:=id, out:=directory, kgml:=isKGML)
         Next
