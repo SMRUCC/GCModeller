@@ -72,6 +72,20 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Next
         End Function
 
+        ReadOnly sleep% = 2500
+
+        Sub New()
+            With App.GetVariable("/sleep")
+                If Not .StringEmpty Then
+                    sleep = Val(.ref)
+                End If
+
+                If sleep <= 0 Then
+                    sleep = 2500
+                End If
+            End With
+        End Sub
+
         ''' <summary>
         ''' 下载某一个物种所注释的代谢途径的数据
         ''' </summary>
@@ -120,7 +134,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     Call data.SaveAsXml(xml)
                 End If
 
-                Call Thread.Sleep(1000)
+                Call Thread.Sleep(sleep)
 EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 
