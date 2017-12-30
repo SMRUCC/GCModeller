@@ -365,17 +365,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR>]
+''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR> /@set &lt;progress_bar=disabled>]
 ''' ```
 ''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
-Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
+Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional _set As String = "", Optional kgml As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps")
     Call CLI.Append(" ")
     Call CLI.Append("/sp " & """" & sp & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not _set.StringEmpty Then
+            Call CLI.Append("/@set " & """" & _set & """ ")
     End If
     If kgml Then
         Call CLI.Append("/kgml ")
