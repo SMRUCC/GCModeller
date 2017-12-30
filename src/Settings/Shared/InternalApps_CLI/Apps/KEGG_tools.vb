@@ -1,38 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1a6ac9889fe4dd715b7236cd29a95be6, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: E:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -86,7 +58,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
 '                                             dbget API
-'    /Download.Pathway.Maps:                  
+'    /Download.Pathway.Maps:                  Fetch all of the pathway map information for a specific
+'                                             kegg organism by using a specifc kegg sp code.
 '    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
 '    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
 '    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.
@@ -393,6 +366,7 @@ End Function
 ''' ```
 ''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR>]
 ''' ```
+''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
 Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
@@ -962,4 +936,3 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
-
