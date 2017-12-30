@@ -72,7 +72,7 @@ Namespace Compiler.Components
             For Each KEGGReaction In KEGGReactions
                 Dim LQuery = (From MetaCycReaction In MetaCycReactions.AsParallel Where _EuqationEquals.Equals(KEGGReaction.Equation, MetaCycEquation:=MetaCycReaction, Explicit:=False) Select MetaCycReaction).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call List.Add(New NamedVector(Of String) With {.Key = KEGGReaction.Entry, .Value = (From item In LQuery Select item.Identifier).ToArray})
+                    Call List.Add(New NamedVector(Of String) With {.name = KEGGReaction.Entry, .vector = (From item In LQuery Select item.Identifier).ToArray})
                 End If
             Next
 
@@ -90,7 +90,7 @@ Namespace Compiler.Components
                 End If
 
                 Dim UniprotId = GetUniprotIDlist(MetabolismFlux.Enzymes)
-                Dim KEGGReactionId As String() = (From item In MapTable Where Array.IndexOf(item.Value, MetabolismFlux.Identifier) > -1 Select item.Key).ToArray
+                Dim KEGGReactionId As String() = (From item In MapTable Where Array.IndexOf(item.vector, MetabolismFlux.Identifier) > -1 Select item.name).ToArray
 
                 For Each id As String In KEGGReactionId
                     Dim LQuery = (From Enzyme In UniprotId

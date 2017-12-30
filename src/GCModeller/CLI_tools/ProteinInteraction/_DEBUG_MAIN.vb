@@ -63,9 +63,9 @@ Module _DEBUG_MAIN
 
                 matchedList = (From fff In matchedList Select fff Distinct Order By fff Ascending).AsList
 
-                Call matchedfile.Add(New NamedVector(Of String) With {.Key = _id, .Value = matchedList.ToArray})
+                Call matchedfile.Add(New NamedVector(Of String) With {.name = _id, .vector = matchedList.ToArray})
             Else
-                Call matchedfile.Add(New NamedVector(Of String) With {.Key = _id, .Value = New String() {}})
+                Call matchedfile.Add(New NamedVector(Of String) With {.name = _id, .vector = New String() {}})
             End If
         Next
 
@@ -73,11 +73,11 @@ Module _DEBUG_MAIN
 
         For Each item In matchedfile
             Dim row = New RowObject
-            Call row.Add(item.Key)
-            If Not item.Value.IsNullOrEmpty Then
+            Call row.Add(item.name)
+            If Not item.vector.IsNullOrEmpty Then
                 Dim sBuilder As StringBuilder = New StringBuilder(1024)
 
-                For Each strData In item.Value
+                For Each strData In item.vector
                     Call sBuilder.Append(String.Format("{0}; ", strData))
                 Next
                 Call sBuilder.Remove(sBuilder.Length - 2, 2)

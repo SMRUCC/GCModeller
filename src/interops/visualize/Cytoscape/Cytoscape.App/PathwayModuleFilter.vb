@@ -87,14 +87,14 @@ Namespace NetworkModel
                             In modulesGenes
                             Let lstName As String() = (From pathway As NamedVector(Of String)
                                                        In pathwayGenes
-                                                       Where Not pathway.Value.Union([module].Value).IsNullOrEmpty
-                                                       Select pathway.Key).ToArray
-                            Select NamedVector(Of String).CreateObject([module].Key, lstName)).ToArray
+                                                       Where Not pathway.vector.Union([module].vector).IsNullOrEmpty
+                                                       Select pathway.name).ToArray
+                            Select NamedVector(Of String).CreateObject([module].name, lstName)).ToArray
             Dim rows = (From i As Integer In itemList.Count.Sequence
                         Let [module] = itemList(i)
                         Select New IO.RowObject From {
                         [module].Key,
-                        CInt(modulesGenes(i).Value.Count / ImportedModule.Count * 100),
+                        CInt(modulesGenes(i).vector.Count / ImportedModule.Count * 100),
                         CInt([module].Value.Count / pathwayGenes.Count * 100)}).ToArray
 
             Dim COGs = ModuleMatchCOG(ImportedModule, COGProfile)

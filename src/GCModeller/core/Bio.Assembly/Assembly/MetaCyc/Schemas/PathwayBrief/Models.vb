@@ -55,7 +55,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             Get
                 Dim List As List(Of String) = New List(Of String)
                 For Each rxn In ReactionList
-                    Call List.AddRange(rxn.Value)
+                    Call List.AddRange(rxn.vector)
                 Next
                 If SuperPathway Then
                     For Each pwy In ContiansSubPathway

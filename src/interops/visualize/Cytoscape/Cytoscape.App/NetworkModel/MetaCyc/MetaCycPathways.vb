@@ -90,8 +90,8 @@ Public Class MetaCycPathways
                 In pwyObj.ReactionList
                 Where RxnGeneLinks.ContainsKey(rxnId)
                 Select New NamedVector(Of String) With {
-                    .Key = rxnId,
-                    .Value = RxnGeneLinks(rxnId)
+                    .name = rxnId,
+                    .vector = RxnGeneLinks(rxnId)
                 }     '获取反应对象列表
         Return pathway
     End Function
@@ -119,7 +119,7 @@ Public Class MetaCycPathways
             Get
                 Dim List As List(Of String) = New List(Of String)
                 For Each rxn In ReactionList
-                    Call List.AddRange(rxn.Value)
+                    Call List.AddRange(rxn.vector)
                 Next
                 If SuperPathway Then
                     For Each pwy In ContiansSubPathway
