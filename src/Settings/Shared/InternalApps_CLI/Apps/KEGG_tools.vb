@@ -26,6 +26,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
 '  /Download.Pathway.Maps.Bacteria.All:     
+'  /Download.Pathway.Maps.Batch:            
 '  /Dump.sp:                                
 '  /Fasta.By.Sp:                            
 '  /Get.prot_motif:                         
@@ -397,6 +398,28 @@ Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional
     If Not [in].StringEmpty Then
             Call CLI.Append("/in " & """" & [in] & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If kgml Then
+        Call CLI.Append("/kgml ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Download.Pathway.Maps.Batch /sp &lt;kegg.sp_code.list> [/KGML /out &lt;EXPORT_DIR>]
+''' ```
+''' </summary>
+'''
+Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Download.Pathway.Maps.Batch")
+    Call CLI.Append(" ")
+    Call CLI.Append("/sp " & """" & sp & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
