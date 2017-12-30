@@ -92,13 +92,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = html.GetValue("Pathway") _
                     .FirstOrDefault _
                     .__parseHTML_ModuleList(LIST_TYPES.Pathway) _
-                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.name, s.text)) _
                     .ToArray _
                     .__parseNamedData,
                 .Module = html.GetValue("Module") _
                     .FirstOrDefault _
                     .__parseHTML_ModuleList(LIST_TYPES.Module) _
-                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.name, s.text)) _
                     .ToArray _
                     .__parseNamedData,
                 .MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),

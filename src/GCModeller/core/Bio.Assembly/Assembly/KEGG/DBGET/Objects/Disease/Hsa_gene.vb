@@ -41,8 +41,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property GeneName As String
         Public Property Definition As KeyValuePair
-        Public Property Pathway As KeyValuePair()
-        Public Property Disease As KeyValuePair()
+        Public Property Pathway As NamedValue()
+        Public Property Disease As NamedValue()
         Public Property DrugTarget As KeyValuePair()
         ' Public Property Motif As NamedCollection(Of String)
         ' Public Property [Structure] As NamedCollection(Of String)
@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property AA As String
         Public Property NT As String
         Public Property OtherDBs As KeyValuePair()
-        Public Property Modules As KeyValuePair()
+        Public Property Modules As NamedValue()
 
         ''' <summary>
         ''' Split of the <see cref="GeneName"/> property value

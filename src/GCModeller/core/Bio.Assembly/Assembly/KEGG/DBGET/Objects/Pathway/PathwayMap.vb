@@ -57,8 +57,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Name As String
 
         Public Property KOpathway As KeyValuePair()
-        Public Property Disease As KeyValuePair()
-        Public Property Modules As KeyValuePair()
+        Public Property Disease As NamedValue()
+        Public Property Modules As NamedValue()
         Public Property Brite As BriteHEntry.Pathway
 
         ''' <summary>
