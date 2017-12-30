@@ -69,7 +69,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Compound As NamedValue()
-        Public Property Drugs As KeyValuePair()
+        Public Property Drugs As NamedValue()
         Public Property OtherDBs As DBLink()
         Public Property PathwayMap As NamedValue
 
@@ -102,7 +102,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Property Disease As NamedValue()
         Public Property Organism As KeyValuePair
-        Public Property KOpathway As KeyValuePair()
+        Public Property KOpathway As NamedValue()
 
         ''' <summary>
         ''' Reference list of this biological pathway
