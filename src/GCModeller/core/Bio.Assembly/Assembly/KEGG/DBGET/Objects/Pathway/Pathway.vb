@@ -29,12 +29,12 @@
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -70,7 +70,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Property Compound As NamedValue()
         Public Property Drugs As KeyValuePair()
-        Public Property OtherDBs As KeyValuePair()
+        Public Property OtherDBs As DBLink()
         Public Property PathwayMap As NamedValue
 
         Public Property Genes As NamedValue()

@@ -1,34 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::b0d32eb9fabcc288e9df31c9badd28f5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -36,6 +35,7 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -86,18 +86,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <Extension>
-        Friend Function __otherDBs(html$) As KeyValuePair()
+        Friend Function __otherDBs(html$) As DBLink()
             Dim lines$() = html _
                 .DivInternals _
                 .Select(Function(s) s.StripHTMLTags(stripBlank:=True)) _
                 .ToArray
             Dim slides = lines.SlideWindows(2, offset:=2)
-            Dim out As New List(Of KeyValuePair)
+            Dim out As New List(Of DBLink)
 
             For Each s As SlideWindow(Of String) In slides
-                out += New KeyValuePair With {
-                    .Key = s(Scan0).Trim(":"c),
-                    .Value = s(1)
+                out += New DBLink With {
+                    .DBName = s(Scan0).Trim(":"c),
+                    .Entry = s(1)
                 }
             Next
 
