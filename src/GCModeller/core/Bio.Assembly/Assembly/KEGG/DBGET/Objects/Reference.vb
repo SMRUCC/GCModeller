@@ -39,8 +39,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     Public Class Reference
 
-        <XmlElement> Public Property Authors As String()
-        <XmlText> Public Property Title As String
+        <XmlElement>
+        Public Property Authors As String()
+        Public Property Title As String
+
         <XmlAttribute> Public Property Journal As String
         <XmlAttribute> Public Property Reference As String
         <XmlAttribute> Public Property DOI As String
