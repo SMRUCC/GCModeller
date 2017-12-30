@@ -28,12 +28,10 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME
 

@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise
 
 Namespace Models

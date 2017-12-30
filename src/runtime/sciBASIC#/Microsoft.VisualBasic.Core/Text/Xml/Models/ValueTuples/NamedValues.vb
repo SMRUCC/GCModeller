@@ -38,7 +38,7 @@ Namespace Text.Xml.Models
     ''' <summary>
     ''' 键值对集合的键值<see cref="text"/>可能是一大段文本
     ''' </summary>
-    <XmlType("data")> Public Structure NamedValue
+    <XmlType("data")> Public Class NamedValue
         Implements INamedValue
         Implements Value(Of String).IValueOf
 
@@ -60,11 +60,14 @@ Namespace Text.Xml.Models
             Me.text = value
         End Sub
 
+        Sub New()
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"{name}: {text}"
         End Function
-    End Structure
+    End Class
 
     ''' <summary>
     ''' Property Info (Property Name and Property Value).

@@ -27,10 +27,7 @@
 #End Region
 
 Imports System.Text
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel
 
