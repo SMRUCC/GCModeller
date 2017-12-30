@@ -1,41 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::0f3fba5f5e9f1b71e0934df19fe8354b, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.ProteinTools
 Imports SMRUCC.genomics.Data.Xfam
@@ -222,7 +220,7 @@ Partial Module CLI
                              RR As SequenceModel.FASTA.FastaToken(),
                              interactions As String(),
                              name As String,
-                             ByRef alignments As Microsoft.VisualBasic.ComponentModel.KeyValuePair()) As Signature()
+                             ByRef alignments As KeyValuePair()) As Signature()
 
         Dim RRFa = RR.ToDictionary(Function(x) x.Title.Split.First.Split(":"c).Last)
         Dim HiskFa = HisK.ToDictionary(Function(x) x.Title.Split.First.Split(":"c).Last)
@@ -235,7 +233,7 @@ Partial Module CLI
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
                 .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
         alignments = contracts.Select(
-            Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
+            Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.95)
@@ -395,7 +393,7 @@ Partial Module CLI
                 .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
 
         alignments = contracts.Select(
-            Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
+            Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.9)
