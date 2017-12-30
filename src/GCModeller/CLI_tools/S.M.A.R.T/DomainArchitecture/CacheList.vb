@@ -27,8 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <XmlRoot("Protein-Domain-Architecture-Cache-Data")>
 Public Class CacheList

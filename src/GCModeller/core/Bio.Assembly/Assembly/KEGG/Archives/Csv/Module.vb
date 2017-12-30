@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.Archives.Csv
 

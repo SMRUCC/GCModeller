@@ -29,11 +29,11 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -146,19 +146,19 @@ Partial Module CLI
 
     Private Function __create(prot As String,
                               KO As String,
-                              pathway As KeyValuePair,
+                              pathway As NamedValue,
                               orthology As SSDB.Orthology,
                               brites As Dictionary(Of String, BriteHEntry.Pathway)) As KOAnno
         Dim pwyBrite As BriteHEntry.Pathway
 
         If Not pathway Is Nothing Then
-            pwyBrite = brites.TryGetValue(Regex.Match(pathway.Key, "\d+").Value)
+            pwyBrite = brites.TryGetValue(Regex.Match(pathway.name, "\d+").Value)
             If pwyBrite Is Nothing Then
-                Call $"{pathway.Key} is not exists in the KEGG!".__DEBUG_ECHO
+                Call $"{pathway.name} is not exists in the KEGG!".__DEBUG_ECHO
                 GoTo Null
             End If
         Else
-            pathway = New KeyValuePair
+            pathway = New NamedValue
 Null:       pwyBrite = New BriteHEntry.Pathway With {
                 .Entry = New KeyValuePair
             }
@@ -173,7 +173,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
             .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Comment).ToArray,
             .Category = pwyBrite.Category,
             .Class = pwyBrite.Class,
-            .PathwayId = pathway.Key,
+            .PathwayId = pathway.name,
             .PathwayName = pwyBrite.Entry.Value,
             .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Comment).ToArray
         }

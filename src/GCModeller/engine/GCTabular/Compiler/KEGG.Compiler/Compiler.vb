@@ -328,7 +328,7 @@ Namespace KEGG.Compiler
             Dim PathwayInformation = (From pwy In KEGGPathways Where Not pwy.Modules.IsNullOrEmpty
                                       Select New With {
                                           .PathwayId = pwy.EntryId,
-                                          .ModuleList = (From item In pwy.Modules Select item.Key).ToArray,
+                                          .ModuleList = (From item In pwy.Modules Select item.name).ToArray,
                                           .Comments = pwy.Description}).ToArray
 
             Dim ModuleDictionary As Dictionary(Of String, String()) = New Dictionary(Of String, String()) 'ModuleId, ReactionIdlist

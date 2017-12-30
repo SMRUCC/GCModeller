@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace MatrixFile
 

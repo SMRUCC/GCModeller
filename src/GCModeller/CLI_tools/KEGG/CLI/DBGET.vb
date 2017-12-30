@@ -103,8 +103,18 @@ Partial Module CLI
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 下载指定物种编号的物种基因组之中所有的pathway信息，包括代谢物和基因
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Download.Pathway.Maps")>
     <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR>]")>
+    <Description("Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.")>
+    <Argument("/sp", False, CLITypes.String,
+              PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The 3 characters kegg organism code, example as: ""xcb"" is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")

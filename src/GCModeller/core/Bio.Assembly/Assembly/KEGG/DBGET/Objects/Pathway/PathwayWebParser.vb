@@ -28,11 +28,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -150,7 +150,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As KeyValuePair()
+        Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As NamedValue()
             If String.IsNullOrEmpty(html) Then
                 Return {}
             End If
@@ -171,7 +171,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .ToArray _
                 .Distinct _
                 .ToArray
-            Dim out As New List(Of KeyValuePair)
+            Dim out As New List(Of NamedValue)
 
             Select Case type
                 Case LIST_TYPES.Disease
@@ -194,27 +194,27 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 entry = entry.GetValue
                 func = WebForm.RemoveHrefLink(func)
 
-                out += New KeyValuePair With {
-                    .Key = entry,
-                    .Value = func
+                out += New NamedValue With {
+                    .name = entry,
+                    .text = func
                 }
             Next
 
             Dim p As Integer = InStr(html, sbuf.Last)
             html = Mid(html, p)
-            Dim lastEntry As New KeyValuePair With {
-                .Key = Regex.Match(html, splitRegex).Value,
-                .Value = WebForm.RemoveHrefLink(html.Replace(.Key, "").Trim)
+            Dim lastEntry As New NamedValue With {
+                .name = Regex.Match(html, splitRegex).Value,
+                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
             }
             ' 由于解析value属性的时候还需要使用到key的原始字符串数据
             ' 所以key的最后解析放在初始化代码外
-            lastEntry.Key = lastEntry.Key.GetValue
+            lastEntry.name = lastEntry.name.GetValue
 
             Call out.Add(lastEntry)
 
-            For Each x As KeyValuePair In out
-                x.Key = x.Key.StripHTMLTags.StripBlank
-                x.Value = x.Value.StripHTMLTags.StripBlank
+            For Each x As NamedValue In out
+                x.name = x.name.StripHTMLTags.StripBlank
+                x.text = x.text.StripHTMLTags.StripBlank
             Next
 
             Return out.ToArray

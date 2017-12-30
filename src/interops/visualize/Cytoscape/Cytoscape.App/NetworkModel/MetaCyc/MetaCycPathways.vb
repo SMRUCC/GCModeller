@@ -28,12 +28,10 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
@@ -87,13 +85,13 @@ Public Class MetaCycPathways
             .MetaCycBaseType = pwyObj
         } ' 实例化一个返回对象
         pathway.ReactionList =
-            LinqAPI.Exec(Of Key_strArrayValuePair) <=
+            LinqAPI.Exec(Of NamedVector(Of String)) <=
                 From rxnId As String
                 In pwyObj.ReactionList
                 Where RxnGeneLinks.ContainsKey(rxnId)
-                Select New Key_strArrayValuePair With {
-                    .Key = rxnId,
-                    .Value = RxnGeneLinks(rxnId)
+                Select New NamedVector(Of String) With {
+                    .name = rxnId,
+                    .vector = RxnGeneLinks(rxnId)
                 }     '获取反应对象列表
         Return pathway
     End Function
@@ -108,7 +106,7 @@ Public Class MetaCycPathways
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property SuperPathway As Boolean
-        Public Property ReactionList As Key_strArrayValuePair()
+        Public Property ReactionList As NamedVector(Of String)()
         ''' <summary>
         ''' 本代谢途径所包含的的亚途径
         ''' </summary>
@@ -121,7 +119,7 @@ Public Class MetaCycPathways
             Get
                 Dim List As List(Of String) = New List(Of String)
                 For Each rxn In ReactionList
-                    Call List.AddRange(rxn.Value)
+                    Call List.AddRange(rxn.vector)
                 Next
                 If SuperPathway Then
                     For Each pwy In ContiansSubPathway

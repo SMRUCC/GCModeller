@@ -28,6 +28,7 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace LocalBLAST.InteropService
 
@@ -43,30 +44,30 @@ Namespace LocalBLAST.InteropService
                     New Executable.Executable_BuildDB With {
                         .Name = "builddb",
                         .AssemblyCommand = "formatdb.exe",
-                        .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
+                        .Parameters = New KeyValuePair() {
  _
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "targetdb", .Value = "-i"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "dbtype", .Value = "-p"}}
+                            New KeyValuePair With {.Key = "targetdb", .Value = "-i"},
+                            New KeyValuePair With {.Key = "dbtype", .Value = "-p"}}
                     },
                     New Executable.Executable_BLAST With {
                         .Name = "blastn",
                         .AssemblyCommand = "blastall.exe -p blastn",
-                        .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
+                        .Parameters = New KeyValuePair() {
  _
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "query", .Value = "-i"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "subject", .Value = "-d"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "evalue", .Value = "-e"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "output", .Value = "-o"}}
+                            New KeyValuePair With {.Key = "query", .Value = "-i"},
+                            New KeyValuePair With {.Key = "subject", .Value = "-d"},
+                            New KeyValuePair With {.Key = "evalue", .Value = "-e"},
+                            New KeyValuePair With {.Key = "output", .Value = "-o"}}
                     },
                     New Executable.Executable_BLAST With {
                         .Name = "blastp",
                         .AssemblyCommand = "blastall.exe -p blastp",
-                        .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
+                        .Parameters = New KeyValuePair() {
  _
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "query", .Value = "-i"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "subject", .Value = "-d"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "evalue", .Value = "-e"},
-                            New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "output", .Value = "-o"}}}
+                            New KeyValuePair With {.Key = "query", .Value = "-i"},
+                            New KeyValuePair With {.Key = "subject", .Value = "-d"},
+                            New KeyValuePair With {.Key = "evalue", .Value = "-e"},
+                            New KeyValuePair With {.Key = "output", .Value = "-o"}}}
                     },
                     .MolTypeProtein = "T",
                     .MoltypeNucleotide = "F"
@@ -77,23 +78,23 @@ Namespace LocalBLAST.InteropService
             .ExecutableCommands = New Executable() {
                 New Executable.Executable_BuildDB With {
                     .Name = "builddb", .AssemblyCommand = "makeblastdb.exe",
-                    .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "targetdb", .Value = "-in"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "dbtype", .Value = "-dbtype"}}},
+                    .Parameters = New KeyValuePair() {
+                        New KeyValuePair With {.Key = "targetdb", .Value = "-in"},
+                        New KeyValuePair With {.Key = "dbtype", .Value = "-dbtype"}}},
                 New Executable.Executable_BLAST With {
                     .Name = "blastn", .AssemblyCommand = "blastall -p blastn",
-                    .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "query", .Value = "-query"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "subject", .Value = "-db"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "output", .Value = "-out"}}},
+                    .Parameters = New KeyValuePair() {
+                        New KeyValuePair With {.Key = "query", .Value = "-query"},
+                        New KeyValuePair With {.Key = "subject", .Value = "-db"},
+                        New KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
+                        New KeyValuePair With {.Key = "output", .Value = "-out"}}},
                 New Executable.Executable_BLAST With {
                     .Name = "blastp", .AssemblyCommand = "blastp.exe",
-                    .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "query", .Value = "-query"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "subject", .Value = "-db"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "output", .Value = "-out"}}}},
+                    .Parameters = New KeyValuePair() {
+                        New KeyValuePair With {.Key = "query", .Value = "-query"},
+                        New KeyValuePair With {.Key = "subject", .Value = "-db"},
+                        New KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
+                        New KeyValuePair With {.Key = "output", .Value = "-out"}}}},
             .MolTypeProtein = "prot", .MoltypeNucleotide = "nucl"}
 
         Public Shared ReadOnly Property RpsBLAST As ProgramProfiles = New ProgramProfiles With {
@@ -101,16 +102,16 @@ Namespace LocalBLAST.InteropService
             .ExecutableCommands = New Executable() {
                 New Executable.Executable_BuildDB With {
                     .Name = "builddb", .AssemblyCommand = "makeprofiledb.exe",
-                    .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "targetdb", .Value = "-in"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "dbtype", .Value = "-dbtype"}}},
+                    .Parameters = New KeyValuePair() {
+                        New KeyValuePair With {.Key = "targetdb", .Value = "-in"},
+                        New KeyValuePair With {.Key = "dbtype", .Value = "-dbtype"}}},
                 New Executable.Executable_BLAST With {
                     .Name = "rpsblast", .AssemblyCommand = "rpsblast.exe",
-                    .Parameters = New Microsoft.VisualBasic.ComponentModel.KeyValuePair() {
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "query", .Value = "-query"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "subject", .Value = "-db"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
-                        New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {.Key = "output", .Value = "-out"}}}}}
+                    .Parameters = New KeyValuePair() {
+                        New KeyValuePair With {.Key = "query", .Value = "-query"},
+                        New KeyValuePair With {.Key = "subject", .Value = "-db"},
+                        New KeyValuePair With {.Key = "evalue", .Value = "-evalue"},
+                        New KeyValuePair With {.Key = "output", .Value = "-out"}}}}}
 #End Region
 
         <XmlAttribute> Public Property Name As String
@@ -155,7 +156,7 @@ Namespace LocalBLAST.InteropService
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement("Command")> Public Property Parameters As Microsoft.VisualBasic.ComponentModel.KeyValuePair()
+        <XmlElement("Command")> Public Property Parameters As KeyValuePair()
 
         ''' <summary>
         ''' Get an item value in the <see cref="Executable.Parameters"></see> property, if the query key is not exists in the 

@@ -431,7 +431,7 @@ Namespace NetworkModel.PfsNET
                         Continue For
                     End If
 
-                    Dim modIdlist = (From item In obj.Modules Select item.Key).ToArray
+                    Dim modIdlist = (From item In obj.Modules Select item.name).ToArray
                     Dim modules = (From item In net Where Array.IndexOf(modIdlist, item.Key) > -1 Select item).ToArray
                     Dim network As New ______NETWORK__ With {
                         .Edges = (From item In modules Select item.Value.Value.Edges).ToVector,
