@@ -55,7 +55,7 @@ Namespace NetworkModel
             Dim GetAllModules = (From item In importedModules Select item.Value Distinct Order By Value Ascending).ToArray
             Dim LQuery = (From [Module] As String
                       In GetAllModules
-                          Select Key_strArrayValuePair.CreateObject([Module], (
+                          Select NamedVector(Of String).CreateObject([Module], (
                           From item As KeyValuePair
                           In importedModules
                           Where String.Equals([Module], item.Value)
@@ -65,10 +65,10 @@ Namespace NetworkModel
             Return LQuery
         End Function
 
-        Public Shared Function ImportsPathways(pathwayOverview As IO.File) As Key_strArrayValuePair()
+        Public Shared Function ImportsPathways(pathwayOverview As IO.File) As NamedVector(Of String)()
             Dim LQuery = (From row As IO.RowObject In pathwayOverview.Skip(1)
                           Where Not String.Equals(row(2), "True")
-                          Let item = Key_strArrayValuePair.CreateObject(row.First,
+                          Let item = NamedVector(Of String).CreateObject(row.First,
                      (
                          From strToken As String
                          In Strings.Split(row(4), "; ")
@@ -83,13 +83,13 @@ Namespace NetworkModel
             Dim pathwayGenes = ImportsPathways(pathwayOverview)
             Dim ImportedModule = ImportsModules(Modules)
             Dim modulesGenes = BuildModules(ImportedModule)
-            Dim itemList = (From [module] As Key_strArrayValuePair
+            Dim itemList = (From [module] As NamedVector(Of String)
                             In modulesGenes
-                            Let lstName As String() = (From pathway As Key_strArrayValuePair
+                            Let lstName As String() = (From pathway As NamedVector(Of String)
                                                        In pathwayGenes
                                                        Where Not pathway.Value.Union([module].Value).IsNullOrEmpty
                                                        Select pathway.Key).ToArray
-                            Select Key_strArrayValuePair.CreateObject([module].Key, lstName)).ToArray
+                            Select NamedVector(Of String).CreateObject([module].Key, lstName)).ToArray
             Dim rows = (From i As Integer In itemList.Count.Sequence
                         Let [module] = itemList(i)
                         Select New IO.RowObject From {

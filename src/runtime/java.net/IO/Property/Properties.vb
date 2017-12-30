@@ -1,5 +1,5 @@
-﻿Imports Oracle.Java.IO
-Imports System.Text
+﻿Imports System.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace IO.Properties
 
@@ -251,7 +251,7 @@ Namespace IO.Properties
         ''' <remarks></remarks>
         Public Sub storeToXML(os As OutputStream, comment As String)
             Dim Xml = (From itemKey In _innerTable
-                       Select New ComponentModel.KeyValuePair With {
+                       Select New KeyValuePair With {
                            .Key = itemKey.ToString,
                            .Value = Scripting.ToString(itemKey.Value)}).ToArray.GetXml
 

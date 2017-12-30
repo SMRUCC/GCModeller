@@ -1,38 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::ca13cf777ccb6018e81bdcb9a9722c77, ..\GCModeller\engine\GCTabular\Compiler\SabiorkKinetics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
@@ -64,10 +60,10 @@ Namespace Compiler.Components
         Private Function BuildEqualsTable(MetaCyc As DatabaseLoadder,
                                           KEGGCompounds As bGetObject.Compound(),
                                           KEGGReactions As bGetObject.Reaction(),
-                                          ByRef EffectorMapping As EffectorMap()) As Key_strArrayValuePair()
+                                          ByRef EffectorMapping As EffectorMap()) As NamedVector(Of String)()
 
             Dim MetaCycReactions = (From item In MetaCyc.GetReactions Select Metabolism.Reaction.CreateObject(item)).ToArray
-            Dim List As List(Of Key_strArrayValuePair) = New List(Of Key_strArrayValuePair)
+            Dim List As List(Of NamedVector(Of String)) = New List(Of NamedVector(Of String))
 
             KEGGReactions = (From KineticsRecord In Me._KineticsData Let KEGGReaction = KEGGReactions.GetItem(KineticsRecord.KEGGReactionId) Where Not KEGGReaction Is Nothing Select KEGGReaction).ToArray
             _EuqationEquals = New EquationEquals(Me._ModelLoader.MetabolitesModel, KEGGCompounds)
@@ -76,7 +72,7 @@ Namespace Compiler.Components
             For Each KEGGReaction In KEGGReactions
                 Dim LQuery = (From MetaCycReaction In MetaCycReactions.AsParallel Where _EuqationEquals.Equals(KEGGReaction.Equation, MetaCycEquation:=MetaCycReaction, Explicit:=False) Select MetaCycReaction).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call List.Add(New Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair With {.Key = KEGGReaction.Entry, .Value = (From item In LQuery Select item.Identifier).ToArray})
+                    Call List.Add(New NamedVector(Of String) With {.Key = KEGGReaction.Entry, .Value = (From item In LQuery Select item.Identifier).ToArray})
                 End If
             Next
 

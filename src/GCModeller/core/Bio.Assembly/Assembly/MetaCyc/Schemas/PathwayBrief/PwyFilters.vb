@@ -65,7 +65,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
                     pathway.ReactionList = (From rxnId As String
                                             In pwyObj.ReactionList
                                             Where AssignedRxnGeneLinks.ContainsKey(rxnId)
-                                            Select New Key_strArrayValuePair With
+                                            Select New NamedVector(Of String) With
                                                    {
                                                        .Key = rxnId,
                                                        .Value = AssignedRxnGeneLinks(rxnId)}).ToArray     '获取反应对象列表

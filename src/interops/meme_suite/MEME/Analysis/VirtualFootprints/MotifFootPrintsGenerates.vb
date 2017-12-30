@@ -421,9 +421,9 @@ Namespace Analysis.GenomeMotifFootPrints
             End If
 
             Return (From obj In AssociationLQuery
-                    Select New Key_strArrayValuePair With {
-                        .Key = obj.Gene,
-                        .Value = (From objt In obj.func Select objt.EntryId).ToArray}).ToArray
+                    Select New NamedVector(Of String) With {
+                        .name = obj.Gene,
+                        .vector = (From objt In obj.func Select objt.EntryId).ToArray}).ToArray
         End Function
 
         ''' <summary>

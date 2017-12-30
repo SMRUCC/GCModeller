@@ -27,10 +27,10 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
 
 Module _DEBUG_MAIN
@@ -40,7 +40,7 @@ Module _DEBUG_MAIN
 
 
         Dim dipData = "E:\BLAST\db\dip\dip.csv".LoadCsv(Of DataPreparations.DipRecord)(False)
-        Dim matchedfile = New List(Of Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair)
+        Dim matchedfile = New List(Of NamedVector(Of String))
 
         For Each _id As String In id
             Dim rowCollection = (From row In vsdip.FindAtColumn(_id, 0) Let sss = row(1).Split.First.Trim Where Not String.IsNullOrEmpty(sss) Select sss Distinct).ToArray
@@ -63,9 +63,9 @@ Module _DEBUG_MAIN
 
                 matchedList = (From fff In matchedList Select fff Distinct Order By fff Ascending).AsList
 
-                Call matchedfile.Add(New Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair With {.Key = _id, .Value = matchedList.ToArray})
+                Call matchedfile.Add(New NamedVector(Of String) With {.Key = _id, .Value = matchedList.ToArray})
             Else
-                Call matchedfile.Add(New Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair With {.Key = _id, .Value = New String() {}})
+                Call matchedfile.Add(New NamedVector(Of String) With {.Key = _id, .Value = New String() {}})
             End If
         Next
 
