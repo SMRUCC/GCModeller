@@ -138,6 +138,7 @@ Partial Module CLI
 
     <ExportAPI("/Download.Pathway.Maps.Batch")>
     <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
+    <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
         Dim sp$ = args("/sp")
         Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
@@ -153,6 +154,7 @@ Partial Module CLI
 
     <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
     <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /KGML /out <out.directory>]")>
+    <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
