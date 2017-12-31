@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: E:/GCModeller/GCModeller/bin/eggHTS.exe
+' assembly: ..\bin\eggHTS.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
