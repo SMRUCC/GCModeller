@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::84a6e992852bee532d8e0866517a3f12, ..\GCModeller\CLI_tools\MEME\Cli\SeqParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
@@ -367,15 +368,18 @@ Partial Module CLI
         Return Parser.RegulonParser(inDIR, out).CLICode
     End Function
 
-    <ExportAPI("/Parser.Pathway",
-               Usage:="/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <ExportAPI("/Parser.Pathway")>
+    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Description("Parsing promoter sequence region for genes in pathways.")>
+    <Argument("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
+    <Argument("/PTT", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")
         Dim PTT_DIR As String = args("/PTT")
         Dim DOOR As String = args("/door")
-        Dim locusParser As String = args.GetValue("/locus", "union")
-        Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
+        Dim locusParser As String = args("/locus") Or "union"
+        Dim out As String = args("/out") Or (App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
         Dim PTTDb As New PTTDbLoader(PTT_DIR)
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
@@ -383,8 +387,9 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Parser.Modules",
-               Usage:="/Parser.Modules /KEGG.Modules <KEGG.modules.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <ExportAPI("/Parser.Modules")>
+    <Usage("/Parser.Modules /KEGG.Modules <KEGG.modules.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Description("Parsing promoter sequence region for genes in kegg reaction modules")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function ModuleParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Modules")

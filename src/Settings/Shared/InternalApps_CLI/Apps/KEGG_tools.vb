@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: E:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: ..\bin\KEGG_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -25,8 +25,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
-'  /Download.Pathway.Maps.Bacteria.All:     
-'  /Download.Pathway.Maps.Batch:            
 '  /Dump.sp:                                
 '  /Fasta.By.Sp:                            
 '  /Get.prot_motif:                         
@@ -61,6 +59,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                             dbget API
 '    /Download.Pathway.Maps:                  Fetch all of the pathway map information for a specific
 '                                             kegg organism by using a specifc kegg sp code.
+'    /Download.Pathway.Maps.Bacteria.All:     
+'    /Download.Pathway.Maps.Batch:            
 '    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
 '    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
 '    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.

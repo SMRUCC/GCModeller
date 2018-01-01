@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: E:/GCModeller/GCModeller/bin/MEME.exe
+' assembly: ..\bin\MEME.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -86,9 +86,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Parser.Locus:                       
 '    /Parser.Log2:                        
 '    /Parser.MAST:                        
-'    /Parser.Modules:                     
+'    /Parser.Modules:                     Parsing promoter sequence region for genes in kegg reaction
+'                                         modules
 '    /Parser.Operon:                      
-'    /Parser.Pathway:                     
+'    /Parser.Pathway:                     Parsing promoter sequence region for genes in pathways.
 '    /Parser.RegPrecise.Operons:          
 '    /Parser.Regulon:                     
 '    /Parser.Regulon.gb:                  
@@ -845,6 +846,7 @@ End Function
 ''' ```
 ''' /Parser.Modules /KEGG.Modules &lt;KEGG.modules.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
+''' Parsing promoter sequence region for genes in kegg reaction modules
 ''' </summary>
 '''
 Public Function ModuleParser(KEGG_Modules As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
@@ -898,6 +900,7 @@ End Function
 ''' ```
 ''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
+''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
 Public Function PathwayParser(KEGG_Pathways As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
