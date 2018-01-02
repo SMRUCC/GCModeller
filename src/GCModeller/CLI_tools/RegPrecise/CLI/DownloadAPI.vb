@@ -261,7 +261,7 @@ Imports SMRUCC.genomics.SequenceModel
 
     <ExportAPI("/Download.Regprecise",
                Info:="Download Regprecise database from Web API",
-               Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
+               Usage:="/Download.Regprecise [/work ./ /save <saveXml>]")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
         Dim Db As TranscriptionFactors = WebAPI.Download(WORK)

@@ -150,7 +150,12 @@ Public Module vbhtml
                            If exp.ContainsKey(name) Then
                                Return exp(name).Value
                            Else
-                               Return ""
+                               ' 2017-12-30
+                               '
+                               ' 因为假若使用的是jquery的话，会因为可能出现$u.<blabla>
+                               ' 这样子的情况，所以在这里不可以返回空字符串，而应该是空值
+                               ' 这样子就不会错误的将javascript里面的jQuery代码给替换掉了
+                               Return Nothing
                            End If
                        End Function
 
@@ -160,7 +165,7 @@ Public Module vbhtml
                 Call html.Replace(t.raw, "")
             Next
 
-            Call html.Interpolate(getValue)
+            Call html.Interpolate(getValue, nullAsEmpty:=False)
         End If
 
         ' variables主要是为ForLoop表达式所准备的
