@@ -53,6 +53,7 @@ Public Module BingSearch
         Dim url$ = $"https://en.wikipedia.org/w/index.php?title={term}&action=edit"
         Dim html$ = url.GET()
 
+        Throw New NotImplementedException
     End Function
 
     Public Function GetWikiPageText(term As String) As String
