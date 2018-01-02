@@ -82,8 +82,8 @@ Namespace Analysis
                                 .ToDictionary(Function(x) x.uid,
                                               Function(x) x.Group.Select(Function(xx) xx.x).ToArray)
             Dim regulonHash = (From x In regulons
-                               Where Not x.Regulons Is Nothing
-                               Select x.Regulons.Regulators.Select(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector
+                               Where Not x.regulons Is Nothing
+                               Select x.regulons.regulators.Select(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector
             Dim regulonResults = (From x In regulonHash Where tomHash.ContainsKey(x.uid) Select x.regulon.__creates(tomHash(x.uid))).ToVector
             Return regulonResults
         End Function

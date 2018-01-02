@@ -47,8 +47,8 @@ Partial Module CLI
         Dim Xmls As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(GCModeller.FileSystem.GetRepositoryRoot & "/RegpreciseDownloads/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
         Dim MotifLDMs = (From log As BacteriaGenome
                          In Xmls.Select(AddressOf LoadXml(Of BacteriaGenome))
-                         Where Not log.Regulons Is Nothing AndAlso
-                             Not log.Regulons.Regulators.IsNullOrEmpty
+                         Where Not log.regulons Is Nothing AndAlso
+                             Not log.regulons.regulators.IsNullOrEmpty
                          Select log)
         Dim result As New List(Of MotifLog)
         Dim bbhhash = BBHIndex.BuildHitsHash(bbh, True)
@@ -61,7 +61,7 @@ Partial Module CLI
         Dim logsHash As New List(Of Regulator)
 
         For Each regulog As BacteriaGenome In MotifLDMs
-            For Each TF As Regulator In regulog.Regulons.Regulators
+            For Each TF As Regulator In regulog.regulons.regulators
                 If TF.Type <> Regulator.Types.TF Then
                     Continue For
                 End If

@@ -105,11 +105,11 @@ Namespace Regprecise
             Dim genomeRef = Regprecise.LoadXml(Of BacteriaGenome)
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
             Dim genomeGET As New BacteriaGenome With {
-                .BacteriaGenome = New WebServices.JSONLDM.genome With {
+                .genome = New WebServices.JSONLDM.genome With {
                     .name = basename(mappings)
                 },
-                .Regulons = New Regulon With {
-                    .Regulators = regulators
+                .regulons = New Regulon With {
+                    .regulators = regulators
                 }
             }
             Return genomeGET
@@ -142,7 +142,7 @@ Namespace Regprecise
                                     Regprecise As BacteriaGenome,
                                     Operons As DOOR) As Regulator()
             Dim LQuery As Regulator() = (From x As Regulator
-                                         In Regprecise.Regulons.Regulators
+                                         In Regprecise.regulons.regulators
                                          Select mappings.Reconstruct(regulon:=x, DOOR:=Operons)).ToVector
             Return LQuery
         End Function
@@ -200,7 +200,7 @@ Namespace Regprecise
                                                   .RegulationMode = regulon.RegulationMode,
                                                   .Regulog = regulon.Regulog,
                                                   .Type = regulon.Type,
-                                                  .lstOperon = mappedOperons,
+                                                  .operons = mappedOperons,
                                                   .Regulates = mappedGenes
                                               }
             Return reRegulon

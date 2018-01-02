@@ -51,9 +51,10 @@ Namespace Regprecise
     <XmlRoot("TranscriptionFactors", Namespace:="http://regprecise.lbl.gov/RegPrecise/")>
     Public Class TranscriptionFactors : Inherits ITextFile
 
-        <XmlElement> Public Property BacteriaGenomes As BacteriaGenome()
-        <XmlAttribute("Database.UpdateTime")>
-        Public Property DownloadTime As String
+        <XmlElement>
+        Public Property genomes As BacteriaGenome()
+        <XmlAttribute("update")>
+        Public Property update As String
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
             Return Me.GetXml.SaveTo(getPath(FilePath), Encoding)
@@ -67,25 +68,25 @@ Namespace Regprecise
 
             If BacteriaGenome Is Nothing Then '不存在这条记录，则插入新的记录
                 Dim Regulog = New Regulon With {
-                    .Regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
+                    .regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
                 }
                 BacteriaGenome = New BacteriaGenome With {
-                    .BacteriaGenome = New JSONLDM.genome With {
+                    .genome = New JSONLDM.genome With {
                         .name = Bacteria
                     }
                 }
-                BacteriaGenome.Regulons = Regulog
-                BacteriaGenomes.Add(BacteriaGenome)
+                BacteriaGenome.regulons = Regulog
+                genomes.Add(BacteriaGenome)
 
                 Return True
             End If
 
-            Dim Regulator = (From tf As Regulator In BacteriaGenome.Regulons.Regulators
+            Dim Regulator = (From tf As Regulator In BacteriaGenome.regulons.regulators
                              Where String.Equals(tf.LocusTag.Key, RegulatorId, StringComparison.OrdinalIgnoreCase)
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
-                BacteriaGenome.Regulons.Regulators = Regulator.Join(BacteriaGenome.Regulons.Regulators).ToArray
+                BacteriaGenome.regulons.regulators = Regulator.Join(BacteriaGenome.regulons.regulators).ToArray
             Else
                 Dim RegulatorySites = (From FastaObject As FastaReaders.Site
                                        In FastaReaders.Site.CreateObject(RegulatorSites)
@@ -98,16 +99,16 @@ Namespace Regprecise
 
         Public Function GetBacteriaGenomeProfile(SpeciesName As String, Optional FuzzyMatch As Boolean = False) As BacteriaGenome
             Dim LQuery = (From Bacteria As BacteriaGenome
-                          In Me.BacteriaGenomes.AsParallel
-                          Where String.Equals(SpeciesName, Bacteria.BacteriaGenome.name, StringComparison.OrdinalIgnoreCase)
+                          In Me.genomes.AsParallel
+                          Where String.Equals(SpeciesName, Bacteria.genome.name, StringComparison.OrdinalIgnoreCase)
                           Select Bacteria).FirstOrDefault
 
             If Not LQuery Is Nothing Then Return LQuery
 
             If FuzzyMatch Then
                 LQuery = (From Bacteria As BacteriaGenome
-                          In BacteriaGenomes.AsParallel
-                          Where SpeciesName.FuzzyMatching(Bacteria.BacteriaGenome.name)
+                          In genomes.AsParallel
+                          Where SpeciesName.FuzzyMatching(Bacteria.genome.name)
                           Select Bacteria).FirstOrDefault
                 Return LQuery
             Else
@@ -116,8 +117,8 @@ Namespace Regprecise
         End Function
 
         Public Function GetRegulatorId(locus_tag As String, MotifPosition As Integer) As String
-            For Each Genome As BacteriaGenome In BacteriaGenomes
-                Dim LQuery = (From Regulator As Regulator In Genome.Regulons.Regulators
+            For Each Genome As BacteriaGenome In genomes
+                Dim LQuery = (From Regulator As Regulator In Genome.regulons.regulators
                               Where Not Regulator.GetMotifSite(locus_tag, MotifPosition) Is Nothing
                               Select Regulator).FirstOrDefault
                 If Not LQuery Is Nothing Then
@@ -134,8 +135,8 @@ Namespace Regprecise
         ''' <param name="trace">locus_tag:position</param>
         ''' <returns></returns>
         Public Function GetRegulators(trace As String) As Regulator()
-            For Each genome As BacteriaGenome In BacteriaGenomes
-                Dim LQuery As Regulator() = (From Regulator As Regulator In genome.Regulons.Regulators
+            For Each genome As BacteriaGenome In genomes
+                Dim LQuery As Regulator() = (From Regulator As Regulator In genome.regulons.regulators
                                              Where Not Regulator.GetMotifSite(trace) Is Nothing
                                              Select Regulator).ToArray
                 If Not LQuery.IsNullOrEmpty Then
@@ -177,8 +178,8 @@ Namespace Regprecise
 
         Public Function ListAllRegulators() As Regulator()
             Dim LQuery = (From BacteriaGenome As BacteriaGenome
-                          In Me.BacteriaGenomes.AsParallel
-                          Select BacteriaGenome.Regulons.Regulators).ToArray
+                          In Me.genomes.AsParallel
+                          Select BacteriaGenome.regulons.regulators).ToArray
             Return LQuery.ToVector
         End Function
 
@@ -190,8 +191,8 @@ Namespace Regprecise
         ''' <remarks></remarks>
         Public Function Get_Regulators(Type As Regulator.Types) As Regulator()
             Dim LQuery = (From genome As BacteriaGenome
-                          In Me.BacteriaGenomes.AsParallel
-                          Select genome.Regulons.Regulators).ToArray
+                          In Me.genomes.AsParallel
+                          Select genome.regulons.regulators).ToArray
             Return (From reg As Regulator
                     In LQuery.IteratesALL.AsParallel
                     Where reg.Type = Type
@@ -204,11 +205,11 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Function BuildRegulatesHash() As Dictionary(Of String, String())
             Dim LQuery = (From g As BacteriaGenome
-                          In Me.BacteriaGenomes
-                          Where Not g.Regulons Is Nothing
-                          Select g.Regulons.Regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
+                          In Me.genomes
+                          Where Not g.regulons Is Nothing
+                          Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
                                                                             In x.RegulatorySites
-                                                                            Select uid = $"{site.LocusTag}:{site.Position}",
+                                                                           Select uid = $"{site.LocusTag}:{site.Position}",
                                                                                 x.LocusId)).IteratesALL).IteratesALL
             Dim Groups = (From x In LQuery
                           Select x

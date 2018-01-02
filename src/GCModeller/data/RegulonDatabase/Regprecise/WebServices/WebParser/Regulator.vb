@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::e02290cbcd79db5ea05e0466b68c14a4, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -67,7 +68,7 @@ Namespace Regprecise
         ''' 被这个调控因子所调控的基因，按照操纵子进行分组，这个适用于推断Regulon的
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray> Public Property lstOperon As Operon()
+        <XmlArray> Public Property operons As Operon()
         <XmlElement> Public Property Regulates As RegulatedGene()
         Public Property SiteMore As String
 
@@ -78,6 +79,7 @@ Namespace Regprecise
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property LocusId As String Implements IReadOnlyId.Identity
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return LocusTag.Key
             End Get
@@ -171,7 +173,7 @@ Namespace Regprecise
             Regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimNewLine("").Replace(vbTab, "").Trim, url)
 
             Dim exportServletLnks As String() = __exportServlet(html)
-            Regulator.lstOperon = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))
+            Regulator.operons = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))
             Regulator.RegulatorySites = Regtransbase.WebServices.FastaObject.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return Regulator

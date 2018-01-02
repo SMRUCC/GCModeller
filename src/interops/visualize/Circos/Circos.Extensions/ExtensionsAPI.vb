@@ -109,7 +109,7 @@ Public Module ExtensionsAPI
     Public Function FromRegulons(DIR As String, PTT As PTT, Optional requiredMaps As Boolean = False) As HighlightLabel
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaGenome).regulons.regulators).ToArray.Unlist
         If requiredMaps Then
             Dim Maps As Dictionary(Of String, String) = PTT.LocusMaps
             For Each x As Regulator In bbh

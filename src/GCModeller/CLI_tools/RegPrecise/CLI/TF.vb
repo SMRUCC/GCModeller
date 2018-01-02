@@ -134,11 +134,11 @@ Partial Module CLI
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
                                           Function(x) x.Group.Select(Function(xx) xx.x))
-        Dim genomes As IEnumerable(Of BacteriaGenome) = inDIR.LoadXml(Of TranscriptionFactors).BacteriaGenomes
+        Dim genomes As IEnumerable(Of BacteriaGenome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
         Dim all = (From x As BacteriaGenome In genomes
-                   Where Not x.Regulons Is Nothing AndAlso
-                       Not x.Regulons.Regulators.IsNullOrEmpty
-                   Select xx = x.Regulons.Regulators).Unlist
+                   Where Not x.regulons Is Nothing AndAlso
+                       Not x.regulons.regulators.IsNullOrEmpty
+                   Select xx = x.regulons.regulators).Unlist
         Dim regulators = (From regulator As Regulator In all
                           Let sid As String = regulator.LocusId
                           Where hitsHash.ContainsKey(sid)
@@ -196,7 +196,7 @@ Partial Module CLI
 
         For Each genome As BacteriaGenome In From xml As String In xmls Select xml.LoadXml(Of BacteriaGenome)
             list += From x As Regulator
-                    In genome.Regulons.Regulators
+                    In genome.regulons.regulators
                     Where x.Type = Regulator.Types.TF
                     Where Not x.Effector.StringEmpty
                     Let tokens As String() = x.Effector.Split(";"c)

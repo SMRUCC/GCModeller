@@ -50,7 +50,7 @@ Partial Module CLI
         Dim queryList = AnnotationModel.LoadDocument(inMEME)
         Dim source = inRegulon.LoadXml(Of BacteriaGenome)
         Dim sourceHash = (From x As Regulator
-                          In source.Regulons.Regulators
+                          In source.regulons.regulators
                           Let uid As String = $"{x.LocusId}.{x.LocusTag.Value.Replace(":", "_")}"
                           Select uid, x)
         Dim target = (From x In sourceHash Where String.Equals(x.uid, inId, StringComparison.OrdinalIgnoreCase) Select x).FirstOrDefault
@@ -135,10 +135,10 @@ Partial Module CLI
                       Where Not regulators.IsNullOrEmpty
                       Let id As String = basename(x)
                       Select id, _genome = New BacteriaGenome With {
-                          .Regulons = New Data.Regprecise.Regulon With {
-                                .Regulators = regulators
+                          .regulons = New Data.Regprecise.Regulon With {
+                                .regulators = regulators
                           },
-                          .BacteriaGenome = New WebServices.JSONLDM.genome With {
+                          .genome = New WebServices.JSONLDM.genome With {
                                 .name = "@" & id}}).ToArray
 
         For Each _genome In LQuery
@@ -184,7 +184,7 @@ Partial Module CLI
                           genome = RegulonAPI.Reconstruct(x.bbhMapped, x.genome, doorOperon)).ToArray
 
         For Each genome In LQuery
-            Dim path As String = $"{out}/{genome.genome.BacteriaGenome.name.NormalizePathString(True)}.xml"
+            Dim path As String = $"{out}/{genome.genome.genome.name.NormalizePathString(True)}.xml"
             Call genome.genome.GetXml.SaveTo(path)
         Next
 

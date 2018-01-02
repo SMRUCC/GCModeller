@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::f5abab40041ce474234791f2338c070b, ..\GCModeller\CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
@@ -57,8 +58,8 @@ Imports SMRUCC.genomics.SequenceModel
         Dim repository As New Genbank(genbank)
         Dim trim As Boolean = Not args.GetBoolean("/full")
 
-        For Each genome As BacteriaGenome In [in].LoadXml(Of TranscriptionFactors).BacteriaGenomes
-            Dim path As String = out & $"/{genome.BacteriaGenome.name.NormalizePathString}.fasta"
+        For Each genome As BacteriaGenome In [in].LoadXml(Of TranscriptionFactors).genomes
+            Dim path As String = out & $"/{genome.genome.name.NormalizePathString}.fasta"
             Dim query As QuerySource = genome.CreateKEGGQuery
             Dim entry As GenbankIndex = repository.Query(query)
 
@@ -182,7 +183,7 @@ Imports SMRUCC.genomics.SequenceModel
         Call $"Get {DIRs.Count} directories and {genomes.Count} genomes...".__DEBUG_ECHO
 
         For Each genome As BacteriaGenome In genomes.Select(AddressOf LoadXml(Of BacteriaGenome))
-            Dim name As String = genome.BacteriaGenome.name.NormalizePathString
+            Dim name As String = genome.genome.name.NormalizePathString
             Dim DIR As String = inDIR & "/" & name
             Dim sp As String = genome.CreateKEGGQuery.QuerySpCode(offline)
 
@@ -226,8 +227,8 @@ Imports SMRUCC.genomics.SequenceModel
 
         For Each file As String In FileIO.FileSystem.GetFiles(sourceDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
             Dim genome = file.LoadXml(Of BacteriaGenome)
-            Dim outDIR As String = out & "/" & genome.BacteriaGenome.name.NormalizePathString(True)
-            Dim exists As String = existsDIR & "/" & genome.BacteriaGenome.name.NormalizePathString(True)
+            Dim outDIR As String = out & "/" & genome.genome.name.NormalizePathString(True)
+            Dim exists As String = existsDIR & "/" & genome.genome.name.NormalizePathString(True)
             Dim query = genome.CreateKEGGQuery
             Dim queryFile As String = outDIR & "/query.txt"
             Dim CLI As String = $"Download.Sequence /query {queryFile.CLIPath} /out {outDIR.CLIToken} /source {exists.CLIToken}"
@@ -259,15 +260,15 @@ Imports SMRUCC.genomics.SequenceModel
         Return 0
     End Function
 
-    <ExportAPI("/Download.Regprecise",
-               Info:="Download Regprecise database from Web API",
-               Usage:="/Download.Regprecise [/work ./ /save <saveXml>]")>
+    <ExportAPI("/Download.Regprecise")>
+    <Description("Download Regprecise database from Web API")>
+    <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
-        Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
-        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
-        Dim out As String = args.GetValue("/save", App.CurrentDirectory & "/Regprecise.Xml")
+        Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
+        Dim regprecise As TranscriptionFactors = WebAPI.Download(WORK)
+        Dim out$ = args("/save") Or (App.CurrentDirectory & "/Regprecise.Xml")
 
-        Return Db.GetXml.SaveTo(out)
+        Return regprecise.GetXml.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Download.Motifs", Usage:="/Download.Motifs /imports <RegPrecise.DIR> [/export <EXPORT_DIR>]")>
@@ -276,8 +277,8 @@ Imports SMRUCC.genomics.SequenceModel
         Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaGenome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
         Dim sites As IEnumerable(Of String) = genomes.Where(
-            Function(g) Not g.Regulons Is Nothing AndAlso
-                        Not g.Regulons.Regulators.IsNullOrEmpty).Select(Function(g) g.Regulons.Regulators.Select(Function(x) x.SiteMore)).IteratesALL.Distinct.ToArray
+            Function(g) Not g.regulons Is Nothing AndAlso
+                        Not g.regulons.regulators.IsNullOrEmpty).Select(Function(g) g.regulons.regulators.Select(Function(x) x.SiteMore)).IteratesALL.Distinct.ToArray
         Dim list As New List(Of String)((App.SysTemp & "/process.txt").ReadAllLines)
 
         For Each url In sites.SeqIterator

@@ -362,9 +362,9 @@ Public Class Mapping : Implements System.IDisposable
     Public Shared Function GetEffectors(Regprecise As TranscriptionFactors) As List(Of MetaCyc.Schema.EffectorMap)
         Dim EffectorIdList = LinqAPI.MakeList(Of String) <=
             From item As Regprecise.BacteriaGenome
-            In Regprecise.BacteriaGenomes
+            In Regprecise.genomes
             Select From regulator
-                   In item.Regulons.Regulators
+                   In item.regulons.regulators
                    Where Not String.IsNullOrEmpty(regulator.Effector)
                    Select regulator.Effector.ToLower.Trim
 

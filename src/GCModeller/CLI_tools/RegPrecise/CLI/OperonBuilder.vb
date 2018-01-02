@@ -168,12 +168,12 @@ Partial Module CLI
             BBHIndex.BuildHitsHash(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)
 
-        For Each genome As BacteriaGenome In RegPrecise.BacteriaGenomes
-            For Each regulon As Regulator In genome.Regulons.Regulators
+        For Each genome As BacteriaGenome In RegPrecise.genomes
+            For Each regulon As Regulator In genome.regulons.regulators
                 Dim TF As String() = If(tfHash.ContainsKey(regulon.LocusId), tfHash(regulon.LocusId), Nothing)
                 Dim isRNA As Boolean = regulon.Type = Regulator.Types.RNA
 
-                For Each opr In regulon.lstOperon
+                For Each opr In regulon.operons
                     Dim oHits As New Dictionary(Of String, String())   ' {RegPrecise -> bbh}
 
                     For Each m As RegulatedGene In opr.Members
@@ -208,7 +208,7 @@ Partial Module CLI
                 Call Console.Write("-")
             Next
 
-            Call genome.BacteriaGenome.GetJson.__DEBUG_ECHO
+            Call genome.genome.GetJson.__DEBUG_ECHO
         Next
 
         Return result > out
