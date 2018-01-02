@@ -56,7 +56,7 @@ Namespace Assembly.NCBI.Entrez
         ''' 
         <Extension>
         Public Function efetch(gi As String, Optional rettype As String = "fasta") As TSeqSet
-            Dim url As String = API.sFormat(gi, rettype)
+            Dim url As String = API.FormatString(gi, rettype)
             Dim xml As String = url.GetRequest
             Dim seqs As TSeqSet = xml.LoadFromXml(Of TSeqSet)
             Return seqs

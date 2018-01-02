@@ -130,7 +130,7 @@ Public Class RegPreciseRegulon
                      Select xml.LoadXml(Of BacteriaGenome)).ToArray
         Dim regulons = (From x As BacteriaGenome In loads
                         Where x.NumOfRegulons > 0
-                        Select x.Regulons.Regulators).Unlist
+                        Select x.regulons.regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator
                                   In regulons
                                   Select x,

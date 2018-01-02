@@ -61,7 +61,7 @@ Namespace Workflows.PromoterParser
 
         Public Function RegulonParser(genome As Regprecise.BacteriaGenome, outDIR As String) As Boolean
             For Each len As Integer In PromoterRegionParser.PrefixLength
-                For Each regulon In genome.Regulons.Regulators
+                For Each regulon In genome.regulons.regulators
                     Dim fa = RegulonParser(regulon, len)
                     Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.LocusTag.Value.NormalizePathString(True)}.fasta"
                     Call fa.Save(path)
@@ -75,11 +75,11 @@ Namespace Workflows.PromoterParser
             Dim genomes = inDIR.LoadSourceEntryList({"*.xml"}).Select(Function(x) x.Value.LoadXml(Of Regprecise.BacteriaGenome))
 
             For Each genome As Regprecise.BacteriaGenome In genomes
-                If Not genome.Regulons Is Nothing AndAlso Not genome.Regulons.Regulators.IsNullOrEmpty Then
+                If Not genome.regulons Is Nothing AndAlso Not genome.regulons.regulators.IsNullOrEmpty Then
                     Call RegulonParser(genome, outDIR)
                 End If
 
-                Call genome.BacteriaGenome.name.__DEBUG_ECHO
+                Call genome.genome.name.__DEBUG_ECHO
             Next
 
             Return True

@@ -27,13 +27,16 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.Regulator
 Imports SMRUCC.genomics.SequenceModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
@@ -59,7 +62,7 @@ Namespace Regprecise
             Next
 
             Return New Regulon With {
-                .Regulators = Regulators
+                .regulators = Regulators
             }
         End Function
 
@@ -113,32 +116,37 @@ Namespace Regprecise
         End Function
 
         Public Const TABLE_REGEX As String = "<table class=""stattbl"">.+</table>"
-        Public Const WEB_REQUEST_ENTRY_URL As String = "http://regprecise.lbl.gov/RegPrecise/browse_genomes.jsp"
+        Public Const browse_genomes$ = "http://regprecise.lbl.gov/RegPrecise/browse_genomes.jsp"
 
         <ExportAPI("Regprecise.Downloads")>
-        Public Function Download(<Parameter("DIR.Export")> Optional EXPORT As String = "") As TranscriptionFactors
+        Public Function Download(<Parameter("DIR.Export")> Optional EXPORT$ = "./") As TranscriptionFactors
             Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
 
-            Dim PageContent As String = Regex.Match(WEB_REQUEST_ENTRY_URL.GET, TABLE_REGEX, RegexOptions.Singleline).Value
-            Dim Items As String() = (From matched As Match
-                                     In Regex.Matches(PageContent, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase)
-                                     Select matched.Value).ToArray
-            Dim BacteriaGenomes As BacteriaGenome() = New BacteriaGenome(Items.Length - 1) {}
+            Dim html$ = Regex.Match(browse_genomes.GET, TABLE_REGEX, RegexOptions.Singleline).Value
+            Dim list$() = r _
+                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
+                .ToArray
+            Dim genomes As BacteriaGenome() = New BacteriaGenome(list.Length - 1) {}
 
-            If String.IsNullOrEmpty(EXPORT) Then
-                EXPORT = My.Computer.FileSystem.SpecialDirectories.Temp
-            End If
+            Call $"{genomes.Length} bacteria genome are ready to download!".__DEBUG_ECHO
 
-            Call $"{BacteriaGenomes.Length} bacteria genome are ready to download!".__DEBUG_ECHO
+            Using progress As New ProgressBar("Download regprecise database...")
+                Dim tick As New ProgressProvider(total:=list.Length)
+                Dim ETA$
+                Dim message$
 
-            For i As Integer = 0 To BacteriaGenomes.Length - 1
-                BacteriaGenomes(i) = __download(Items(i), EXPORT)
-                Call $"Downloads process ............................................................. {100 * i / BacteriaGenomes.Length}% ({i}/{BacteriaGenomes.Length})".__DEBUG_ECHO
-            Next
+                For i As Integer = 0 To genomes.Length - 1
+                    genomes(i) = __download(list(i), EXPORT)
+                    ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    message = $"{genomes(i).genome.name}  ETA: {ETA}"
+                    progress.SetProgress(tick.StepProgress, message)
+                    Thread.Sleep(60 * 1000)
+                Next
+            End Using
 
             Return New TranscriptionFactors With {
-                .BacteriaGenomes = BacteriaGenomes,
-                .DownloadTime = Now.ToShortDateString
+                .genomes = genomes,
+                .update = Now.ToShortDateString
             }
         End Function
 
@@ -163,11 +171,11 @@ Namespace Regprecise
 
 RE_DOWNLOAD:
             Dim BacteriaGenome As BacteriaGenome = New BacteriaGenome With {
-                .BacteriaGenome = New WebServices.JSONLDM.genome With {
+                .genome = New WebServices.JSONLDM.genome With {
                     .name = Entry.Key
                 }
             }
-            BacteriaGenome.Regulons = WebAPI.DownloadRegulon(Entry.Value)
+            BacteriaGenome.regulons = WebAPI.DownloadRegulon(Entry.Value)
             Call BacteriaGenome.GetXml.SaveTo(SavePath)
 
             Return BacteriaGenome
@@ -185,9 +193,9 @@ RE_DOWNLOAD:
         Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, DownloadDIR As String) As FASTA.FastaFile
             Dim FileData As FASTA.FastaFile = New FASTA.FastaFile
             Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
-                For Each Bacteria As BacteriaGenome In Regprecise.BacteriaGenomes
+                For Each Bacteria As BacteriaGenome In Regprecise.genomes
                     Dim downloads = (From regulator As Regulator
-                                     In Bacteria.Regulons.Regulators
+                                     In Bacteria.regulons.regulators
                                      Let fa As FASTA.FastaToken = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
                                      Where Not fa Is Nothing
                                      Select fa).ToArray
@@ -208,7 +216,7 @@ RE_DOWNLOAD:
             End If
 
             If String.IsNullOrEmpty(regulator.LocusTag.Key) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.Key}] [Bacteria={genome.BacteriaGenome.name}]" & vbCrLf
+                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.Key}] [Bacteria={genome.genome.name}]" & vbCrLf
                 Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
                 Return Nothing
             End If
