@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -139,6 +140,7 @@ Namespace Regprecise
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     message = $"{genomes(i).genome.name}  ETA: {ETA}"
                     progress.SetProgress(tick.StepProgress, message)
+                    Thread.Sleep(60 * 1000)
                 Next
             End Using
 

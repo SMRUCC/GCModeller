@@ -192,8 +192,7 @@ Namespace Regprecise
         Private Shared Function __exportServlet(pageContent As String) As String()
             Dim url As String = Regex.Match(pageContent, "<table class=""tblexport"">.+?</table>", RegexOptions.Singleline).Value
             Dim links As String() = (From match As Match In Regex.Matches(url, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select match.Value).ToArray
-            links = links.Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value)
-            links = links.Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href)
+            links = links.Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value).Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href).ToArray
             Return links
         End Function
 

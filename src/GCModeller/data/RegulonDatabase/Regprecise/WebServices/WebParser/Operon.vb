@@ -57,8 +57,8 @@ Namespace Regprecise
             Dim Tokens As String() = Regex.Matches(page, "<tr>.+?</tr>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
             Dim locus = __locusParser(page)
             Tokens = (From row As String In Tokens Where InStr(row, "<div class=""operon"">") > 0 Select row).ToArray
-            Dim lstOperons As Operon() = Tokens.Select(Function(value) __operonParser(value, locus))
-            Return lstOperons
+            Dim operons As Operon() = Tokens.Select(Function(value) __operonParser(value, locus)).ToArray
+            Return operons
         End Function
 
         Private Shared Function __operonParser(value As String, locus As Dictionary(Of String, String)) As Operon
