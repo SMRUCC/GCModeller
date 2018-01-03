@@ -69,7 +69,7 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Function ListRegulators() As String()
             Dim list As String() = (From x As Regulator In regulons.regulators
-                                    Where x.type = Regulator.Types.TF
+                                    Where x.type = Types.TF
                                     Select x.locus_tag.name
                                     Distinct).ToArray
             Return list

@@ -44,7 +44,7 @@ Namespace Regprecise.WebServices
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Site As String
-        <XmlAttribute> Public Property Type As Regulator.Types
+        <XmlAttribute> Public Property Type As Types
         <XmlAttribute> Public Property Family As String
         ''' <summary>
         ''' <see cref="JSON.regulator.regulonId"/>

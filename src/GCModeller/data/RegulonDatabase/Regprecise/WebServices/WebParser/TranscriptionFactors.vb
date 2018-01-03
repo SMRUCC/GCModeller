@@ -159,11 +159,11 @@ Namespace Regprecise
 
         Public Function Export_TFBSInfo() As FASTA.FastaFile
             Dim TFBS_sites = (From Regulator As Regulator In Me.ListAllRegulators()
-                              Where Regulator.type = Regulator.Types.TF
+                              Where Regulator.type = Types.TF
                               Select (From site In Regulator.regulatorySites
                                       Select RegulatorId = Regulator.locus_tag.name,
                                           Regulator.family,
-                                          Species = Strings.Split(Regulator.Regulog.name, " - ").Last,
+                                          Species = Strings.Split(Regulator.regulog.name, " - ").Last,
                                           Tfbs_siteInfo = site).ToArray).ToArray.ToVector
             Dim LQuery = (From Tfbs As Integer
                           In TFBS_sites.Sequence.AsParallel
@@ -189,7 +189,7 @@ Namespace Regprecise
         ''' <param name="Type"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Get_Regulators(Type As Regulator.Types) As Regulator()
+        Public Function Get_Regulators(Type As Types) As Regulator()
             Dim LQuery = (From genome As BacteriaGenome
                           In Me.genomes.AsParallel
                           Select genome.regulons.regulators).ToArray

@@ -62,7 +62,7 @@ Partial Module CLI
 
         For Each regulog As BacteriaGenome In MotifLDMs
             For Each TF As Regulator In regulog.regulons.regulators
-                If TF.type <> Regulator.Types.TF Then
+                If TF.type <> Types.TF Then
                     Continue For
                 End If
                 If Not bbhhash.ContainsKey(TF.regulator.name) Then

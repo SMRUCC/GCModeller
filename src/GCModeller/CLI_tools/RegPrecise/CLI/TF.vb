@@ -197,7 +197,7 @@ Partial Module CLI
         For Each genome As BacteriaGenome In From xml As String In xmls Select xml.LoadXml(Of BacteriaGenome)
             list += From x As Regulator
                     In genome.regulons.regulators
-                    Where x.type = Regulator.Types.TF
+                    Where x.type = Types.TF
                     Where Not x.effector.StringEmpty
                     Let tokens As String() = x.effector.Split(";"c)
                     Select From name As String
@@ -206,7 +206,7 @@ Partial Module CLI
                                .Effector = name.Trim,
                                .BiologicalProcess = x.biological_process,
                                .Pathway = x.pathway,
-                               .Regulon = x.Regulog.name,
+                               .Regulon = x.regulog.name,
                                .TF = x.LocusId
                            }
         Next

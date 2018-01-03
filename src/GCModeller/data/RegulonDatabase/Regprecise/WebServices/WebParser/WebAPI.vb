@@ -92,10 +92,10 @@ Namespace Regprecise
             Dim Regulator As Regulator = New Regulator With {
                 .family = Family,
                 .locus_tag = New NamedValue With {.name = RegulatorId},
-                .Regulog = New NamedValue With {
+                .regulog = New NamedValue With {
                     .name = String.Format("{0} - {1}", Family, Bacteria)
                 },
-                .type = Regulator.Types.TF,
+                .type = Types.TF,
                 .regulator = New NamedValue With {.name = RegulatorId},
                 .regulatorySites = regSites
             }
@@ -216,7 +216,7 @@ Namespace Regprecise
                                      ErrLog As LogFile,
                                      DownloadDIR As String) As FASTA.FastaToken
 
-            If regulator.type = Regulator.Types.RNA Then
+            If regulator.type = Types.RNA Then
                 Return Nothing
             End If
 

@@ -342,7 +342,7 @@ Rodionov, D. A.", Volume:=14)>
 
             For Each BacterialGenome As BacteriaGenome In Regprecise.genomes
                 For Each Regulon As Regulator In BacterialGenome.regulons.regulators
-                    If Regulon.type = Regulator.Types.RNA Then
+                    If Regulon.type = Types.RNA Then
                         Continue For
                     End If
 
@@ -383,7 +383,7 @@ Rodionov, D. A.", Volume:=14)>
 
             For Each BacterialGenome In Regprecise.genomes
                 For Each Regulon In BacterialGenome.regulons.regulators
-                    If Regulon.type = Regulator.Types.RNA Then
+                    If Regulon.type = Types.RNA Then
                         Continue For
                     End If
 
@@ -412,7 +412,7 @@ Rodionov, D. A.", Volume:=14)>
             For Each BacterialGenome As BacteriaGenome In Regprecise.genomes
                 Call Chunkbuffer.AddRange((From regulator As Regulator
                                            In BacterialGenome.regulons.regulators
-                                           Where regulator.type = Regulator.Types.TF
+                                           Where regulator.type = Types.TF
                                            Select regulator.family).ToArray)
             Next
 
@@ -444,7 +444,7 @@ Rodionov, D. A.", Volume:=14)>
                 For Each Regulator In Bacteria.regulons.regulators
                     Dim Path As String = String.Format("{0}/{1}.fasta", Regulators, Regulator.locus_tag.name)
 
-                    If Regulator.type = Regulator.Types.RNA Then
+                    If Regulator.type = Types.RNA Then
                         Continue For
                     End If
 
