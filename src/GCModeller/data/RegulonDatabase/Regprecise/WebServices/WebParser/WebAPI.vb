@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
@@ -119,24 +120,29 @@ Namespace Regprecise
         Public Const browse_genomes$ = "http://regprecise.lbl.gov/RegPrecise/browse_genomes.jsp"
 
         <ExportAPI("Regprecise.Downloads")>
-        Public Function Download(<Parameter("DIR.Export")> Optional EXPORT$ = "./") As TranscriptionFactors
+        Public Function Download(Optional EXPORT$ = "./") As TranscriptionFactors
+            Dim html$
+            Dim list$()
+            Dim genomes As New List(Of BacteriaGenome)
+
             Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
 
-            Dim html$ = Regex.Match(browse_genomes.GET, TABLE_REGEX, RegexOptions.Singleline).Value
-            Dim list$() = r _
+            html$ = r _
+                .Match(browse_genomes.GET, TABLE_REGEX, RegexOptions.Singleline) _
+                .Value
+            list$ = r _
                 .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
                 .ToArray
-            Dim genomes As BacteriaGenome() = New BacteriaGenome(list.Length - 1) {}
 
-            Call $"{genomes.Length} bacteria genome are ready to download!".__DEBUG_ECHO
+            Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
 
             Using progress As New ProgressBar("Download regprecise database...")
                 Dim tick As New ProgressProvider(total:=list.Length)
                 Dim ETA$
                 Dim message$
 
-                For i As Integer = 0 To genomes.Length - 1
-                    genomes(i) = __download(list(i), EXPORT)
+                For i As Integer = 0 To list.Length - 1
+                    genomes += __download(list(i), EXPORT)
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     message = $"{genomes(i).genome.name}  ETA: {ETA}"
                     progress.SetProgress(tick.StepProgress, message)
@@ -151,34 +157,25 @@ Namespace Regprecise
         End Function
 
         Private Function __download(entryHref As String, EXPORT As String) As BacteriaGenome
-            Dim strData As String = Regex.Match(entryHref, "href="".+?"">.+?</a>").Value
-            Dim Entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(strData), "http://regprecise.lbl.gov/RegPrecise/" & strData.href)
-            Dim SavePath As String = String.Format("{0}/{1}.xml", EXPORT, Entry.Key.NormalizePathString)
+            Dim str$ = Regex.Match(entryHref, "href="".+?"">.+?</a>").Value
+            Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
+            Dim name$ = entry.Key.NormalizePathString
+            Dim save$ = EXPORT & $"/{name}.xml"
 
-            If FileIO.FileSystem.FileExists(SavePath) AndAlso
-                FileIO.FileSystem.GetFileInfo(SavePath).Length > 1024 Then
-                Dim ExistsData = SavePath.LoadXml(Of BacteriaGenome)()
-                ''有些数据由于解析的缘故，是错误的，故而在这里需要进行校验：后续的过程之中可以将这部分的校验代码进行删除
-                'Dim LQuery = (From item In ExistsData.Regulons.Regulators
-                '              Let EmptyValues = (From site In item.RegulatorySites Where site.Position = 0 Select site).ToArray
-                '              Where EmptyValues.IsNullOrEmpty = False Select EmptyValues).ToArray.MatrixToVector
-                'If Not LQuery.IsNullOrEmpty Then
-                '    GoTo RE_DOWNLOAD       '这里的数据是错误的，需要进行重新下载
-                'End If
-
-                Return ExistsData
-            End If
-
-RE_DOWNLOAD:
-            Dim BacteriaGenome As BacteriaGenome = New BacteriaGenome With {
-                .genome = New WebServices.JSONLDM.genome With {
-                    .name = Entry.Key
+            If save.FileLength > 1024 Then
+                Return save.LoadXml(Of BacteriaGenome)()
+            Else
+                With New BacteriaGenome With {
+                    .genome = New WebServices.JSON.genome With {
+                        .name = entry.Key
+                    },
+                    .regulons = WebAPI.DownloadRegulon(entry.Value)
                 }
-            }
-            BacteriaGenome.regulons = WebAPI.DownloadRegulon(Entry.Value)
-            Call BacteriaGenome.GetXml.SaveTo(SavePath)
+                    Call .GetXml.SaveTo(save)
 
-            Return BacteriaGenome
+                    Return .ref
+                End With
+            End If
         End Function
 
         ''' <summary>

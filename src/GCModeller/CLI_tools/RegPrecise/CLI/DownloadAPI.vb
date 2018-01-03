@@ -263,15 +263,22 @@ Imports SMRUCC.genomics.SequenceModel
     <ExportAPI("/Download.Regprecise")>
     <Description("Download Regprecise database from Web API")>
     <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
+    <Group(CLIGroups.WebAPI)>
+    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data.")>
+    <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
         Dim regprecise As TranscriptionFactors = WebAPI.Download(WORK)
         Dim out$ = args("/save") Or (App.CurrentDirectory & "/Regprecise.Xml")
 
-        Return regprecise.GetXml.SaveTo(out).CLICode
+        Return regprecise _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/Download.Motifs", Usage:="/Download.Motifs /imports <RegPrecise.DIR> [/export <EXPORT_DIR>]")>
+    <Group(CLIGroups.WebAPI)>
     Public Function DownloadMotifSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
         Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaGenome))

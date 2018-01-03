@@ -226,6 +226,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGroups.vb" />
     <Compile Include="CLI\CORN.vb" />
     <Compile Include="CLI\Regulon.vb" />
     <Compile Include="CLI\Rfam.vb" />
