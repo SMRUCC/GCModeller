@@ -49,21 +49,21 @@ Namespace Regprecise
 
         <ExportAPI("Regulon.Downloads")>
         Public Function DownloadRegulon(url As String) As Regulon
-            Dim html As String = Regex.Match(url.GET, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline).Value
-            html = Regex.Match(html, "<tbody>.+</tbody>", RegexOptions.Singleline).Value
-
-            Dim Items As String() = (From match As Match
-                                     In Regex.Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase)
-                                     Select match.Value).ToArray
-            Dim Regulators As Regulator() = New Regulator(Items.Length - 1) {}
-
-            For i As Integer = 0 To Regulators.Length - 1
-                Dim strData As String = Items(i)
-                Regulators(i) = Regulator.CreateObject(strData)
+            Dim html$ = r _
+                .Match(url.GET, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline) _
+                .Match("<tbody>.+</tbody>", RegexOptions.Singleline)
+            Dim list$() = r _
+                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
+                .ToArray
+            Dim regulators As New List(Of Regulator)
+            Dim str$
+            For i As Integer = 0 To list.Length - 1
+                str = list(i)
+                regulators += Regulator.CreateObject(str)
             Next
 
             Return New Regulon With {
-                .regulators = Regulators
+                .regulators = regulators
             }
         End Function
 
