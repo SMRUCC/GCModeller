@@ -143,9 +143,9 @@ Namespace Regprecise.FastaReaders
         Public Function ToFastaObject() As Regtransbase.WebServices.FastaObject
             Return New Regtransbase.WebServices.FastaObject With {
                 .SequenceData = SequenceData,
-                .Position = position,
-                .Name = Me.geneVIMSSId,
-                .LocusTag = Me.geneLocusTag,
+                .position = position,
+                .name = Me.geneVIMSSId,
+                .locus_tag = Me.geneLocusTag,
                 .Bacteria = Bacteria
             }
         End Function

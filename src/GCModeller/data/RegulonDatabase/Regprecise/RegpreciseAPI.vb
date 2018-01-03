@@ -196,7 +196,7 @@ Rodionov, D. A.", Volume:=14)>
                                         Where String.Equals(maps.HitName, Regulator)
                                         Select maps.QueryName).ToArray
                           Let sites = (From site In RegpreciseRegulator.RegulatorySites
-                                       Select String.Format("{0}:{1}", site.LocusTag, site.Position)).ToArray
+                                       Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray
                           Let match As Matches = New Matches With {
                               .RegpreciseRegulator = Regulator,
                               .RegulonSites = sites,
@@ -317,7 +317,7 @@ Rodionov, D. A.", Volume:=14)>
 
             Dim LQuery = (From i As Integer In source.Sequence
                           Let FastaObject = source(i)
-                          Let Regulator As String = Regprecise.GetRegulatorId(FastaObject.Value.LocusTag, FastaObject.Value.Position)
+                          Let Regulator As String = Regprecise.GetRegulatorId(FastaObject.Value.locus_tag, FastaObject.Value.position)
                           Select GenerateFastaData(FastaObject.Value, Family, FastaObject.Key, lcl:=i, Regulator:=Regulator)).ToArray
             Return LQuery
         End Function
@@ -328,7 +328,7 @@ Rodionov, D. A.", Volume:=14)>
                                           lcl As Integer,
                                           Regulator As String) As FASTA.FastaToken
 
-            Dim title As String = $"{Site.LocusTag}:{Site.Position}_lcl.{lcl} [regulator={Regulator}] [family={Family}] [regulog={Family} - {Species}]"
+            Dim title As String = $"{Site.locus_tag}:{Site.position}_lcl.{lcl} [regulator={Regulator}] [family={Family}] [regulog={Family} - {Species}]"
 
             Return New FASTA.FastaToken With {
                 .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(Site),
@@ -456,7 +456,7 @@ Rodionov, D. A.", Volume:=14)>
                     Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaToken.Load(Path))
                     Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
                                                                      Regulator.Regulog.Key,
-                                                                     String.Join(";", (From site In Regulator.RegulatorySites Select String.Format("{0}:{1}", site.LocusTag, site.Position)).ToArray))
+                                                                     String.Join(";", (From site In Regulator.RegulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
                     lcl += 1
                     FastaSequence.Attributes = New String() {String.Format("lcl{0}", lcl), FastaSequence.Attributes(1), RegpreciseProperty}
 

@@ -269,16 +269,18 @@ Namespace Regtransbase.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function [Select](SpeciesId As String) As String()
-            Dim LQuery = (From rec In TFBSs Where String.Equals(rec.Bacteria, SpeciesId) Select rec.LocusTag).ToArray
+            Dim LQuery = (From rec In TFBSs Where String.Equals(rec.Bacteria, SpeciesId) Select rec.locus_tag).ToArray
             Return LQuery
         End Function
 
         Public Function ExportMotifs() As FastaToken()
-            Dim LQuery = (From FastaObject As FastaObject
+            Dim LQuery = (From fa As FastaObject
                           In TFBSs
+                          Let header = String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)
                           Select New FastaToken With {
-                              .SequenceData = SequenceTrimming(FastaObject),
-                              .Attributes = New String() {String.Format("[gene={0}] [family={1}] [regulog={2}]", FastaObject.LocusTag, Family, Regulog.Key)}}).ToArray
+                              .SequenceData = SequenceTrimming(fa),
+                              .Attributes = {header}
+                          }).ToArray
             Return LQuery
         End Function
 
@@ -345,18 +347,18 @@ Namespace Regtransbase.WebServices
         Implements IPolymerSequenceModel
         Implements I_FastaProvider
 
-        <XmlAttribute> Public Property LocusTag As String
-        <XmlAttribute> Public Property Name As String
-        <XmlAttribute> Public Property Position As Integer
-        <XmlAttribute> Public Property Score As Double
+        <XmlAttribute> Public Property locus_tag As String
+        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property position As Integer
+        <XmlAttribute> Public Property score As Double
 
-        <XmlElement("Sequence")>
+        <XmlText>
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         Public Property Bacteria As String
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
             Get
-                Return String.Format("{0}:{1}", LocusTag, Position)
+                Return String.Format("{0}:{1}", locus_tag, position)
             End Get
         End Property
 
@@ -374,19 +376,18 @@ Namespace Regtransbase.WebServices
 
         Public Shared Function Parse(url As String) As FastaObject()
             Dim Text As String = url.GET
-            Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaFile =
-                SMRUCC.genomics.SequenceModel.FASTA.FastaFile.ParseDocument(doc:=Text)
+            Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=Text)
             Dim LQuery = (From fsa As FastaToken In FASTA Select FastaObject.[New](fsa)).ToArray
             Return LQuery
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format(">{0} : {1}", LocusTag, SequenceData)
+            Return String.Format(">{0} : {1}", locus_tag, SequenceData)
         End Function
 
         Const REAL As String = "-?\d+(\.\d+)?"
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) As FastaObject
+        Protected Friend Shared Function [New](DownloadedFastaObject As FastaToken) As FastaObject
             Dim Title As String = DownloadedFastaObject.Title
             Dim FastaObject As FastaObject = New FastaObject
             Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value
@@ -403,7 +404,7 @@ Namespace Regtransbase.WebServices
             FastaObject.Name = Regex.Match(LocusTag, "\(.+?\)").Value
             FastaObject.Name = If(Not String.IsNullOrEmpty(FastaObject.Name), Mid(FastaObject.Name, 2, Len(FastaObject.Name) - 2).Trim, "")
             LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
-            FastaObject.LocusTag = LocusTag.Replace(">", "").Trim
+            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
 
             Return FastaObject
         End Function

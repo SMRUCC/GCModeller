@@ -92,8 +92,8 @@ Namespace Regprecise
 
         Public Function GetMotifSite(GeneId As String, MotifPosition As Integer) As Regtransbase.WebServices.FastaObject
             Dim LQuery = (From fa As Regtransbase.WebServices.FastaObject In RegulatorySites
-                          Where String.Equals(GeneId, fa.LocusTag) AndAlso
-                              fa.Position = MotifPosition
+                          Where String.Equals(GeneId, fa.locus_tag) AndAlso
+                              fa.position = MotifPosition
                           Select fa).FirstOrDefault
             Return LQuery
         End Function
@@ -117,7 +117,7 @@ Namespace Regprecise
                 LinqAPI.Exec(Of FASTA.FastaToken) <=
                     From FastaObject As Regtransbase.WebServices.FastaObject
                     In RegulatorySites
-                    Let t As String = $"[gene={FastaObject.LocusTag}:{FastaObject.Position}] [family={Family}] [regulog={Regulog.Key}]"
+                    Let t As String = $"[gene={FastaObject.locus_tag}:{FastaObject.position}] [family={Family}] [regulog={Regulog.Key}]"
                     Let attrs = New String() {t}
                     Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(FastaObject)
                     Let fa As FASTA.FastaToken =

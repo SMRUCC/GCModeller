@@ -68,7 +68,7 @@ Namespace Regprecise
             Dim LQuery As FastaToken() =
                 LinqAPI.Exec(Of FastaToken) <= From fa As FastaObject
                                                In Sites
-                                               Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.LocusTag, Family, Regulog.Key)}
+                                               Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)}
                                                Select New FastaToken With {
                                                    .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(fa),
                                                    .Attributes = attrs

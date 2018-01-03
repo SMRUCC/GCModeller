@@ -209,7 +209,7 @@ Namespace Regprecise
                           Where Not g.regulons Is Nothing
                           Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
                                                                             In x.RegulatorySites
-                                                                           Select uid = $"{site.LocusTag}:{site.Position}",
+                                                                           Select uid = $"{site.locus_tag}:{site.position}",
                                                                                 x.LocusId)).IteratesALL).IteratesALL
             Dim Groups = (From x In LQuery
                           Select x

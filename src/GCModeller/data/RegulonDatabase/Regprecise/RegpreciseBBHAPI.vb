@@ -254,7 +254,7 @@ Namespace Regprecise
                 MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.BiologicalProcess
                 MatchedItem.Effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.Effector), Nothing, Strings.Split(RegpreciseRegulator.Effector, "; "))
                 MatchedItem.Family = RegpreciseRegulator.Family
-                MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.RegulatorySites Select String.Join(":", site.LocusTag, site.Position)).ToArray
+                MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.RegulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
                 MatchedItem.RegulationEffects = RegpreciseRegulator.RegulationMode
             Else
                 Dim FastaRegulatorRecord = GetFastaRecord(RegulatorId)

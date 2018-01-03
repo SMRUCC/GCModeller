@@ -53,7 +53,7 @@ Partial Module CLI
             Dim GroupQuery = From x As Regtransbase.WebServices.FastaObject
                              In motif.Sites
                              Select x
-                             Group x By uid = $"{x.LocusTag}:{x.Position}" Into Group
+                             Group x By uid = $"{x.locus_tag}:{x.position}" Into Group
             Dim sites As List(Of FastaToken) =
                 GroupQuery.ToList(
                     Function(x) New FastaToken(
