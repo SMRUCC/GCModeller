@@ -234,7 +234,7 @@ Namespace Analysis
                         Call footprints.Add(vf)
                     Next
                 Else
-                    Dim regpreciseRegulator As JSONLDM.regulator = regDb.GetRegulator(regulator)
+                    Dim regpreciseRegulator As JSON.regulator = regDb.GetRegulator(regulator)
 
                     Dim vf As New PredictedRegulationFootprint With {
                          .Distance = -site.Distance,

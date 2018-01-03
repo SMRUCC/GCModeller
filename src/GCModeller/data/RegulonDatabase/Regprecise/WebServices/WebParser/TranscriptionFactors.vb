@@ -71,7 +71,7 @@ Namespace Regprecise
                     .regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
                 }
                 BacteriaGenome = New BacteriaGenome With {
-                    .genome = New JSONLDM.genome With {
+                    .genome = New JSON.genome With {
                         .name = Bacteria
                     }
                 }

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::1026ccc94a7f8b4459eaa0723dd6cb2b, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
@@ -105,8 +106,8 @@ Namespace Regprecise
             Dim genomeRef = Regprecise.LoadXml(Of BacteriaGenome)
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
             Dim genomeGET As New BacteriaGenome With {
-                .genome = New WebServices.JSONLDM.genome With {
-                    .name = basename(mappings)
+                .genome = New JSON.genome With {
+                    .name = BaseName(mappings)
                 },
                 .regulons = New Regulon With {
                     .regulators = regulators
@@ -223,12 +224,12 @@ Namespace Regprecise
                 oprGenes =
                     LinqAPI.Exec(Of OperonGene) <= From x As RegulatedGene
                                                   In mappings
-                                                  Select New OperonGene With {
-                                                      .OperonID = "x",
-                                                      .Synonym = x.LocusId,
-                                                      .Product = x.Function,
-                                                      .GI = x.vimssId
-                                                  }
+                                                   Select New OperonGene With {
+                                                       .OperonID = "x",
+                                                       .Synonym = x.LocusId,
+                                                       .Product = x.Function,
+                                                       .GI = x.vimssId
+                                                   }
             Else
                 oprGenes = mappings.Select(Function(x) DOOR.GetGene(x.LocusId))
             End If

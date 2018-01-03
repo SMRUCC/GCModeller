@@ -489,7 +489,7 @@ Partial Module CLI
                                        "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
                                                     FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(
-                                                    Function(xml) xml.LoadXml(Of JSONLDM.regulator())).Unlist
+                                                    Function(xml) xml.LoadXml(Of JSON.regulator())).Unlist
         Dim regpreciseGroup = (From regulator In regprecise
                                Where Not regulator Is Nothing AndAlso
                                    Not String.IsNullOrEmpty(regulator.locusTag)

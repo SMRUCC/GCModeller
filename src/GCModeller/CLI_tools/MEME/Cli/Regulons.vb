@@ -133,12 +133,12 @@ Partial Module CLI
         Dim LQuery = (From x As String In genomes
                       Let regulators = RegulonAPI.Reconstruct(mapHash, x.LoadXml(Of BacteriaGenome), doorOperon)
                       Where Not regulators.IsNullOrEmpty
-                      Let id As String = basename(x)
+                      Let id As String = BaseName(x)
                       Select id, _genome = New BacteriaGenome With {
                           .regulons = New Data.Regprecise.Regulon With {
                                 .regulators = regulators
                           },
-                          .genome = New WebServices.JSONLDM.genome With {
+                          .genome = New JSON.genome With {
                                 .name = "@" & id}}).ToArray
 
         For Each _genome In LQuery
