@@ -57,6 +57,10 @@ Namespace Regprecise
     Public Class Regulator : Implements IReadOnlyId
 
         <XmlAttribute> Public Property type As Types
+        ''' <summary>
+        ''' 用来下载生成motif数据库的时候所需要使用的
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute("url")>
         Public Property infoURL As String
 
@@ -148,7 +152,7 @@ Namespace Regprecise
             Dim regulator As New Regulator With {
                 .type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
             }
-            Dim entry As String = Regex.Match(list(++i), "href="".+?"">.+?</a>").Value
+            Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
             regulator.regulator = New NamedValue With {
                 .name = WebAPI.GetsId(entry),
@@ -166,11 +170,16 @@ Namespace Regprecise
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
             Dim i As int = 1
 
-            regulator.infoURL = r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
-            regulator.infoURL = "http://regprecise.lbl.gov/RegPrecise/" & regulator.infoURL.href
+            With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
+                If Not .StringEmpty Then
+                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{.href}" 
+                End If
+            End With
 
             If regulator.type = Types.TF Then
-                Dim LocusTag As String = r.Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
+                Dim LocusTag As String = r _
+                    .Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
+                    .Value
                 regulator.locus_tag = New NamedValue With {
                     .name = WebAPI.GetsId(LocusTag),
                     .text = LocusTag.href
@@ -191,12 +200,12 @@ Namespace Regprecise
             regulator.regulationMode = __getTagValue_td(properties(++i))
             regulator.biological_process = __getTagValue_td(properties(++i))
 
-            Dim RegulogEntry As String = Regex.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href
+            Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
+            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
 
-            regulator.Regulog = New NamedValue With {
+            regulator.regulog = New NamedValue With {
                 .name = WebAPI _
-                    .GetsId(RegulogEntry) _
+                    .GetsId(regulogEntry) _
                     .TrimNewLine("") _
                     .Replace(vbTab, "") _
                     .Trim,
@@ -205,7 +214,7 @@ Namespace Regprecise
 
             Dim exportServletLnks$() = __exportServlet(html)
             regulator.operons = Operon.OperonParser(html)
-            regulator.regulatorySites = Regtransbase.WebServices.MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
+            regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return regulator
         End Function
