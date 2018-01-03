@@ -28,7 +28,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.InteractionModel.Regulon
 
 Namespace Regprecise.WebServices
@@ -36,19 +35,19 @@ Namespace Regprecise.WebServices
     Public Class Regulation
 
         ''' <summary>
-        ''' <see cref="Regprecise.WebServices.JSONLDM.regulator.vimssId"/>
+        ''' <see cref="JSON.regulator.vimssId"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Regulator As Integer
         ''' <summary>
-        ''' <see cref="Regprecise.WebServices.JSONLDM.site.geneLocusTag"/>:<see cref="JSONLDM.site.position"/>
+        ''' <see cref="JSON.site.geneLocusTag"/>:<see cref="JSON.site.position"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Site As String
         <XmlAttribute> Public Property Type As Regulator.Types
         <XmlAttribute> Public Property Family As String
         ''' <summary>
-        ''' <see cref="Regprecise.WebServices.JSONLDM.regulator.regulonId"/>
+        ''' <see cref="JSON.regulator.regulonId"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Regulon As Integer
@@ -93,20 +92,20 @@ Namespace Regprecise.WebServices
 #End If
             End Set
         End Property
-        Public Property Sites As Regprecise.WebServices.JSONLDM.site()
+        Public Property Sites As JSON.site()
             Get
                 Return _sites
             End Get
-            Set(value As Regprecise.WebServices.JSONLDM.site())
+            Set(value As JSON.site())
                 _sites = value
                 If _sites Is Nothing Then
-                    _sites = New JSONLDM.site() {}
+                    _sites = New JSON.site() {}
                 End If
 
                 Dim source = _sites.RemoveDuplicates(Function(site) site.geneVIMSSId)
 
                 _sitesHash = source.ToDictionary(Function(site) site.geneVIMSSId)
-                _sitesLocusHash = (From site As JSONLDM.site
+                _sitesLocusHash = (From site As JSON.site
                                    In _sites.AsParallel
                                    Select uid = $"{site.geneLocusTag}:{site.position}".ToLower, site
                                    Group By uid Into Group).ToDictionary(Function(site) site.uid,
@@ -117,22 +116,22 @@ Namespace Regprecise.WebServices
                 Call $"{_sitesLocusHash.Count} {NameOf(_sitesLocusHash)}...".__DEBUG_ECHO
             End Set
         End Property
-        Public Property Regulators As Regprecise.WebServices.JSONLDM.regulator()
+        Public Property Regulators As JSON.regulator()
             Get
                 Return _regulators
             End Get
-            Set(value As Regprecise.WebServices.JSONLDM.regulator())
+            Set(value As JSON.regulator())
                 _regulators = value
                 If _regulators Is Nothing Then
-                    _regulators = New JSONLDM.regulator() {}
+                    _regulators = New JSON.regulator() {}
                 End If
-                _regulatorsHash = (From regulator As JSONLDM.regulator
+                _regulatorsHash = (From regulator As JSON.regulator
                                    In _regulators
                                    Select regulator
                                    Group regulator By regulator.vimssId Into Group) _
                                         .ToDictionary(Function(regulator) regulator.Group.First.vimssId,
                                                       Function(obj) obj.Group.First)
-                _regulatorsDict = (From regulator As JSONLDM.regulator
+                _regulatorsDict = (From regulator As JSON.regulator
                                    In _regulators
                                    Where Not String.IsNullOrEmpty(regulator.locusTag)
                                    Select regulator
@@ -148,11 +147,11 @@ Namespace Regprecise.WebServices
         Dim _siteRegulations As Dictionary(Of String, Regulation())
         Dim _regulatorRegulations As Dictionary(Of Integer, Regulation())
         Dim _regulations As Regulation()
-        Dim _sites As JSONLDM.site()
-        Dim _sitesHash As Dictionary(Of Integer, JSONLDM.site)
-        Dim _regulators As JSONLDM.regulator()
-        Dim _regulatorsHash As Dictionary(Of Integer, JSONLDM.regulator)
-        Dim _regulatorsDict As Dictionary(Of String, JSONLDM.regulator)
+        Dim _sites As JSON.site()
+        Dim _sitesHash As Dictionary(Of Integer, JSON.site)
+        Dim _regulators As JSON.regulator()
+        Dim _regulatorsHash As Dictionary(Of Integer, JSON.regulator)
+        Dim _regulatorsDict As Dictionary(Of String, JSON.regulator)
 
         Public Overloads Function ToString(regulation As Regulation) As String
             Return $"[{regulation.Family}]  {_regulatorsHash(regulation.Regulator).ToString} ==> {_sitesHash(regulation.Site).ToString}"
@@ -163,7 +162,7 @@ Namespace Regprecise.WebServices
         ''' </summary>
         ''' <param name="locusId"></param>
         ''' <returns></returns>
-        Public Function GetRegulator(locusId As String) As JSONLDM.regulator
+        Public Function GetRegulator(locusId As String) As JSON.regulator
             If _regulatorsDict.ContainsKey(locusId) Then
                 Return _regulatorsDict(locusId)
             Else
@@ -176,7 +175,7 @@ Namespace Regprecise.WebServices
         ''' </summary>
         ''' <param name="geneVIMSSId"></param>
         ''' <returns></returns>
-        Public Function GetRegulator(geneVIMSSId As Integer) As JSONLDM.regulator
+        Public Function GetRegulator(geneVIMSSId As Integer) As JSON.regulator
             If _regulatorsHash.ContainsKey(geneVIMSSId) Then
                 Return _regulatorsHash(geneVIMSSId)
             Else
@@ -184,7 +183,7 @@ Namespace Regprecise.WebServices
             End If
         End Function
 
-        Public Function GetRegulations(site As WebServices.JSONLDM.site) As Regulation()
+        Public Function GetRegulations(site As JSON.site) As Regulation()
             If site Is Nothing Then
                 Return Nothing
             End If
@@ -219,14 +218,14 @@ Namespace Regprecise.WebServices
             End If
         End Function
 
-        Dim _sitesLocusHash As Dictionary(Of String, Regprecise.WebServices.JSONLDM.site)
+        Dim _sitesLocusHash As Dictionary(Of String, JSON.site)
 
         ''' <summary>
-        ''' $"{<see cref="WebServices.JSONLDM.site.geneLocusTag"/>}:{<see cref="WebServices.JSONLDM.site.position"/>}"
+        ''' $"{<see cref="JSON.site.geneLocusTag"/>}:{<see cref="JSON.site.position"/>}"
         ''' </summary>
         ''' <param name="geneLocusTag"></param>
         ''' <returns></returns>
-        Public Function GetSite(geneLocusTag As String) As Regprecise.WebServices.JSONLDM.site
+        Public Function GetSite(geneLocusTag As String) As JSON.site
             Dim key As String = geneLocusTag.ToLower
 
             If _sitesLocusHash.ContainsKey(key) Then

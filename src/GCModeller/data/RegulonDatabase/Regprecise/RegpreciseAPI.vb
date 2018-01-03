@@ -28,7 +28,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
@@ -87,7 +86,7 @@ Rodionov, D. A.", Volume:=14)>
     Public Module RegpreciseAPI
 
         <ExportAPI("Write.Xml.Genomes")>
-        Public Function SaveGenomes(genomes As Generic.IEnumerable(Of WebServices.JSONLDM.genome), SaveTo As String) As Boolean
+        Public Function SaveGenomes(genomes As IEnumerable(Of JSON.genome), SaveTo As String) As Boolean
             Return genomes.ToArray.GetXml.SaveTo(SaveTo)
         End Function
 
@@ -477,7 +476,7 @@ Rodionov, D. A.", Volume:=14)>
         End Function
 
         <ExportAPI("Regprecise.Compile")>
-        Public Function Compile(Regprecise As IEnumerable(Of Regprecise.WebServices.JSONLDM.genome), repository As String) As Regulations
+        Public Function Compile(Regprecise As IEnumerable(Of JSON.genome), repository As String) As Regulations
 
         End Function
 

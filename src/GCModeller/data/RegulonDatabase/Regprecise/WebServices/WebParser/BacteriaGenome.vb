@@ -41,7 +41,7 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property genome As JSONLDM.genome
+        <XmlElement> Public Property genome As JSON.genome
         <XmlElement> Public Property regulons As Regulon
 
         ''' <summary>
