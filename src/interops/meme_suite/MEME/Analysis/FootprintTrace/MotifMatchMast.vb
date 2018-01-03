@@ -318,7 +318,7 @@ Namespace Analysis.FootprintTraceAPI
                 For Each TF As Regulator In regulators
                     Dim copy As MotifSiteHit = site.Copy
                     copy.Regulators = {TF.LocusId}
-                    copy.Family = TF.Family
+                    copy.Family = TF.family
 
                     Yield copy
                 Next

@@ -63,7 +63,7 @@ Namespace Workflows.PromoterParser
             For Each len As Integer In PromoterRegionParser.PrefixLength
                 For Each regulon In genome.regulons.regulators
                     Dim fa = RegulonParser(regulon, len)
-                    Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.LocusTag.Value.NormalizePathString(True)}.fasta"
+                    Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.locus_tag.text.NormalizePathString(True)}.fasta"
                     Call fa.Save(path)
                 Next
             Next

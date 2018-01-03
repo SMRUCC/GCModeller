@@ -106,10 +106,10 @@ Namespace Regprecise
             Operon = members
             TF_trace = regulon.LocusId
             Regulators = TF
-            Effector = regulon.Effector
-            Pathway = regulon.Pathway
-            BiologicalProcess = regulon.BiologicalProcess
-            source = regulon.Regulog.Key
+            Effector = regulon.effector
+            Pathway = regulon.pathway
+            BiologicalProcess = regulon.biological_process
+            source = regulon.Regulog.name
             Strand = cstrand
             bbh = bbhHits
         End Sub

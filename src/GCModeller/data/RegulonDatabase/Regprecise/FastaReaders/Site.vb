@@ -140,8 +140,8 @@ Namespace Regprecise.FastaReaders
             }
         End Function
 
-        Public Function ToFastaObject() As Regtransbase.WebServices.FastaObject
-            Return New Regtransbase.WebServices.FastaObject With {
+        Public Function ToFastaObject() As Regtransbase.WebServices.MotifFasta
+            Return New Regtransbase.WebServices.MotifFasta With {
                 .SequenceData = SequenceData,
                 .position = position,
                 .name = Me.geneVIMSSId,

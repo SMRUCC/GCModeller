@@ -66,7 +66,7 @@ Namespace Regprecise
                 Return FASTA.FastaToken.Load(FastaSaved)
             End If
 
-            Dim FastaObject = RegulatorDownloads(Regulator.LocusTag.Key, ErrLog, Bacteria.genome.name)
+            Dim FastaObject = RegulatorDownloads(Regulator.locus_tag.name, ErrLog, Bacteria.genome.name)
 
             If FastaObject Is Nothing Then
                 Return Nothing

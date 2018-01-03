@@ -144,7 +144,7 @@ Partial Module CLI
                           Where hitsHash.ContainsKey(sid)
                           Select sid,
                               hits = hitsHash(sid),
-                              regulator.Family).ToArray
+                              regulator.family).ToArray
         Dim queryRegulators = (From qx In
                                    (From x In regulators
                                     Select (From hit As BBHIndex In x.hits
@@ -197,16 +197,16 @@ Partial Module CLI
         For Each genome As BacteriaGenome In From xml As String In xmls Select xml.LoadXml(Of BacteriaGenome)
             list += From x As Regulator
                     In genome.regulons.regulators
-                    Where x.Type = Regulator.Types.TF
-                    Where Not x.Effector.StringEmpty
-                    Let tokens As String() = x.Effector.Split(";"c)
+                    Where x.type = Regulator.Types.TF
+                    Where Not x.effector.StringEmpty
+                    Let tokens As String() = x.effector.Split(";"c)
                     Select From name As String
                            In tokens
                            Select New Effectors With {
                                .Effector = name.Trim,
-                               .BiologicalProcess = x.BiologicalProcess,
-                               .Pathway = x.Pathway,
-                               .Regulon = x.Regulog.Key,
+                               .BiologicalProcess = x.biological_process,
+                               .Pathway = x.pathway,
+                               .Regulon = x.Regulog.name,
                                .TF = x.LocusId
                            }
         Next

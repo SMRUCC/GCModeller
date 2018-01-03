@@ -114,7 +114,7 @@ Namespace Regprecise
             func = Mid(func, 10).Trim
             Dim vmssid As String = locus.TryGetValue(locusId)
             Dim gene As New RegulatedGene With {
-                .Function = func,
+                .description = func,
                 .LocusId = locusId,
                 .Name = name,
                 .vimssId = vmssid

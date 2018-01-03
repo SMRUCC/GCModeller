@@ -123,7 +123,7 @@ Partial Module CLI
                                        Function(x) x.Group.ToArray)
         Dim motifs = (From query In queryRegulators
                       Let qName As String = query.QueryName
-                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.Select(Function(x) x.RegulatorySites).Unlist
+                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.Select(Function(x) x.regulatorySites).Unlist
                       Select qName, sites).ToArray
         For Each query In motifs
             Dim path As String = $"{out}/{query.qName}.fasta"

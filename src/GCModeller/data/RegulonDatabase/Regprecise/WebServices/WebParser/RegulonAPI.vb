@@ -84,7 +84,7 @@ Namespace Regprecise
         ''' <param name="regulator"></param>
         ''' <returns></returns>
         <Extension> Public Function uid(regulator As Regulator) As String
-            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.LocusTag.Value.NormalizePathString(True)}"
+            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tag.text.NormalizePathString(True)}"
         End Function
 
         <ExportAPI("Regulon.Reconstruct")>
@@ -172,7 +172,7 @@ Namespace Regprecise
                 Select From x As BiDirectionalBesthit
                        In maps
                        Select New RegulatedGene With {
-                           .Function = x.Description,
+                           .description = x.Description,
                            .LocusId = x.QueryName,
                            .vimssId = x.HitName,
                            .Name = x.COG
@@ -186,21 +186,21 @@ Namespace Regprecise
             Dim reRegulon As Regulator() =
                 LinqAPI.Exec(Of Regulator) <= From mapped As BiDirectionalBesthit
                                               In mapReg
-                                              Let locusId = New KeyValuePair With {
-                                                  .Key = mapped.QueryName,
-                                                  .Value = mapped.HitName
+                                              Let locusId = New NamedValue With {
+                                                  .name = mapped.QueryName,
+                                                  .text = mapped.HitName
                                               }
                                               Select New Regulator With {
-                                                  .RegulatorySites = regulon.RegulatorySites,
-                                                  .Regulator = regulon.Regulator,
-                                                  .LocusTag = locusId,
-                                                  .BiologicalProcess = regulon.BiologicalProcess,
-                                                  .Effector = regulon.Effector,
-                                                  .Family = regulon.Family,
-                                                  .Pathway = regulon.Pathway,
-                                                  .RegulationMode = regulon.RegulationMode,
+                                                  .regulatorySites = regulon.regulatorySites,
+                                                  .regulator = regulon.regulator,
+                                                  .locus_tag = locusId,
+                                                  .biological_process = regulon.biological_process,
+                                                  .effector = regulon.effector,
+                                                  .family = regulon.family,
+                                                  .pathway = regulon.pathway,
+                                                  .regulationMode = regulon.regulationMode,
                                                   .Regulog = regulon.Regulog,
-                                                  .Type = regulon.Type,
+                                                  .type = regulon.type,
                                                   .operons = mappedOperons,
                                                   .Regulates = mappedGenes
                                               }
@@ -227,7 +227,7 @@ Namespace Regprecise
                                                    Select New OperonGene With {
                                                        .OperonID = "x",
                                                        .Synonym = x.LocusId,
-                                                       .Product = x.Function,
+                                                       .Product = x.description,
                                                        .GI = x.vimssId
                                                    }
             Else
@@ -241,9 +241,9 @@ Namespace Regprecise
                                 .members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
-                If String.IsNullOrEmpty(gene.Function) Then
+                If String.IsNullOrEmpty(gene.description) Then
                     If DOOR.HaveGene(gene.LocusId) Then
-                        gene.Function = DOOR.GetGene(gene.LocusId).Product
+                        gene.description = DOOR.GetGene(gene.LocusId).Product
                     End If
                 End If
                 If String.IsNullOrEmpty(gene.Name) Then

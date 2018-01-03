@@ -418,14 +418,14 @@ Partial Module CLI
                        In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                        Select file.LoadXml(Of BacteriaGenome)
         Dim RfamSitesLQuery = (From x In loadFile.AsParallel
-                               Let rfam = (From regulator In x.regulons.regulators Where regulator.Type = Types.RNA Select regulator)
-                               Select (From rna In rfam Select rna.Family, rna.RegulatorySites).ToArray).Unlist
+                               Let rfam = (From regulator In x.regulons.regulators Where regulator.type = Types.RNA Select regulator)
+                               Select (From rna In rfam Select rna.family, rna.regulatorySites).ToArray).Unlist
         Dim RfamCategory = (From x In RfamSitesLQuery
                             Select x
                             Group x By x.Family Into Group) _
                                  .ToDictionary(Function(x) x.Family,
                                                Function(x) x.Group.Select(Function(xx) xx.RegulatorySites).Unlist)
-        For Each cat As KeyValuePair(Of String, List(Of FastaObject)) In RfamCategory
+        For Each cat As KeyValuePair(Of String, List(Of MotifFasta)) In RfamCategory
             Dim path As String = $"{out}/{cat.Key}.fasta"
             Dim fa As New FastaFile(cat.Value)
             Call fa.Save(path)

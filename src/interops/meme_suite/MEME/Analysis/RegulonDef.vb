@@ -89,7 +89,7 @@ Namespace Analysis
         End Function
 
         Private Function uid(regulon As Regprecise.Regulator) As String
-            Return $"{regulon.LocusTag.Key}.{regulon.LocusTag.Value}".Replace(":", "_")
+            Return $"{regulon.locus_tag.name}.{regulon.locus_tag.text}".Replace(":", "_")
         End Function
 
         <Extension> Private Function __creates(regulon As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult()) As Regulon()
@@ -98,25 +98,25 @@ Namespace Analysis
 
         <Extension> Private Function __creates(regulonRef As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult) As Regulon
             Dim regulon As New Regulon With {
-                .BiologicalProcess = regulonRef.BiologicalProcess,
-                .Family = regulonRef.Family,
+                .BiologicalProcess = regulonRef.biological_process,
+                .Family = regulonRef.family,
                 .Hit = query.HitName,
                 .HitMotif = query.HitMotif,
-                .Mode = regulonRef.RegulationMode,
+                .Mode = regulonRef.regulationMode,
                 .Motif = query.QueryMotif,
-                .Pathway = regulonRef.Pathway,
-                .refLocus = regulonRef.LocusTag.Value,
+                .Pathway = regulonRef.pathway,
+                .refLocus = regulonRef.locus_tag.text,
                 .Regulates = regulonRef.Regulates.Select(Function(x) x.LocusId),
-                .Regulator = regulonRef.LocusTag.Key,
+                .Regulator = regulonRef.locus_tag.name,
                 .Similarity = query.Similarity,
                 .Consensus = query.Consensus,
                 .Distance = query.Distance,
                 .Edits = query.Edits,
                 .Gaps = query.Gaps,
-                .ref = regulonRef.Regulog.Key,
+                .ref = regulonRef.Regulog.name,
                 .Score = query.Score,
                 .Trace = "",
-                .Effector = regulonRef.Effector
+                .Effector = regulonRef.effector
             }
             Return regulon
         End Function

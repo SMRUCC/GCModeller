@@ -62,13 +62,13 @@ Partial Module CLI
 
         For Each regulog As BacteriaGenome In MotifLDMs
             For Each TF As Regulator In regulog.regulons.regulators
-                If TF.Type <> Regulator.Types.TF Then
+                If TF.type <> Regulator.Types.TF Then
                     Continue For
                 End If
-                If Not bbhhash.ContainsKey(TF.Regulator.Key) Then
+                If Not bbhhash.ContainsKey(TF.regulator.name) Then
                     Continue For
                 End If
-                If Not motifsHash.ContainsKey(TF.Regulog.Key) Then
+                If Not motifsHash.ContainsKey(TF.Regulog.name) Then
                     Continue For
                 End If
 
@@ -76,8 +76,8 @@ Partial Module CLI
                 logsHash += TF
 #End If
 
-                Dim maps As String() = bbhhash(TF.Regulator.Key)
-                Dim sitesFound As MotifLog() = motifsHash(TF.Regulog.Key)
+                Dim maps As String() = bbhhash(TF.regulator.name)
+                Dim sitesFound As MotifLog() = motifsHash(TF.Regulog.name)
 
                 For Each site In sitesFound
                     site.tag = String.Join("; ", maps)
@@ -93,8 +93,8 @@ Partial Module CLI
         Dim test = (From x As Regulator
                     In logsHash
                     Select x
-                    Group x By x.Regulog.Key Into Group) _
-                         .ToDictionary(Function(x) x.Key,
+                    Group x By x.Regulog.name Into Group) _
+                         .ToDictionary(Function(x) x.name,
                                        Function(x) x.Group.ToArray)
         result = New List(Of MotifLog)(result.OrderBy(Function(x) x.ID))
 #End If

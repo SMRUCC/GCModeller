@@ -51,7 +51,7 @@ Partial Module CLI
         Dim source = inRegulon.LoadXml(Of BacteriaGenome)
         Dim sourceHash = (From x As Regulator
                           In source.regulons.regulators
-                          Let uid As String = $"{x.LocusId}.{x.LocusTag.Value.Replace(":", "_")}"
+                          Let uid As String = $"{x.LocusId}.{x.locus_tag.text.Replace(":", "_")}"
                           Select uid, x)
         Dim target = (From x In sourceHash Where String.Equals(x.uid, inId, StringComparison.OrdinalIgnoreCase) Select x).FirstOrDefault
         Dim bbh As String = args("/bbh")

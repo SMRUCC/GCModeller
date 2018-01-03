@@ -48,7 +48,7 @@ Namespace Regprecise
         Public Property Effector As String
         Public Property Regulog As KeyValuePair
         Public Property Taxonomy As KeyValuePair
-        Public Property Sites As FastaObject()
+        Public Property Sites As MotifFasta()
         <XmlAttribute> Public Property logo As String
 
         Private Property Identifier As String Implements INamedValue.Key
@@ -66,7 +66,7 @@ Namespace Regprecise
 
         Public Function ExportMotifs() As FastaToken()
             Dim LQuery As FastaToken() =
-                LinqAPI.Exec(Of FastaToken) <= From fa As FastaObject
+                LinqAPI.Exec(Of FastaToken) <= From fa As MotifFasta
                                                In Sites
                                                Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)}
                                                Select New FastaToken With {

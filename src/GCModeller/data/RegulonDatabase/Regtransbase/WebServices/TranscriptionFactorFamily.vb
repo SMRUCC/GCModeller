@@ -248,7 +248,7 @@ Namespace Regtransbase.WebServices
         Public Property Effector As String
         Public Property Regulog As KeyValuePair
 
-        Public Property TFBSs As FastaObject()
+        Public Property TFBSs As MotifFasta()
 
         ''' <summary>
         ''' 获取一个唯一的物种的编号 {Regulog, {Locus_tag, Locus_tag()}}
@@ -256,7 +256,7 @@ Namespace Regtransbase.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetUniqueId() As KeyValuePair(Of String, KeyValuePair(Of String, String())())
-            Dim Species = (From obj As FastaObject In TFBSs Select obj.Bacteria Distinct).ToArray
+            Dim Species = (From obj As MotifFasta In TFBSs Select obj.bacteria Distinct).ToArray
             Dim IdList As KeyValuePair(Of String, String())() = (From sp In Species Let Collection As String() = [Select](sp) Select New KeyValuePair(Of String, String())(Collection.First, Collection)).ToArray
 
             Return New KeyValuePair(Of String, KeyValuePair(Of String, String())())(Regulog.Key, IdList)
@@ -269,12 +269,12 @@ Namespace Regtransbase.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function [Select](SpeciesId As String) As String()
-            Dim LQuery = (From rec In TFBSs Where String.Equals(rec.Bacteria, SpeciesId) Select rec.locus_tag).ToArray
+            Dim LQuery = (From rec In TFBSs Where String.Equals(rec.bacteria, SpeciesId) Select rec.locus_tag).ToArray
             Return LQuery
         End Function
 
         Public Function ExportMotifs() As FastaToken()
-            Dim LQuery = (From fa As FastaObject
+            Dim LQuery = (From fa As MotifFasta
                           In TFBSs
                           Let header = String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)
                           Select New FastaToken With {
@@ -284,7 +284,7 @@ Namespace Regtransbase.WebServices
             Return LQuery
         End Function
 
-        Public Shared Function SequenceTrimming(FastaObject As WebServices.FastaObject) As String
+        Public Shared Function SequenceTrimming(FastaObject As WebServices.MotifFasta) As String
             Return SequenceTrimming(FastaObject.SequenceData.Replace("-", "N"))
         End Function
 
@@ -307,7 +307,7 @@ Namespace Regtransbase.WebServices
             ExportDownloadUrl = "http://regprecise.lbl.gov/RegPrecise/" & Mid(ExportDownloadUrl, 7, Len(ExportDownloadUrl) - 7)
 
             Dim Regulator As Regulator = New Regulator
-            Regulator.TFBSs = FastaObject.Parse(ExportDownloadUrl)
+            Regulator.TFBSs = MotifFasta.Parse(ExportDownloadUrl)
             pageContent = Mid(pageContent, InStr(pageContent, "<caption class=""tbl_caption"">Properties</caption>", CompareMethod.Text) + 50)
             pageContent = Regex.Matches(pageContent, "<tbody>.+?</tbody>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(0).Value
             Dim Tokens = (From m As Match In Regex.Matches(pageContent, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray.Skip(1).ToArray
@@ -342,7 +342,10 @@ Namespace Regtransbase.WebServices
         End Function
     End Class
 
-    Public Class FastaObject
+    ''' <summary>
+    ''' The fasta sequence model of the regulated motif site in Regtransbase/Regprecise
+    ''' </summary>
+    <XmlType("motifsite")> Public Class MotifFasta
         Implements IReadOnlyId
         Implements IPolymerSequenceModel
         Implements I_FastaProvider
@@ -351,33 +354,38 @@ Namespace Regtransbase.WebServices
         <XmlAttribute> Public Property name As String
         <XmlAttribute> Public Property position As Integer
         <XmlAttribute> Public Property score As Double
+        <XmlAttribute> Public Property bacteria As String
+
+        Public Const xmlns$ = "http://xsd.gcmodeller.org/models/motifsite/"
 
         <XmlText>
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
-        Public Property Bacteria As String
 
+        <XmlIgnore>
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
             Get
                 Return String.Format("{0}:{1}", locus_tag, position)
             End Get
         End Property
 
+        <XmlIgnore>
         Public ReadOnly Property Title As String Implements I_FastaProvider.Title
             Get
-                Return $"{UniqueId} {Bacteria}"
+                Return $"{UniqueId} {bacteria}"
             End Get
         End Property
 
+        <XmlIgnore>
         Protected ReadOnly Property Attributes As String() Implements I_FastaProvider.Attributes
             Get
-                Return {UniqueId, Bacteria}
+                Return {UniqueId, bacteria}
             End Get
         End Property
 
-        Public Shared Function Parse(url As String) As FastaObject()
+        Public Shared Function Parse(url As String) As MotifFasta()
             Dim Text As String = url.GET
             Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=Text)
-            Dim LQuery = (From fsa As FastaToken In FASTA Select FastaObject.[New](fsa)).ToArray
+            Dim LQuery = (From fsa As FastaToken In FASTA Select MotifFasta.[New](fsa)).ToArray
             Return LQuery
         End Function
 
@@ -387,9 +395,9 @@ Namespace Regtransbase.WebServices
 
         Const REAL As String = "-?\d+(\.\d+)?"
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As FastaToken) As FastaObject
+        Protected Friend Shared Function [New](DownloadedFastaObject As FastaToken) As MotifFasta
             Dim Title As String = DownloadedFastaObject.Title
-            Dim FastaObject As FastaObject = New FastaObject
+            Dim FastaObject As MotifFasta = New MotifFasta
             Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value
             Dim Position As String = Regex.Match(Title, "Pos=" & REAL, RegexOptions.IgnoreCase).Value
             Dim Bacateria As String = Regex.Match(Title, "\[.+\]").Value

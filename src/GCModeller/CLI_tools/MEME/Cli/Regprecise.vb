@@ -544,8 +544,8 @@ Partial Module CLI
                                 Select regulon.regulons.regulators).IteratesALL
                 bbhs = regulons.ToList(
                     Function(x) New BBHIndex With {
-                        .HitName = x.LocusTag.Key,
-                        .QueryName = x.LocusTag.Value})
+                        .HitName = x.locus_tag.name,
+                        .QueryName = x.locus_tag.text})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
                     args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").Select(

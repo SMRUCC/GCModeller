@@ -50,7 +50,7 @@ Partial Module CLI
         Dim EXPORT As String = GCModeller.FileSystem.RegpreciseRoot & "/MotifSites/"
 
         For Each motif As MotifSitelog In motifs
-            Dim GroupQuery = From x As Regtransbase.WebServices.FastaObject
+            Dim GroupQuery = From x As Regtransbase.WebServices.MotifFasta
                              In motif.Sites
                              Select x
                              Group x By uid = $"{x.locus_tag}:{x.position}" Into Group

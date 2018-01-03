@@ -171,7 +171,7 @@ Partial Module CLI
         For Each genome As BacteriaGenome In RegPrecise.genomes
             For Each regulon As Regulator In genome.regulons.regulators
                 Dim TF As String() = If(tfHash.ContainsKey(regulon.LocusId), tfHash(regulon.LocusId), Nothing)
-                Dim isRNA As Boolean = regulon.Type = Regulator.Types.RNA
+                Dim isRNA As Boolean = regulon.type = Types.RNA
 
                 For Each opr In regulon.operons
                     Dim oHits As New Dictionary(Of String, String())   ' {RegPrecise -> bbh}
@@ -194,7 +194,7 @@ Partial Module CLI
                         result += From x As RegPreciseOperon
                                   In source
                                   Where Not x.Operon.IsNullOrEmpty
-                                  Select setValue(x, {regulon.Family})
+                                  Select setValue(x, {regulon.family})
                     Else
                         Dim setValue = New SetValue(Of RegPreciseOperon) <= NameOf(RegPreciseOperon.Operon)
 

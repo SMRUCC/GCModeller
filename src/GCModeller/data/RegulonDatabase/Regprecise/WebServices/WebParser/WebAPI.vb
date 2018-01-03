@@ -48,6 +48,11 @@ Namespace Regprecise
                       Publisher:="")>
     Public Module WebAPI
 
+        ''' <summary>
+        ''' 下载某一个基因组内所有预测的调控元的数据
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         <ExportAPI("Regulon.Downloads")>
         Public Function DownloadRegulon(url As String) As Regulon
             Dim html$ = r _
@@ -58,9 +63,11 @@ Namespace Regprecise
                 .ToArray
             Dim regulators As New List(Of Regulator)
             Dim str$
+
             For i As Integer = 0 To list.Length - 1
                 str = list(i)
                 regulators += Regulator.CreateObject(str)
+                Thread.Sleep(2000)
             Next
 
             Return New Regulon With {
@@ -83,14 +90,14 @@ Namespace Regprecise
                             In FastaReaders.Site.CreateObject(RegulatorSites)
                             Select FastaObject.ToFastaObject).ToArray
             Dim Regulator As Regulator = New Regulator With {
-                .Family = Family,
-                .LocusTag = New KeyValuePair With {.Key = RegulatorId},
-                .Regulog = New KeyValuePair With {
-                    .Key = String.Format("{0} - {1}", Family, Bacteria)
+                .family = Family,
+                .locus_tag = New NamedValue With {.name = RegulatorId},
+                .Regulog = New NamedValue With {
+                    .name = String.Format("{0} - {1}", Family, Bacteria)
                 },
-                .Type = Regulator.Types.TF,
-                .Regulator = New KeyValuePair With {.Key = RegulatorId},
-                .RegulatorySites = regSites
+                .type = Regulator.Types.TF,
+                .regulator = New NamedValue With {.name = RegulatorId},
+                .regulatorySites = regSites
             }
             Return Regulator
         End Function
@@ -209,17 +216,17 @@ Namespace Regprecise
                                      ErrLog As LogFile,
                                      DownloadDIR As String) As FASTA.FastaToken
 
-            If regulator.Type = Regulator.Types.RNA Then
+            If regulator.type = Regulator.Types.RNA Then
                 Return Nothing
             End If
 
-            If String.IsNullOrEmpty(regulator.LocusTag.Key) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.Key}] [Bacteria={genome.genome.name}]" & vbCrLf
+            If String.IsNullOrEmpty(regulator.locus_tag.name) Then
+                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
                 Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
                 Return Nothing
             End If
 
-            Dim FastaSaved As String = String.Format("{0}/{1}.fasta", DownloadDIR, regulator.LocusTag.Key)
+            Dim FastaSaved As String = String.Format("{0}/{1}.fasta", DownloadDIR, regulator.locus_tag.name)
             Dim FastaObject = RegulatorDownloads(regulator, genome, ErrLog, DownloadDIR, FastaSaved)
             Return FastaObject
         End Function

@@ -82,7 +82,7 @@ Namespace Regprecise
             End If
 
             Dim Regulator = (From tf As Regulator In BacteriaGenome.regulons.regulators
-                             Where String.Equals(tf.LocusTag.Key, RegulatorId, StringComparison.OrdinalIgnoreCase)
+                             Where String.Equals(tf.locus_tag.name, RegulatorId, StringComparison.OrdinalIgnoreCase)
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
@@ -91,7 +91,7 @@ Namespace Regprecise
                 Dim RegulatorySites = (From FastaObject As FastaReaders.Site
                                        In FastaReaders.Site.CreateObject(RegulatorSites)
                                        Select FastaObject.ToFastaObject).ToArray
-                Regulator.RegulatorySites = {RegulatorySites, Regulator.RegulatorySites}.ToVector
+                Regulator.regulatorySites = {RegulatorySites, Regulator.regulatorySites}.ToVector
             End If
 
             Return True
@@ -122,7 +122,7 @@ Namespace Regprecise
                               Where Not Regulator.GetMotifSite(locus_tag, MotifPosition) Is Nothing
                               Select Regulator).FirstOrDefault
                 If Not LQuery Is Nothing Then
-                    Return LQuery.LocusTag.Key
+                    Return LQuery.locus_tag.name
                 End If
             Next
 
@@ -159,11 +159,11 @@ Namespace Regprecise
 
         Public Function Export_TFBSInfo() As FASTA.FastaFile
             Dim TFBS_sites = (From Regulator As Regulator In Me.ListAllRegulators()
-                              Where Regulator.Type = Regulator.Types.TF
-                              Select (From site In Regulator.RegulatorySites
-                                      Select RegulatorId = Regulator.LocusTag.Key,
-                                          Regulator.Family,
-                                          Species = Strings.Split(Regulator.Regulog.Key, " - ").Last,
+                              Where Regulator.type = Regulator.Types.TF
+                              Select (From site In Regulator.regulatorySites
+                                      Select RegulatorId = Regulator.locus_tag.name,
+                                          Regulator.family,
+                                          Species = Strings.Split(Regulator.Regulog.name, " - ").Last,
                                           Tfbs_siteInfo = site).ToArray).ToArray.ToVector
             Dim LQuery = (From Tfbs As Integer
                           In TFBS_sites.Sequence.AsParallel
@@ -195,7 +195,7 @@ Namespace Regprecise
                           Select genome.regulons.regulators).ToArray
             Return (From reg As Regulator
                     In LQuery.IteratesALL.AsParallel
-                    Where reg.Type = Type
+                    Where reg.type = Type
                     Select reg).ToArray
         End Function
 
@@ -207,8 +207,8 @@ Namespace Regprecise
             Dim LQuery = (From g As BacteriaGenome
                           In Me.genomes
                           Where Not g.regulons Is Nothing
-                          Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
-                                                                            In x.RegulatorySites
+                          Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.MotifFasta
+                                                                            In x.regulatorySites
                                                                            Select uid = $"{site.locus_tag}:{site.position}",
                                                                                 x.LocusId)).IteratesALL).IteratesALL
             Dim Groups = (From x In LQuery

@@ -251,11 +251,11 @@ Namespace Regprecise
             End If
 
             If Not RegpreciseRegulator Is Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.BiologicalProcess
-                MatchedItem.Effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.Effector), Nothing, Strings.Split(RegpreciseRegulator.Effector, "; "))
-                MatchedItem.Family = RegpreciseRegulator.Family
-                MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.RegulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
-                MatchedItem.RegulationEffects = RegpreciseRegulator.RegulationMode
+                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.biological_process
+                MatchedItem.Effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
+                MatchedItem.Family = RegpreciseRegulator.family
+                MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
+                MatchedItem.RegulationEffects = RegpreciseRegulator.regulationMode
             Else
                 Dim FastaRegulatorRecord = GetFastaRecord(RegulatorId)
                 If Not FastaRegulatorRecord Is Nothing Then
@@ -312,9 +312,9 @@ Namespace Regprecise
 
         Private Function __applyProperty(RegpreciseTF As Regprecise.Regulator, MatchedItem As RegpreciseMPBBH) As RegpreciseMPBBH
             If RegpreciseTF IsNot Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.BiologicalProcess
-                MatchedItem.Effectors = Strings.Split(RegpreciseTF.Effector, "; ")
-                MatchedItem.Family = RegpreciseTF.Family
+                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.biological_process
+                MatchedItem.Effectors = Strings.Split(RegpreciseTF.effector, "; ")
+                MatchedItem.Family = RegpreciseTF.family
             End If
 
             Return MatchedItem

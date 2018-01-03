@@ -365,8 +365,8 @@ Public Class Mapping : Implements System.IDisposable
             In Regprecise.genomes
             Select From regulator
                    In item.regulons.regulators
-                   Where Not String.IsNullOrEmpty(regulator.Effector)
-                   Select regulator.Effector.ToLower.Trim
+                   Where Not String.IsNullOrEmpty(regulator.effector)
+                   Select regulator.effector.ToLower.Trim
 
         Dim TempChunk As String() = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToArray
         Call EffectorIdList.Clear()

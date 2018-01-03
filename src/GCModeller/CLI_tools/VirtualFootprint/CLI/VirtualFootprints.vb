@@ -299,7 +299,7 @@ Partial Module CLI
         Dim LQuery = (From x As MotifLog In source.AsParallel
                       Let siteLog As MotifSitelog = sitesHash(x.Regulog)
                       Let TFs As IEnumerable(Of String) =
-                          (From site As Regtransbase.WebServices.FastaObject
+                          (From site As Regtransbase.WebServices.MotifFasta
                            In siteLog.Sites
                            Let uid As String = $"{site.locus_tag}:{site.position}"
                            Where RegPrecise.ContainsKey(uid)
@@ -568,8 +568,8 @@ Partial Module CLI
         Dim reghash = (From x As Regulator
                        In regulators
                        Select x
-                       Group x By x.LocusTag.Key Into Group) _
-                            .ToDictionary(Function(x) x.Key,
+                       Group x By x.locus_tag.name Into Group) _
+                            .ToDictionary(Function(x) x.name,
                                           Function(x) x.Group.ToArray)
         For Each TF As KeyValuePair(Of String, String()) In bbhhash
             Dim path As String = $"{out}/{TF.Key}.fasta"
