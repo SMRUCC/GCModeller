@@ -40,16 +40,28 @@ Namespace Regprecise
     ''' </summary>
     Public Class Operon
 
-        <XmlAttribute> Public Property sId As String
-        <XmlElement> Public Property Members As RegulatedGene()
+        <XmlAttribute("id")>
+        Public Property ID As String
+        <XmlElement>
+        Public Property members As RegulatedGene()
 
         Public Overrides Function ToString() As String
-            Dim lstName As String = Members.Select(Function(g) g.Name).JoinBy(", ")
-            If String.IsNullOrEmpty(lstName) Then
-                lstName = Members.Select(Function(g) g.LocusId).JoinBy(", ")
-            End If
+            With members _
+                .Where(Function(g)
+                           Return Not g.Name.StringEmpty
+                       End Function) _
+                .Select(Function(g) g.Name) _
+                .ToArray
 
-            Return lstName
+                If Not .IsNullOrEmpty Then
+                    Return .GetJson
+                Else
+                    Return members _
+                        .Select(Function(g) g.LocusId) _
+                        .ToArray _
+                        .GetJson
+                End If
+            End With
         End Function
 
         Friend Shared Function OperonParser(page As String) As Operon()
@@ -76,7 +88,7 @@ Namespace Regprecise
                     .Select(Function(s) __geneParser(s, locus)) _
                     .ToArray
                 Return New Operon With {
-                    .Members = list_genes
+                    .members = list_genes
                 }
             Catch ex As Exception
                 ex = New Exception(genes.GetJson, ex)

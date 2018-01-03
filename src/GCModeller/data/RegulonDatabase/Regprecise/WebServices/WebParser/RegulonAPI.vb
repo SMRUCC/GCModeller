@@ -237,8 +237,8 @@ Namespace Regprecise
                        Select x
                        Group x By x.OperonID Into Group) _
                             .Select(Function(x) New Operon With {
-                                .sId = x.Group.First.OperonID,
-                                .Members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
+                                .ID = x.Group.First.OperonID,
+                                .members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.Function) Then

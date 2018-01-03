@@ -176,7 +176,7 @@ Partial Module CLI
                 For Each opr In regulon.operons
                     Dim oHits As New Dictionary(Of String, String())   ' {RegPrecise -> bbh}
 
-                    For Each m As RegulatedGene In opr.Members
+                    For Each m As RegulatedGene In opr.members
                         If Not hitsHash.ContainsKey(m.LocusId) Then
                             If Not oHits.ContainsKey(m.LocusId) Then
                                 oHits.Add(m.LocusId, {})
