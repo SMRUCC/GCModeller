@@ -100,7 +100,7 @@ Public Class RegPreciseRegulon
     End Function
 
     Public Shared Function Merge(source As IEnumerable(Of Regulator)) As RegPreciseRegulon()
-        Dim Groups = (From x In source Select x Group x By x.Family.ToLower Into Group).ToArray
+        Dim Groups = (From x In source Select x Group x By x.family.ToLower Into Group).ToArray
         Dim LQuery = (From x In Groups Select __merge(x.Group)).ToArray
         Return LQuery
     End Function
@@ -108,14 +108,14 @@ Public Class RegPreciseRegulon
     Private Shared Function __merge(source As IEnumerable(Of Regulator)) As RegPreciseRegulon
         Dim __1st = source.First
         Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.LocusId)).Unlist
-        Dim effectors = (From x In source Select x.Effector Distinct).ToArray
-        Dim hits = (From x In source Select x.LocusTag.Value Distinct Order By Value Ascending).ToArray
-        Dim sites = (From x In source Select x.RegulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
+        Dim effectors = (From x In source Select x.effector Distinct).ToArray
+        Dim hits = (From x In source Select x.locus_tag.text Distinct Order By text Ascending).ToArray
+        Dim sites = (From x In source Select x.regulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
-            .Family = __1st.Family,
-            .BiologicalProcess = __1st.BiologicalProcess,
+            .Family = __1st.family,
+            .BiologicalProcess = __1st.biological_process,
             .Members = (From sId As String In regulates Select sId Distinct Order By sId).ToArray,
-            .Pathway = __1st.Pathway,
+            .Pathway = __1st.pathway,
             .Regulator = __1st.LocusId,
             .Effectors = effectors,
             .hits = hits,
@@ -127,14 +127,14 @@ Public Class RegPreciseRegulon
     Public Shared Function Merges(inDIR As String) As RegPreciseRegulon()
         Dim loads = (From xml As String
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                     Select xml.LoadXml(Of BacteriaGenome)).ToArray
-        Dim regulons = (From x As BacteriaGenome In loads
+                     Select xml.LoadXml(Of BacteriaRegulome)).ToArray
+        Dim regulons = (From x As BacteriaRegulome In loads
                         Where x.NumOfRegulons > 0
                         Select x.regulons.regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator
                                   In regulons
                                   Select x,
-                                      uid = x.BiologicalProcess.Replace(" ", "").ToLower
+                                      uid = x.biological_process.Replace(" ", "").ToLower
                                   Group By x.LocusId Into Group).AsParallel
                       Select xx.LocusId,
                           parts = (From x In xx.Group

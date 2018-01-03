@@ -168,15 +168,15 @@ Partial Module CLI
             BBHIndex.BuildHitsHash(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)
 
-        For Each genome As BacteriaGenome In RegPrecise.genomes
+        For Each genome As BacteriaRegulome In RegPrecise.genomes
             For Each regulon As Regulator In genome.regulons.regulators
                 Dim TF As String() = If(tfHash.ContainsKey(regulon.LocusId), tfHash(regulon.LocusId), Nothing)
-                Dim isRNA As Boolean = regulon.Type = Regulator.Types.RNA
+                Dim isRNA As Boolean = regulon.type = Types.RNA
 
                 For Each opr In regulon.operons
                     Dim oHits As New Dictionary(Of String, String())   ' {RegPrecise -> bbh}
 
-                    For Each m As RegulatedGene In opr.Members
+                    For Each m As RegulatedGene In opr.members
                         If Not hitsHash.ContainsKey(m.LocusId) Then
                             If Not oHits.ContainsKey(m.LocusId) Then
                                 oHits.Add(m.LocusId, {})
@@ -194,7 +194,7 @@ Partial Module CLI
                         result += From x As RegPreciseOperon
                                   In source
                                   Where Not x.Operon.IsNullOrEmpty
-                                  Select setValue(x, {regulon.Family})
+                                  Select setValue(x, {regulon.family})
                     Else
                         Dim setValue = New SetValue(Of RegPreciseOperon) <= NameOf(RegPreciseOperon.Operon)
 

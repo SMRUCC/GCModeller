@@ -44,12 +44,14 @@ Namespace Regprecise
     Public Class RegulatedGene
 
         <XmlAttribute> Public Property vimssId As String
-        <XmlAttribute> Public Property LocusId As String
-        <XmlAttribute> Public Property Name As String
-        <XmlAttribute> Public Property [Function] As String
+        <XmlAttribute> Public Property locusId As String
+        <XmlAttribute> Public Property name As String
+
+        <XmlText>
+        Public Property description As String
 
         Public Overrides Function ToString() As String
-            Return vimssId & vbTab & LocusId & vbTab & Name
+            Return vimssId & vbTab & locusId & vbTab & name
         End Function
 
         ''' <summary>
@@ -83,8 +85,8 @@ Namespace Regprecise
             Dim Tokens As String() = Strings.Split(s, vbTab)
             Dim gene As New RegulatedGene With {
                 .vimssId = Tokens.ElementAtOrDefault(Scan0),
-                .LocusId = Tokens.ElementAtOrDefault(1),
-                .Name = Tokens.ElementAtOrDefault(2)
+                .locusId = Tokens.ElementAtOrDefault(1),
+                .name = Tokens.ElementAtOrDefault(2)
             }
             Return gene
         End Function

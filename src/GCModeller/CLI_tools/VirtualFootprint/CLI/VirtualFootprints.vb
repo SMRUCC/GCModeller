@@ -299,9 +299,9 @@ Partial Module CLI
         Dim LQuery = (From x As MotifLog In source.AsParallel
                       Let siteLog As MotifSitelog = sitesHash(x.Regulog)
                       Let TFs As IEnumerable(Of String) =
-                          (From site As Regtransbase.WebServices.FastaObject
+                          (From site As Regtransbase.WebServices.MotifFasta
                            In siteLog.Sites
-                           Let uid As String = $"{site.LocusTag}:{site.Position}"
+                           Let uid As String = $"{site.locus_tag}:{site.position}"
                            Where RegPrecise.ContainsKey(uid)
                            Select RegPrecise(uid)).IteratesALL.Distinct
                       Select (From TF As String
@@ -561,15 +561,15 @@ Partial Module CLI
         Dim bbhhash As Dictionary(Of String, String()) = BBHIndex.BuildHitsHash([in].LoadCsv(Of BBHIndex), hitHash)
         Dim regulators = (From xml As String
                           In ls - l - wildcards("*.xml") <= RegDIR
-                          Let g As BacteriaGenome = xml.LoadXml(Of BacteriaGenome)
+                          Let g As BacteriaRegulome = xml.LoadXml(Of BacteriaRegulome)
                           Where Not (g.regulons Is Nothing OrElse
                               g.regulons.regulators.IsNullOrEmpty)
                           Select tfs = g.regulons.regulators).IteratesALL
         Dim reghash = (From x As Regulator
                        In regulators
                        Select x
-                       Group x By x.LocusTag.Key Into Group) _
-                            .ToDictionary(Function(x) x.Key,
+                       Group x By x.locus_tag.name Into Group) _
+                            .ToDictionary(Function(x) x.name,
                                           Function(x) x.Group.ToArray)
         For Each TF As KeyValuePair(Of String, String()) In bbhhash
             Dim path As String = $"{out}/{TF.Key}.fasta"

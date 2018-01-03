@@ -153,7 +153,7 @@ Public Class Mapping
     End Function
 
     Private Shared Function GetEffectors(Regprecise As Regprecise.TranscriptionFactors) As String()
-        Dim EffectorQuery = (From item In Regprecise.genomes Select (From regulator In item.regulons.regulators Select regulator.Effector.ToLower).ToArray).ToArray
+        Dim EffectorQuery = (From item In Regprecise.genomes Select (From regulator In item.regulons.regulators Select regulator.effector.ToLower).ToArray).ToArray
         Dim Effectors As List(Of String) = New List(Of String)
 
         For Each List In EffectorQuery

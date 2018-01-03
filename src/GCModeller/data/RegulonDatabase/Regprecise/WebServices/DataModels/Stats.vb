@@ -29,7 +29,7 @@
 Imports System.ComponentModel
 Imports System.Xml.Serialization
 
-Namespace Regprecise.WebServices.JSONLDM
+Namespace Regprecise.WebServices.JSON
 
     ''' <summary>
     ''' http://regprecise.lbl.gov/Services/rest/genomeStats

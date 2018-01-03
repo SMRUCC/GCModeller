@@ -52,7 +52,7 @@ Namespace Regprecise
     Public Class TranscriptionFactors : Inherits ITextFile
 
         <XmlElement>
-        Public Property genomes As BacteriaGenome()
+        Public Property genomes As BacteriaRegulome()
         <XmlAttribute("update")>
         Public Property update As String
 
@@ -64,14 +64,14 @@ Namespace Regprecise
                                       Bacteria As String,
                                       RegulatorSites As FASTA.FastaFile,
                                       RegulatorId As String) As Boolean
-            Dim BacteriaGenome As BacteriaGenome = GetBacteriaGenomeProfile(Bacteria)
+            Dim BacteriaGenome As BacteriaRegulome = GetBacteriaGenomeProfile(Bacteria)
 
             If BacteriaGenome Is Nothing Then '不存在这条记录，则插入新的记录
                 Dim Regulog = New Regulon With {
                     .regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
                 }
-                BacteriaGenome = New BacteriaGenome With {
-                    .genome = New JSONLDM.genome With {
+                BacteriaGenome = New BacteriaRegulome With {
+                    .genome = New JSON.genome With {
                         .name = Bacteria
                     }
                 }
@@ -82,7 +82,7 @@ Namespace Regprecise
             End If
 
             Dim Regulator = (From tf As Regulator In BacteriaGenome.regulons.regulators
-                             Where String.Equals(tf.LocusTag.Key, RegulatorId, StringComparison.OrdinalIgnoreCase)
+                             Where String.Equals(tf.locus_tag.name, RegulatorId, StringComparison.OrdinalIgnoreCase)
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
@@ -91,14 +91,14 @@ Namespace Regprecise
                 Dim RegulatorySites = (From FastaObject As FastaReaders.Site
                                        In FastaReaders.Site.CreateObject(RegulatorSites)
                                        Select FastaObject.ToFastaObject).ToArray
-                Regulator.RegulatorySites = {RegulatorySites, Regulator.RegulatorySites}.ToVector
+                Regulator.regulatorySites = {RegulatorySites, Regulator.regulatorySites}.ToVector
             End If
 
             Return True
         End Function
 
-        Public Function GetBacteriaGenomeProfile(SpeciesName As String, Optional FuzzyMatch As Boolean = False) As BacteriaGenome
-            Dim LQuery = (From Bacteria As BacteriaGenome
+        Public Function GetBacteriaGenomeProfile(SpeciesName As String, Optional FuzzyMatch As Boolean = False) As BacteriaRegulome
+            Dim LQuery = (From Bacteria As BacteriaRegulome
                           In Me.genomes.AsParallel
                           Where String.Equals(SpeciesName, Bacteria.genome.name, StringComparison.OrdinalIgnoreCase)
                           Select Bacteria).FirstOrDefault
@@ -106,7 +106,7 @@ Namespace Regprecise
             If Not LQuery Is Nothing Then Return LQuery
 
             If FuzzyMatch Then
-                LQuery = (From Bacteria As BacteriaGenome
+                LQuery = (From Bacteria As BacteriaRegulome
                           In genomes.AsParallel
                           Where SpeciesName.FuzzyMatching(Bacteria.genome.name)
                           Select Bacteria).FirstOrDefault
@@ -117,12 +117,12 @@ Namespace Regprecise
         End Function
 
         Public Function GetRegulatorId(locus_tag As String, MotifPosition As Integer) As String
-            For Each Genome As BacteriaGenome In genomes
+            For Each Genome As BacteriaRegulome In genomes
                 Dim LQuery = (From Regulator As Regulator In Genome.regulons.regulators
                               Where Not Regulator.GetMotifSite(locus_tag, MotifPosition) Is Nothing
                               Select Regulator).FirstOrDefault
                 If Not LQuery Is Nothing Then
-                    Return LQuery.LocusTag.Key
+                    Return LQuery.locus_tag.name
                 End If
             Next
 
@@ -135,7 +135,7 @@ Namespace Regprecise
         ''' <param name="trace">locus_tag:position</param>
         ''' <returns></returns>
         Public Function GetRegulators(trace As String) As Regulator()
-            For Each genome As BacteriaGenome In genomes
+            For Each genome As BacteriaRegulome In genomes
                 Dim LQuery As Regulator() = (From Regulator As Regulator In genome.regulons.regulators
                                              Where Not Regulator.GetMotifSite(trace) Is Nothing
                                              Select Regulator).ToArray
@@ -159,11 +159,11 @@ Namespace Regprecise
 
         Public Function Export_TFBSInfo() As FASTA.FastaFile
             Dim TFBS_sites = (From Regulator As Regulator In Me.ListAllRegulators()
-                              Where Regulator.Type = Regulator.Types.TF
-                              Select (From site In Regulator.RegulatorySites
-                                      Select RegulatorId = Regulator.LocusTag.Key,
-                                          Regulator.Family,
-                                          Species = Strings.Split(Regulator.Regulog.Key, " - ").Last,
+                              Where Regulator.type = Types.TF
+                              Select (From site In Regulator.regulatorySites
+                                      Select RegulatorId = Regulator.locus_tag.name,
+                                          Regulator.family,
+                                          Species = Strings.Split(Regulator.regulog.name, " - ").Last,
                                           Tfbs_siteInfo = site).ToArray).ToArray.ToVector
             Dim LQuery = (From Tfbs As Integer
                           In TFBS_sites.Sequence.AsParallel
@@ -177,7 +177,7 @@ Namespace Regprecise
         End Function
 
         Public Function ListAllRegulators() As Regulator()
-            Dim LQuery = (From BacteriaGenome As BacteriaGenome
+            Dim LQuery = (From BacteriaGenome As BacteriaRegulome
                           In Me.genomes.AsParallel
                           Select BacteriaGenome.regulons.regulators).ToArray
             Return LQuery.ToVector
@@ -189,13 +189,13 @@ Namespace Regprecise
         ''' <param name="Type"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Get_Regulators(Type As Regulator.Types) As Regulator()
-            Dim LQuery = (From genome As BacteriaGenome
+        Public Function Get_Regulators(Type As Types) As Regulator()
+            Dim LQuery = (From genome As BacteriaRegulome
                           In Me.genomes.AsParallel
                           Select genome.regulons.regulators).ToArray
             Return (From reg As Regulator
                     In LQuery.IteratesALL.AsParallel
-                    Where reg.Type = Type
+                    Where reg.type = Type
                     Select reg).ToArray
         End Function
 
@@ -204,12 +204,12 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Function BuildRegulatesHash() As Dictionary(Of String, String())
-            Dim LQuery = (From g As BacteriaGenome
+            Dim LQuery = (From g As BacteriaRegulome
                           In Me.genomes
                           Where Not g.regulons Is Nothing
-                          Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
-                                                                            In x.RegulatorySites
-                                                                           Select uid = $"{site.LocusTag}:{site.Position}",
+                          Select g.regulons.regulators.Select(Function(x) (From site As Regtransbase.WebServices.MotifFasta
+                                                                            In x.regulatorySites
+                                                                           Select uid = $"{site.locus_tag}:{site.position}",
                                                                                 x.LocusId)).IteratesALL).IteratesALL
             Dim Groups = (From x In LQuery
                           Select x
