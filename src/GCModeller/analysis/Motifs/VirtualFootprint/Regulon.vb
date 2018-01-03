@@ -127,8 +127,8 @@ Public Class RegPreciseRegulon
     Public Shared Function Merges(inDIR As String) As RegPreciseRegulon()
         Dim loads = (From xml As String
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                     Select xml.LoadXml(Of BacteriaGenome)).ToArray
-        Dim regulons = (From x As BacteriaGenome In loads
+                     Select xml.LoadXml(Of BacteriaRegulome)).ToArray
+        Dim regulons = (From x As BacteriaRegulome In loads
                         Where x.NumOfRegulons > 0
                         Select x.regulons.regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator

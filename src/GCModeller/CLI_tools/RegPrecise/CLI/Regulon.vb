@@ -45,8 +45,8 @@ Partial Module CLI
         Dim bbh As IEnumerable(Of BBHIndex) = [in].LoadCsv(Of BBHIndex)
         Dim motifLogs As IEnumerable(Of MotifLog) = sites.LoadCsv(Of MotifLog)
         Dim Xmls As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(GCModeller.FileSystem.GetRepositoryRoot & "/RegpreciseDownloads/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-        Dim MotifLDMs = (From log As BacteriaGenome
-                         In Xmls.Select(AddressOf LoadXml(Of BacteriaGenome))
+        Dim MotifLDMs = (From log As BacteriaRegulome
+                         In Xmls.Select(AddressOf LoadXml(Of BacteriaRegulome))
                          Where Not log.regulons Is Nothing AndAlso
                              Not log.regulons.regulators.IsNullOrEmpty
                          Select log)
@@ -60,7 +60,7 @@ Partial Module CLI
                                              Function(x) x.Group.ToArray)
         Dim logsHash As New List(Of Regulator)
 
-        For Each regulog As BacteriaGenome In MotifLDMs
+        For Each regulog As BacteriaRegulome In MotifLDMs
             For Each TF As Regulator In regulog.regulons.regulators
                 If TF.type <> Types.TF Then
                     Continue For

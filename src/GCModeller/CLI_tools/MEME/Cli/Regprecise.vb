@@ -167,7 +167,7 @@ Partial Module CLI
                                       Function(x) x.Group.ToArray)
         Dim RegPrecise = (From file As String
                           In FileIO.FileSystem.GetFiles(DbDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                          Select file.LoadXml(Of Regprecise.BacteriaGenome)).ToArray
+                          Select file.LoadXml(Of Regprecise.BacteriaRegulome)).ToArray
         Dim regulators As String() = RegPrecise.Select(Function(x) x.ListRegulators).ToVector
         Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.Unlist
         Return regBBH.SaveTo(out)
@@ -537,7 +537,7 @@ Partial Module CLI
             If args.GetBoolean("/regulons") Then
                 Dim regulons = (From file As String
                                 In FileIO.FileSystem.GetFiles(args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                                Let regulon As BacteriaGenome = file.LoadXml(Of BacteriaGenome)
+                                Let regulon As BacteriaRegulome = file.LoadXml(Of BacteriaRegulome)
                                 Where Not regulon Is Nothing AndAlso
                                     Not regulon.regulons Is Nothing AndAlso
                                     Not regulon.regulons.regulators.IsNullOrEmpty

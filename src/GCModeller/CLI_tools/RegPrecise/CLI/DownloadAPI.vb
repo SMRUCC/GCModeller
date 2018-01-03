@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.SequenceModel
         Dim repository As New Genbank(genbank)
         Dim trim As Boolean = Not args.GetBoolean("/full")
 
-        For Each genome As BacteriaGenome In [in].LoadXml(Of TranscriptionFactors).genomes
+        For Each genome As BacteriaRegulome In [in].LoadXml(Of TranscriptionFactors).genomes
             Dim path As String = out & $"/{genome.genome.name.NormalizePathString}.fasta"
             Dim query As QuerySource = genome.CreateKEGGQuery
             Dim entry As GenbankIndex = repository.Query(query)
@@ -182,7 +182,7 @@ Imports SMRUCC.genomics.SequenceModel
 
         Call $"Get {DIRs.Count} directories and {genomes.Count} genomes...".__DEBUG_ECHO
 
-        For Each genome As BacteriaGenome In genomes.Select(AddressOf LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In genomes.Select(AddressOf LoadXml(Of BacteriaRegulome))
             Dim name As String = genome.genome.name.NormalizePathString
             Dim DIR As String = inDIR & "/" & name
             Dim sp As String = genome.CreateKEGGQuery.QuerySpCode(offline)
@@ -226,7 +226,7 @@ Imports SMRUCC.genomics.SequenceModel
         Dim existsDIR As String = RegPrecise.GCModeller.FileSystem.RegPreciseRegulatorFasta
 
         For Each file As String In FileIO.FileSystem.GetFiles(sourceDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim genome = file.LoadXml(Of BacteriaGenome)
+            Dim genome = file.LoadXml(Of BacteriaRegulome)
             Dim outDIR As String = out & "/" & genome.genome.name.NormalizePathString(True)
             Dim exists As String = existsDIR & "/" & genome.genome.name.NormalizePathString(True)
             Dim query = genome.CreateKEGGQuery
@@ -281,7 +281,7 @@ Imports SMRUCC.genomics.SequenceModel
     <Group(CLIGroups.WebAPI)>
     Public Function DownloadMotifSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
-        Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaGenome))
+        Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaRegulome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
         Dim sites As IEnumerable(Of String) = genomes.Where(
             Function(g) Not g.regulons Is Nothing AndAlso

@@ -88,7 +88,7 @@ Namespace Regprecise
         End Function
 
         <ExportAPI("Regulon.Reconstruct")>
-        Public Function Reconstruct(mappings As String, Regprecise As String, door As String) As BacteriaGenome
+        Public Function Reconstruct(mappings As String, Regprecise As String, door As String) As BacteriaRegulome
             Dim DoorOperon As DOOR = DOOR_API.Load(door)
             Return Reconstruct(mappings, Regprecise, DoorOperon)
         End Function
@@ -101,11 +101,11 @@ Namespace Regprecise
         ''' <param name="door">Door operon database</param>
         ''' <returns></returns>
         <ExportAPI("Regulon.Reconstruct")>
-        Public Function Reconstruct(mappings As String, Regprecise As String, DOOR As DOOR) As BacteriaGenome
+        Public Function Reconstruct(mappings As String, Regprecise As String, DOOR As DOOR) As BacteriaRegulome
             Dim bbh = mappings.LoadCsv(Of BiDirectionalBesthit)
-            Dim genomeRef = Regprecise.LoadXml(Of BacteriaGenome)
+            Dim genomeRef = Regprecise.LoadXml(Of BacteriaRegulome)
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
-            Dim genomeGET As New BacteriaGenome With {
+            Dim genomeGET As New BacteriaRegulome With {
                 .genome = New JSON.genome With {
                     .name = BaseName(mappings)
                 },
@@ -130,7 +130,7 @@ Namespace Regprecise
         <ExportAPI("Regulon.Reconstruct")>
         <Extension>
         Public Function Reconstruct(mappings As IEnumerable(Of BiDirectionalBesthit),
-                                    Regprecise As BacteriaGenome,
+                                    Regprecise As BacteriaRegulome,
                                     Operons As DOOR) As Regulator()
             Dim mappingHash As Dictionary(Of String, BiDirectionalBesthit()) = mappings.BuildMapHash
             Dim reconstructs As Regulator() = mappingHash.Reconstruct(Regprecise, Operons)
@@ -140,7 +140,7 @@ Namespace Regprecise
         <ExportAPI("Regulon.Reconstruct")>
         <Extension>
         Public Function Reconstruct(mappings As Dictionary(Of String, BiDirectionalBesthit()),
-                                    Regprecise As BacteriaGenome,
+                                    Regprecise As BacteriaRegulome,
                                     Operons As DOOR) As Regulator()
             Dim LQuery As Regulator() = (From x As Regulator
                                          In Regprecise.regulons.regulators

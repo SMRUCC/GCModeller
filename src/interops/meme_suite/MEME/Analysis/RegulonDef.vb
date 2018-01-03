@@ -71,7 +71,7 @@ Namespace Analysis
             VBDebugger.Mute = True
 
             Dim regulons = FileIO.FileSystem.GetFiles(regulonBBH, FileIO.SearchOption.SearchTopLevelOnly, "*.xml") _
-                .Select(Function(x) x.LoadXml(Of Regprecise.BacteriaGenome))
+                .Select(Function(x) x.LoadXml(Of Regprecise.BacteriaRegulome))
             Dim tomOUTs = FileIO.FileSystem.GetFiles(tomOUT, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
                 .Select(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult

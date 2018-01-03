@@ -168,7 +168,7 @@ Partial Module CLI
             BBHIndex.BuildHitsHash(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)
 
-        For Each genome As BacteriaGenome In RegPrecise.genomes
+        For Each genome As BacteriaRegulome In RegPrecise.genomes
             For Each regulon As Regulator In genome.regulons.regulators
                 Dim TF As String() = If(tfHash.ContainsKey(regulon.LocusId), tfHash(regulon.LocusId), Nothing)
                 Dim isRNA As Boolean = regulon.type = Types.RNA

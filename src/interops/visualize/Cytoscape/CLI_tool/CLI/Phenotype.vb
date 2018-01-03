@@ -798,7 +798,7 @@ Partial Module CLI
         If (args <= "/familyinfo").DirectoryExists Then
             Dim regulons = (From file As String
                             In FileIO.FileSystem.GetFiles(args("/familyinfo"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                            Let regs = file.LoadXml(Of BacteriaGenome).regulons
+                            Let regs = file.LoadXml(Of BacteriaRegulome).regulons
                             Where Not regs Is Nothing OrElse regs.regulators.IsNullOrEmpty
                             Select regs.regulators).ToArray.ToVector
             FamilyHash = (From x As Regulator In regulons

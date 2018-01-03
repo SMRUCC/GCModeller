@@ -561,7 +561,7 @@ Partial Module CLI
         Dim bbhhash As Dictionary(Of String, String()) = BBHIndex.BuildHitsHash([in].LoadCsv(Of BBHIndex), hitHash)
         Dim regulators = (From xml As String
                           In ls - l - wildcards("*.xml") <= RegDIR
-                          Let g As BacteriaGenome = xml.LoadXml(Of BacteriaGenome)
+                          Let g As BacteriaRegulome = xml.LoadXml(Of BacteriaRegulome)
                           Where Not (g.regulons Is Nothing OrElse
                               g.regulons.regulators.IsNullOrEmpty)
                           Select tfs = g.regulons.regulators).IteratesALL

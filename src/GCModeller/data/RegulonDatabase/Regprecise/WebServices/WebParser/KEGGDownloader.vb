@@ -57,7 +57,7 @@ Namespace Regprecise
         '''
         <ExportAPI("Regulator.Downloads")>
         Public Function RegulatorDownloads(Regulator As Regulator,
-                                           Bacteria As BacteriaGenome,
+                                           Bacteria As BacteriaRegulome,
                                            ErrLog As LogFile,
                                            DownloadDirectory As String,
                                            FastaSaved As String) As FASTA.FastaToken

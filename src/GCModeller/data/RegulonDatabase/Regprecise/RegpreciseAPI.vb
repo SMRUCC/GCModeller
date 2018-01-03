@@ -103,7 +103,7 @@ Rodionov, D. A.", Volume:=14)>
         <ExportAPI("Db.CompileGeneration")>
         Public Function GenerateDatabase(DIR As String) As TranscriptionFactors
             Dim LQuery = (From File As String In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
-                          Let Bacteria As Regprecise.BacteriaGenome = Distinct(File.LoadXml(Of Regprecise.BacteriaGenome)())
+                          Let Bacteria As Regprecise.BacteriaRegulome = Distinct(File.LoadXml(Of Regprecise.BacteriaRegulome)())
                           Select Bacteria
                           Order By Bacteria.genome.name Ascending).ToArray
             Return New TranscriptionFactors With {
@@ -112,7 +112,7 @@ Rodionov, D. A.", Volume:=14)>
             }
         End Function
 
-        Public Function Distinct(data As BacteriaGenome) As BacteriaGenome
+        Public Function Distinct(data As BacteriaRegulome) As BacteriaRegulome
             Dim Regulators = (From reg As Regulator
                               In data.regulons.regulators
                               Select reg.locus_tag.name
@@ -183,13 +183,13 @@ Rodionov, D. A.", Volume:=14)>
 
         <ExportAPI("regprecise.matches_regulator")>
         Public Function RegpreciseRegulatorMatch(Regprecise As TranscriptionFactors, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
-            Dim LQuery = (From BacteriaGenome As BacteriaGenome In Regprecise.genomes.AsParallel
+            Dim LQuery = (From BacteriaGenome As BacteriaRegulome In Regprecise.genomes.AsParallel
                           Select BacteriaGenome.__matches(bbh)).ToArray
             Return LQuery.ToVector
         End Function
 
         <Extension>
-        Private Function __matches(genome As BacteriaGenome, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
+        Private Function __matches(genome As BacteriaRegulome, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
             Dim LQuery = (From RegpreciseRegulator In genome.regulons.regulators
                           Let Regulator As String = RegpreciseRegulator.regulator.name
                           Let mapped = (From maps As BiDirectionalBesthit In bbh
@@ -340,7 +340,7 @@ Rodionov, D. A.", Volume:=14)>
             Dim ChunkBuffer As List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)) =
                 New List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta))
 
-            For Each BacterialGenome As BacteriaGenome In Regprecise.genomes
+            For Each BacterialGenome As BacteriaRegulome In Regprecise.genomes
                 For Each Regulon As Regulator In BacterialGenome.regulons.regulators
                     If Regulon.type = Types.RNA Then
                         Continue For
@@ -409,7 +409,7 @@ Rodionov, D. A.", Volume:=14)>
         Private Function __getTfFamilies(Regprecise As TranscriptionFactors) As String()
             Dim Chunkbuffer As List(Of String) = New List(Of String)
 
-            For Each BacterialGenome As BacteriaGenome In Regprecise.genomes
+            For Each BacterialGenome As BacteriaRegulome In Regprecise.genomes
                 Call Chunkbuffer.AddRange((From regulator As Regulator
                                            In BacterialGenome.regulons.regulators
                                            Where regulator.type = Types.TF

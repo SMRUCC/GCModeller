@@ -113,7 +113,7 @@ Partial Module CLI
                                            Function(x) x.Group.First.x)
         prot = New FastaFile
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             prot += From sid As String     ' 在当前的基因组里面查找哈希表里面的序列并添加导结果集合之中
                     In regulators
@@ -145,7 +145,7 @@ Partial Module CLI
                                                                                    Function(x) x.Group.First.x)
         Dim list As New List(Of PfamString)
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             list += (From sid As String In regulators Where pfamHash.ContainsKey(sid) Select pfamHash(sid))
             Call ".".Echo
@@ -178,7 +178,7 @@ Partial Module CLI
                                    Function(x) x.Group.Select(Function(o) o.x).ToArray)
         Dim list As New List(Of BBHIndex)
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             list += From sid As String In regulators Where bbhHash.ContainsKey(sid) Select bbhHash(sid)
             Call ".".Echo

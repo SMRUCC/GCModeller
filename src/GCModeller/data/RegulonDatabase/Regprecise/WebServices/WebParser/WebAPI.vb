@@ -131,7 +131,7 @@ Namespace Regprecise
         Public Function Download(Optional EXPORT$ = "./") As TranscriptionFactors
             Dim html$
             Dim list$()
-            Dim genomes As New List(Of BacteriaGenome)
+            Dim genomes As New List(Of BacteriaRegulome)
 
             Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
 
@@ -164,16 +164,16 @@ Namespace Regprecise
             }
         End Function
 
-        Private Function __download(entryHref As String, EXPORT As String) As BacteriaGenome
+        Private Function __download(entryHref As String, EXPORT As String) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
             Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
             Dim name$ = entry.Key.NormalizePathString
             Dim save$ = EXPORT & $"/{name}.xml"
 
             If save.FileLength > 1024 Then
-                Return save.LoadXml(Of BacteriaGenome)()
+                Return save.LoadXml(Of BacteriaRegulome)()
             Else
-                With New BacteriaGenome With {
+                With New BacteriaRegulome With {
                     .genome = New JSON.genome With {
                         .name = entry.Key
                     },
@@ -198,7 +198,7 @@ Namespace Regprecise
         Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, DownloadDIR As String) As FASTA.FastaFile
             Dim FileData As FASTA.FastaFile = New FASTA.FastaFile
             Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
-                For Each Bacteria As BacteriaGenome In Regprecise.genomes
+                For Each Bacteria As BacteriaRegulome In Regprecise.genomes
                     Dim downloads = (From regulator As Regulator
                                      In Bacteria.regulons.regulators
                                      Let fa As FASTA.FastaToken = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
@@ -212,7 +212,7 @@ Namespace Regprecise
         End Function
 
         Private Function __downloads(regulator As Regulator,
-                                     genome As BacteriaGenome,
+                                     genome As BacteriaRegulome,
                                      ErrLog As LogFile,
                                      DownloadDIR As String) As FASTA.FastaToken
 

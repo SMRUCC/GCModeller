@@ -30,10 +30,15 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 
 Namespace Regprecise
 
-    Public Class BacteriaGenome
+    ''' <summary>
+    ''' 微生物的调控组数据模型
+    ''' </summary>
+    <XmlType("bacterial_regulome", [Namespace]:="http://regprecise.lbl.gov/RegPrecise/genome.jsp?genome_id=taxonomy")>
+    Public Class BacteriaRegulome
 
         ''' <summary>
         ''' {GenomeName, Url}
@@ -59,6 +64,13 @@ Namespace Regprecise
             End Get
         End Property
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            xmlns.Add("model", MotifFasta.xmlns)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return genome.ToString
         End Function
@@ -82,7 +94,7 @@ Namespace Regprecise
         Public Function ListRegulatedGenes() As String()
             Dim list As List(Of String) = (From x As Regulator
                                            In regulons.regulators
-                                           Select x.operons.Select(Function(o) o.members.Select(Function(g) g.LocusId))).ToArray.Unlist.Unlist
+                                           Select x.operons.Select(Function(o) o.members.Select(Function(g) g.locusId))).ToArray.Unlist.Unlist
             Dim dlist As String() = list.Distinct.ToArray
             Return dlist
         End Function

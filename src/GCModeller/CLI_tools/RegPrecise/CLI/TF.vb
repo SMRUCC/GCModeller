@@ -134,8 +134,8 @@ Partial Module CLI
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
                                           Function(x) x.Group.Select(Function(xx) xx.x))
-        Dim genomes As IEnumerable(Of BacteriaGenome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
-        Dim all = (From x As BacteriaGenome In genomes
+        Dim genomes As IEnumerable(Of BacteriaRegulome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
+        Dim all = (From x As BacteriaRegulome In genomes
                    Where Not x.regulons Is Nothing AndAlso
                        Not x.regulons.regulators.IsNullOrEmpty
                    Select xx = x.regulons.regulators).Unlist
@@ -194,7 +194,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/RegPrecise.Effector.Maps.Csv")
         Dim list As New List(Of Effectors)
 
-        For Each genome As BacteriaGenome In From xml As String In xmls Select xml.LoadXml(Of BacteriaGenome)
+        For Each genome As BacteriaRegulome In From xml As String In xmls Select xml.LoadXml(Of BacteriaRegulome)
             list += From x As Regulator
                     In genome.regulons.regulators
                     Where x.type = Types.TF
