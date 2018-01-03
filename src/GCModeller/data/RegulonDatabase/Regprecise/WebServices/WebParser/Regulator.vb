@@ -145,23 +145,24 @@ Namespace Regprecise
         End Function
 
         Private Shared Function More(regulator As Regulator) As Regulator
-            Dim html$ = regulator.Regulator.Value.GET.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
-            Dim properties$() = r.Matches(html, "<tr>.+?</tr>", RegexICSng).ToArray
+            Dim html$ = regulator.Regulator.Value.GET
+            Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
+            Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
             Dim i As int = 1
 
-            regulator.SiteMore = Regex.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
+            regulator.SiteMore = r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
             regulator.SiteMore = "http://regprecise.lbl.gov/RegPrecise/" & regulator.SiteMore.href
 
             If regulator.Type = Types.TF Then
-                Dim LocusTag As String = Regex.Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
+                Dim LocusTag As String = r.Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
                 regulator.LocusTag = KeyValuePair.CreateObject(WebAPI.GetsId(LocusTag), LocusTag.href)
                 regulator.Family = __getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
-                Dim Name As String = Regex.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
+                Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
                 Name = Mid(Name, 1, Len(Name) - 5)
                 regulator.LocusTag = KeyValuePair.CreateObject(Name, "")
-                regulator.Family = Regex.Match(html, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
+                regulator.Family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
                 regulator.Family = __getTagValue_td(regulator.Family)
             End If
 
@@ -172,8 +173,8 @@ Namespace Regprecise
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href
             regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimNewLine("").Replace(vbTab, "").Trim, url)
 
-            Dim exportServletLnks As String() = __exportServlet(html)
-            regulator.operons = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))
+            Dim exportServletLnks$() = __exportServlet(html)
+            regulator.operons = Operon.OperonParser(html)
             regulator.RegulatorySites = Regtransbase.WebServices.FastaObject.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return regulator

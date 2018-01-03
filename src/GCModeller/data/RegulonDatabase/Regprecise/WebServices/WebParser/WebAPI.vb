@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.Regulator
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -157,7 +158,7 @@ Namespace Regprecise
         End Function
 
         Private Function __download(entryHref As String, EXPORT As String) As BacteriaGenome
-            Dim str$ = Regex.Match(entryHref, "href="".+?"">.+?</a>").Value
+            Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
             Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
             Dim name$ = entry.Key.NormalizePathString
             Dim save$ = EXPORT & $"/{name}.xml"
@@ -166,7 +167,7 @@ Namespace Regprecise
                 Return save.LoadXml(Of BacteriaGenome)()
             Else
                 With New BacteriaGenome With {
-                    .genome = New WebServices.JSON.genome With {
+                    .genome = New JSON.genome With {
                         .name = entry.Key
                     },
                     .regulons = WebAPI.DownloadRegulon(entry.Value)
