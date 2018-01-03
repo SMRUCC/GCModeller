@@ -301,7 +301,7 @@ Partial Module CLI
                       Let TFs As IEnumerable(Of String) =
                           (From site As Regtransbase.WebServices.FastaObject
                            In siteLog.Sites
-                           Let uid As String = $"{site.LocusTag}:{site.Position}"
+                           Let uid As String = $"{site.locus_tag}:{site.position}"
                            Where RegPrecise.ContainsKey(uid)
                            Select RegPrecise(uid)).IteratesALL.Distinct
                       Select (From TF As String
