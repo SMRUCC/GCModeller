@@ -75,7 +75,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <param name="offline">Work in offline mode?</param>
         Public Function QuerySpCode(Optional offline As Boolean = False) As String
-            Dim sp As Organism = GetKEGGSpeciesCode(genome)
+            Dim sp As DBGET.bGetObject.Organism.Organism = GetKEGGSpeciesCode(genome)
 
             If Not sp Is Nothing Then Return sp.KEGGId
 
