@@ -310,7 +310,7 @@ Partial Module CLI
             Return sites.SaveTo(args("/source") & "/mastSites.Csv").CLICode
         End If
 
-        Dim PTT As GenBank.TabularFormat.PTT = GenBank.TabularFormat.PTT.Load(PTTFile)  ' 得到基因组上下文的信息
+        Dim PTT As TabularFormat.PTT = TabularFormat.PTT.Load(PTTFile)  ' 得到基因组上下文的信息
         Dim ATGDist As Integer = args.GetValue(Of Integer)("/atg-dist", 500)
         Dim Trims As MastSites() = Nothing
 
@@ -345,7 +345,7 @@ Partial Module CLI
     End Function
 
     Private Function __upstreamRelated(atgDist As Integer,
-                                       PTT As GenBank.TabularFormat.PTT,
+                                       PTT As TabularFormat.PTT,
                                        sites As MastSites(),
                                        ByRef trimSites As MastSites(),
                                        noMEME As Boolean) As MastSites()

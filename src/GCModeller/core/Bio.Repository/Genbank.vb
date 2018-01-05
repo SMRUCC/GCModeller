@@ -80,7 +80,7 @@ Public Module Installer
                         }
                         Call DbWriter.Flush(idx)   ' 将对象写入内存缓存，进入队列等待回写入文件系统
 
-                        genes += gb.GbffToORF_PTT.GeneObjects.Select(Function(g) New GeneInfo(g, idx.AccId))
+                        genes += gb.GbffToPTT(ORF:=True).GeneObjects.Select(Function(g) New GeneInfo(g, idx.AccId))
                     Next
                 Next
 

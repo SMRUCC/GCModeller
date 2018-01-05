@@ -111,7 +111,7 @@ Public Module ToolsAPI
                           Select part.PartitioningTag,
                               id).ToArray
         Dim ORFPartitions = From ORF As GeneBrief
-                            In GbkffExportToPTT(genbank).GeneObjects
+                            In genbank.GbffToPTT(ORF:=True).GeneObjects
                             Let InternalGetPTag = (From p
                                                    In Partitions
                                                    Where Array.IndexOf(p.id, ORF.Synonym) > -1

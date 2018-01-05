@@ -351,5 +351,15 @@ Namespace ComponentModel.Loci
         Public Shared Function Parse(loci$) As NucleotideLocation
             Return LociAPI.TryParse(loci)
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator +(loci As NucleotideLocation, offset%) As NucleotideLocation
+            Return New NucleotideLocation(loci.Left + offset, loci.Right + offset, loci.Strand)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator -(loci As NucleotideLocation, offset%) As NucleotideLocation
+            Return loci + -offset
+        End Operator
     End Class
 End Namespace

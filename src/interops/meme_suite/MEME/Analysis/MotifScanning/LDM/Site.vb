@@ -27,14 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Namespace Analysis.MotifScans
@@ -44,7 +40,7 @@ Namespace Analysis.MotifScans
     Public Class Site : Inherits MEME.LDM.Site
 
         ''' <summary>
-        ''' <see cref="Regprecise.WebServices.JSONLDM.regulator.vimssId"/>
+        ''' <see cref="JSON.regulator.vimssId"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("regulators")> Public Property Regulators As Integer()

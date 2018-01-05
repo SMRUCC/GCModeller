@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports r = System.Text.RegularExpressions.Regex
@@ -11,12 +12,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' T number
         ''' </summary>
         ''' <returns></returns>
-        Public Property TID As String
-        Public Property code As String
+        <XmlAttribute> Public Property TID As String
+        <XmlAttribute> Public Property code As String
+        <XmlAttribute> Public Property Taxonomy As String
+
         Public Property Aliases As String
         Public Property FullName As String
         Public Property Definition As String
-        Public Property Taxonomy As String
         Public Property Lineage As String
         Public Property DataSource As NamedValue()
         Public Property Keywords As String()
@@ -37,7 +39,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                               .Replace("&nbsp;", " ") _
                               .Trim
 
-            Dim rows = html _
+            Dim infoTable = html _
                 .GetRowsHTML _
                 .Select(Function(r)
                             Dim cols = r.GetColumnsHTML
@@ -49,21 +51,37 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                                 .Value = value
                             }
                         End Function) _
-                .ToDictionary(Function(r) r.Name,
-                              Function(r) r.Value)
-            Dim comment$ = rows!Comment _
+                .ToArray
+
+            Dim rows As New Dictionary(Of String, String)
+
+            For Each r As NamedValue(Of String) In infoTable
+                ' 因为如果基因组存在质粒的话，则会出现多个sequence字段重复
+                ' 所以不可以直接使用linq生成字典
+                ' 在这里只添加第一个出现的字段就行了
+                ' 因为基因组序列总是先于质粒序列出现的
+                If Not rows.ContainsKey(r.Name) Then
+                    rows.Add(r.Name, r.Value)
+                End If
+            Next
+
+            Dim comment$ = rows _
+                .TryGetValue("Comment") _
                 .StripHTMLTags _
                 .StringReplace("\s{2,}", " ") _
                 .Trim
+            Dim keywords$() = rows _
+                .TryGetValue("Keywords") _
+               ?.Split(","c)
 
             Return New OrganismInfo With {
-                .Aliases = rows!Aliases,
+                .Aliases = rows?!Aliases,
                 .code = rows("Org code"),
                 .Comment = comment,
                 .Created = rows!Created,
                 .FullName = rows("Full name"),
                 .Definition = rows!Definition,
-                .Keywords = rows!Keywords.Split(","c),
+                .Keywords = keywords,
                 .Sequence = rows!Sequence.href,
                 .Lineage = rows!Lineage,
                 .Taxonomy = rows!Taxonomy.StripHTMLTags,
@@ -86,16 +104,30 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Function
 
         Private Shared Function referenceParser(rows As Dictionary(Of String, String)) As Reference
-            Dim J$ = rows!Journal
-            Dim DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
+            Dim J$ = rows.TryGetValue("Journal")
+            Dim title$ = rows.TryGetValue("Title")
+            Dim DOI$
 
-            J = J.Replace(DOI, "").StripHTMLTags.Trim
-            DOI = DOI.StripHTMLTags
+            If J.StringEmpty AndAlso title.StringEmpty Then
+                Return Nothing
+            End If
+
+            If J.StringEmpty Then
+                J = ""
+                DOI = ""
+            Else
+                DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
+                J = J.Replace(DOI, "").StripHTMLTags.Trim
+                DOI = DOI.StripHTMLTags
+            End If
+
+            Dim authors = rows.TryGetValue("Authors")?.Split(";"c)
+            Dim ref$ = rows.TryGetValue("Reference").StripHTMLTags
 
             Return New Reference With {
-                .Title = rows!Title,
-                .Authors = rows!Authors.Split(";"c),
-                .Reference = rows!Reference.StripHTMLTags,
+                .Title = title,
+                .Authors = authors,
+                .Reference = ref,
                 .Journal = J,
                 .DOI = DOI
             }

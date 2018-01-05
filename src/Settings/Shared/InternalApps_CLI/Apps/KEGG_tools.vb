@@ -75,6 +75,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Build.Ko.repository:                    
 '    /Build.Reactions.Repository:             
 '    /Maps.Repository.Build:                  
+'    /Pathway.Modules.Build:                  
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -683,6 +684,28 @@ Public Function PathwayGeneList([in] As String, Optional out As String = "") As 
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Pathway.Modules.Build /in &lt;directory> [/batch /out &lt;out.Xml>]
+''' ```
+''' </summary>
+'''
+Public Function CompileGenomePathwayModule([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Pathway.Modules.Build")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If batch Then
+        Call CLI.Append("/batch ")
     End If
 
 

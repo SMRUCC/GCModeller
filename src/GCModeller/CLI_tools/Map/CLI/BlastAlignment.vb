@@ -118,7 +118,7 @@ Partial Module CLI
         GCSkew.Steps = 250
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
-        Dim PTT As PTT = genbank.GbffToORF_PTT
+        Dim PTT As PTT = genbank.GbffToPTT(ORF:=True)
         Dim region As Location = alignments.GetAlignmentRegion
 
         If region.Length <= PTT.Size / 5 Then
