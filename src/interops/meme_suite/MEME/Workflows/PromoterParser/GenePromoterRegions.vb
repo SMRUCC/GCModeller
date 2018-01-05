@@ -120,7 +120,7 @@ Namespace Workflows.PromoterParser
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{len}/{[mod].EntryId}.fasta"
                                     Call New FASTA.FastaFile(Genes.Select(Function(id) src(id))) _
-                                        .Save(-1, Path, System.Text.Encoding.ASCII)
+                                        .Save(-1, Path, Encoding.ASCII)
                                 End Sub
 
                 For Each l% In PromoterRegionParser.PrefixLength

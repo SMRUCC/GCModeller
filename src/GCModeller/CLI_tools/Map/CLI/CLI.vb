@@ -118,7 +118,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
-        Dim PTT As PTT = GBFF.File.Load(gb).GbkffExportToPTT
+        Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
 
         Return PTT.Draw(COG, confInf, out)
     End Function

@@ -230,7 +230,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim nt As FastaToken = gbff.Origin.ToFasta
         Dim genes = gbff.ExportGeneFeatures
         Dim out As String = args.GetValue("/out", gb.TrimSuffix)
-        Dim PTT = gbff.GbkffExportToPTT
+        Dim PTT = gbff.GbffToPTT(ORF:=True)
         Dim parser As New PromoterRegionParser(nt, PTT)
 
         Call genes.SaveTo(out & "-genes.csv", nonParallel:=True)

@@ -357,7 +357,7 @@ Partial Module CLI
         Dim inDIR As String = args("/inDIR")
         Dim out As String = args("/out")
         Dim gb As GenBank.GBFF.File = GenBank.GBFF.File.Load(args("/gb"))
-        Dim PTT As PTT = GenBank.GbffToORF_PTT(gb)
+        Dim PTT As PTT = GenBank.GbffToPTT(gb, ORF:=True)
         Dim DOOR As String = args("/door")
         Dim opr As DOOR
         If DOOR.FileExists Then

@@ -561,7 +561,7 @@ Partial Module Utilities
             "/out",
             [in].TrimSuffix & $"_min={min},max={max},upstream=-{len}bp.palindrome{If(mirror, "-mirror", "")}.csv")
         Dim gb As GBFF.File = GBFF.File.Load([in])
-        Dim parser As New PromoterRegionParser(gb.Origin.ToFasta, gb.GbkffExportToPTT)
+        Dim parser As New PromoterRegionParser(gb)
         Dim source As New FastaFile(parser.GetRegionCollectionByLength(len).Values)
         Dim output As New List(Of PalindromeLoci)
 
