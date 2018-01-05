@@ -207,6 +207,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLI\GCAassembly.vb" />
     <Compile Include="DATA.vb" />
     <Compile Include="CLI\Taxonomy.vb" />
     <Compile Include="CLI\NT_tools.vb" />
