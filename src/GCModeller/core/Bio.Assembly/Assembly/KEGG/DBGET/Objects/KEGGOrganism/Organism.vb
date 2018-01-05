@@ -110,14 +110,22 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 Return Nothing
             End If
 
-            DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
-            J = J.Replace(DOI, "").StripHTMLTags.Trim
-            DOI = DOI.StripHTMLTags
+            If J.StringEmpty Then
+                J = ""
+                DOI = ""
+            Else
+                DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
+                J = J.Replace(DOI, "").StripHTMLTags.Trim
+                DOI = DOI.StripHTMLTags
+            End If
+
+            Dim authors = rows.TryGetValue("Authors")?.Split(";"c)
+            Dim ref$ = rows.TryGetValue("Reference").StripHTMLTags
 
             Return New Reference With {
-                .Title = rows?!Title,
-                .Authors = rows?!Authors.Split(";"c),
-                .Reference = rows?!Reference.StripHTMLTags,
+                .Title = title,
+                .Authors = authors,
+                .Reference = ref,
                 .Journal = J,
                 .DOI = DOI
             }

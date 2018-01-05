@@ -92,7 +92,7 @@ Partial Module CLI
 
         Return model _
             .GetXml _
-            .SaveTo(out Or $"{[in]}/{name}.Xml", TextEncodings.UTF8WithoutBOM) _
+            .SaveTo(out Or $"{[in].ParentPath}/{name}.Xml", TextEncodings.UTF8WithoutBOM) _
             .CLICode
     End Function
 End Module
