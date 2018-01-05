@@ -203,7 +203,7 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        '''
+        ''' 导出所有的蛋白质编码基因的基因组注释信息
         ''' </summary>
         ''' <param name="gb">只导出CDS部分的数据</param>
         ''' <returns></returns>

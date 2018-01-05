@@ -38,6 +38,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
@@ -369,7 +370,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Pathway")>
-    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR/organismModel.Xml> /PTT <genomePTT.DIR/gbff.txt> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
     <Description("Parsing promoter sequence region for genes in pathways.")>
     <Argument("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
     <Argument("/PTT", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
@@ -381,10 +382,19 @@ Partial Module CLI
         Dim DOOR As String = args("/door")
         Dim locusParser As String = args("/locus") Or "union"
         Dim out As String = args("/out") Or (App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
-        Dim PTTDb As New PTTDbLoader(PTT_DIR)
-        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Dim Parser As PromoterRegionParser
         Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
+
+        If PTT_DIR.FileExists Then
+            Dim gb As GBFF.File = GBFF.File.Load(PTT_DIR)
+            Parser = New PromoterRegionParser(gb)
+        Else
+            Dim PTTDb As New PTTDbLoader(PTT_DIR)
+            Parser = New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        End If
+
         Call GenePromoterRegions.ParsingKEGGPathways(Parser, DOOR, pathwayDIR, out, method)
+
         Return 0
     End Function
 

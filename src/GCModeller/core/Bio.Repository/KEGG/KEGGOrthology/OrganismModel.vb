@@ -35,4 +35,13 @@ Public Class OrganismModel
             .organism = organism
         }
     End Function
+
+    Public Shared Function EnumerateModules(handle As String) As IEnumerable(Of Pathway)
+        If handle.FileExists AndAlso handle.ExtensionSuffix.TextEquals("Xml") Then
+            Return handle.LoadXml(Of OrganismModel).genome
+        Else
+            Return (ls - l - r - "*.Xml" <= handle) _
+                .Select(AddressOf LoadXml(Of Pathway))
+        End If
+    End Function
 End Class
