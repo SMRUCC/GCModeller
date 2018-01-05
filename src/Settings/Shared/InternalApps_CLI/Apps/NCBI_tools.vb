@@ -18,6 +18,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Assign.Taxonomy.From.Ref:      
 '  /Assign.Taxonomy.SSU:           
 '  /Associates.Brief:              
+'  /gpff.fasta:                    
 '  /MapHits.list:                  
 '  /OTU.Taxonomy.Replace:          Using ``MapHits`` property
 ' 
@@ -341,6 +342,25 @@ Public Function giMatchs([in] As String, gi2taxid As String, Optional out As Str
     End If
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /gpff.fasta /in &lt;gpff.txt> [/out &lt;out.fasta>]
+''' ```
+''' </summary>
+'''
+Public Function gpff2Fasta([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gpff.fasta")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

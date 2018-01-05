@@ -27,8 +27,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /CORN.Batch:                        
 '  /CORN.thread:                       
 '  /DOOR.Merge:                        
-'  /Download.Motifs:                   
-'  /Download.Regprecise:               Download Regprecise database from Web API
 '  /Effector.FillNames:                
 '  /Export.Regulators:                 Exports all of the fasta sequence of the TF regulator from the
 '                                      download RegPrecsie FASTA database.
@@ -50,6 +48,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Select.TF.BBH:                     
 '  /Select.TF.Pfam-String:             
 '  /siRNA.Maps:                        
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. Web api
+' 
+' 
+'    /Download.Motifs:                   
+'    /Download.Regprecise:               Download Regprecise database from Web API
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -248,13 +255,13 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Download.Regprecise [/work ./ /save &lt;saveXml>]
+''' /Download.Regprecise [/work ./ /save &lt;save.Xml>]
 ''' ```
 ''' Download Regprecise database from Web API
 ''' </summary>
 '''
 Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
-    Dim CLI As New StringBuilder("Download.Regprecise")
+    Dim CLI As New StringBuilder("/Download.Regprecise")
     Call CLI.Append(" ")
     If Not work.StringEmpty Then
             Call CLI.Append("/work " & """" & work & """ ")
