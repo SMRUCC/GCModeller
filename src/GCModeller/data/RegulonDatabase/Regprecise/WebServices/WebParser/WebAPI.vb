@@ -148,13 +148,17 @@ Namespace Regprecise
                 Dim tick As New ProgressProvider(total:=list.Length)
                 Dim ETA$
                 Dim message$
+                Dim skip As Boolean = False
 
                 For i As Integer = 0 To list.Length - 1
-                    genomes += __download(list(i), EXPORT)
+                    genomes += __download(list(i), EXPORT, skip:=skip)
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     message = $"{genomes(i).genome.name}  ETA: {ETA}"
                     progress.SetProgress(tick.StepProgress, message)
-                    Thread.Sleep(60 * 1000)
+
+                    If Not skip Then
+                        Call Thread.Sleep(60 * 1000)
+                    End If
                 Next
             End Using
 
@@ -164,13 +168,16 @@ Namespace Regprecise
             }
         End Function
 
-        Private Function __download(entryHref As String, EXPORT As String) As BacteriaRegulome
+        Private Function __download(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
             Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
             Dim name$ = entry.Key.NormalizePathString
             Dim save$ = EXPORT & $"/{name}.xml"
 
+            skip = False
+
             If save.FileLength > 1024 Then
+                skip = True
                 Return save.LoadXml(Of BacteriaRegulome)()
             Else
                 With New BacteriaRegulome With {

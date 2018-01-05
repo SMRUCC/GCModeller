@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Organism.Table:                         
 '  /Pathway.geneIDs:                        
 '  /Query.KO:                               
+'  /show.organism:                          
 '  /Views.mod_stat:                         
 '  -Build.KO:                               Download data from KEGG database to local server.
 '  Download.Sequence:                       
@@ -726,6 +727,25 @@ Public Function QueryKOAnno([in] As String, Optional out As String = "", Optiona
     End If
     If batch Then
         Call CLI.Append("/batch ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /show.organism /code &lt;kegg_sp> [/out &lt;out.json>]
+''' ```
+''' </summary>
+'''
+Public Function ShowOrganism(code As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/show.organism")
+    Call CLI.Append(" ")
+    Call CLI.Append("/code " & """" & code & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 
