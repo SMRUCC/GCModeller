@@ -369,10 +369,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Pathway")>
-    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
     <Description("Parsing promoter sequence region for genes in pathways.")>
     <Argument("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
     <Argument("/PTT", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
+    <Argument("/locus", True, CLITypes.String, Description:="Only works when ``/DOOR`` file was presented.")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")

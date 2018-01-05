@@ -76,4 +76,23 @@ Partial Module CLI
             .SaveTo(out) _
             .CLICode
     End Function
+
+    <ExportAPI("/Pathway.Modules.Build")>
+    <Usage("/Pathway.Modules.Build /in <directory> [/out <out.Xml>]")>
+    <Group(CLIGroups.Repository_cli)>
+    <Argument("/in", False, CLITypes.File, Description:="A directory that created by ``/Download.Pathway.Maps`` command.")>
+    Public Function CompileGenomePathwayModule(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out = args("/out")
+        Dim model As OrganismModel = OrganismModel.CreateModel(directory:=[in])
+        Dim name$ = model _
+            .organism _
+            .FullName _
+            .NormalizePathString
+
+        Return model _
+            .GetXml _
+            .SaveTo(out Or $"{[in]}/{name}.Xml", TextEncodings.UTF8WithoutBOM) _
+            .CLICode
+    End Function
 End Module

@@ -138,10 +138,10 @@ Namespace Workflows.PromoterParser
         ''' <param name="EXPORT"></param>
         <ExportAPI("KEGG_Pathways.Promoters")>
         Public Sub ParsingKEGGPathways(Parser As PromoterRegionParser,
-                                              DOOR As String,
-                                              PathwaysDIR As String,
-                                              EXPORT As String,
-                                              Optional method As GetLocusTags = GetLocusTags.UniDOOR)
+                                       DOOR As String,
+                                       PathwaysDIR As String,
+                                       EXPORT As String,
+                                       Optional method As GetLocusTags = GetLocusTags.UniDOOR)
 
             Dim Modules As bGetObject.Pathway() =
                FileIO.FileSystem.GetFiles(PathwaysDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
