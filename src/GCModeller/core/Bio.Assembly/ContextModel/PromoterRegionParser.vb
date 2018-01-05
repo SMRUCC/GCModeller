@@ -78,7 +78,7 @@ Namespace ContextModel
         End Sub
 
         Sub New(gbff As GBFF.File)
-            Call Me.New(gbff.Origin.ToFasta, gbff.GbffToORF_PTT)
+            Call Me.New(gbff.Origin.ToFasta, gbff.GbffToPTT(ORF:=True))
         End Sub
 
         Sub New(genome As PTTDbLoader)
