@@ -898,17 +898,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
+''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR/organismModel.Xml> /PTT &lt;genomePTT.DIR/gbff.txt> [/DOOR &lt;genome.opr> /locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
 ''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
-Public Function PathwayParser(KEGG_Pathways As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
+Public Function PathwayParser(KEGG_Pathways As String, PTT As String, Optional door As String = "", Optional locus As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")
     Call CLI.Append("/PTT " & """" & PTT & """ ")
-    Call CLI.Append("/DOOR " & """" & DOOR & """ ")
+    If Not door.StringEmpty Then
+            Call CLI.Append("/door " & """" & door & """ ")
+    End If
     If Not locus.StringEmpty Then
             Call CLI.Append("/locus " & """" & locus & """ ")
     End If
