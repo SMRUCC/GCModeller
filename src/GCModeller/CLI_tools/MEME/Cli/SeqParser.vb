@@ -32,6 +32,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
@@ -42,6 +43,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
@@ -269,7 +271,7 @@ Partial Module CLI
         Dim DEGs = diff.LoadCsv(Of DESeq2.DESeq2Diff)
         DEGs = (From x In DEGs Where Math.Abs(x.log2FoldChange) >= logFold Select x).AsList
         Dim locus As String() = DEGs.Select(Function(x) x.locus_tag)
-        Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
+        Dim PTTDb As New TabularFormat.PTTDbLoader(PTT)
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Call GenePromoterRegions.ParsingList(Parser, door, locus, out)
         Return 0
@@ -304,7 +306,7 @@ Partial Module CLI
         Dim PTT As String = args("/ptt")
         Dim door As String = args("/door")
         Dim out As String = args.GetValue("/out", locus.TrimSuffix & ".fa")
-        Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
+        Dim PTTDb As New TabularFormat.PTTDbLoader(PTT)
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Call GenePromoterRegions.ParsingList(Parser, door, locus.ReadAllLines, out)
         Return 0
@@ -318,7 +320,7 @@ Partial Module CLI
         Dim inDIR As String = args("/inDIR")
         Dim out As String = args("/out")
         Dim PTT As String = args("/PTT")
-        Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
+        Dim PTTDb As New TabularFormat.PTTDbLoader(PTT)
         Dim door As String = args("/door")
         Dim opr As DOOR
         If door.FileExists Then
@@ -336,7 +338,7 @@ Partial Module CLI
         Dim inCsv As String = args("/in")
         Dim out As String = args.GetValue("/out", inCsv.TrimSuffix & ".MEME.fa/")
         Dim PTT As String = args("/PTT")
-        Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
+        Dim PTTDb As New TabularFormat.PTTDbLoader(PTT)
         Dim DOOR As String = args("/door")
         Dim opr As DOOR
         If DOOR.FileExists Then
@@ -356,8 +358,8 @@ Partial Module CLI
     Public Function RegulonParser2(args As CommandLine) As Integer
         Dim inDIR As String = args("/inDIR")
         Dim out As String = args("/out")
-        Dim gb As GenBank.GBFF.File = GenBank.GBFF.File.Load(args("/gb"))
-        Dim PTT As PTT = GenBank.GbffToPTT(gb, ORF:=True)
+        Dim gb As GBFF.File = GBFF.File.Load(args("/gb"))
+        Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim DOOR As String = args("/door")
         Dim opr As DOOR
         If DOOR.FileExists Then
@@ -370,30 +372,80 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Pathway")>
-    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR/organismModel.Xml> /PTT <genomePTT.DIR/gbff.txt> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR/organismModel.Xml> /src <genomePTT.DIR/gbff.txt> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
     <Description("Parsing promoter sequence region for genes in pathways.")>
     <Argument("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
-    <Argument("/PTT", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
+    <Argument("/src", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
     <Argument("/locus", True, CLITypes.String, Description:="Only works when ``/DOOR`` file was presented.")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")
-        Dim PTT_DIR As String = args("/PTT")
+        Dim src$ = args("/PTT")
         Dim DOOR As String = args("/door")
         Dim locusParser As String = args("/locus") Or "union"
         Dim out As String = args("/out") Or (App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
-        Dim Parser As PromoterRegionParser
+        Dim parser As PromoterRegionParser
         Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
 
-        If PTT_DIR.FileExists Then
-            Dim gb As GBFF.File = GBFF.File.Load(PTT_DIR)
-            Parser = New PromoterRegionParser(gb)
+        If src.FileExists Then
+            Dim gb As GBFF.File
+
+            If Not DOOR.FileExists Then
+                If locusParser.TextEquals("union") Then
+                    gb = GBFF.File.Load(src)
+                Else
+                    gb = GBFF.File _
+                        .LoadDatabase(src) _
+                        .Where(Function(g)
+                                   Return g.Locus.AccessionID.TextEquals(locusParser)
+                               End Function) _
+                        .First
+                End If
+            Else
+                gb = GBFF.File.Load(src)
+            End If
+
+            parser = New PromoterRegionParser(gb)
         Else
-            Dim PTTDb As New PTTDbLoader(PTT_DIR)
-            Parser = New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+            Dim PTTDb As New PTTDbLoader(src)
+            parser = New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         End If
 
-        Call GenePromoterRegions.ParsingKEGGPathways(Parser, DOOR, pathwayDIR, out, method)
+        Call GenePromoterRegions.ParsingKEGGPathways(parser, DOOR, pathwayDIR, out, method)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Parser.Pathway.Batch")>
+    <Usage("/Parser.Pathway.Batch /in <pathway.directory> /assembly <NCBI_assembly.directory> [/out <out.directory>]")>
+    Public Function PathwayParserBatch(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim assembly$ = args <= "/assembly"
+        Dim out$ = args("/out") Or $"{[in].ParentPath}/meme/promoters/"
+
+        For Each Xml As String In ls - l - "*.xml" <= [in]
+            Dim genome As OrganismModel = Xml.LoadXml(Of OrganismModel)
+            Dim name$ = genome _
+                .organism _
+                .DataSource _
+                .Where(Function(d) d.name.TextEquals("genebank")) _
+                .First _
+                .text _
+                .Split("/"c) _
+                .Last
+
+            Dim search$ = $"{assembly}/{name}/{name}_genomic.gbff"
+            Dim gb As GBFF.File = GBFF.File _
+                .LoadDatabase(search) _
+                .Where(Function(g)
+                           Return InStr(g.Definition.Value, "plasmid", CompareMethod.Text) = 0
+                       End Function) _
+                .First
+            Dim locus$ = gb.Locus.AccessionID
+            Dim EXPORT$ = $"{out}/{genome.organism.FullName.NormalizePathString}/"
+
+            Call Apps.MEME.PathwayParser(Xml, search, locus:=locus, out:=EXPORT)
+        Next
 
         Return 0
     End Function
