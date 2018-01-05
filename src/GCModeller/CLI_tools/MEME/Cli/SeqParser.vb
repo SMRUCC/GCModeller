@@ -379,7 +379,7 @@ Partial Module CLI
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")
-        Dim src$ = args("/PTT")
+        Dim src$ = args("/src")
         Dim DOOR As String = args("/door")
         Dim locusParser As String = args("/locus") Or "union"
         Dim out As String = args("/out") Or (App.CurrentDirectory & $"/Pathways.{locusParser}.fa")

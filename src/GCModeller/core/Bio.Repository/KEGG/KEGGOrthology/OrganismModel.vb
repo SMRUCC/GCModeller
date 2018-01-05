@@ -7,13 +7,17 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 ''' <summary>
 ''' The <see cref="Pathway"/> repository
 ''' </summary>
+''' 
+<XmlType("organism-model", [Namespace]:="http://www.genome.jp/kegg/pathway.html")>
 Public Class OrganismModel
 
+    <XmlElement("genome")>
     Public Property organism As OrganismInfo
     ''' <summary>
     ''' 基因组是由代谢途径功能模块所构成的
     ''' </summary>
     ''' <returns></returns>
+    <XmlArray("modules", [Namespace]:="http://www.genome.jp/kegg/pathway.html")>
     Public Property genome As Pathway()
 
     <XmlNamespaceDeclarations()>
@@ -21,6 +25,7 @@ Public Class OrganismModel
 
     Sub New()
         Call xmlns.Add("gcmodeller", LICENSE.GCModeller)
+        ' Call xmlns.Add("kegg_pathway", "http://www.genome.jp/kegg/pathway.html")
     End Sub
 
     Public Overrides Function ToString() As String
