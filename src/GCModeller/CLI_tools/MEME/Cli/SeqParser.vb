@@ -38,7 +38,6 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -385,7 +384,7 @@ Partial Module CLI
         Dim locusParser As String = args("/locus") Or "union"
         Dim out As String = args("/out") Or (App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
         Dim parser As PromoterRegionParser
-        Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
+        Dim method As GetLocusTags
 
         If src.FileExists Then
             Dim gb As GBFF.File
@@ -401,14 +400,18 @@ Partial Module CLI
                                End Function) _
                         .First
                 End If
+
+                method = GetLocusTags.locus
             Else
                 gb = GBFF.File.Load(src)
+                method = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
             End If
 
             parser = New PromoterRegionParser(gb)
         Else
             Dim PTTDb As New PTTDbLoader(src)
             parser = New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+            method = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
         End If
 
         Call GenePromoterRegions.ParsingKEGGPathways(parser, DOOR, pathwayDIR, out, method)
@@ -428,7 +431,7 @@ Partial Module CLI
             Dim name$ = genome _
                 .organism _
                 .DataSource _
-                .Where(Function(d) d.name.TextEquals("genebank")) _
+                .Where(Function(d) d.name.TextEquals("genbank")) _
                 .First _
                 .text _
                 .Split("/"c) _
