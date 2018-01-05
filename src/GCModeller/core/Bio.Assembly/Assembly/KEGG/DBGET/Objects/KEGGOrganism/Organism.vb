@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
@@ -17,7 +18,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Public Property Definition As String
         Public Property Taxonomy As String
         Public Property Lineage As String
-        Public Property DataSource As String
+        Public Property DataSource As NamedValue()
         Public Property Keywords As String()
         Public Property Comment As String
         Public Property Sequence As String
@@ -50,26 +51,53 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                         End Function) _
                 .ToDictionary(Function(r) r.Name,
                               Function(r) r.Value)
+            Dim comment$ = rows!Comment _
+                .StripHTMLTags _
+                .StringReplace("\s{2,}", " ") _
+                .Trim
 
             Return New OrganismInfo With {
                 .Aliases = rows!Aliases,
                 .code = rows("Org code"),
-                .Comment = rows!Comment,
+                .Comment = comment,
                 .Created = rows!Created,
                 .FullName = rows("Full name"),
                 .Definition = rows!Definition,
                 .Keywords = rows!Keywords.Split(","c),
-                .Sequence = rows!Sequence,
+                .Sequence = rows!Sequence.href,
                 .Lineage = rows!Lineage,
-                .Taxonomy = rows!Taxonomy,
-                .TID = rows("T number"),
-                .DataSource = rows("Data source"),
-                .Reference = New Reference With {
-                    .Title = rows!Title,
-                    .Authors = rows!Authors.Split(";"c),
-                    .Reference = rows!Reference,
-                    .Journal = rows!Journal
-                }
+                .Taxonomy = rows!Taxonomy.StripHTMLTags,
+                .TID = rows("T number").StripHTMLTags,
+                .DataSource = links(rows("Data source")),
+                .Reference = referenceParser(rows)
+            }
+        End Function
+
+        Private Shared Function links(html$) As NamedValue()
+            Dim a = r.Matches(html, "<a.+?</a>", RegexICSng) _
+                .EachValue(Function(s)
+                               Return New NamedValue With {
+                                   .name = s.StripHTMLTags,
+                                   .text = s.href
+                               }
+                           End Function) _
+                .ToArray
+            Return a
+        End Function
+
+        Private Shared Function referenceParser(rows As Dictionary(Of String, String)) As Reference
+            Dim J$ = rows!Journal
+            Dim DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
+
+            J = J.Replace(DOI, "").StripHTMLTags.Trim
+            DOI = DOI.StripHTMLTags
+
+            Return New Reference With {
+                .Title = rows!Title,
+                .Authors = rows!Authors.Split(";"c),
+                .Reference = rows!Reference.StripHTMLTags,
+                .Journal = J,
+                .DOI = DOI
             }
         End Function
     End Class

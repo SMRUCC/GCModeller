@@ -241,7 +241,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(code)
 
         Return organism _
-            .GetJson _
+            .GetJson(indent:=True) _
             .SaveTo(out, TextEncodings.UTF8WithoutBOM) _
             .CLICode
     End Function
