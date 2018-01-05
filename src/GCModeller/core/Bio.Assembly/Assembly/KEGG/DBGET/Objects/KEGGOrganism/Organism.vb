@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports r = System.Text.RegularExpressions.Regex
@@ -11,12 +12,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' T number
         ''' </summary>
         ''' <returns></returns>
-        Public Property TID As String
-        Public Property code As String
+        <XmlAttribute> Public Property TID As String
+        <XmlAttribute> Public Property code As String
+        <XmlAttribute> Public Property Taxonomy As String
+
         Public Property Aliases As String
         Public Property FullName As String
         Public Property Definition As String
-        Public Property Taxonomy As String
         Public Property Lineage As String
         Public Property DataSource As NamedValue()
         Public Property Keywords As String()

@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language.UnixBash
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
@@ -14,6 +15,13 @@ Public Class OrganismModel
     ''' </summary>
     ''' <returns></returns>
     Public Property genome As Pathway()
+
+    <XmlNamespaceDeclarations()>
+    Public xmlns As New XmlSerializerNamespaces
+
+    Sub New()
+        Call xmlns.Add("gcmodeller", LICENSE.GCModeller)
+    End Sub
 
     Public Overrides Function ToString() As String
         Return organism.ToString
