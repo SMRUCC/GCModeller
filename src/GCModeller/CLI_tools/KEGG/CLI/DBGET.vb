@@ -129,7 +129,7 @@ Partial Module CLI
         With infoJSON.LoadObject(Of OrganismInfo)
             Dim assembly$ = .DataSource _
                             .Where(Function(d)
-                                       Return InStr(d.text, "", CompareMethod.Text) > 0
+                                       Return InStr(d.text, "https://www.ncbi.nlm.nih.gov/assembly/", CompareMethod.Text) > 0
                                    End Function) _
                             .First _
                             .name
