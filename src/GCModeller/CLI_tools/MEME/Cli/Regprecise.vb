@@ -167,7 +167,7 @@ Partial Module CLI
                                       Function(x) x.Group.ToArray)
         Dim RegPrecise = (From file As String
                           In FileIO.FileSystem.GetFiles(DbDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                          Select file.LoadXml(Of Regprecise.BacteriaGenome)).ToArray
+                          Select file.LoadXml(Of Regprecise.BacteriaRegulome)).ToArray
         Dim regulators As String() = RegPrecise.Select(Function(x) x.ListRegulators).ToVector
         Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.Unlist
         Return regBBH.SaveTo(out)
@@ -489,7 +489,7 @@ Partial Module CLI
                                        "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
                                                     FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(
-                                                    Function(xml) xml.LoadXml(Of JSONLDM.regulator())).Unlist
+                                                    Function(xml) xml.LoadXml(Of JSON.regulator())).Unlist
         Dim regpreciseGroup = (From regulator In regprecise
                                Where Not regulator Is Nothing AndAlso
                                    Not String.IsNullOrEmpty(regulator.locusTag)
@@ -537,15 +537,15 @@ Partial Module CLI
             If args.GetBoolean("/regulons") Then
                 Dim regulons = (From file As String
                                 In FileIO.FileSystem.GetFiles(args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                                Let regulon As BacteriaGenome = file.LoadXml(Of BacteriaGenome)
+                                Let regulon As BacteriaRegulome = file.LoadXml(Of BacteriaRegulome)
                                 Where Not regulon Is Nothing AndAlso
-                                    Not regulon.Regulons Is Nothing AndAlso
-                                    Not regulon.Regulons.Regulators.IsNullOrEmpty
-                                Select regulon.Regulons.Regulators).IteratesALL
+                                    Not regulon.regulons Is Nothing AndAlso
+                                    Not regulon.regulons.regulators.IsNullOrEmpty
+                                Select regulon.regulons.regulators).IteratesALL
                 bbhs = regulons.ToList(
                     Function(x) New BBHIndex With {
-                        .HitName = x.LocusTag.Key,
-                        .QueryName = x.LocusTag.Value})
+                        .HitName = x.locus_tag.name,
+                        .QueryName = x.locus_tag.text})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
                     args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").Select(

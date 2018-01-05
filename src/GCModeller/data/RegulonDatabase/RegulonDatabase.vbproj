@@ -237,8 +237,8 @@
     <Compile Include="RegPrecise\RegpreciseAPI.vb" />
     <Compile Include="RegPrecise\RegpreciseBBH.vb" />
     <Compile Include="RegPrecise\RegpreciseBBHAPI.vb" />
-    <Compile Include="RegPrecise\WebServices\LDM\Regulation.vb" />
-    <Compile Include="RegPrecise\WebServices\LDM\Stats.vb" />
+    <Compile Include="RegPrecise\WebServices\DataModels\Regulation.vb" />
+    <Compile Include="RegPrecise\WebServices\DataModels\Stats.vb" />
     <Compile Include="RegPrecise\WebServices\Regulations.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\BacteriaGenome.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebAPI.vb" />

@@ -69,7 +69,7 @@ Namespace Regprecise
 
             sites = RegPrecise & sites.href
             motif.Taxonomy = html.__getTaxonomy
-            motif.Sites = FastaObject.Parse(url:=sites)
+            motif.Sites = MotifFasta.Parse(url:=sites)
 
             Return motif
         End Function
