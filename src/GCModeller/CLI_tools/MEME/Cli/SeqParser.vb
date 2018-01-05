@@ -32,8 +32,10 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
@@ -425,6 +427,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim assembly$ = args <= "/assembly"
         Dim out$ = args("/out") Or $"{[in].ParentPath}/meme/promoters/"
+        Dim err As New List(Of String)
 
         For Each Xml As String In ls - l - "*.xml" <= [in]
             Dim genome As OrganismModel = Xml.LoadXml(Of OrganismModel)
@@ -432,6 +435,7 @@ Partial Module CLI
 
             If name.StringEmpty Then
                 Call Xml.PrintException
+                Call err.Add(Xml)
                 Continue For
             End If
 
@@ -447,6 +451,10 @@ Partial Module CLI
 
             Call Apps.MEME.PathwayParser(Xml, search, locus:=locus, out:=EXPORT)
         Next
+
+        If err > 0 Then
+            Call err.ToArray.GetJson(indent:=True).PrintException
+        End If
 
         Return 0
     End Function

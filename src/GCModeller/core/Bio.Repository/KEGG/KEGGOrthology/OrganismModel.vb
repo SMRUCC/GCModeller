@@ -36,7 +36,10 @@ Public Class OrganismModel
         Try
             Return organism _
                 .DataSource _
-                .Where(Function(d) d.name.TextEquals("genbank")) _
+                .Where(Function(d)
+                           Return d.name.TextEquals("genbank") OrElse
+                                  d.name.TextEquals("RefSeq")
+                       End Function) _
                 .First _
                 .text _
                 .Split("/"c) _
