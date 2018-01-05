@@ -428,14 +428,12 @@ Partial Module CLI
 
         For Each Xml As String In ls - l - "*.xml" <= [in]
             Dim genome As OrganismModel = Xml.LoadXml(Of OrganismModel)
-            Dim name$ = genome _
-                .organism _
-                .DataSource _
-                .Where(Function(d) d.name.TextEquals("genbank")) _
-                .First _
-                .text _
-                .Split("/"c) _
-                .Last
+            Dim name$ = genome.GetGenbankSource
+
+            If name.StringEmpty Then
+                Call Xml.PrintException
+                Continue For
+            End If
 
             Dim search$ = $"{assembly}/{name}/{name}_genomic.gbff"
             Dim gb As GBFF.File = GBFF.File _

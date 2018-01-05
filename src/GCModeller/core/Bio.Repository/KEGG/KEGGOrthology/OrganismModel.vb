@@ -32,6 +32,21 @@ Public Class OrganismModel
         Return organism.ToString
     End Function
 
+    Public Function GetGenbankSource() As String
+        Try
+            Return organism _
+                .DataSource _
+                .Where(Function(d) d.name.TextEquals("genbank")) _
+                .First _
+                .text _
+                .Split("/"c) _
+                .Last
+        Catch ex As Exception
+            Call App.LogException(ex)
+            Return Nothing
+        End Try
+    End Function
+
     ''' <summary>
     ''' 从KEGG的代谢途径下载文件夹加载零散的文件数据构成这个整体数据模型
     ''' </summary>
