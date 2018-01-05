@@ -63,19 +63,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 End If
             Next
 
-            Dim comment$ = rows!Comment _
+            Dim comment$ = rows _
+                .TryGetValue("Comment") _
                 .StripHTMLTags _
                 .StringReplace("\s{2,}", " ") _
                 .Trim
+            Dim keywords$() = rows _
+                .TryGetValue("Keywords") _
+               ?.Split(","c)
 
             Return New OrganismInfo With {
-                .Aliases = rows!Aliases,
+                .Aliases = rows?!Aliases,
                 .code = rows("Org code"),
                 .Comment = comment,
                 .Created = rows!Created,
                 .FullName = rows("Full name"),
                 .Definition = rows!Definition,
-                .Keywords = rows!Keywords.Split(","c),
+                .Keywords = keywords,
                 .Sequence = rows!Sequence.href,
                 .Lineage = rows!Lineage,
                 .Taxonomy = rows!Taxonomy.StripHTMLTags,
@@ -98,16 +102,22 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Function
 
         Private Shared Function referenceParser(rows As Dictionary(Of String, String)) As Reference
-            Dim J$ = rows!Journal
-            Dim DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
+            Dim J$ = rows.TryGetValue("Journal")
+            Dim title$ = rows.TryGetValue("Title")
+            Dim DOI$
 
+            If J.StringEmpty AndAlso title.StringEmpty Then
+                Return Nothing
+            End If
+
+            DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
             J = J.Replace(DOI, "").StripHTMLTags.Trim
             DOI = DOI.StripHTMLTags
 
             Return New Reference With {
-                .Title = rows!Title,
-                .Authors = rows!Authors.Split(";"c),
-                .Reference = rows!Reference.StripHTMLTags,
+                .Title = rows?!Title,
+                .Authors = rows?!Authors.Split(";"c),
+                .Reference = rows?!Reference.StripHTMLTags,
                 .Journal = J,
                 .DOI = DOI
             }
