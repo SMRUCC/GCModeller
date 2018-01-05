@@ -37,7 +37,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                               .Replace("&nbsp;", " ") _
                               .Trim
 
-            Dim rows = html _
+            Dim infoTable = html _
                 .GetRowsHTML _
                 .Select(Function(r)
                             Dim cols = r.GetColumnsHTML
@@ -49,8 +49,20 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                                 .Value = value
                             }
                         End Function) _
-                .ToDictionary(Function(r) r.Name,
-                              Function(r) r.Value)
+                .ToArray
+
+            Dim rows As New Dictionary(Of String, String)
+
+            For Each r As NamedValue(Of String) In infoTable
+                ' 因为如果基因组存在质粒的话，则会出现多个sequence字段重复
+                ' 所以不可以直接使用linq生成字典
+                ' 在这里只添加第一个出现的字段就行了
+                ' 因为基因组序列总是先于质粒序列出现的
+                If Not rows.ContainsKey(r.Name) Then
+                    rows.Add(r.Name, r.Value)
+                End If
+            Next
+
             Dim comment$ = rows!Comment _
                 .StripHTMLTags _
                 .StringReplace("\s{2,}", " ") _
