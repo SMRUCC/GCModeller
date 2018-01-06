@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e289bcbf33e898ac7d66994fd6ad377d, ..\GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
+﻿#Region "Microsoft.VisualBasic::91f522ecc4761581f1b11bfe520e144c, ..\GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
     ' Author:
     ' 

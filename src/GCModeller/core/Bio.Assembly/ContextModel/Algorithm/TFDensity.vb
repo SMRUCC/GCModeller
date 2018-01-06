@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1754e42d6ea1c5afacd6066e3a3552f9, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::22ecd2b8d36a7f5ffccf07aebcae2dd5, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
@@ -26,18 +26,15 @@
 
 #End Region
 
-Imports System.Xml.Serialization
-Imports System.Web.Script.Serialization
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports System.Web.Script.Serialization
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ContextModel
 

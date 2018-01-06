@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, ..\GCModeller\foundation\OBO_Foundry\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, ..\GCModeller\foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 

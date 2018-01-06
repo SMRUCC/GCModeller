@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6418b17e0685dac7f097fb57f7c42c67, ..\GCModeller\models\Networks\Microbiome\UniProtExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::27232113435b6c5d0db6dbdb74b529e0, ..\GCModeller\models\Networks\Microbiome\UniProtExtensions.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Public Module UniProtExtensions
         Next
     End Function
 End Module
-

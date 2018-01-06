@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6e09bc4367f0b76a79d38884624fdcc, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGGenomeFetchs.vb"
+﻿#Region "Microsoft.VisualBasic::8fe8095ebb05a537622f6e046b9cf9c6, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb"
 
     ' Author:
     ' 

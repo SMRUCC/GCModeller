@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c53835c0a0249f53e0430252cf974e48, ..\Settings\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::c53835c0a0249f53e0430252cf974e48, ..\Settings\cli_tool\CLI.vb"
 
     ' Author:
     ' 

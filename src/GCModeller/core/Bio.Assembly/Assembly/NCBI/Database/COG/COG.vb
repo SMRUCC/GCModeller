@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99e964cd950b8f0cf220b23a1b599683, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COG.vb"
+﻿#Region "Microsoft.VisualBasic::4394d5778dfbcbddad18543364e2589c, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COG.vb"
 
     ' Author:
     ' 
@@ -58,18 +58,21 @@ Namespace Assembly.NCBI.COG
             }
         End Function
 
-        Public Shared Function GetClass(Of T As ICOGDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunction()
+        Public Shared Function GetClass(Of T As IFeatureDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunction()
             Dim hash = func.Catalogs.Select(
                 Function(x) x.ToArray).IteratesALL _
                         .ToDictionary(Function(x) x.Catalog.First,
                                       Function(x) New With {
                                         .fun = x,
                                         .count = New List(Of String)})
-            Dim locus = source.Select(
-                Function(x) New With {
-                    x.Key,
-                    .COG = Strings.UCase([Function].__trimCOGs(x.COG))
-                }).ToArray
+            Dim locus = source _
+                .Select(Function(x)
+                            Return New With {
+                                x.Key,
+                                .COG = Strings.UCase([Function].__trimCOGs(x.Feature))
+                            }
+                        End Function) _
+                .ToArray
 
             hash.Add("-", New With {.fun = __notAssigned(), .count = New List(Of String)})
 

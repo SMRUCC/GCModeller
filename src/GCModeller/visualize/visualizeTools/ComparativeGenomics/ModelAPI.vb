@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8a2bd7b8f57f8e5ab065218507c01e0, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9bd6b166fa5f3e7b0c38e40c3a704908, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
 
     ' Author:
     ' 
@@ -96,9 +96,9 @@ Namespace ComparativeGenomics
             If COGsColor.IsNullOrEmpty Then
                 Dim COGs As String() = LinqAPI.Exec(Of String) <= From gene As T
                                                                   In anno
-                                                                  Let COG As String = Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+                                                                  Let COG As String = Regex.Match(gene.Feature, "COG\d+", RegexOptions.IgnoreCase).Value
                                                                   Where Not String.IsNullOrEmpty(COG)
-                                                                  Select gene.COG
+                                                                  Select gene.Feature
                                                                   Distinct
 
                 COGsColor = GenerateColorProfiles(COGs) _

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29c223e33777495a0cee0b5fe34cb1b7, ..\GCModeller\core\Bio.Repository\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::41e28f01100a9241de79fbbb6a75f5ca, ..\GCModeller\core\Bio.Repository\Genbank.vb"
 
     ' Author:
     ' 
