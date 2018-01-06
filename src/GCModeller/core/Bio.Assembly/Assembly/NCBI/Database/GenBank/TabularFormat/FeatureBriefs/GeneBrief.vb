@@ -58,7 +58,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Gene As String
         <XmlAttribute> Public Property Code As String
-        <XmlAttribute> Public Property COG As String Implements IGeneBrief.COG
+        <XmlAttribute> Public Property COG As String Implements IGeneBrief.Feature
         ''' <summary>
         ''' Protein product functional description in the genome.
         ''' (基因的蛋白质产物的功能的描述)
@@ -98,9 +98,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
             Return DirectCast(MemberwiseClone(), GeneBrief)
         End Function
 
-        Public Function getCOGEntry(Of T_Entry As ICOGDigest)() As T_Entry
+        Public Function getCOGEntry(Of T_Entry As IGeneBrief)() As T_Entry
             Dim obj As T_Entry = Activator.CreateInstance(Of T_Entry)()
-            obj.COG = COG
+            obj.Feature = COG
             obj.Length = Length
             obj.Product = Product
             obj.Key = Synonym
@@ -129,7 +129,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
         Public Shared Function CreateObject(g As IGeneBrief) As GeneBrief
             Return New GeneBrief With {
-                .COG = g.COG,
+                .COG = g.Feature,
                 .Length = g.Length,
                 .Location = g.Location,
                 .Product = g.Product,

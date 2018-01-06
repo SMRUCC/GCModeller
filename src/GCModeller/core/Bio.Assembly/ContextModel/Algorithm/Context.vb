@@ -29,7 +29,6 @@
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Serialization
 
 Namespace ContextModel
 

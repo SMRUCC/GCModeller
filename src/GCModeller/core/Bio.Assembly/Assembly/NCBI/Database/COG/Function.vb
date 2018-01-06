@@ -256,7 +256,7 @@ Namespace Assembly.NCBI.COG
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        Public Overloads Function ClassCategory(Of T As ICOGDigest)(source As IEnumerable(Of T)) As Dictionary(Of COGCategories, String())
+        Public Overloads Function ClassCategory(Of T As IFeatureDigest)(source As IEnumerable(Of T)) As Dictionary(Of COGCategories, String())
             Dim table As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
                 {COGCategories.Genetics, New String() {}},
                 {COGCategories.Metabolism, New String() {}},
@@ -265,10 +265,10 @@ Namespace Assembly.NCBI.COG
                 {COGCategories.Unclassified, New String() {}}
             }
             Dim LQuery = (From x In (From gene As T In source.AsParallel
-                                     Let categories As COGCategories() = GetCategories(gene.COG)
+                                     Let categories As COGCategories() = GetCategories(gene.Feature)
                                      Select (From cat As COGCategories In categories
                                              Select geneId = gene.Key,
-                                                 category = GetCategory(gene.COG)).ToArray).Unlist
+                                                 category = GetCategory(gene.Feature)).ToArray).Unlist
                           Select geneid = x.geneId,
                               category = x.category
                           Group By category Into Group).ToArray

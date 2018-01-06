@@ -50,7 +50,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' <remarks></remarks>
         Public Property LocusID As String Implements INamedValue.Key
         Public Property GeneName As String
-        Public Property CommonName As String Implements ICOGDigest.Product
+        Public Property CommonName As String Implements IGeneBrief.Product
         Public Property Left As Integer
         Public Property Right As Integer
         Public Property Strand As String
@@ -80,8 +80,8 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         Public Property Translation As String
         Public Property Transl_Table As String
 
-        Public Property COG As String Implements ICOGDigest.COG
-        Public Property Length As Integer Implements ICOGDigest.Length
+        Public Property COG As String Implements IFeatureDigest.Feature
+        Public Property Length As Integer Implements IGeneBrief.Length
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
                 Return New NucleotideLocation(Left, Right, Strand:=Strand)

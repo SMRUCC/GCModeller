@@ -1,33 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::8117a97a440aa51ef1a08dd3e7a9410f, ..\GCModeller\core\Bio.Assembly\ComponentModel\GeneBrief.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace ComponentModel
 
@@ -35,22 +35,8 @@ Namespace ComponentModel
     ''' The basically information of a gene object.(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Interface IGeneBrief : Inherits ICOGDigest, IContig
-    End Interface
+    Public Interface IGeneBrief : Inherits IFeatureDigest, IContig
 
-    ''' <summary>
-    ''' The COG annotation data of the genes.(基因对象的COG注释结果)
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Interface ICOGDigest : Inherits INamedValue
-
-        ''' <summary>
-        ''' The gene object COG classification.(COG功能分类)
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Property COG As String
         ''' <summary>
         ''' The protein function annotation data of the gene coding product.(所编码的蛋白质产物的功能注释)
         ''' </summary>
@@ -65,6 +51,22 @@ Namespace ComponentModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Property Length As Integer
+
+    End Interface
+
+    ''' <summary>
+    ''' The feature annotation data of the genes.(基因对象的特征注释结果)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Interface IFeatureDigest : Inherits INamedValue
+
+        ''' <summary>
+        ''' The feature tag of this gene object for classification.
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Property Feature As String
 
     End Interface
 
