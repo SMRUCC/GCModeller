@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ff0e9ae2d74c4ce67955568943ce588, ..\interops\RNA-Seq\RNA-seq.Data\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::63fc2938cb064e7ee13b1df19c46e91b, ..\interops\RNA-Seq\RNA-seq.Data\test\Program.vb"
 
     ' Author:
     ' 
@@ -49,4 +49,3 @@ Module Program
         Pause()
     End Sub
 End Module
-
