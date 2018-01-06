@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd6a72c263260917f85928428c27f83d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::1e7a4ec9aeb76a66f4fb84a1ac40d7bf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 

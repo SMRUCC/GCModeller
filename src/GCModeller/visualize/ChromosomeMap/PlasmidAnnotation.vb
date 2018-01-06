@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea24de4660c11e0197ffb0c6ef64a7ba, ..\GCModeller\visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::237a401a8f8927a15f82404a616a659a, ..\GCModeller\visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
     ' Author:
     ' 

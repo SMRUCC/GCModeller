@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8679e4fb09e14a8564e97f41a29d164b, ..\GCModeller\visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::4b35a2a235f5fc0c751c7571370ca0c1, ..\GCModeller\visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
     ' Author:
     ' 

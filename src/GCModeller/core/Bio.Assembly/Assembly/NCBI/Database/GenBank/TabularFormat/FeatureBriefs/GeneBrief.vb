@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79e4028aa864c62322b43ba08e7e4ab0, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::cec5e4f5bd4f347713859c9a181b97ac, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
 
     ' Author:
     ' 

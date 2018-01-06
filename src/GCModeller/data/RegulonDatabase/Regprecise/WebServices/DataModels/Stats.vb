@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14a04052bb5f7a551dd96a3dc415794a, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\LDM\Stats.vb"
+﻿#Region "Microsoft.VisualBasic::1043fef41a5344c1bab56f908cae8347, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\DataModels\Stats.vb"
 
     ' Author:
     ' 

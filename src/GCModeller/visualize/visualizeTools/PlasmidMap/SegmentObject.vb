@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::697022b3cc1e25c4f8d36a179a81dcd3, ..\GCModeller\visualize\visualizeTools\PlasmidMap\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::1f5d12036dc06102057d0b58de689c22, ..\GCModeller\visualize\visualizeTools\PlasmidMap\SegmentObject.vb"
 
     ' Author:
     ' 
