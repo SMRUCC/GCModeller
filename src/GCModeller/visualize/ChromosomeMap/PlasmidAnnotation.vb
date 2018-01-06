@@ -51,7 +51,7 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
     ''' <remarks></remarks>
     Public Property ORF_ID As String Implements INamedValue.Key
     Public Property Strand As String
-    <Column("Gene-Length")> Public Property Length As Integer Implements ICOGDigest.Length
+    <Column("Gene-Length")> Public Property Length As Integer Implements IGeneBrief.Length
     ''' <summary>
     ''' 基因核酸序列
     ''' </summary>
@@ -81,14 +81,14 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property product As String Implements ICOGDigest.Product
+    Public Property product As String Implements IGeneBrief.Product
     <Column("GO-I")> Public Property GOI As String
     <Column("GO-ID")> Public Property GO_ID As String
     Public Property GO_name As String
     Public Property GO_discription As String
     <Column("Protein family membership")> Public Property Family As String
     <Column("Protein family membership discription")> Public Property discription As String
-    <Column("COG-NO.")> Public Property COG_NO As String Implements ICOGDigest.COG
+    <Column("COG-NO.")> Public Property COG_NO As String Implements IFeatureDigest.Feature
     <Column("COG-cat")> Public Property COG_cat As String
     <Column("COG-annotation")> Public Property COG_annotation As String
     Public Property Identity As String

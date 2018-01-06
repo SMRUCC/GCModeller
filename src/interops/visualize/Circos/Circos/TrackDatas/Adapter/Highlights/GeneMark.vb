@@ -55,7 +55,7 @@ Namespace TrackDatas.Highlights
  _
                 From gene As IGeneBrief
                 In annos
-                Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
+                Let COG As String = If(String.IsNullOrEmpty(gene.Feature), "-", gene.Feature)
                 Let fill As String = If(
                     Color.ContainsKey(COG),
                     Color(COG),

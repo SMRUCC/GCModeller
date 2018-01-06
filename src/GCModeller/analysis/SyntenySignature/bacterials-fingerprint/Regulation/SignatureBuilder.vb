@@ -66,20 +66,22 @@ Namespace RegulationSignature
         Sub New(VirtualFootprints As IEnumerable(Of PredictedRegulationFootprint),
                 PTT As PTT,
                 KEGG_Pathways As IEnumerable(Of bGetObject.Pathway),
-                COG As IEnumerable(Of ICOGDigest))
+                COG As IEnumerable(Of IFeatureDigest))
 
             Dim COGHash = COG.ToDictionary(Function(Gene) Gene.Key)
             Dim GenomeHash As Dictionary(Of String, GeneObject) =
                 PTT.GeneObjects.ToDictionary(Function(Gene) Gene.Synonym,
-                                             Function(Gene) New GeneObject With {
-                                                .COG = If(COGHash.ContainsKey(Gene.Synonym), COGHash(Gene.Synonym).COG, "-"),
+                                             Function(Gene)
+                                                 Return New GeneObject With {
+                                                .COG = If(COGHash.ContainsKey(Gene.Synonym), COGHash(Gene.Synonym).Feature, "-"),
                                                 .KO = New List(Of String),
                                                 .GeneID = New GeneID With {
                                                     .GeneTagID = Gene.Synonym,
                                                     .GeneName = Gene.Gene,
                                                     .ClassType = GeneID.ClassTypes.Hypothetical
                                                  }
-                                             })
+                                             }
+                                             End Function)
             For Each GeneEntry In GenomeHash
                 If String.IsNullOrEmpty(GeneEntry.Value.COG) Then
                     GeneEntry.Value.COG = "-"
@@ -108,7 +110,7 @@ Namespace RegulationSignature
 
             For Each Pathway In KEGG_Pathways
 
-                If Pathway.Genes.IsNullOrEmpty Then
+                If Pathway.genes.IsNullOrEmpty Then
                     Continue For
                 End If
 

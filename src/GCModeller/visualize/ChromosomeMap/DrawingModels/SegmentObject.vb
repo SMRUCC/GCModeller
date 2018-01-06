@@ -49,14 +49,14 @@ Namespace DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property LocusTag As String Implements ICOGDigest.Key
+        Public Property LocusTag As String Implements IGeneBrief.Key
         ''' <summary>
         ''' 基因名称
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property CommonName As String Implements ICOGDigest.COG
+        Public Property CommonName As String Implements IFeatureDigest.Feature
 
         ''' <summary>
         ''' 基因功能注释文字
@@ -64,9 +64,9 @@ Namespace DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Product As String Implements ICOGDigest.Product
+        Public Property Product As String Implements IGeneBrief.Product
 
-        Private Property I_COGEntry_Length As Integer Implements ICOGDigest.Length
+        Private Property I_COGEntry_Length As Integer Implements IGeneBrief.Length
         Public Property Location As NucleotideLocation Implements IContig.Location
 
         Const LocusTagOffset = 20

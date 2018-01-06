@@ -96,9 +96,9 @@ Namespace ComparativeGenomics
             If COGsColor.IsNullOrEmpty Then
                 Dim COGs As String() = LinqAPI.Exec(Of String) <= From gene As T
                                                                   In anno
-                                                                  Let COG As String = Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+                                                                  Let COG As String = Regex.Match(gene.Feature, "COG\d+", RegexOptions.IgnoreCase).Value
                                                                   Where Not String.IsNullOrEmpty(COG)
-                                                                  Select gene.COG
+                                                                  Select gene.Feature
                                                                   Distinct
 
                 COGsColor = GenerateColorProfiles(COGs) _
