@@ -300,7 +300,7 @@
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Network.GraphTheory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
@@ -335,6 +335,10 @@
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FBA.Core\FBA.Core.vbproj">
+      <Project>{1efb046b-49e0-4828-bebe-733309a96b6d}</Project>
+      <Name>FBA.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\FBA_Doc\FBA_Doc.projitems" Label="Shared" />
