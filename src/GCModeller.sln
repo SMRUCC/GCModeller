@@ -243,7 +243,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Java", "runtime\java.net\Ja
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FBA_Doc", "GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.shproj", "{19DD7076-5787-44F8-85FC-818200D9E4AA}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VirtualFootprints", "GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.shproj", "{AFA08D31-E7E7-412E-9FD0-84B357AC51A8}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VirtualFootprints", "GCModeller\analysis\Motifs\SharedDataModels\VirtualFootprints.shproj", "{AFA08D31-E7E7-412E-9FD0-84B357AC51A8}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PfamHMMScan", "GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\PfamHMMScan.vbproj", "{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}"
 EndProject
@@ -490,7 +490,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.projitems*{19dd7076-5787-44f8-85fc-818200d9e4aa}*SharedItemsImports = 13
-		GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
+		GCModeller\analysis\Motifs\SharedDataModels\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2b903b81-95f4-455f-b892-d2ac36167453}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{2bde773e-2206-4828-8a2b-7b5e933a7df5}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
@@ -557,7 +557,7 @@ Global
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{ab10b480-33b1-476c-8237-23e15ce635bd}*SharedItemsImports = 4
-		GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{afa08d31-e7e7-412e-9fd0-84b357ac51a8}*SharedItemsImports = 13
+		GCModeller\analysis\Motifs\SharedDataModels\VirtualFootprints.SharedCommon.projitems*{afa08d31-e7e7-412e-9fd0-84b357ac51a8}*SharedItemsImports = 13
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
