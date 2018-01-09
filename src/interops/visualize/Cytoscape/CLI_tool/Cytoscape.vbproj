@@ -369,7 +369,7 @@
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
       <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\sub-system\FBA_DP\FBA_DP.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\sub-system\FBA\FBA_DP\FBA_DP.vbproj">
       <Project>{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}</Project>
       <Name>FBA_DP</Name>
     </ProjectReference>

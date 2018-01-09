@@ -335,7 +335,7 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\sub-system\FBA_DP\FBA_DP.vbproj">
+    <ProjectReference Include="..\..\sub-system\FBA\FBA_DP\FBA_DP.vbproj">
       <Project>{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}</Project>
       <Name>FBA_DP</Name>
     </ProjectReference>

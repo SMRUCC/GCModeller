@@ -167,7 +167,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Biopax", "GCModeller\models
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CellPhenotype", "GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj", "{EB8DE91E-871C-4CE5-8D4D-73BB4E98012E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA_DP", "GCModeller\sub-system\FBA_DP\FBA_DP.vbproj", "{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA_DP", "GCModeller\sub-system\FBA\FBA_DP\FBA_DP.vbproj", "{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PLAS", "GCModeller\sub-system\PLAS.NET\PLAS\PLAS.vbproj", "{93F603F6-30FC-448B-8453-164757B670FF}"
 EndProject
@@ -241,7 +241,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RNA-Seq.Doc", "GCModeller\s
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Java", "runtime\java.net\Java.vbproj", "{C2DC8172-E957-4AA3-9771-4488D95ABA2D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FBA_Doc", "GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.shproj", "{19DD7076-5787-44F8-85FC-818200D9E4AA}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FBA_Doc", "GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.shproj", "{19DD7076-5787-44F8-85FC-818200D9E4AA}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VirtualFootprints", "GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.shproj", "{AFA08D31-E7E7-412E-9FD0-84B357AC51A8}"
 EndProject
@@ -485,7 +485,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{15423e2e-871c-4183-9109-dc20920e146f}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
-		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{19dd7076-5787-44f8-85fc-818200d9e4aa}*SharedItemsImports = 13
+		GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.projitems*{19dd7076-5787-44f8-85fc-818200d9e4aa}*SharedItemsImports = 13
 		GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2b903b81-95f4-455f-b892-d2ac36167453}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{2bde773e-2206-4828-8a2b-7b5e933a7df5}*SharedItemsImports = 13
@@ -545,7 +545,7 @@ Global
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
-		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
+		GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
@@ -566,7 +566,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
-		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
+		GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
