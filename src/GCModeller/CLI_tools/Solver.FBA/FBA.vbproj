@@ -335,10 +335,6 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\sub-system\FBA\FBA_DP\FBA_DP.vbproj">
-      <Project>{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}</Project>
-      <Name>FBA_DP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
@@ -366,6 +362,10 @@
     <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8F12481C-04F2-4A9F-B7D6-21F1757C43C3}</Project>
       <Name>MEME</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sub-system\FBA\FBA_DP\FBA_DP.vbproj">
+      <Project>{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}</Project>
+      <Name>FBA_DP</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

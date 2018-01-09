@@ -342,7 +342,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\FBA_Doc\FBA_Doc.projitems" Label="Shared" />
-  <Import Project="..\..\..\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems" Label="Shared" />
+  <Import Project="..\..\..\analysis\Motifs\SharedDataModels\VirtualFootprints.SharedCommon.projitems" Label="Shared" />
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
