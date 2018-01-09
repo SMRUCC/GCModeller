@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::44ea4e0ec087c9c84f161337b5fec3bf, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\ColorSchema.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace SequenceLogo
@@ -46,6 +48,7 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property NucleotideSchema As Dictionary(Of Char, Image)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Dictionary(Of Char, Image) From {
                     {"A"c, ColorSchema.__getTexture(Color.Green, "A")},
@@ -80,7 +83,7 @@ Namespace SequenceLogo
         ''' <param name="color"></param>
         ''' <param name="alphabet"></param>
         ''' <returns></returns>
-        Private Function __getTexture(color As Color, alphabet As String) As Image
+        Private Function __getTexture(color As Color, alphabet$) As Image
             Dim bitmap As New Bitmap(680, 680)
             Dim font As New Font(FontFace.Ubuntu, 650)
             Dim br As New SolidBrush(color:=color)
@@ -91,8 +94,8 @@ Namespace SequenceLogo
                 Dim h As Integer = (bitmap.Height - size.Height) * 0.45
                 Dim pos As New Point(w, h)
 
-                gdi.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-                gdi.CompositingMode = Drawing2D.CompositingMode.SourceOver
+                gdi.CompositingQuality = CompositingQuality.HighQuality
+                gdi.CompositingMode = CompositingMode.SourceOver
 
                 Call gdi.DrawString(alphabet, font, br, point:=pos)
             End Using
@@ -105,6 +108,7 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ProteinSchema As Dictionary(Of Char, Image)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Dictionary(Of Char, Image) From {
                     {"A"c, ColorSchema.__getTexture(Color.CadetBlue, "A")},      'Alanine	     Ala	A	nonpolar	    neutral	        1.8			89
