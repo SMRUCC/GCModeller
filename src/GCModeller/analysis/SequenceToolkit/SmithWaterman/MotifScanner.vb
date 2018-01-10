@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Linq
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
