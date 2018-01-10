@@ -90,8 +90,7 @@ Public Class Match
         Return $"[query: {FromA}  ===> {ToA}] <---> [subject: {FromB}  ===> {ToB}], score:={Score}"
     End Function
 
-    Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) =
-        New ComparatorAnonymousInnerClassHelper()
+    Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) = New ComparatorAnonymousInnerClassHelper()
 
     Private Class ComparatorAnonymousInnerClassHelper
         Implements IComparer(Of Match)

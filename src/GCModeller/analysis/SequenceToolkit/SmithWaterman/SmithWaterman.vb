@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::313f6ceae19eb4b9a651f96893bff66f, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Linq
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' Smith-Waterman local alignment algorithm.
@@ -45,8 +46,12 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <param name="blosum">
     ''' If the matrix parameter is null, then the default build in blosum62 matrix will be used.
     ''' </param>
-    Sub New(query As String, subject As String, Optional blosum As Blosum = Nothing)
+    Sub New(query$, subject$, Optional blosum As Blosum = Nothing)
         Call MyBase.New(query.ToArray, subject.ToArray, __blosum(blosum), Function(x) x)
+    End Sub
+
+    Sub New(query As ISequenceModel, subject As ISequenceModel, Optional blosum As Blosum = Nothing)
+        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, __blosum(blosum), Function(x) x)
     End Sub
 
     Private Shared Function __blosum(input As Blosum) As ISimilarity(Of Char)
@@ -73,9 +78,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <param name="subject"></param>
     ''' <param name="blosum"></param>
     ''' <returns></returns>
-    Public Shared Function Align(query As FASTA.FastaToken,
-                                 subject As FASTA.FastaToken,
-                                 Optional blosum As Blosum = Nothing) As SmithWaterman
+    Public Shared Function Align(query As FastaToken, subject As FastaToken, Optional blosum As Blosum = Nothing) As SmithWaterman
         Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, blosum)
         Return sw
     End Function
