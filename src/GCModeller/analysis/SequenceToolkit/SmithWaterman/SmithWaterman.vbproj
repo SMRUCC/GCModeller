@@ -218,7 +218,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MotifScanner.vb" />
     <Compile Include="Extension\Extensions.vb" />
     <Compile Include="Extension\Output.vb" />
     <Compile Include="Extension\HSP.vb" />
@@ -259,10 +258,6 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencePatterns\SequencePatterns.vbproj">
-      <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
-      <Name>SequencePatterns</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
