@@ -103,10 +103,10 @@ Public Class Output
     Public Shared Function CreateObject(Of T)(sw As GSW(Of T), toChar As ToChar(Of T), threshold As Double, minW As Integer) As Output
         Dim best As HSP = Nothing
         Dim hsp = SequenceTools.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
-        Dim direction = sw.prevCells.Select(Function(x) New Streams.Array.Integer(x))
-        Dim dp = sw.GetDPMAT.Select(Function(x) New Streams.Array.Double(x))
-        Dim query = New String(sw.query.Select(Function(x) toChar(x)))
-        Dim subject = New String(sw.subject.Select(Function(x) toChar(x)))
+        Dim direction = sw.prevCells.Select(Function(x) New Streams.Array.Integer(x)).ToArray
+        Dim dp = sw.GetDPMAT.Select(Function(x) New Streams.Array.Double(x)).ToArray
+        Dim query = sw.query.Select(Function(x) toChar(x)).CharString
+        Dim subject = sw.subject.Select(Function(x) toChar(x)).CharString
 
         Dim m2Len As Integer = Math.Min(query.Length, subject.Length)
         If m2Len < minW Then

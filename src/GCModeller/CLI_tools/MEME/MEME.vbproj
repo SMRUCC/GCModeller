@@ -314,6 +314,10 @@
       <Project>{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
+      <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
+      <Name>SequencePatterns.Abstract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

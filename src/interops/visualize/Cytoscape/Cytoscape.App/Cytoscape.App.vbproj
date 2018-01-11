@@ -322,7 +322,7 @@
       <Name>Cytoscape</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\..\..\GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems" Label="Shared" />
+  <Import Project="..\..\..\..\GCModeller\sub-system\FBA\FBA_Doc\FBA_Doc.projitems" Label="Shared" />
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
