@@ -1,32 +1,32 @@
-﻿#Region "Microsoft.VisualBasic::e35a2a53d1f0c8484ab3b71002120a55, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\BinaryTree.vb"
+﻿#Region "Microsoft.VisualBasic::bf79215700f01081ff65a5b388803de1, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\BinaryTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Collections
+Imports System.Runtime.CompilerServices
 
 ' Software License Agreement (BSD License)
 '* 
@@ -132,7 +132,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
         ''' <param name="parent"></param>
         ''' <param name="node"></param>
         ''' <param name="left"></param>
-        Public Sub Add(parent As String, node As TreeNode(Of T), left As Boolean)
+        Public Sub Add(parent$, node As TreeNode(Of T), left As Boolean)
             Dim parentNode = DirectFind(parent)
             If left Then
                 parentNode.Left = node
@@ -156,6 +156,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
         ''' </summary>
         ''' <returns>Number of nodes in the tree</returns>
         Public ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _counts
             End Get
@@ -234,7 +235,8 @@ Namespace ComponentModel.DataStructures.BinaryTree
                 Dim comparison As Integer
 
                 If [overrides] = 0 Then
-                    comparison = String.Compare(node.Name, tree.Name)
+                    comparison = NameCompare(node.Name, tree.Name)
+
                     If comparison = 0 Then
                         Throw New Exception("Duplicated node was found!")
                     End If
@@ -242,10 +244,15 @@ Namespace ComponentModel.DataStructures.BinaryTree
                     comparison = [overrides]
                 End If
 
+                ' 2018-1-11
+                ' overrides 应该一直被传递下去，而不是使用comparison结果，否则会一直被错误的overrides下去的
+                ' 导致构建出来的树不平衡
                 If comparison < 0 Then
-                    add(node, tree.Left, comparison)
+                    add(node, tree.Left, [overrides]:=[overrides])
+                    tree.Left.Parent = tree
                 Else
-                    add(node, tree.Right, comparison)
+                    add(node, tree.Right, [overrides]:=[overrides])
+                    tree.Right.Parent = tree
                 End If
             End If
         End Sub
