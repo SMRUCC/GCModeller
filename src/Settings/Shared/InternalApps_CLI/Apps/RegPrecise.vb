@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::5eae52afd612965458f3e15c33290cf5, ..\Settings\Shared\InternalApps_CLI\Apps\RegPrecise.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -27,8 +55,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /CORN.Batch:                        
 '  /CORN.thread:                       
 '  /DOOR.Merge:                        
-'  /Download.Motifs:                   
-'  /Download.Regprecise:               Download Regprecise database from Web API
 '  /Effector.FillNames:                
 '  /Export.Regulators:                 Exports all of the fasta sequence of the TF regulator from the
 '                                      download RegPrecsie FASTA database.
@@ -50,6 +76,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Select.TF.BBH:                     
 '  /Select.TF.Pfam-String:             
 '  /siRNA.Maps:                        
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. Web api
+' 
+' 
+'    /Download.Motifs:                   
+'    /Download.Regprecise:               Download Regprecise database from Web API
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -248,13 +283,13 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Download.Regprecise [/work ./ /save &lt;saveXml>]
+''' /Download.Regprecise [/work ./ /save &lt;save.Xml>]
 ''' ```
 ''' Download Regprecise database from Web API
 ''' </summary>
 '''
 Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
-    Dim CLI As New StringBuilder("Download.Regprecise")
+    Dim CLI As New StringBuilder("/Download.Regprecise")
     Call CLI.Append(" ")
     If Not work.StringEmpty Then
             Call CLI.Append("/work " & """" & work & """ ")
@@ -685,3 +720,4 @@ Public Function siRNAMaps([in] As String, hits As String, Optional out As String
 End Function
 End Class
 End Namespace
+

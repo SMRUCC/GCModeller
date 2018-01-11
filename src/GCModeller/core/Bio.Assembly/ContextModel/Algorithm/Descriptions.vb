@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5f0094a08cc9d8c6245095573088e32, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::891d4219d640832e5f2c0f8799f5ee0a, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
     ' Author:
     ' 
@@ -27,11 +27,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
 
 Namespace ContextModel
 
@@ -54,7 +51,7 @@ Namespace ContextModel
 
         <Extension> Public Function BlankSegment(Of T As IGeneBrief)(Location As NucleotideLocation) As T
             Dim BlankData = Activator.CreateInstance(Of T)()
-            BlankData.COG = BLANK_VALUE
+            BlankData.Feature = BLANK_VALUE
             BlankData.Product = BLANK_VALUE
             BlankData.Key = BLANK_VALUE
             BlankData.Length = Location.FragmentSize

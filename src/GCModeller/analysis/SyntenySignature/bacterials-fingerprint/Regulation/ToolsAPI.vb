@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64c8076ad8253b9e92026a158d0eec08, ..\GCModeller\analysis\SyntenySignature\bacterials-fingerprint\Regulation\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b7c533539e7dc39cd8711763a56d0aa2, ..\GCModeller\analysis\SyntenySignature\bacterials-fingerprint\Regulation\ToolsAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
@@ -43,8 +44,8 @@ Namespace RegulationSignature
         <ExportAPI("Signature.Create")>
         Public Function GenerateSignature(VirtualFootprints As IEnumerable(Of PredictedRegulationFootprint),
                 PTT As GenBank.TabularFormat.PTT,
-                <Parameter("KEGG.Pathways")> KEGG_Pathways As IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway),
-                COG As IEnumerable(Of ICOGDigest)) As SignatureBuilder
+                <Parameter("KEGG.Pathways")> KEGG_Pathways As IEnumerable(Of bGetObject.Pathway),
+                COG As IEnumerable(Of IFeatureDigest)) As SignatureBuilder
 
             Return New SignatureBuilder(VirtualFootprints, PTT, KEGG_Pathways, COG)
         End Function
@@ -55,14 +56,12 @@ Namespace RegulationSignature
         End Function
 
         <ExportAPI("ToFasta")>
-        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As FASTA.FastaToken
             Dim Sequence As String = SignatureBuilder.ToString
-            Dim Fasta As SMRUCC.genomics.SequenceModel.FASTA.FastaToken =
-                New FASTA.FastaToken With
-                {
-                    .SequenceData = Sequence,
-                    .Attributes = New String() {SignatureBuilder.Title}
-                }
+            Dim Fasta As New FASTA.FastaToken With {
+                .SequenceData = Sequence,
+                .Attributes = New String() {SignatureBuilder.Title}
+            }
             Return Fasta
         End Function
 

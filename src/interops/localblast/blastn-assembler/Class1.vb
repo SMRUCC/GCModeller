@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7e2d908c5d138c79683d91b637b9858, ..\interops\localblast\blastn-assembler\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::b7b4581e039846134bd55a1636233825, ..\interops\localblast\blastn-assembler\Class1.vb"
 
     ' Author:
     ' 
@@ -38,4 +38,3 @@ Public Class Class1
     ' The result need Not be an optimal solution To the problem.
 
 End Class
-

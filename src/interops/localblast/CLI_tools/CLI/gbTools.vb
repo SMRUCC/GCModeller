@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f52785147dfb2315f042ff6f926e3434, ..\interops\localblast\CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::f809d9ae48b925485467ad4466803968, ..\interops\localblast\CLI_tools\CLI\gbTools.vb"
 
     ' Author:
     ' 
@@ -269,7 +269,7 @@ Partial Module CLI
     End Function
 
     <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
-        Dim PTT As PTT = gb.GbffToORF_PTT
+        Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
         Dim GFF As GFFTable = gb.ToGff

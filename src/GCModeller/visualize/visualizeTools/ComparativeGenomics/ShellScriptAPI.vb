@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c205dbc706fc2d4f938186811d25b5b7, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e3837a30d4fc26c4ffd18bd847a50927, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -92,7 +92,7 @@ Namespace ComparativeGenomics
 
         <ExportAPI("model.from_gbk")>
         Public Function ModelFromGBK(GBk1 As GBFF.File, GBk2 As GBFF.File) As DrawingModel
-            Return ModelFromPTT(GbkffExportToPTT(GBk1), GbkffExportToPTT(GBk2))
+            Return ModelFromPTT(GBk1.GbffToPTT(ORF:=True), GBk2.GbffToPTT(ORF:=True))
         End Function
 
         <ExportAPI("model.from_ptt")>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90b830dd2d4a281971e265cd4ea4cce7, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::56462c55395af93bc6924ea501d6a303, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
 
     ' Author:
     ' 

@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::63e3f8760810c227c15c34c5a78a783b, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -36,6 +64,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Organism.Table:                         
 '  /Pathway.geneIDs:                        
 '  /Query.KO:                               
+'  /show.organism:                          
 '  /Views.mod_stat:                         
 '  -Build.KO:                               Download data from KEGG database to local server.
 '  Download.Sequence:                       
@@ -74,6 +103,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Build.Ko.repository:                    
 '    /Build.Reactions.Repository:             
 '    /Maps.Repository.Build:                  
+'    /Pathway.Modules.Build:                  
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -691,6 +721,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Pathway.Modules.Build /in &lt;directory> [/batch /out &lt;out.Xml>]
+''' ```
+''' </summary>
+'''
+Public Function CompileGenomePathwayModule([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Pathway.Modules.Build")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If batch Then
+        Call CLI.Append("/batch ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Pathways.Downloads.All [/out &lt;outDIR>]
 ''' ```
 ''' Download all of the KEGG reference pathway map data.
@@ -726,6 +778,25 @@ Public Function QueryKOAnno([in] As String, Optional out As String = "", Optiona
     End If
     If batch Then
         Call CLI.Append("/batch ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /show.organism /code &lt;kegg_sp> [/out &lt;out.json>]
+''' ```
+''' </summary>
+'''
+Public Function ShowOrganism(code As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/show.organism")
+    Call CLI.Append(" ")
+    Call CLI.Append("/code " & """" & code & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 
@@ -962,3 +1033,4 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
+

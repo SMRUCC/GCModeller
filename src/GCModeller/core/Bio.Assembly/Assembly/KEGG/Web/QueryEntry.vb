@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b7fe3bba3d89dfa47898b2f1618244c, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::805cd0c38e40aab93f568c749587813d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
@@ -75,7 +75,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <param name="offline">Work in offline mode?</param>
         Public Function QuerySpCode(Optional offline As Boolean = False) As String
-            Dim sp As Organism = GetKEGGSpeciesCode(genome)
+            Dim sp As DBGET.bGetObject.Organism.Organism = GetKEGGSpeciesCode(genome)
 
             If Not sp Is Nothing Then Return sp.KEGGId
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7be318ff25385f36e283bf1333bfd528, ..\GCModeller\core\Bio.Assembly\ContextModel\PromoterRegionParser.vb"
+﻿#Region "Microsoft.VisualBasic::744aef6eb5f85d0da573832c16abebef, ..\GCModeller\core\Bio.Assembly\ContextModel\PromoterRegionParser.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -69,11 +70,15 @@ Namespace ContextModel
             For Each l% In PrefixLength
                 regions(++i) = New IntegerTagged(Of Dictionary(Of String, FastaToken)) With {
                     .Tag = l,
-                    .value = CreateObject(l, PTT, genome)
+                    .Value = CreateObject(l, PTT, genome)
                 }
             Next
 
             PromoterRegions = regions
+        End Sub
+
+        Sub New(gbff As GBFF.File)
+            Call Me.New(gbff.Origin.ToFasta, gbff.GbffToPTT(ORF:=True))
         End Sub
 
         Sub New(genome As PTTDbLoader)

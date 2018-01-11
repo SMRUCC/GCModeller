@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f4e5b96d862b568dad7411b3fe7c74e, ..\GCModeller\CLI_tools\RNA-seq\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::d8e3ebc42d18f1f19ab5e6a27880416b, ..\GCModeller\CLI_tools\RNA-seq\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -30,4 +30,3 @@ Public Class CLIGroups
 
     Public Const SAMtools$ = "SAMtools"
 End Class
-

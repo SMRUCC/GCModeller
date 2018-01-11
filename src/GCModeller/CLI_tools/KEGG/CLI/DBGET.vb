@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39a2d6cda635fc3ae557e33c646d7dc4, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
+﻿#Region "Microsoft.VisualBasic::4f0a65277d05f9a68731da3041ca6289, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
 
     ' Author:
     ' 
@@ -37,11 +37,13 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
+Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
 
@@ -120,6 +122,22 @@ Partial Module CLI
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
         Dim isKGML As Boolean = args.IsTrue("/KGML")
+        Dim infoJSON$ = $"{EXPORT}/kegg.json"
+
+        Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+
+        With infoJSON.LoadObject(Of OrganismInfo)
+            Dim assembly$ = .DataSource _
+                            .Where(Function(d)
+                                       Return InStr(d.text, "https://www.ncbi.nlm.nih.gov/assembly/", CompareMethod.Text) > 0
+                                   End Function) _
+                            .First _
+                            .name
+
+            ' 在这里写入两个空文件是为了方便进行标记
+            Call "".SaveTo($"{EXPORT}/{ .FullName}.txt")
+            Call "".SaveTo($"{EXPORT}/{assembly}.txt")
+        End With
 
         If isKGML AndAlso args("/out").IsEmpty Then
             EXPORT &= ".KGML/"
@@ -165,7 +183,7 @@ Partial Module CLI
             htext = htext.StreamParser([in])
         Else
             out = args("/out") Or (App.CurrentDirectory & $"/bacteria.All/")
-            htext = Organism.GetResource
+            htext = org.GetResource
         End If
 
         Dim codes = htext.GetBacteriaList

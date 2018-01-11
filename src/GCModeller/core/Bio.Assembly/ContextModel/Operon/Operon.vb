@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8d26d553ed4794a63e7d257d5dc89bb, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::d844531e8ec920307b0a253e0056bb26, ..\GCModeller\core\Bio.Assembly\ContextModel\Operon\Operon.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Namespace ContextModel
+Namespace ContextModel.Operon
 
     Public Class Operon
 

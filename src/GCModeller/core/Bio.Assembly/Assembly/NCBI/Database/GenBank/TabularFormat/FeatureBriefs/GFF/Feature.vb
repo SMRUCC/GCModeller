@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cac065d863e0d4e84b28edd18371d8a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::af681aeff4569472a65ceec88021bb2e, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Feature.vb"
 
     ' Author:
     ' 
@@ -205,7 +205,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
-        Public Property COG As String Implements ICOGDigest.COG
+        Public Property COG As String Implements IFeatureDigest.Feature
             Get
                 Dim s As String = attributes.TryGetValue("note")
                 If String.IsNullOrEmpty(s) Then
@@ -226,7 +226,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
-        Public Property Product As String Implements ICOGDigest.Product
+        Public Property Product As String Implements IGeneBrief.Product
             Get
                 Return attributes.TryGetValue("product")
             End Get
@@ -235,7 +235,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
-        Public Property Length As Integer Implements ICOGDigest.Length
+        Public Property Length As Integer Implements IGeneBrief.Length
             Get
                 Return MappingLocation.FragmentSize
             End Get

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a463e4a324f32e8ee8fc408c8d0b8322, ..\GCModeller\models\Networks\Microbiome\UniProt\TaxonomyRef.vb"
+﻿#Region "Microsoft.VisualBasic::36c177ae9bca4bf2fd550df54a82daf4, ..\GCModeller\models\Networks\Microbiome\UniProt\TaxonomyRef.vb"
 
     ' Author:
     ' 
@@ -86,4 +86,3 @@ Public Class TaxonomyRef : Implements IKeyedEntity(Of String)
         Return $"[{TaxonID}] {organism.scientificName}"
     End Function
 End Class
-

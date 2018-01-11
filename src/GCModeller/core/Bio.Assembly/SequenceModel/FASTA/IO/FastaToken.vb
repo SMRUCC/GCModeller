@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::9cba4508f103ab2717123a23bc240d15, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -180,9 +181,9 @@ AAGCGAACAAATGTTCTATA"
             SequenceData = fa.SequenceData
         End Sub
 
-        Sub New(LDM As FASTA.IAbstractFastaToken)
-            Me.SequenceData = LDM.SequenceData
-            Me.Attributes = LDM.Attributes
+        Sub New(seq As IAbstractFastaToken)
+            Me.SequenceData = seq.SequenceData
+            Me.Attributes = seq.Attributes
         End Sub
 
         Sub New(attrs As IEnumerable(Of String), seq As String)
@@ -190,13 +191,18 @@ AAGCGAACAAATGTTCTATA"
             Me.Attributes = attrs.ToArray
         End Sub
 
-        Sub New(LDM As I_FastaProvider)
-            Me.SequenceData = LDM.SequenceData
-            Me.Attributes = LDM.Attributes
+        Sub New(seq As I_FastaProvider)
+            Me.SequenceData = seq.SequenceData
+            Me.Attributes = seq.Attributes
         End Sub
 
         Sub New(attrs$(), seq As IPolymerSequenceModel)
             Call Me.New(attrs, seq.SequenceData)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(sequence$, Optional title$ = "unnamed sequence")
+            Call Me.New(title.Split("|"c), sequence)
         End Sub
 
         ''' <summary>

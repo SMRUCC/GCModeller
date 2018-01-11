@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61943ac836984b66141ac6f671fe0f9f, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
+﻿#Region "Microsoft.VisualBasic::b6c0069b950d16f64ad1bde44a36aaaf, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,10 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ContextModel
 

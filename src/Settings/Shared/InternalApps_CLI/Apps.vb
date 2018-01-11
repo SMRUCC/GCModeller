@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3ff47f73f8e1de6dd047dc438078a88, ..\Settings\Shared\InternalApps_CLI\Apps.vb"
+﻿#Region "Microsoft.VisualBasic::e5ed49c79d19b3c8b4fa00b4fc4d7b89, ..\Settings\Shared\InternalApps_CLI\Apps.vb"
 
     ' Author:
     ' 
@@ -188,4 +188,3 @@ Public NotInheritable Class Apps
         Return False
     End Function
 End Class
-

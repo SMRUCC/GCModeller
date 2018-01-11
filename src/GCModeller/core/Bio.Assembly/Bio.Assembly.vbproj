@@ -449,6 +449,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
@@ -572,10 +573,12 @@
     <Compile Include="ComponentModel\Loci.Models\LociSites\MotifSite.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />
     <Compile Include="ContextModel\Algorithm\ContextCore.vb" />
-    <Compile Include="ContextModel\Algorithm\Operon.vb" />
+    <Compile Include="ContextModel\GenomeContext.vb" />
+    <Compile Include="ContextModel\Operon\Operon.vb" />
     <Compile Include="ContextModel\Algorithm\ContextProvider.vb" />
     <Compile Include="ContextModel\Algorithm\TFDensity.vb" />
     <Compile Include="ContextModel\Extensions.vb" />
+    <Compile Include="ContextModel\Operon\FeatureScores.vb" />
     <Compile Include="ContextModel\PromoterRegionParser.vb" />
     <Compile Include="LICENSE.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\DBLink.vb" />
@@ -601,9 +604,6 @@
     <Compile Include="Assembly\NCBI\SeqDump\Protein.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\ComponentModel.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb" />
-    <Compile Include="ComponentModel\DynamicsHTML.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ComponentModel\Loci.Models\Interfaces.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\LociModel.vb" />
     <Compile Include="ComponentModel\Loci.Models\ExtensionMethods.vb" />

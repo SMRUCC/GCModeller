@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25280fe397916f30feed8e3f4012fabd, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::77a7d95af5b37e8b9ed70b90d14b0a0d, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,10 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ContextModel
 

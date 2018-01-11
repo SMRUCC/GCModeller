@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bef67015c803efa0435406abd8d84fe, ..\GCModeller\analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
+﻿#Region "Microsoft.VisualBasic::4cef73025c44f3591117690bdc731f58, ..\GCModeller\analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
 
     ' Author:
     ' 
@@ -200,4 +200,3 @@ Public Module MothurContigsOTU
         Return Nothing
     End Function
 End Module
-

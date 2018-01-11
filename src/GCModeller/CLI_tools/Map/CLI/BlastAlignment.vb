@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b48505115c7d037f1488c2474bcd53cf, ..\GCModeller\CLI_tools\Map\CLI\BlastAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::e3cbc6df44969cfb387a7f0f9268d2dd, ..\GCModeller\CLI_tools\Map\CLI\BlastAlignment.vb"
 
     ' Author:
     ' 
@@ -118,7 +118,7 @@ Partial Module CLI
         GCSkew.Steps = 250
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
-        Dim PTT As PTT = genbank.GbffToORF_PTT
+        Dim PTT As PTT = genbank.GbffToPTT(ORF:=True)
         Dim region As Location = alignments.GetAlignmentRegion
 
         If region.Length <= PTT.Size / 5 Then

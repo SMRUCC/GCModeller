@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfb629f1a2cdc5c7c2fbf55a4f0eff40, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::3584a31f184e055ac852a7643228e92a, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Namespace TrackDatas.Highlights
  _
                 From gene As IGeneBrief
                 In annos
-                Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
+                Let COG As String = If(String.IsNullOrEmpty(gene.Feature), "-", gene.Feature)
                 Let fill As String = If(
                     Color.ContainsKey(COG),
                     Color(COG),

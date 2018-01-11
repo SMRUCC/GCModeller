@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc480edc8523f47008225da2e646dd7f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::53c257bfeeed62f0a6744843e48dfbcb, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 

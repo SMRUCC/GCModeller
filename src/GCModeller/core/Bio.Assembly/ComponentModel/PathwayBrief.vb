@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae989e93d402501ead44c97c83455e60, ..\GCModeller\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::504181b38311ad258b1031b332b94f54, ..\GCModeller\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel
 
@@ -52,13 +53,14 @@ Namespace ComponentModel
         ''' 
         <XmlIgnore>
         Public Overridable ReadOnly Property BriteId As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return EntryId
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", EntryId, Description)
+            Return String.Format("{0}: {1}", EntryId, description)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::448b42be17f09d85d948cd38716c0078, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::84c91f56f00a9e2f5e853e1d9de50c7c, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
@@ -160,26 +161,39 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        ''' 将GBK文件之中的基因的位置数据导出为PTT格式的数据
+        ''' 将GBK文件之中的基因的位置数据导出为PTT格式的数据，这个函数所导出来的数据包含了蛋白质和RNA，如果<paramref name="ORF"/>为False的话。
         ''' </summary>
         ''' <param name="genbank">导出CDS gene和RNA部分的数据</param>
+        ''' <param name="ORF">默认参数值为True，表示只导出蛋白编码基因的位置信息</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function GbkffExportToPTT(genbank As GBFF.File) As TabularFormat.PTT
-            Dim genes As Feature() = LinqAPI.Exec(Of Feature) <=
- _
-                From feature As Feature
-                In genbank.Features._innerList
-                Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase) OrElse  ' 蛋白质编码基因以及RNA基因
-                    InStr(feature.KeyName, "RNA", CompareMethod.Text) > 0
-                Select feature
+        <Extension> Public Function GbffToPTT(genbank As GBFF.File, Optional ORF As Boolean = True) As TabularFormat.PTT
+            Dim assert As Assert(Of Feature)
 
-            Return genes.__toGenes(
-                genbank.Origin.SequenceData.Length,
-                genbank.Definition.Value)
+            If ORF Then
+                assert = Function(feature)
+                             Return String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
+                         End Function
+            Else
+                assert = Function(feature)
+                             ' 蛋白质编码基因以及RNA基因
+                             Return String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase) OrElse
+                                 InStr(feature.KeyName, "RNA", CompareMethod.Text) > 0
+                         End Function
+            End If
+
+            Dim size = genbank.Origin.SequenceData.Length
+            Dim genes As Feature() = LinqAPI.Exec(Of Feature) _
+ _
+                () <= From feature As Feature
+                      In genbank.Features._innerList
+                      Where True = assert(feature)
+                      Select feature
+
+            Return genes.__toGenes(size, genbank.Definition.Value)
         End Function
 
-        <Extension> Private Function __toGenes(genes As Feature(), size As Integer, def As String) As TabularFormat.PTT
+        <Extension> Private Function __toGenes(genes As Feature(), size%, def$) As TabularFormat.PTT
             Dim PTT_genes = From g As Feature
                             In genes
                             Select gene = g.__featureToPTT
@@ -195,27 +209,13 @@ Namespace Assembly.NCBI.GenBank
                 Call VBDebugger.Warning($"""{duplicated.Synonym}"" data was duplicated!")
             Next
 
+            Dim list = (From gene In array Select gene.ggenes.First).ToArray
+
             Return New TabularFormat.PTT With {
-                .GeneObjects = (From gene In array Select gene.ggenes.First).ToArray,
+                .GeneObjects = list,
                 .Size = size,
                 .Title = def
             }
-        End Function
-
-        ''' <summary>
-        '''
-        ''' </summary>
-        ''' <param name="gb">只导出CDS部分的数据</param>
-        ''' <returns></returns>
-        <Extension> Public Function GbffToORF_PTT(gb As GBFF.File) As TabularFormat.PTT
-            Dim genes As Feature() = LinqAPI.Exec(Of Feature) <=
- _
-                From Feature As Feature
-                In gb.Features._innerList
-                Where String.Equals(Feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                Select Feature
-
-            Return genes.__toGenes(gb.Origin.SequenceData.Length, gb.Definition.Value)
         End Function
 
         <Extension>
@@ -231,15 +231,15 @@ Namespace Assembly.NCBI.GenBank
                     featureSite.Location.Complement)
             End If
 
-            Dim locusId As String = featureSite.Query(FeatureQualifiers.locus_tag)
+            Dim locusId$ = featureSite.Query(FeatureQualifiers.locus_tag)
             Dim GB As New GeneBrief With {
                 .Synonym = locusId,
                 .PID = featureSite.Query(FeatureQualifiers.protein_id),
                 .Product = featureSite.Query(FeatureQualifiers.product),
                 .Gene = featureSite.Query(FeatureQualifiers.gene),
-                .Location = loci
+                .Location = loci,
+                .Length = .Location.FragmentSize
             }
-            GB.Length = GB.Location.FragmentSize
 
             If String.IsNullOrEmpty(GB.Synonym) Then
                 GB.Synonym = featureSite.Query(FeatureQualifiers.gene)
@@ -505,7 +505,7 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension> Public Function TryParseGBKID(path As String) As String
-            Dim Name As String = BaseName(path)
+            Dim Name As String = path.BaseName
             Name = Regex.Replace(Name, "\.\d+", "")
             Return Name.ToUpper
         End Function

@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::0614124aa16c7f0cbd0642b4e5d934fb, ..\Settings\Shared\InternalApps_CLI\Apps\MEME.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -34,6 +62,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Motif.Similarity:                   Export of the calculation result from the tomtom program.
 '  /MotifHits.Regulation:               
 '  /MotifSites.Fasta:                   
+'  /Parser.Pathway.Batch:               
 '  /Regulator.Motifs:                   
 '  /Regulator.Motifs.Test:              
 '  /RfamSites:                          
@@ -898,20 +927,42 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
+''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR/organismModel.Xml> /src &lt;genomePTT.DIR/gbff.txt> [/DOOR &lt;genome.opr> /locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
 ''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
-Public Function PathwayParser(KEGG_Pathways As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
+Public Function PathwayParser(KEGG_Pathways As String, src As String, Optional door As String = "", Optional locus As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")
-    Call CLI.Append("/PTT " & """" & PTT & """ ")
-    Call CLI.Append("/DOOR " & """" & DOOR & """ ")
+    Call CLI.Append("/src " & """" & src & """ ")
+    If Not door.StringEmpty Then
+            Call CLI.Append("/door " & """" & door & """ ")
+    End If
     If Not locus.StringEmpty Then
             Call CLI.Append("/locus " & """" & locus & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Parser.Pathway.Batch /in &lt;pathway.directory> /assembly &lt;NCBI_assembly.directory> [/out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function PathwayParserBatch([in] As String, assembly As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Parser.Pathway.Batch")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/assembly " & """" & assembly & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -2361,3 +2412,4 @@ Public Function DownloadRegprecise(Optional repository_export As String = "", Op
 End Function
 End Class
 End Namespace
+

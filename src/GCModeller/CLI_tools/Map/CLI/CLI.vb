@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ded38edba22bedc989fd273d2f325684, ..\GCModeller\CLI_tools\Map\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::bef453f70f182162c67e05a18b550f11, ..\GCModeller\CLI_tools\Map\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -118,7 +118,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
-        Dim PTT As PTT = GBFF.File.Load(gb).GbkffExportToPTT
+        Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
 
         Return PTT.Draw(COG, confInf, out)
     End Function

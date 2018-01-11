@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1d9b801b7814f230476ab57749c1e50, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
+﻿#Region "Microsoft.VisualBasic::eebaafbbaaa6c67c865d806963221d04, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <typeparam name="T_Entry"></typeparam>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ExportCOGProfiles(Of T_Entry As ICOGDigest)() As T_Entry()
+        Public Function ExportCOGProfiles(Of T_Entry As IGeneBrief)() As T_Entry()
             Dim LQuery As T_Entry() =
                 LinqAPI.Exec(Of T_Entry) <= From gene As GeneBrief
                                             In Me._genomeContext.Values.AsParallel
