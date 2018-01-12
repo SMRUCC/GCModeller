@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.ComponentModel
-Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -69,28 +69,6 @@ Partial Module CLI
         End With
 
         Return 0
-    End Function
-
-    ''' <summary>
-    ''' 搭桥计算过程：
-    ''' 
-    ''' ```
-    ''' A/C = X
-    ''' B/C = Y
-    ''' 
-    ''' A = CX, B = CY
-    ''' 
-    ''' A/B = X/Y
-    ''' ```
-    ''' </summary>
-    ''' <param name="C$">公共的混合样，A和B需要通过这个公共的混合样来计算出FoldChangeB/A或者A/B</param>
-    ''' <param name="A"></param>
-    ''' <param name="B"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function bridgeSymbolReplace(C$, A As iTraqReader(), B As iTraqReader()) As iTraqReader()
-
-
     End Function
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
