@@ -78,6 +78,10 @@ Public Class AnalysisDesigner
         Return $"{Treatment}/{Controls}"
     End Function
 
+    Public Overloads Function ToString(translation As Dictionary(Of String, String)) As String
+        Return $"{translation(Treatment)}/{translation(Controls)}"
+    End Function
+
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
             .Controls = Treatment,

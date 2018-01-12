@@ -56,18 +56,23 @@ Public Module iTraqSample
                                          Optional allowedSwap As Boolean = False) As IEnumerable(Of NamedCollection(Of DataSet))
 
         Dim analysisDesign = designer.ToArray
-
+        Dim samples = sampleInfo.ToArray
+        Dim translation = samples.ToDictionary(Function(sample) sample.sample_name,
+                                               Function(sample) sample.ID)
         Call VBDebugger.WaitOutput()
         Call Console.WriteLine(analysisDesign.Print)
 
-        With sampleInfo.DataAnalysisDesign(analysisDesign)
+        ' 在这里得到的是使用sample_name作为名称的结果
+        ' 因为样品的名称可能和报告之中要求显示的sample_name名称不一致
+        ' 所以还需要translation进行转换，得到获取数据的标签
+        With samples.DataAnalysisDesign(analysisDesign)
 
             For Each group As NamedCollection(Of AnalysisDesigner) In .ref.IterateNameCollections
                 Dim groupName$ = group.Name
                 Dim labels = group.Value
                 Dim data = matrix _
                     .Select(Function(x)
-                                Return x.subsetValues(labels, allowedSwap)
+                                Return x.subsetValues(labels, translation, allowedSwap)
                             End Function) _
                     .ToArray
 
@@ -79,16 +84,16 @@ Public Module iTraqSample
         End With
     End Function
 
-    <Extension> Private Function subsetValues(data As DataSet, labels As AnalysisDesigner(), allowedSwap As Boolean) As DataSet
+    <Extension> Private Function subsetValues(data As DataSet, labels As AnalysisDesigner(), translation As Dictionary(Of String, String), allowedSwap As Boolean) As DataSet
         Dim values As New List(Of KeyValuePair(Of String, Double))
 
         For Each label As AnalysisDesigner In labels
-            With label.ToString
+            With label.ToString(translation)
                 If data.HasProperty(.ref) Then
-                    Call values.Add(.ref, data(.ref))
+                    Call values.Add(label.ToString, data(.ref))
                 Else
                     ' 可能是在进行质谱实验的时候将顺序颠倒了，在这里将标签颠倒一下试试
-                    With label.Swap.ToString
+                    With label.Swap.ToString(translation)
                         If data.HasProperty(.ref) Then
                             ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
                             If allowedSwap Then

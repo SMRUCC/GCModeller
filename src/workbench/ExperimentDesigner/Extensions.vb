@@ -200,6 +200,7 @@ Public Module Extensions
             .GroupBy(Function(label) label.sample_group) _
             .ToDictionary(Function(x) x.Key,
                           Function(g) g.ToArray)
+        Dim translation = sampleInfo.ToDictionary(Function(sample) sample.sample_name)
         Dim designs = analysis.ToDictionary(
             Function(name) name.ToString,
             Function(designer)
@@ -213,7 +214,8 @@ Public Module Extensions
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
                                                     .Controls = c.sample_name,
-                                                    .Treatment = e.sample_name
+                                                    .Treatment = e.sample_name,
+                                                    .Note = translation(.Treatment).ID & "/" & translation(.Controls).ID
                                                 }
                                             End Function)
                             End Function) _
