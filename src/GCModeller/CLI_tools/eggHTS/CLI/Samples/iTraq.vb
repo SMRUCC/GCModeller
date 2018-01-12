@@ -138,10 +138,14 @@ Partial Module CLI
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
         Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
+        Call $"Matrix have {matrix.Length} proteins".__INFO_ECHO
+
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
             Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
+
+            Call $"{groupName} -> {data.Length} proteins...".__DEBUG_ECHO
 
             If Not data.All(Function(x) x.Properties.Count = 0) Then
                 Call data _
