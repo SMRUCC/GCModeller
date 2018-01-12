@@ -47,6 +47,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/iTraq.Bridge.Matrix")>
     <Usage("/iTraq.Bridge.Matrix /A <A_iTraq.csv> /B <B_iTraq.csv> /C <bridge_symbol> [/symbols.A <symbols.csv> /symbols.B <symbols.csv> /out <matrix.csv>]")>
+    <Group(CLIGroups.iTraqTool)>
     Public Function iTraqBridge(args As CommandLine) As Integer
         Dim A$ = args("/A")
         Dim B$ = args("/B")
@@ -59,9 +60,9 @@ Partial Module CLI
         Dim ALL = iTraqSample.BridgeCombine(A.LoadCsv(Of iTraqReader), B.LoadCsv(Of iTraqReader), C)
         Dim symbols = symbolsA.TagWith("A") + symbolsB.TagWith("B")
 
-        If symbols = 0 Then
-            Call ALL.SaveTo(out)
-        Else
+        Call ALL.SaveTo(out)
+
+        If symbols <> 0 Then
             With ALL
                 Call .iTraqMatrix(symbols) _
                      .ToArray _
