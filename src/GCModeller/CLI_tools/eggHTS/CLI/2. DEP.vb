@@ -884,8 +884,9 @@ Partial Module CLI
            .ToArray
         Dim result As New File
 
-        result += {"上调", "下调", "总数"}
+        result += {"组别", "上调", "下调", "总数"}
         result += {
+            [in].BaseName.Split("."c).First,
             DEPs _
                 .Where(Function(prot) Val(prot(log2FC)) > 0) _
                 .Count _
