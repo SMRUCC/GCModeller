@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -72,6 +73,11 @@ Namespace Language.Vectorization
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function InStr(string1 As StringVector, string2$, Optional method As CompareMethod = CompareMethod.Binary) As Vector(Of Integer)
             Return string1.Select(Function(str) Strings.InStr(str, string2, method)).AsVector
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function IsPattern(strings As StringVector, pattern$, Optional opt As RegexOptions = RegexICSng) As BooleanVector
+            Return strings.Select(Function(s) s.IsPattern(pattern, opt)).AsVector
         End Function
     End Class
 End Namespace

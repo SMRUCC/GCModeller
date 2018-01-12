@@ -29,12 +29,15 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.PrintAsTable
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Language.Vectorization.StringVector
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module iTraqSample
@@ -63,7 +66,9 @@ Public Module iTraqSample
                 Dim groupName$ = group.Name
                 Dim labels = group.Value
                 Dim data = matrix _
-                    .Select(Function(x) x.subsetValues(labels, allowedSwap)) _
+                    .Select(Function(x)
+                                Return x.subsetValues(labels, allowedSwap)
+                            End Function) _
                     .ToArray
 
                 Yield New NamedCollection(Of DataSet) With {
@@ -132,10 +137,152 @@ Public Module iTraqSample
     End Function
 
     <Extension>
-    Private Function BridgeCombine(C$, A As iTraqReader(), B As iTraqReader()) As iTraqReader()
-        Dim ALLKeys As StringVector = A.First.Properties.Keys.AsList + B.First.Properties.Keys
-        Dim CKeys = ALLKeys(InStr(ALLKeys, C & "/").AsVector > 0 Or InStr(ALLKeys, "/" & C).AsVector > 0)
+    Private Function bridgeKeys(keys As IEnumerable(Of String), C$) As String()
+        Dim allKeys = keys.AsVector
+        Dim haveBridge = InStr(allKeys, C & "/").AsVector > 0 Or InStr(allKeys, "/" & C).AsVector > 0
+        Dim isFoldChangePattern = IsPattern(allKeys, "\d+[/][AB][:]\d+") Or IsPattern(allKeys, "[AB][:]\d+[/]\d+")
+        Dim CKeys = allKeys(haveBridge & isFoldChangePattern)
+        Return CKeys
+    End Function
 
+    ''' <summary>
+    ''' 将所有含有公共样品标签<paramref name="C"/>的数据通过<paramref name="C"/>搭桥进行两两组合计算
+    ''' </summary>
+    ''' <param name="C$"></param>
+    ''' <param name="A"></param>
+    ''' <param name="B"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function BridgeCombine(C$, A As iTraqReader(), B As iTraqReader()) As iTraqReader()
+        Dim uniqueProtein = (A.AsList + B) _
+            .GroupBy(Function(protein) protein.ID) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(two) two.ToArray)
+        Dim bridgeA = A(Scan0).Properties.Keys.bridgeKeys(C)
+        Dim bridgeB = B(Scan0).Properties.Keys.bridgeKeys(C)
+        Dim bridgeKeys = (bridgeA.AsList + bridgeB).Indexing
+        Dim formulas = C.BridgeFormula(bridgeA, bridgeB)
+        Dim bridgeSample As iTraqReader() = uniqueProtein _
+            .Select(Function(ID As String, proteins As iTraqReader())
+                        If proteins.Length = 1 Then
+                            Return proteins(Scan0)
+                        Else
+                            Return formulas.BridgeCombine(
+                                bridgeKeys,
+                                proteins(0),
+                                proteins(1))
+                        End If
+                    End Function) _
+            .ToArray
+
+        Return bridgeSample
+    End Function
+
+    ''' <summary>
+    ''' iTraq data <paramref name="A"/> and <paramref name="B"/> bridge with C(<paramref name="formulas"/>)
+    ''' </summary>
+    ''' <param name="A"></param>
+    ''' <param name="B"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function BridgeCombine(formulas As NamedValue(Of Formula)(), bridgeKeys As Index(Of String), A As iTraqReader, B As iTraqReader) As iTraqReader
+        Dim protein As New iTraqReader With {
+            .AAs = A.AAs,
+            .calcPI = A.calcPI,
+            .Coverage = A.Coverage,
+            .Description = A.Description,
+            .ID = A.ID,
+            .MW = A.MW,
+            .Peptides = A.Peptides,
+            .Proteins = A.Proteins,
+            .PSMs = A.PSMs,
+            .Score = A.Score,
+            .UniquePeptides = A.UniquePeptides
+        }
+
+        Dim FC1 = A.Properties, FC2 = B.Properties
+        Dim newTable As New Dictionary(Of String, Double)
+        Dim bridgeData As New List(Of KeyValuePair(Of String, Double))
+
+        For Each x In FC1.AsList + FC2
+            If Not x.Key.IsOneOfA(bridgeKeys) Then
+                newTable(x.Key) = x.Value
+            End If
+        Next
+
+        For Each formula In formulas
+            newTable(formula.Name) = formula.Value(FC1, FC2)
+        Next
+
+        protein.Properties = newTable
+
+        Return protein
+    End Function
+
+    Public Delegate Function Formula(A As Dictionary(Of String, Double), B As Dictionary(Of String, Double)) As Double
+
+    ''' <summary>
+    ''' 生成两两组合的计算公式
+    ''' </summary>
+    ''' <param name="C$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function BridgeFormula(C$, bridgeA$(), bridgeB$()) As NamedValue(Of Formula)()
+        Dim combines = Combination.CreateCombos(bridgeA, bridgeB)
+        Dim formulas As NamedValue(Of Formula)() = combines _
+            .Select(Function(combine)
+                        Dim labelA$ = combine.a, labelB$ = combine.b
+                        Dim swapA = Strings.InStr(labelA, "/" & C) = 0
+                        Dim swapB = Strings.InStr(labelB, "/" & C) = 0
+                        Dim formula As Formula =
+                            Function(A, B)
+                                Dim AC# = A(labelA), BC# = B(labelB)
+
+                                ' A/C
+                                ' C/A
+                                ' B/C
+                                ' C/B
+
+                                If swapA Then
+                                    AC = 1 / AC
+                                End If
+                                If swapB Then
+                                    BC = 1 / BC
+                                End If
+
+                                ' A/C = X
+                                ' B/C = Y
+                                ' 
+                                ' A = CX, B = CY
+                                ' 
+                                ' A/B = X/Y
+
+                                Dim AB = AC / BC
+                                Return AB
+                            End Function
+
+                        Dim symbolA$, symbolB$
+
+                        If swapA Then
+                            symbolA = labelA.Replace(C & "/", "")
+                        Else
+                            symbolA = labelA.Replace("/" & C, "")
+                        End If
+                        If swapB Then
+                            symbolB = labelB.Replace(C & "/", "")
+                        Else
+                            symbolB = labelB.Replace("/" & C, "")
+                        End If
+
+                        Return New NamedValue(Of Formula) With {
+                            .Name = symbolA & "/" & symbolB,
+                            .Value = formula,
+                            .Description = {combine.a, combine.b}.GetJson
+                        }
+                    End Function) _
+            .ToArray
+
+        Return formulas
     End Function
 
     <Extension>
