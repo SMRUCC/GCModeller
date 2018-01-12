@@ -199,6 +199,22 @@ Public Module iTraqSample
                                 proteins(1))
                         End If
                     End Function) _
+            .Select(Function(protein)
+                        Dim norm As New Dictionary(Of String, Double)
+                        Dim value#
+
+                        For Each key In protein.Properties.Keys
+                            value = protein.Properties(key)
+
+                            If value.IsNaNImaginary Then
+                                value = 0
+                            End If
+
+                            norm(key) = value
+                        Next
+
+                        Return protein
+                    End Function) _
             .ToArray
 
         Return bridgeSample
