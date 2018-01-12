@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Language
 Public Class SampleInfo : Inherits SampleGroup
 
     ''' <summary>
-    ''' 符合VisualBasic标识符语法的目标样品标识符
+    ''' 样品的标记符号，符合VisualBasic标识符语法的目标样品标识符
     ''' </summary>
     ''' <returns></returns>
     Public Property ID As String
@@ -69,7 +69,7 @@ End Class
     Implements Value(Of String).IValueOf
 
     ''' <summary>
-    ''' 显示名称，可能会含有一些奇怪的符号
+    ''' 在报告之中的显示名称，可能会含有一些奇怪的符号
     ''' </summary>
     ''' <returns></returns>
     Public Property sample_name As String Implements IKeyedEntity(Of String).Key

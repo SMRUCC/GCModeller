@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::c96d9447c253dd608803cf6fd09f9881, ..\GCModeller\CLI_tools\eggHTS\CLI\Samples\iTraq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -38,6 +39,42 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 处理iTraq实验搭桥结果数据
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.Bridge.Matrix")>
+    <Usage("/iTraq.Bridge.Matrix /A <A_iTraq.csv> /B <B_iTraq.csv> /C <bridge_symbol> [/symbols.A <symbols.csv> /symbols.B <symbols.csv> /out <matrix.csv>]")>
+    <Group(CLIGroups.iTraqTool)>
+    Public Function iTraqBridge(args As CommandLine) As Integer
+        Dim A$ = args("/A")
+        Dim B$ = args("/B")
+        Dim C$ = args("/C")
+        Dim out$ = args("/out") Or $"{A.TrimSuffix}_{B.BaseName},bridge={C}.csv"
+        Dim symbolsA = args("/symbols.A").LoadCsv(Of iTraqSymbols).ToArray
+        Dim symbolsB = args("/symbols.B").LoadCsv(Of iTraqSymbols)
+
+        ' 首先合并为一个matrix，之后再做符号替换
+        Dim ALL = iTraqSample.BridgeCombine(A.LoadCsv(Of iTraqReader), B.LoadCsv(Of iTraqReader), C)
+        Dim symbols = symbolsA.TagWith("A") + symbolsB.TagWith("B")
+
+        Call ALL.SaveTo(out)
+
+        If symbols <> 0 Then
+            With ALL
+                Call .iTraqMatrix(symbols) _
+                     .ToArray _
+                     .SaveTo(out.TrimSuffix & ".matrix.csv")
+                Call .SymbolReplace(symbols) _
+                     .ToArray _
+                     .SaveTo(out.TrimSuffix & $".sample.csv")
+            End With
+        End If
+
+        Return 0
+    End Function
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
     <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
@@ -101,10 +138,14 @@ Partial Module CLI
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
         Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
+        Call $"Matrix have {matrix.Length} proteins".__INFO_ECHO
+
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
             Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
+
+            Call $"{groupName} -> {data.Length} proteins...".__DEBUG_ECHO
 
             If Not data.All(Function(x) x.Properties.Count = 0) Then
                 Call data _
