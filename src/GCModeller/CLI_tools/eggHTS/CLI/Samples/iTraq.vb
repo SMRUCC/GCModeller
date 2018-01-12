@@ -59,14 +59,18 @@ Partial Module CLI
         Dim ALL = iTraqSample.BridgeCombine(A.LoadCsv(Of iTraqReader), B.LoadCsv(Of iTraqReader), C)
         Dim symbols = symbolsA.TagWith("A") + symbolsB.TagWith("B")
 
-        With ALL
-            Call .iTraqMatrix(symbols) _
-                 .ToArray _
-                 .SaveTo(out.TrimSuffix & ".matrix.csv")
-            Call .SymbolReplace(symbols) _
-                 .ToArray _
-                 .SaveTo(out.TrimSuffix & $".sample.csv")
-        End With
+        If symbols = 0 Then
+            Call ALL.SaveTo(out)
+        Else
+            With ALL
+                Call .iTraqMatrix(symbols) _
+                     .ToArray _
+                     .SaveTo(out.TrimSuffix & ".matrix.csv")
+                Call .SymbolReplace(symbols) _
+                     .ToArray _
+                     .SaveTo(out.TrimSuffix & $".sample.csv")
+            End With
+        End If
 
         Return 0
     End Function
