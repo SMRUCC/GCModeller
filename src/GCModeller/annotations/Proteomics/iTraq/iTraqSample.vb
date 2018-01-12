@@ -33,6 +33,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
+Imports Microsoft.VisualBasic.Language.Vectorization.StringVector
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module iTraqSample
@@ -132,8 +134,8 @@ Public Module iTraqSample
     <Extension>
     Private Function BridgeCombine(C$, A As iTraqReader(), B As iTraqReader()) As iTraqReader()
         Dim ALLKeys As StringVector = A.First.Properties.Keys.AsList + B.First.Properties.Keys
-        Dim patternC = (C & "/", "/" & C)
-        Dim CKeys = ALLKeys(Function(key) InStr(key, patternC.Item1) > 0 OrElse InStr(key, patternC.Item2) > 0)
+        Dim CKeys = ALLKeys(InStr(ALLKeys, C & "/").AsVector > 0 Or InStr(ALLKeys, "/" & C).AsVector > 0)
+
     End Function
 
     <Extension>
