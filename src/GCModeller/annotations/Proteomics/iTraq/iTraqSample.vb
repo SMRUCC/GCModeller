@@ -213,6 +213,8 @@ Public Module iTraqSample
                             norm(key) = value
                         Next
 
+                        protein.Properties = norm
+
                         Return protein
                     End Function) _
             .ToArray
