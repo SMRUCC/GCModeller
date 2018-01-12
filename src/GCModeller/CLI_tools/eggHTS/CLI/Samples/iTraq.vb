@@ -56,8 +56,8 @@ Partial Module CLI
         Dim symbolsB = args("/symbols.B").LoadCsv(Of iTraqSymbols)
 
         ' 首先合并为一个matrix，之后再做符号替换
-        Dim ALL = C.bridgeSymbolReplace(A.LoadCsv(Of iTraqReader), B.LoadCsv(Of iTraqReader))
-        Dim symbols = symbolsA + symbolsB
+        Dim ALL = iTraqSample.BridgeCombine(A.LoadCsv(Of iTraqReader), B.LoadCsv(Of iTraqReader), C)
+        Dim symbols = symbolsA.TagWith("A") + symbolsB.TagWith("B")
 
         With ALL
             Call .iTraqMatrix(symbols) _

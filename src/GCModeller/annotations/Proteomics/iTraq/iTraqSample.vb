@@ -129,11 +129,26 @@ Public Module iTraqSample
     ''' <remarks>
     ''' 在这个函数里面需要完成的工作是将所有含有公共样品标签<paramref name="C"/>的数据通过搭桥计算过程合并在一起
     ''' </remarks>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function BridgeSymbolReplace(C$, A As iTraqReader(), B As iTraqReader()) As iTraqReader()
-        Dim ALL = C.BridgeCombine(A:=A.replaceNew(C, tag:="A"), B:=B.replaceNew(C, tag:="B"))
+    Public Function BridgeCombine(A As iTraqReader(), B As iTraqReader(), C$) As iTraqReader()
+        Return C.BridgeCombine(A:=A.replaceNew(C, tag:="A"), B:=B.replaceNew(C, tag:="B"))
+    End Function
 
-
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function TagWith(symbols As IEnumerable(Of iTraqSymbols), tag$) As List(Of iTraqSymbols)
+        Return symbols _
+            .Select(Function(symbol)
+                        Return New iTraqSymbols With {
+                            .AnalysisID = symbol.AnalysisID,
+                            .SampleGroup = symbol.SampleGroup,
+                            .SampleID = symbol.SampleID,
+                            .Symbol = tag & ":" & symbol.Symbol
+                        }
+                    End Function) _
+            .AsList
     End Function
 
     <Extension>
