@@ -162,9 +162,20 @@ Public Module iTraqSample
         Dim bridgeB = B(Scan0).Properties.Keys.bridgeKeys(C)
         Dim bridgeKeys = (bridgeA.AsList + bridgeB).Indexing
         Dim formulas = C.BridgeFormula(bridgeA, bridgeB)
+        Dim Allkeys = A(Scan0).Properties.Keys.AsList _
+                    + B(Scan0).Properties.Keys _
+                    + formulas.Keys
         Dim bridgeSample As iTraqReader() = uniqueProtein _
             .Select(Function(ID As String, proteins As iTraqReader())
                         If proteins.Length = 1 Then
+                            Dim table = proteins(Scan0).Properties
+
+                            For Each field In Allkeys
+                                If Not table.ContainsKey(field) Then
+                                    table(field) = 0
+                                End If
+                            Next
+
                             Return proteins(Scan0)
                         Else
                             Return formulas.BridgeCombine(
@@ -228,7 +239,7 @@ Public Module iTraqSample
     ''' <returns></returns>
     <Extension>
     Private Function BridgeFormula(C$, bridgeA$(), bridgeB$()) As NamedValue(Of Formula)()
-        Dim combines = Combination.CreateCombos(bridgeA, bridgeB)
+        Dim combines = Combination.CreateCombos(bridgeA, bridgeB).ToArray
         Dim formulas As NamedValue(Of Formula)() = combines _
             .Select(Function(combine)
                         Dim labelA$ = combine.a, labelB$ = combine.b
