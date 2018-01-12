@@ -356,6 +356,7 @@ Public Module ProteinGroups
         Dim pfamString = uniprots _
             .Select(Function(u)
                         Dim pfam$ = u.features _
+                            .SafeQuery _
                             .Where(Function(f) f.type = "domain") _
                             .Select(Function(d)
                                         Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
