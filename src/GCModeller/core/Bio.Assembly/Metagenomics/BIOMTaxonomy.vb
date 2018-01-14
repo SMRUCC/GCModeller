@@ -181,10 +181,10 @@ Namespace Metagenomics
 #End Region
 
         <Extension>
-        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String)) As Dictionary(Of String, String)
+        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String), Optional empty$ = "NA") As Dictionary(Of String, String)
             For Each level As String In NcbiTaxonomyTree.stdranks
                 If Not lineage.ContainsKey(level) Then
-                    Call lineage.Add(level, "NA")
+                    Call lineage.Add(level, empty)
                 End If
             Next
 

@@ -78,8 +78,8 @@ Namespace Metagenomics
         ''' 所以这个构造方法是安全的构造方法，不需要担心会因为缺少否些rank而抛出错误
         ''' </summary>
         ''' <param name="lineage"></param>
-        Sub New(lineage As Dictionary(Of String, String))
-            lineage = lineage.FillLineageEmpty
+        Sub New(lineage As Dictionary(Of String, String), Optional empty$ = "")
+            lineage = lineage.FillLineageEmpty(empty)
             kingdom = lineage(NcbiTaxonomyTree.superkingdom)
             phylum = lineage(NcbiTaxonomyTree.phylum)
             [class] = lineage(NcbiTaxonomyTree.class)
