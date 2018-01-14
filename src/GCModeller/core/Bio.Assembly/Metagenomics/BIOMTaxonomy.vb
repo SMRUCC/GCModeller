@@ -123,8 +123,16 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="taxonomy$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
+        ''' 在这里替换掉
+        ''' </remarks>
         Public Function TaxonomyParser(taxonomy$) As Dictionary(Of String, String)
-            Dim tokens$() = taxonomy.Split(";"c) _
+            Dim tokens$() = taxonomy _
+                .Replace("[", "") _
+                .Replace("]", "") _
+                .StringReplace("\s+", " ") _
+                .Split(";"c) _
                 .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim catalogs As NamedValue(Of String)() = tokens _
