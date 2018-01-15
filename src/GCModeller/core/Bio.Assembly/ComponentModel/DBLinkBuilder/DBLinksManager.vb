@@ -1,35 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::44b16670d9ad43a9ceb078bc9039fc3d, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.DBLinkBuilder
@@ -47,19 +44,21 @@ Namespace ComponentModel.DBLinkBuilder
         Protected _DBLinkObjects As List(Of TLink)
 
         Default Public ReadOnly Property Item(DBName As String) As TLink()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Dim LQuery = LinqAPI.Exec(Of TLink) <=
+                Dim LQuery = LinqAPI.Exec(Of TLink) _
  _
-                    From link As TLink
-                    In Me._DBLinkObjects
-                    Where String.Equals(DBName, link.DbName, StringComparison.OrdinalIgnoreCase)
-                    Select link
+                    () <= From link As TLink
+                          In _DBLinkObjects
+                          Where String.Equals(DBName, link.DbName, StringComparison.OrdinalIgnoreCase)
+                          Select link
 
                 Return LQuery
             End Get
         End Property
 
         Public Property DBLinkObjects As TLink()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _DBLinkObjects.ToArray
             End Get
@@ -77,13 +76,13 @@ Namespace ComponentModel.DBLinkBuilder
         End Property
 
         Public Sub AddEntry(Entry As TLink)
-            Dim duplicated As TLink = LinqAPI.DefaultFirst(Of TLink) <=
+            Dim duplicated As TLink = LinqAPI.DefaultFirst(Of TLink) _
  _
-                From link As TLink
-                In DBLinkObjects
-                Where String.Equals(link.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
-                    String.Equals(link.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
-                Select link
+                () <= From link As TLink
+                      In DBLinkObjects
+                      Where String.Equals(link.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
+                          String.Equals(link.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
+                      Select link
 
             ' 会在这里先检查是否有重复的记录数据出现，
             ' 假若还没有重复的数据才会进行添加
@@ -130,6 +129,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Function
 
         Public ReadOnly Property Count As Integer Implements IReadOnlyCollection(Of TLink).Count
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return DBLinkObjects.Length
             End Get
