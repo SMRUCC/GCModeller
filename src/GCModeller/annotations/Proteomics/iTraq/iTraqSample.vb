@@ -253,7 +253,7 @@ Public Module iTraqSample
         Dim newTable As New Dictionary(Of String, Double)
         Dim bridgeData As New List(Of KeyValuePair(Of String, Double))
 
-        For Each x In FC1.AsList + FC2
+        For Each x As KeyValuePair(Of String, Double) In FC1.AsList + FC2
             If Not x.Key.IsOneOfA(bridgeKeys) Then
                 newTable(x.Key) = x.Value
             End If

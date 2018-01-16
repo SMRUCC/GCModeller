@@ -99,7 +99,7 @@ Namespace TrackDatas.NtProps
 
             out = New NASegment_GC(slides.Length - 1) {}
 
-            For Each x In slides.SeqIterator
+            For Each x As SeqValue(Of SlideWindow(Of NASegment_GC)) In slides.SeqIterator
                 out(x.i) = x.value.First
                 out(x.i).value = x.value.Average(Function(o) o.value)
                 out(x.i).end = x.value.Last.end
@@ -108,7 +108,7 @@ Namespace TrackDatas.NtProps
             If usingAvg Then
                 Dim avg# = out.Average(Function(x) x.value)
 
-                For Each x In out
+                For Each x As NASegment_GC In out
                     x.value -= avg#
                 Next
             End If

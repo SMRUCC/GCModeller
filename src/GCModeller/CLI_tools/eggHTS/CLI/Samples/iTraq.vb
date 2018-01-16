@@ -186,6 +186,7 @@ Partial Module CLI
 
     <ExportAPI("/iTraq.t.test")>
     <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /skip.significant.test /pairInfo <sampleTuple.csv> /out <out.csv>]")>
+    <Description("Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>

@@ -105,13 +105,13 @@ Partial Module CLI
                           Group x By x.Regulator Into Group)
             Dim offset As Integer = args.GetInt32("/offset")
 
-            For Each x In Groups
-                source = x.Group.ToArray
+            For Each value In Groups
+                source = value.Group.ToArray
                 Dim Grouping = source.Groups(If(offset = 0, source.Average(Function(site) site.Length) * (2 / 3), offset))
                 Dim Fasta As New FastaFile(
                     Grouping.Select(Function(o) New FastaToken({$"{o.Tag} {o.First.MotifFamily}"}, o.First.Sequence)) _
                             .OrderBy(Function(o) o.Attributes.First))
-                Call Fasta.Save(EXPORT & $"/{x.Regulator}.fasta", Encodings.ASCII)
+                Call Fasta.Save(EXPORT & $"/{value.Regulator}.fasta", Encodings.ASCII)
             Next
         End If
 
@@ -436,7 +436,7 @@ Partial Module CLI
             Dim PTTBriefs As PTT = TabularFormat.PTT.Load(PTT)
             Dim result As New List(Of MotifLog)
 
-            For Each x In result
+            For Each x As MotifLog In result
                 Dim rel = PTTBriefs.GetRelatedGenes(x.MappingLocation,, atgDist)
                 If rel.Length = 0 Then
                     x.ID = ""
