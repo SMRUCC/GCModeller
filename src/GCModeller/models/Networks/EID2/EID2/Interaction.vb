@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+﻿Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -69,5 +70,18 @@ Public Class Interaction
         Next
 
         Return New NetworkTables(nodes, network)
+    End Function
+
+    Public Shared Function Load(path$, Optional cargo$ = "", Optional carrier$ = "") As Interaction()
+        Dim maps As New Dictionary(Of String, String)
+
+        If Not cargo.StringEmpty Then
+            maps(cargo) = NameOf(Interaction.Cargo)
+        End If
+        If Not carrier.StringEmpty Then
+            maps(carrier) = NameOf(Interaction.Carrier)
+        End If
+
+        Return path.LoadCsv(Of Interaction)(maps:=maps)
     End Function
 End Class
