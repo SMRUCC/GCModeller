@@ -16,6 +16,14 @@ Public Class Interaction
     ''' </summary>
     ''' <param name="it"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' Shared pathogens between vertebrate species in Data Citation 1. Each node presents a vertebrate
+    ''' species. The size of the node Is in proportion to the number of unique pathogen species found to interact with
+    ''' it. Edges between two nodes indicate they both share at least one possible pathogen species. The weight
+    ''' (thickness) of the edges Is in proportion to the number of possible pathogen species shared between the two
+    ''' nodes. The location of each particular node corresponds to the size of all nodes in the graph And the weight of
+    ''' the edges linking this particular node With other nodes.
+    ''' </remarks>
     Public Shared Function BuildSharedPathogens(it As IEnumerable(Of Interaction)) As NetworkTables
         ' 查看一种宿主会有多少种会感染的病原菌
         Dim carriers = it _
