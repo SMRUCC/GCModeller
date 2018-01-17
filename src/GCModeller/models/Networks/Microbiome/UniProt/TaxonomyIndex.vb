@@ -62,7 +62,7 @@ Public Module TaxonomyIndexExtensions
                     .QueryMapsByMembers(kolist) _
                     .Where(Function(map)
                                With map.KOIndex
-                                   Return .Intersect(kolist).Count / .Count >= cutoff
+                                   Return .Intersect(collection:=kolist).Count / .Count >= cutoff
                                End With
                            End Function) _
                     .Keys
