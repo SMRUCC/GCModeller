@@ -66,7 +66,10 @@ Public Class Interaction
         Next
 
         For Each a In carriers.Values
-            For Each b In carriers.Values.Where(Function(c) Not c.node Is a.node)
+            For Each b In carriers.Values _
+                .Where(Function(c)
+                           Return Not c.node Is a.node
+                       End Function)
 
                 If (sharedCount = (sharedPathogens = a.pathogens.Intersect(b.pathogens).ToArray).Length) > cut Then
                     If Val(a.node!n) > Val(b.node!n) Then
