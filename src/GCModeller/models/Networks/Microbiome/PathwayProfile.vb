@@ -54,7 +54,7 @@ Public Module PathwayProfile
                 .QueryMapsByMembers(KOlist) _
                 .Where(Function(map)
                            With map.KOIndex
-                               Return .Intersect(KOlist).Count / .Count >= coverage
+                               Return .Intersect(collection:=KOlist).Count / .Count >= coverage
                            End With
                        End Function) _
                 .ToArray
