@@ -14,6 +14,10 @@ Public Class Interaction
     Public Property Cargo As String
     Public Property Carrier As String
 
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+
     ''' <summary>
     ''' 返回来的网络对象为绘制``Database of host-pathogen and related species interactions, and their global distribution`` Figure3的网络数据模型
     ''' </summary>
@@ -41,7 +45,7 @@ Public Class Interaction
                                   .ID = g.Key,
                                   .NodeType = NameOf(Carrier),
                                   .Properties = New Dictionary(Of String, String) From {
-                                      {"pathogens", pathogens.GetJson},
+                                      {"pathogens", pathogens.JoinBy("; ")},
                                       {"n", pathogens.Length}
                                   }
                               }
@@ -83,7 +87,7 @@ Public Class Interaction
                         .ToNode = b.node.ID,
                         .value = sharedCount,
                         .Properties = New Dictionary(Of String, String) From {
-                            {"sharedPathogens", sharedPathogens.Value.GetJson},
+                            {"sharedPathogens", sharedPathogens.Value.JoinBy("; ")},
                             {"color", color}
                         }
                     }
