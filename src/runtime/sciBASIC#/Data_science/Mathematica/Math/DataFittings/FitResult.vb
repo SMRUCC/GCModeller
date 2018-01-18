@@ -30,6 +30,21 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
 
+''' <summary>
+''' 线性回归结果
+''' </summary>
+''' <remarks>
+''' 在讨论模型时，所谓“线性”并不意味就是直线。回归模型相对于参数是线性的，但是相对于解释变量可以是非线性关系。
+''' 比如以下这些常见形式都是线性回归模型：
+''' 
+''' |模型名称   |表达式                            |
+''' |-----------|---------------------------------|
+''' |一般线性模型|    y  = c + b*    x  +         u|
+''' |线性对数模型|    y  = c + b*log(x) +         u|
+''' |对数线性模型|log(y) = c + b*    x  +         u|
+''' |双对数模型  |log(y) = c + b*log(x) +         u|
+''' |二次回归模型|    y  = c + b*    x  + r*x^2 + u|
+''' </remarks>
 Public Class FittedResult
 
     ''' <summary>
