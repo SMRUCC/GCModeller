@@ -27,8 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' 线性回归结果
@@ -50,7 +49,7 @@ Public Class FittedResult
     ''' <summary>
     ''' 拟合后的方程系数，根据阶次获取拟合方程的系数，如getFactor(2),就是获取``y = a0 + a1*x + a2*x^2 + ... + apoly_n*x^poly_n``中a2的值
     ''' </summary>
-    Public Property Factor As New List(Of Double)()
+    Public Property Polynomial As Polynomial
     ''' <summary>
     ''' 回归平方和
     ''' </summary>
@@ -66,11 +65,7 @@ Public Class FittedResult
     ''' <summary>
     ''' 保存拟合后的y值，在拟合时可设置为不保存节省内存
     ''' </summary>
-    Public Property FitedYlist As New List(Of Double)()
-
-    Sub New()
-        Call Factor.Resize(2, 0)
-    End Sub
+    Public Property ErrorTest As TestPoint()
 
     ''' <summary>
     ''' 根据x获取拟合方程的y值
@@ -79,13 +74,14 @@ Public Class FittedResult
     ''' <returns></returns>
     Default Public ReadOnly Property GetY(x As Double) As Double
         Get
-            Dim ans As Double = 0
+            Return Polynomial(x)
+        End Get
+    End Property
 
-            For i As Integer = 0 To Factor.Count - 1
-                ans += Factor(i) * (x ^ i)
-            Next
-
-            Return ans
+    Public ReadOnly Property IsPolyFit As Boolean
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return Polynomial.Factors.Length > 2
         End Get
     End Property
 
@@ -96,7 +92,7 @@ Public Class FittedResult
     Public ReadOnly Property Slope() As Double
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return Factor(1)
+            Return Polynomial.Factors(1)
         End Get
     End Property
 
@@ -107,7 +103,7 @@ Public Class FittedResult
     Public ReadOnly Property Intercept() As Double
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return Factor(0)
+            Return Polynomial.Factors(0)
         End Get
     End Property
 
@@ -129,29 +125,17 @@ Public Class FittedResult
     Public ReadOnly Property FactorSize As Integer
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return Factor.Count
+            Return Polynomial.Factors.Length
         End Get
     End Property
 
     ''' <summary>
-    ''' <see cref="Factor"/>
+    ''' <see cref="Polynomial.Factors"/>:
+    ''' 
     ''' ``y = a0 + a1*x + a2*x^2 + ... + apoly_n*x^poly_n``
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Dim items = Factor _
-            .Select(Function(a, i)
-                        If i = 0 Then
-                            Return a
-                        ElseIf i = 1 Then
-                            Return $"{a.ToString("F2")}*x"
-                        Else
-                            Return $"{a.ToString("F2")}*x^{i}"
-                        End If
-                    End Function) _
-            .ToArray
-        Dim Y$ = items.JoinBy(" + ")
-
-        Return $"{Y} @ {R_square.ToString("F4")}"
+        Return $"{Polynomial} @ R2={R_square.ToString("F4")}"
     End Function
 End Class
