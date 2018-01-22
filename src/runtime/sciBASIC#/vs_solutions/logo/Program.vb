@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models.Isometric.Shapes
+Imports Microsoft.VisualBasic.Imaging.Math2D
 
 ''' <summary>
 ''' sciBASIC framework logo generator. A demo for the sciBASIC graphics artist system.
@@ -35,13 +36,26 @@ Module Program
 
         logo = logo.CorpBlank(blankColor:=Color.Transparent)
 
-        Using g As Graphics2D = New Size(1800, 500).CreateGDIDevice(filled:=Color.Transparent)
+        Using g As Graphics2D = Math.Max(logo.Width, logo.Height) _
+            .SquareSize _
+            .CreateGDIDevice(filled:=Color.Transparent)
+
+            Dim topleft As New Point With {
+                .X = (g.Width - logo.Width) / 2,
+                .Y = (g.Height - logo.Height) / 2
+            }
+
+            Call g.DrawImageUnscaled(logo, topleft)
+            Call g.ImageResource.SaveAs("../../../logo-knot.png")
+        End Using
+
+        Using g As Graphics2D = New Size(2000, 500).CreateGDIDevice(filled:=Color.Transparent)
 
             Call g.DrawImageUnscaled(logo, New Point(50, 50))
 
-            Call g.DrawString("sci", New Font(fontName, 120), color1, New PointF(400, 90))
-            Call g.DrawString("BASIC#", New Font(fontName, 200), color2, New PointF(575, 60))
-            Call g.DrawString("http://sciBASIC.NET", New Font(FontFace.SegoeUI, 48), color1, New PointF(630, 350))
+            Call g.DrawString("sci", New Font(fontName, 140), color1, New PointF(430, 90))
+            Call g.DrawString("BASIC#", New Font(fontName, 200), color2, New PointF(670, 60))
+            Call g.DrawString("http://sciBASIC.NET", New Font(FontFace.SegoeUI, 48), color1, New PointF(720, 350))
 
             logo = g.ImageResource
         End Using
@@ -49,6 +63,12 @@ Module Program
         Call logo _
             .CorpBlank(blankColor:=Color.Transparent, margin:=30) _
             .SaveAs(save)
+
+        logo = save.LoadImage _
+            .ColorReplace(color1.Color, Color.White) _
+            .ColorReplace(color2.Color, Color.White)
+
+        Call logo.SaveAs("../../../logo-white.png")
 
     End Sub
 End Module
