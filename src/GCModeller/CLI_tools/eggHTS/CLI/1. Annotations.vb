@@ -521,7 +521,8 @@ Partial Module CLI
     <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
-              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
+              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+              You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
