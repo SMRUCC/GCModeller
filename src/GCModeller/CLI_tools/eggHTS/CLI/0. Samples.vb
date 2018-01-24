@@ -275,12 +275,12 @@ Partial Module CLI
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
         Dim mw$ = args.GetValue("/field.mw", "MW [kDa]")
-        Dim size$ = (args <= "/size") Or "1600,1200".AsDefault
+        Dim size$ = args("/size") Or "1600,1200"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
-        Dim color As String = args.GetValue("/color", "black")
+        Dim color As String = args("/color") Or "black"
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
-        Dim legendSize$ = (args <= "/legend.size") Or "100,30".AsDefault
+        Dim legendSize$ = args("/legend.size") Or "100,30"
         Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
         Dim yTicks# = args.GetValue("/ticks.Y", -1.0R)
         Dim res As GraphicsData = {
@@ -301,7 +301,8 @@ Partial Module CLI
                    .dash = DashStyle.Solid,
                    .width = 2
                },
-               htmlLabel:=False)
+               htmlLabel:=False,
+               densityColor:=color.TextEquals("density"))
 
         Return res.Save(out).CLICode
     End Function
