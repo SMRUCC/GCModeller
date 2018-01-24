@@ -63,6 +63,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Partial Module CLI
 
@@ -281,10 +283,10 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.annotations")>
     <Description("Total proteins functional annotation by using uniprot database.")>
-    <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /mapping <mappings.tab/tsv> /out <out.csv>]")>
+    <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv/Xlsx> /mapping <mappings.tab/tsv> /out <out.csv>]")>
     <Argument("/list", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
-              Extensions:="*.txt, *.csv",
+              Extensions:="*.txt, *.csv, *.xlsx",
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
@@ -322,6 +324,14 @@ Partial Module CLI
                         .Select(Function(x) x.ID) _
                         .Distinct _
                         .ToArray
+
+                ElseIf .TextEquals("xlsx") Then
+                    Dim sheet$ = args("/sheetName") Or "Sheet1"
+                    Dim csv As csv = Xlsx _
+                        .Open(list) _
+                        .GetTable(sheet)
+
+                    geneIDs = csv.Column(0).ToArray
                 Else
                     geneIDs = list.ReadAllLines
                 End If
