@@ -38,4 +38,8 @@ Namespace LineChart
     Public Class LineChart : Inherits Highcharts(Of GenericDataSerial)
 
     End Class
+
+    Public Class DateTimeLineChart : Inherits Highcharts(Of serial)
+
+    End Class
 End Namespace

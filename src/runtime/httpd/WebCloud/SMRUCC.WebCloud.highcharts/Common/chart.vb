@@ -89,6 +89,12 @@ Public Class Axis
     Public Property crosshair As Boolean?
     Public Property tickInterval As Boolean?
     Public Property plotBands As Band()
+    Public Property dateTimeLabelFormats As dateTimeLabelFormats
+End Class
+
+Public Class dateTimeLabelFormats
+    Public Property month As String
+    Public Property year As String
 End Class
 
 Public Class Band

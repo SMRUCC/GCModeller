@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.highcharts.PieChart
+Imports r = System.Text.RegularExpressions.Regex
 
 Public Module Javascript
 
@@ -42,13 +43,29 @@ Public Module Javascript
     ''' <returns></returns>
     <Extension>
     Public Function WriteJavascript(Of S)(container$, chart As Highcharts(Of S)) As String
-        Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData)}
+        Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData), GetType(Date)}
         Dim json$ = chart _
             .GetType _
             .GetObjectJson(chart, indent:=True, knownTypes:=knownTypes) _
-            .RemoveJsonNullItems
+            .RemoveJsonNullItems _
+            .FixDate
         Dim javascript$ = $"Highcharts.chart('{container}', {json});"
         Return javascript
+    End Function
+
+    <Extension>
+    Public Function FixDate(json As String) As String
+        Dim dates$() = r.Matches(json, "[""]\\/Date\(\d+[+]\d+\)\\/[""]", RegexICSng).ToArray
+        Dim sb As New StringBuilder(json)
+
+        For Each d As String In dates
+            Dim [date] As Date = d.LoadObject(Of Date)
+            Dim UTC$ = $"Date.UTC({[date].Year}, {[date].Month}, {[date].Day})"
+
+            Call sb.Replace(d, UTC)
+        Next
+
+        Return sb.ToString
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
