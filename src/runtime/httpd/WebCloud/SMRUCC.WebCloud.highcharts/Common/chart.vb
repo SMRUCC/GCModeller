@@ -88,6 +88,19 @@ Public Class Axis
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
     Public Property tickInterval As Boolean?
+    Public Property plotBands As Band()
+    Public Property dateTimeLabelFormats As dateTimeLabelFormats
+End Class
+
+Public Class dateTimeLabelFormats
+    Public Property month As String
+    Public Property year As String
+End Class
+
+Public Class Band
+    Public Property from As Double?
+    Public Property [to] As Double?
+    Public Property color As String
 End Class
 
 Public Class legendOptions
@@ -113,6 +126,10 @@ Public Class title
     Public Overrides Function ToString() As String
         Return text
     End Function
+
+    Public Shared Widening Operator CType(title As String) As title
+        Return New title With {.text = title}
+    End Operator
 End Class
 
 Public Class tooltip
