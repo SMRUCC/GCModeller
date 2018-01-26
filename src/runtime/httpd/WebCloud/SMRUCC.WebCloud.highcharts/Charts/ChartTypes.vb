@@ -32,5 +32,6 @@ Public Enum ChartTypes As Integer
     column
     pie
     columnrange
+    areaspline
 End Enum
 
