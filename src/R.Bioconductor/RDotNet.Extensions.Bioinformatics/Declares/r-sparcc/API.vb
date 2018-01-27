@@ -41,7 +41,7 @@ Namespace sparcc
         ''' 装载计算脚本
         ''' </summary>
         Sub New()
-            Call R.Evaluate(My.Resources.sparcc)
+            ' Call R.Evaluate(My.Resources.sparcc)
         End Sub
 
         ''' <summary>

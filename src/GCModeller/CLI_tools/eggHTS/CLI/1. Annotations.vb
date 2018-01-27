@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e6865b09a3a32c2fdc23db39a024c944, ..\GCModeller\CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -63,6 +63,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Partial Module CLI
 
@@ -281,10 +283,10 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.annotations")>
     <Description("Total proteins functional annotation by using uniprot database.")>
-    <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /mapping <mappings.tab/tsv> /out <out.csv>]")>
+    <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv/Xlsx> /mapping <mappings.tab/tsv> /out <out.csv>]")>
     <Argument("/list", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
-              Extensions:="*.txt, *.csv",
+              Extensions:="*.txt, *.csv, *.xlsx",
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
@@ -322,6 +324,14 @@ Partial Module CLI
                         .Select(Function(x) x.ID) _
                         .Distinct _
                         .ToArray
+
+                ElseIf .TextEquals("xlsx") Then
+                    Dim sheet$ = args("/sheetName") Or "Sheet1"
+                    Dim csv As csv = Xlsx _
+                        .Open(list) _
+                        .GetTable(sheet)
+
+                    geneIDs = csv.Column(0).ToArray
                 Else
                     geneIDs = list.ReadAllLines
                 End If
@@ -511,13 +521,17 @@ Partial Module CLI
     <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
-              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
+              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+              You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.")>
+    <Argument("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
+    <Argument("/size", True, CLITypes.String, Description:="The canvas size value.")>
+    <Argument("/in", False, CLITypes.File, Extensions:="*.Xlsx, *.csv", Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim size$ = args.GetValue("/size", "2200,2000")
+        Dim size$ = args("/size") Or "2200,2000"
         Dim tick! = args.GetValue("/tick", 20.0!)
-        Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
+        Dim out$ = args("/out") Or ([in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
         Dim labelRight As Boolean = args.IsTrue("/label.right")
         Dim maps As NamedValue(Of String)() = sample _

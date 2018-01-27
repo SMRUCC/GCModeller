@@ -42,6 +42,8 @@ Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Public Module ProteinGroups
 
@@ -542,8 +544,27 @@ Public Module ProteinGroups
     ''' <param name="path$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadSample(path$, Optional geneIDField$ = Nothing) As protein()
-        Return protein.LoadDataSet(path, uidMap:=geneIDField).ToArray
+    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As protein()
+        Select Case path.ExtensionSuffix.ToLower
+            Case "csv"
+
+                Return protein _
+                    .LoadDataSet(path, uidMap:=geneIDField) _
+                    .ToArray
+
+            Case "xlsx"
+
+                Dim csv As csv = Xlsx.Open(path).GetTable(sheetName)
+                Dim out As protein() = protein _
+                    .LoadDataSet(Of protein)(stream:=csv) _
+                    .ToArray
+
+                Return out
+
+            Case Else
+
+                Throw New NotSupportedException("File type with suffix: " & path.ExtensionSuffix & " is not support!")
+        End Select
     End Function
 
     <Extension>
