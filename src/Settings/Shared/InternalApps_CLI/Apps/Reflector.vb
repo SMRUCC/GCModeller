@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bfa0f0c922e7f558603b40d84becbd7, ..\Settings\Shared\InternalApps_CLI\Apps\Reflector.vb"
+﻿#Region "Microsoft.VisualBasic::505946f3eaec2d0805259e3617852155, ..\Settings\Shared\InternalApps_CLI\Apps\Reflector.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/Reflector.exe
+' assembly: ..\bin\Reflector.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

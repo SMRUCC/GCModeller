@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::523010042c7c60a7ea3a6e3c02e4e6a0, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::9c0c0278d9209a9a55ba43f0eaeba709, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
 
     ' Author:
     ' 
@@ -26,12 +26,9 @@
 
 #End Region
 
-Imports System.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
 
 Namespace Assembly.MetaCyc.Schema.PathwayBrief
 
@@ -65,10 +62,10 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
                     pathway.ReactionList = (From rxnId As String
                                             In pwyObj.ReactionList
                                             Where AssignedRxnGeneLinks.ContainsKey(rxnId)
-                                            Select New Key_strArrayValuePair With
+                                            Select New NamedVector(Of String) With
                                                    {
-                                                       .Key = rxnId,
-                                                       .Value = AssignedRxnGeneLinks(rxnId)}).ToArray     '获取反应对象列表
+                                                       .name = rxnId,
+                                                       .vector = AssignedRxnGeneLinks(rxnId)}).ToArray     '获取反应对象列表
                     Return pathway
                 End Function
             Dim Collection = (From pwy In Pathways Select GeneratePwy(pwy)).ToArray

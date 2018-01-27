@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e39e9a57943e3592c2bedce44990937, ..\interops\visualize\Cytoscape\Cytoscape.App\PathwayModuleFilter.vb"
+﻿#Region "Microsoft.VisualBasic::951abc5a92aa3af84e911dd186073aa7, ..\interops\visualize\Cytoscape\Cytoscape.App\PathwayModuleFilter.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NetworkModel
 
@@ -51,30 +51,31 @@ Namespace NetworkModel
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function BuildModules(importedModules As KeyValuePair()) As Key_strArrayValuePair()
+        Public Shared Function BuildModules(importedModules As KeyValuePair()) As NamedVector(Of String)()
             Dim GetAllModules = (From item In importedModules Select item.Value Distinct Order By Value Ascending).ToArray
             Dim LQuery = (From [Module] As String
                       In GetAllModules
-                          Select Key_strArrayValuePair.CreateObject([Module], (
+                          Let vector = (
                           From item As KeyValuePair
                           In importedModules
                           Where String.Equals([Module], item.Value)
                           Select item.Key
                           Distinct
-                          Order By Key Ascending).ToArray)).ToArray
+                          Order By Key Ascending).ToArray
+                          Select New NamedVector(Of String)([Module], vector)).ToArray
             Return LQuery
         End Function
 
-        Public Shared Function ImportsPathways(pathwayOverview As IO.File) As Key_strArrayValuePair()
+        Public Shared Function ImportsPathways(pathwayOverview As IO.File) As NamedVector(Of String)()
             Dim LQuery = (From row As IO.RowObject In pathwayOverview.Skip(1)
                           Where Not String.Equals(row(2), "True")
-                          Let item = Key_strArrayValuePair.CreateObject(row.First,
-                     (
+                          Let vector = (
                          From strToken As String
                          In Strings.Split(row(4), "; ")
                          Where Not String.IsNullOrEmpty(strToken)
                          Select strToken
-                         Order By strToken Ascending).ToArray)
+                         Order By strToken Ascending).ToArray
+                          Let item = New NamedVector(Of String)(row.First, vector)
                           Select item).ToArray
             Return LQuery
         End Function
@@ -83,19 +84,19 @@ Namespace NetworkModel
             Dim pathwayGenes = ImportsPathways(pathwayOverview)
             Dim ImportedModule = ImportsModules(Modules)
             Dim modulesGenes = BuildModules(ImportedModule)
-            Dim itemList = (From [module] As Key_strArrayValuePair
+            Dim itemList = (From [module] As NamedVector(Of String)
                             In modulesGenes
-                            Let lstName As String() = (From pathway As Key_strArrayValuePair
+                            Let lstName As String() = (From pathway As NamedVector(Of String)
                                                        In pathwayGenes
-                                                       Where Not pathway.Value.Union([module].Value).IsNullOrEmpty
-                                                       Select pathway.Key).ToArray
-                            Select Key_strArrayValuePair.CreateObject([module].Key, lstName)).ToArray
+                                                       Where Not pathway.vector.Union([module].vector).IsNullOrEmpty
+                                                       Select pathway.name).ToArray
+                            Select New NamedVector(Of String)([module].name, lstName)).ToArray
             Dim rows = (From i As Integer In itemList.Count.Sequence
                         Let [module] = itemList(i)
                         Select New IO.RowObject From {
-                        [module].Key,
-                        CInt(modulesGenes(i).Value.Count / ImportedModule.Count * 100),
-                        CInt([module].Value.Count / pathwayGenes.Count * 100)}).ToArray
+                        [module].name,
+                        CInt(modulesGenes(i).vector.Count / ImportedModule.Count * 100),
+                        CInt([module].vector.Count / pathwayGenes.Count * 100)}).ToArray
 
             Dim COGs = ModuleMatchCOG(ImportedModule, COGProfile)
             Dim COGFunction = SMRUCC.genomics.Assembly.NCBI.COG.Function.Default

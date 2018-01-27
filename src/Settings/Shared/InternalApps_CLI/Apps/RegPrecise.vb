@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::071d747595d516cc3fd6bb5ab8f5b776, ..\Settings\Shared\InternalApps_CLI\Apps\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::5eae52afd612965458f3e15c33290cf5, ..\Settings\Shared\InternalApps_CLI\Apps\RegPrecise.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/RegPrecise.exe
+' assembly: ..\bin\RegPrecise.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -55,8 +55,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /CORN.Batch:                        
 '  /CORN.thread:                       
 '  /DOOR.Merge:                        
-'  /Download.Motifs:                   
-'  /Download.Regprecise:               Download Regprecise database from Web API
 '  /Effector.FillNames:                
 '  /Export.Regulators:                 Exports all of the fasta sequence of the TF regulator from the
 '                                      download RegPrecsie FASTA database.
@@ -78,6 +76,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Select.TF.BBH:                     
 '  /Select.TF.Pfam-String:             
 '  /siRNA.Maps:                        
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. Web api
+' 
+' 
+'    /Download.Motifs:                   
+'    /Download.Regprecise:               Download Regprecise database from Web API
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -276,13 +283,13 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Download.Regprecise [/work ./ /save &lt;saveXml>]
+''' /Download.Regprecise [/work ./ /save &lt;save.Xml>]
 ''' ```
 ''' Download Regprecise database from Web API
 ''' </summary>
 '''
 Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
-    Dim CLI As New StringBuilder("Download.Regprecise")
+    Dim CLI As New StringBuilder("/Download.Regprecise")
     Call CLI.Append(" ")
     If Not work.StringEmpty Then
             Call CLI.Append("/work " & """" & work & """ ")

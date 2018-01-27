@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37fc14a23dec6a9a25136fdcb69ec411, ..\GCModeller\models\Networks\STRING\Models\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::6b9d237fe87a59e934409008420292bc, ..\GCModeller\models\Networks\STRING\Models\Pathway.vb"
 
     ' Author:
     ' 
@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise
 
 Namespace Models

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05ab397dd30780b8e2d49e31d83107ce, ..\Settings\Shared\InternalApps_CLI\Apps\metaProfiler.vb"
+﻿#Region "Microsoft.VisualBasic::43edf7c8375efc96fbaea7feb3615f7b, ..\Settings\Shared\InternalApps_CLI\Apps\metaProfiler.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/metaProfiler.exe
+' assembly: ..\bin\metaProfiler.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -69,7 +69,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /hmp.manifest.files:                     
 ' 
 ' 
-' 3. Microbiome network cli tools
+' 3. Microbiome antibiotic resistance composition analysis tools
+' 
+' 
+'    /ARO.fasta.header.table:                 
+' 
+' 
+' 4. Microbiome network cli tools
 ' 
 ' 
 '    /Metagenome.UniProt.Ref:                 
@@ -81,13 +87,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /UniProt.screen.model:                   
 ' 
 ' 
-' 4. SILVA database cli tools
+' 5. SILVA database cli tools
 ' 
 ' 
 '    /SILVA.headers:                          
 ' 
 ' 
-' 5. Taxonomy assign cli tools
+' 6. Taxonomy assign cli tools
 ' 
 ' 
 '    /gast.Taxonomy.greengenes:               OTU taxonomy assign by apply gast method on the result of
@@ -112,6 +118,25 @@ Public Class metaProfiler : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+''' <summary>
+''' ```
+''' /ARO.fasta.header.table /in &lt;directory> [/out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function AROSeqTable([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/ARO.fasta.header.table")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
 
 ''' <summary>
 ''' ```

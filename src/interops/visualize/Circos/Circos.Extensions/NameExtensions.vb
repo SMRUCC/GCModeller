@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c906c1d07f2577f8423cc5bd6c2ddd9, ..\interops\visualize\Circos\Circos.Extensions\NameExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::bb44267d3566cb6c26f7b6d7f4ecfb66, ..\interops\visualize\Circos\Circos.Extensions\NameExtensions.vb"
 
     ' Author:
     ' 
@@ -52,9 +52,9 @@ Public Module NameExtensions
     Private Function __loadCommon(DIR As String, gb As PTT) As KeyValuePair(Of String, GeneBrief)()
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaRegulome).regulons.regulators).ToArray.Unlist
         Dim Maps = gb.LocusMaps
-        Dim regLocus = (From x In bbh Select New With {.Family = x.Family, .Locus = x.LocusId}).ToArray
+        Dim regLocus = (From x In bbh Select New With {.Family = x.family, .Locus = x.LocusId}).ToArray
 
         For i As Integer = 0 To regLocus.Length - 1
             Dim s As String = regLocus(i).Locus

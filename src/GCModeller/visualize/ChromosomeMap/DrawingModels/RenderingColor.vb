@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d001a202f5e8f91e6645bb64853b487f, ..\GCModeller\visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::fa5342eeef8fd8edf9484d7a2bfce11a, ..\GCModeller\visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -86,9 +86,9 @@ Namespace DrawingModels
         End Function
 
         <Extension>
-        Public Function ApplyingCOGNumberColors(Of MyvaCOG As ICOGDigest)(genes As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+        Public Function ApplyingCOGNumberColors(Of MyvaCOG As IFeatureDigest)(genes As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
             Dim ColorProfiles = RenderingColor.InitCOGColors((From cogAlign In genes
-                                                              Select cogAlign.COG
+                                                              Select cogAlign.Feature
                                                               Distinct).ToArray).ToDictionary(Function(obj) obj.Key,
                                                                                               Function(obj) DirectCast(New SolidBrush(obj.Value), Brush))
             Dim DefaultCogColor As New SolidBrush(Chromesome.Configuration.NoneCogColor)
@@ -98,8 +98,8 @@ Namespace DrawingModels
                 Dim Cog As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
 
                 If Not Cog Is Nothing Then
-                    If Not String.IsNullOrEmpty(Cog.COG) Then
-                        gene.Color = ColorProfiles(Cog.COG)
+                    If Not String.IsNullOrEmpty(Cog.Feature) Then
+                        gene.Color = ColorProfiles(Cog.Feature)
                     Else
                         gene.Color = DefaultCogColor
                     End If

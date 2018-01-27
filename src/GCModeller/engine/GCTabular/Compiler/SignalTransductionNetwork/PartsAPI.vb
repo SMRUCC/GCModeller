@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5ec6c2a7d718afb00722e9a3b106d84, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\PartsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1e40a35b291b46ca9e97c913f4e04d5e, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\PartsAPI.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly

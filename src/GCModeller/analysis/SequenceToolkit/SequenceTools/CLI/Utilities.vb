@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7ed8b0b6cea766de22a0778ed7510b1, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::bc9b77967cb0d002481d92971b39e9f2, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
     ' Author:
     ' 
@@ -230,7 +230,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim nt As FastaToken = gbff.Origin.ToFasta
         Dim genes = gbff.ExportGeneFeatures
         Dim out As String = args.GetValue("/out", gb.TrimSuffix)
-        Dim PTT = gbff.GbkffExportToPTT
+        Dim PTT = gbff.GbffToPTT(ORF:=True)
         Dim parser As New PromoterRegionParser(nt, PTT)
 
         Call genes.SaveTo(out & "-genes.csv", nonParallel:=True)

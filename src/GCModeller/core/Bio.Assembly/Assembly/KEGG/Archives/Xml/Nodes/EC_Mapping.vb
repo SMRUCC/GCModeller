@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fefef39b950638a066507fe514ef1d5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::c23b8d7d05c3cc2c386f477d900da9cf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
 
     ' Author:
     ' 
@@ -27,10 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.Archives.Xml.Nodes
@@ -91,9 +91,9 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                         Select (From Pathway As bGetObject.Pathway
                                 In cat.Pathways
                                 Where Not Pathway.Genes.IsNullOrEmpty
-                                Select (From gene As KeyValuePair In Pathway.Genes
-                                        Let EC As String() = gene.Value.EcParser
-                                        Select locusId = gene.Key,
+                                Select (From gene As NamedValue In Pathway.Genes
+                                        Let EC As String() = gene.text.EcParser
+                                        Select locusId = gene.name,
                                             EC).ToArray).ToArray).ToVector.IteratesALL
             Dim gLst = (From GG In (From GO In gECs
                                     Select GO

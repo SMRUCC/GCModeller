@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e0a4ca1bb7d36b246586bfc9ee6c52a, ..\GCModeller\CLI_tools\MEME\RegpreciseSummary.vb"
+﻿#Region "Microsoft.VisualBasic::db5bcb0aa1cac6f80b8c94b8ec13d296, ..\GCModeller\CLI_tools\MEME\RegpreciseSummary.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -235,7 +234,7 @@ Namespace Analysis
                         Call footprints.Add(vf)
                     Next
                 Else
-                    Dim regpreciseRegulator As JSONLDM.regulator = regDb.GetRegulator(regulator)
+                    Dim regpreciseRegulator As JSON.regulator = regDb.GetRegulator(regulator)
 
                     Dim vf As New PredictedRegulationFootprint With {
                          .Distance = -site.Distance,

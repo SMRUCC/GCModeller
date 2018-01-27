@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d186cd610896ca3762bb6de72ca2dff3, ..\sciBASIC#\Data_science\Bootstrapping\Darwinism\GAF\Drivers\RawCompare.vb"
+﻿#Region "Microsoft.VisualBasic::88f17c571e58504303c2c51a8ff97bae, ..\sciBASIC#\Data_science\Bootstrapping\Darwinism\GAF\Drivers\RawCompare.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,12 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Bootstrapping.Darwinism.GAF.ODEs
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.Math.Calculus
+Imports DynamicsSystem = Microsoft.VisualBasic.Math.Calculus.ODEs
 
 Namespace Darwinism.GAF.Driver
 
@@ -62,7 +64,7 @@ Namespace Darwinism.GAF.Driver
                 .n = n
                 .a = a
                 .b = b
-                .X = ODEs.TimePopulator(n, a, b).ToArray
+                .X = DynamicsSystem.TimePopulator(n, a, b).ToArray
                 .observation = observation
                 .y0 = y0
                 .model = model

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c4a88543f53141fbfe12bd5a6179c3b, ..\Settings\Shared\InternalApps_CLI\Apps\FBA.vb"
+﻿#Region "Microsoft.VisualBasic::ae20b8494ba46e610232b6d48a38047e, ..\Settings\Shared\InternalApps_CLI\Apps\FBA.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/FBA.exe
+' assembly: ..\bin\FBA.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

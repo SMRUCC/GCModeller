@@ -35,7 +35,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace SequenceLogo
 
@@ -120,7 +119,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                 LinqAPI.Exec(Of ResidueSite, Residue)(PWM.PWM) <=
                     Function(rsd As ResidueSite) New Residue With {
                         .Bits = rsd.Bits,
-                        .Address = rsd.Site,
+                        .Position = rsd.Site,
                         .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
                                                                   In rsd.PWM.SeqIterator
                                                                   Select New Alphabet With {
@@ -247,8 +246,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                 ' YHeight is the max height of current residue, and its value is calculate from its Bits value
                 yHeight = (n * DrawingDevice.Height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
 
-                Dim idx As String = CStr(residue.Address)
-                Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Address) < 10, 2, 5), Y)
+                Dim idx As String = CStr(residue.Position)
+                Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
 
                 size =
                 gdi.Graphics.MeasureString(idx, font)

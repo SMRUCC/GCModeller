@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bc2278f5a6c9f5942e0fb97824cf461, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::8977a549a1107d3e5eb75f37bb2833e5, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
 
     ' Author:
     ' 
@@ -28,12 +28,10 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec7c9663100e6637eba69cc7de435c27, ..\interops\meme_suite\MEME\Workflows\PromoterParser\GenePromoterRegions.vb"
+﻿#Region "Microsoft.VisualBasic::ccc6dc8033121d8b81edc400bfd79930, ..\interops\meme_suite\MEME\Workflows\PromoterParser\GenePromoterRegions.vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -41,6 +42,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.ContextModel.PromoterRegionParser
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Workflows.PromoterParser
@@ -118,7 +120,7 @@ Namespace Workflows.PromoterParser
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{len}/{[mod].EntryId}.fasta"
                                     Call New FASTA.FastaFile(Genes.Select(Function(id) src(id))) _
-                                        .Save(-1, Path, System.Text.Encoding.ASCII)
+                                        .Save(-1, Path, Encoding.ASCII)
                                 End Sub
 
                 For Each l% In PromoterRegionParser.PrefixLength
@@ -137,32 +139,50 @@ Namespace Workflows.PromoterParser
         ''' <param name="PathwaysDIR"></param>
         ''' <param name="EXPORT"></param>
         <ExportAPI("KEGG_Pathways.Promoters")>
+        <Extension>
         Public Sub ParsingKEGGPathways(Parser As PromoterRegionParser,
-                                              DOOR As String,
-                                              PathwaysDIR As String,
-                                              EXPORT As String,
-                                              Optional method As GetLocusTags = GetLocusTags.UniDOOR)
+                                       DOOR$,
+                                       PathwaysDIR$,
+                                       EXPORT$,
+                                       Optional method As GetLocusTags = GetLocusTags.UniDOOR)
 
-            Dim Modules As bGetObject.Pathway() =
-               FileIO.FileSystem.GetFiles(PathwaysDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-                   .Select(Function(xml) xml.LoadXml(Of bGetObject.Pathway))
-            Dim DoorOperon = DOOR_API.Load(DOOR)
-            Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DoorOperon, method)
+            Dim populateID As IGetLocusTag
             Dim prefix As String = BaseName(EXPORT)
 
-            For Each [mod] As bGetObject.Pathway In Modules
-                Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
-                Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
-                                    Dim Path As String = $"{EXPORT}/{prefix}-{len}/{[mod].EntryId}.fasta"
-                                    ' 由于会存在有RNA基因，所以这里需要额外注意一下
-                                    Call New FASTA.FastaFile(From id As String In Genes Where src.ContainsKey(id) Select src(id)).Save(-1, Path, Encoding.ASCII)
-                                End Sub
+            If DOOR.FileExists Then
+                populateID = ParserLocus.CreateMethod(DOOR_API.Load(DOOR), method)
+            Else
+                populateID = ParserLocus.CreateMethod(Nothing, GetLocusTags.locus)
+            End If
+
+            Dim modules As bGetObject.Pathway() = OrganismModel _
+                .EnumerateModules(handle:=PathwaysDIR) _
+                .ToArray
+            Dim list = Function([mod] As bGetObject.Pathway)
+                           Return From gene As String
+                                  In [mod].GetPathwayGenes
+                                  Select populateID(gene)
+                       End Function
+
+            For Each [mod] As bGetObject.Pathway In modules
+                Dim genes$() = list([mod]).IteratesALL.Distinct.ToArray
+                Dim saveFasta =
+                    Sub(src As Dictionary(Of String, FASTA.FastaToken), len%)
+                        Dim path As String = $"{EXPORT}/{prefix}-{len}/{[mod].EntryId}.fasta"
+                        ' 由于会存在有RNA基因，所以这里需要额外注意一下
+                        Dim seqs = From id As String
+                                   In genes
+                                   Where src.ContainsKey(id)
+                                   Select src(id)
+
+                        Call New FASTA.FastaFile(seqs).Save(-1, path, Encoding.ASCII)
+                    End Sub
 
                 For Each l% In PromoterRegionParser.PrefixLength
-                    Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
+                    Call saveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
-                Call Console.Write(".")
+                Call [mod].name.__DEBUG_ECHO
             Next
         End Sub
 

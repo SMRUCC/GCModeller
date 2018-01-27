@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fb7a904124fffe35b0bfdf405e12f40, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::9f988bcf5aae46bd04858f2fdc49fe2b, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Interfaces.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,6 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-
 Namespace ComponentModel.Loci.Abstract
 
     Public Interface ILocationSegment
@@ -47,6 +45,9 @@ Namespace ComponentModel.Loci.Abstract
         ReadOnly Property Location As Location
     End Interface
 
+    ''' <summary>
+    ''' Abstract model with location data.
+    ''' </summary>
     Public Interface IContig
         Property Location As NucleotideLocation
     End Interface

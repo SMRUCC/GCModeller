@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a640cc351fe9defc583e777541a84b7, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::9d984be9c475693ef5af42b78b25ea86, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
     ' Author:
     ' 
@@ -328,7 +328,7 @@ Namespace KEGG.Compiler
             Dim PathwayInformation = (From pwy In KEGGPathways Where Not pwy.Modules.IsNullOrEmpty
                                       Select New With {
                                           .PathwayId = pwy.EntryId,
-                                          .ModuleList = (From item In pwy.Modules Select item.Key).ToArray,
+                                          .ModuleList = (From item In pwy.Modules Select item.name).ToArray,
                                           .Comments = pwy.Description}).ToArray
 
             Dim ModuleDictionary As Dictionary(Of String, String()) = New Dictionary(Of String, String()) 'ModuleId, ReactionIdlist

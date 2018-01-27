@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40b3878c4a46f466bfa687e00fd4e366, ..\Settings\Shared\InternalApps_CLI\Apps\localblast.vb"
+﻿#Region "Microsoft.VisualBasic::23c8dc0a63ea86403d8d32596af9ded9, ..\Settings\Shared\InternalApps_CLI\Apps\localblast.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/localblast.exe
+' assembly: ..\bin\localblast.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

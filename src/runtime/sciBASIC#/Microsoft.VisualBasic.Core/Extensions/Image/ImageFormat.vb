@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f835f5b29c2b224a3223af6ce4bba92f, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\ImageFormat.vb"
+﻿#Region "Microsoft.VisualBasic::0ea751b114acdf831795adab35301319, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\ImageFormat.vb"
 
     ' Author:
     ' 
@@ -124,6 +124,7 @@ Namespace Imaging
             {"tiff", ImageFormat.Tiff}
         }
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function GetFormat(format As ImageFormats) As ImageFormat
             Return __formats(format)
         End Function
@@ -137,6 +138,8 @@ Namespace Imaging
         ''' </summary>
         ''' <param name="format$">大小写不敏感</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ParseImageFormat(format$) As ImageFormats
             Return enumFormats.TryGetValue(LCase(format), [default]:=ImageFormats.Png)

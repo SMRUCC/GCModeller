@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4575171ed8472f02cec9f46d7aa78550, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Labeler.vb"
+﻿#Region "Microsoft.VisualBasic::49c87147609edf23838b45ccc9b697c9, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\labeler.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports sys = System.Math
 
@@ -66,13 +67,13 @@ Namespace d3js.Layout
         Friend w_orient As Double = 3.0   ' orientation bias
 #End Region
 
-        Dim calcEnergy As Func(Of Integer, Label(), Anchor(), Double) =
-            Function(i, labels, anchor)
-                Return energy(i)
-            End Function
+        Dim calcEnergy As Func(Of Integer, Label(), Anchor(), Double) = AddressOf defaultEnergyGet
+        Dim definedCoolingSchedule As CoolingSchedule = AddressOf coolingSchedule
 
-        Dim definedCoolingSchedule As CoolingSchedule =
-            AddressOf coolingSchedule
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function defaultEnergyGet(i%, labels As Label(), anchor As Anchor()) As Double
+            Return energy(i)
+        End Function
 
         ''' <summary>
         ''' energy function, tailored for label placement
@@ -260,12 +261,14 @@ Namespace d3js.Layout
         ''' <param name="initialT#"></param>
         ''' <param name="nsweeps#"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function coolingSchedule(currT#, initialT#, nsweeps#) As Double
             Return (currT - (initialT / nsweeps))
         End Function
 
         ''' <summary>
-        ''' main simulated annealing function
+        ''' main simulated annealing function.(这个函数运行完成之后，可以直接使用<see cref="Label.X"/>和<see cref="Label.Y"/>位置数据进行作图)
         ''' </summary>
         ''' <param name="nsweeps"></param>
         ''' <returns></returns>

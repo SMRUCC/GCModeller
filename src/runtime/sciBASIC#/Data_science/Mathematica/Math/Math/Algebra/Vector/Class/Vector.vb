@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cba25edb939636f2021ad0f8dc889e8, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::7eaac35d7e50a1c6b9586cf2152ec0fb, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports Microsoft.VisualBasic.Scripting
@@ -41,12 +43,14 @@ Namespace LinearAlgebra
     ''' Vector was inherits from type <see cref="List(Of Double)"/>
     ''' </summary>
     Public Class Vector : Inherits GenericVector(Of Double)
+        Implements IVector
 
         ''' <summary>
         ''' <see cref="System.Double.NaN"/>
         ''' </summary>
         ''' <returns></returns>
         Public Shared ReadOnly Property NAN As Vector
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Vector({Double.NaN})
             End Get
@@ -57,6 +61,7 @@ Namespace LinearAlgebra
         ''' </summary>
         ''' <returns></returns>
         Public Shared ReadOnly Property Inf As Vector
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Vector({Double.PositiveInfinity})
             End Get
@@ -78,6 +83,7 @@ Namespace LinearAlgebra
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property IsNumeric As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return [Dim] = 1
             End Get
@@ -234,14 +240,15 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Operator -(v1 As Vector, a As Double) As Vector
+        Public Overloads Shared Operator -(v1 As Vector, a#) As Vector
             '向量数加算符重载
-            Dim N0 As Integer = v1.[Dim]           '获取变量维数
+            Dim N0 As Integer = v1.[Dim] ' 获取变量维数
             Dim v2 As New Vector(N0)
 
             For j = 0 To N0 - 1
                 v2(j) = v1(j) - a
             Next
+
             Return v2
         End Operator
 
@@ -252,13 +259,14 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Operator *(v1 As Vector, a As Double) As Vector
-            Dim N0 As Integer = v1.[Dim]            '获取变量维数
+        Public Overloads Shared Operator *(v1 As Vector, a#) As Vector
+            Dim N0 As Integer = v1.[Dim] ' 获取变量维数
             Dim v2 As New Vector(N0)
 
             For j As Integer = 0 To N0 - 1
                 v2(j) = v1(j) * a
             Next
+
             Return v2
         End Operator
 
@@ -269,13 +277,14 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator /(v1 As Vector, a As Double) As Vector
+        Public Shared Operator /(v1 As Vector, a#) As Vector
             Dim N0 As Integer = v1.[Dim]         '获取变量维数
             Dim v2 As New Vector(N0)
 
             For j = 0 To N0 - 1
                 v2(j) = v1(j) / a
             Next
+
             Return v2
         End Operator
 
@@ -286,6 +295,7 @@ Namespace LinearAlgebra
             For j = 0 To N0 - 1
                 v2(j) = x / v(j)
             Next
+
             Return v2
         End Operator
 
@@ -304,6 +314,7 @@ Namespace LinearAlgebra
             For j = 0 To N0 - 1
                 v2(j) = v1(j) + a
             Next
+
             Return v2
         End Operator
 
@@ -513,6 +524,24 @@ Namespace LinearAlgebra
             Return result
         End Function
 
+        ''' <summary>
+        ''' ``[min, max]``
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Range As DoubleRange
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return New DoubleRange(Me)
+            End Get
+        End Property
+
+        Private ReadOnly Property Data As Double() Implements IVector.Data
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return buffer
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function rand(size%) As Vector
             Return Extensions.rand(size)
@@ -553,7 +582,7 @@ Namespace LinearAlgebra
         End Operator
 
         ''' <summary>
-        ''' Power
+        ''' Power: <see cref="Math.Pow(Double, Double)"/>
         ''' </summary>
         ''' <param name="v"></param>
         ''' <param name="n"></param>
@@ -672,6 +701,11 @@ Namespace LinearAlgebra
                 Return New Vector(array)
 
             End If
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(args As DefaultString) As Vector
+            Return CType(args.DefaultValue, Vector)
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

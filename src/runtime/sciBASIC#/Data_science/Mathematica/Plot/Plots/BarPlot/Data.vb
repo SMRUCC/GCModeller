@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d25c356031b9d5392f53ebc056552e9, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\Data.vb"
+﻿#Region "Microsoft.VisualBasic::986be76f9d00fe98d412ddf8de128180, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\Data.vb"
 
     ' Author:
     ' 
@@ -179,16 +179,17 @@ Namespace BarPlot
             Dim source = data.Distributes(base!)
             Dim bg As Color = color.ToColor(onFailure:=Drawing.Color.DarkBlue)
             Dim values As New List(Of Double)
-            Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) <=
+            Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) _
  _
-                From lv As Integer
-                In source.Keys
-                Select New NamedValue(Of Color) With {
-                    .Name = lv.ToString,
-                    .Value = bg
-                }
+                () <= From lv As Integer
+                      In source.Keys
+                      Let tag As String = lv.ToString
+                      Select New NamedValue(Of Color) With {
+                          .Name = tag,
+                          .Value = bg
+                      }
 
-            For Each x In serials
+            For Each x As NamedValue(Of Color) In serials
                 values += source(CInt(x.Name)).Value
             Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49ce01b103ad3c2b9df22f71494a6846, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Quantile\X.vb"
+﻿#Region "Microsoft.VisualBasic::0adbc52120f4399bc4bd23ef4b26a98e, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Quantile\X.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace Quantile
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0:D}, {1:D}, {2:D}", value, g, delta)
+            Return $"{value.ToString("F2")}@[delta={delta.ToString("F2")}, lower_delta={g.ToString("F2")}]"
         End Function
     End Class
 End Namespace

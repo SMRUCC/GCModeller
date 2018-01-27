@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e988d4ffc14526875b094dc7e4881af, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::e16baa363f98965d1051169395efce40, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
     ' Author:
     ' 
@@ -29,11 +29,12 @@
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -41,7 +42,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' The kegg pathway annotation data.(这个代谢途径模型是针对某一个物种而言的)
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("KEGG.PathwayBrief", Namespace:="http://www.genome.jp/kegg/pathway.html")>
+    <XmlRoot("KEGG_pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     Public Class Pathway : Inherits ComponentModel.PathwayBrief
 
         ''' <summary>
@@ -50,7 +51,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Name As String
+        Public Property name As String
 
         ''' <summary>
         ''' The module entry collection data in this pathway.
@@ -58,7 +59,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Modules As KeyValuePair()
+        Public Property modules As NamedValue()
         ''' <summary>
         ''' The kegg compound entry collection data in this pathway.
         ''' (可以通过这个代谢物的列表得到可以出现在当前的这个代谢途径之中的所有的非酶促反应过程，
@@ -67,27 +68,29 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Compound As KeyValuePair()
-        Public Property Drugs As KeyValuePair()
-        Public Property OtherDBs As KeyValuePair()
-        Public Property PathwayMap As KeyValuePair
+        Public Property compound As NamedValue()
+        Public Property drugs As NamedValue()
+        <XmlArray("otherDB", [Namespace]:=LICENSE.GCModeller)>
+        Public Property otherDBs As DBLink()
+        Public Property pathwayMap As NamedValue
 
-        Public Property Genes As KeyValuePair()
+        Public Property genes As NamedValue()
             Get
                 Return _genes
             End Get
-            Set(value As KeyValuePair())
-                _genes = value
+            Set
+                _genes = Value
 
-                If Not value.IsNullOrEmpty Then
-                    _geneTable = value.ToDictionary(
-                        Function(x) x.Key.Split(":"c).Last)
+                If Not Value.IsNullOrEmpty Then
+                    _geneTable = Value.ToDictionary(
+                        Function(x) x.name.Split(":"c).Last)
                 Else
-                    _geneTable = New Dictionary(Of String, KeyValuePair)
+                    _geneTable = New Dictionary(Of String, NamedValue)
                 End If
             End Set
         End Property
 
+        <XmlIgnore>
         Public Overrides ReadOnly Property BriteId As String
             Get
                 Dim id As String = Regex.Match(EntryId, "\d+").Value
@@ -99,35 +102,44 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Get
         End Property
 
-        Public Property Disease As KeyValuePair()
-        Public Property Organism As KeyValuePair
-        Public Property KOpathway As KeyValuePair()
+        Public Property disease As NamedValue()
+        Public Property organism As KeyValuePair
+        Public Property KOpathway As NamedValue()
 
         ''' <summary>
         ''' Reference list of this biological pathway
         ''' </summary>
         ''' <returns></returns>
-        Public Property References As Reference()
+        Public Property references As Reference()
 
-        Dim _genes As KeyValuePair()
-        Dim _geneTable As New Dictionary(Of String, KeyValuePair)
+        Dim _genes As NamedValue()
+        Dim _geneTable As New Dictionary(Of String, NamedValue)
 
         Const SEARCH_URL As String = "http://www.kegg.jp/kegg-bin/search_pathway_text?map={0}&keyword=&mode=1&viewImage=false"
         Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Sub New()
+            xmlns = New XmlSerializerNamespaces
+
+            xmlns.Add("gcmodeller", LICENSE.GCModeller)
+        End Sub
 
         Public Function IsContainsCompound(KEGGCompound As String) As Boolean
             If Compound.IsNullOrEmpty Then
                 Return False
             End If
 
-            Dim thisLinq = LinqAPI.DefaultFirst(Of KeyValuePair)() <=
+            Dim thisLinq = LinqAPI.DefaultFirst(Of NamedValue)() <=
  _
-                From comp As KeyValuePair
+                From comp As NamedValue
                 In Compound
-                Where String.Equals(comp.Key, KEGGCompound)
+                Where String.Equals(comp.name, KEGGCompound)
                 Select comp
 
-            Return Not [Class](Of KeyValuePair).IsNullOrEmpty Like thisLinq
+            Return Not [Class](Of NamedValue).IsNullOrEmpty Like thisLinq
         End Function
 
         Public Function IsContainsGeneObject(GeneId As String) As Boolean
@@ -146,9 +158,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
             Dim LQuery As KeyValuePair = LinqAPI.DefaultFirst(Of KeyValuePair) <=
  _
-                From [mod] As KeyValuePair
+                From [mod] As NamedValue
                 In Modules
-                Where String.Equals([mod].Key, ModuleId)
+                Where String.Equals([mod].name, ModuleId)
                 Select [mod]
 
             Return Not LQuery Is Nothing
@@ -233,7 +245,7 @@ Exit_LOOP:
 #If Not DEBUG Then
             Try
 #End If
-                Return url.PageParser
+            Return url.PageParser
 #If Not DEBUG Then
             Catch ex As Exception
                 ex = New Exception(url, ex)
@@ -251,9 +263,9 @@ Exit_LOOP:
                     Continue For
                 End If
 
-                out += From met As KeyValuePair
+                out += From met As NamedValue
                        In pwy.Compound
-                       Select met.Key
+                       Select met.name
             Next
 
             Return LinqAPI.Exec(Of String) <=
@@ -293,7 +305,7 @@ Exit_LOOP:
             End If
 
             Dim LQuery As String() = Genes _
-                .Select(Function(g) g.Key.Split(":"c).Last) _
+                .Select(Function(g) g.name.Split(":"c).Last) _
                 .ToArray
             Return LQuery
         End Function

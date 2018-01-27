@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39a2d6cda635fc3ae557e33c646d7dc4, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
+﻿#Region "Microsoft.VisualBasic::4f0a65277d05f9a68731da3041ca6289, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
 
     ' Author:
     ' 
@@ -37,11 +37,13 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
+Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
 
@@ -103,13 +105,39 @@ Partial Module CLI
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 下载指定物种编号的物种基因组之中所有的pathway信息，包括代谢物和基因
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Download.Pathway.Maps")>
-    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR>]")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR> /@set <progress_bar=disabled>]")>
+    <Description("Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.")>
+    <Argument("/sp", False, CLITypes.String,
+              PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The 3 characters kegg organism code, example as: ""xcb"" is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
         Dim isKGML As Boolean = args.IsTrue("/KGML")
+        Dim infoJSON$ = $"{EXPORT}/kegg.json"
+
+        Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+
+        With infoJSON.LoadObject(Of OrganismInfo)
+            Dim assembly$ = .DataSource _
+                            .Where(Function(d)
+                                       Return InStr(d.text, "https://www.ncbi.nlm.nih.gov/assembly/", CompareMethod.Text) > 0
+                                   End Function) _
+                            .First _
+                            .name
+
+            ' 在这里写入两个空文件是为了方便进行标记
+            Call "".SaveTo($"{EXPORT}/{ .FullName}.txt")
+            Call "".SaveTo($"{EXPORT}/{assembly}.txt")
+        End With
 
         If isKGML AndAlso args("/out").IsEmpty Then
             EXPORT &= ".KGML/"
@@ -126,8 +154,25 @@ Partial Module CLI
         End If
     End Function
 
+    <ExportAPI("/Download.Pathway.Maps.Batch")>
+    <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
+    <Group(CLIGroups.DBGET_tools)>
+    Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
+        Dim sp$ = args("/sp")
+        Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
+        Dim isKGML As Boolean = args.IsTrue("/KGML")
+
+        For Each id As String In sp.IterateAllLines.Select(Function(l) l.StringSplit("\s+").First)
+            Dim directory$ = $"{out}/{id}/"
+            Call Apps.KEGG_tools.DownloadPathwayMaps(sp:=id, out:=directory, kgml:=isKGML, _set:="progress_bar=disabled")
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
     <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /KGML /out <out.directory>]")>
+    <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
@@ -138,7 +183,7 @@ Partial Module CLI
             htext = htext.StreamParser([in])
         Else
             out = args("/out") Or (App.CurrentDirectory & $"/bacteria.All/")
-            htext = Organism.GetResource
+            htext = org.GetResource
         End If
 
         Dim codes = htext.GetBacteriaList

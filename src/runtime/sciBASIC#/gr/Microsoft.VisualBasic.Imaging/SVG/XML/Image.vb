@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e79abaee3cae3d55fb4016d620d2bf19, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\XML\Image.vb"
+﻿#Region "Microsoft.VisualBasic::d60b5092ff24efe90ccad2304182f870, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\XML\Image.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Net.Http
 
 Namespace SVG.XML
@@ -38,13 +39,17 @@ Namespace SVG.XML
     ''' 
     ''' + http://stackoverflow.com/questions/6249664/does-svg-support-embedding-of-bitmap-images
     ''' </summary>
-    Public Class Image
+    Public Class Image : Implements CSSLayer
 
         <XmlAttribute> Public Property x As Single
         <XmlAttribute> Public Property y As Single
         <XmlAttribute> Public Property width As String
         <XmlAttribute> Public Property height As String
-        <XmlAttribute("image.data")> Public Property data As String
+
+        <XmlAttribute("href", [Namespace]:=SVGWriter.Xlink)>
+        Public Property data As String
+        <XmlAttribute("z-index")>
+        Public Property zIndex As Integer Implements CSSLayer.zIndex
 
         ''' <summary>
         ''' ``data:image/png;base64,...``

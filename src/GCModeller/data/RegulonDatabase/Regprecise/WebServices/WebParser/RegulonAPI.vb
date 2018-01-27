@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1026ccc94a7f8b4459eaa0723dd6cb2b, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
+﻿#Region "Microsoft.VisualBasic::62ac4530929682cb492d9ec0a040ae42, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
     ' Author:
     ' 
@@ -28,13 +28,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
@@ -83,11 +84,11 @@ Namespace Regprecise
         ''' <param name="regulator"></param>
         ''' <returns></returns>
         <Extension> Public Function uid(regulator As Regulator) As String
-            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.LocusTag.Value.NormalizePathString(True)}"
+            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tag.text.NormalizePathString(True)}"
         End Function
 
         <ExportAPI("Regulon.Reconstruct")>
-        Public Function Reconstruct(mappings As String, Regprecise As String, door As String) As BacteriaGenome
+        Public Function Reconstruct(mappings As String, Regprecise As String, door As String) As BacteriaRegulome
             Dim DoorOperon As DOOR = DOOR_API.Load(door)
             Return Reconstruct(mappings, Regprecise, DoorOperon)
         End Function
@@ -100,16 +101,16 @@ Namespace Regprecise
         ''' <param name="door">Door operon database</param>
         ''' <returns></returns>
         <ExportAPI("Regulon.Reconstruct")>
-        Public Function Reconstruct(mappings As String, Regprecise As String, DOOR As DOOR) As BacteriaGenome
+        Public Function Reconstruct(mappings As String, Regprecise As String, DOOR As DOOR) As BacteriaRegulome
             Dim bbh = mappings.LoadCsv(Of BiDirectionalBesthit)
-            Dim genomeRef = Regprecise.LoadXml(Of BacteriaGenome)
+            Dim genomeRef = Regprecise.LoadXml(Of BacteriaRegulome)
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
-            Dim genomeGET As New BacteriaGenome With {
-                .BacteriaGenome = New WebServices.JSONLDM.genome With {
-                    .name = basename(mappings)
+            Dim genomeGET As New BacteriaRegulome With {
+                .genome = New JSON.genome With {
+                    .name = BaseName(mappings)
                 },
-                .Regulons = New Regulon With {
-                    .Regulators = regulators
+                .regulons = New Regulon With {
+                    .regulators = regulators
                 }
             }
             Return genomeGET
@@ -129,7 +130,7 @@ Namespace Regprecise
         <ExportAPI("Regulon.Reconstruct")>
         <Extension>
         Public Function Reconstruct(mappings As IEnumerable(Of BiDirectionalBesthit),
-                                    Regprecise As BacteriaGenome,
+                                    Regprecise As BacteriaRegulome,
                                     Operons As DOOR) As Regulator()
             Dim mappingHash As Dictionary(Of String, BiDirectionalBesthit()) = mappings.BuildMapHash
             Dim reconstructs As Regulator() = mappingHash.Reconstruct(Regprecise, Operons)
@@ -139,10 +140,10 @@ Namespace Regprecise
         <ExportAPI("Regulon.Reconstruct")>
         <Extension>
         Public Function Reconstruct(mappings As Dictionary(Of String, BiDirectionalBesthit()),
-                                    Regprecise As BacteriaGenome,
+                                    Regprecise As BacteriaRegulome,
                                     Operons As DOOR) As Regulator()
             Dim LQuery As Regulator() = (From x As Regulator
-                                         In Regprecise.Regulons.Regulators
+                                         In Regprecise.regulons.regulators
                                          Select mappings.Reconstruct(regulon:=x, DOOR:=Operons)).ToVector
             Return LQuery
         End Function
@@ -171,7 +172,7 @@ Namespace Regprecise
                 Select From x As BiDirectionalBesthit
                        In maps
                        Select New RegulatedGene With {
-                           .Function = x.Description,
+                           .description = x.Description,
                            .LocusId = x.QueryName,
                            .vimssId = x.HitName,
                            .Name = x.COG
@@ -185,22 +186,22 @@ Namespace Regprecise
             Dim reRegulon As Regulator() =
                 LinqAPI.Exec(Of Regulator) <= From mapped As BiDirectionalBesthit
                                               In mapReg
-                                              Let locusId = New KeyValuePair With {
-                                                  .Key = mapped.QueryName,
-                                                  .Value = mapped.HitName
+                                              Let locusId = New NamedValue With {
+                                                  .name = mapped.QueryName,
+                                                  .text = mapped.HitName
                                               }
                                               Select New Regulator With {
-                                                  .RegulatorySites = regulon.RegulatorySites,
-                                                  .Regulator = regulon.Regulator,
-                                                  .LocusTag = locusId,
-                                                  .BiologicalProcess = regulon.BiologicalProcess,
-                                                  .Effector = regulon.Effector,
-                                                  .Family = regulon.Family,
-                                                  .Pathway = regulon.Pathway,
-                                                  .RegulationMode = regulon.RegulationMode,
+                                                  .regulatorySites = regulon.regulatorySites,
+                                                  .regulator = regulon.regulator,
+                                                  .locus_tag = locusId,
+                                                  .biological_process = regulon.biological_process,
+                                                  .effector = regulon.effector,
+                                                  .family = regulon.family,
+                                                  .pathway = regulon.pathway,
+                                                  .regulationMode = regulon.regulationMode,
                                                   .Regulog = regulon.Regulog,
-                                                  .Type = regulon.Type,
-                                                  .lstOperon = mappedOperons,
+                                                  .type = regulon.type,
+                                                  .operons = mappedOperons,
                                                   .Regulates = mappedGenes
                                               }
             Return reRegulon
@@ -223,12 +224,12 @@ Namespace Regprecise
                 oprGenes =
                     LinqAPI.Exec(Of OperonGene) <= From x As RegulatedGene
                                                   In mappings
-                                                  Select New OperonGene With {
-                                                      .OperonID = "x",
-                                                      .Synonym = x.LocusId,
-                                                      .Product = x.Function,
-                                                      .GI = x.vimssId
-                                                  }
+                                                   Select New OperonGene With {
+                                                       .OperonID = "x",
+                                                       .Synonym = x.LocusId,
+                                                       .Product = x.description,
+                                                       .GI = x.vimssId
+                                                   }
             Else
                 oprGenes = mappings.Select(Function(x) DOOR.GetGene(x.LocusId))
             End If
@@ -236,13 +237,13 @@ Namespace Regprecise
                        Select x
                        Group x By x.OperonID Into Group) _
                             .Select(Function(x) New Operon With {
-                                .sId = x.Group.First.OperonID,
-                                .Members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
+                                .ID = x.Group.First.OperonID,
+                                .members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
-                If String.IsNullOrEmpty(gene.Function) Then
+                If String.IsNullOrEmpty(gene.description) Then
                     If DOOR.HaveGene(gene.LocusId) Then
-                        gene.Function = DOOR.GetGene(gene.LocusId).Product
+                        gene.description = DOOR.GetGene(gene.LocusId).Product
                     End If
                 End If
                 If String.IsNullOrEmpty(gene.Name) Then

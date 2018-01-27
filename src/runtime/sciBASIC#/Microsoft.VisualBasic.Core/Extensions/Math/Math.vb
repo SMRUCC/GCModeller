@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d25f92a23643a1dded031e2fe2cb83cc, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\Math.vb"
+﻿#Region "Microsoft.VisualBasic::d4a9bb4082504823cac4937f2b1c37f4, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\Math.vb"
 
     ' Author:
     ' 
@@ -1836,6 +1836,12 @@ Namespace Math
             Else
                 Return sys.Sqrt((From i As Integer In a.Sequence Select (a(i) - b(i)) ^ 2).Sum)
             End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Distance(pt As (X#, Y#), x#, y#) As Double
+            Return {pt.X, pt.Y}.EuclideanDistance({x, y})
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

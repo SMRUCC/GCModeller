@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eda7f89573bd931e680aec865bda4b0b, ..\GCModeller\data\WebServices\Regprecise\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::2123d703131e12b802e6472b3efa22c5, ..\GCModeller\data\WebServices\Regprecise\Regprecise.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
-Imports SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM
+Imports SMRUCC.genomics.Data.Regprecise.WebServices.JSON
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
@@ -87,11 +87,11 @@ The template program in perl that can be run to access several of the web servic
             {GetType(gene), ORMapperFactory.Ref(Of gene)},
             {GetType(genome), ORMapperFactory.Ref(Of genome)},
             {GetType(genomeStat), ORMapperFactory.Ref(Of genomeStat)},
-            {GetType(JSONLDM.regulator), ORMapperFactory.Ref(Of JSONLDM.regulator)},
+            {GetType(JSON.regulator), ORMapperFactory.Ref(Of JSON.regulator)},
             {GetType(regulogCollection), ORMapperFactory.Ref(Of regulogCollection)},
             {GetType(regulogCollectionStat), ORMapperFactory.Ref(Of regulogCollectionStat)},
             {GetType(regulog), ORMapperFactory.Ref(Of regulog)},
-            {GetType(JSONLDM.regulon), ORMapperFactory.Ref(Of JSONLDM.regulon)},
+            {GetType(JSON.regulon), ORMapperFactory.Ref(Of JSON.regulon)},
             {GetType(regulonRef), ORMapperFactory.Ref(Of regulonRef)},
             {GetType(site), ORMapperFactory.Ref(Of site)}
         }
@@ -134,9 +134,9 @@ The template program in perl that can be run to access several of the web servic
         Public Function genomes() As <FunctionReturns("Returns a list of genomes with the following data:<br />
 <li>genomeId - genome identifier</li>
 <li>name - genome name</li>
-<li>taxonomyId - NCBI taxonomy id</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.genome()
+<li>taxonomyId - NCBI taxonomy id</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.genome()
             Call "Downloading bacterial genomes entry data from: http://regprecise.lbl.gov/Services/rest/genomes".__DEBUG_ECHO
-            Dim retValue As Data.Regprecise.WebServices.JSONLDM.genome() = Retrieves(Of Data.Regprecise.WebServices.JSONLDM.genome)("http://regprecise.lbl.gov/Services/rest/genomes")
+            Dim retValue As Data.Regprecise.WebServices.JSON.genome() = Retrieves(Of Data.Regprecise.WebServices.JSON.genome)("http://regprecise.lbl.gov/Services/rest/genomes")
             Call $"Retrieve {retValue.Length} genomes entry...".__DEBUG_ECHO
             Return retValue
         End Function
@@ -159,7 +159,7 @@ The template program in perl that can be run to access several of the web servic
 <li>collectionType - type of regulog collection</li>
 <li>collectionId - identifier of collection</li>
 <li>name - collection name</li>
-<li>className - name of collection class</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulogCollection()
+<li>className - name of collection class</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulogCollection()
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulogCollections?collectionType={type}"
             Dim retValue = Retrieves(Of regulogCollection)(url)
             Return retValue
@@ -189,7 +189,7 @@ The template program in perl that can be run to access several of the web servic
 <li>taxonName - name of taxonomic group</li>
 <li>effector - effector molecule or environmental signal of a regulator</li>
 <li>pathway - metabolic pathway or biological process controlled by a regulator </li>
-")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulog()
+")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulog()
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulogs?collectionType={collectionType}&collectionId={collectionId}"
             Dim retValue = Retrieves(Of regulog)(url)
             Return retValue
@@ -211,7 +211,7 @@ The template program in perl that can be run to access several of the web servic
 <li>taxonName - name of taxonomic group</li>
 <li>effector - effector molecule or environmental signal of a regulator</li>
 <li>pathway - metabolic pathway or biological process controlled by a regulator </li>
-")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulog
+")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulog
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulog?regulogId={regulogId}"
             Dim retData As String = __getRequest(url)
             Dim retValue As regulog = retData.LoadObject(Of regulog)
@@ -238,11 +238,11 @@ The template program in perl that can be run to access several of the web servic
 <li>regulationType - type of regulation: either TF (transcription factor) or RNA</li>
 <li>effector - effector molecule or environmentla signal of a regulator</li>
 <li>pathway - metabolic pathway or biological process controlled by regulator</li>
-")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulon()
+")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulon()
             Dim url As String = If(genome,
             $"http://regprecise.lbl.gov/Services/rest/regulons?genomeId={Id}",
             $"http://regprecise.lbl.gov/Services/rest/regulons?regulogId={Id}")
-            Dim retValue = Retrieves(Of JSONLDM.regulon)(url)
+            Dim retValue = Retrieves(Of JSON.regulon)(url)
             Return retValue
         End Function
 
@@ -264,10 +264,10 @@ The template program in perl that can be run to access several of the web servic
 <li>regulationType - type of regulation: either TF (transcription factor) or RNA</li>
 <li>taxonName - name of taxonomic group</li>
 <li>effector - effector molecule or environmentla signal of a regulator</li>
-<li>pathway - metabolic pathway or biological process controlled by regulator</li>")> JSONLDM.regulon
+<li>pathway - metabolic pathway or biological process controlled by regulator</li>")> JSON.regulon
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulon?regulonId={regulonId}"
             Dim retData As String = __getRequest(url)
-            Dim retValue As JSONLDM.regulon = retData.LoadObject(Of JSONLDM.regulon)
+            Dim retValue As JSON.regulon = retData.LoadObject(Of JSON.regulon)
             Return retValue
         End Function
 
@@ -287,11 +287,11 @@ The template program in perl that can be run to access several of the web servic
 <li>locusTag - locus tag of regulator gene in GeneBank</li>
 <li>vimssId - identifier of regulator gene in MicrobesOnline database </li>
 <li>regulatorFamily - family of a regulator</li>
-")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulator()
+")> JSON.regulator()
             Dim url As String = If(regulon,
             $"http://regprecise.lbl.gov/Services/rest/regulators?regulonId={Id}",
             $"http://regprecise.lbl.gov/Services/rest/regulators?regulogId={Id}")
-            Dim retValue = Retrieves(Of JSONLDM.regulator)(url)
+            Dim retValue = Retrieves(Of JSON.regulator)(url)
             Return retValue
         End Function
 
@@ -369,7 +369,7 @@ The template program in perl that can be run to access several of the web servic
 <li>tfSiteCount - number of TF binding sites in collection</li>
 <li>rnaCount - number of RNA families in collection</li>
 <li>rnaRegulogCount - number of RNA-controlled regulogs in collection</li>
-<li>rnaSiteCount - number of RNA regulatory sites in collection</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulogCollectionStat()
+<li>rnaSiteCount - number of RNA regulatory sites in collection</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulogCollectionStat()
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulogCollectionStats?collectionType={type}"
             Dim retValue = Retrieves(Of regulogCollectionStat)(url)
             Return retValue
@@ -390,7 +390,7 @@ The template program in perl that can be run to access several of the web servic
 <li>genomeName - name of genome</li>
 <li>regulatorName - the name of regulator</li>
 <li>foundObjType - found object type (either 'gene' or 'regulator')</li>
-<li>foundObjName - found object name (or locusTag)</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.regulonRef()
+<li>foundObjName - found object name (or locusTag)</li>")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulonRef()
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/searchRegulons?objType={objType}&text={text}"
             Dim retValue = Retrieves(Of regulonRef)(url)
             Return retValue
@@ -511,7 +511,7 @@ RETRY:          Dim json As String = __getResponse(request)
                 EXPORT = Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/"
             End If
 
-            Dim genomes As Data.Regprecise.WebServices.JSONLDM.genome()
+            Dim genomes As Data.Regprecise.WebServices.JSON.genome()
             Dim ErrLog As New LogFile($"{EXPORT}/{NameOf(wGetDownload)}.log")
             Dim path As String = $"{EXPORT}/{NameOf(genomes)}.xml"
 
@@ -532,7 +532,7 @@ RETRY:          Dim json As String = __getResponse(request)
         End Function
 
         <ExportAPI("wget.Download")>
-        Public Function wGetDownload(genomes As IEnumerable(Of JSONLDM.genome),
+        Public Function wGetDownload(genomes As IEnumerable(Of JSON.genome),
                                      repository As String,
                                      ErrLog As LogFile,
                                      Optional disableRegulatorDownloads As Boolean = False) As Boolean
@@ -540,7 +540,7 @@ RETRY:          Dim json As String = __getResponse(request)
 
             Call "Start to downloads regulons....".__DEBUG_ECHO
 
-            For Each genome As Data.Regprecise.WebServices.JSONLDM.genome In genomes
+            For Each genome As Data.Regprecise.WebServices.JSON.genome In genomes
                 Call wGetDownload(genome, repository, ErrLog, disableRegulatorDownloads)
                 Call genome.name.__DEBUG_ECHO()
             Next
@@ -554,10 +554,10 @@ RETRY:          Dim json As String = __getResponse(request)
                                      ErrLog As LogFile,
                                      Optional disableRegulatorDownloads As Boolean = False) As Boolean
             Dim Path As String = $"{repository}/{NameOf(Regprecise.regulons)}/{genome.genomeId}.{genome.name.NormalizePathString}.xml"
-            Dim regulons As JSONLDM.regulon()
+            Dim regulons As JSON.regulon()
 
             If Path.FileExists Then
-                regulons = Path.LoadXml(Of JSONLDM.regulon())
+                regulons = Path.LoadXml(Of JSON.regulon())
                 If regulons.IsNullOrEmpty Then
                     GoTo Download
                 End If
@@ -566,7 +566,7 @@ Download:       regulons = Regprecise.regulons(genome.genomeId)
                 Call regulons.GetXml.SaveTo(Path)
             End If
 
-            For Each regulon As JSONLDM.regulon In regulons '下载调控因子的数据
+            For Each regulon As JSON.regulon In regulons '下载调控因子的数据
                 Call wGetDownload(regulon, genome, repository, ErrLog, disableRegulatorDownloads)
                 Call Console.Write(".")
             Next
@@ -583,18 +583,18 @@ Download:       regulons = Regprecise.regulons(genome.genomeId)
         ''' <param name="ErrLog"></param>
         ''' <param name="disableRegulatorDownloads"></param>
         <ExportAPI("wget.Download")>
-        Public Sub wGetDownload(regulon As JSONLDM.regulon,
+        Public Sub wGetDownload(regulon As JSON.regulon,
                                 genome As genome,
                                 repository As String,
                                 ErrLog As LogFile,
                                 Optional disableRegulatorDownloads As Boolean = False)
 
-            Dim regulators As JSONLDM.regulator()
+            Dim regulators As JSON.regulator()
             Dim sites As site()
             Dim Path As String = $"{repository}/{NameOf(Regprecise.regulators)}/{genome.name.NormalizePathString}/{regulon.regulogId}.xml"
 
             If Path.FileExists Then
-                regulators = Path.LoadXml(Of JSONLDM.regulator())
+                regulators = Path.LoadXml(Of JSON.regulator())
                 If regulators.IsNullOrEmpty Then
                     GoTo Download
                 End If
@@ -625,7 +625,7 @@ DownloadSites:
                 Return
             End If
 
-            For Each regulator As JSONLDM.regulator In regulators
+            For Each regulator As JSON.regulator In regulators
                 If regulator Is Nothing Then
                     Continue For
                 End If

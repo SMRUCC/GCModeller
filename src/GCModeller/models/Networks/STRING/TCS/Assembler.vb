@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be168feb738a94ec301e8f7b2f421f51, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Model.Network.STRING.Models

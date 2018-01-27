@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::289ceb516fd4cbeeaa5f7af400fd76f8, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\ObjFunc.vb"
+﻿#Region "Microsoft.VisualBasic::4fee03fe9ceae94a9e283fa0339f3aaf, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\ObjFunc.vb"
 
     ' Author:
     ' 
@@ -26,19 +26,17 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML.ExportServices.Intersection
 Imports SMRUCC.genomics.Model.SBML.Level2
 

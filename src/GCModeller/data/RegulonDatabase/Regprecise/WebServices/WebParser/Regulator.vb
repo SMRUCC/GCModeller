@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e02290cbcd79db5ea05e0466b68c14a4, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::b5b83d60af2b5939ef12404aa1caeb37, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
 
     ' Author:
     ' 
@@ -26,50 +26,69 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.SequenceModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
+    Public Enum Types As Integer
+        NotSpecific = -1
+        ''' <summary>
+        '''
+        ''' </summary>
+        ''' <remarks></remarks>
+        TF
+        ''' <summary>
+        ''' RNA regulatory element
+        ''' </summary>
+        ''' <remarks></remarks>
+        RNA
+    End Enum
+
     Public Class Regulator : Implements IReadOnlyId
 
-        Public Enum Types
-            NotSpecific = -1
-            ''' <summary>
-            '''
-            ''' </summary>
-            ''' <remarks></remarks>
-            TF
-            ''' <summary>
-            ''' RNA regulatory element
-            ''' </summary>
-            ''' <remarks></remarks>
-            RNA
-        End Enum
+        <XmlAttribute> Public Property type As Types
+        ''' <summary>
+        ''' 用来下载生成motif数据库的时候所需要使用的
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute("url")>
+        Public Property infoURL As String
 
-        <XmlAttribute> Public Property Type As Types
-        <XmlElement> Public Property Regulator As KeyValuePair
-        <XmlElement> Public Property Effector As String
-        <XmlElement> Public Property Pathway As String
-        <XmlElement> Public Property LocusTag As KeyValuePair
-        <XmlAttribute> Public Property Family As String
-        <XmlAttribute> Public Property RegulationMode As String
-        <XmlElement> Public Property BiologicalProcess As String
-        <XmlElement> Public Property Regulog As KeyValuePair
-        <XmlArray> Public Property RegulatorySites As Regtransbase.WebServices.FastaObject()
+        <XmlElement> Public Property regulator As NamedValue
+        <XmlElement> Public Property effector As String
+        <XmlElement> Public Property pathway As String
+        <XmlElement> Public Property locus_tag As NamedValue
+        <XmlAttribute> Public Property family As String
+        <XmlAttribute> Public Property regulationMode As String
+        <XmlElement> Public Property biological_process As String
+        <XmlElement> Public Property regulog As NamedValue
+
+        <XmlArray("regulatory_sites", [Namespace]:=MotifFasta.xmlns)>
+        Public Property regulatorySites As MotifFasta()
+
         ''' <summary>
         ''' 被这个调控因子所调控的基因，按照操纵子进行分组，这个适用于推断Regulon的
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray> Public Property lstOperon As Operon()
+        <XmlArray> Public Property operons As Operon()
         <XmlElement> Public Property Regulates As RegulatedGene()
-        Public Property SiteMore As String
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            xmlns.Add("model", MotifFasta.xmlns)
+        End Sub
 
         ''' <summary>
         ''' 该Regprecise调控因子的基因号
@@ -78,19 +97,20 @@ Namespace Regprecise
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property LocusId As String Implements IReadOnlyId.Identity
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return LocusTag.Key
+                Return locus_tag.name
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1}", Type.ToString, Regulator.ToString)
+            Return String.Format("[{0}] {1}", type.ToString, regulator.ToString)
         End Function
 
-        Public Function GetMotifSite(GeneId As String, MotifPosition As Integer) As Regtransbase.WebServices.FastaObject
-            Dim LQuery = (From fa As Regtransbase.WebServices.FastaObject In RegulatorySites
-                          Where String.Equals(GeneId, fa.LocusTag) AndAlso
-                              fa.Position = MotifPosition
+        Public Function GetMotifSite(GeneId As String, MotifPosition As Integer) As Regtransbase.WebServices.MotifFasta
+            Dim LQuery = (From fa As Regtransbase.WebServices.MotifFasta In regulatorySites
+                          Where String.Equals(GeneId, fa.locus_tag) AndAlso
+                              fa.position = MotifPosition
                           Select fa).FirstOrDefault
             Return LQuery
         End Function
@@ -100,7 +120,7 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="trace">locus_tag:position</param>
         ''' <returns></returns>
-        Public Function GetMotifSite(trace As String) As Regtransbase.WebServices.FastaObject
+        Public Function GetMotifSite(trace As String) As Regtransbase.WebServices.MotifFasta
             Dim Tokens As String() = trace.Split(":"c)
             Return GetMotifSite(Tokens(Scan0), CInt(Val(Tokens(1))))
         End Function
@@ -112,9 +132,9 @@ Namespace Regprecise
         Public Function ExportMotifs() As FASTA.FastaToken()
             Dim LQuery As FASTA.FastaToken() =
                 LinqAPI.Exec(Of FASTA.FastaToken) <=
-                    From FastaObject As Regtransbase.WebServices.FastaObject
-                    In RegulatorySites
-                    Let t As String = $"[gene={FastaObject.LocusTag}:{FastaObject.Position}] [family={Family}] [regulog={Regulog.Key}]"
+                    From FastaObject As Regtransbase.WebServices.MotifFasta
+                    In regulatorySites
+                    Let t As String = $"[gene={FastaObject.locus_tag}:{FastaObject.position}] [family={family}] [regulog={regulog.name}]"
                     Let attrs = New String() {t}
                     Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(FastaObject)
                     Let fa As FASTA.FastaToken =
@@ -126,59 +146,81 @@ Namespace Regprecise
             Return LQuery
         End Function
 
-        Public Shared Function CreateObject(strData As String) As Regulator
-            Dim Items As String() = Regex.Matches(strData, "<td.+?</td>").ToArray
-            Dim Regulator As New Regulator
-            Dim p As int = Scan0
+        Public Shared Function CreateObject(str As String) As Regulator
+            Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
+            Dim i As int = Scan0
+            Dim regulator As New Regulator With {
+                .type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
+            }
+            Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
+            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
+            regulator.regulator = New NamedValue With {
+                .name = WebAPI.GetsId(entry),
+                .text = url
+            }
+            regulator.effector = __getTagValue(list(++i))
+            regulator.pathway = __getTagValue(list(++i))
 
-            Regulator.Type = If(InStr(Items(++p), " RNA "), Regulator.Types.RNA, Regulator.Types.TF)
-            Dim EntryData As String = Regex.Match(Items(++p), "href="".+?"">.+?</a>").Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & EntryData.href
-            Regulator.Regulator = KeyValuePair.CreateObject(WebAPI.GetsId(EntryData), url)
-            Regulator.Effector = __getTagValue(Items(++p))
-            Regulator.Pathway = __getTagValue(Items(++p))
-
-            Return More(Regulator)
+            Return More(regulator)
         End Function
 
-        Private Shared Function More(Regulator As Regulator) As Regulator
-            Dim html As String = Regulator.Regulator.Value.GET
-            html = Regex.Match(html, "<table class=""proptbl"">.+?</table>", RegexOptions.Singleline).Value
-            Dim Properties As String() = Regex.Matches(html, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim p As int = 1
+        Private Shared Function More(regulator As Regulator) As Regulator
+            Dim html$ = regulator.regulator.text.GET
+            Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
+            Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
+            Dim i As int = 1
 
-            Regulator.SiteMore = Regex.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
-            Regulator.SiteMore = "http://regprecise.lbl.gov/RegPrecise/" & Regulator.SiteMore.href
+            With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
+                If Not .StringEmpty Then
+                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{.href}" 
+                End If
+            End With
 
-            If Regulator.Type = Types.TF Then
-                Dim LocusTag As String = Regex.Match(Properties(++p), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-                Regulator.LocusTag = KeyValuePair.CreateObject(WebAPI.GetsId(LocusTag), LocusTag.href)
-                Regulator.Family = __getTagValue_td(Properties(++p).Replace("<td>Regulator family:</td>", ""))
+            If regulator.type = Types.TF Then
+                Dim LocusTag As String = r _
+                    .Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
+                    .Value
+                regulator.locus_tag = New NamedValue With {
+                    .name = WebAPI.GetsId(LocusTag),
+                    .text = LocusTag.href
+                }
+                regulator.family = __getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
-                Dim Name As String = Regex.Matches(Properties(++p), "<td>.+?</td>", RegexICSng).ToArray.Last
+                Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
                 Name = Mid(Name, 1, Len(Name) - 5)
-                Regulator.LocusTag = KeyValuePair.CreateObject(Name, "")
-                Regulator.Family = Regex.Match(html, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
-                Regulator.Family = __getTagValue_td(Regulator.Family)
+                regulator.locus_tag = New NamedValue With {
+                    .name = Name,
+                    .text = ""
+                }
+                regulator.family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
+                regulator.family = __getTagValue_td(regulator.family)
             End If
 
-            Regulator.RegulationMode = __getTagValue_td(Properties(++p))
-            Regulator.BiologicalProcess = __getTagValue_td(Properties(++p))
+            regulator.regulationMode = __getTagValue_td(properties(++i))
+            regulator.biological_process = __getTagValue_td(properties(++i))
 
-            Dim RegulogEntry As String = Regex.Match(Properties(p + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href
-            Regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimNewLine("").Replace(vbTab, "").Trim, url)
+            Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
+            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
 
-            Dim exportServletLnks As String() = __exportServlet(html)
-            Regulator.lstOperon = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))
-            Regulator.RegulatorySites = Regtransbase.WebServices.FastaObject.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
+            regulator.regulog = New NamedValue With {
+                .name = WebAPI _
+                    .GetsId(regulogEntry) _
+                    .TrimNewLine("") _
+                    .Replace(vbTab, "") _
+                    .Trim,
+                .text = url
+            }
 
-            Return Regulator
+            Dim exportServletLnks$() = __exportServlet(html)
+            regulator.operons = Operon.OperonParser(html)
+            regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
+
+            Return regulator
         End Function
 
         Private Shared Function __getTagValue_td(strData As String) As String
-            strData = Regex.Match(strData, "<td>.+?</td>", RegexOptions.Singleline).Value
+            strData = r.Match(strData, "<td>.+?</td>", RegexOptions.Singleline).Value
             If String.IsNullOrEmpty(Trim(strData)) Then
                 Return ""
             End If
@@ -189,9 +231,11 @@ Namespace Regprecise
 
         Private Shared Function __exportServlet(pageContent As String) As String()
             Dim url As String = Regex.Match(pageContent, "<table class=""tblexport"">.+?</table>", RegexOptions.Singleline).Value
-            Dim links As String() = (From match As Match In Regex.Matches(url, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select match.Value).ToArray
-            links = links.Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value)
-            links = links.Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href)
+            Dim links$() = r.Matches(url, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase).ToArray
+            links = links _
+                .Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value) _
+                .Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href) _
+                .ToArray
             Return links
         End Function
 

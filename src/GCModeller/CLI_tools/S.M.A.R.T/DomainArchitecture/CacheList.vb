@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2572bd2fdfd39933d04df2f60f1658cc, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CacheList.vb"
+﻿#Region "Microsoft.VisualBasic::17a261c735ecf651db456ff4d6ded6a2, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CacheList.vb"
 
     ' Author:
     ' 
@@ -27,8 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <XmlRoot("Protein-Domain-Architecture-Cache-Data")>
 Public Class CacheList

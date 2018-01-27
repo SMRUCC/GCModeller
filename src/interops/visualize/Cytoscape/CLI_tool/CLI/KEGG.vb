@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3bc0c1ca79ca42304eb143a9b3715de, ..\interops\visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::a660d6959849565920abbf723f14809d, ..\interops\visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
 
     ' Author:
     ' 
@@ -204,7 +204,7 @@ Partial Module CLI
             End If
 
             Dim LQuery = (From m In ph.Modules
-                          Let km = networks.TryGetValue(m.Key)
+                          Let km = networks.TryGetValue(m.name)
                           Where Not km Is Nothing
                           Select km).ToArray
             Dim net = __mergeCommon(LQuery)

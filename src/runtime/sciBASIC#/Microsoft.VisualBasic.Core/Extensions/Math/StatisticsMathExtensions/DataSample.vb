@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5e2b6f2a8202b2d24840418b8c8a98b, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\StatisticsMathExtensions\DataSample.vb"
+﻿#Region "Microsoft.VisualBasic::31b36123c46983036d28d0db002896cb, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\StatisticsMathExtensions\DataSample.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Math.Statistics
@@ -44,12 +45,14 @@ Namespace Math.Statistics
         Protected Friend means As Double
 
         Public Overridable ReadOnly Property Min As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ranges.Min
             End Get
         End Property
 
         Public Overridable ReadOnly Property Max As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ranges.Max
             End Get
@@ -60,6 +63,7 @@ Namespace Math.Statistics
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Mean As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return means
             End Get

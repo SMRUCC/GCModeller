@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd25974e0f5ac1726506395da7b4d59b, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
+﻿#Region "Microsoft.VisualBasic::fa9e7696fef61bff468fd851f8e2016c, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq

@@ -46,7 +46,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -127,6 +127,7 @@
     <Compile Include="3D\options3d.vb" />
     <Compile Include="Charts\ChartTypes.vb" />
     <Compile Include="Charts\BarChart.vb" />
+    <Compile Include="Charts\AreaChart.vb" />
     <Compile Include="Charts\PolarChart.vb" />
     <Compile Include="Charts\ScatterChart.vb" />
     <Compile Include="Charts\PieChart.vb" />

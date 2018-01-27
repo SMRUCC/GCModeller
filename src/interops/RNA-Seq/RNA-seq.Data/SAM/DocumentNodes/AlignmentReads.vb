@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00f71a50ecf0ec4eae250599202b3455, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
+﻿#Region "Microsoft.VisualBasic::40eff055927d5d7abae61d6359226f34, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
     ' Author:
     ' 
@@ -27,10 +27,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace SAM

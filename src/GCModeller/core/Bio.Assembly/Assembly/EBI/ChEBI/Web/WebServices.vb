@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97ee8cc97bfe6660333fb6b56a76fd2d, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::ef43987999c0c54430a5aeb89ccf4e86, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -89,15 +90,17 @@ Namespace Assembly.EBI.ChEBI.WebServices
                 Return path.LoadXml(Of ChEBIEntity())
             Else
                 Dim data = GetCompleteEntity(chebiID)
+
                 hitCache = False
+
                 For Each compound As ChEBIEntity In data
+
                     ' 2017-12-22 因为使用主编号和次级编号进行查询返回来的结果都是一模一样的
                     ' 所以在这里进行次级编号的数据保存操作，这样子就不会进行重复查询了
                     ' 减少服务器的压力
-
-                    For Each id In compound.IDlist
+                    For Each id As String In compound.IDlist.SafeQuery
                         path = localCache & $"/{Mid(id, 1, 3)}/{id}.XML"
-                        data.GetXml.SaveTo(path)
+                        compound.GetXml.SaveTo(path)
                     Next
                 Next
 
@@ -114,7 +117,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <param name="localCache$"></param>
         ''' <param name="failures$"></param>
         ''' <returns></returns>
-        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
+        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional ByRef failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
             Dim failureList As New List(Of String)
             Dim out As New List(Of ChEBIEntity)
 
@@ -124,7 +127,16 @@ Namespace Assembly.EBI.ChEBI.WebServices
 
                 For Each id As String In chebiIDlist
                     Dim hitCache As Boolean = False
-                    Dim result = QueryChEBI(id, localCache, hitCache)
+                    Dim result As ChEBIEntity()
+
+                    Try
+                        result = QueryChEBI(id, localCache, hitCache)
+                    Catch ex As Exception
+                        result = Nothing
+                        ex = New Exception(id, ex)
+
+                        Call App.LogException(ex)
+                    End Try
 
                     If Not result.IsNullOrEmpty Then
                         out += result

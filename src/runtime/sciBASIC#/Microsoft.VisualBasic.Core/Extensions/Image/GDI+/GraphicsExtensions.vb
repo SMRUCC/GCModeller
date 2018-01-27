@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5b7c6de42c360cbc1370f865f46dac0, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\GDI+\GraphicsExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::06f8e9d73186780636e5dab3a9178763, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\GDI+\GraphicsExtensions.vb"
 
     ' Author:
     ' 
@@ -151,6 +151,12 @@ Namespace Imaging
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ColorBrush(c As Color) As SolidBrush
+            Return New SolidBrush(color:=c)
+        End Function
+
         ''' <summary>
         ''' Converts the colors into solidbrushes in batch.
         ''' </summary>
@@ -206,7 +212,7 @@ Namespace Imaging
         End Sub
 
         <Extension>
-        Public Sub DrawCircle(ByRef g As IGraphics, centra As PointF, r!, color As SolidBrush)
+        Public Sub DrawCircle(ByRef g As IGraphics, centra As PointF, r!, color As Brush)
             Dim d = r * 2
 
             With centra

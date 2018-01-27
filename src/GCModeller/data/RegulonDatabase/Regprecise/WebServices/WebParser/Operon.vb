@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b867b37d8670b6e8bee66898d5f5962f, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::f802b624648675c019f2af695f383742, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
 
     ' Author:
     ' 
@@ -29,9 +29,9 @@
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
@@ -40,35 +40,55 @@ Namespace Regprecise
     ''' </summary>
     Public Class Operon
 
-        <XmlAttribute> Public Property sId As String
-        <XmlElement> Public Property Members As RegulatedGene()
+        <XmlAttribute("id")>
+        Public Property ID As String
+        <XmlElement>
+        Public Property members As RegulatedGene()
 
         Public Overrides Function ToString() As String
-            Dim lstName As String = Members.Select(Function(g) g.Name).JoinBy(", ")
-            If String.IsNullOrEmpty(lstName) Then
-                lstName = Members.Select(Function(g) g.LocusId).JoinBy(", ")
-            End If
+            With members _
+                .Where(Function(g)
+                           Return Not g.Name.StringEmpty
+                       End Function) _
+                .Select(Function(g) g.Name) _
+                .ToArray
 
-            Return lstName
+                If Not .IsNullOrEmpty Then
+                    Return .GetJson
+                Else
+                    Return members _
+                        .Select(Function(g) g.LocusId) _
+                        .ToArray _
+                        .GetJson
+                End If
+            End With
         End Function
 
         Friend Shared Function OperonParser(page As String) As Operon()
-            page = Regex.Match(page, "<table id=""operontbl"">.+?</table>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Value
-            Dim Tokens As String() = Regex.Matches(page, "<tr>.+?</tr>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
-            Dim locus = __locusParser(page)
-            Tokens = (From row As String In Tokens Where InStr(row, "<div class=""operon"">") > 0 Select row).ToArray
-            Dim lstOperons As Operon() = Tokens.Select(Function(value) __operonParser(value, locus))
-            Return lstOperons
+            Dim tokens$()
+            Dim locus As Dictionary(Of String, String)
+
+            page = r.Match(page, "<table id=""operontbl"">.+?</table>", RegexICSng).Value
+            tokens = r.Matches(page, "<tr>.+?</tr>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
+            locus = __locusParser(page)
+            tokens = (From row As String In tokens Where InStr(row, "<div class=""operon"">") > 0 Select row).ToArray
+
+            Dim operons As Operon() = tokens _
+                .Select(Function(value) __operonParser(value, locus)) _
+                .ToArray
+            Return operons
         End Function
 
-        Private Shared Function __operonParser(value As String, locus As Dictionary(Of String, String)) As Operon
-            Dim genes As String() = Regex.Matches(value, "<span>.+?</span>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
+        Private Shared Function __operonParser(value$, locus As Dictionary(Of String, String)) As Operon
+            Dim genes() = r.Matches(value, "<span>.+?</span>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
             genes = (From s As String In genes Where InStr(s, "Locus", CompareMethod.Text) > 0 Select s).ToArray
 
             Try
-                Dim lstGenes As RegulatedGene() = genes.Select(Function(s) __geneParser(s, locus))
+                Dim list_genes As RegulatedGene() = genes _
+                    .Select(Function(s) __geneParser(s, locus)) _
+                    .ToArray
                 Return New Operon With {
-                    .Members = lstGenes
+                    .members = list_genes
                 }
             Catch ex As Exception
                 ex = New Exception(genes.GetJson, ex)
@@ -79,24 +99,24 @@ Namespace Regprecise
         '<span> Locus tag: AB57_3864<br>Name: yciC<br>Funciton: Putative metal chaperone, GTPase Of COG0523 family
         '</span>
 
-        Private Shared Function __geneParser(value As String, locus As Dictionary(Of String, String)) As RegulatedGene
+        Private Shared Function __geneParser(value$, locus As Dictionary(Of String, String)) As RegulatedGene
             value = Mid(value, 8)
             value = Mid(value, 1, Len(value) - 8)
             value = value.TrimNewLine("")
             value = value.Replace(vbTab, "").Trim
 
-            Dim Tokens As String() = Regex.Split(value, "<\s*br\s*/>", RegexOptions.IgnoreCase)
-            Dim locusId As String = Tokens(Scan0)
-            Dim Name As String = Tokens(1)
-            Dim Func As String = Tokens(2)
+            Dim tokens As String() = r.Split(value, "<\s*br\s*/>", RegexOptions.IgnoreCase)
+            Dim locusId As String = tokens(Scan0)
+            Dim name As String = tokens(1)
+            Dim func As String = tokens(2)
             locusId = Mid(locusId, 11).Trim
-            Name = Mid(Name, 6).Trim
-            Func = Mid(Func, 10).Trim
+            name = Mid(name, 6).Trim
+            func = Mid(func, 10).Trim
             Dim vmssid As String = locus.TryGetValue(locusId)
             Dim gene As New RegulatedGene With {
-                .Function = Func,
+                .description = func,
                 .LocusId = locusId,
-                .Name = Name,
+                .Name = name,
                 .vimssId = vmssid
             }
             Return gene

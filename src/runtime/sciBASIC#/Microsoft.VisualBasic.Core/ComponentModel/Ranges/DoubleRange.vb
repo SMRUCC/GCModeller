@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22a1a7aa092ec0a1f6a8829cca8d542e, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\Ranges\DoubleRange.vb"
+﻿#Region "Microsoft.VisualBasic::9a937ce5004ccb036614ff59c239a00c, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\Ranges\DoubleRange.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 
 Namespace ComponentModel.Ranges
 
@@ -252,5 +253,19 @@ Namespace ComponentModel.Ranges
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
         End Function
+
+        Public Shared Operator =(range As DoubleRange, value#) As Boolean
+            If range Is Nothing AndAlso value = 0 Then
+                ' 假若将doublerange看作为double类型的数值的话，则数值类型的Nothing值为0，
+                ' 所以在这里将Nothing等价于右边的value 0
+                Return True
+            Else
+                Return range.Length = 0 AndAlso range.Min = value
+            End If
+        End Operator
+
+        Public Shared Operator <>(range As DoubleRange, value#) As Boolean
+            Return Not range = value
+        End Operator
     End Class
 End Namespace

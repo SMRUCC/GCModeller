@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e5f7c9c677cdf620689e7d7a41cb4fa, ..\Settings\Shared\InternalApps_CLI\Apps\NCBI_tools.vb"
+﻿#Region "Microsoft.VisualBasic::d51f70d5d19c5c6005a514f9c4795628, ..\Settings\Shared\InternalApps_CLI\Apps\NCBI_tools.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/NCBI_tools.exe
+' assembly: ..\bin\NCBI_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Assign.Taxonomy.From.Ref:      
 '  /Assign.Taxonomy.SSU:           
 '  /Associates.Brief:              
+'  /gpff.fasta:                    
 '  /MapHits.list:                  
 '  /OTU.Taxonomy.Replace:          Using ``MapHits`` property
 ' 
@@ -99,7 +100,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 4. NCBI taxonomy tools
 ' 
 ' 
-'    /accid2taxid.Match:             
+'    /accid2taxid.Match:             Creates the subset of the ultra-large accession to ncbi taxonomy
+'                                    id database.
 '    /OTU.associated:                
 '    /OTU.diff:                      
 '    /OTU.Taxonomy:                  
@@ -134,6 +136,7 @@ Public Class NCBI_tools : Inherits InteropService
 ''' ```
 ''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt> /acc2taxid &lt;acc2taxid.dmp/DIR> [/gb_priority /out &lt;acc2taxid_match.txt>]
 ''' ```
+''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
 '''
 Public Function accidMatch([in] As String, acc2taxid As String, Optional out As String = "", Optional gb_priority As Boolean = False) As Integer
@@ -367,6 +370,25 @@ Public Function giMatchs([in] As String, gi2taxid As String, Optional out As Str
     End If
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /gpff.fasta /in &lt;gpff.txt> [/out &lt;out.fasta>]
+''' ```
+''' </summary>
+'''
+Public Function gpff2Fasta([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gpff.fasta")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

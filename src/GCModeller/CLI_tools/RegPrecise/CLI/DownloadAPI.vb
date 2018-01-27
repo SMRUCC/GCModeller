@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5abab40041ce474234791f2338c070b, ..\GCModeller\CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
+﻿#Region "Microsoft.VisualBasic::713df91ddbb1eb2ab3b9f5d10e7d64e6, ..\GCModeller\CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
@@ -57,8 +58,8 @@ Imports SMRUCC.genomics.SequenceModel
         Dim repository As New Genbank(genbank)
         Dim trim As Boolean = Not args.GetBoolean("/full")
 
-        For Each genome As BacteriaGenome In [in].LoadXml(Of TranscriptionFactors).BacteriaGenomes
-            Dim path As String = out & $"/{genome.BacteriaGenome.name.NormalizePathString}.fasta"
+        For Each genome As BacteriaRegulome In [in].LoadXml(Of TranscriptionFactors).genomes
+            Dim path As String = out & $"/{genome.genome.name.NormalizePathString}.fasta"
             Dim query As QuerySource = genome.CreateKEGGQuery
             Dim entry As GenbankIndex = repository.Query(query)
 
@@ -181,8 +182,8 @@ Imports SMRUCC.genomics.SequenceModel
 
         Call $"Get {DIRs.Count} directories and {genomes.Count} genomes...".__DEBUG_ECHO
 
-        For Each genome As BacteriaGenome In genomes.Select(AddressOf LoadXml(Of BacteriaGenome))
-            Dim name As String = genome.BacteriaGenome.name.NormalizePathString
+        For Each genome As BacteriaRegulome In genomes.Select(AddressOf LoadXml(Of BacteriaRegulome))
+            Dim name As String = genome.genome.name.NormalizePathString
             Dim DIR As String = inDIR & "/" & name
             Dim sp As String = genome.CreateKEGGQuery.QuerySpCode(offline)
 
@@ -225,9 +226,9 @@ Imports SMRUCC.genomics.SequenceModel
         Dim existsDIR As String = RegPrecise.GCModeller.FileSystem.RegPreciseRegulatorFasta
 
         For Each file As String In FileIO.FileSystem.GetFiles(sourceDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim genome = file.LoadXml(Of BacteriaGenome)
-            Dim outDIR As String = out & "/" & genome.BacteriaGenome.name.NormalizePathString(True)
-            Dim exists As String = existsDIR & "/" & genome.BacteriaGenome.name.NormalizePathString(True)
+            Dim genome = file.LoadXml(Of BacteriaRegulome)
+            Dim outDIR As String = out & "/" & genome.genome.name.NormalizePathString(True)
+            Dim exists As String = existsDIR & "/" & genome.genome.name.NormalizePathString(True)
             Dim query = genome.CreateKEGGQuery
             Dim queryFile As String = outDIR & "/query.txt"
             Dim CLI As String = $"Download.Sequence /query {queryFile.CLIPath} /out {outDIR.CLIToken} /source {exists.CLIToken}"
@@ -259,25 +260,32 @@ Imports SMRUCC.genomics.SequenceModel
         Return 0
     End Function
 
-    <ExportAPI("/Download.Regprecise",
-               Info:="Download Regprecise database from Web API",
-               Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
+    <ExportAPI("/Download.Regprecise")>
+    <Description("Download Regprecise database from Web API")>
+    <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
+    <Group(CLIGroups.WebAPI)>
+    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data.")>
+    <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
-        Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
-        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
-        Dim out As String = args.GetValue("/save", App.CurrentDirectory & "/Regprecise.Xml")
+        Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
+        Dim regprecise As TranscriptionFactors = WebAPI.Download(WORK)
+        Dim out$ = args("/save") Or (App.CurrentDirectory & "/Regprecise.Xml")
 
-        Return Db.GetXml.SaveTo(out)
+        Return regprecise _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/Download.Motifs", Usage:="/Download.Motifs /imports <RegPrecise.DIR> [/export <EXPORT_DIR>]")>
+    <Group(CLIGroups.WebAPI)>
     Public Function DownloadMotifSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
-        Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaGenome))
+        Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaRegulome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
         Dim sites As IEnumerable(Of String) = genomes.Where(
-            Function(g) Not g.Regulons Is Nothing AndAlso
-                        Not g.Regulons.Regulators.IsNullOrEmpty).Select(Function(g) g.Regulons.Regulators.Select(Function(x) x.SiteMore)).IteratesALL.Distinct.ToArray
+            Function(g) Not g.regulons Is Nothing AndAlso
+                        Not g.regulons.regulators.IsNullOrEmpty).Select(Function(g) g.regulons.regulators.Select(Function(x) x.infoURL)).IteratesALL.Distinct.ToArray
         Dim list As New List(Of String)((App.SysTemp & "/process.txt").ReadAllLines)
 
         For Each url In sites.SeqIterator

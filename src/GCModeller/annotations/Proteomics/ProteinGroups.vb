@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c116ab574910b76efce74ae9919d7b5, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::6bd5fd9dfd1ec3fe66a98bd21f984dc3, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,8 @@ Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Public Module ProteinGroups
 
@@ -353,6 +355,20 @@ Public Module ProteinGroups
             .Select(Function(prot) prot.OrganismScientificName) _
             .Distinct _
             .JoinBy("; ")
+        Dim pfamString = uniprots _
+            .Select(Function(u)
+                        Dim pfam$ = u.features _
+                            .SafeQuery _
+                            .Where(Function(f) f.type = "domain") _
+                            .Select(Function(d)
+                                        Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
+                                    End Function) _
+                            .JoinBy("+")
+                        Return (ID:=u.accessions.JoinBy("|"), s:=pfam)
+                    End Function) _
+            .Where(Function(s) Not s.s.StringEmpty) _
+            .Select(Function(u) $"{u.ID}:{u.s}") _
+            .JoinBy("; ")
 
         Call annotations.Add("geneName", geneNames)
         Call annotations.Add("ORF", ORF)
@@ -362,6 +378,7 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
+        Call annotations.Add("pfam", pfamString)
         Call annotations.Add("organism", orgNames)
 
         'getKeyValue = Function(key)
@@ -527,8 +544,27 @@ Public Module ProteinGroups
     ''' <param name="path$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadSample(path$, Optional geneIDField$ = Nothing) As protein()
-        Return protein.LoadDataSet(path, uidMap:=geneIDField).ToArray
+    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As protein()
+        Select Case path.ExtensionSuffix.ToLower
+            Case "csv"
+
+                Return protein _
+                    .LoadDataSet(path, uidMap:=geneIDField) _
+                    .ToArray
+
+            Case "xlsx"
+
+                Dim csv As csv = Xlsx.Open(path).GetTable(sheetName)
+                Dim out As protein() = protein _
+                    .LoadDataSet(Of protein)(stream:=csv) _
+                    .ToArray
+
+                Return out
+
+            Case Else
+
+                Throw New NotSupportedException("File type with suffix: " & path.ExtensionSuffix & " is not support!")
+        End Select
     End Function
 
     <Extension>

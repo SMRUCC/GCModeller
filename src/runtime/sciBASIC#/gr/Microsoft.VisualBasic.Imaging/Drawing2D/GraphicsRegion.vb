@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85d49aa8d6a256b2ba9818eeca177ca7, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
+﻿#Region "Microsoft.VisualBasic::6f65e59bd088ff1c0cb6209bfb88874a, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -46,29 +47,22 @@ Namespace Drawing2D
         ''' </summary>
         Public Padding As Padding
 
-        Sub New(size As Size, padding As Padding)
-            Me.Size = size
-            Me.Padding = padding
-        End Sub
-
-        Sub New(padding As Padding, size As Size)
-            Me.Size = size
-            Me.Padding = padding
-        End Sub
-
         Public ReadOnly Property Bottom As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Size.Height - Padding.Bottom
             End Get
         End Property
 
         Public ReadOnly Property Width As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Size.Width
             End Get
         End Property
 
         Public ReadOnly Property Height As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Size.Height
             End Get
@@ -81,9 +75,10 @@ Namespace Drawing2D
         Public ReadOnly Property PlotRegion As Rectangle
             Get
                 Dim topLeft As New Point(Padding.Left, Padding.Top)
-                Dim size As New Size(
-                    Me.Size.Width - Padding.Horizontal,
-                    Me.Size.Height - Padding.Vertical)
+                Dim size As New Size With {
+                    .Width = Me.Size.Width - Padding.Horizontal,
+                    .Height = Me.Size.Height - Padding.Vertical
+                }
 
                 Return New Rectangle(topLeft, size)
             End Get
@@ -94,6 +89,7 @@ Namespace Drawing2D
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property EntireArea As Rectangle
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Rectangle(New Point, Size)
             End Get
@@ -115,12 +111,23 @@ Namespace Drawing2D
             End Get
         End Property
 
+        Sub New(size As Size, padding As Padding)
+            Me.Size = size
+            Me.Padding = padding
+        End Sub
+
+        Sub New(padding As Padding, size As Size)
+            Me.Size = size
+            Me.Padding = padding
+        End Sub
+
         Public Function TopCentra(size As Size) As Point
             Dim left = (Me.Size.Width - size.Width) / 2
             Dim top = (Padding.Top - size.Height) / 2
             Return New Point(left, top)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

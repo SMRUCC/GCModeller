@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab89de9c4ad7a4b5f44c73fc7d7131b0, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::41f4019140a1e28c8eeed74280e372b4, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
 
     ' Author:
     ' 
@@ -136,7 +136,7 @@ Public Module PrimitiveParser
 
     ''' <summary>
     ''' Convert the string value into the boolean value, this is useful to the text format configuration file into data model.
-    ''' (请注意，空值字符串为False)
+    ''' (请注意，空值字符串为False，如果字符串不存在与单词表之中，则也是False)
     ''' </summary>
     ''' <param name="str"></param>
     ''' <returns></returns>

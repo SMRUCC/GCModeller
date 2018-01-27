@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f5590caa2955b06ebd85ad383670477, ..\interops\RNA-Seq\RNA-seq.Data\16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::168d0affd385ec9154e60ac34d704262, ..\interops\RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 
@@ -128,4 +128,3 @@ Public Module Assembler
         Return coverages
     End Function
 End Module
-

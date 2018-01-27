@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8117a97a440aa51ef1a08dd3e7a9410f, ..\GCModeller\core\Bio.Assembly\ComponentModel\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::812533821cc6131f870d75b0fff4d145, ..\GCModeller\core\Bio.Assembly\ComponentModel\GeneBrief.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace ComponentModel
 
@@ -35,22 +35,8 @@ Namespace ComponentModel
     ''' The basically information of a gene object.(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Interface IGeneBrief : Inherits ICOGDigest, IContig
-    End Interface
+    Public Interface IGeneBrief : Inherits IFeatureDigest, IContig
 
-    ''' <summary>
-    ''' The COG annotation data of the genes.(基因对象的COG注释结果)
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Interface ICOGDigest : Inherits INamedValue
-
-        ''' <summary>
-        ''' The gene object COG classification.(COG功能分类)
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Property COG As String
         ''' <summary>
         ''' The protein function annotation data of the gene coding product.(所编码的蛋白质产物的功能注释)
         ''' </summary>
@@ -65,6 +51,22 @@ Namespace ComponentModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Property Length As Integer
+
+    End Interface
+
+    ''' <summary>
+    ''' The feature annotation data of the genes.(基因对象的特征注释结果)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Interface IFeatureDigest : Inherits INamedValue
+
+        ''' <summary>
+        ''' The feature tag of this gene object for classification.
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Property Feature As String
 
     End Interface
 

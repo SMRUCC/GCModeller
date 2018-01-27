@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f3fba5f5e9f1b71e0934df19fe8354b, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
+﻿#Region "Microsoft.VisualBasic::d88de0ac44bc1c44becfba83f0980601, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
     ' Author:
     ' 
@@ -26,16 +26,14 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.ProteinTools
 Imports SMRUCC.genomics.Data.Xfam
@@ -222,7 +220,7 @@ Partial Module CLI
                              RR As SequenceModel.FASTA.FastaToken(),
                              interactions As String(),
                              name As String,
-                             ByRef alignments As Microsoft.VisualBasic.ComponentModel.KeyValuePair()) As Signature()
+                             ByRef alignments As KeyValuePair()) As Signature()
 
         Dim RRFa = RR.ToDictionary(Function(x) x.Title.Split.First.Split(":"c).Last)
         Dim HiskFa = HisK.ToDictionary(Function(x) x.Title.Split.First.Split(":"c).Last)
@@ -235,7 +233,7 @@ Partial Module CLI
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
                 .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
         alignments = contracts.Select(
-            Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
+            Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.95)
@@ -395,7 +393,7 @@ Partial Module CLI
                 .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
 
         alignments = contracts.Select(
-            Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
+            Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.9)

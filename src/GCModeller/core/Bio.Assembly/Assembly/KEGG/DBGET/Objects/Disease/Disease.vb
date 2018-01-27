@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59e4841cbc2078be0f9ce2eefc58b206, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Disease.vb"
+﻿#Region "Microsoft.VisualBasic::232e1340f93e74aeadecefebedf6439b, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Disease.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -38,14 +38,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Category As String
         Public Property Comment As String
         Public Property Drug As KeyValuePair()
-        Public Property Pathway As KeyValuePair()
+        Public Property Pathway As NamedValue()
 
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property Name As String
 
-        Public Property Genes As [property]()
+        Public Property Genes As [Property]()
         Public Property Markers As String()
-        Public Property OtherDBs As KeyValuePair()
+        Public Property OtherDBs As DBLink()
 
         Public Property References As Reference()
         Public Property Description As String

@@ -246,7 +246,7 @@ Public Module Volcano
 
                 Dim scaler As New DataScaler With {
                     .AxisTicks = (xTicks, yTicks),
-                    .ChartRegion = plotRegion,
+                    .Region = plotRegion,
                     .X = x,
                     .Y = y
                 }

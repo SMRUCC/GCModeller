@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc5aaeb507e88e8f5a07b8f0b11d8f1d, ..\GCModeller\CLI_tools\RegPrecise\CLI\Installer.vb"
+﻿#Region "Microsoft.VisualBasic::86c1aed1001cb7abb1aaf3afd95aa0c5, ..\GCModeller\CLI_tools\RegPrecise\CLI\Installer.vb"
 
     ' Author:
     ' 
@@ -50,10 +50,10 @@ Partial Module CLI
         Dim EXPORT As String = GCModeller.FileSystem.RegpreciseRoot & "/MotifSites/"
 
         For Each motif As MotifSitelog In motifs
-            Dim GroupQuery = From x As Regtransbase.WebServices.FastaObject
+            Dim GroupQuery = From x As Regtransbase.WebServices.MotifFasta
                              In motif.Sites
                              Select x
-                             Group x By uid = $"{x.LocusTag}:{x.Position}" Into Group
+                             Group x By uid = $"{x.locus_tag}:{x.position}" Into Group
             Dim sites As List(Of FastaToken) =
                 GroupQuery.ToList(
                     Function(x) New FastaToken(
@@ -113,7 +113,7 @@ Partial Module CLI
                                            Function(x) x.Group.First.x)
         prot = New FastaFile
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             prot += From sid As String     ' 在当前的基因组里面查找哈希表里面的序列并添加导结果集合之中
                     In regulators
@@ -145,7 +145,7 @@ Partial Module CLI
                                                                                    Function(x) x.Group.First.x)
         Dim list As New List(Of PfamString)
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             list += (From sid As String In regulators Where pfamHash.ContainsKey(sid) Select pfamHash(sid))
             Call ".".Echo
@@ -178,7 +178,7 @@ Partial Module CLI
                                    Function(x) x.Group.Select(Function(o) o.x).ToArray)
         Dim list As New List(Of BBHIndex)
 
-        For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))
+        For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
             Dim regulators As String() = genome.ListRegulators
             list += From sid As String In regulators Where bbhHash.ContainsKey(sid) Select bbhHash(sid)
             Call ".".Echo

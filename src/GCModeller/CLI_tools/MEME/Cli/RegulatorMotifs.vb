@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755662cfb2ac696053db2ba55144f7bf, ..\GCModeller\CLI_tools\MEME\Cli\RegulatorMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::091030cfdeebcf3fb32419eb4dfd6e59, ..\GCModeller\CLI_tools\MEME\Cli\RegulatorMotifs.vb"
 
     ' Author:
     ' 
@@ -99,8 +99,8 @@ Partial Module CLI
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
                                           Function(x) x.Group.Select(Function(xx) xx.x))
-        Dim genomes As BacteriaGenome() = (ls - l - wildcards("*.Xml") <= inDIR) _
-            .Select(AddressOf SafeLoadXml(Of BacteriaGenome))
+        Dim genomes As BacteriaRegulome() = (ls - l - wildcards("*.Xml") <= inDIR) _
+            .Select(AddressOf SafeLoadXml(Of BacteriaRegulome))
         Dim all As String() = genomes.Select(Function(x) x.ListRegulators).Unlist.Distinct.ToArray
         Dim regulators = (From sid As String In all Where hitsHash.ContainsKey(sid) Select sid, hits = hitsHash(sid)).ToArray
         Dim queryRegulators = (From qx In
@@ -116,14 +116,14 @@ Partial Module CLI
         Call bbh.SaveTo(out & "/Regulators.bbh.csv")
 
         Dim regs = (From reg As Regulator
-                    In genomes.Select(Function(x) x.Regulons.Regulators).IteratesALL
+                    In genomes.Select(Function(x) x.regulons.regulators).IteratesALL
                     Select reg
                     Group reg By reg.LocusId Into Group) _
                          .ToDictionary(Function(x) x.LocusId,
                                        Function(x) x.Group.ToArray)
         Dim motifs = (From query In queryRegulators
                       Let qName As String = query.QueryName
-                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.Select(Function(x) x.RegulatorySites).Unlist
+                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.Select(Function(x) x.regulatorySites).Unlist
                       Select qName, sites).ToArray
         For Each query In motifs
             Dim path As String = $"{out}/{query.qName}.fasta"

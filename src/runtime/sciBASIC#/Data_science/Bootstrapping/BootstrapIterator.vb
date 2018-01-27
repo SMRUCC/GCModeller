@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd9efea74bdab57add63267bfa887040, ..\sciBASIC#\Data_science\Bootstrapping\BootstrapIterator.vb"
+﻿#Region "Microsoft.VisualBasic::16af8e57f6e68b43e4600acff6d9ac7e, ..\sciBASIC#\Data_science\Bootstrapping\BootstrapIterator.vb"
 
     ' Author:
     ' 
@@ -245,7 +245,7 @@ Public Module BootstrapIterator
             '}
         Next
 
-        For Each y In y0
+        For Each y As NamedValue(Of IValueProvider) In y0
             Dim value As Double = y.Value()()
             odes(y.Name).value = value
             'debug += New NamedValue(Of Double) With {

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::49ce4175a85b3740c78588d544d7844b, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\VirtualFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::fd0d6e951b8ef401d821c727fd8a986d, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\VirtualFootprints.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -41,6 +41,7 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -104,13 +105,13 @@ Partial Module CLI
                           Group x By x.Regulator Into Group)
             Dim offset As Integer = args.GetInt32("/offset")
 
-            For Each x In Groups
-                source = x.Group.ToArray
+            For Each value In Groups
+                source = value.Group.ToArray
                 Dim Grouping = source.Groups(If(offset = 0, source.Average(Function(site) site.Length) * (2 / 3), offset))
                 Dim Fasta As New FastaFile(
                     Grouping.Select(Function(o) New FastaToken({$"{o.Tag} {o.First.MotifFamily}"}, o.First.Sequence)) _
                             .OrderBy(Function(o) o.Attributes.First))
-                Call Fasta.Save(EXPORT & $"/{x.Regulator}.fasta", Encodings.ASCII)
+                Call Fasta.Save(EXPORT & $"/{value.Regulator}.fasta", Encodings.ASCII)
             Next
         End If
 
@@ -299,9 +300,9 @@ Partial Module CLI
         Dim LQuery = (From x As MotifLog In source.AsParallel
                       Let siteLog As MotifSitelog = sitesHash(x.Regulog)
                       Let TFs As IEnumerable(Of String) =
-                          (From site As Regtransbase.WebServices.FastaObject
+                          (From site As Regtransbase.WebServices.MotifFasta
                            In siteLog.Sites
-                           Let uid As String = $"{site.LocusTag}:{site.Position}"
+                           Let uid As String = $"{site.locus_tag}:{site.position}"
                            Where RegPrecise.ContainsKey(uid)
                            Select RegPrecise(uid)).IteratesALL.Distinct
                       Select (From TF As String
@@ -435,7 +436,7 @@ Partial Module CLI
             Dim PTTBriefs As PTT = TabularFormat.PTT.Load(PTT)
             Dim result As New List(Of MotifLog)
 
-            For Each x In result
+            For Each x As MotifLog In result
                 Dim rel = PTTBriefs.GetRelatedGenes(x.MappingLocation,, atgDist)
                 If rel.Length = 0 Then
                     x.ID = ""
@@ -561,15 +562,15 @@ Partial Module CLI
         Dim bbhhash As Dictionary(Of String, String()) = BBHIndex.BuildHitsHash([in].LoadCsv(Of BBHIndex), hitHash)
         Dim regulators = (From xml As String
                           In ls - l - wildcards("*.xml") <= RegDIR
-                          Let g As BacteriaGenome = xml.LoadXml(Of BacteriaGenome)
-                          Where Not (g.Regulons Is Nothing OrElse
-                              g.Regulons.Regulators.IsNullOrEmpty)
-                          Select tfs = g.Regulons.Regulators).IteratesALL
+                          Let g As BacteriaRegulome = xml.LoadXml(Of BacteriaRegulome)
+                          Where Not (g.regulons Is Nothing OrElse
+                              g.regulons.regulators.IsNullOrEmpty)
+                          Select tfs = g.regulons.regulators).IteratesALL
         Dim reghash = (From x As Regulator
                        In regulators
                        Select x
-                       Group x By x.LocusTag.Key Into Group) _
-                            .ToDictionary(Function(x) x.Key,
+                       Group x By x.locus_tag.name Into Group) _
+                            .ToDictionary(Function(x) x.name,
                                           Function(x) x.Group.ToArray)
         For Each TF As KeyValuePair(Of String, String()) In bbhhash
             Dim path As String = $"{out}/{TF.Key}.fasta"

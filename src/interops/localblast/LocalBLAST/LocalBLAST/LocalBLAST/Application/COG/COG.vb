@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d121d917bd52ffdaf5b8b5c6497878bc, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\COG.vb"
+﻿#Region "Microsoft.VisualBasic::0961655b26faccd6fb97f07d8769932b, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\COG.vb"
 
     ' Author:
     ' 
@@ -40,10 +40,10 @@ Namespace LocalBLAST.Application.RpsBLAST
     ''' COG output data from http://weizhong-lab.ucsd.edu/metagenomic-analysis/server/
     ''' </summary>
     Public Class MGACOG
-        Implements INamedValue, ICOGDigest, IQueryHits
+        Implements INamedValue, IFeatureDigest, IQueryHits
 
         <Column("#Query")> Public Property QueryName As String Implements IBlastHit.locusId, INamedValue.Key
-        Public Property Hit As String Implements IBlastHit.Address, ICOGDigest.COG
+        Public Property Hit As String Implements IBlastHit.Address, IFeatureDigest.Feature
         <Column("E-value")> Public Property Evalue As Double
         Public Property Score As Double
         <Column("Query-start")> Public Property QueryStart As Integer
@@ -54,11 +54,12 @@ Namespace LocalBLAST.Application.RpsBLAST
 
         <Column("Identity")> Public Property identities As Double Implements IQueryHits.identities
 
-        Public Property description As String Implements ICOGDigest.Product
+        Public Property description As String
         Public Property [class] As String
-        <Column("class description")> Public Property classDescrib As String
+        <Column("class description")>
+        Public Property classDescrib As String
 
-        Public Property Length As Integer Implements ICOGDigest.Length
+        Public Property Length As Integer
 
         Public Function ToMyvaCOG() As MyvaCOG
             Return New MyvaCOG With {
@@ -89,10 +90,11 @@ Namespace LocalBLAST.Application.RpsBLAST
     ''' </summary>
     ''' <remarks></remarks>
     Public Class MyvaCOG
-        Implements INamedValue, ICOGDigest, IQueryHits, ICOGCatalog
+        Implements INamedValue, IFeatureDigest, IQueryHits, ICOGCatalog
 
-        <Column("query_name")> Public Property QueryName As String Implements INamedValue.Key, IBlastHit.locusId
-        Public Property Length As Integer Implements ICOGDigest.Length
+        <Column("query_name")>
+        Public Property QueryName As String Implements INamedValue.Key, IBlastHit.locusId
+        Public Property Length As Integer
         <Column("cog_myva")> Public Property MyvaCOG As String
 
         ''' <summary>
@@ -102,8 +104,8 @@ Namespace LocalBLAST.Application.RpsBLAST
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("COG_category")> Public Property Category As String Implements ICOGCatalog.Catalog
-        <Column("COG")> Public Property COG As String Implements ICOGDigest.COG, IBlastHit.Address, ICOGCatalog.COG
-        <Column("description")> Public Property Description As String Implements ICOGDigest.Product
+        <Column("COG")> Public Property COG As String Implements IFeatureDigest.Feature, IBlastHit.Address, ICOGCatalog.COG
+        <Column("description")> Public Property Description As String
 
         Public Property Evalue As Double
         Public Property Identities As Double Implements IQueryHits.identities

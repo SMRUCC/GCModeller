@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef6177d1ae07ae833634fbb0cbc35e8b, ..\interops\meme_suite\MEME\Workflows\PromoterParser\ParserLocus.vb"
+﻿#Region "Microsoft.VisualBasic::efcd1b85f56b17deddb1e25755e308dc, ..\interops\meme_suite\MEME\Workflows\PromoterParser\ParserLocus.vb"
 
     ' Author:
     ' 
@@ -30,9 +30,17 @@ Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Workflows.PromoterParser
 
+    ''' <summary>
+    ''' 根据操纵子之中的某一个基因编号按照规则返回某些基因的编号
+    ''' </summary>
+    ''' <param name="locus"></param>
+    ''' <returns></returns>
     Public Delegate Function IGetLocusTag(locus As String) As String()
 
-    Public Enum GetLocusTags
+    Public Enum GetLocusTags As Byte
+        ''' <summary>
+        ''' 不进行任何关联，则只返回本locus自身
+        ''' </summary>
         locus
         UniDOOR
         DOOR_InitX

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7afa778ee5b8ca7d58acdf7135735a20, ..\Settings\Shared\InternalApps_CLI\Apps\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::0614124aa16c7f0cbd0642b4e5d934fb, ..\Settings\Shared\InternalApps_CLI\Apps\MEME.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/MEME.exe
+' assembly: ..\bin\MEME.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Motif.Similarity:                   Export of the calculation result from the tomtom program.
 '  /MotifHits.Regulation:               
 '  /MotifSites.Fasta:                   
+'  /Parser.Pathway.Batch:               
 '  /Regulator.Motifs:                   
 '  /Regulator.Motifs.Test:              
 '  /RfamSites:                          
@@ -114,9 +115,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Parser.Locus:                       
 '    /Parser.Log2:                        
 '    /Parser.MAST:                        
-'    /Parser.Modules:                     
+'    /Parser.Modules:                     Parsing promoter sequence region for genes in kegg reaction
+'                                         modules
 '    /Parser.Operon:                      
-'    /Parser.Pathway:                     
+'    /Parser.Pathway:                     Parsing promoter sequence region for genes in pathways.
 '    /Parser.RegPrecise.Operons:          
 '    /Parser.Regulon:                     
 '    /Parser.Regulon.gb:                  
@@ -873,6 +875,7 @@ End Function
 ''' ```
 ''' /Parser.Modules /KEGG.Modules &lt;KEGG.modules.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
+''' Parsing promoter sequence region for genes in kegg reaction modules
 ''' </summary>
 '''
 Public Function ModuleParser(KEGG_Modules As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
@@ -924,19 +927,42 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
+''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR/organismModel.Xml> /src &lt;genomePTT.DIR/gbff.txt> [/DOOR &lt;genome.opr> /locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
 ''' ```
+''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
-Public Function PathwayParser(KEGG_Pathways As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
+Public Function PathwayParser(KEGG_Pathways As String, src As String, Optional door As String = "", Optional locus As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")
-    Call CLI.Append("/PTT " & """" & PTT & """ ")
-    Call CLI.Append("/DOOR " & """" & DOOR & """ ")
+    Call CLI.Append("/src " & """" & src & """ ")
+    If Not door.StringEmpty Then
+            Call CLI.Append("/door " & """" & door & """ ")
+    End If
     If Not locus.StringEmpty Then
             Call CLI.Append("/locus " & """" & locus & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Parser.Pathway.Batch /in &lt;pathway.directory> /assembly &lt;NCBI_assembly.directory> [/out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function PathwayParserBatch([in] As String, assembly As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Parser.Pathway.Batch")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/assembly " & """" & assembly & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

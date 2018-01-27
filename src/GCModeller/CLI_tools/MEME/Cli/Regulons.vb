@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1909c1cb90882aaadbc912cba257a496, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
+﻿#Region "Microsoft.VisualBasic::244c613f62340f81a9166b418052dadb, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
 
     ' Author:
     ' 
@@ -48,10 +48,10 @@ Partial Module CLI
         Dim inRegulon As String = args("/reg")
         Dim inId As String = basename(inMEME)
         Dim queryList = AnnotationModel.LoadDocument(inMEME)
-        Dim source = inRegulon.LoadXml(Of BacteriaGenome)
+        Dim source = inRegulon.LoadXml(Of BacteriaRegulome)
         Dim sourceHash = (From x As Regulator
-                          In source.Regulons.Regulators
-                          Let uid As String = $"{x.LocusId}.{x.LocusTag.Value.Replace(":", "_")}"
+                          In source.regulons.regulators
+                          Let uid As String = $"{x.LocusId}.{x.locus_tag.text.Replace(":", "_")}"
                           Select uid, x)
         Dim target = (From x In sourceHash Where String.Equals(x.uid, inId, StringComparison.OrdinalIgnoreCase) Select x).FirstOrDefault
         Dim bbh As String = args("/bbh")
@@ -131,14 +131,14 @@ Partial Module CLI
         End If
         Dim mapHash = bbhValues.BuildMapHash
         Dim LQuery = (From x As String In genomes
-                      Let regulators = RegulonAPI.Reconstruct(mapHash, x.LoadXml(Of BacteriaGenome), doorOperon)
+                      Let regulators = RegulonAPI.Reconstruct(mapHash, x.LoadXml(Of BacteriaRegulome), doorOperon)
                       Where Not regulators.IsNullOrEmpty
-                      Let id As String = basename(x)
-                      Select id, _genome = New BacteriaGenome With {
-                          .Regulons = New Data.Regprecise.Regulon With {
-                                .Regulators = regulators
+                      Let id As String = BaseName(x)
+                      Select id, _genome = New BacteriaRegulome With {
+                          .regulons = New Data.Regprecise.Regulon With {
+                                .regulators = regulators
                           },
-                          .BacteriaGenome = New WebServices.JSONLDM.genome With {
+                          .genome = New JSON.genome With {
                                 .name = "@" & id}}).ToArray
 
         For Each _genome In LQuery
@@ -184,7 +184,7 @@ Partial Module CLI
                           genome = RegulonAPI.Reconstruct(x.bbhMapped, x.genome, doorOperon)).ToArray
 
         For Each genome In LQuery
-            Dim path As String = $"{out}/{genome.genome.BacteriaGenome.name.NormalizePathString(True)}.xml"
+            Dim path As String = $"{out}/{genome.genome.genome.name.NormalizePathString(True)}.xml"
             Call genome.genome.GetXml.SaveTo(path)
         Next
 

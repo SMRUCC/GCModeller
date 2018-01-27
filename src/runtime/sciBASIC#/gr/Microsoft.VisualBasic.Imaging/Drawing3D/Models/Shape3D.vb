@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b738fb8c620ea868f62cde422dd30bb5, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shape3D.vb"
+﻿#Region "Microsoft.VisualBasic::6c23d9f8ecfccb3c99ae00aea03e5a3a, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shape3D.vb"
 
     ' Author:
     ' 
@@ -152,6 +152,7 @@ Namespace Drawing3D.Models.Isometric
         Public Sub ScalePath3Ds(origin As Point3D, dx As Double)
             Dim i As Integer = 0
             Dim length As Integer = paths.Count
+
             Do While i < length
                 paths(i) = paths(i).Scale(origin, dx)
                 i += 1

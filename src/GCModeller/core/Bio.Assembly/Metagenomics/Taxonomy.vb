@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14221dffb7b702ddb22b8c095bbfd71a, ..\GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::e356e339944e04c678ef5f7c21f30aa7, ..\GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -78,8 +78,8 @@ Namespace Metagenomics
         ''' 所以这个构造方法是安全的构造方法，不需要担心会因为缺少否些rank而抛出错误
         ''' </summary>
         ''' <param name="lineage"></param>
-        Sub New(lineage As Dictionary(Of String, String))
-            lineage = lineage.FillLineageEmpty
+        Sub New(lineage As Dictionary(Of String, String), Optional empty$ = "")
+            lineage = lineage.FillLineageEmpty(empty)
             kingdom = lineage(NcbiTaxonomyTree.superkingdom)
             phylum = lineage(NcbiTaxonomyTree.phylum)
             [class] = lineage(NcbiTaxonomyTree.class)
@@ -125,7 +125,7 @@ Namespace Metagenomics
         End Function
 
         ''' <summary>
-        ''' Convert current <see cref="Taxonomy"/> object as a string array
+        ''' Convert current <see cref="Taxonomy"/> object as a string array.(返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
         ''' </summary>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

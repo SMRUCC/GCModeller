@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::32d4b17477b7ba86268ea208a0339ef9, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
@@ -67,6 +68,7 @@ Namespace SequenceLogo
         End Function
 
         Public ReadOnly Property Alphabets As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Residues(Scan0).Alphabets.Length
             End Get
@@ -78,11 +80,16 @@ Namespace SequenceLogo
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Shared Function AAResidue(x As ILogoResidue) As Residue
-            Dim Residue As Residue = New Residue With {
-                .Alphabets = ColorSchema.AA.Select(
-                    Function(r) New Alphabet With {
-                        .Alphabet = r,
-                        .RelativeFrequency = x(r)}).ToArray,
+            Dim Residue As New Residue With {
+                .Alphabets = ColorSchema _
+                    .AA _
+                    .Select(Function(r)
+                                Return New Alphabet With {
+                                    .Alphabet = r,
+                                    .RelativeFrequency = x(r)
+                                }
+                            End Function) _
+                    .ToArray,
                 .Bits = x.Bits
             }
 
@@ -95,7 +102,7 @@ Namespace SequenceLogo
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Shared Function NTResidue(x As ILogoResidue) As Residue
-            Dim Residue As Residue = New Residue With {
+            Dim Residue As New Residue With {
                 .Alphabets = {
                     New Alphabet With {.Alphabet = "A"c, .RelativeFrequency = x("A"c)},
                     New Alphabet With {.Alphabet = "T"c, .RelativeFrequency = x("T"c)},
@@ -115,13 +122,21 @@ Namespace SequenceLogo
         ''' <returns></returns>
         Public Shared Function pwm2ic(pwm As DrawingModel) As Double()
             Dim npos As Integer = pwm.Residues.First.Alphabets.Length
-            Dim ic As Double() = New Double(npos - 1) {}
+            Dim ic#() = New Double(npos - 1) {}
+
             For i As Integer = 0 To npos - 1
                 Dim idx As Integer = i
-                ic(i) = 2 + Sum(pwm.Residues.Select(Of Double)(
-                                Function(x) If(x.Alphabets(idx).RelativeFrequency > 0,
-                                x.Alphabets(idx).RelativeFrequency * Math.Log(x.Alphabets(idx).RelativeFrequency, 2),
-                                0)))
+
+                ic(i) = 2 + pwm _
+                    .Residues _
+                    .Select(Function(x)
+                                If (x.Alphabets(idx).RelativeFrequency > 0) Then
+                                    Return x.Alphabets(idx).RelativeFrequency * Math.Log(x.Alphabets(idx).RelativeFrequency, 2)
+                                Else
+                                    Return 0
+                                End If
+                            End Function) _
+                    .Sum
             Next
 
             Return ic

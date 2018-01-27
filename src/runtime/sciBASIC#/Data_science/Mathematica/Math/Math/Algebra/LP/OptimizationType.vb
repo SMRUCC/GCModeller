@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85055d21ee4f136c5d3567d991bd4011, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\LP\OptimizationType.vb"
+﻿#Region "Microsoft.VisualBasic::42d4c19d929cedb7cfe37a8abc7e2d49, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\LP\OptimizationType.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,19 @@
 
 #End Region
 
-Namespace LP
+Imports System.ComponentModel
+
+Namespace Algebra.LinearProgramming
 
     Public Enum OptimizationType
-        MAX
-        MIN
-    End Enum
 
+        ''' <summary>
+        ''' Maximize
+        ''' </summary>
+        <Description("Maximize")> MAX
+        ''' <summary>
+        ''' Minimize
+        ''' </summary>
+        <Description("Minimize")> MIN
+    End Enum
 End Namespace

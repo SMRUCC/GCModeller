@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf263231401912eebbf8d58a859b900d, ..\GCModeller\core\Bio.Assembly\test\KEGGRefMaps.vb"
+﻿#Region "Microsoft.VisualBasic::0b138a56b78952a92308962485c0d483, ..\GCModeller\core\Bio.Assembly\test\KEGGRefMaps.vb"
 
     ' Author:
     ' 
@@ -48,4 +48,3 @@ Module KEGGRefMaps
         Pause()
     End Sub
 End Module
-

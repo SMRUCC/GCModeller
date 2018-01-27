@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f9579f8d92086ee397ed55db5a28ad9, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\MapsHelper.vb"
+﻿#Region "Microsoft.VisualBasic::f8e597e4b643390aa537de75539d6e28, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\MapsHelper.vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -43,6 +44,7 @@ Namespace ComponentModel
         ReadOnly __maps As IReadOnlyDictionary(Of String, T)
 
         Default Public ReadOnly Property Value(key$) As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetValue(key)
             End Get
@@ -61,6 +63,7 @@ Namespace ComponentModel
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return __maps.DictionaryData.GetJson
         End Function
@@ -109,6 +112,8 @@ Namespace ComponentModel
         ''' 将这个映射转换为tsv文件之中的一行数据
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TSV() As String
             Return Key & vbTab & Maps
         End Function
@@ -154,6 +159,7 @@ Namespace ComponentModel
             Return $"{Key} --> {Maps}"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(map As Map(Of String, String)) As IDMap
             Return New IDMap With {
                 .Key = map.Key,
@@ -161,6 +167,7 @@ Namespace ComponentModel
             }
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(map As IDMap) As Map(Of String, String)
             Return New Map(Of String, String) With {
                 .Key = map.Key,

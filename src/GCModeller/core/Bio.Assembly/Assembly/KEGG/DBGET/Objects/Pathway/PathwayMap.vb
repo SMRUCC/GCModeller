@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f12823e56dabf3c66a4e779c45934bf5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::a640a595aba42bad2dfb8b6bcf2aa718, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -29,13 +29,13 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
@@ -57,8 +57,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Name As String
 
         Public Property KOpathway As KeyValuePair()
-        Public Property Disease As KeyValuePair()
-        Public Property Modules As KeyValuePair()
+        Public Property Disease As NamedValue()
+        Public Property Modules As NamedValue()
         Public Property Brite As BriteHEntry.Pathway
 
         ''' <summary>

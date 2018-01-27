@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f2f73cc3838cd9fa4fb4be003c64cc9, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::c44a76fa8658ffa0e379ceaf9910781f, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LocalBLAST.Application.BBH

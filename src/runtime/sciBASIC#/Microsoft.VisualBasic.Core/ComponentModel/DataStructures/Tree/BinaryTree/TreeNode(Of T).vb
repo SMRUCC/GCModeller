@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a3c74afcfd3be1eaf426fa047e045db, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\TreeNode(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::2512e6ceaf36abffed482f292c39e523, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\TreeNode(Of T).vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -40,26 +41,43 @@ Namespace ComponentModel.DataStructures.BinaryTree
         Implements Value(Of T).IValueOf
 
         Public Property Name As String Implements INamedValue.Key
-        Public Property Value As T Implements Value(Of T).IValueOf.value
+        Public Property Value As T Implements Value(Of T).IValueOf.Value
         Public Property Left As TreeNode(Of T)
         Public Property Right As TreeNode(Of T)
+        Public Property Parent As TreeNode(Of T)
 
-        ''' <summary>
-        ''' Constructor  to create a single node 
-        ''' </summary>
-        ''' <param name="name"></param>
-        ''' <param name="obj"></param>
-        Public Sub New(name As String, obj As T)
-            With Me
-                .Name = name
-                .Value = obj
-            End With
-        End Sub
+        Public ReadOnly Property QualifiedName As String
+            Get
+                If Parent Is Nothing Then
+                    Return "/"
+                Else
+                    Return Parent.QualifiedName & "/" & Name
+                End If
+            End Get
+        End Property
 
-        Sub New()
-        End Sub
+        Public ReadOnly Property ChainPosition As String
+            Get
+                If Parent Is Nothing Then
+                    Return "/"
+                Else
+                    If Parent.Left Is Nothing Then
+                        Return Parent.ChainPosition & "/+"
+                    ElseIf Parent.Right Is Nothing Then
+                        Return Parent.ChainPosition & "/-"
+                    Else
+                        If Me Is Parent.Right Then
+                            Return Parent.ChainPosition & "/+"
+                        Else
+                            Return Parent.ChainPosition & "/-"
+                        End If
+                    End If
+                End If
+            End Get
+        End Property
 
         <ScriptIgnore> Public ReadOnly Property IsLeaf As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Left Is Nothing AndAlso
                     Right Is Nothing
@@ -101,11 +119,32 @@ Namespace ComponentModel.DataStructures.BinaryTree
             End Get
         End Property
 
+        ''' <summary>
+        ''' Constructor  to create a single node 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="obj"></param>
+        Public Sub New(name As String, obj As T)
+            With Me
+                .Name = name
+                .Value = obj
+            End With
+        End Sub
+
+        Sub New()
+        End Sub
+
+        Public Shared Property DisplayQualifiedName As Boolean = True
+
         Public Overrides Function ToString() As String
-            If Value Is Nothing Then
-                Return Name
+            If DisplayQualifiedName Then
+                Return QualifiedName
             Else
-                Return Name & " ==> " & Value.ToString
+                If Value Is Nothing Then
+                    Return Name
+                Else
+                    Return $"[{Name}] {Value}"
+                End If
             End If
         End Function
 

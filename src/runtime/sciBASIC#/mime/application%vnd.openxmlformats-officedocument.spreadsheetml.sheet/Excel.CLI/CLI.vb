@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c10b680c6fa1b0ad7034791dffcbb69, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::f81f565c63745f93fadf6571ac1f4986, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,8 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -35,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Contract = Microsoft.VisualBasic.Data.csv.DATA.DataFrame
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
@@ -52,7 +55,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
     Public Function cbind(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim append$ = args <= "/append"
-        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & "+" & append.BaseName & ".csv").AsDefault
+        Dim out$ = args("/out") Or ([in].TrimSuffix & "+" & append.BaseName & ".csv")
         Dim a = EntityObject.LoadDataSet([in])
         Dim b = Contract.Load(append)
 
@@ -76,7 +79,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
               Description:="A directory path that contains csv files that will be merge into one file directly.")>
     Public Function rbind(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".rbind.csv").AsDefault
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".rbind.csv")
 
         Return (ls - l - r - "*.csv" <= [in]) _
             .DirectAppends(EXPORT:=out) _
@@ -93,11 +96,10 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
             Dim Excel As Xlsx = Xlsx.Open(.ref)
             Dim table As csv = args <= "/table"
-            Dim sheetName$ = (args <= "/sheetName") Or .ref.BaseName.AsDefault
+            Dim sheetName$ = args("/sheetName") Or .BaseName
 
             Call Excel.WriteSheetTable(table, sheetName)
-            Call Excel.WriteXlsx(
-                (args <= "/saveAs") Or .ref.AsDefault)
+            Call Excel.WriteXlsx(args("/saveAs") Or .ref)
 
             Return 0
         End With
@@ -125,15 +127,97 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
               Description:="The csv output file path.")>
     Public Function Extract(args As CommandLine) As Integer
         Dim sheet$ = args <= "/sheetName"
-        Dim defaultOut As DefaultValue(Of String) =
-            (args <= "/open").TrimSuffix & $"-{sheet}.csv"
+        Dim defaultOut$ = (args <= "/open").TrimSuffix & $"-{sheet}.csv"
 
-        With (args <= "/out") Or defaultOut
+        With args("/out") Or defaultOut
 
             Return Xlsx.Open(args <= "/open") _
                 .GetTable(sheet) _
                 .Save(.ref, encoding:=Encodings.UTF8) _
                 .CLICode
         End With
+    End Function
+
+    <ExportAPI("/Print")>
+    <Usage("/Print /in <table.csv/xlsx> [/sheet <sheetName> /out <device/txt>]")>
+    <Description("Print the csv/xlsx file content onto the console screen or text file in table layout.")>
+    Public Function Print(args As CommandLine) As Integer
+        Dim table As (header As String(), rows As String()())
+        Dim csv As csv
+
+        With args <= "/in"
+            If .ExtensionSuffix.TextEquals("csv") Then
+#Disable Warning
+                csv = csv.Load(.ref)
+#Enable Warning
+            Else
+                csv = Xlsx.Open(.ref).GetTable(sheetName:=args("/sheet") Or "Sheet1")
+            End If
+        End With
+
+        With csv _
+            .Select(Function(r) r.ToArray) _
+            .ToArray
+
+            table = (.First, .Skip(1).ToArray)
+        End With
+
+        Using out As StreamWriter = args.OpenStreamOutput("/out")
+            Call PrintAsTable.PrintTable(table.rows, out,, table.header)
+        End Using
+    End Function
+
+    <ExportAPI("/Association")>
+    <Usage("/Association /a <a.csv> /b <dataset.csv> [/column.A <scan0> /out <out.csv>]")>
+    Public Function Association(args As CommandLine) As Integer
+        Dim a$ = args <= "/a"
+        Dim b$ = args <= "/b"
+        Dim columnNameA$ = args("/column.A")
+        Dim bName$ = b.BaseName
+        Dim aData = EntityObject.LoadDataSet(a, uidMap:=columnNameA)
+        Dim bData = EntityObject.LoadDataSet(b) _
+            .GroupBy(Function(bb) bb.ID) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(g)
+                              Dim values = g _
+                                  .Select(Function(bb) bb.Properties) _
+                                  .IteratesALL _
+                                  .GroupBy(Function(p) p.Key) _
+                                  .ToDictionary(Function(p) p.Key,
+                                                Function(v)
+                                                    Return v.Values _
+                                                        .Select(Function(s) s.Split(";"c)) _
+                                                        .IteratesALL _
+                                                        .Distinct _
+                                                        .JoinBy(";")
+                                                End Function)
+
+                              Return New EntityObject With {
+                                  .ID = g.Key,
+                                  .Properties = values
+                              }
+                          End Function)
+        Dim out$ = args("/out") Or $"{a.TrimSuffix}_AND_{bName}.csv"
+        Dim associates As New List(Of EntityObject)
+
+        For Each x As EntityObject In aData
+            If bData.ContainsKey(x.ID) Then
+                Dim copy As EntityObject = x.Copy
+                Dim y = bData(x.ID)
+
+                For Each [property] In y.Properties
+                    Dim key = bName & "." & [property].Key
+                    copy.Properties.Add(key, [property].Value)
+                Next
+
+                associates += copy
+            Else
+                associates += x
+            End If
+        Next
+
+        Return associates _
+            .SaveDataSet(out, KeyMap:=columnNameA) _
+            .CLICode
     End Function
 End Module

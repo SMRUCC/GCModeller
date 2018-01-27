@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce758cbf028e600d429989895eec1388, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::c56fac22e37fb77948b7bb50703a061e, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,12 @@ Imports sys = System.Math
 Namespace Imaging.Math2D
 
     <Package("GDI.Transform")> Public Module GeomTransform
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SquareSize(width%) As Size
+            Return New Size(width, width)
+        End Function
 
         ''' <summary>
         ''' 这个方形区域的面积

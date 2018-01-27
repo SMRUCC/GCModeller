@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3668498ff73e55a783b51e7de456298d, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\FileSystem\TblModel.vb"
+﻿#Region "Microsoft.VisualBasic::07592132d03885eed0c3e38d0e7ae5f4, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\FileSystem\TblModel.vb"
 
     ' Author:
     ' 
@@ -27,12 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace FileSystem
 

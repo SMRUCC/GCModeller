@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3ccfa25c2eb6b042d2d3d283e9371f3, ..\Settings\Shared\InternalApps_CLI\Apps\seqtools.vb"
+﻿#Region "Microsoft.VisualBasic::25b75d4792678d8c1cdffd90fad37c14, ..\Settings\Shared\InternalApps_CLI\Apps\seqtools.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/seqtools.exe
+' assembly: ..\bin\seqtools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

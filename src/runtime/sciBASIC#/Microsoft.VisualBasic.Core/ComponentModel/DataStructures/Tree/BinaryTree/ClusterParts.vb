@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d672b1c6e2b309470b9f513e03d9a74b, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\ClusterParts.vb"
+﻿#Region "Microsoft.VisualBasic::e187405e85168b51ae932394e6f3a296, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\ClusterParts.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
                                            isLeafX As IsType(Of T),
                                            GetEntities As GetEntities(Of T)) As Dictionary(Of String, String())
 
-            Dim ROOT As TreeNode(Of T) = tree.DirectFind(BinaryTree.ClusterParts.ROOT)
+            Dim ROOT As TreeNode(Of T) = tree.FindSymbol(BinaryTree.ClusterParts.ROOT)
             Dim hash As Dictionary(Of String, String()) = New Dictionary(Of String, String())
             For Each x In ROOT.GetEnumerator
                 Call x.__addCluster(hash, isLeaf, isLeafX, GetEntities)

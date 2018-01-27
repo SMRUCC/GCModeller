@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3db7eb045625aaa05856e5bf57081070, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::ed9f36c089eea486f381dad0812f6d40, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,9 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Numerics
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -48,6 +50,17 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' </summary>
 <Package("StringHelpers", Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
 Public Module StringHelpers
+
+    ''' <summary>
+    ''' Get the first char of the target <see cref="StringBuilder"/> 
+    ''' </summary>
+    ''' <param name="sb"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function First(sb As StringBuilder) As Char
+        Return sb.Chars(Scan0)
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -131,17 +144,44 @@ Public Module StringHelpers
     ''' </summary>
     ''' <param name="s$"></param>
     ''' <returns></returns>
-    <Extension> Public Function StringHash(s$) As Long
+    <Extension> Public Function StringHashCode(s$) As Long
         Dim hash& = 5381
         Dim chars%() = s.Select(AddressOf Convert.ToInt32).ToArray
 
         For i As Integer = s.Length - 1 To 0 Step -1
-            hash = (hash * 33) Xor chars(i)
+            hash = (New BigInteger(hash) * 33 Xor chars(i)).ToTruncateInt64
         Next
 
         hash = hash >> 0
 
         Return hash
+    End Function
+
+    ReadOnly sizeOfInt64% = Marshal.SizeOf(Long.MaxValue)
+    ReadOnly sizeOfInt32% = Marshal.SizeOf(Integer.MaxValue)
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ToTruncateInt64(bi As BigInteger) As Long
+        With bi.ToByteArray
+            If .Length < sizeOfInt64 Then
+                Return CType(bi, Long)
+            Else
+                Return BitConverter.ToInt64(.ref, Scan0)
+            End If
+        End With
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ToTruncateInt32(bi As BigInteger) As Integer
+        With bi.ToByteArray
+            If .Length < sizeOfInt32 Then
+                Return CType(bi, Long)
+            Else
+                Return BitConverter.ToInt32(.ref, Scan0)
+            End If
+        End With
     End Function
 
     ''' <summary>
@@ -226,16 +266,15 @@ Public Module StringHelpers
     ''' <returns>A copy of format in which the format items have been replaced by the string representation
     ''' of the corresponding objects in args.</returns>
     <Extension>
-    Public Function sFormat(s As String, ParamArray args As Object()) As String
+    Public Function FormatString(s$, ParamArray args As Object()) As String
         Return String.Format(s, args)
     End Function
 
     ''' <summary>
     ''' this is to emulate what's evailable in PHP
     ''' </summary>
-    ''' 
     <Extension>
-    Public Function RepeatString(text As String, count As Integer) As String
+    Public Function RepeatString(text$, count%) As String
         Dim sb = New StringBuilder(text.Length * count)
         For i As Integer = 0 To count - 1
             Call sb.Append(text)
@@ -243,9 +282,18 @@ Public Module StringHelpers
         Return sb.ToString()
     End Function
 
+    ''' <summary>
+    ''' Join and contact the text tokens with a specific <paramref name="delimiter"/> string.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="data"></param>
+    ''' <param name="delimiter$"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter As String) As String
-        Return String.Join(delimiter, data.Select(AddressOf Scripting.ToString).ToArray)
+    Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter$) As String
+        Return String.Join(delimiter, data.SafeQuery.Select(AddressOf Scripting.ToString).ToArray)
     End Function
 
     ''' <summary>
@@ -256,6 +304,8 @@ Public Module StringHelpers
     ''' <param name="trim">Needs Removes all leading and trailing white-space characters from 
     ''' the current <see cref="System.String"/> object.</param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function GetTagValue(s$, Optional delimiter$ = " ", Optional trim As Boolean = False, Optional failureNoName As Boolean = True) As NamedValue(Of String)
         Return s.GetTagValue(delimiter, trim:=If(trim, " ", Nothing), failureNoName:=failureNoName)
@@ -354,6 +404,8 @@ Public Module StringHelpers
     ''' Call <see cref="StringBuilder.Remove"/>(<see cref="StringBuilder.Length"/> - 1, 1) for removes the last character in the string sequence.
     ''' </summary>
     ''' <param name="s"></param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Sub RemoveLast(s As StringBuilder)
         Call s.Remove(s.Length - 1, 1)
     End Sub
@@ -374,6 +426,8 @@ Public Module StringHelpers
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Reverse(s As String) As String
         Return New String(s.Reverse.ToArray)
     End Function
@@ -464,6 +518,13 @@ Public Module StringHelpers
         End If
     End Function
 
+    ''' <summary>
+    ''' 计算目标字符串在序列之中出现的次数
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="target$"></param>
+    ''' <param name="method"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Count(source As IEnumerable(Of String), target$, Optional method As StringComparison = StringComparison.Ordinal) As Integer
@@ -684,7 +745,7 @@ Public Module StringHelpers
     ''' <returns></returns>
     <ExportAPI("Match")>
     <Extension> Public Function Match(input As Match, pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As String
-        Return Regex.Match(input.Value, pattern, options).Value
+        Return r.Match(input.Value, pattern, options).Value
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -1013,6 +1074,45 @@ Public Module StringHelpers
         Next
 
         Return -1
+    End Function
+
+    ''' <summary>
+    ''' Removes the duplicated string from the source <paramref name="strings"/> collection 
+    ''' with string compare ignore case.
+    ''' </summary>
+    ''' <param name="strings"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function DistinctIgnoreCase(strings As IEnumerable(Of String)) As IEnumerable(Of String)
+        Dim list = strings.Distinct.ToArray
+        Dim lowerBuffers As New Dictionary(Of String, List(Of String))
+
+        For Each s As String In list
+            With s.ToLower
+                If Not lowerBuffers.ContainsKey(.ref) Then
+                    lowerBuffers(.ref) = New List(Of String)
+                End If
+                lowerBuffers(.ref).Add(s)
+            End With
+        Next
+
+        Dim distinct = lowerBuffers _
+            .Select(Function(pack)
+                        Dim n$() = pack _
+                            .Value _
+                            .Where(Function(s) s <> pack.Key) _
+                            .ToArray
+
+                        ' 尽量不返回全部都是小写的字符串
+                        If n.Length > 0 Then
+                            Return n.First
+                        Else
+                            Return pack.Key
+                        End If
+                    End Function) _
+            .ToArray
+
+        Return distinct
     End Function
 
     ''' <summary>

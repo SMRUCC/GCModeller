@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44520f28ff9070b7bc42892857713902, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb"
+﻿#Region "Microsoft.VisualBasic::6f6b6123b3d9a9891701a77745fef6fd, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
@@ -388,7 +389,7 @@ Namespace Analysis.GenomeMotifFootPrints
         Public Function PathwayFunctionAssociation(data As IEnumerable(Of VirtualFootprints),
                                                    <Parameter("Dir.KEGG.Pathway", "Directory which stores of the KEGG pathway data that download from the KEGG database.")>
                                                    KEGGPathway As String,
-                                                   Optional EXPORT As String = "") As Key_strArrayValuePair()
+                                                   Optional EXPORT As String = "") As NamedVector(Of String)()
 
             Dim LoadKeggPathways = (From path As KeyValuePair(Of String, String)
                                     In KEGGPathway.LoadSourceEntryList({"*.xml"}).AsParallel
@@ -420,9 +421,9 @@ Namespace Analysis.GenomeMotifFootPrints
             End If
 
             Return (From obj In AssociationLQuery
-                    Select New Key_strArrayValuePair With {
-                        .Key = obj.Gene,
-                        .Value = (From objt In obj.func Select objt.EntryId).ToArray}).ToArray
+                    Select New NamedVector(Of String) With {
+                        .name = obj.Gene,
+                        .vector = (From objt In obj.func Select objt.EntryId).ToArray}).ToArray
         End Function
 
         ''' <summary>

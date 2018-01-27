@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7b0ff0289fdaeb9cc94c1bcf1591575, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\TreeNodeBase.vb"
+﻿#Region "Microsoft.VisualBasic::83acf0710495996b2d0c99f72e5d717f, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\TreeNodeBase.vb"
 
     ' Author:
     ' 
@@ -25,6 +25,8 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace ComponentModel.DataStructures.Tree
 
@@ -71,6 +73,7 @@ Namespace ComponentModel.DataStructures.Tree
         ''' True if a Leaf Node
         ''' </summary>
         Public ReadOnly Property IsLeaf() As Boolean Implements ITreeNode(Of T).IsLeaf
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ChildNodes.Count = 0
             End Get
@@ -80,11 +83,13 @@ Namespace ComponentModel.DataStructures.Tree
         ''' True if the Root of the Tree
         ''' </summary>
         Public ReadOnly Property IsRoot() As Boolean Implements ITreeNode(Of T).IsRoot
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Parent Is Nothing
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function MaxTravelDepth() As Integer
             Return __travelInternal(Me.MySelf)
         End Function
@@ -103,6 +108,8 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <summary>
         ''' List of Leaf Nodes
         ''' </summary>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetLeafNodes() As List(Of T)
             Return ChildNodes.Where(Function(x) x.IsLeaf).AsList()
         End Function
@@ -110,6 +117,8 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <summary>
         ''' List of Non Leaf Nodes
         ''' </summary>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetNonLeafNodes() As List(Of T)
             Return ChildNodes.Where(Function(x) Not x.IsLeaf).AsList()
         End Function

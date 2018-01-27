@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c0b049b890cbee1d14188d825df785c, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
+﻿#Region "Microsoft.VisualBasic::e23c8712fa8a10eb7cb838dee7a143c8, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
 
     ' Author:
     ' 
@@ -26,13 +26,10 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 
 Namespace Assembly.MetaCyc.Schema.PathwayBrief
 
@@ -45,7 +42,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property SuperPathway As Boolean
-        Public Property ReactionList As Key_strArrayValuePair()
+        Public Property ReactionList As NamedVector(Of String)()
         ''' <summary>
         ''' 本代谢途径所包含的的亚途径
         ''' </summary>
@@ -58,7 +55,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             Get
                 Dim List As List(Of String) = New List(Of String)
                 For Each rxn In ReactionList
-                    Call List.AddRange(rxn.Value)
+                    Call List.AddRange(rxn.vector)
                 Next
                 If SuperPathway Then
                     For Each pwy In ContiansSubPathway

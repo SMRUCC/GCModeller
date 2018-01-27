@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a32b73c6d512eee094594e93544b2cd, ..\sciBASIC#\Microsoft.VisualBasic.Core\Scripting\Expressions\StringInterpolation.vb"
+﻿#Region "Microsoft.VisualBasic::c407e66a81a465830843639e3a3d15bf, ..\sciBASIC#\Microsoft.VisualBasic.Core\Scripting\Expressions\StringInterpolation.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace Scripting.Expressions
         ''' </summary>
         ''' <param name="sb"></param>
         ''' <param name="getValue"></param>
-        ''' <param name="nullAsEmpty"></param>
+        ''' <param name="nullAsEmpty">只有当变量的值不为空值的时候才会进行替换，但是当<paramref name="nullAsEmpty"/>为真的时候会被强行替换为空字符串进行替换</param>
         ''' <param name="escape"></param>
         <Extension>
         Public Sub Interpolate(ByRef sb As StringBuilder, getValue As Func(Of String, String),

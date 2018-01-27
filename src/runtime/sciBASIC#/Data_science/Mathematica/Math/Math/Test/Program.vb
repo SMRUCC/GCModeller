@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60720f4528557f728938cff4d2cbb21c, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::ca0434b095fb39048cf95657a1fcef5e, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Test\Program.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,10 @@
 
 Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.Correlations
-Imports Microsoft.VisualBasic.Mathematical.HashMaps
-Imports Microsoft.VisualBasic.Mathematical.Scripting
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.HashMaps
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
 

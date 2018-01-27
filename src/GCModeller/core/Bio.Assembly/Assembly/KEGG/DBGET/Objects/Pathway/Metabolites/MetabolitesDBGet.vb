@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d73540bfb6fa6bd3350de72e94ee9cce, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb"
+﻿#Region "Microsoft.VisualBasic::bac3236c5d24e1832838d6af19d42566, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb"
 
     ' Author:
     ' 
@@ -92,13 +92,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = html.GetValue("Pathway") _
                     .FirstOrDefault _
                     .__parseHTML_ModuleList(LIST_TYPES.Pathway) _
-                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.name, s.text)) _
                     .ToArray _
                     .__parseNamedData,
                 .Module = html.GetValue("Module") _
                     .FirstOrDefault _
                     .__parseHTML_ModuleList(LIST_TYPES.Module) _
-                    .Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)) _
+                    .Select(Function(s) String.Format("[{0}] {1}", s.name, s.text)) _
                     .ToArray _
                     .__parseNamedData,
                 .MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),

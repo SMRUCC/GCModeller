@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08ad26bbb71a44ed23c32a735ba39f8a, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Scripting\VectorModel.vb"
+﻿#Region "Microsoft.VisualBasic::551e64712daca9d254f386f4350d458a, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Scripting\VectorModel.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Scripting
@@ -35,34 +36,61 @@ Namespace Scripting
     Public Class VectorModel(Of T) : Inherits VectorShadows(Of T)
 
         Default Public Overloads ReadOnly Property Item(name$) As Vector
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Dim v As Object = Nothing
+                Return readInternal(name)
+            End Get
+        End Property
 
-                If Not MyBase.TryGetMember(name, result:=v) Then
-                    Throw New EntryPointNotFoundException(name)
-                Else
-                    Select Case v.GetType
-                        Case GetType(VectorShadows(Of Double))
-                            Return DirectCast(v, VectorShadows(Of Double)).AsVector
-                        Case GetType(VectorShadows(Of Single))
-                            Return DirectCast(v, VectorShadows(Of Single)).Select(Function(x) CDbl(x)).AsVector
-                        Case GetType(VectorShadows(Of Integer))
-                            Return DirectCast(v, VectorShadows(Of Integer)).Select(Function(x) CDbl(x)).AsVector
-                        Case GetType(VectorShadows(Of Long))
-                            Return DirectCast(v, VectorShadows(Of Long)).Select(Function(x) CDbl(x)).AsVector
-                        Case GetType(VectorShadows(Of Boolean))
-                            Return DirectCast(v, VectorShadows(Of Boolean)).Select(Function(x) CDbl(x)).AsVector
-                        Case GetType(VectorShadows(Of Char))
-                            Return DirectCast(v, VectorShadows(Of Char)).CharCodes.Select(Function(x) CDbl(x)).AsVector
-                        Case GetType(VectorShadows(Of String))
-                            Return DirectCast(v, VectorShadows(Of String)).Select(Function(s) s.ParseDouble).AsVector
+        Private Function readInternal(name As String) As Vector
+            Dim v As Object = Nothing
 
-                        Case Else
+            If Not TryGetMember(name, result:=v) Then
+                Throw New EntryPointNotFoundException(name)
+            Else
+                Return GetVector(v)
+            End If
+        End Function
 
-                            Throw New NotSupportedException(v.GetType.FullName)
+        Public Shared Function GetVector(v As Object) As Vector
+            Select Case v.GetType
+                Case GetType(VectorShadows(Of Double))
+                    Return DirectCast(v, VectorShadows(Of Double)).AsVector
+                Case GetType(VectorShadows(Of Single))
+                    Return DirectCast(v, VectorShadows(Of Single)).Select(Function(x) CDbl(x)).AsVector
+                Case GetType(VectorShadows(Of Integer))
+                    Return DirectCast(v, VectorShadows(Of Integer)).Select(Function(x) CDbl(x)).AsVector
+                Case GetType(VectorShadows(Of Long))
+                    Return DirectCast(v, VectorShadows(Of Long)).Select(Function(x) CDbl(x)).AsVector
+                Case GetType(VectorShadows(Of Boolean))
+                    Return DirectCast(v, VectorShadows(Of Boolean)).Select(Function(x) CDbl(x)).AsVector
+                Case GetType(VectorShadows(Of Char))
+                    Return DirectCast(v, VectorShadows(Of Char)).CharCodes.Select(Function(x) CDbl(x)).AsVector
+                Case GetType(VectorShadows(Of String))
+                    Return DirectCast(v, VectorShadows(Of String)).Select(Function(s) s.ParseDouble).AsVector
 
-                    End Select
-                End If
+                Case Else
+
+                    Throw New NotSupportedException(v.GetType.FullName)
+
+            End Select
+        End Function
+
+        Default Public Overloads Property Item(index As Integer) As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return buffer(index)
+            End Get
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Set(value As T)
+                buffer(index) = value
+            End Set
+        End Property
+
+        Default Public Overloads ReadOnly Property Item(booleans As IEnumerable(Of Boolean)) As VectorModel(Of T)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return New VectorModel(Of T)(Subset(booleans))
             End Get
         End Property
 

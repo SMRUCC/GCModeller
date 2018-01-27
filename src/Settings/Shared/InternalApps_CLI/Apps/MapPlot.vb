@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78f2b0b043da078fa1caae51ffc41ac7, ..\Settings\Shared\InternalApps_CLI\Apps\MapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::2fba45b4e3370a53925278ccb5fa631a, ..\Settings\Shared\InternalApps_CLI\Apps\MapPlot.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/MapPlot.exe
+' assembly: ..\bin\MapPlot.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

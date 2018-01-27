@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e0d6b7aa8eb43c924243c805b13efb5, ..\Settings\Shared\InternalApps_CLI\Apps\Cytoscape.vb"
+﻿#Region "Microsoft.VisualBasic::3985764abe9bf825aa2dd90ab0df465c, ..\Settings\Shared\InternalApps_CLI\Apps\Cytoscape.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/Cytoscape.exe
+' assembly: ..\bin\Cytoscape.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf448c7e8deda2741c642f4ecdca6f19, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\Scatter\Data.vb"
+﻿#Region "Microsoft.VisualBasic::420de44f8d388211f03f749416df23cc, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\Scatter\Data.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -59,6 +60,13 @@ Public Class SerialData : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property DataAnnotations As Annotation()
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetPen() As Pen
+        Return New Pen(color:=color, width:=width) With {
+            .DashStyle = lineType
+        }
+    End Function
 
     ''' <summary>
     ''' 由于在绘图的时候，需要按照标题查找原始数据，所以请确保绘图的曲线的系列数据之中的<see cref="SerialData.title"/>不会重复

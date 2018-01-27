@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f62324242c048faa8aed0dc1419d54a, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::dcf2757bea3c1ddd1b2425d4250bed42, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -1767,21 +1767,22 @@ Public Module Extensions
                        Optional remoteDuplicates As Boolean = False) As Dictionary(Of TKey, TValue)
 
         If remoteDuplicates Then
-            Dim hash As Dictionary(Of TKey, TValue) = New Dictionary(Of TKey, TValue)
+            Dim table As New Dictionary(Of TKey, TValue)
 
             For Each x In source
-                If hash.ContainsKey(x.Key) Then
+                If table.ContainsKey(x.Key) Then
                     Call $"[Duplicated] {x.Key.ToString}".PrintException
                 Else
-                    Call hash.Add(x.Key, x.Value)
+                    Call table.Add(x.Key, x.Value)
                 End If
             Next
 
-            Return hash
+            Return table
         Else
-            Dim Dictionary As Dictionary(Of TKey, TValue) =
-                source.ToDictionary(Function(x) x.Key, Function(x) x.Value)
-            Return Dictionary
+            Dim dictionary As Dictionary(Of TKey, TValue) =
+                source.ToDictionary(Function(x) x.Key,
+                                    Function(x) x.Value)
+            Return dictionary
         End If
     End Function
 
@@ -1793,7 +1794,9 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function IsNullOrEmpty(Of T)(source As IEnumerable(Of T)) As Boolean
-        If source Is Nothing Then Return True
+        If source Is Nothing Then
+            Return True
+        End If
 
         Dim i As Integer = -1
 
@@ -1860,49 +1863,6 @@ Public Module Extensions
     ''' <remarks></remarks>
     <Extension> Public Function IsNullOrEmpty(Of T)(array As T()) As Boolean
         Return array Is Nothing OrElse array.Length = 0
-    End Function
-
-    <ExportAPI("CopyFile", Info:="kernel32.dll!CopyFileW")>
-    <DllImport("kernel32.dll", EntryPoint:="CopyFileW", CharSet:=CharSet.Unicode, ExactSpelling:=False)>
-    Public Function CopyFile(lpExistingFilename$, lpNewFileName$, bFailIfExists As Boolean) As Boolean
-    End Function
-
-    ''' <summary>
-    ''' 默认是加载Xml文件的
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="file"></param>
-    ''' <param name="encoding"></param>
-    ''' <param name="parser">default is Xml parser</param>
-    ''' <param name="ThrowEx"></param>
-    ''' <returns></returns>
-    <Extension> Public Function LoadTextDoc(Of T As ITextFile)(file As String,
-                                                               Optional encoding As Encoding = Nothing,
-                                                               Optional parser As Func(Of String, Encoding, T) = Nothing,
-                                                               Optional ThrowEx As Boolean = True) As T
-        If parser Is Nothing Then
-            parser = AddressOf LoadXml
-        End If
-
-        Dim FileObj As T
-
-        Try
-            FileObj = parser(file, encoding)
-            FileObj.FilePath = file
-        Catch ex As Exception
-            Call App.LogException(New Exception(file.ToFileURL, ex))
-
-            If ThrowEx Then
-                Throw ex
-            Else
-#If DEBUG Then
-                Call ex.PrintException
-#End If
-                Return Nothing
-            End If
-        End Try
-
-        Return FileObj
     End Function
 
     ''' <summary>
@@ -2011,8 +1971,13 @@ Public Module Extensions
     ''' <param name="dotNETlist"></param>
     ''' <returns></returns>
     <Extension> Public Function RemoveLast(Of T)(ByRef dotNETlist As Generic.List(Of T)) As Generic.List(Of T)
-        If dotNETlist.IsNullOrEmpty OrElse dotNETlist.Count = 1 Then
+        If dotNETlist.IsNullOrEmpty Then
             dotNETlist = New List(Of T)
+
+            ' 2018-1-25
+            ' 需要将0和1分开来看，否则会造成最后一个元素永远都移除不了的bug
+        ElseIf dotNETlist.Count = 1 Then
+            dotNETlist.Clear()
         Else
             Dim i As Integer = dotNETlist.Count - 1
             Call dotNETlist.RemoveAt(i)

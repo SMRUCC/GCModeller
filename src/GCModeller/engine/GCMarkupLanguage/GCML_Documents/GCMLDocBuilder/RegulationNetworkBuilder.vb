@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9434c7d85a2d5acb9d9cc4cbcb4c91e, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::09f972315cae04bdef67c3b04c513c07, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace Builder

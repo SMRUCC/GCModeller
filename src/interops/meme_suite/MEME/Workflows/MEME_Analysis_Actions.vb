@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d78c68a991ebc868bb212a7a7c962f38, ..\interops\meme_suite\MEME\Workflows\MEME_Analysis_Actions.vb"
+﻿#Region "Microsoft.VisualBasic::fc57b6695fbdae76ede43bc20c9bc114, ..\interops\meme_suite\MEME\Workflows\MEME_Analysis_Actions.vb"
 
     ' Author:
     ' 
@@ -26,14 +26,12 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading.Tasks.Parallel
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
 

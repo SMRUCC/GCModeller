@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a727bd1b6f56610777a48449d1b88df8, ..\GCModeller\engine\GCTabular\Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::48271bda4e88a22f490e628749177e51, ..\GCModeller\engine\GCTabular\Mapping.vb"
 
     ' Author:
     ' 
@@ -361,12 +361,12 @@ Public Class Mapping : Implements System.IDisposable
 
     Public Shared Function GetEffectors(Regprecise As TranscriptionFactors) As List(Of MetaCyc.Schema.EffectorMap)
         Dim EffectorIdList = LinqAPI.MakeList(Of String) <=
-            From item As Regprecise.BacteriaGenome
-            In Regprecise.BacteriaGenomes
+            From item As Regprecise.BacteriaRegulome
+            In Regprecise.genomes
             Select From regulator
-                   In item.Regulons.Regulators
-                   Where Not String.IsNullOrEmpty(regulator.Effector)
-                   Select regulator.Effector.ToLower.Trim
+                   In item.regulons.regulators
+                   Where Not String.IsNullOrEmpty(regulator.effector)
+                   Select regulator.effector.ToLower.Trim
 
         Dim TempChunk As String() = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToArray
         Call EffectorIdList.Clear()

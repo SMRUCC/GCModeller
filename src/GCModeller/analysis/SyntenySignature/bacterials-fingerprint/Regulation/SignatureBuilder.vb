@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f94d013a9a9ab8ebb9add8a7493a5033, ..\GCModeller\analysis\SyntenySignature\bacterials-fingerprint\Regulation\SignatureBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::1efe1ca3ae26d1ca9155b0c902a764d6, ..\GCModeller\analysis\SyntenySignature\bacterials-fingerprint\Regulation\SignatureBuilder.vb"
 
     ' Author:
     ' 
@@ -28,8 +28,7 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
@@ -67,20 +66,22 @@ Namespace RegulationSignature
         Sub New(VirtualFootprints As IEnumerable(Of PredictedRegulationFootprint),
                 PTT As PTT,
                 KEGG_Pathways As IEnumerable(Of bGetObject.Pathway),
-                COG As IEnumerable(Of ICOGDigest))
+                COG As IEnumerable(Of IFeatureDigest))
 
             Dim COGHash = COG.ToDictionary(Function(Gene) Gene.Key)
             Dim GenomeHash As Dictionary(Of String, GeneObject) =
                 PTT.GeneObjects.ToDictionary(Function(Gene) Gene.Synonym,
-                                             Function(Gene) New GeneObject With {
-                                                .COG = If(COGHash.ContainsKey(Gene.Synonym), COGHash(Gene.Synonym).COG, "-"),
+                                             Function(Gene)
+                                                 Return New GeneObject With {
+                                                .COG = If(COGHash.ContainsKey(Gene.Synonym), COGHash(Gene.Synonym).Feature, "-"),
                                                 .KO = New List(Of String),
                                                 .GeneID = New GeneID With {
                                                     .GeneTagID = Gene.Synonym,
                                                     .GeneName = Gene.Gene,
                                                     .ClassType = GeneID.ClassTypes.Hypothetical
                                                  }
-                                             })
+                                             }
+                                             End Function)
             For Each GeneEntry In GenomeHash
                 If String.IsNullOrEmpty(GeneEntry.Value.COG) Then
                     GeneEntry.Value.COG = "-"
@@ -109,23 +110,23 @@ Namespace RegulationSignature
 
             For Each Pathway In KEGG_Pathways
 
-                If Pathway.Genes.IsNullOrEmpty Then
+                If Pathway.genes.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                For Each gene As KeyValuePair In Pathway.Genes
+                For Each gene As NamedValue In Pathway.genes
                     Dim GeneObject As GeneObject
 
-                    If Not GenomeHashShaodows.ContainsKey(gene.Key) Then
-                        If TFHash.ContainsKey(gene.Key) Then
-                            GeneObject = TFHash(gene.Key)
+                    If Not GenomeHashShaodows.ContainsKey(gene.name) Then
+                        If TFHash.ContainsKey(gene.name) Then
+                            GeneObject = TFHash(gene.name)
                             GeneObject.GeneID.ClassType = GeneID.ClassTypes.Hybrids
                         Else
-                            Call Console.WriteLine("Unable to found the information of gene " & gene.Key)
+                            Call Console.WriteLine("Unable to found the information of gene " & gene.name)
                             Continue For
                         End If
                     Else
-                        GeneObject = GenomeHashShaodows(gene.Key)
+                        GeneObject = GenomeHashShaodows(gene.name)
                         GeneObject.GeneID.ClassType = GeneID.ClassTypes.KO
                     End If
 
@@ -134,8 +135,8 @@ Namespace RegulationSignature
                     End If
 
                     Call GeneObject.KO.Add(Pathway.EntryId)
-                    If Not KOHash.ContainsKey(gene.Key) Then Call KOHash.Add(gene.Key, GeneObject)
-                    Call GenomeHashShaodows.Remove(gene.Key)
+                    If Not KOHash.ContainsKey(gene.name) Then Call KOHash.Add(gene.name, GeneObject)
+                    Call GenomeHashShaodows.Remove(gene.name)
                 Next
             Next
 

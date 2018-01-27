@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cd391008cec6d0c3a39f3f1945b2d45, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
+﻿#Region "Microsoft.VisualBasic::551dcb32d52332924b19b907f80e48d4, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
 
     ' Author:
     ' 
@@ -28,11 +28,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -69,8 +69,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
                 .Description = WebForm.__description,
                 .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
-                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
-                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
+                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
                 .References = WebForm.References,
                 .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
                 .Drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
@@ -79,14 +79,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return Pathway
         End Function
 
-        <Extension> Private Function __pathwayDrugs(html$) As KeyValuePair()
+        <Extension> Private Function __pathwayDrugs(html$) As NamedValue()
             Dim divs = html.Strip_NOBR.DivInternals
-            Dim out As New List(Of KeyValuePair)
+            Dim out As New List(Of NamedValue)
 
             For Each d In divs.SlideWindows(2, 2)
-                out += New KeyValuePair With {
-                    .Key = d(0).StripHTMLTags(stripBlank:=True),
-                    .Value = d(1).StripHTMLTags(stripBlank:=True)
+                out += New NamedValue With {
+                    .name = d(0).StripHTMLTags(stripBlank:=True),
+                    .text = d(1).StripHTMLTags(stripBlank:=True)
                 }
             Next
 
@@ -94,7 +94,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <Extension>
-        Private Function __koPathways(webForm As WebForm) As KeyValuePair()
+        Private Function __koPathways(webForm As WebForm) As NamedValue()
             Dim KOpathway = webForm.GetValue("KO pathway") _
                 .FirstOrDefault _
                 .GetTablesHTML _
@@ -102,9 +102,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .GetRowsHTML _
                 .Select(Function(row$)
                             Dim cols As String() = row.GetColumnsHTML
-                            Return New KeyValuePair With {
-                                .Key = cols(0).StripHTMLTags.StripBlank,
-                                .Value = cols(1).StripHTMLTags.StripBlank
+                            Return New NamedValue With {
+                                .name = cols(0).StripHTMLTags.StripBlank,
+                                .text = cols(1).StripHTMLTags.StripBlank
                             }
                         End Function).ToArray
             Return KOpathway
@@ -150,7 +150,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As KeyValuePair()
+        Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As NamedValue()
             If String.IsNullOrEmpty(html) Then
                 Return {}
             End If
@@ -171,7 +171,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .ToArray _
                 .Distinct _
                 .ToArray
-            Dim out As New List(Of KeyValuePair)
+            Dim out As New List(Of NamedValue)
 
             Select Case type
                 Case LIST_TYPES.Disease
@@ -194,27 +194,27 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 entry = entry.GetValue
                 func = WebForm.RemoveHrefLink(func)
 
-                out += New KeyValuePair With {
-                    .Key = entry,
-                    .Value = func
+                out += New NamedValue With {
+                    .name = entry,
+                    .text = func
                 }
             Next
 
             Dim p As Integer = InStr(html, sbuf.Last)
             html = Mid(html, p)
-            Dim lastEntry As New KeyValuePair With {
-                .Key = Regex.Match(html, splitRegex).Value,
-                .Value = WebForm.RemoveHrefLink(html.Replace(.Key, "").Trim)
+            Dim lastEntry As New NamedValue With {
+                .name = Regex.Match(html, splitRegex).Value,
+                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
             }
             ' 由于解析value属性的时候还需要使用到key的原始字符串数据
             ' 所以key的最后解析放在初始化代码外
-            lastEntry.Key = lastEntry.Key.GetValue
+            lastEntry.name = lastEntry.name.GetValue
 
             Call out.Add(lastEntry)
 
-            For Each x As KeyValuePair In out
-                x.Key = x.Key.StripHTMLTags.StripBlank
-                x.Value = x.Value.StripHTMLTags.StripBlank
+            For Each x As NamedValue In out
+                x.name = x.name.StripHTMLTags.StripBlank
+                x.text = x.text.StripHTMLTags.StripBlank
             Next
 
             Return out.ToArray

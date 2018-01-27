@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9a7d59c7ae6a32485e4e8fc081731c1, ..\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver\GenericODEs.vb"
+﻿#Region "Microsoft.VisualBasic::bb2cc772f6e0763e5c4370f869759569, ..\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver\GenericODEs.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@ Public Class GenericODEs : Inherits ODEs
     Sub New(ParamArray vars As var())
         Me.vars = vars
 
-        For Each x In vars.SeqIterator
+        For Each x As SeqValue(Of var) In vars.SeqIterator
             x.value.Index = x.i
         Next
     End Sub

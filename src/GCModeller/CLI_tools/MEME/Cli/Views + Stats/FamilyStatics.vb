@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8338105eca068be0b51025776f8deb47, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\FamilyStatics.vb"
+﻿#Region "Microsoft.VisualBasic::5d6f9ad99443dc65f727f239f1949117, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\FamilyStatics.vb"
 
     ' Author:
     ' 
@@ -26,26 +26,15 @@
 
 #End Region
 
-Imports MEME.Analysis
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting
 Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
 Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 

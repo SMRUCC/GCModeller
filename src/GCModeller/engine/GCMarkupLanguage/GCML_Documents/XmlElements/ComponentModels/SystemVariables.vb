@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41f2c94f21dd2c8ec6c44b2acf3f6b0f, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\SystemVariables.vb"
+﻿#Region "Microsoft.VisualBasic::bc6a11bfdeabf7435d7de1acefb3b080, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\SystemVariables.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GCML_Documents.ComponentModels
 

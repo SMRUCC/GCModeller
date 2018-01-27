@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9dae68363ada356c8f3ff975e690c39, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\Web\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::2b016c17b772b5bfa649eed22fddfa41, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\Web\Entry.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.Uniprot.Web
 

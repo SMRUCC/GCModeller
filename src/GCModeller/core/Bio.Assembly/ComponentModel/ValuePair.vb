@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b03ebf5b7a471770a46f5c85260f4089, ..\GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::24cc05d2393c1a3a5b7e6a0c93dd3b4b, ..\GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
 
     ' Author:
     ' 
@@ -27,10 +27,7 @@
 #End Region
 
 Imports System.Text
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel
 

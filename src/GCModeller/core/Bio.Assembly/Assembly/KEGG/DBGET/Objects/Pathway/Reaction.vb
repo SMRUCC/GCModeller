@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abd483124e52b592f940ec2489f8731d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::741317b791c127f38d64adebd1091751, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,19 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Structure OrthologyTerms
+
+        <XmlIgnore>
+        Public ReadOnly Property EntityList As String()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Terms.Keys
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' The KO terms?
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("Term")>
         Public Property Terms As XmlProperty()
     End Structure

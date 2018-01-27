@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7461980a306701a8a0493556bfc098fb, ..\GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
+﻿#Region "Microsoft.VisualBasic::f6692428211201de311a8285cd6e1e24, ..\GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,10 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise.FastaReaders
@@ -129,7 +128,7 @@ Namespace Regprecise.FastaReaders
             Return Site.CreateObject(FastaFile)
         End Function
 
-        Public Shared Function CreateFrom(site As Regprecise.WebServices.JSONLDM.site, Bacteria As String) As Site
+        Public Shared Function CreateFrom(site As JSON.site, Bacteria As String) As Site
             Return New Site With {
                 .Bacteria = Bacteria,
                 .geneLocusTag = site.geneLocusTag,
@@ -141,12 +140,12 @@ Namespace Regprecise.FastaReaders
             }
         End Function
 
-        Public Function ToFastaObject() As Regtransbase.WebServices.FastaObject
-            Return New Regtransbase.WebServices.FastaObject With {
+        Public Function ToFastaObject() As Regtransbase.WebServices.MotifFasta
+            Return New Regtransbase.WebServices.MotifFasta With {
                 .SequenceData = SequenceData,
-                .Position = position,
-                .Name = Me.geneVIMSSId,
-                .LocusTag = Me.geneLocusTag,
+                .position = position,
+                .name = Me.geneVIMSSId,
+                .locus_tag = Me.geneLocusTag,
                 .Bacteria = Bacteria
             }
         End Function

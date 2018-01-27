@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b89a0dd70d1e163ee27738cc16734a09, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\_rels\rels.vb"
+﻿#Region "Microsoft.VisualBasic::a6bdca451132b9a048d2ba72ff789965, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\_rels\rels.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,9 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 Namespace XML._rels
 
@@ -35,6 +38,24 @@ Namespace XML._rels
 
         <XmlElement("Relationship")>
         Public Property Relationships As Relationship()
+            Get
+                Return relTable.Values.ToArray
+            End Get
+            Set(value As Relationship())
+                relTable = value.ToDictionary
+            End Set
+        End Property
+
+        Dim relTable As Dictionary(Of Relationship)
+
+        Public Property Target(Id As String) As Relationship
+            Get
+                Return relTable(Id)
+            End Get
+            Set(value As Relationship)
+                relTable(Id) = value
+            End Set
+        End Property
 
         Protected Overrides Function filePath() As String
             Return "_rels/.rels"
@@ -45,9 +66,15 @@ Namespace XML._rels
         End Function
     End Class
 
-    Public Class Relationship
-        <XmlAttribute> Public Property Id As String
+    Public Class Relationship : Implements INamedValue
+
+        <XmlAttribute> Public Property Id As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property Type As String
         <XmlAttribute> Public Property Target As String
+        <XmlAttribute> Public Property TargetMode As String
+
+        Public Overrides Function ToString() As String
+            Return Target
+        End Function
     End Class
 End Namespace

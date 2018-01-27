@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f4526c111830802c2cf9a65c5690d2d, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\g\DataScaler.vb"
+﻿#Region "Microsoft.VisualBasic::cdfe940d197d8348b515640de21fcce7, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\g\DataScaler.vb"
 
     ' Author:
     ' 
@@ -66,13 +66,22 @@ Namespace Graphic
         Dim X As LinearScale
         Dim Y As LinearScale
         Dim AxisTicks As (X As Vector, Y As Vector)
-        Dim ChartRegion As Rectangle
+
+        ''' <summary>
+        ''' The charting region in <see cref="Rectangle"/> data structure.
+        ''' </summary>
+        Dim Region As Rectangle
+        Dim Reversed As Boolean
+
+        Sub New(rev As Boolean)
+            Reversed = rev
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Translate(x#, y#) As PointF
             Return New PointF With {
-                .X = TranslateX(x),
-                .Y = TranslateY(y)
+                .x = TranslateX(x),
+                .y = TranslateY(y)
             }
         End Function
 
@@ -86,9 +95,28 @@ Namespace Graphic
             Return Me.X(x)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="y#"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' ###### 2018-1-16
+        ''' 
+        ''' 因为绘图的时候有margin的，故而Y不是从零开始的，而是从margin的top开始的
+        ''' 所以需要额外的加上一个top值
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TranslateY(y#) As Double
-            Return ChartRegion.Bottom - Me.Y(y)
+            If Reversed Then
+                Return Me.Y(y)
+            Else
+                Return Region.Bottom - Me.Y(y) + Region.Top
+            End If
+        End Function
+
+        Public Function TranslateHeight(y As Double) As Double
+            Return Region.Bottom - Me.Y(y)
         End Function
     End Structure
 End Namespace

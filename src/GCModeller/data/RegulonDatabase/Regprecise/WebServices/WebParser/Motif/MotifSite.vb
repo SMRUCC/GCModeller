@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e9143bbf8e87fdb078682cb36a89620, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::a531566942bac8183579197a9de8b306, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifSite.vb"
 
     ' Author:
     ' 
@@ -27,12 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -50,7 +48,7 @@ Namespace Regprecise
         Public Property Effector As String
         Public Property Regulog As KeyValuePair
         Public Property Taxonomy As KeyValuePair
-        Public Property Sites As FastaObject()
+        Public Property Sites As MotifFasta()
         <XmlAttribute> Public Property logo As String
 
         Private Property Identifier As String Implements INamedValue.Key
@@ -68,9 +66,9 @@ Namespace Regprecise
 
         Public Function ExportMotifs() As FastaToken()
             Dim LQuery As FastaToken() =
-                LinqAPI.Exec(Of FastaToken) <= From fa As FastaObject
+                LinqAPI.Exec(Of FastaToken) <= From fa As MotifFasta
                                                In Sites
-                                               Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.LocusTag, Family, Regulog.Key)}
+                                               Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)}
                                                Select New FastaToken With {
                                                    .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(fa),
                                                    .Attributes = attrs

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::131d4ad37d8a30edfd9750456a3f6cc9, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a932f08d448f0d4b6cee684a92d0f0c0, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
 
     ' Author:
     ' 
@@ -107,6 +107,11 @@ Namespace Math
         <Extension>
         Public Function NextDouble(rnd As Random, range As DoubleRange) As Double
             Return range.Length * rnd.NextDouble + range.Min
+        End Function
+
+        <Extension>
+        Public Function NextDouble(rand As Random, min#, max#) As Double
+            Return (max - min) * rand.NextDouble + min
         End Function
 
         <Extension>

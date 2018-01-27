@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff7325cd354f6d4d43f832c20c5f500e, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ae7bfe3fb55618b55dfdcbd889b9e63f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
 
     ' Author:
     ' 
@@ -27,10 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -42,16 +42,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property GeneName As String
         Public Property Definition As KeyValuePair
-        Public Property Pathway As KeyValuePair()
-        Public Property Disease As KeyValuePair()
+        Public Property Pathway As NamedValue()
+        Public Property Disease As NamedValue()
         Public Property DrugTarget As KeyValuePair()
         ' Public Property Motif As NamedCollection(Of String)
         ' Public Property [Structure] As NamedCollection(Of String)
         Public Property Position As String
         Public Property AA As String
         Public Property NT As String
-        Public Property OtherDBs As KeyValuePair()
-        Public Property Modules As KeyValuePair()
+        Public Property OtherDBs As DBLink()
+        Public Property Modules As NamedValue()
 
         ''' <summary>
         ''' Split of the <see cref="GeneName"/> property value

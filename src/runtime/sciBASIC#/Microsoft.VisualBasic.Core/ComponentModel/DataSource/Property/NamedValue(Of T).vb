@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dda63bd0a042fa4c713380d32ada3fe1, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::517f6ef4fe299053a12679463f263739, ..\sciBASIC#\Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
 
     ' Author:
     ' 
@@ -139,6 +139,44 @@ Namespace ComponentModel.DataSourceModel
             Next
 
             Return newTable
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator =(tuple As NamedValue(Of T), compares As T) As Boolean
+            If tuple.Value Is Nothing Then
+                If compares Is Nothing Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                If compares Is Nothing Then
+                    Return False
+                Else
+                    Return tuple.Value.Equals(compares)
+                End If
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Convert from tuple
+        ''' </summary>
+        ''' <param name="tuple"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(tuple As (name$, value As T)) As NamedValue(Of T)
+            Return New NamedValue(Of T)(tuple.name, tuple.value)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(tuple As (name$, value As T, describ$)) As NamedValue(Of T)
+            Return New NamedValue(Of T)(tuple.name, tuple.value, tuple.describ)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <>(tuple As NamedValue(Of T), compares As T) As Boolean
+            Return Not tuple = compares
         End Operator
     End Structure
 End Namespace

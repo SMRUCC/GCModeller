@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a1d09cdb748a61a3287607b8b675577, ..\sciBASIC#\Data\BinaryData\BinaryData\Storage\StringWriter.vb"
+﻿#Region "Microsoft.VisualBasic::9dfd770b560081ca36c2730f085adcc5, ..\sciBASIC#\Data\BinaryData\BinaryData\Storage\StringWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@ Public Class StringWriter
 
     Dim encoding As Encodings
     Dim codepage As Encoding
-    Dim stream As BinaryWriter
+
+    Public ReadOnly stream As BinaryWriter
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Sub New(path$, Optional encoding As Encodings = Encodings.ASCII)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::baa12fdc80fb6a31469c06838695dce0, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::3d3b179b1d5587e6100e427e6ff37fcc, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Namespace Assembly.NCBI.Entrez
         ''' 
         <Extension>
         Public Function efetch(gi As String, Optional rettype As String = "fasta") As TSeqSet
-            Dim url As String = API.sFormat(gi, rettype)
+            Dim url As String = API.FormatString(gi, rettype)
             Dim xml As String = url.GetRequest
             Dim seqs As TSeqSet = xml.LoadFromXml(Of TSeqSet)
             Return seqs

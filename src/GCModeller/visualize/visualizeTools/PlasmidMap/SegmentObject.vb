@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::697022b3cc1e25c4f8d36a179a81dcd3, ..\GCModeller\visualize\visualizeTools\PlasmidMap\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::1f5d12036dc06102057d0b58de689c22, ..\GCModeller\visualize\visualizeTools\PlasmidMap\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@ Namespace PlasmidMap.DrawingModels
         ''' <remarks></remarks>
         Public Property Direction As Integer
         Public Property Color As System.Drawing.Color
-        Public Property CommonName As String Implements IGeneBrief.COG
+        Public Property CommonName As String Implements IGeneBrief.Feature
         Public Property FunctionalAnnotation As String Implements IGeneBrief.Product
         Public Property LocusTag As String Implements IGeneBrief.Key
         Public Property Left As Integer

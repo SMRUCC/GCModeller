@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4820f40d069bf1d0c3e0c9b6c48799d6, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
+﻿#Region "Microsoft.VisualBasic::1978d2d99eb24f61cfa8e32297ca8c58, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
 
     ' Author:
     ' 
@@ -138,7 +138,7 @@ Namespace DeltaSimilarity1998
         <Extension>
         Public Function GetReferenceRule(genome As GBFF.File, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaToken
             Dim nt As FastaToken = genome.Origin.ToFasta
-            Dim proteins As PTT = genome.GbffToORF_PTT
+            Dim proteins As PTT = genome.GbffToPTT(ORF:=True)
             Return nt.GetReferenceRule(proteins, start, ends)
         End Function
     End Module

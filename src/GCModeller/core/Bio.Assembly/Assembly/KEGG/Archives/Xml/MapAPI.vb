@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7180ea96dd58b3aeaa95510fb23c724, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::15072a691982284553adada5b9be302e, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Namespace Assembly.KEGG.Archives.Xml
         ''' <param name="source"></param>
         ''' <returns></returns>
         Public Function GetReactions(from As bGetObject.Pathway, source As bGetObject.Reaction()) As bGetObject.Reaction()
-            Dim allCompounds As String() = from.Compound.Select(Function(x) x.Key).ToArray
+            Dim allCompounds As String() = from.Compound.Select(Function(x) x.name).ToArray
             Return GetReactions(allCompounds, source)
         End Function
 

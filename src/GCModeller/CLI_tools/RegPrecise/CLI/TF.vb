@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c785cb9e91dc9a9e449823c133bc938b, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
+﻿#Region "Microsoft.VisualBasic::bce5ae2c092e027c10fbfdb79e1cd02a, ..\GCModeller\CLI_tools\RegPrecise\CLI\TF.vb"
 
     ' Author:
     ' 
@@ -134,17 +134,17 @@ Partial Module CLI
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
                                           Function(x) x.Group.Select(Function(xx) xx.x))
-        Dim genomes As IEnumerable(Of BacteriaGenome) = inDIR.LoadXml(Of TranscriptionFactors).BacteriaGenomes
-        Dim all = (From x As BacteriaGenome In genomes
-                   Where Not x.Regulons Is Nothing AndAlso
-                       Not x.Regulons.Regulators.IsNullOrEmpty
-                   Select xx = x.Regulons.Regulators).Unlist
+        Dim genomes As IEnumerable(Of BacteriaRegulome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
+        Dim all = (From x As BacteriaRegulome In genomes
+                   Where Not x.regulons Is Nothing AndAlso
+                       Not x.regulons.regulators.IsNullOrEmpty
+                   Select xx = x.regulons.regulators).Unlist
         Dim regulators = (From regulator As Regulator In all
                           Let sid As String = regulator.LocusId
                           Where hitsHash.ContainsKey(sid)
                           Select sid,
                               hits = hitsHash(sid),
-                              regulator.Family).ToArray
+                              regulator.family).ToArray
         Dim queryRegulators = (From qx In
                                    (From x In regulators
                                     Select (From hit As BBHIndex In x.hits
@@ -194,19 +194,19 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/RegPrecise.Effector.Maps.Csv")
         Dim list As New List(Of Effectors)
 
-        For Each genome As BacteriaGenome In From xml As String In xmls Select xml.LoadXml(Of BacteriaGenome)
+        For Each genome As BacteriaRegulome In From xml As String In xmls Select xml.LoadXml(Of BacteriaRegulome)
             list += From x As Regulator
-                    In genome.Regulons.Regulators
-                    Where x.Type = Regulator.Types.TF
-                    Where Not x.Effector.StringEmpty
-                    Let tokens As String() = x.Effector.Split(";"c)
+                    In genome.regulons.regulators
+                    Where x.type = Types.TF
+                    Where Not x.effector.StringEmpty
+                    Let tokens As String() = x.effector.Split(";"c)
                     Select From name As String
                            In tokens
                            Select New Effectors With {
                                .Effector = name.Trim,
-                               .BiologicalProcess = x.BiologicalProcess,
-                               .Pathway = x.Pathway,
-                               .Regulon = x.Regulog.Key,
+                               .BiologicalProcess = x.biological_process,
+                               .Pathway = x.pathway,
+                               .Regulon = x.regulog.name,
                                .TF = x.LocusId
                            }
         Next

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe29bbd50554ecd80fb6115f9f62622, ..\sciBASIC#\Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::e1abc2dcc9c56ec039732d5b0764de18, ..\sciBASIC#\Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -119,7 +119,7 @@ B21,B22,B23,...
         ''' <param name="x"></param>
         ''' <param name="y"></param>
         ''' <returns></returns>
-        Default Public Overloads Property Item(x As Integer, y As Integer) As String
+        Default Public Overloads Property Item(x%, y%) As String
             Get
                 Dim row As RowObject = Me(x)
                 Return row(y)
@@ -665,10 +665,7 @@ B21,B22,B23,...
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function Load(Path As String, Optional encoding As Encoding = Nothing, Optional trimBlanks As Boolean = False) As File
-            If encoding Is Nothing Then
-                encoding = Encoding.Default
-            End If
-            Dim buf As List(Of RowObject) = __loads(Path, encoding, trimBlanks)
+            Dim buf As List(Of RowObject) = __loads(Path, encoding Or TextEncodings.DefaultEncoding, trimBlanks)
             Dim csv As New File With {
                 .FilePath = Path,
                 ._innerTable = buf

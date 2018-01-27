@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::856860fbfe471f3c4d142a4b5b512785, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
+﻿#Region "Microsoft.VisualBasic::0f7afb4695cfbb761a14d7ddf7e6d541, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
 
     ' Author:
     ' 
@@ -29,11 +29,13 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -146,19 +148,19 @@ Partial Module CLI
 
     Private Function __create(prot As String,
                               KO As String,
-                              pathway As KeyValuePair,
+                              pathway As NamedValue,
                               orthology As SSDB.Orthology,
                               brites As Dictionary(Of String, BriteHEntry.Pathway)) As KOAnno
         Dim pwyBrite As BriteHEntry.Pathway
 
         If Not pathway Is Nothing Then
-            pwyBrite = brites.TryGetValue(Regex.Match(pathway.Key, "\d+").Value)
+            pwyBrite = brites.TryGetValue(Regex.Match(pathway.name, "\d+").Value)
             If pwyBrite Is Nothing Then
-                Call $"{pathway.Key} is not exists in the KEGG!".__DEBUG_ECHO
+                Call $"{pathway.name} is not exists in the KEGG!".__DEBUG_ECHO
                 GoTo Null
             End If
         Else
-            pathway = New KeyValuePair
+            pathway = New NamedValue
 Null:       pwyBrite = New BriteHEntry.Pathway With {
                 .Entry = New KeyValuePair
             }
@@ -173,7 +175,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
             .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Comment).ToArray,
             .Category = pwyBrite.Category,
             .Class = pwyBrite.Class,
-            .PathwayId = pathway.Key,
+            .PathwayId = pathway.name,
             .PathwayName = pwyBrite.Entry.Value,
             .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Comment).ToArray
         }
@@ -229,5 +231,18 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.Select(Function(x) New Prokaryote(x))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/KEGG_Organism.csv")
         Return table.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/show.organism")>
+    <Usage("/show.organism /code <kegg_sp> [/out <out.json>]")>
+    Public Function ShowOrganism(args As CommandLine) As Integer
+        Dim code$ = args <= "/code"
+        Dim out$ = args("/out") Or $"./{code}.json"
+        Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(code)
+
+        Return organism _
+            .GetJson(indent:=True) _
+            .SaveTo(out, TextEncodings.UTF8WithoutBOM) _
+            .CLICode
     End Function
 End Module

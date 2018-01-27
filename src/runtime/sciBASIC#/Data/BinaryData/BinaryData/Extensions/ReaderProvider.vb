@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6f59b69b73ceeaa4ffb594e32c759c8, ..\sciBASIC#\Data\BinaryData\BinaryData\Extensions\ReaderProvider.vb"
+﻿#Region "Microsoft.VisualBasic::51e86c3ac5fa0b5c906c5ec7d2076a80, ..\sciBASIC#\Data\BinaryData\BinaryData\Extensions\ReaderProvider.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Text
 
@@ -39,6 +40,7 @@ Public Class ReaderProvider
     ReadOnly __encoding As Encoding
 
     Public ReadOnly Property Length As Long
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return FileIO.FileSystem.GetFileInfo(URI).Length
         End Get

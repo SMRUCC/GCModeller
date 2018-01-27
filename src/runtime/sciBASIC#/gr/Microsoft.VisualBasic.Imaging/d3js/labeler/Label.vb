@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f006d77c7deb3ba8bbb9b94157400ea, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
+﻿#Region "Microsoft.VisualBasic::deb04a6d02971b2c8d2193ec45779223, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 
 Namespace d3js.Layout
 
@@ -62,6 +63,7 @@ Namespace d3js.Layout
             Return $"{text}@({X.ToString("F2")},{Y.ToString("F2")})"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(label As Label) As PointF
             Return New PointF With {
                 .X = label.X,

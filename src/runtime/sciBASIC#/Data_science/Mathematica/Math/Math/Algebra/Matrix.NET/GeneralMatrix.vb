@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa82f7ee748ce61cf5a2de65cfb32320, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\GeneralMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::a2dcd9a61ef0689675cdee6130999ffe, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\GeneralMatrix.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Matrix

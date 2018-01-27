@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27012cd6508dc1e069cf468fbc348ac4, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\ModuleAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f6b54fc2e2e36d178be35e5af509347c, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\ModuleAPI.vb"
 
     ' Author:
     ' 
@@ -61,6 +61,20 @@ Namespace d3js
                 .w_len = w_len,
                 .w_orient = w_orient
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetLabelAnchors(labels As IEnumerable(Of Label), r!) As Anchor()
+            Return labels _
+                .Select(Function(l)
+                            Return New Anchor With {
+                                .r = r,
+                                .x = l.X,
+                                .y = l.Y
+                            }
+                        End Function) _
+                .ToArray
         End Function
 
         <Extension>

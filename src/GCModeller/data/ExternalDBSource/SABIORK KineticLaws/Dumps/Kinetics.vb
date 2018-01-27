@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cbfc334399862de0ba3d6be2138ec69, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::f7359c53ef3adb5c91b3702c264367ec, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
 
     ' Author:
     ' 
@@ -26,16 +26,12 @@
 
 #End Region
 
-Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.SequenceModel
 
 Namespace SabiorkKineticLaws.TabularDump
 

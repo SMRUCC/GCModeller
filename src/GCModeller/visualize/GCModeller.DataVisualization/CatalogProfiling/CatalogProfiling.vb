@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93424c3ba91947e906c34f828ebcae6b, ..\GCModeller\visualize\GCModeller.DataVisualization\CatalogProfiling\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::115debb4ce63ccdd116546d919b15f49, ..\GCModeller\visualize\GCModeller.DataVisualization\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -177,6 +177,12 @@ Public Module CatalogProfiling
             .Values _
             .Select(Function(o) o.Select(Function(oo) oo.Name)) _
             .IteratesALL _
+            .Where(Function(name)
+                       ' 2017-12-27
+                       ' 因为下面会将长度大于64的名字给截断，所以在这里需要将这些比较长的名字给过滤掉
+                       ' 否则会出现很大的空白的绘图bug
+                       Return name.Length <= 64
+                   End Function) _
             .OrderByDescending(Function(s) s.Length) _
             .First
         Dim maxLenClsKey$ = classes _

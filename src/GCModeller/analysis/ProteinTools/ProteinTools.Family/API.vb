@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afbbc3eff1e485e8b3f0bee22be463fe, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\API.vb"
+﻿#Region "Microsoft.VisualBasic::fb9b730c146327ca53b53ec871e20129, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\API.vb"
 
     ' Author:
     ' 
@@ -27,15 +27,13 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
-Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Data
 
 <Package("SMART.PfamFamily",

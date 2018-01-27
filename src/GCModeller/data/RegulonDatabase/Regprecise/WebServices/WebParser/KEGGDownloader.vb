@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::903ad8269c2822265bdf11f0319cbcbd, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::4bf5aea16b4f714e307e92be47ae0bd1, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -56,7 +57,7 @@ Namespace Regprecise
         '''
         <ExportAPI("Regulator.Downloads")>
         Public Function RegulatorDownloads(Regulator As Regulator,
-                                           Bacteria As BacteriaGenome,
+                                           Bacteria As BacteriaRegulome,
                                            ErrLog As LogFile,
                                            DownloadDirectory As String,
                                            FastaSaved As String) As FASTA.FastaToken
@@ -65,7 +66,7 @@ Namespace Regprecise
                 Return FASTA.FastaToken.Load(FastaSaved)
             End If
 
-            Dim FastaObject = RegulatorDownloads(Regulator.LocusTag.Key, ErrLog, Bacteria.BacteriaGenome.name)
+            Dim FastaObject = RegulatorDownloads(Regulator.locus_tag.name, ErrLog, Bacteria.genome.name)
 
             If FastaObject Is Nothing Then
                 Return Nothing
@@ -105,7 +106,7 @@ Namespace Regprecise
         End Function
 
         <ExportAPI("Regulator.Downloads")>
-        Public Function RegulatorDownloads(Regulator As Regprecise.WebServices.JSONLDM.regulator, ErrLog As LogFile) As Regprecise.FastaReaders.Regulator
+        Public Function RegulatorDownloads(Regulator As JSON.regulator, ErrLog As LogFile) As Regprecise.FastaReaders.Regulator
             Dim Fasta As FastaToken = RegulatorDownloads(Regulator.locusTag, ErrLog, Regulator.ToString)
             If Fasta Is Nothing Then
                 Return Nothing

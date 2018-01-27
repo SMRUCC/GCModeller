@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::774d4e28e7bd70f8f8e162d175b370e3, ..\GCModeller\models\Networks\Microbiome\PathwayProfile.vb"
+﻿#Region "Microsoft.VisualBasic::572414cfb771b420083867ee5c0e948d, ..\GCModeller\models\Networks\Microbiome\PathwayProfile.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@ Public Module PathwayProfile
                 .QueryMapsByMembers(KOlist) _
                 .Where(Function(map)
                            With map.KOIndex
-                               Return .Intersect(KOlist).Count / .Count >= coverage
+                               Return .Intersect(collection:=KOlist).Count / .Count >= coverage
                            End With
                        End Function) _
                 .ToArray
@@ -78,18 +78,16 @@ Public Module PathwayProfile
     End Function
 
     <Extension>
-    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+    Public Function CreateProfile(taxonomyGroup As (taxonomy As Taxonomy, counts#)(),
                                   uniprot As TaxonomyRepository,
                                   ref As MapRepository,
                                   Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
 
-        Dim taxonomyGroup As gast.gastOUT() = gast.ToArray
         Dim ALL = taxonomyGroup.Select(Function(tax) tax.counts).Sum
         Dim profiles = taxonomyGroup _
             .AsParallel _
             .Select(Function(tax)
-                        Dim name$ = tax.taxonomy
-                        Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
+                        Dim taxonomy As Taxonomy = tax.taxonomy
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
                         Return New Profile(
@@ -109,6 +107,30 @@ Public Module PathwayProfile
                           Function(profile) profile.ToArray)
 
         Return profileGroup
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="gast">其实只需要Taxonomy和对应的丰度数量信息即可</param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="ref"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CreateProfile(gast As IEnumerable(Of gast.gastOUT),
+                                  uniprot As TaxonomyRepository,
+                                  ref As MapRepository,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As Dictionary(Of String, Profile())
+        Return gast _
+            .Select(Function(tax)
+                        Dim name$ = tax.taxonomy
+                        Dim taxonomy As New Taxonomy(BIOMTaxonomy.TaxonomyParser(name))
+
+                        Return (taxonomy, CDbl(tax.counts))
+                    End Function) _
+            .ToArray _
+            .CreateProfile(uniprot, ref, rank)
     End Function
 
     Public Class Profile
@@ -188,7 +210,15 @@ Public Module PathwayProfile
                                     Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
 
         Dim profiles = gast.CreateProfile(uniprot, ref, rank)
-        Dim profileTable = profiles _
+        Dim profileTable = profiles.PathwayProfiles
+
+        Return profileTable
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function PathwayProfiles(profiles As Dictionary(Of String, Profile())) As EnrichmentProfiles()
+        Return profiles _
             .Select(Function(group)
                         Dim tax = group.Key
                         Dim enrichment = group.Value.ProfileEnrichment
@@ -205,8 +235,6 @@ Public Module PathwayProfile
                     End Function) _
             .IteratesALL _
             .ToArray
-
-        Return profileTable
     End Function
 
     <Extension>
@@ -233,4 +261,3 @@ Public Module PathwayProfile
         Return network
     End Function
 End Module
-

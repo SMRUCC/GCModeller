@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::925b690ba12172197936f4dd03c2c492, ..\GCModeller\engine\GCTabular\DataVisualization\STrP.vb"
+﻿#Region "Microsoft.VisualBasic::7820b675d8e76f441e0bdd2fd38dceda, ..\GCModeller\engine\GCTabular\DataVisualization\STrP.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Model.Network.STRING
 Imports SMRUCC.genomics.Model.Network.STRING.Models
 

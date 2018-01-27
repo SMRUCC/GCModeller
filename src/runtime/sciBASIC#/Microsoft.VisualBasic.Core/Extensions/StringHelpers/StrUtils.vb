@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6535c58bcf692eae23d442d3659175c8, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\StrUtils.vb"
+﻿#Region "Microsoft.VisualBasic::7f5ca41e02263302aad9eefd18458573, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\StringHelpers\StrUtils.vb"
 
     ' Author:
     ' 
@@ -66,6 +66,16 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Public Module StrUtils
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function GetCompareType(type As CompareMethod) As StringComparison
+        If type = CompareMethod.Binary Then
+            Return StringComparison.Ordinal
+        Else
+            Return StringComparison.OrdinalIgnoreCase
+        End If
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -218,8 +228,8 @@ Public Module StrUtils
         End If
 
         Dim items As String() = New String(1) {}
-
         Dim index As Integer = text.IndexOf(sep)
+
         If index >= 0 Then
             items(0) = text.Substring(0, index)
             items(1) = text.Substring(index + 1)

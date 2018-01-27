@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e8e96c6c4990324ba491b19de18d6b6, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
+﻿#Region "Microsoft.VisualBasic::0cc6d6980946ed1f1e80f8f4fde50618, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,8 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
-Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 

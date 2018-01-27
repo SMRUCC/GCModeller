@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9aa7ef85de27aa8388b1d25c511a72a, ..\GCModeller\annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::5a30e28b0c5b3e17c64502be62192163, ..\GCModeller\annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem

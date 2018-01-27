@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed29aeb70930a4c5d14ec6c76679e0f8, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\Model\Xmlns.vb"
+﻿#Region "Microsoft.VisualBasic::3bfa0c35a87496311d07d27d838c457d, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\Model\Xmlns.vb"
 
     ' Author:
     ' 
@@ -41,9 +41,14 @@ Public Module Xmlns
     Public Const xr2$ = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2"
     Public Const x15ac$ = "http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac"
 
+    Public Const x14$ = "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"
     Public Const x14ac$ = "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"
     Public Const xr$ = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision"
     Public Const xr3$ = "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3"
+
+    Public Const x16r2$ = "http://schemas.microsoft.com/office/spreadsheetml/2015/02/main"
+
+    Public Const a$ = "http://schemas.openxmlformats.org/drawingml/2006/main"
 
     Public Const worksheet$ = "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"
 

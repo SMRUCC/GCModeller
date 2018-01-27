@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a6ac9889fe4dd715b7236cd29a95be6, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
+﻿#Region "Microsoft.VisualBasic::63e3f8760810c227c15c34c5a78a783b, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: ..\bin\KEGG_tools.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager
@@ -53,7 +53,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
-'  /Download.Pathway.Maps.Bacteria.All:     
 '  /Dump.sp:                                
 '  /Fasta.By.Sp:                            
 '  /Get.prot_motif:                         
@@ -65,6 +64,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Organism.Table:                         
 '  /Pathway.geneIDs:                        
 '  /Query.KO:                               
+'  /show.organism:                          
 '  /Views.mod_stat:                         
 '  -Build.KO:                               Download data from KEGG database to local server.
 '  Download.Sequence:                       
@@ -86,7 +86,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
 '                                             dbget API
-'    /Download.Pathway.Maps:                  
+'    /Download.Pathway.Maps:                  Fetch all of the pathway map information for a specific
+'                                             kegg organism by using a specifc kegg sp code.
+'    /Download.Pathway.Maps.Bacteria.All:     
+'    /Download.Pathway.Maps.Batch:            
 '    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
 '    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
 '    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.
@@ -100,6 +103,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Build.Ko.repository:                    
 '    /Build.Reactions.Repository:             
 '    /Maps.Repository.Build:                  
+'    /Pathway.Modules.Build:                  
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -391,16 +395,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR>]
+''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR> /@set &lt;progress_bar=disabled>]
 ''' ```
+''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
-Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
+Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional _set As String = "", Optional kgml As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps")
     Call CLI.Append(" ")
     Call CLI.Append("/sp " & """" & sp & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not _set.StringEmpty Then
+            Call CLI.Append("/@set " & """" & _set & """ ")
     End If
     If kgml Then
         Call CLI.Append("/kgml ")
@@ -423,6 +431,28 @@ Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional
     If Not [in].StringEmpty Then
             Call CLI.Append("/in " & """" & [in] & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If kgml Then
+        Call CLI.Append("/kgml ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Download.Pathway.Maps.Batch /sp &lt;kegg.sp_code.list> [/KGML /out &lt;EXPORT_DIR>]
+''' ```
+''' </summary>
+'''
+Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Download.Pathway.Maps.Batch")
+    Call CLI.Append(" ")
+    Call CLI.Append("/sp " & """" & sp & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -691,6 +721,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Pathway.Modules.Build /in &lt;directory> [/batch /out &lt;out.Xml>]
+''' ```
+''' </summary>
+'''
+Public Function CompileGenomePathwayModule([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Pathway.Modules.Build")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If batch Then
+        Call CLI.Append("/batch ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Pathways.Downloads.All [/out &lt;outDIR>]
 ''' ```
 ''' Download all of the KEGG reference pathway map data.
@@ -726,6 +778,25 @@ Public Function QueryKOAnno([in] As String, Optional out As String = "", Optiona
     End If
     If batch Then
         Call CLI.Append("/batch ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /show.organism /code &lt;kegg_sp> [/out &lt;out.json>]
+''' ```
+''' </summary>
+'''
+Public Function ShowOrganism(code As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/show.organism")
+    Call CLI.Append(" ")
+    Call CLI.Append("/code " & """" & code & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

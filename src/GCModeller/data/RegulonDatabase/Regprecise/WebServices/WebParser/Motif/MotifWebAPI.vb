@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e45c6bd06fb9e36c0a36c85bbfb3dd55, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::0d34b080c10e5a8210d5d47f5d2a4431, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
 
     ' Author:
     ' 
@@ -28,9 +28,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -69,7 +69,7 @@ Namespace Regprecise
 
             sites = RegPrecise & sites.href
             motif.Taxonomy = html.__getTaxonomy
-            motif.Sites = FastaObject.Parse(url:=sites)
+            motif.Sites = MotifFasta.Parse(url:=sites)
 
             Return motif
         End Function

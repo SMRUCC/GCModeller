@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e289bcbf33e898ac7d66994fd6ad377d, ..\GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
+﻿#Region "Microsoft.VisualBasic::91f522ecc4761581f1b11bfe520e144c, ..\GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
     ' Author:
     ' 
@@ -106,10 +106,10 @@ Namespace Regprecise
             Operon = members
             TF_trace = regulon.LocusId
             Regulators = TF
-            Effector = regulon.Effector
-            Pathway = regulon.Pathway
-            BiologicalProcess = regulon.BiologicalProcess
-            source = regulon.Regulog.Key
+            Effector = regulon.effector
+            Pathway = regulon.pathway
+            BiologicalProcess = regulon.biological_process
+            source = regulon.Regulog.name
             Strand = cstrand
             bbh = bbhHits
         End Sub

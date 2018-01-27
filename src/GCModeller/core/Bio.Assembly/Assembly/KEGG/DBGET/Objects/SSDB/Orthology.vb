@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc736357bc5ee82e03a199adb2195dd0, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb"
+﻿#Region "Microsoft.VisualBasic::706d98d4cc86a20eba3a19b3069b5f49, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb"
 
     ' Author:
     ' 
@@ -45,9 +45,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             End Get
         End Property
 
-        Public Property [Module] As KeyValuePair()
-        Public Property Pathway As KeyValuePair()
-        Public Property Disease As KeyValuePair()
+        Public Property [Module] As NamedValue()
+        Public Property Pathway As NamedValue()
+        Public Property Disease As NamedValue()
         Public Property Genes As QueryEntry()
         Public Property References As Reference()
 

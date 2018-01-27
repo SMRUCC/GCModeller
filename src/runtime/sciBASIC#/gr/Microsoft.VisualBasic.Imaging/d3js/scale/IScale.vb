@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efaeb36f85324db2edf7d4c993c0f32f, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
+﻿#Region "Microsoft.VisualBasic::b339a9c861af56a5e59055eb184953c5, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
 
     ' Author:
     ' 
@@ -65,6 +65,11 @@ Namespace d3js.scale
             Return Me
         End Function
 
+        ''' <summary>
+        ''' 输入绘图的坐标轴在画布上面的X/Y值的范围
+        ''' </summary>
+        ''' <param name="integers"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function range(Optional integers As IEnumerable(Of Integer) = Nothing) As T
             Return range(integers.Select(Function(x) CDbl(x)))

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42b00299efe609e9c32fa2704199e0f6, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::bbfb7c7023bb331931c5e6c699fec5ae, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
 
     ' Author:
     ' 
@@ -28,12 +28,12 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT

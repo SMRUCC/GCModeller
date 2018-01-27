@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7a109a40319c5183de6dced4738b005, ..\interops\meme_suite\MEME\Workflows\PromoterParser\RegulonParser.vb"
+﻿#Region "Microsoft.VisualBasic::11e4a5f4d7320e5662d61342ffee0b91, ..\interops\meme_suite\MEME\Workflows\PromoterParser\RegulonParser.vb"
 
     ' Author:
     ' 
@@ -59,11 +59,11 @@ Namespace Workflows.PromoterParser
             Return fa
         End Function
 
-        Public Function RegulonParser(genome As Regprecise.BacteriaGenome, outDIR As String) As Boolean
+        Public Function RegulonParser(genome As Regprecise.BacteriaRegulome, outDIR As String) As Boolean
             For Each len As Integer In PromoterRegionParser.PrefixLength
-                For Each regulon In genome.Regulons.Regulators
+                For Each regulon In genome.regulons.regulators
                     Dim fa = RegulonParser(regulon, len)
-                    Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.LocusTag.Value.NormalizePathString(True)}.fasta"
+                    Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.locus_tag.text.NormalizePathString(True)}.fasta"
                     Call fa.Save(path)
                 Next
             Next
@@ -72,14 +72,14 @@ Namespace Workflows.PromoterParser
         End Function
 
         Public Function RegulonParser(inDIR As String, outDIR As String) As Boolean
-            Dim genomes = inDIR.LoadSourceEntryList({"*.xml"}).Select(Function(x) x.Value.LoadXml(Of Regprecise.BacteriaGenome))
+            Dim genomes = inDIR.LoadSourceEntryList({"*.xml"}).Select(Function(x) x.Value.LoadXml(Of Regprecise.BacteriaRegulome))
 
-            For Each genome As Regprecise.BacteriaGenome In genomes
-                If Not genome.Regulons Is Nothing AndAlso Not genome.Regulons.Regulators.IsNullOrEmpty Then
+            For Each genome As Regprecise.BacteriaRegulome In genomes
+                If Not genome.regulons Is Nothing AndAlso Not genome.regulons.regulators.IsNullOrEmpty Then
                     Call RegulonParser(genome, outDIR)
                 End If
 
-                Call genome.BacteriaGenome.name.__DEBUG_ECHO
+                Call genome.genome.name.__DEBUG_ECHO
             Next
 
             Return True

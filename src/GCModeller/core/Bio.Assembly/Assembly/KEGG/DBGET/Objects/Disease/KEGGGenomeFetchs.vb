@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6e09bc4367f0b76a79d38884624fdcc, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGGenomeFetchs.vb"
+﻿#Region "Microsoft.VisualBasic::8fe8095ebb05a537622f6e046b9cf9c6, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb"
 
     ' Author:
     ' 
@@ -28,13 +28,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d4d8373fc1a627bb885df4c60949b9, ..\GCModeller\engine\GCTabular\CsvTabularData\XmlLoader.vb"
+﻿#Region "Microsoft.VisualBasic::e2bb5bb37d9551b53d20e5bdd8056706, ..\GCModeller\engine\GCTabular\CsvTabularData\XmlLoader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.MiST2

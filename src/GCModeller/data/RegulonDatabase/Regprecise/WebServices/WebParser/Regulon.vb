@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3b83fa204bdb5337d3536471f5fad2a, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::1485e9b5aeb46fcb71b76e44ebca9d44, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
 
     ' Author:
     ' 
@@ -26,26 +26,32 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Regprecise
 
     Public Class Regulon
 
-        <XmlElement> Public Property Regulators As Regulator()
+        <XmlElement>
+        Public Property regulators As Regulator()
 
+        Public Overrides Function ToString() As String
+            Return regulators.GetJson
+        End Function
     End Class
 
     Public Class RegulatedGene
 
         <XmlAttribute> Public Property vimssId As String
-        <XmlAttribute> Public Property LocusId As String
-        <XmlAttribute> Public Property Name As String
-        <XmlAttribute> Public Property [Function] As String
+        <XmlAttribute> Public Property locusId As String
+        <XmlAttribute> Public Property name As String
+
+        <XmlText>
+        Public Property description As String
 
         Public Overrides Function ToString() As String
-            Return vimssId & vbTab & LocusId & vbTab & Name
+            Return vimssId & vbTab & locusId & vbTab & name
         End Function
 
         ''' <summary>
@@ -79,8 +85,8 @@ Namespace Regprecise
             Dim Tokens As String() = Strings.Split(s, vbTab)
             Dim gene As New RegulatedGene With {
                 .vimssId = Tokens.ElementAtOrDefault(Scan0),
-                .LocusId = Tokens.ElementAtOrDefault(1),
-                .Name = Tokens.ElementAtOrDefault(2)
+                .locusId = Tokens.ElementAtOrDefault(1),
+                .name = Tokens.ElementAtOrDefault(2)
             }
             Return gene
         End Function

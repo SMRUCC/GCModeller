@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca13cf777ccb6018e81bdcb9a9722c77, ..\GCModeller\engine\GCTabular\Compiler\SabiorkKinetics.vb"
+﻿#Region "Microsoft.VisualBasic::34abf0fc3e18d3b6ce5e9769242250d6, ..\GCModeller\engine\GCTabular\Compiler\SabiorkKinetics.vb"
 
     ' Author:
     ' 
@@ -26,13 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
@@ -64,10 +60,10 @@ Namespace Compiler.Components
         Private Function BuildEqualsTable(MetaCyc As DatabaseLoadder,
                                           KEGGCompounds As bGetObject.Compound(),
                                           KEGGReactions As bGetObject.Reaction(),
-                                          ByRef EffectorMapping As EffectorMap()) As Key_strArrayValuePair()
+                                          ByRef EffectorMapping As EffectorMap()) As NamedVector(Of String)()
 
             Dim MetaCycReactions = (From item In MetaCyc.GetReactions Select Metabolism.Reaction.CreateObject(item)).ToArray
-            Dim List As List(Of Key_strArrayValuePair) = New List(Of Key_strArrayValuePair)
+            Dim List As List(Of NamedVector(Of String)) = New List(Of NamedVector(Of String))
 
             KEGGReactions = (From KineticsRecord In Me._KineticsData Let KEGGReaction = KEGGReactions.GetItem(KineticsRecord.KEGGReactionId) Where Not KEGGReaction Is Nothing Select KEGGReaction).ToArray
             _EuqationEquals = New EquationEquals(Me._ModelLoader.MetabolitesModel, KEGGCompounds)
@@ -76,7 +72,7 @@ Namespace Compiler.Components
             For Each KEGGReaction In KEGGReactions
                 Dim LQuery = (From MetaCycReaction In MetaCycReactions.AsParallel Where _EuqationEquals.Equals(KEGGReaction.Equation, MetaCycEquation:=MetaCycReaction, Explicit:=False) Select MetaCycReaction).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call List.Add(New Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair With {.Key = KEGGReaction.Entry, .Value = (From item In LQuery Select item.Identifier).ToArray})
+                    Call List.Add(New NamedVector(Of String) With {.name = KEGGReaction.Entry, .vector = (From item In LQuery Select item.Identifier).ToArray})
                 End If
             Next
 
@@ -94,7 +90,7 @@ Namespace Compiler.Components
                 End If
 
                 Dim UniprotId = GetUniprotIDlist(MetabolismFlux.Enzymes)
-                Dim KEGGReactionId As String() = (From item In MapTable Where Array.IndexOf(item.Value, MetabolismFlux.Identifier) > -1 Select item.Key).ToArray
+                Dim KEGGReactionId As String() = (From item In MapTable Where Array.IndexOf(item.vector, MetabolismFlux.Identifier) > -1 Select item.name).ToArray
 
                 For Each id As String In KEGGReactionId
                     Dim LQuery = (From Enzyme In UniprotId

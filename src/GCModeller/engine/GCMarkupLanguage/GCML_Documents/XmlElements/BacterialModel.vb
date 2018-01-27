@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f14139db15d0a70bd309faf15fbe3a00, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
+﻿#Region "Microsoft.VisualBasic::982d5264f588c175636e10d81cee97cf, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
     ' Author:
     ' 
@@ -28,18 +28,16 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Extensions
-Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 
 ''' <summary>
 ''' LansSystemsBiologyModel, this model file contains all of the required data for the GCModeller virtual cell simulation.

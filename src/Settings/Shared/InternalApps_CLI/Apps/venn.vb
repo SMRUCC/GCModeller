@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f913b2d0f497a571474f8e2ce482c58f, ..\Settings\Shared\InternalApps_CLI\Apps\venn.vb"
+﻿#Region "Microsoft.VisualBasic::77396ed26dd36cb89fc042e5fc7974d8, ..\Settings\Shared\InternalApps_CLI\Apps\venn.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/venn.exe
+' assembly: ..\bin\venn.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

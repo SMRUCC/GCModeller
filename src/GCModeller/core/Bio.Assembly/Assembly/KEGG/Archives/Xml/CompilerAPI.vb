@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c9940011e8509ef305c48c1aa533642, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8eecfd2c7fb2aae775dd128359b175a4, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb"
 
     ' Author:
     ' 
@@ -85,7 +85,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Dim parts = (From bMod As bGetObject.Pathway In Modules Select MapAPI.GetReactions(bMod, source)).IteratesALL
             Dim allCompounds As String() = Modules _
                 .Select(Function(x As bGetObject.Pathway)
-                            Return x.Compound.Select(Function(cp) cp.Key)
+                            Return x.Compound.Select(Function(cp) cp.name)
                         End Function) _
                 .IteratesALL _
                 .Distinct _

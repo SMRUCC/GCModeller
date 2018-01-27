@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f8cfc63656e3a5c59e46018188686ba, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
+﻿#Region "Microsoft.VisualBasic::113639b48b44f16149979d0c2b4ad579, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,11 @@
 
 #End Region
 
-Imports Dir = System.String
-Imports System.Text
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Dir = System.String
 
 Namespace Assembly.NCBI.CDD
 
@@ -49,15 +51,20 @@ Namespace Assembly.NCBI.CDD
         }
 
         Public Function GetItem(Id As String) As CDD.SmpFile
-            Dim LQuery = (From Db As Func(Of DbFile) In _getDBMethods.AsParallel
-                          Let DbFile As DbFile = Db()
-                          Let SmpItem As CDD.SmpFile = DbFile.ContainsId(Id)
-                          Where Not SmpItem Is Nothing
-                          Select SmpItem).FirstOrDefault
+            Dim LQuery = LinqAPI.DefaultFirst(Of CDD.SmpFile) _
+ _
+                () <= From Db As Func(Of DbFile)
+                      In _getDBMethods.AsParallel
+                      Let DbFile As DbFile = Db()
+                      Let SmpItem As CDD.SmpFile = DbFile.ContainsId(Id)
+                      Where Not SmpItem Is Nothing
+                      Select SmpItem
+
             Return LQuery
         End Function
 
         Default Public ReadOnly Property Item(id As String) As CDD.SmpFile
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetItem(id)
             End Get
@@ -125,7 +132,7 @@ Namespace Assembly.NCBI.CDD
         End Function
 
         Public Function LoadFASTA(DbName As String) As FASTA.FastaFile
-            Return SequenceModel.FASTA.FastaFile.Read(String.Format("{0}/{1}.fasta", DIR, DbName))
+            Return FastaFile.Read(String.Format("{0}/{1}.fasta", DIR, DbName))
         End Function
 
         Public Function GetFastaUrl(DbName As String) As String

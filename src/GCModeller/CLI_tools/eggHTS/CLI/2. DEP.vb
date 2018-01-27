@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2b1860c7690d8533963b3db4b287551, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
+﻿#Region "Microsoft.VisualBasic::407493748e4b0844ea94bb9222d80495, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
 
     ' Author:
     ' 
@@ -884,8 +884,9 @@ Partial Module CLI
            .ToArray
         Dim result As New File
 
-        result += {"上调", "下调", "总数"}
+        result += {"组别", "上调", "下调", "总数"}
         result += {
+            [in].BaseName.Split("."c).First,
             DEPs _
                 .Where(Function(prot) Val(prot(log2FC)) > 0) _
                 .Count _

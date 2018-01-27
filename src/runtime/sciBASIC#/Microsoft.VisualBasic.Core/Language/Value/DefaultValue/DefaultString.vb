@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c303aa0c1588547626483da6635cd76e, ..\sciBASIC#\Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
+﻿#Region "Microsoft.VisualBasic::5c047713622a5019511e4079d1750c51, ..\sciBASIC#\Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
 
     ' Author:
     ' 
@@ -28,14 +28,26 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
 
 Namespace Language.Default
 
+    ''' <summary>
+    ''' <see cref="CLI"/> optional value helper data model
+    ''' </summary>
     Public Structure DefaultString : Implements IDefaultValue(Of String)
         Implements IsEmpty
 
+        ''' <summary>
+        ''' The optional argument value that read from <see cref="CLI"/> 
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property DefaultValue As String Implements IDefaultValue(Of String).DefaultValue
 
+        ''' <summary>
+        ''' <see cref="DefaultValue"/> is empty?
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -70,6 +82,46 @@ Namespace Language.Default
             Return s Is Nothing OrElse String.IsNullOrEmpty(s)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Boolean
+            Return str.DefaultValue.ParseBoolean
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Integer
+            Return str.DefaultValue.ParseDouble
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Double
+            Return str.DefaultValue.ParseDouble
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Long
+            Return str.DefaultValue.ParseDouble
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Single
+            Return str.DefaultValue.ParseDouble
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(str As DefaultString) As Short
+            Return str.DefaultValue.ParseDouble
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator IsTrue(str As DefaultString) As Boolean
+            Return CType(str, Boolean)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator IsFalse(str As DefaultString) As Boolean
+            Return False = CType(str, Boolean)
+        End Operator
+
         ''' <summary>
         ''' If <paramref name="value"/> is empty then returns <paramref name="default"/>, else returns <paramref name="value"/> itself.
         ''' </summary>
@@ -99,5 +151,4 @@ Namespace Language.Default
             Return s1 & s2.DefaultValue
         End Operator
     End Structure
-
 End Namespace

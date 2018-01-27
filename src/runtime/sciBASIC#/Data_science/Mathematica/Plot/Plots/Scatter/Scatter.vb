@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c209c898da3c93bf56c89d3f14c3a13e, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::7d73ba7a09650d5069ee9e40c15bc55e, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -170,7 +170,8 @@ Public Module Scatter
                          Optional htmlLabel As Boolean = True,
                          Optional ticksY# = -1,
                          Optional preferPositive As Boolean = False,
-                         Optional interplot As Splines = Splines.None) As GraphicsData
+                         Optional interplot As Splines = Splines.None,
+                         Optional densityColor As Boolean = False) As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
@@ -195,45 +196,36 @@ Public Module Scatter
                     XTicks = AxisProvider.TryParse(xaxis).AxisTicks
                     YTicks = AxisProvider.TryParse(yaxis).AxisTicks
                     X = XTicks.LinearScale.range(integers:={region.Left, region.Right})
-                    Y = YTicks.LinearScale.range(integers:={0, region.Bottom - region.Top})
+                    Y = YTicks.LinearScale.range(integers:={region.Bottom, region.Top})
                 Else
                     X = d3js.scale.linear.domain(XTicks).range(integers:={region.Left, region.Right})
-                    Y = d3js.scale.linear.domain(YTicks).range(integers:={0, region.Bottom - region.Top}) ' Y 为什么是从零开始的？
+                    Y = d3js.scale.linear.domain(YTicks).range(integers:={region.Bottom, region.Top})
                 End If
 
                 Dim scaler As New DataScaler With {
                     .X = X,
                     .Y = Y,
-                    .ChartRegion = region,
+                    .Region = region,
                     .AxisTicks = (XTicks, YTicks)
                 }
                 Dim gSize As Size = rect.Size
 
-                'If xaxis.StringEmpty OrElse yaxis.StringEmpty Then
-                '    Mapper = New Mapper(
-                '        serialsData,
-                '        XabsoluteScalling:=XaxisAbsoluteScalling,
-                '        YabsoluteScalling:=YaxisAbsoluteScalling)
-                'Else
-                '    Mapper = New Mapper(x:=xaxis, y:=yaxis, range:=serialsData)
-                'End If
-
                 If drawAxis Then
                     Call g.DrawAxis(
-                        rect, scaler, showGrid, xlabel:=Xlabel, ylabel:=Ylabel,
-                        htmlLabel:=htmlLabel)
+                        rect, scaler, showGrid,
+                        xlabel:=Xlabel, ylabel:=Ylabel,
+                        htmlLabel:=htmlLabel
+                    )
                 End If
 
                 Dim width = rect.PlotRegion.Width / 200
 
                 For Each line As SerialData In array
                     Dim pts = line.pts.SlideWindows(2)
-                    Dim pen As New Pen(color:=line.color, width:=line.width) With {
-                        .DashStyle = line.lineType
-                    }
+                    Dim pen As Pen = line.GetPen
                     Dim br As New SolidBrush(line.color)
                     Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
-                    Dim d = line.PointSize
+                    Dim d! = line.PointSize
                     Dim r As Single = line.PointSize / 2
                     Dim bottom! = gSize.Height - margin.Bottom
                     Dim getPointBrush = Function(pt As PointData)
@@ -352,7 +344,7 @@ Public Module Scatter
                 Next
             End Sub
 
-        Return GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
+        Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
     End Function
 
     Public Function Plot(x As Vector,
@@ -436,9 +428,8 @@ Public Module Scatter
             Next
         End If
 
-        For Each x# In ranges
-            Call engine _
-                .SetVariable(range.Name, x)
+        For Each x As Double In ranges
+            Call engine.SetVariable(range.Name, x)
             y += engine.Evaluation(expression)
         Next
 
@@ -473,7 +464,7 @@ Public Module Scatter
         Dim ranges As Double() = range.seq(steps).ToArray
         Dim y As New List(Of Double)
 
-        For Each x# In ranges
+        For Each x As Double In ranges
             y += expression(x#)
         Next
 

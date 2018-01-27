@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e865c3cf71fb7f2109e78e7edd23d44c, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::5ab74dd28a8a4c793ad79b3453e94331, ..\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -156,6 +156,13 @@ Public Module KeyValuePairExtensions
         Next
     End Function
 
+    <Extension>
+    Public Iterator Function EnumerateTuples(Of K, V)(table As IEnumerable(Of KeyValuePair(Of K, V))) As IEnumerable(Of (tag As K, obj As V))
+        For Each entry In table
+            Yield (entry.Key, entry.Value)
+        Next
+    End Function
+
     <Extension> Public Function AsNamedVector(Of T)(groups As IEnumerable(Of IGrouping(Of String, T))) As IEnumerable(Of NamedCollection(Of T))
         Return groups.Select(Function(group)
                                  Return New NamedCollection(Of T) With {
@@ -175,6 +182,7 @@ Public Module KeyValuePairExtensions
                             End Function)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function IGrouping(Of T)(source As IEnumerable(Of NamedCollection(Of T))) As IEnumerable(Of IGrouping(Of String, T))
         Return source.Select(Function(x) DirectCast(x, IGrouping(Of String, T)))
@@ -262,6 +270,7 @@ Public Module KeyValuePairExtensions
         Return list.AsList
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Keys(Of K, V)(source As IEnumerable(Of IGrouping(Of K, V))) As K()
         Return source _
@@ -317,6 +326,8 @@ Public Module KeyValuePairExtensions
     ''' <param name="table"></param>
     ''' <param name="k"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ContainsKey(Of T As INamedValue)(table As Dictionary(Of T), k As NamedValue(Of T)) As Boolean
         Return table.ContainsKey(k.Name)
@@ -329,6 +340,8 @@ Public Module KeyValuePairExtensions
     ''' <param name="table"></param>
     ''' <param name="k"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ContainsKey(Of T)(table As Dictionary(Of String, T), k As NamedValue(Of T)) As Boolean
         Return table.ContainsKey(k.Name)
@@ -341,6 +354,8 @@ Public Module KeyValuePairExtensions
     ''' <typeparam name="V"></typeparam>
     ''' <param name="source"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DictionaryData(Of T, V)(source As IReadOnlyDictionary(Of T, V)) As Dictionary(Of T, V)
         Return source.ToDictionary(Function(x) x.Key, Function(x) x.Value)
@@ -369,6 +384,7 @@ Public Module KeyValuePairExtensions
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NamedValues(maps As IEnumerable(Of IDMap)) As NamedValue(Of String)()
         Return maps _
@@ -492,6 +508,8 @@ Public Module KeyValuePairExtensions
     ''' <param name="key$">The key to locate in the <see cref="NameValueCollection"/></param>
     ''' <returns>true if the System.Collections.Generic.Dictionary`2 contains an element with
     ''' the specified key; otherwise, false.</returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ContainsKey(d As NameValueCollection, key$) As Boolean
         Return Not String.IsNullOrEmpty(d(key))
@@ -508,6 +526,8 @@ Public Module KeyValuePairExtensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ParserDictionary(Of T As Structure)() As Dictionary(Of String, T)
         Return Enums(Of T).ToDictionary(Function(x) DirectCast(CType(x, Object), [Enum]).Description)
     End Function
@@ -519,6 +539,8 @@ Public Module KeyValuePairExtensions
     ''' <param name="d"></param>
     ''' <param name="key"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function HaveData(Of T)(d As Dictionary(Of T, String), key As T) As Boolean
         Return d.ContainsKey(key) AndAlso Not String.IsNullOrEmpty(d(key))
@@ -533,6 +555,13 @@ Public Module KeyValuePairExtensions
         Next
 
         Return hash
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ToDictionary(Of K, V, KOut, VOut)(input As IEnumerable(Of KeyValuePair(Of K, V)), key As Func(Of K, V, KOut), value As Func(Of K, V, VOut)) As Dictionary(Of KOut, VOut)
+        Return input.ToDictionary(Function(tuple) key(tuple.Key, tuple.Value),
+                                  Function(tuple) value(tuple.Key, tuple.Value))
     End Function
 
     Const sourceEmpty$ = "Source is nothing, returns empty dictionary table!"
@@ -645,6 +674,12 @@ Public Module KeyValuePairExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function [Select](Of K, V, T)(source As IEnumerable(Of KeyValuePair(Of K, V)), project As Func(Of K, V, T)) As IEnumerable(Of T)
+        Return source.Select(Function(value) project(value.Key, value.Value))
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function [Select](Of V, T)(source As IEnumerable(Of KeyValuePair(Of String, V)), project As Func(Of String, V, T)) As IEnumerable(Of T)
         Return source.Select(Function(value) project(value.Key, value.Value))
     End Function
 End Module

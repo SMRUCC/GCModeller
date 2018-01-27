@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25812c12dac9ecf4fcec03c898655832, ..\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\SearchEngine.vb"
+﻿#Region "Microsoft.VisualBasic::839cd3091b8227a886fcafba11930522, ..\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\SearchEngine.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,8 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
                     Description:="",
                     Url:="http://cn.bing.com/")>
 Public Module SearchEngineProvider
+
+    Public Const BingRefer$ = "https://cn.bing.com/?FORM=Z9FD1"
 
     Const BingURL As String = "https://www.bing.com/search?q={0}&PC=U316&FORM=Firefox"
     Const TotalCount As String = "<span class=""sb_count"">\d+ results</span>"

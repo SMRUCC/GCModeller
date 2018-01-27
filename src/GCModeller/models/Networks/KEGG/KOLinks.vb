@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cc80cbcfb259ae25bd17456a9f3a7ff, ..\GCModeller\models\Networks\KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::c88d8ee2d236b77e90f5f1215b85891e, ..\GCModeller\models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Public Class KOLinks
                 .ToArray
             Dim pathways As NamedValue() = xml.Pathway _
                 .Select(Function(x)
-                            Return New NamedValue(x.Key, x.Value.TrimNewLine().Trim)
+                            Return New NamedValue(x.name, x.text.TrimNewLine().Trim)
                         End Function) _
                 .ToArray
 

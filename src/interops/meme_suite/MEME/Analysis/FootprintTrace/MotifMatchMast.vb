@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::957add8b853e185d308174d7fcd4c602, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\MotifMatchMast.vb"
+﻿#Region "Microsoft.VisualBasic::3026a0eb3a20002916dc946676197cac, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\MotifMatchMast.vb"
 
     ' Author:
     ' 
@@ -28,13 +28,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.Utility
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -318,7 +318,7 @@ Namespace Analysis.FootprintTraceAPI
                 For Each TF As Regulator In regulators
                     Dim copy As MotifSiteHit = site.Copy
                     copy.Regulators = {TF.LocusId}
-                    copy.Family = TF.Family
+                    copy.Family = TF.family
 
                     Yield copy
                 Next

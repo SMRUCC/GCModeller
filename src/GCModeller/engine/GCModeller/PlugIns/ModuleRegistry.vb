@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b13ea472a0027acc817805e8e5f950a, ..\GCModeller\engine\GCModeller\PlugIns\ModuleRegistry.vb"
+﻿#Region "Microsoft.VisualBasic::c7b56e0c5dae8f4dbf470acf1c55ce72, ..\GCModeller\engine\GCModeller\PlugIns\ModuleRegistry.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace PlugIns
 
@@ -59,8 +59,7 @@ Namespace PlugIns
             If ModuleEntry Is Nothing Then
                 Return Nothing
             Else
-                Dim RegistryItem As Microsoft.VisualBasic.ComponentModel.KeyValuePair =
-                    New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
+                Dim RegistryItem As New KeyValuePair With {
                         .Key = ModuleEntry.ModelName, .Value = AssemblyPath}
                 Dim LQuery = From Item In Modules Where String.Equals(RegistryItem.Key, Item.Key) Select Item  '
                 If LQuery.ToArray.Count = 0 Then

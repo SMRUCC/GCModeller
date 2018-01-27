@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::561e721a61f4b311eedb8df2ab608b81, ..\interops\visualize\Phylip\MatrixFile\MatrixFile.vb"
+﻿#Region "Microsoft.VisualBasic::6ef2c13dc912dccd59fd5cbf08361edf, ..\interops\visualize\Phylip\MatrixFile\MatrixFile.vb"
 
     ' Author:
     ' 
@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace MatrixFile
 

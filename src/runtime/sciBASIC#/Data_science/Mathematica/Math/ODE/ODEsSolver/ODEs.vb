@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff24952ec174fd187b611d8cbc49e816, ..\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver\ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::f08860a735a808c3e1ad4c0b239a11f5, ..\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver\ODEs.vb"
 
     ' Author:
     ' 
@@ -224,7 +224,7 @@ Public MustInherit Class ODEs
     Protected MustOverride Sub func(dx#, ByRef dy As Vector)
 
     Private Sub ODEs(dx As Double, y As Vector, ByRef k As Vector)
-        For Each x In vars       ' 更新设置y的值
+        For Each x As var In vars       ' 更新设置y的值
             x.value = y(x.Index)
         Next
 

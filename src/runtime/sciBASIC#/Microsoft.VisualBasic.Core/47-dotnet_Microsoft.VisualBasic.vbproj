@@ -166,7 +166,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
@@ -477,7 +477,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'installer_x64|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>..\.vs\installer\</OutputPath>
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
@@ -718,6 +718,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\VBDev\Ngen\Registry.vb" />
+    <Compile Include="ApplicationServices\VBDev\XmlDoc\Extensions\APIExtensions2.vb" />
+    <Compile Include="ApplicationServices\VBDev\XmlDoc\Extensions\VBSpecific.vb" />
     <Compile Include="CommandLine\CLI\Scripting.vb" />
     <Compile Include="CommandLine\InteropService\Abstract.vb" />
     <Compile Include="CommandLine\InteropService\CLIAbstractor.vb" />
@@ -757,7 +759,11 @@
     <Compile Include="ComponentModel\DataSource\Abstract.vb" />
     <Compile Include="ComponentModel\DataSource\Repository\QueryCache.vb" />
     <Compile Include="ComponentModel\DataStructures\Enumerable\NamedValueList.vb" />
+    <Compile Include="ComponentModel\DataStructures\Set\BadBehaviourResponses.vb" />
+    <Compile Include="ComponentModel\DataStructures\Set\StringSet.vb" />
     <Compile Include="ComponentModel\DataStructures\Set\SetsExtension.vb" />
+    <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\Extensions.vb" />
+    <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\Abstract.vb" />
     <Compile Include="ComponentModel\DriverModel.vb" />
     <Compile Include="ComponentModel\DataSource\Tsv.vb" />
     <Compile Include="ComponentModel\DataSource\Property\NamedCollection%28Of T%29.vb" />
@@ -771,7 +777,6 @@
     <Compile Include="ComponentModel\DataSource\SchemaMaps\Mappings.vb" />
     <Compile Include="ComponentModel\DataSource\SchemaMaps\Schema.vb" />
     <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\ClusterParts.vb" />
-    <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\NewickParser.vb" />
     <Compile Include="ComponentModel\DataStructures\CapacityQueue.vb" />
     <Compile Include="ComponentModel\DataStructures\BucketDictionary.vb" />
     <Compile Include="ComponentModel\DataStructures\FuzzyGroup.vb" />
@@ -837,9 +842,13 @@
     <Compile Include="Extensions\Reflection\Methods.vb" />
     <Compile Include="Extensions\Reflection\Parameters\Simple.vb" />
     <Compile Include="Extensions\Reflection\Parameters\ParamLogUtility.vb" />
+    <Compile Include="Extensions\ValueTypes\RangeExtensions.vb" />
     <Compile Include="Extensions\WebServices\HttpGet.vb" />
     <Compile Include="Language\Linq\Assert\AssertEqualsExtensions.vb" />
     <Compile Include="Language\Linq\Assert\VectorAssert.vb" />
+    <Compile Include="Language\Linq\Vectorization\BooleanVector.vb" />
+    <Compile Include="Language\Linq\Vectorization\Extensions.vb" />
+    <Compile Include="Language\Linq\Vectorization\StringVector.vb" />
     <Compile Include="Language\Value\DefaultValue\DefaultString.vb" />
     <Compile Include="Language\Value\DefaultValue\DefaultExtensions.vb" />
     <Compile Include="Scripting\Expressions\Aggregate.vb" />
@@ -850,16 +859,16 @@
     <Compile Include="Extensions\WebServices\Http\GZStream.vb" />
     <Compile Include="Extensions\WebServices\sitemap.xml.vb" />
     <Compile Include="Language\Runtime.vb" />
-    <Compile Include="Language\lang\C\Vector.vb" />
-    <Compile Include="Language\lang\Java\Line2D.vb" />
-    <Compile Include="Language\lang\Java\Collections.vb" />
-    <Compile Include="Language\lang\Java\Reflection.vb" />
-    <Compile Include="Language\Linq\SchemaProvider.vb" />
+    <Compile Include="Language\Language\C\Vector.vb" />
+    <Compile Include="Language\Language\Java\Line2D.vb" />
+    <Compile Include="Language\Language\Java\Collections.vb" />
+    <Compile Include="Language\Language\Java\Reflection.vb" />
+    <Compile Include="Language\Linq\Vectorization\SchemaProvider.vb" />
     <Compile Include="Language\Linq\Indexer.vb" />
-    <Compile Include="Language\Linq\Vector.vb" />
-    <Compile Include="Language\Linq\VectorShadows.vb" />
+    <Compile Include="Language\Linq\Vectorization\Vector.vb" />
+    <Compile Include="Language\Linq\Vectorization\VectorShadows.vb" />
     <Compile Include="Language\Linq\List%28Of T%29.vb" />
-    <Compile Include="Language\lang\Perl\die.vb" />
+    <Compile Include="Language\Language\Perl\die.vb" />
     <Compile Include="Language\API.vb" />
     <Compile Include="Language\Value\DefaultValue\Default.vb" />
     <Compile Include="Scripting\Abstract.vb" />
@@ -874,6 +883,7 @@
     <Compile Include="Text\GreekAlphabets.vb" />
     <Compile Include="Text\StringSimilarity\Levenshtein\LevenshteinString.vb" />
     <Compile Include="Text\Xml\Linq\NodeIterator.vb" />
+    <Compile Include="Text\Xml\Models\StringValue.vb" />
     <Compile Include="Text\Xml\Models\Coordinate.vb" />
     <Compile Include="ComponentModel\DataSource\Property\DynamicProperty.vb" />
     <Compile Include="ComponentModel\DataSource\Iterator.vb" />
@@ -895,9 +905,9 @@
     <Compile Include="ComponentModel\ValuePair\GenericAbstract.vb" />
     <Compile Include="ComponentModel\ValuePair\Binding.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\TagData.vb" />
-    <Compile Include="Language\lang\UnixBash\ShellSyntax.vb" />
-    <Compile Include="Language\lang\UnixBash\Shell\tree.vb" />
-    <Compile Include="Language\lang\UnixBash\Shell\rm.vb" />
+    <Compile Include="Language\Language\UnixBash\ShellSyntax.vb" />
+    <Compile Include="Language\Language\UnixBash\Shell\tree.vb" />
+    <Compile Include="Language\Language\UnixBash\Shell\rm.vb" />
     <Compile Include="Language\Value\Numeric\int.vb" />
     <Compile Include="Language\Value\Numeric\float.vb" />
     <Compile Include="Language\Value\var.vb" />
@@ -940,33 +950,33 @@
     <Compile Include="Text\StringSimilarity\Wildcards.vb" />
     <Compile Include="Extensions\WebServices\UserAgent.vb" />
     <Compile Include="Extensions\WebServices\RequestBuilder.vb" />
-    <Compile Include="Language\lang\C\RandomNumbers.vb" />
-    <Compile Include="Language\lang\Java\Arrays.vb" />
+    <Compile Include="Language\Language\C\RandomNumbers.vb" />
+    <Compile Include="Language\Language\Java\Arrays.vb" />
     <Compile Include="Language\Linq\LanguageExtensions.vb" />
-    <Compile Include="Language\lang\Python\Array.vb" />
-    <Compile Include="Language\lang\Python\Regexp.vb" />
+    <Compile Include="Language\Language\Python\Array.vb" />
+    <Compile Include="Language\Language\Python\Regexp.vb" />
     <Compile Include="Language\Value\Value.vb" />
-    <Compile Include="Language\lang\Python\Collection.vb" />
-    <Compile Include="Language\lang\Python\NamedTuple.vb" />
+    <Compile Include="Language\Language\Python\Collection.vb" />
+    <Compile Include="Language\Language\Python\NamedTuple.vb" />
     <Compile Include="ApplicationServices\Parallel\Threads\ThreadPool.vb" />
     <Compile Include="Serialization\JSON\SchemaProvider\Markdown.vb" />
     <Compile Include="Serialization\JSON\SchemaProvider\Extensions.vb" />
     <Compile Include="Serialization\JSON\SchemaProvider\VisualBasicCode.vb" />
     <Compile Include="Serialization\JSON\SchemaProvider\Schema.vb" />
     <Compile Include="Text\ASCII.vb" />
-    <Compile Include="Language\lang\Perl\Tools.vb" />
+    <Compile Include="Language\Language\Perl\Tools.vb" />
     <Compile Include="Language\Value\Pointer.vb" />
-    <Compile Include="Language\lang\Java\JavaMath.vb" />
-    <Compile Include="Language\lang\Java\LogTricks.vb" />
-    <Compile Include="Language\lang\Java\MathUtils.vb" />
-    <Compile Include="Language\lang\Java\MersenneTwisterFast.vb" />
+    <Compile Include="Language\Language\Java\JavaMath.vb" />
+    <Compile Include="Language\Language\Java\LogTricks.vb" />
+    <Compile Include="Language\Language\Java\MathUtils.vb" />
+    <Compile Include="Language\Language\Java\MersenneTwisterFast.vb" />
     <Compile Include="Language\Value\Uid.vb" />
-    <Compile Include="Language\lang\C\CString.vb" />
-    <Compile Include="Language\lang\C\File.vb" />
+    <Compile Include="Language\Language\C\CString.vb" />
+    <Compile Include="Language\Language\C\File.vb" />
     <Compile Include="Language\StringHelpers.vb" />
     <None Include="Extensions\Reflection\Delegate\README.md" />
     <None Include="ApplicationServices\Parallel\Threads\LQuerySchedule\ParallelLinq.md" />
-    <Compile Include="Language\lang\UnixBash\PS1.vb" />
+    <Compile Include="Language\Language\UnixBash\PS1.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\IParallelTask.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\__backgroundTask%28Of T%29.vb" />
     <Compile Include="ApplicationServices\Parallel\Threads\BatchTasks.vb" />
@@ -1001,7 +1011,7 @@
     <Compile Include="Text\Xml\OpenXml\Content_Types.vb" />
     <Compile Include="Text\Xml\XmlBuilder.vb" />
     <Compile Include="Text\Xml\Linq\Linq.vb" />
-    <Compile Include="Text\Xml\Models\Models.vb" />
+    <Compile Include="Text\Xml\Models\ValueTuples\NamedValues.vb" />
     <Compile Include="Text\Xml\Extensions.vb" />
     <Compile Include="Text\Xml\XmlDeclaration.vb" />
     <Compile Include="Text\Xml\Xmlns.vb" />
@@ -1014,8 +1024,8 @@
     <Compile Include="Extensions\Math\NumberGroups.vb" />
     <Compile Include="Extensions\StringHelpers\RegexExtensions.vb" />
     <Compile Include="Language\NET40_Compatible.vb" />
-    <Compile Include="Language\lang\UnixBash\FileSystem\PathMapper.vb" />
-    <Compile Include="Language\lang\UnixBash\LinuxRunHelper.vb" />
+    <Compile Include="Language\Language\UnixBash\FileSystem\PathMapper.vb" />
+    <Compile Include="Language\Language\UnixBash\LinuxRunHelper.vb" />
     <Compile Include="LICENSE.vb" />
     <Compile Include="Scripting\MetaData\Author.vb" />
     <Compile Include="Serialization\BinaryDumping\StructFormatter.vb" />
@@ -1032,8 +1042,6 @@
     <Compile Include="ApplicationServices\VBDev\XmlDoc\ProjectNamespace.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\ProjectSpace.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\ProjectType.vb" />
-    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\URLBuilder.vb" />
-    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\Libraries.vb" />
     <Compile Include="ApplicationServices\Tools\Win32\HardwareInfo.vb" />
     <Compile Include="ApplicationServices\Tools\Win32\GetLastErrorAPI.vb" />
     <Compile Include="ApplicationServices\Tools\Win32\TaskManager.vb" />
@@ -1046,7 +1054,7 @@
     <None Include="app.config" />
     <None Include="ApplicationServices\Terminal\xConsole\TestProgram.txt" />
     <Compile Include="ApplicationServices\Terminal\xConsole\xConsole.vb" />
-    <Compile Include="Language\lang\UnixBash\Cowsay.vb" />
+    <Compile Include="Language\Language\UnixBash\Cowsay.vb" />
     <Compile Include="ApplicationServices\App.vb" />
     <Compile Include="Extensions\CodeDOM\CodeDOM.vb" />
     <Compile Include="Extensions\CodeDOM\CodeDOMExpressions.vb" />
@@ -1088,11 +1096,11 @@
     <Compile Include="Text\IO\UnbufferedStringReader.vb" />
     <Compile Include="Text\Parser\HtmlParser\Table.vb" />
     <Compile Include="Language\Class.vb" />
-    <Compile Include="Language\lang\UnixBash\Shell\ls.vb" />
-    <Compile Include="Language\lang\UnixBash\FileSystem\File.vb" />
+    <Compile Include="Language\Language\UnixBash\Shell\ls.vb" />
+    <Compile Include="Language\Language\UnixBash\FileSystem\File.vb" />
     <Compile Include="Language\BaseClass.vb" />
     <Compile Include="Language\Value\Numeric\Numeric.vb" />
-    <Compile Include="Language\lang\UnixBash\Shell\Text\Grep.vb" />
+    <Compile Include="Language\Language\UnixBash\Shell\Text\Grep.vb" />
     <Compile Include="ApplicationServices\Tools\MMFProtocol\WorkFlow.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\CallbackTask.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\TaskQueue.vb" />
@@ -1236,8 +1244,8 @@
     <Compile Include="Serialization\ConfigMappings\ConfigurationMappings.vb" />
     <Compile Include="Serialization\ShadowsCopy.vb" />
     <Compile Include="Scripting\TextGrepScriptEngine.vb" />
-    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\Member.vb" />
-    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\Doc.vb" />
+    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\Models\Member.vb" />
+    <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\Models\Doc.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\APIExtensions.vb" />
     <Compile Include="ApplicationServices\ZipLib.vb" />
     <Compile Include="ComponentModel\DataSource\DataFramework.vb" />
@@ -1249,7 +1257,7 @@
     <Compile Include="ComponentModel\Href.vb" />
     <Compile Include="ComponentModel\DataSource\SchemaMaps\DataSource.vb" />
     <Compile Include="ComponentModel\DataStructures\Enumerable\IEnumerable.vb" />
-    <Compile Include="ComponentModel\ValuePair\ValuePair.vb" />
+    <Compile Include="Text\Xml\Models\ValueTuples\ValuePair.vb" />
     <Compile Include="Serialization\DumpData\DumpData.vb" />
     <Compile Include="Serialization\DumpData\DumpNode.vb" />
     <Compile Include="Extensions\Security\TripleDES.vb" />
@@ -1274,7 +1282,7 @@
     <Compile Include="ApplicationServices\Tools\MMFProtocol\ProcessLock.vb" />
     <Compile Include="ApplicationServices\Terminal\STDIO__\Shell.vb" />
     <Compile Include="ApplicationServices\Terminal\STDIO__\I_ConsoleDeviceHandle.vb" />
-    <Compile Include="Language\lang\C\CFormatProvider.vb" />
+    <Compile Include="Language\Language\C\CFormatProvider.vb" />
     <Compile Include="ApplicationServices\Terminal\STDIO__\STDIO.vb" />
     <Compile Include="ComponentModel\DataStructures\HashList\HashModel.vb" />
     <Compile Include="ComponentModel\DataStructures\HashList\HashList.vb" />

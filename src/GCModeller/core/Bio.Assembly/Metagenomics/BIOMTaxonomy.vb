@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::833cb0796229f14fc789811512e30747, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::ef7324464776298047417f40d28877f6, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 
@@ -95,7 +95,7 @@ Namespace Metagenomics
                 .Replace("[", "") _
                 .Replace("]", "") _
                 .Split(deli) _
-                .Select(AddressOf Trim) _
+                .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
@@ -123,8 +123,16 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="taxonomy$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
+        ''' 在这里替换掉
+        ''' </remarks>
         Public Function TaxonomyParser(taxonomy$) As Dictionary(Of String, String)
-            Dim tokens$() = taxonomy.Split(";"c) _
+            Dim tokens$() = taxonomy _
+                .Replace("[", "") _
+                .Replace("]", "") _
+                .StringReplace("\s+", " ") _
+                .Split(";"c) _
                 .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim catalogs As NamedValue(Of String)() = tokens _
@@ -173,10 +181,10 @@ Namespace Metagenomics
 #End Region
 
         <Extension>
-        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String)) As Dictionary(Of String, String)
+        Public Function FillLineageEmpty(lineage As Dictionary(Of String, String), Optional empty$ = "NA") As Dictionary(Of String, String)
             For Each level As String In NcbiTaxonomyTree.stdranks
                 If Not lineage.ContainsKey(level) Then
-                    Call lineage.Add(level, "NA")
+                    Call lineage.Add(level, empty)
                 End If
             Next
 

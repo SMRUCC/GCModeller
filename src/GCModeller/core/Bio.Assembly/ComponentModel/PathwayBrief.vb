@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae989e93d402501ead44c97c83455e60, ..\GCModeller\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::504181b38311ad258b1031b332b94f54, ..\GCModeller\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel
 
@@ -35,9 +36,9 @@ Namespace ComponentModel
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
-        <XmlAttribute>
+        <XmlAttribute("id")>
         Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
-        Public Property Description As String Implements IKeyValuePairObject(Of String, String).Value
+        Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
         ''' Gets the pathway related genes.
@@ -49,14 +50,17 @@ Namespace ComponentModel
         ''' 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <XmlIgnore>
         Public Overridable ReadOnly Property BriteId As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return EntryId
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", EntryId, Description)
+            Return String.Format("{0}: {1}", EntryId, description)
         End Function
     End Class
 End Namespace

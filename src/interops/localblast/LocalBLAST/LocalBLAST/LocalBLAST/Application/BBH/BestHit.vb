@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00c2675b51b706d1068c610bd72220d4, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb"
+﻿#Region "Microsoft.VisualBasic::ef0ba5c3a9418e52fbbbf014182e84f4, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 

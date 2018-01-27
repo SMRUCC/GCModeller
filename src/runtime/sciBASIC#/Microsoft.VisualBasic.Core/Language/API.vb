@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b11fb99bd6ff2f08b8dfbed4b24409fd, ..\sciBASIC#\Microsoft.VisualBasic.Core\Language\API.vb"
+﻿#Region "Microsoft.VisualBasic::0e951df315ccd2694c587cdda0a7a72b, ..\sciBASIC#\Microsoft.VisualBasic.Core\Language\API.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.Perl
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Language
@@ -150,5 +151,11 @@ Namespace Language
             Return x Is Nothing
         End Function
 #End Region
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsVector(strings As IEnumerable(Of String)) As StringVector
+            Return New StringVector(strings)
+        End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f049868a9611d2a57953320f2dfc54b9, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\xl\worksheets\sheet.xml.vb"
+﻿#Region "Microsoft.VisualBasic::ec2108df552351c67b8dd950ce22a8a8, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\xl\worksheets\sheet.xml.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,10 @@ Namespace XML.xl.worksheets
         Public Property pageMargins As pageMargins
         Public Property pageSetup As pageSetup
         Public Property sheetViews As sheetView()
+        Public Property sheetFormatPr As sheetFormatPr
+        Public Property conditionalFormatting As conditionalFormatting
+        Public Property hyperlinks As hyperlink()
+        Public Property drawing As drawing
 
         <XmlAttribute("uid", [Namespace]:=xr)>
         Public Property uid As String
@@ -64,6 +68,37 @@ Namespace XML.xl.worksheets
         Public Overrides Function ToString() As String
             Return uid
         End Function
+    End Class
+
+    Public Class drawing
+        <XmlAttribute("id", [Namespace]:=Excel.Xmlns.r)>
+        Public Property id As String
+    End Class
+
+    Public Class hyperlink
+        <XmlAttribute> Public Property ref As String
+        <XmlAttribute("id", [Namespace]:=Excel.Xmlns.r)> Public Property id As String
+    End Class
+
+    Public Class conditionalFormatting
+        <XmlAttribute> Public Property sqref As String
+        <XmlElement(NameOf(cfRule))>
+        Public Property cfRules As cfRule()
+    End Class
+
+    Public Class cfRule
+        Public Property formula As String
+        <XmlAttribute> Public Property type As String
+        <XmlAttribute> Public Property dxfId As String
+        <XmlAttribute> Public Property priority As String
+        <XmlAttribute> Public Property [operator] As String
+    End Class
+
+    Public Class sheetFormatPr
+        <XmlAttribute>
+        Public Property defaultRowHeight As String
+        <XmlAttribute("dyDescent", [Namespace]:=Excel.Xmlns.x14ac)>
+        Public Property dyDescent As String
     End Class
 
     Public Class sheetData

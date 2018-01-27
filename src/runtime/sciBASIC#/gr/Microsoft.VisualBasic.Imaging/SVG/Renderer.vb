@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfe7cde58febab2ca5a0997194867fa2, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\Renderer.vb"
+﻿#Region "Microsoft.VisualBasic::8d3e1f2337ca118ede77ba692ddb425b, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\SVG\Renderer.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,18 @@ Namespace SVG
     ''' </summary>
     Public Class Renderer
 
+        ''' <summary>
+        ''' Rendering the SVG document as bitmap image.
+        ''' </summary>
+        ''' <param name="svg"></param>
+        ''' <returns></returns>
         Public Function DrawImage(svg As SVGData) As Drawing.Image
-            Throw New NotImplementedException
+            Using g As Graphics2D = svg.Size.CreateGDIDevice
+
+                Call g.Clear(svg.SVG.bg.GetBrush)
+
+                Return g.ImageResource
+            End Using
         End Function
     End Class
 End Namespace

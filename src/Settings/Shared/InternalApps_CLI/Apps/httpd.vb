@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bee3d1c3469820982a74eb4364105dbd, ..\Settings\Shared\InternalApps_CLI\Apps\httpd.vb"
+﻿#Region "Microsoft.VisualBasic::c3439774a0ece72a2a6782c654db3de7, ..\Settings\Shared\InternalApps_CLI\Apps\httpd.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/httpd.exe
+' assembly: ..\bin\httpd.exe
 
 ' ====================================================
 ' SMRUCC genomics GCModeller Programs Profiles Manager

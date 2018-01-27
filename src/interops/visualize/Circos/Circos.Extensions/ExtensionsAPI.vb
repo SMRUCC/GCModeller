@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e528f4f8e9cb9ea555db9de789b8203b, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b4dc1dc4a46132e4b1d2df711c5fb3c8, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
 
     ' Author:
     ' 
@@ -109,7 +109,7 @@ Public Module ExtensionsAPI
     Public Function FromRegulons(DIR As String, PTT As PTT, Optional requiredMaps As Boolean = False) As HighlightLabel
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaRegulome).regulons.regulators).ToArray.Unlist
         If requiredMaps Then
             Dim Maps As Dictionary(Of String, String) = PTT.LocusMaps
             For Each x As Regulator In bbh
@@ -122,10 +122,10 @@ Public Module ExtensionsAPI
         End If
         Dim LQuery = (From x As Regulator
                       In bbh
-                      Where Not String.IsNullOrEmpty(x.Pathway)
+                      Where Not String.IsNullOrEmpty(x.pathway)
                       Let locus As String() = x.Regulates.Select(Function(g) g.LocusId)
                       Let parts = ContinuouParts(locus)
-                      Select parts.Select(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).Unlist
+                      Select parts.Select(Function(xx) New With {.func = x.pathway, .locus_tags = xx})).Unlist
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
                   Let locus As String() = x.Group.Select(Function(xx) xx.locus_tags).ToVector
