@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d6d4f681c65d69de2f12ebb6dbfbdf6c, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 
@@ -64,6 +65,8 @@ Namespace Core
             End Get
         End Property
 
+        Shared ReadOnly defaultThreads As DefaultValue(Of Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -71,10 +74,7 @@ Namespace Core
         Public Sub New(port As Integer, Optional threads As Integer = -1)
             Me._LocalPort = port
             Me._httpListener = New TcpListener(IPAddress.Any, _LocalPort)
-            Me._threadPool = New Threads.ThreadPool(
-                If(threads = -1,
-                LQuerySchedule.Recommended_NUM_THREADS * 8,
-                threads))
+            Me._threadPool = New Threads.ThreadPool(threads Or defaultThreads)
             Me.BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
             Me.BufferSize = If(BufferSize <= 0, 4096, BufferSize)
 

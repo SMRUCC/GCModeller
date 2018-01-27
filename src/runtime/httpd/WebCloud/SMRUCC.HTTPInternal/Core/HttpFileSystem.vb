@@ -153,6 +153,7 @@ Namespace Core
                         file = index
                     Else
                         index = file & "/index.vbhtml"
+
                         If index.FileExists Then
                             res = file
                             file = index
@@ -165,7 +166,15 @@ Namespace Core
                 End If
             End If
 
-            file = GetFileInfo(file).FullName
+            If file.FileExists Then
+                file = GetFileInfo(file).FullName
+            Else
+                ' 2018-1-27
+
+                ' 在这里还是会存在文件未找到所导致的的崩溃错误
+                ' 所以在这里价格if判断，如果文件不存在，
+                ' 就直接不处理这个资源请求了
+            End If
 
             Return file
         End Function
