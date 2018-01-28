@@ -329,7 +329,10 @@ Namespace LocalBLAST.Application.BBH
             Return maps.Select(Function(q) q.HitName).ToArray
         End Function
 
-        Const HITS_NOT_FOUND$ = NameOf(HITS_NOT_FOUND)
+        ''' <summary>
+        ''' HITS_NOT_FOUND
+        ''' </summary>
+        Public Const HITS_NOT_FOUND$ = NameOf(HITS_NOT_FOUND)
 
         ''' <summary>
         ''' Only using the first besthit paired result for the orthology data, if the query have no matches then using an empty string for the hit name.
