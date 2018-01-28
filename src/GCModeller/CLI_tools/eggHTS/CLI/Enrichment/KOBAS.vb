@@ -327,7 +327,7 @@ Partial Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}-KEGG_enrichment_pathwayMaps/"
         Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
         Dim DEPs$ = args <= "/DEPs"
@@ -355,7 +355,7 @@ Partial Module CLI
                               End Function)
             Dim isDEP As Func(Of EntityObject, Boolean) =
                 Function(gene)
-                    Return gene("is.DEP").TextEquals("TRUE")
+                    Return True = gene("is.DEP").ParseBoolean
                 End Function
             Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
 

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a2e3b052b702f4f26847de54e5002625, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LocalBLAST.Application.BBH
 
@@ -271,6 +272,13 @@ Namespace LocalBLAST.Application.BBH
             Return BestHit
         End Function
 
+        ''' <summary>
+        ''' 按照阈值构建最好的比对结果
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <param name="identities"></param>
+        ''' <param name="coverage"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function __bhHash(source As IEnumerable(Of BestHit),
                                   identities As Double,
@@ -309,6 +317,23 @@ Namespace LocalBLAST.Application.BBH
             Return queries
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function QueryNames(Of T As I_BlastQueryHit)(maps As IEnumerable(Of T)) As String()
+            Return maps.Select(Function(q) q.QueryName).ToArray
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function MapsNames(Of T As I_BlastQueryHit)(maps As IEnumerable(Of T)) As String()
+            Return maps.Select(Function(q) q.HitName).ToArray
+        End Function
+
+        ''' <summary>
+        ''' HITS_NOT_FOUND
+        ''' </summary>
+        Public Const HITS_NOT_FOUND$ = NameOf(HITS_NOT_FOUND)
+
         ''' <summary>
         ''' Only using the first besthit paired result for the orthology data, if the query have no matches then using an empty string for the hit name.
         ''' (只使用第一个做为最佳的双向结果，假若匹配不上，Hitname属性会为空字符串)
@@ -316,8 +341,12 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="qvs"></param>
         ''' <param name="svq"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        '''
+        ''' <remarks>
+        ''' query: 待注释的query，功能未知
+        ''' subject: 数据库之中的已知功能的蛋白，则bbh的输出结果的注释信息来自于subject.
+        ''' 
+        ''' 因为qvs表示query vs subject，所以sbh的注释结果来自于subject，则在这里的注释功能描述结果则来自于qvs之中
+        ''' </remarks>
         <ExportAPI("BBH")>
         Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
             Dim qHash As Dictionary(Of String, BestHit) = qvs.__bhHash(identities, coverage)
@@ -326,25 +355,46 @@ Namespace LocalBLAST.Application.BBH
 
             VBDebugger.Mute = True
 
-            For Each qId As String In (qHash.Keys.AsList + shash.Values.Select(Function(x) x.HitName)).Distinct
-                If String.IsNullOrEmpty(qId) OrElse String.Equals(qId, "HITS_NOT_FOUND") Then
-                    Continue For
-                End If
+            ' 得到所有的query编号
+            ' 然后按照这个编号来查找匹配的结果
+            For Each qId As String In (qHash.Keys.AsList + shash.Values.Select(Function(x) x.HitName)) _
+                .Distinct _
+                .Where(Function(id)
+                           Return Not id.StringEmpty AndAlso Not id.TextEquals(HITS_NOT_FOUND)
+                       End Function)
 
                 Dim query As BestHit = qHash.TryGetValue(qId)
+
                 If query Is Nothing Then
-                    result += New BiDirectionalBesthit With {.QueryName = qId}
+                    result += New BiDirectionalBesthit With {
+                        .QueryName = qId,
+                        .HitName = HITS_NOT_FOUND
+                    }
                 Else
+                    ' 按照query对应的hitName在subject列表之中查找
+                    ' 得到subject，然后再比较一下queryName是否是一致的
+                    ' 如果一致，则存在一个匹配结果
                     Dim subject As BestHit = shash.TryGetValue(query.HitName)
+
                     If subject Is Nothing Then
-                        result += New BiDirectionalBesthit With {.QueryName = qId}
+                        result += New BiDirectionalBesthit With {
+                            .QueryName = qId,
+                            .HitName = HITS_NOT_FOUND
+                        }
+                    ElseIf Not subject.HitName.TextEquals(query.QueryName) Then
+                        ' 找到了目标，但是结果不一致
+                        result += New BiDirectionalBesthit With {
+                            .QueryName = qId,
+                            .HitName = HITS_NOT_FOUND
+                        }
                     Else
                         result += New BiDirectionalBesthit With {
                             .QueryName = qId,
                             .HitName = query.HitName,
                             .Identities = Math.Max(query.identities, subject.identities),
                             .Length = query.length_hit,
-                            .Positive = Math.Max(query.Positive, subject.Positive)
+                            .Positive = Math.Max(query.Positive, subject.Positive),
+                            .Description = query.description
                         }
                     End If
                 End If
