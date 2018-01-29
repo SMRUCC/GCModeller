@@ -174,6 +174,7 @@
     <Compile Include="CLI\Associate.vb" />
     <Compile Include="CLI\Enrichment\KOBAS.vb" />
     <Compile Include="CLI\Enrichment\DAVID.vb" />
+    <Compile Include="CLI\UniProtTools.vb" />
     <Compile Include="CLI\Repository.vb" />
     <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="CLI\Samples\LabelFree.vb" />
