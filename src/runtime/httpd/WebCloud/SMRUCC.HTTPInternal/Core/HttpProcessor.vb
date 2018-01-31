@@ -394,7 +394,7 @@ Namespace Core
             '        </settings>
             ' </system.net>
             ' </configuration>
-            Call outputStream.WriteLine(vbCrLf)
+            Call outputStream.Write(vbCrLf)
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             Call outputStream.Flush()
         End Sub
