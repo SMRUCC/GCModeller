@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8ee2c8485363511ffc61e05b0c4158b, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Submodule.vb"
+﻿#Region "Microsoft.VisualBasic::020de3ba4fa5c55ac0ba48a7ccb7da97, ..\sciBASIC#\Microsoft.VisualBasic.Core\Language\Class.vb"
 
 ' Author:
 ' 
@@ -26,25 +26,11 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-
-Namespace Platform
+Namespace Language
 
     ''' <summary>
-    ''' Web App engine platform components.
+    ''' The VisualBasic.NET language addons
     ''' </summary>
-    Public MustInherit Class Submodule : Inherits BaseClass
-
-        ''' <summary>
-        ''' Platform engine parent host
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property PlatformEngine As PlatformEngine
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Sub New(main As PlatformEngine)
-            PlatformEngine = main
-        End Sub
+    Friend Class NamespaceDoc
     End Class
 End Namespace

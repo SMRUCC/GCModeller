@@ -54,6 +54,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property LocalPort As Integer
+
         ''' <summary>
         ''' Indicates this http server is running status or not. 
         ''' </summary>
@@ -62,6 +63,17 @@ Namespace Core
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Not _httpListener Is Nothing AndAlso _httpListener.Server.IsBound
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' ``http://localhost:<see cref="LocalPort"/>``
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property localhost As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return $"http://localhost:{LocalPort}"
             End Get
         End Property
 

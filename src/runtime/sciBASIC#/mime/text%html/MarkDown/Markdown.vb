@@ -249,6 +249,10 @@ Namespace MarkDown
         Private Shared Function __MarkdownTable(text$) As String
             Dim lines$() = text.lTokens
 
+            If text.StringEmpty OrElse lines.Length < 2 Then
+                Return text
+            End If
+
             For Each line In lines
                 If line.First <> "|"c Then
                     Return text  ' 不是table格式的，则直接返回原始文本
@@ -292,8 +296,12 @@ Namespace MarkDown
 
                 line = "<tr><td>" & Mid(line, 2)                           ' 处理第一个标记
                 If line.Last <> "|"c AndAlso line.Last = ">"c Then  ' 假设这个是br标记，如果是其他的标记，那么我也没有办法了
-                    Dim brTag = br.Matches(line).ToArray.Last
-                    line = Mid(line, 1, line.Length - brTag.Length)
+                    Dim brTags = br.Matches(line).ToArray
+
+                    If brTags.Length > 0 Then
+                        Dim brTag = brTags.Last
+                        line = Mid(line, 1, line.Length - brTag.Length)
+                    End If
                 End If
                 line = Mid(line, 1, line.Length - 1) & "</td></tr>"        ' 处理最后一个标记
                 line = line.Replace("|", "</td><td>")                      ' 处理每一个标记
@@ -949,7 +957,7 @@ Namespace MarkDown
                   [ ]*          # Trailing spaces
                   $             # End of line."
 
-        Private Shared _horizontalRules As New Regex(regex_horizontalRules, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Shared ReadOnly _horizontalRules As New Regex(regex_horizontalRules, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Turn Markdown horizontal rules into HTML hr tags
@@ -1095,6 +1103,9 @@ Namespace MarkDown
         ''' </summary>
         Const SyntaxCodeBloackRegexp$ = CodeBlockFlag & ".+?" & CodeBlockFlag
 
+        ''' <summary>
+        ''' 使用\`符号作为代码块的标记，例如``代码块``
+        ''' </summary>
         Shared ReadOnly __syntaxCodeBlock As New Regex(SyntaxCodeBloackRegexp, RegexICSng)
 
         ''' <summary>
@@ -1111,7 +1122,19 @@ Namespace MarkDown
             )
             ((?=^[ ]{{0,{0}}}[^ \t\n])|\Z) # Lookahead for non-space at line-start, or end of doc"
 
-        Private Shared _codeBlock As New Regex(String.Format(codeBlockRegexp, _tabWidth), RegexPythonRawString)
+        ''' <summary>
+        ''' 这种情况不是使用\`符号作为代码块，而是直接使用三行缩进来作为代码块的标记，例如：
+        ''' 
+        ''' ```
+        ''' 在这里使用缩进来构建代码块
+        ''' 组成结构为 空白行起始 + 三个空格缩进 + 空白行结束
+        ''' 
+        '''    代码
+        '''    代码
+        '''    
+        ''' ```
+        ''' </summary>
+        Shared ReadOnly _codeBlock As New Regex(String.Format(codeBlockRegexp, _tabWidth), RegexPythonRawString)
 
         ''' <summary>
         ''' Turn Markdown 4-space indented code into HTML pre code blocks
@@ -1261,8 +1284,8 @@ Namespace MarkDown
             )+
         )"
 
-        Private Shared _blockquote As New Regex(blockQuoteRegexp, RegexOptions.IgnorePatternWhitespace Or RegexOptions.Multiline Or RegexOptions.Compiled)
-        Private Shared _blockquoteSingleLine As New Regex(blockQuoteSingleLineRegexp, RegexOptions.IgnorePatternWhitespace Or RegexOptions.Multiline Or RegexOptions.Compiled)
+        Shared ReadOnly _blockquote As New Regex(blockQuoteRegexp, RegexOptions.IgnorePatternWhitespace Or RegexOptions.Multiline Or RegexOptions.Compiled)
+        Shared ReadOnly _blockquoteSingleLine As New Regex(blockQuoteSingleLineRegexp, RegexOptions.IgnorePatternWhitespace Or RegexOptions.Multiline Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Turn Markdown > quoted blocks into HTML blockquote blocks
@@ -1299,7 +1322,7 @@ Namespace MarkDown
             Return Regex.Replace(match.Groups(1).Value, "^  ", "", RegexOptions.Multiline)
         End Function
 
-        Private Shared _autolinkBare As New Regex("(<|="")?\b(https?|ftp)(://" & _charInsideUrl & "*" & _charEndingUrl & ")(?=$|\W)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+        Shared ReadOnly _autolinkBare As New Regex("(<|="")?\b(https?|ftp)(://" & _charInsideUrl & "*" & _charEndingUrl & ")(?=$|\W)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Email addresses: address@domain.foo

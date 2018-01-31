@@ -48,17 +48,17 @@ Namespace Platform
         ''' Init engine.
         ''' </summary>
         ''' <param name="port"></param>
-        ''' <param name="root">html wwwroot</param>
+        ''' <param name="wwwroot">html wwwroot</param>
         ''' <param name="nullExists"></param>
         ''' <param name="appDll">Must have a Class object implements the type <see cref="WebApp"/></param>
-        Sub New(root As String,
-                Optional port As Integer = 80,
+        Sub New(wwwroot$,
+                Optional port% = 80,
                 Optional nullExists As Boolean = False,
-                Optional appDll As String = "",
-                Optional threads As Integer = -1,
+                Optional appDll$ = "",
+                Optional threads% = -1,
                 Optional cache As Boolean = False)
 
-            Call MyBase.New(port, root, nullExists, threads:=threads, cache:=cache)
+            Call MyBase.New(port, wwwroot, nullExists, threads:=threads, cache:=cache)
             Call __init(appDll)
         End Sub
 
@@ -102,24 +102,25 @@ Namespace Platform
         Private Sub __runDll(dll As String)
             Dim assm As Assembly = Assembly.LoadFile(dll)
             Dim types As Type() = assm.GetTypes
-            Dim webApp As Type = LinqAPI.DefaultFirst(Of Type) <=
+            Dim webApp As Type = LinqAPI.DefaultFirst(Of Type) _
  _
-                From type As Type
-                In types
-                Where String.Equals(type.Name, NameOf(AppEngine.WebApp), StringComparison.OrdinalIgnoreCase)
-                Select type
+                () <= From type As Type
+                      In types
+                      Where String.Equals(type.Name, NameOf(AppEngine.WebApp), StringComparison.OrdinalIgnoreCase)
+                      Select type
 
             If webApp Is Nothing Then
-                Return     ' 没有定义 Sub Main，则忽略掉这次调用
+                ' 没有定义 Sub Main，则忽略掉这次调用
+                Return
             End If
 
             Dim ms = webApp.GetMethods
-            Dim main As MethodInfo = LinqAPI.DefaultFirst(Of MethodInfo) <=
+            Dim main As MethodInfo = LinqAPI.DefaultFirst(Of MethodInfo) _
  _
-                From m As MethodInfo
-                In ms
-                Where String.Equals(m.Name, "Main", StringComparison.OrdinalIgnoreCase)
-                Select m
+                () <= From m As MethodInfo
+                      In ms
+                      Where String.Equals(m.Name, "Main", StringComparison.OrdinalIgnoreCase)
+                      Select m
 
             If main Is Nothing Then
                 Return
@@ -130,8 +131,7 @@ Namespace Platform
             If params.IsNullOrEmpty Then
                 Call main.Invoke(Nothing, Nothing)
             Else
-                Dim args As Object() = {Me}
-                Call main.Invoke(Nothing, args)
+                Call main.Invoke(Nothing, parameters:={Me})
             End If
         End Sub
 
