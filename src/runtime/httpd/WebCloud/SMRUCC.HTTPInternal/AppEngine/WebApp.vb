@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::cba1ae1cf2bbd83d5cdf73d2d14bcf9a, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\WebApp.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
@@ -43,7 +44,12 @@ Namespace AppEngine
     ''' </remarks>
     Public MustInherit Class WebApp : Inherits Submodule
 
+        ''' <summary>
+        ''' 网页文档的根目录
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property wwwroot As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return PlatformEngine.wwwroot.FullName
             End Get
@@ -90,6 +96,8 @@ Namespace AppEngine
         ''' <param name="method"></param>
         ''' <param name="API">方法对象必须要是在当前的这个实例类型之中所定义的</param>
         ''' <param name="help$"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddDynamics(url$, method As APIMethod, API As MethodInfo, Optional help$ = "")
             Call PlatformEngine.AppManager.Join(url, method, API, APP:=Me, help:=help)
         End Sub
