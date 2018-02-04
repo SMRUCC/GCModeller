@@ -27,15 +27,10 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 
