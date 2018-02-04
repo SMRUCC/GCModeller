@@ -241,7 +241,7 @@ Public Module Volcano
 
                 With plotRegion
                     x = d3js.scale.linear.domain(xTicks).range(integers:={ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range(integers:={0, plotRegion.Height})
+                    y = d3js.scale.linear.domain(yTicks).range(integers:={plotRegion.Top, plotRegion.Bottom})
                 End With
 
                 Dim scaler As New DataScaler With {
@@ -272,7 +272,7 @@ Public Module Volcano
                 Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
 
                 ' 在绘制出pvalue的临界值虚线
-                top = plotRegion.Bottom - y(-Math.Log10(pvalueThreshold))
+                top = scaler.TranslateY(-Math.Log10(pvalueThreshold))
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 For Each gene As DEGModel In DEG_matrix

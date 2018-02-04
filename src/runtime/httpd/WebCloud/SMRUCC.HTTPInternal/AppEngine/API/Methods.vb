@@ -1,35 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::148328699be7abf7078ed86aa49cb714, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Methods.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Drawing
 Imports System.Reflection
-Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Namespace AppEngine.APIMethods
 
@@ -42,8 +39,8 @@ Namespace AppEngine.APIMethods
         ''' type argument using for Build example json
         ''' </summary>
         ''' <param name="responseExample"></param>
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -64,8 +61,12 @@ Returns:<br />
     ''' </summary>
     Public Class POST : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        ''' <summary>
+        ''' By default is <see cref="String"/> type.
+        ''' </summary>
+        ''' <param name="responseExample"></param>
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -83,8 +84,8 @@ Returns:<br />
     ''' </summary>
     Public Class HEAD : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -99,8 +100,8 @@ Returns:<br />
     ''' </summary>
     Public Class PUT : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -113,8 +114,8 @@ Returns:<br />
     ''' </summary>
     Public Class DELETE : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -127,8 +128,8 @@ Returns:<br />
     ''' </summary>
     Public Class TRACE : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -142,8 +143,8 @@ Returns:<br />
     ''' </summary>
     Public Class OPTIONS : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -157,8 +158,8 @@ Returns:<br />
     ''' </summary>
     Public Class CONNECT : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
@@ -171,8 +172,8 @@ Returns:<br />
     ''' </summary>
     Public Class PATCH : Inherits APIMethod
 
-        Sub New(responseExample As Type)
-            Call MyBase.New(responseExample)
+        Sub New(Optional responseExample As Type = Nothing)
+            Call MyBase.New(responseExample Or stringType)
         End Sub
 
         Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String

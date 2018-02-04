@@ -1,43 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::9bccf06c280c2376d5030d0580668965, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports System.Net.Sockets
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.FileIO.FileSystem
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
+Imports fs = Microsoft.VisualBasic.FileIO.FileSystem
 
 Namespace Core
 
@@ -67,11 +68,13 @@ Namespace Core
 
         Public Function AddMappings(DIR As String, url As String) As Boolean
             url = url & "/index.html"
-            url = FileIO.FileSystem.GetParentPath(url).ToLower
+            url = fs.GetParentPath(url).ToLower
+
             If _virtualMappings.ContainsKey(url) Then
                 Call _virtualMappings.Remove(url)
                 Call $"".__DEBUG_ECHO
             End If
+
             Call _virtualMappings.Add(url.Replace("\", "/"), DIR)
 
             Return True
@@ -167,7 +170,7 @@ Namespace Core
             End If
 
             If file.FileExists Then
-                file = GetFileInfo(file).FullName
+                file = fs.GetFileInfo(file).FullName
             Else
                 ' 2018-1-27
 
@@ -248,6 +251,8 @@ Namespace Core
         ''' Public Delegate Function <see cref="IGetResource"/>(ByRef res As <see cref="System.String"/>) As <see cref="Byte()"/>
         ''' </summary>
         ''' <param name="req"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetGetRequest(req As IGetResource)
             _RequestStream = req
         End Sub
@@ -262,7 +267,7 @@ Namespace Core
                 res = wwwroot.FullName
             End If
 
-            Dim mapDIR As String = GetParentPath(res).ToLower.Replace("\", "/")
+            Dim mapDIR As String = fs.GetParentPath(res).ToLower.Replace("\", "/")
 
             If _virtualMappings.ContainsKey(mapDIR) Then
                 res = Mid(res, mapDIR.Length + 1)
@@ -287,11 +292,13 @@ Namespace Core
             Return mapDIR
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Open")>
         Public Shared Function Open(home As String, Optional port As Integer = 80) As HttpFileSystem
             Return New HttpFileSystem(port, home, True)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Run")>
         Public Shared Sub RunServer(server As HttpServer)
             Call server.Run()
@@ -328,7 +335,7 @@ Namespace Core
                 Return False
             End If
 
-            Dim ext$ = GetFileInfo(res) _
+            Dim ext$ = fs.GetFileInfo(res) _
                 .Extension _
                 .ToLower
 
@@ -413,11 +420,13 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Page404 As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return __request404()
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function __httpProcessor(client As TcpClient) As HttpProcessor
             Return New HttpProcessor(client, Me) With {
                 ._404Page = AddressOf __request404

@@ -377,7 +377,24 @@ Namespace Core
             ' Call content.WriteHeader(outputStream)
 
             Call outputStream.WriteLine(XPoweredBy)
-            Call outputStream.WriteLine("")
+            ' 2018-1-31 
+            ' The server committed a protocol violation. 
+            ' Section = ResponseHeader  
+            ' Detail  = CR must be followed by LF
+            '
+            ' RFC 822中的httpHeader必须以CRLF结束的规定的服务器响应。
+            '
+            ' app.config配置文件修改
+            '
+            ' <?xml version="1.0" encoding="utf-8" ?>
+            ' <configuration>
+            ' <system.net> 
+            '        <settings> 
+            '               <httpWebRequest useUnsafeHeaderParsing = "true" />
+            '        </settings>
+            ' </system.net>
+            ' </configuration>
+            Call outputStream.Write(vbCrLf)
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             Call outputStream.Flush()
         End Sub
