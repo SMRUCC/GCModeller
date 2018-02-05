@@ -370,7 +370,8 @@
   <ItemGroup>
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
-    <Compile Include="AppEngine\API\Arguments.vb" />
+    <Compile Include="AppEngine\API\args\HttpRequest.vb" />
+    <Compile Include="AppEngine\API\args\HttpResponse.vb" />
     <Compile Include="AppEngine\API\Methods.vb" />
     <Compile Include="AppEngine\APPEngine.vb" />
     <Compile Include="AppEngine\APPManager.vb" />
