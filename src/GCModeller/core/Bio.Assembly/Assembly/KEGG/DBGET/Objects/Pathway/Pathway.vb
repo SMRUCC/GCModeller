@@ -132,14 +132,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return False
             End If
 
-            Dim thisLinq = LinqAPI.DefaultFirst(Of NamedValue)() <=
+            Dim find = LinqAPI.DefaultFirst(Of NamedValue)() <=
  _
                 From comp As NamedValue
-                In Compound
+                In compound
                 Where String.Equals(comp.name, KEGGCompound)
                 Select comp
 
-            Return Not [Class](Of NamedValue).IsNullOrEmpty Like thisLinq
+            Return Not find Is Nothing AndAlso (Not find.name.StringEmpty OrElse Not find.text.StringEmpty)
         End Function
 
         Public Function IsContainsGeneObject(GeneId As String) As Boolean
