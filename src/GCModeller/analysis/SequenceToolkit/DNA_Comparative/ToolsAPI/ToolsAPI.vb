@@ -1,51 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::32dfe8fe680057a7994fff6a075da3f7, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Similarity
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
@@ -58,9 +56,6 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 
 <Package("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -186,14 +181,15 @@ Public Module ToolsAPI
     End Function
 
     Private Function __getSequence(row As DynamicObjectLoader,
-                                   tag As String,
+                                   tag$,
                                    Reader As IPolymerSequenceModel,
-                                   StartTag As String,
-                                   <Parameter("Column.Stop")> StopTag As String,
-                                   Nt As FastaToken) As PartitioningData
-        Dim Left As String = row(StartTag).Replace(",", "")
-        Dim Right As String = row(StopTag).Replace(",", "")
+                                   startTag$,
+                                   <Parameter("Column.Stop")> stopTag$,
+                                   nt As FastaToken) As PartitioningData
+        Dim Left As String = row(startTag).Replace(",", "")
+        Dim Right As String = row(stopTag).Replace(",", "")
         Dim Join As Boolean = False
+        Dim seq$
 
         If InStr(Left, "to", CompareMethod.Text) > 0 AndAlso InStr(Right, "to", CompareMethod.Text) > 0 Then
             Join = True
@@ -201,14 +197,16 @@ Public Module ToolsAPI
             Right = Right.Split.Last
         End If
 
-        Dim Seq As String ' = If(Join,
-        '   Reader.CutSequenceCircular(Val(Left), Val(Right)),
-        '    Reader.CutSequenceLinear(Val(Left), Val(Right) - Val(Left))).SequenceData
+        If Join Then
+            seq = Reader.CutSequenceCircular(CInt(Val(Left)), CInt(Val(Right))).SequenceData
+        Else
+            seq = Reader.CutSequenceLinear(CInt(Val(Left)), CInt(Val(Right) - Val(Left))).SequenceData
+        End If
 
         Return New PartitioningData With {
             .PartitioningTag = tag,
-            .GenomeID = Nt.Title,
-            .SequenceData = Seq,
+            .GenomeID = nt.Title,
+            .SequenceData = seq,
             .LociLeft = Val(Left),
             .LociRight = Val(Right)
         }

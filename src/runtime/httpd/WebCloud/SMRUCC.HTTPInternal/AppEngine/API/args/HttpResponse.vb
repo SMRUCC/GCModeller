@@ -1,106 +1,14 @@
-﻿#Region "Microsoft.VisualBasic::512b9a2793525b341bfcdd2ce7a5127e, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Arguments.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
-Imports System.Collections.Specialized
-Imports System.IO
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 Imports SMRUCC.WebCloud.HTTPInternal.Core
-Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine.APIMethods.Arguments
-
-    ''' <summary>
-    ''' Data of the http request
-    ''' </summary>
-    Public Class HttpRequest
-
-        ''' <summary>
-        ''' GET/POST/PUT/DELETE....
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property HTTPMethod As String
-        Public ReadOnly Property URL As String
-        ''' <summary>
-        ''' <see cref="HttpProcessor.http_protocol_versionstring"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property version As String
-        Public ReadOnly Property HttpHeaders As Dictionary(Of String, String)
-
-        ''' <summary>
-        ''' Remote client ip address
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Remote As String
-
-        ''' <summary>
-        ''' If current request url is indicates the HTTP root:  index.html
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property IsWWWRoot As Boolean
-            Get
-                Return String.Equals("/", URL)
-            End Get
-        End Property
-
-        Public Property URLParameters As NameValueCollection
-
-        Sub New(request As HttpProcessor)
-            HTTPMethod = request.http_method
-            URL = request.http_url
-            version = request.http_protocol_versionstring
-            HttpHeaders = request.httpHeaders
-            Remote = request.socket.Client.RemoteEndPoint.ToString.Split(":"c).First
-        End Sub
-
-        Sub New()
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
-    Public Class HttpPOSTRequest : Inherits HttpRequest
-
-        Public ReadOnly Property POSTData As PostReader
-
-        Sub New(request As HttpProcessor, inputData As MemoryStream)
-            Call MyBase.New(request)
-            POSTData = New PostReader(inputData, HttpHeaders(PlatformEngine.contentType), Encoding.UTF8)
-        End Sub
-    End Class
 
     Public Class HttpResponse
         Implements IDisposable
@@ -120,10 +28,13 @@ Namespace AppEngine.APIMethods.Arguments
         ''' 在这里只需要将错误消息放进来就行了，页面使用自定义的模板
         ''' </summary>
         ''' <param name="message$"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Write404(message$)
             Call writeFailed(message)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Redirect(url As String)
             Call WriteHTML(<script>window.location='%s';</script>, url)
         End Sub
@@ -135,6 +46,7 @@ Namespace AppEngine.APIMethods.Arguments
             Call response.WriteLine(html)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteHTML(html As StringBuilder)
             WriteHTML(html.ToString)
         End Sub
@@ -191,6 +103,8 @@ Namespace AppEngine.APIMethods.Arguments
         ''' </summary>
         ''' <param name="html">C language like printf function format usage.</param>
         ''' <param name="args"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteHTML(html As XElement, ParamArray args As Object())
             Call WriteHTML(sprintf(html.ToString, args))
         End Sub
@@ -255,6 +169,8 @@ Namespace AppEngine.APIMethods.Arguments
         ''' Clears all buffers for the current writer and causes any buffered data to be
         ''' written to the underlying stream.
         ''' </summary>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Flush()
             Call response.Flush()
         End Sub

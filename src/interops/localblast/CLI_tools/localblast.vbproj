@@ -232,7 +232,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLIGrouping.vb" />
-    <Compile Include="CLI\BBH.vb" />
+    <Compile Include="CLI\BBH\BBH.vb" />
+    <Compile Include="CLI\BBH\UniProtTools.vb" />
     <Compile Include="CLI\Blastn.vb" />
     <Compile Include="CLI\FastaTools.vb" />
     <Compile Include="CLI\Web.vb" />
@@ -240,7 +241,7 @@
     <Compile Include="CLI\gbTools.vb" />
     <Compile Include="CLI\COGTools.vb" />
     <Compile Include="CLI\Tree.vb" />
-    <Compile Include="CLI\SBH.vb" />
+    <Compile Include="CLI\BBH\SBH.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

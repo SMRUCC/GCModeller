@@ -154,6 +154,7 @@ Partial Module CLI
         Dim network As NetworkTables
 
         If [in].DirectoryExists Then
+            Throw New NotImplementedException
         Else
             Dim data As File = File.Load([in])
             network = LinkageNetwork.BuildNetwork(data, typePrefix, schema)
