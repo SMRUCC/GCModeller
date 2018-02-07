@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.WebCloud.DataCenter.mysql
-Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
+Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySqli
 
 Namespace Platform
 
