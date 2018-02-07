@@ -47,7 +47,7 @@ Public Class RfamRegulatory : Inherits Rfamily
     <Column("gStart")> Public Property siteLeft As Integer
     Public ReadOnly Property gStop As Integer
         Get
-
+            Throw New NotImplementedException
         End Get
     End Property
 
