@@ -29,7 +29,7 @@
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language

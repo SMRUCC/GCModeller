@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar

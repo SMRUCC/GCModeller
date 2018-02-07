@@ -198,8 +198,10 @@ Namespace Language.Vectorization
                 Return list
             End Get
             Set(value As List(Of T))
-                For Each i As SeqValue(Of Integer) In exp.TranslateIndex.SeqIterator
-                    buffer(+i) = value(i.i)
+                Dim index%() = exp.TranslateIndex
+
+                For Each i As SeqValue(Of Integer) In index.SeqIterator
+                    buffer(i.value) = value(i.i)
                 Next
             End Set
         End Property
@@ -322,7 +324,11 @@ Namespace Language.Vectorization
         ''' <param name="v"></param>
         ''' <returns></returns>
         Public Overloads Shared Narrowing Operator CType(v As Vector(Of T)) As T()
-            Return v.ToArray
+            Return v.buffer.ToArray
+        End Operator
+
+        Public Overloads Shared Narrowing Operator CType(v As Vector(Of T)) As List(Of T)
+            Return v.buffer.AsList
         End Operator
 
         ''' <summary>
