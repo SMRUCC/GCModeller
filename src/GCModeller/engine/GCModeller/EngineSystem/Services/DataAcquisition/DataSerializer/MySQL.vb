@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::6efe94404b11955d424d322dab0479d4, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\MySQL.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 
-Imports Microsoft.VisualBasic.Terminal.stdio
-Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Uri
 
 Namespace EngineSystem.Services.DataAcquisition.DataSerializer
 
     Public Class MySQL : Inherits DataSerializer
 
-        Dim MySQL As Oracle.LinuxCompatibility.MySQL.MySQL =
-            New Oracle.LinuxCompatibility.MySQL.MySQL
+        Dim MySQL As New MySqli
         Dim Id As Long = 0L
 
         Public Sub New(Url As String)
             Call MyBase.New(Url)
 
-            Dim MySQLConnection As Oracle.LinuxCompatibility.MySQL.ConnectionUri = Url
+            Dim MySQLConnection As ConnectionUri = Url
             Call MySQL.Connect(MySQLConnection:=Url, OnCreateSchema:=True)
         End Sub
 

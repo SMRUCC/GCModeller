@@ -101,7 +101,7 @@ Partial Module CLI
         Dim EXPORT$ = args.GetValue(
             "/EXPORT",
             If(nt.FileExists, nt.TrimSuffix, nt.TrimDIR) & "-$DATA/")
-        Dim mysql As MySQL = Nothing
+        Dim mysql As MySqli = Nothing
 
         Call mysql.[Imports](nt, EXPORT, False)
 
