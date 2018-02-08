@@ -36,6 +36,11 @@ Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
 
 Public Module Extensions
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function FaviconZip() As Byte()
+        Return My.Resources.favicon
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
