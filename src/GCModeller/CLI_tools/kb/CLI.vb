@@ -103,7 +103,7 @@ Module CLI
             With BingTranslation.GetTranslation(word)
                 If Not .IsNothing Then
                     Call .GetXml.SaveTo(out.ParentPath & $"/{word.NormalizePathString}.Xml")
-                    Call translation.Add(.ref)
+                    Call translation.Add(.ByRef)
                 Else
                     Call word.Warning
                 End If

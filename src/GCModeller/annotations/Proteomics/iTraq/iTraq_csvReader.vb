@@ -39,8 +39,8 @@ Public Module iTraq_csvReader
     <Extension>
     Public Iterator Function Combinations(symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of iTraqSymbols)
         With symbols.ToArray
-            For Each symbol1 As iTraqSymbols In .ref
-                For Each symbol2 As iTraqSymbols In .ref
+            For Each symbol1 As iTraqSymbols In .ByRef
+                For Each symbol2 As iTraqSymbols In .ByRef
                     Yield New iTraqSymbols With {
                         .Symbol = $"{symbol1.Symbol}/{symbol2.Symbol}",
                         .SampleID = $"{symbol1.SampleID}/{symbol2.SampleID}",
@@ -61,7 +61,7 @@ Public Module iTraq_csvReader
     Public Iterator Function iTraqMatrix(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of DataSet)
         With symbols.Combinations.ToArray
             For Each gene As iTraqReader In data
-                Dim groups = gene.GetSampleGroups(.ref)
+                Dim groups = gene.GetSampleGroups(.ByRef)
                 Dim foldChange = groups _
                     .Values _
                     .ToDictionary(Function(x) x.Group,
@@ -79,7 +79,7 @@ Public Module iTraq_csvReader
     Public Iterator Function SymbolReplace(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of iTraqReader)
         With symbols.Combinations.ToArray
             For Each gene As iTraqReader In data
-                Dim groups = gene.GetSampleGroups(.ref)
+                Dim groups = gene.GetSampleGroups(.ByRef)
 
                 ' 直接进行赋值似乎会出现bug，在这里使用with代码块进行赋值操作
                 With gene
@@ -89,7 +89,7 @@ Public Module iTraq_csvReader
                         .IteratesALL _
                         .ToDictionary
 
-                    Yield .ref
+                    Yield .ByRef
                 End With
             Next
         End With

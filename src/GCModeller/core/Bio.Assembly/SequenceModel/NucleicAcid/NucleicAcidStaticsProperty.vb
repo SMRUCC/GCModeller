@@ -65,7 +65,7 @@ Namespace SequenceModel.NucleotideModels
                 LQuery = From genome As SeqValue(Of FastaToken)
                          In nts.SeqIterator.AsParallel
                          Order By genome.i Ascending  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
-                         Let vector = .ref(genome.value, winSize, steps, True)
+                         Let vector = .ByRef(genome.value, winSize, steps, True)
                          Select (genome:=genome, skew:=vector)
             End With
 

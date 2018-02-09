@@ -220,7 +220,7 @@ Namespace Metagenome
                     Call .Add(SSU.ReadQuery, tax)
                 Next
 
-                Return matrix.__buildNetwork(.ref, theme, parallel)
+                Return matrix.__buildNetwork(.ByRef, theme, parallel)
             End With
         End Function
 
@@ -279,7 +279,7 @@ Namespace Metagenome
                     Call .Add(SSU.OTU, tax)
                 Next
 
-                Return matrix.__buildNetwork(.ref, theme, parallel)
+                Return matrix.__buildNetwork(.ByRef, theme, parallel)
             End With
         End Function
 

@@ -392,7 +392,7 @@ AAGCGAACAAATGTTCTATA"
 
         Public Shared Function SequenceLineBreak(lineBreak%, sequence$) As String
             With New StringBuilder
-                FastaToken.SequenceLineBreak(.ref, lineBreak, sequence)
+                FastaToken.SequenceLineBreak(.ByRef, lineBreak, sequence)
                 Return .ToString
             End With
         End Function

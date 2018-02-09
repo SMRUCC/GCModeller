@@ -72,7 +72,7 @@ Module AnalysisCommon
                 End With
             End SyncLock
 
-            With CObj(.ref)
+            With CObj(.ByRef)
 
                 test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
 
@@ -86,11 +86,11 @@ Module AnalysisCommon
                 .isDEP = test
 
                 With Which.IsTrue(test).Count
-                    Call println("resulted %s DEPs from %s proteins!", .ref, n)
+                    Call println("resulted %s DEPs from %s proteins!", .ByRef, n)
                 End With
             End With
 
-            Return .ref
+            Return .ByRef
         End With
     End Function
 End Module

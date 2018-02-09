@@ -126,7 +126,7 @@ Imports SMRUCC.genomics.InteractionModel
 
     Private Function MeasureMaxSize(StringCol As String(), Font As Font) As Size
         With New Size(1, 1).CreateGDIDevice
-            Dim LQuery = (From s As String In StringCol Select s.MeasureSize(.ref, Font)).ToArray
+            Dim LQuery = (From s As String In StringCol Select s.MeasureSize(.ByRef, Font)).ToArray
             Dim sz As New Size((From item In LQuery Select item.Width).Max, (From item In LQuery Select item.Height).Max)
             Return sz
         End With
@@ -141,7 +141,7 @@ Imports SMRUCC.genomics.InteractionModel
         Dim StringSize As SizeF()
 
         With New Size(1, 1).CreateGDIDevice
-            StringSize = (From s In data Select s.Tag.MeasureSize(.ref, TagDrawingFont)).ToArray
+            StringSize = (From s In data Select s.Tag.MeasureSize(.ByRef, TagDrawingFont)).ToArray
         End With
 
         Dim sX = (From sz In StringSize Select n = sz.Height).Max

@@ -60,12 +60,12 @@ Namespace ComponentModel.DBLinkBuilder
         Default Public ReadOnly Property SolveIDMapping(id$) As String
             Get
                 With id.ToLower
-                    If mainID.IndexOf(.ref) > -1 Then
+                    If mainID.IndexOf(.ByRef) > -1 Then
                         ' 这个id是主编号，直接返回原来的值
                         Return id
                     End If
-                    If secondaryIDs.ContainsKey(.ref) Then
-                        Return secondaryIDs(.ref)
+                    If secondaryIDs.ContainsKey(.ByRef) Then
+                        Return secondaryIDs(.ByRef)
                     Else
                         Return Nothing  ' 在数据库之中没有记录，确认一下是否是数据出错了？
                     End If

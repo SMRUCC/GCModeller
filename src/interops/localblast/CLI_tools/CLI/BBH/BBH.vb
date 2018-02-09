@@ -169,7 +169,7 @@ Partial Module CLI
             Return (args <= "/in") _
                 .LoadCsv(Of BiDirectionalBesthit) _
                 .StripTopBest _
-                .SaveTo(.ref) _
+                .SaveTo(.ByRef) _
                 .CLICode
         End With
     End Function
@@ -407,8 +407,8 @@ Partial Module CLI
                   Select taskBuilder(blastp)
 
         With args.GetValue("/num_threads", -1)
-            With .ref Or LQuerySchedule.Recommended_NUM_THREADS.AsDefault(Function() .ref <= 0)
-                Return App.SelfFolks(CLI, .ref)
+            With .ByRef Or LQuerySchedule.Recommended_NUM_THREADS.AsDefault(Function() .ByRef <= 0)
+                Return App.SelfFolks(CLI, .ByRef)
             End With
         End With
     End Function

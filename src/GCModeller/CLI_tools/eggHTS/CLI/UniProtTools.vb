@@ -26,7 +26,7 @@ Partial Module CLI
             ElseIf .TextEquals("txt") Then
                 list = [in].ReadAllLines
             Else
-                Throw New NotImplementedException(.ref)
+                Throw New NotImplementedException(.ByRef)
             End If
         End With
 

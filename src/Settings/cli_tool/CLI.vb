@@ -102,7 +102,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
                         .Value _
                         .Trim(ASCII.Quot, " "c)
 
-                        Call Console.Write(.ref)
+                        Call Console.Write(.ByRef)
                     End With
                 Else
                     Call Console.WriteLine()

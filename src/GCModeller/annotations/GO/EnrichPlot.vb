@@ -101,7 +101,7 @@ Public Module EnrichPlot
                 Sub(ByRef g, region)
                     Call g.__plotInternal(
                         region, enrichResult, unenrich,
-                        .ref, pvalue,
+                        .ByRef, pvalue,
                         legendFont,
                         r:=calcR,
                         displays:=displays,

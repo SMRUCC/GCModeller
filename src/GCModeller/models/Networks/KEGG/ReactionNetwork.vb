@@ -162,8 +162,8 @@ Public Module ReactionNetwork
                     }
 
                     With edge.GetNullDirectedGuid(True)
-                        If Not edges.ContainsKey(.ref) Then
-                            Call edges.Add(.ref, edge)
+                        If Not edges.ContainsKey(.ByRef) Then
+                            Call edges.Add(.ByRef, edge)
                         End If
                     End With
 
@@ -210,8 +210,8 @@ Public Module ReactionNetwork
                                     }
 
                                     With edge.GetNullDirectedGuid(True)
-                                        If Not edges.ContainsKey(.ref) Then
-                                            Call edges.Add(.ref, edge)
+                                        If Not edges.ContainsKey(.ByRef) Then
+                                            Call edges.Add(.ByRef, edge)
                                         End If
                                     End With
                                 Next

@@ -64,7 +64,7 @@ Public Module MetabolicComplementation
                         If .IsNothing Then
                             nodes += graph.CreateNode(compound.ID)
                         Else
-                            nodes += .ref
+                            nodes += .ByRef
                         End If
                     End With
                 Next
