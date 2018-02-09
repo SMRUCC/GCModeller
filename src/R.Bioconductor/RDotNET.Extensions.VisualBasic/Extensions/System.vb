@@ -42,10 +42,8 @@ Public Class ExtendedEngine : Inherits REngine
     ''' </summary>
     Public WriteOnly Property [call] As String
         Set(value As String)
-#If DEBUG Then
             Call __logs.WriteLine(value)
             Call __logs.Flush()
-#End If
             Call Evaluate(statement:=value)
         End Set
     End Property
@@ -76,13 +74,9 @@ Public Class ExtendedEngine : Inherits REngine
 
     Sub New(id As String, dll As String)
         MyBase.New(id, dll)
-
-#If DEBUG Then
         Call App.AddExitCleanHook(hook:=AddressOf __cleanHook)
-#End If
     End Sub
 
-#If DEBUG Then
     Public Overrides Function Evaluate(statement As String) As SymbolicExpression
         Try
             Return MyBase.Evaluate(statement)
@@ -95,10 +89,8 @@ Public Class ExtendedEngine : Inherits REngine
             Throw ex
         End Try
     End Function
-#End If
 
-#If DEBUG Then
-    Friend ReadOnly __logs As StreamWriter = (App.CurrentDirectory & $"/{App.PID}_logs.R").OpenWriter(Encodings.ASCII)
+    Friend ReadOnly __logs As StreamWriter = (App.GetProductSharedTemp & $"/.logs/{Now.ToNormalizedPathString} {App.PID}_logs.R").OpenWriter(Encodings.UTF8)
 
     Private Sub __cleanHook()
         Call __logs.WriteLine()
@@ -112,9 +104,9 @@ Public Class ExtendedEngine : Inherits REngine
         Call __logs.Flush()
         Call __logs.Close()
         Call __logs.Dispose()
+
         Call "Execute R server logs clean job done!".__INFO_ECHO
     End Sub
-#End If
 
     Shared Sub New()
     End Sub
@@ -142,7 +134,7 @@ End Class
 ''' </summary>
 Public Module RSystem
 
-    Public Const NULL As String = "NULL"
+    Public Const NULL$ = "NULL"
 
     <Extension>
     Public Function params(additionals As String()) As String
@@ -230,18 +222,18 @@ Public Module RSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Library() As String
-        Dim Result As String = R.WriteLine("library()").JoinBy(vbCrLf)
-        Dim sBuilder As StringBuilder = New StringBuilder(Result, 5 * 1024)
+        Dim result As String = R.WriteLine("library()").JoinBy(vbCrLf)
+        Dim sBuilder As New StringBuilder(result, 5 * 1024)
 
         sBuilder.Remove(0, 2)
         sBuilder.Remove(sBuilder.Length - 1, 1)
 
-        Dim Array = Regex.Split(sBuilder.ToString, SPLIT_REGX_EXPRESSION)
-        Dim Width As Integer = Array.Length / 3
+        Dim array$() = Regex.Split(sBuilder.ToString, SPLIT_REGX_EXPRESSION)
+        Dim width As Integer = array.Length / 3
 
         sBuilder.Clear()
-        For i As Integer = 0 To Width - 1
-            Dim s = String.Format("{1}  {0}  {2}", Array(i), Array(i + Width), Array(i + Width * 2))
+        For i As Integer = 0 To width - 1
+            Dim s = String.Format("{1}  {0}  {2}", array(i), array(i + width), array(i + width * 2))
             sBuilder.AppendLine(s)
         Next
         sBuilder.Replace("""", "")
@@ -350,7 +342,7 @@ Public Module RSystem
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property RColors As String() = New String() {  ' 枚举所有的颜色
+    Public ReadOnly Property RColors As String() = {
         "white", "aliceblue", "antiquewhite", "antiquewhite1", "antiquewhite2", "antiquewhite3", "antiquewhite4", "aquamarine", "aquamarine1", "aquamarine2", "aquamarine3", "aquamarine4", "azure", "azure1", "azure2", "azure3", "azure4",
         "beige", "bisque", "bisque1", "bisque2", "bisque3", "bisque4", "black", "blanchedalmond", "blue", "blue1", "blue2", "blue3", "blue4", "blueviolet", "brown", "brown1", "brown2", "brown3", "brown4", "burlywood", "burlywood1",
         "burlywood2", "burlywood3", "burlywood4",
