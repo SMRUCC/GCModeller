@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySQL
+Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySqli
 
 ''' <summary>
 ''' 向数据库之中导入NT数据的操作

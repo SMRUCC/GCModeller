@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
+Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
 
 <Package("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,

@@ -33,6 +33,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
@@ -65,6 +66,7 @@ Namespace Core
         ReadOnly _cache As Dictionary(Of String, CachedFile)
         ReadOnly _cacheMode As Boolean
         ReadOnly _cacheUpdate As UpdateThread
+        ReadOnly _defaultFavicon As Byte() = My.Resources.favicon.UnzipStream.ToArray
 
         Public Function AddMappings(DIR As String, url As String) As Boolean
             url = url & "/index.html"
@@ -228,14 +230,19 @@ Namespace Core
                 Else
                     Return IO.File.ReadAllBytes(file)
                 End If
+
             Else
-                If _nullAsExists Then
+
+                If file.FileName.TextEquals("favicon.ico") Then
+                    Return _defaultFavicon
+                ElseIf _nullAsExists Then
                     Call $"{NoData} {file.ToFileURL}".__DEBUG_ECHO
                     Return New Byte() {}
                 Else
                     Dim message$ = New String() {res, file}.GetJson
                     Throw New NullReferenceException(message)
                 End If
+
             End If
         End Function
 

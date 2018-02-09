@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Oracle.LinuxCompatibility.MySQL
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
-Imports mysqli = Oracle.LinuxCompatibility.MySQL.MySQL
+Imports mysqli = Oracle.LinuxCompatibility.MySQL.MySqli
 
 Namespace kb_UniProtKB
 

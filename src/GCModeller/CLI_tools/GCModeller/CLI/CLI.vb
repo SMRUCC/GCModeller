@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b113c6743d618a6a20caf0cbaee40986, ..\GCModeller\CLI_tools\GCModeller\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -38,6 +38,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
+Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Uri
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 
 <Package("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
@@ -86,9 +88,10 @@ Public Module CLI
         Dim userName As String = CommandLine("-user")
         Dim password As String = CommandLine("-pwd")
         Dim Database As String = CommandLine("-db_name")
-        Dim uri As Oracle.LinuxCompatibility.MySQL.ConnectionUri = MySQLExtensions.MySQL
+        Dim uri As ConnectionUri = MySQLExtensions.MySQL
+
         Try
-            Dim MYSQL = New Oracle.LinuxCompatibility.MySQL.MySQL
+            Dim MYSQL = New MySqli
 
             Call MYSQL.Connect(uri)  '连接数据库服务器
             Call MYSQL.Execute(String.Format("CREATE DATABASE {0};", Database)) '创建数据库
@@ -177,7 +180,7 @@ Public Module CLI
         Dim IPAddress As String = args("/repository")
         Dim Port As Integer = args.GetValue("/port", 3306)
         Dim DbName As String = args("/database")
-        Dim uri As New Oracle.LinuxCompatibility.MySQL.ConnectionUri With {
+        Dim uri As New ConnectionUri With {
             .Database = DbName,
             .IPAddress = IPAddress,
             .Password = pass,

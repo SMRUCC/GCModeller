@@ -31,6 +31,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.NLP
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -40,6 +41,7 @@ Imports Microsoft.VisualBasic.Webservices.Bing
 Imports Microsoft.VisualBasic.Webservices.Bing.Academic
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base
 Imports BingTranslation = Microsoft.VisualBasic.Webservices.Bing.Translation
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Module CLI
 
@@ -112,6 +114,34 @@ Module CLI
 
         Return translation _
             .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/field.translate")>
+    <Usage("/field.translate /in <data.csv> /field <fieldName> [/out <out.csv>]")>
+    Public Function TranslateField(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim field$ = args("/field")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{field.NormalizePathString}.zhCN.csv"
+        Dim table As csv = csv.Load([in])
+        Dim fieldvalues = table(field).Distinct.ToArray
+        Dim zhCN As New Dictionary(Of String, String)
+        Dim i = table.Headers.IndexOf(field)
+
+        For Each row As RowObject In table.Skip(1)
+            Dim value = row(i)
+
+            If Not zhCN.ContainsKey(value) Then
+                zhCN(value) = BingTranslation.GetTranslation(value) _
+                    ?.Translations _
+                    ?.FirstOrDefault
+            End If
+
+            row(i) = zhCN(value)
+        Next
+
+        Return table _
+            .Save(out, Encoding.UTF8) _
             .CLICode
     End Function
 End Module
