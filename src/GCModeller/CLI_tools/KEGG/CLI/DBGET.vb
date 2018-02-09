@@ -243,9 +243,9 @@ Partial Module CLI
         Dim htext$ = args <= "/htext"
 
         With (args <= "/out") Or $"{htext.TrimSuffix}/KEGG.pathwayMaps/".AsDefault
-            Return kegMap.Downloads(EXPORT:= .ref, briefFile:=htext) _
+            Return kegMap.Downloads(EXPORT:= .ByRef, briefFile:=htext) _
                 .GetJson _
-                .SaveTo(.ref & "/failures.json") _
+                .SaveTo(.ByRef & "/failures.json") _
                 .CLICode
         End With
     End Function

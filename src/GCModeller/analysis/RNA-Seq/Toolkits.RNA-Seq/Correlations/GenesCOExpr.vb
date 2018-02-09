@@ -1,37 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::359ad54855303542bc90a485015f6822, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\GenesCOExpr.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
-Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities
+Imports Microsoft.VisualBasic.DataMining.AprioriRules
+Imports Microsoft.VisualBasic.DataMining.AprioriRules.Entities
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations.Correlations
@@ -55,37 +54,36 @@ Public Module GenesCOExpr
     ''' 
     <ExportAPI("Regulation.Calculate")>
     Public Function CalculateRegulations(RPKM As IO.File, Optional Level As Integer = 2) As Rule()
-        '在这里因为要保持顺序，所以在编码的阶段不可以使用并行化拓展
-        '获取基因列表，在第一列
-        Dim GeneExpressions = DataServicesExtension.LoadCsv(RPKM.Skip(1))
-        Dim GeneIDList = (From row In GeneExpressions Select row.Tag).ToArray
-        Call $"Chip data load done!  {GeneIDList.Length} genes and {RPKM.First.Count - 1} experiments in the dataset.".__DEBUG_ECHO
-        '每一个基因都是事务之中的一个项目，每一次转录组实验都是一个Transaction
-        Dim ApEngine = AlgorithmInvoker.CreateObject()
-        Call Console.WriteLine("AP Engine Services initialized!")
-        '进行表达值的Mapping
-        '首先生成每一次实验的列表，在进行Mapping
-        Dim ExperimentsTag As String() = RPKM.First.Skip(1).ToArray
-        Call Console.WriteLine("Experiments " & String.Join(";  ", ExperimentsTag))
-        Call Console.WriteLine("Start to generate transactions....")
-        Dim Transactions = (From idx As Integer In ExperimentsTag.Sequence
-                            Select TransID = ExperimentsTag(idx),
-                                EachGeneLevels = GenerateMapping(Level:=Level, data:=(From GeneSample In GeneExpressions Select GeneSample.ChunkBuffer(idx)).ToArray)).ToArray
-        Call Console.WriteLine("Encodings.....")
-        Dim Encodes = New EncodingServices(GeneIDList, Levels:=(From obj In Transactions Select obj.EachGeneLevels).ToArray.Unlist.Distinct.ToArray)
-        Call Console.WriteLine("There are {0} transaction tokens!", Encodes.CodeMappings.Count)
-        Call Console.WriteLine("Encoding transactions....")
-        Dim EncodesTransaction = Encodes.TransactionEncoding((From Trans In Transactions Select New Transaction With {.TransactionName = Trans.TransID, .Values = Trans.EachGeneLevels}).ToArray)
-        Call Console.WriteLine("Applying association analysis....")
-        Dim Result = ApEngine.AnalysisTransactions(Transactions:=EncodesTransaction)
-        Call Console.WriteLine("Analysis job done! start to export strong rules.....")
-        Dim InternalRuleString = Function(obj As KeyValuePair(Of String, Integer)) String.Format("{0}[{1}]", obj.Key, obj.Value)
-        Call Console.WriteLine("Transaction decoding...")
-        Dim StrongRules = (From rule In Result.StrongRules Select rule.Confidence, srX = (From obj In Encodes.MapRecovered(rule.X) Select InternalRuleString(obj)).ToArray, srY = (From obj In Encodes.MapRecovered(rule.Y) Select InternalRuleString(obj)).ToArray).ToArray
-        Dim RegulationSelection = (From item In StrongRules Where item.srX.Count = 1 OrElse item.srY.Count = 1 Select item).ToArray '只选择出事件为1的左右被调控的基因进行初筛
-        Dim Output = (From item In RegulationSelection Select New Rule(String.Join("; ", item.srX), String.Join("; ", item.srY), item.Confidence)).ToArray
-        Call Console.WriteLine("[Job Done!]")
-        Return Output
+        ''在这里因为要保持顺序，所以在编码的阶段不可以使用并行化拓展
+        ''获取基因列表，在第一列
+        'Dim GeneExpressions = DataServicesExtension.LoadCsv(RPKM.Skip(1))
+        'Dim GeneIDList = (From row In GeneExpressions Select row.Tag).ToArray
+        'Call $"Chip data load done!  {GeneIDList.Length} genes and {RPKM.First.Count - 1} experiments in the dataset.".__DEBUG_ECHO
+        ''每一个基因都是事务之中的一个项目，每一次转录组实验都是一个Transaction
+        'Call Console.WriteLine("AP Engine Services initialized!")
+        ''进行表达值的Mapping
+        ''首先生成每一次实验的列表，在进行Mapping
+        'Dim ExperimentsTag As String() = RPKM.First.Skip(1).ToArray
+        'Call Console.WriteLine("Experiments " & String.Join(";  ", ExperimentsTag))
+        'Call Console.WriteLine("Start to generate transactions....")
+        'Dim Transactions = (From idx As Integer In ExperimentsTag.Sequence
+        '                    Select TransID = ExperimentsTag(idx),
+        '                        EachGeneLevels = GenerateMapping(Level:=Level, data:=(From GeneSample In GeneExpressions Select GeneSample.ChunkBuffer(idx)).ToArray)).ToArray
+        'Call Console.WriteLine("Encodings.....")
+        'Dim Encodes = New Encoding(GeneIDList)
+        'Call Console.WriteLine("There are {0} transaction tokens!", Encodes.CodeMappings.Count)
+        'Call Console.WriteLine("Encoding transactions....")
+        'Dim EncodesTransaction = Encodes.TransactionEncoding((From Trans In Transactions Select New Transaction With {.Name = Trans.TransID, .Items = Trans.EachGeneLevels}).ToArray)
+        'Call Console.WriteLine("Applying association analysis....")
+        'Dim Result = EncodesTransaction.AnalysisTransactions
+        'Call Console.WriteLine("Analysis job done! start to export strong rules.....")
+        'Dim InternalRuleString = Function(obj As KeyValuePair(Of String, Integer)) String.Format("{0}[{1}]", obj.Key, obj.Value)
+        'Call Console.WriteLine("Transaction decoding...")
+        'Dim StrongRules = (From rule In Result.StrongRules Select rule.Confidence, srX = (From obj In Encodes.Decode(rule.X) Select InternalRuleString(obj)).ToArray, srY = (From obj In Encodes.Decode(rule.Y) Select InternalRuleString(obj)).ToArray).ToArray
+        'Dim RegulationSelection = (From item In StrongRules Where item.srX.Count = 1 OrElse item.srY.Count = 1 Select item).ToArray '只选择出事件为1的左右被调控的基因进行初筛
+        'Dim Output = (From item In RegulationSelection Select New Rule(String.Join("; ", item.srX), String.Join("; ", item.srY), item.Confidence)).ToArray
+        'Call Console.WriteLine("[Job Done!]")
+        'Return Output
     End Function
 
     ''' <summary>
@@ -96,37 +94,37 @@ Public Module GenesCOExpr
     ''' 
     <ExportAPI("regulation.calculation.bi")>
     Public Function CalculateRegulations(ChipData As IO.File) As Rule()
-        '在这里因为要保持顺序，所以在编码的阶段不可以使用并行化拓展
-        '获取基因列表，在第一列
-        Dim GeneExpressions = DataServicesExtension.LoadCsv(ChipData.Skip(1))
-        Dim GeneIDList = (From row In GeneExpressions Select row.Tag).ToArray
-        Call Console.WriteLine("[DEBUG] Chip data load done!  {0} genes and {1} experiments in the dataset.", GeneIDList.Count, ChipData.First.Count - 1)
-        '每一个基因都是事务之中的一个项目，每一次转录组实验都是一个Transaction
-        Dim ApEngine = AlgorithmInvoker.CreateObject()
-        Call Console.WriteLine("AP Engine Services initialized!")
-        '进行表达值的Mapping
-        '首先生成每一次实验的列表，在进行Mapping
-        Dim ExperimentsTag As String() = ChipData.First.Skip(1).ToArray
-        Call Console.WriteLine("Experiments " & String.Join(";  ", ExperimentsTag))
-        Call Console.WriteLine("Start to generate transactions....")
-        Dim Transactions = (From idx As Integer In ExperimentsTag.Sequence
-                            Let dat0 = (From GeneSample In GeneExpressions Select GeneSample.ChunkBuffer(idx)).ToArray
-                            Let Avg As Double = dat0.Average * 0.85
-                            Select TransID = ExperimentsTag(idx), EachGeneLevels = (From GeneSample In GeneExpressions Where GeneSample.ChunkBuffer(idx) >= Avg Select GeneSample.Tag).ToArray).ToArray '高表达量的基因设为1
-        Call Console.WriteLine("Encodings.....")
-        Dim MappingCodes = New BinaryEncodingServices(GeneIDList)
-        Call Console.WriteLine("There are {0} transaction tokens!", GeneIDList.Count)
-        Call Console.WriteLine("Encoding transactions....")
-        Dim EncodesTransaction = (From Trans In Transactions Let TransactionValue = MappingCodes.EncodingTransaction(Trans.EachGeneLevels) Select Trans.TransID, TransactionValue).ToArray
-        Call Console.WriteLine("Applying association analysis....")
-        Dim Result = ApEngine.AnalysisTransactions(Transactions:=(From obj In EncodesTransaction Select obj.TransactionValue).ToArray)
-        Call Console.WriteLine("Analysis job done! start to export strong rules.....")
-        Call Console.WriteLine("Transaction decoding...")
-        Dim StrongRules = (From rule In Result.StrongRules Select rule.Confidence, srX = MappingCodes.DecodesTransaction(rule.X), srY = MappingCodes.DecodesTransaction(rule.Y)).ToArray
-        Dim RegulationSelection = (From item In StrongRules Where item.srX.Count = 1 OrElse item.srY.Count = 1 Select item).ToArray '只选择出事件为1的左右被调控的基因进行初筛
-        Dim Output = (From item In RegulationSelection Select New Rule(String.Join("; ", item.srX), String.Join("; ", item.srY), item.Confidence)).ToArray
-        Call Console.WriteLine("[Job Done!]")
-        Return Output
+        ''在这里因为要保持顺序，所以在编码的阶段不可以使用并行化拓展
+        ''获取基因列表，在第一列
+        'Dim GeneExpressions = DataServicesExtension.LoadCsv(ChipData.Skip(1))
+        'Dim GeneIDList = (From row In GeneExpressions Select row.Tag).ToArray
+        'Call Console.WriteLine("[DEBUG] Chip data load done!  {0} genes and {1} experiments in the dataset.", GeneIDList.Count, ChipData.First.Count - 1)
+        ''每一个基因都是事务之中的一个项目，每一次转录组实验都是一个Transaction
+
+        'Call Console.WriteLine("AP Engine Services initialized!")
+        ''进行表达值的Mapping
+        ''首先生成每一次实验的列表，在进行Mapping
+        'Dim ExperimentsTag As String() = ChipData.First.Skip(1).ToArray
+        'Call Console.WriteLine("Experiments " & String.Join(";  ", ExperimentsTag))
+        'Call Console.WriteLine("Start to generate transactions....")
+        'Dim Transactions = (From idx As Integer In ExperimentsTag.Sequence
+        '                    Let dat0 = (From GeneSample In GeneExpressions Select GeneSample.ChunkBuffer(idx)).ToArray
+        '                    Let Avg As Double = dat0.Average * 0.85
+        '                    Select TransID = ExperimentsTag(idx), EachGeneLevels = (From GeneSample In GeneExpressions Where GeneSample.ChunkBuffer(idx) >= Avg Select GeneSample.Tag).ToArray).ToArray '高表达量的基因设为1
+        'Call Console.WriteLine("Encodings.....")
+        'Dim MappingCodes = New Encoding(GeneIDList)
+        'Call Console.WriteLine("There are {0} transaction tokens!", GeneIDList.Count)
+        'Call Console.WriteLine("Encoding transactions....")
+        'Dim EncodesTransaction = (From Trans In Transactions Let TransactionValue = MappingCodes.EncodingTransaction(Trans.EachGeneLevels) Select Trans.TransID, TransactionValue).ToArray
+        'Call Console.WriteLine("Applying association analysis....")
+        'Dim Result = ApEngine.AnalysisTransactions(Transactions:=(From obj In EncodesTransaction Select obj.TransactionValue).ToArray)
+        'Call Console.WriteLine("Analysis job done! start to export strong rules.....")
+        'Call Console.WriteLine("Transaction decoding...")
+        'Dim StrongRules = (From rule In Result.StrongRules Select rule.Confidence, srX = MappingCodes.DecodesTransaction(rule.X), srY = MappingCodes.DecodesTransaction(rule.Y)).ToArray
+        'Dim RegulationSelection = (From item In StrongRules Where item.srX.Count = 1 OrElse item.srY.Count = 1 Select item).ToArray '只选择出事件为1的左右被调控的基因进行初筛
+        'Dim Output = (From item In RegulationSelection Select New Rule(String.Join("; ", item.srX), String.Join("; ", item.srY), item.Confidence)).ToArray
+        'Call Console.WriteLine("[Job Done!]")
+        'Return Output
     End Function
 
     ''' <summary>
