@@ -40,6 +40,7 @@ Public Class plotOptions
     Public Property columnrange As columnrangeOptions
     Public Property column As columnOptions
     Public Property areaspline As areasplineOptions
+    Public Property bar As barOptions
 
     Public Overrides Function ToString() As String
         If Not pie Is Nothing Then
