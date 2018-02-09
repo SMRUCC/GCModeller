@@ -147,40 +147,40 @@ Namespace kb_UniProtKB
 
             With New Dictionary(Of String, MySQLTable())
 
-                .ref(NameOf(mysql.hash_table)) = hashCodes
-                .ref(NameOf(mysql.protein_functions)) = proteinFunctions
-                .ref(NameOf(mysql.alt_id)) = altIDs
-                .ref(NameOf(mysql.protein_go)) = GOfunctions
-                .ref(NameOf(mysql.protein_ko)) = KOfunctions
-                .ref(NameOf(mysql.protein_alternative_name)) = alternativeNames
-                .ref(NameOf(mysql.gene_info)) = geneNames
+                .ByRef(NameOf(mysql.hash_table)) = hashCodes
+                .ByRef(NameOf(mysql.protein_functions)) = proteinFunctions
+                .ByRef(NameOf(mysql.alt_id)) = altIDs
+                .ByRef(NameOf(mysql.protein_go)) = GOfunctions
+                .ByRef(NameOf(mysql.protein_ko)) = KOfunctions
+                .ByRef(NameOf(mysql.protein_alternative_name)) = alternativeNames
+                .ByRef(NameOf(mysql.gene_info)) = geneNames
 
-                .ref(NameOf(mysql.peoples)) = peoples
-                .ref(NameOf(mysql.literature)) = citation
-                .ref(NameOf(mysql.research_jobs)) = jobs
-                .ref(NameOf(mysql.keywords)) = keywords
-                .ref(NameOf(mysql.protein_keywords)) = proteinKeywords
+                .ByRef(NameOf(mysql.peoples)) = peoples
+                .ByRef(NameOf(mysql.literature)) = citation
+                .ByRef(NameOf(mysql.research_jobs)) = jobs
+                .ByRef(NameOf(mysql.keywords)) = keywords
+                .ByRef(NameOf(mysql.protein_keywords)) = proteinKeywords
 
-                .ref(NameOf(mysql.protein_reference)) = proteinReferences
-                .ref(NameOf(mysql.hashcode_scopes)) = scopes
-                .ref(NameOf(mysql.protein_reference_scopes)) = reference_scopes
+                .ByRef(NameOf(mysql.protein_reference)) = proteinReferences
+                .ByRef(NameOf(mysql.hashcode_scopes)) = scopes
+                .ByRef(NameOf(mysql.protein_reference_scopes)) = reference_scopes
 
-                .ref(NameOf(mysql.protein_feature_site)) = featureSites
-                .ref(NameOf(mysql.protein_feature_regions)) = featureRegions
-                .ref(NameOf(mysql.feature_site_variation)) = featureVariations
-                .ref(NameOf(mysql.feature_types)) = featureTypes
+                .ByRef(NameOf(mysql.protein_feature_site)) = featureSites
+                .ByRef(NameOf(mysql.protein_feature_regions)) = featureRegions
+                .ByRef(NameOf(mysql.feature_site_variation)) = featureVariations
+                .ByRef(NameOf(mysql.feature_types)) = featureTypes
 
-                .ref(NameOf(mysql.organism_code)) = organism
-                .ref(NameOf(mysql.organism_proteome)) = proteome
+                .ByRef(NameOf(mysql.organism_code)) = organism
+                .ByRef(NameOf(mysql.organism_proteome)) = proteome
 
-                .ref(NameOf(mysql.tissue_code)) = tissues
-                .ref(NameOf(mysql.tissue_locations)) = proteinTissueLocations
+                .ByRef(NameOf(mysql.tissue_code)) = tissues
+                .ByRef(NameOf(mysql.tissue_locations)) = proteinTissueLocations
 
-                .ref(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
-                .ref(NameOf(mysql.location_id)) = locations
-                .ref(NameOf(mysql.topology_id)) = topologies
+                .ByRef(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
+                .ByRef(NameOf(mysql.location_id)) = locations
+                .ByRef(NameOf(mysql.topology_id)) = topologies
 
-                Return .ref
+                Return .ByRef
             End With
         End Function
 

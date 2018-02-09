@@ -56,7 +56,7 @@ Public Module Extensions
 
         With sampleInfo.DataAnalysisDesign(analysisDesign)
 
-            For Each group In .ref.IterateNameCollections
+            For Each group In .ByRef.IterateNameCollections
 
                 ' 将成对比较的标签选出来
                 Dim designer = group _

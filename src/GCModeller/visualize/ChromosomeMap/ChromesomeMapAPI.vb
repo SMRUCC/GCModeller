@@ -291,7 +291,7 @@ Public Module ChromesomeMapAPI
             .Configuration = configs
             .MutationDatas = New MultationPointData() {}
 
-            Return DirectCast(.ref, ChromesomeDrawingModel)
+            Return DirectCast(.ByRef, ChromesomeDrawingModel)
         End With
     End Function
 
@@ -299,7 +299,7 @@ Public Module ChromesomeMapAPI
     Public Function FromPTT(PTT As PTT, conf As Config) As ChromesomeDrawingModel
         With FromGenes(PTT, conf, PTT.Size)
             .CDSCount = PTT.NumOfProducts
-            Return DirectCast(.ref, ChromesomeDrawingModel)
+            Return DirectCast(.ByRef, ChromesomeDrawingModel)
         End With
     End Function
 

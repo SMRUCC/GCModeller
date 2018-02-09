@@ -188,7 +188,7 @@ Namespace Regprecise
                 }
                     Call .GetXml.SaveTo(save)
 
-                    Return .ref
+                    Return .ByRef
                 End With
             End If
         End Function

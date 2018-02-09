@@ -50,7 +50,7 @@ Partial Module CLI
 
         With args <= "/map"
             If .FileExists Then
-                Dim mappings = Retrieve_IDmapping.MappingReader(.ref)
+                Dim mappings = Retrieve_IDmapping.MappingReader(.ByRef)
 
                 With UniProtXML.LoadDictionary([in])
                     proteins = mappings _
@@ -62,7 +62,7 @@ Partial Module CLI
                                     Dim uniprotID$ = map.Value _
                                         .Where(Function(acc) .ContainsKey(acc)) _
                                         .First
-                                    Dim protein As PfamString = .ref(uniprotID).UniProt2Pfam.First
+                                    Dim protein As PfamString = .ByRef(uniprotID).UniProt2Pfam.First
                                     protein.ProteinId = ID
                                     Return protein
                                 End Function) _

@@ -100,7 +100,7 @@ Public Module RSDPdensity
             }
 
             Return DensityPlot.Plot(
-                .ref,
+                .ByRef,
                 size, padding, bg, schema, levels:=100,
                 ablines:=ablines,
                 labX:="RSD", labY:="-log10(P.value)",

@@ -217,7 +217,7 @@ Public Module vbhtml
     <Extension>
     Public Sub ApplyStrings(ByRef html As StringBuilder, wwwroot$, strings As Dictionary(Of String, String))
         With (wwwroot & "/includes/strings.XML").LoadStrings
-            Call html.ApplyStrings(strings, resource:= .ref)
+            Call html.ApplyStrings(strings, resource:= .ByRef)
         End With
     End Sub
 End Module
