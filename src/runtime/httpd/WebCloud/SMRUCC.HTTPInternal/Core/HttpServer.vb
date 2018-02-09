@@ -174,7 +174,7 @@ Namespace Core
         Private Function getProcessor(client As TcpClient) As HttpProcessor
             With __httpProcessor(client)
                 .BUF_SIZE = BufferSize
-                Return .ref
+                Return .ByRef
             End With
         End Function
 

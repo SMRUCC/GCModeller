@@ -317,7 +317,7 @@ Namespace Assembly.KEGG.WebServices
                .EnumerateEntries _
                .Select(Function(x)
                            With x.Parent
-                               If .ref Is Nothing Then
+                               If .ByRef Is Nothing Then
                                    Return Nothing
                                Else
                                    Dim PATH As String = .ClassLabel _
@@ -325,7 +325,7 @@ Namespace Assembly.KEGG.WebServices
                                        .Trim("]"c) _
                                        .GetTagValue(":") _
                                        .Value
-                                   Return New NamedValue(Of BriteHText)(PATH, .ref)
+                                   Return New NamedValue(Of BriteHText)(PATH, .ByRef)
                                End If
                            End With
                        End Function) _
