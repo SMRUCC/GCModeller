@@ -55,13 +55,16 @@ Namespace Topologically.Seeding
         End Sub
 
         Public Iterator Function PopulateSeeds(min%, max%) As IEnumerable(Of Seed())
-            Dim base As List(Of String) = __trimAvaliable(Seeds.InitializeSeeds(__chars, min))
+            Dim base As List(Of String) = __seq _
+                .SequenceData _
+                .PopulateExistsSeeds(Seeds.InitializeSeeds(__chars, min)) _
+                .AsList
 
             Yield base.Select(Function(s) New Seed(s)).ToArray
 
             For len As Integer = min To max
                 base = base.ExtendSequence(__chars)
-                base = __trimAvaliable(base)
+                base = __seq.SequenceData.PopulateExistsSeeds(base)
 
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next
@@ -99,11 +102,6 @@ Namespace Topologically.Seeding
             For Each pack In box.PopulateSeeds(min, max)
                 Yield pack
             Next
-        End Function
-
-        Private Function __trimAvaliable(seeds As IEnumerable(Of String)) As List(Of String)
-            Dim out As New List(Of String)(seeds.Where(Function(s) __seq.SequenceData.IndexOf(s) > -1))
-            Return out
         End Function
 
         Public Overrides Function ToString() As String
