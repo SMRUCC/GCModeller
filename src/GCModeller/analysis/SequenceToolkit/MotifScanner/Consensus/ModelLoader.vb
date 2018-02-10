@@ -15,11 +15,15 @@ Public Module ModelLoader
         Return (ls - l - r - "*.Xml" <= repo) _
             .Select(AddressOf LoadXml(Of OrganismModel)) _
             .ToDictionary(Function(org)
-                              Return org _
-                                  .organism _
-                                  .Taxonomy _
-                                  .GetTagValue(":", trim:=True) _
-                                  .Value
+
+                              ' 2018-2-10 因为这两个物种都具有相同的Taxonomy编号，所以在这里就不适合使用taxon_id来作为唯一标识符了
+                              '
+                              ' TAX: 611301
+                              ' Xanthomonas citri subsp. citri mf20
+                              ' TAX: 611301
+                              ' Xanthomonas citri subsp. citri MN10
+
+                              Return org.GetGenbankSource
                           End Function)
     End Function
 End Module

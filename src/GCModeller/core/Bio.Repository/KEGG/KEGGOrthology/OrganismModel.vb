@@ -60,6 +60,10 @@ Public Class OrganismModel
         Return organism.ToString
     End Function
 
+    ''' <summary>
+    ''' Get NCBI genbank reference sequence assembly name
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetGenbankSource() As String
         Try
             Return organism _
