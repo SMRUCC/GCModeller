@@ -120,7 +120,7 @@ Public Module GCPlot
 
         Dim ntArray As NamedValue(Of Double())() = LinqAPI.Exec(Of NamedValue(Of Double())) <=
  _
-            From seq As FastaToken
+            From seq As FastaSeq
             In mal
             Select New NamedValue(Of Double()) With {
                 .Name = seq.Title,

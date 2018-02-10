@@ -238,7 +238,7 @@ Namespace SwissTCS
                      Order By Trimed Ascending).ToArray
             Dim LQuery = (From sId As String
                           In lstId
-                          Let gFa As SequenceModel.FASTA.FastaToken = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.Downloads(DIR, sId)
+                          Let gFa As SequenceModel.FASTA.FastaSeq = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.Downloads(DIR, sId)
                           Where Not gFa Is Nothing
                           Select gFa).ToArray
             Return New FastaFile(LQuery)

@@ -157,11 +157,11 @@ Namespace Assembly.MetaCyc.File.FileSystem
         ''' Get the whole genome sequence data for this species bacteria.
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly Property WholeGenome As FASTA.FastaToken
+        Public ReadOnly Property WholeGenome As FASTA.FastaSeq
             Get
                 Dim Specie = Species.First
                 Dim File As String = String.Format("{0}/{1}-{2}.fsa", _DIR, Specie.Identifier, Specie.Genome)
-                Return FASTA.FastaToken.Load(File)  '加载全基因组序列的FASTA文件
+                Return FASTA.FastaSeq.Load(File)  '加载全基因组序列的FASTA文件
             End Get
         End Property
 
@@ -248,7 +248,7 @@ Namespace Assembly.MetaCyc.File.FileSystem
 
                 Dim OSPath As String = String.Format("{0}/{1}-{2}.fsa", DIR, Specie.Identifier, Specie.Genome)
                 If FileIO.FileSystem.FileExists(OSPath) Then
-                    MetaCyc.FASTAFiles.Origin = FASTA.FastaToken.Load(OSPath)
+                    MetaCyc.FASTAFiles.Origin = FASTA.FastaSeq.Load(OSPath)
                     MetaCyc.FASTAFiles.OriginSourceFile = OSPath
                 End If
             End If

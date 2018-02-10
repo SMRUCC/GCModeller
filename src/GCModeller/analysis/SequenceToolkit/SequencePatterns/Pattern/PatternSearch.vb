@@ -49,7 +49,7 @@ Namespace Pattern
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Match(Seq As FastaFile, pattern As String) As File
-            Dim LQuery = From fa As FastaToken
+            Dim LQuery = From fa As FastaSeq
                          In Seq.AsParallel
                          Let Segment As RowObject() = fa.GenerateSegment(pattern)
                          Where Segment IsNot Nothing
@@ -62,7 +62,7 @@ Namespace Pattern
         End Function
 
         <Extension>
-        Public Function GenerateSegment(Seq As FastaToken, pattern As String) As RowObject()
+        Public Function GenerateSegment(Seq As FastaSeq, pattern As String) As RowObject()
             Dim LQuery = RowObject.Distinct((From Segment As SegLoci
                                              In Match(Seq.SequenceData, pattern)
                                              Select Segment.ToRow).ToArray).ToArray

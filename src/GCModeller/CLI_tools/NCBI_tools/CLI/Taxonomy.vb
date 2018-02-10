@@ -195,7 +195,7 @@ Partial Module CLI
             NCBI.Taxonomy.AcquireAuto(gi2taxid)
         Dim output As New Dictionary(Of Integer, StreamWriter)
 
-        For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+        For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
             Dim gi As Integer = CInt(
                 Regex.Match(fa.Title, "gi\|\d+") _
                 .Value _

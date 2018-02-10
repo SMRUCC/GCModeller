@@ -95,7 +95,7 @@ Partial Module CLI
         Dim ms? As Boolean = App.IsMicrosoftPlatform ' optimization for linux
         Dim LQuery As EntityClusterModel() = LinqAPI.Exec(Of EntityClusterModel) <=
  _
-            From a As KeyValuePair(Of FastaToken, FastaFile)
+            From a As KeyValuePair(Of FastaSeq, FastaFile)
             In alloacte(seq, clone:=Not ms).AsParallel  ' 在這裏使用clone而非直接使用原始的對象是爲了提升linux平臺上面的并行計算效率
             Let Name As String = a.Key.Title
             Select New EntityClusterModel With {
@@ -113,15 +113,15 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="seq"></param>
     ''' <returns></returns>
-    Private Iterator Function alloacte(seq As FastaFile, clone? As Boolean) As IEnumerable(Of KeyValuePair(Of FastaToken, FastaFile))
+    Private Iterator Function alloacte(seq As FastaFile, clone? As Boolean) As IEnumerable(Of KeyValuePair(Of FastaSeq, FastaFile))
         Dim prog As New EventProc(seq.NumberOfFasta, "Allocate Memory")
 
-        For Each x As FastaToken In seq
+        For Each x As FastaSeq In seq
             If clone Then
-                Yield New KeyValuePair(Of FastaToken, FastaFile)(
+                Yield New KeyValuePair(Of FastaSeq, FastaFile)(
                     x.Copy, TryCast(seq.Clone, FastaFile))
             Else
-                Yield New KeyValuePair(Of FastaToken, FastaFile)(
+                Yield New KeyValuePair(Of FastaSeq, FastaFile)(
                     x, New FastaFile(seq))
             End If
 
@@ -130,9 +130,9 @@ Partial Module CLI
     End Function
 
     <Extension>
-    Private Function Cluster(query As FastaToken, source As FastaFile, cutoff#, minW%) As Dictionary(Of String, Double)
+    Private Function Cluster(query As FastaSeq, source As FastaFile, cutoff#, minW%) As Dictionary(Of String, Double)
         Dim matrix As Blosum = Blosum.FromInnerBlosum62
-        Dim LQuery = From b As FastaToken
+        Dim LQuery = From b As FastaSeq
                      In source
                      Let sw As SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman = SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman.Align(query, b, matrix)
                      Let out As HSP = sw.GetOutput(cutoff, minW).Best

@@ -54,7 +54,7 @@ Namespace Assembly.Uniprot
     ''' SequenceVersion Is the version number of the sequence.
     ''' </summary>
     ''' <remarks>http://www.uniprot.org/help/fasta-headers</remarks>
-    Public Class UniprotFasta : Inherits FASTA.FastaToken
+    Public Class UniprotFasta : Inherits FASTA.FastaSeq
         Implements INamedValue
 
         ''' <summary>
@@ -108,12 +108,12 @@ Namespace Assembly.Uniprot
         ''' <remarks>
         ''' >sp|Q197F8|002R_IIV3 Uncharacterized protein 002R OS=Invertebrate iridescent virus 3 GN=IIV3-002R PE=4 SV=1
         ''' </remarks>
-        Public Shared Function CreateObject(fasta As FASTA.FastaToken) As UniprotFasta
+        Public Shared Function CreateObject(fasta As FASTA.FastaSeq) As UniprotFasta
             Dim UniprotFasta As UniprotFasta = fasta.Copy(Of UniprotFasta)()
-            Dim s As String = UniprotFasta.Attributes(2)
+            Dim s As String = UniprotFasta.Headers(2)
 
             UniprotFasta.EntryName = s.Split.First
-            UniprotFasta.UniprotID = UniprotFasta.Attributes(1)
+            UniprotFasta.UniprotID = UniprotFasta.Headers(1)
             UniprotFasta.OrgnsmSpName = Regex.Match(s, "OS=[^=]+GN\s*=").Value
             UniprotFasta.OrgnsmSpName = Regex.Replace(UniprotFasta.OrgnsmSpName, "\s*GN\s*=", "")
             UniprotFasta.GN = Regex.Replace(Regex.Match(s, "GN=[^=]+PE\s*=").Value, "\s*PE\s*=", "").Trim
@@ -158,7 +158,7 @@ Namespace Assembly.Uniprot
         Public Shared Function LoadFasta(path As String) As UniprotFasta()
             Call $"Start loading the fasta sequence from file ""{path.ToFileURL}""...".__DEBUG_ECHO
             Dim sw As Stopwatch = Stopwatch.StartNew
-            Dim LQuery = (From fa As FASTA.FastaToken
+            Dim LQuery = (From fa As FASTA.FastaSeq
                           In FASTA.FastaFile.Read(path).AsParallel
                           Select UniprotFasta.CreateObject(fa)).ToArray
             Call $"Uniprot fasta data load done!   {sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO

@@ -76,7 +76,7 @@ Namespace SangerSNPs
                                          ByRef pseudo_reference_sequence As String,
                                          snp_locations As Integer()) As Phylip
 
-            Dim buf As New List(Of FastaToken)
+            Dim buf As New List(Of FastaSeq)
             Dim seq As New List(Of Char)
 
             If output_reference = 1 Then
@@ -84,7 +84,7 @@ Namespace SangerSNPs
                     seq.Add(pseudo_reference_sequence(snp_locations(snp_counter)))
                 Next
 
-                buf += New FastaToken({SNPsFasta.pseudo_reference_sequence & vbTab}, New String(seq.ToArray))
+                buf += New FastaSeq({SNPsFasta.pseudo_reference_sequence & vbTab}, New String(seq.ToArray))
             End If
 
             For sample_counter = 0 To number_of_samples - 1
@@ -96,7 +96,7 @@ Namespace SangerSNPs
                     seq.Add(bases_for_snps(snp_counter)(sample_counter))
                 Next
 
-                buf += New FastaToken({name}, New String(seq.ToArray))
+                buf += New FastaSeq({name}, New String(seq.ToArray))
             Next
 
             Return New Phylip With {
@@ -114,7 +114,7 @@ Namespace SangerSNPs
 
         Public numSamples As Integer
         Public numSNPs As Integer
-        Public SNPs As FastaToken()
+        Public SNPs As FastaSeq()
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

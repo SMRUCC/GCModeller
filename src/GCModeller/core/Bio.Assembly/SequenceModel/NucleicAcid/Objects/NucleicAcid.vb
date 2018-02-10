@@ -154,7 +154,7 @@ Namespace SequenceModel.NucleotideModels
         ''' Construct the nucleotide sequence from a ATGC based sequence string.
         ''' (从一个序列字符串之中创建一条核酸链分子对象)
         ''' </summary>
-        ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaToken"/> object.</param>
+        ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaSeq"/> object.</param>
         Sub New(SequenceData As String)
             Call __convertSequence(SequenceData, True)
         End Sub
@@ -172,7 +172,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="nt"></param>
         ''' <param name="strict">默认参数表示当核酸序列之中存在非法字符的时候会直接抛出错误</param>
-        Sub New(nt As FASTA.FastaToken, Optional strict As Boolean = True)
+        Sub New(nt As FASTA.FastaSeq, Optional strict As Boolean = True)
             Try
                 Call __convertSequence(nt.SequenceData, strict)
             Catch ex As Exception
@@ -389,7 +389,7 @@ Namespace SequenceModel.NucleotideModels
             }
         End Operator
 
-        Public Shared Widening Operator CType(fasta As FASTA.FastaToken) As NucleicAcid
+        Public Shared Widening Operator CType(fasta As FASTA.FastaSeq) As NucleicAcid
             Return New NucleicAcid With {
                 .SequenceData = fasta.SequenceData
             }

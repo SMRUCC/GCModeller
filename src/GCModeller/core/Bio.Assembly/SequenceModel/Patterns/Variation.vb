@@ -64,7 +64,7 @@ Namespace SequenceModel.Patterns
         Public ReadOnly Property ref As Char()
         Public Property Strict As Boolean = True
 
-        Sub New(ref As FastaToken)
+        Sub New(ref As FastaSeq)
             _Nt = ref.Title
             _ref = ref.SequenceData.ToUpper.Replace("N", "-")
         End Sub
@@ -101,7 +101,7 @@ Namespace SequenceModel.Patterns
                 Throw New EvaluateException($"Reference index value:={ref} is not a valid index!")
             End If
 
-            Dim refFa As FastaToken = source(ref)
+            Dim refFa As FastaSeq = source(ref)
 
             Call source.RemoveAt(ref)
             Call $"Using {refFa.Title} as references...".__DEBUG_ECHO
@@ -121,7 +121,7 @@ Namespace SequenceModel.Patterns
  _
                 LinqAPI.Exec(Of NamedValue(Of Char())) <=
  _
-                From seq As FastaToken
+                From seq As FastaSeq
                 In source
                 Let trimSeq As String = seq.SequenceData _
                     .ToUpper _
@@ -225,7 +225,7 @@ re0:
             End Select
         End Function
 
-        Public Shared Function Build(source As IEnumerable(Of FastaToken), ref$) As SeqValue(Of Dictionary(Of String, Variations))()
+        Public Shared Function Build(source As IEnumerable(Of FastaSeq), ref$) As SeqValue(Of Dictionary(Of String, Variations))()
             Return Build(New FastaFile(source), ref$)
         End Function
     End Class

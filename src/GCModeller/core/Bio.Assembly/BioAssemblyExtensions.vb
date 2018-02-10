@@ -117,11 +117,11 @@ Public Module BioAssemblyExtensions
     ''' <summary>
     ''' Generate <see cref="FastaFile"/> from a specific fasta source collection.
     ''' </summary>
-    ''' <typeparam name="TFasta"><see cref="FastaToken"/></typeparam>
-    ''' <param name="data">Target fasta source collection which its elements base type is <see cref="fastaToken"/></param>
+    ''' <typeparam name="TFasta"><see cref="FastaSeq"/></typeparam>
+    ''' <param name="data">Target fasta source collection which its elements base type is <see cref="FastaSeq"/></param>
     ''' <returns></returns>
-    <Extension> Public Function [DirectCast](Of TFasta As FastaToken)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
-        Dim FastaFile As New FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaToken))
+    <Extension> Public Function [DirectCast](Of TFasta As FastaSeq)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
+        Dim FastaFile As New FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaSeq))
         Return FastaFile
     End Function
 

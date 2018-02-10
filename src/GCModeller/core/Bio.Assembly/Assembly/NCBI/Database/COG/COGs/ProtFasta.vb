@@ -52,8 +52,8 @@ Namespace Assembly.NCBI.COG.COGs
             Return $"gi|{GI}|ref|{Ref}| {Description} [{GenomeName}]"
         End Function
 
-        Public Shared Function Parser(fasta As FastaToken) As ProtFasta
-            Dim Describ As String = fasta.Attributes(4)
+        Public Shared Function Parser(fasta As FastaSeq) As ProtFasta
+            Dim Describ As String = fasta.Headers(4)
             Dim genome As String = __genomeNameParser(Describ)
 
             Describ = Describ.Replace(genome, "").Trim
@@ -61,9 +61,9 @@ Namespace Assembly.NCBI.COG.COGs
 
             Return New ProtFasta With {
                 .SequenceData = fasta.SequenceData,
-                .Attributes = fasta.Attributes,
-                .GI = fasta.Attributes(1),
-                .Ref = fasta.Attributes(3),
+                .Headers = fasta.Headers,
+                .GI = fasta.Headers(1),
+                .Ref = fasta.Headers(3),
                 .Description = Describ,
                 .GenomeName = genome
             }

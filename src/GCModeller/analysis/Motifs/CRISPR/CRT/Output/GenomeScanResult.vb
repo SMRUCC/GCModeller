@@ -70,7 +70,7 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ExportFasta() As FASTA.FastaFile
-            Dim LQuery = LinqAPI.Exec(Of FastaToken) <=
+            Dim LQuery = LinqAPI.Exec(Of FastaSeq) <=
  _
                 From site As CRISPR
                 In Sites
@@ -79,8 +79,8 @@ Namespace Output
                        Let attrs = New String() {
                            String.Format("{0}_{1}_{2}", Tag, site.ID, rp.Left)
                        }
-                       Select New FastaToken With {
-                           .Attributes = attrs,
+                       Select New FastaSeq With {
+                           .Headers = attrs,
                            .SequenceData = rp.SequenceData
                        }
 
@@ -93,7 +93,7 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ExportSpacerFasta() As FastaFile
-            Dim LQuery = LinqAPI.Exec(Of FastaToken) <=
+            Dim LQuery = LinqAPI.Exec(Of FastaSeq) <=
  _
                 From site As CRISPR
                 In Sites
@@ -102,15 +102,15 @@ Namespace Output
                        Let attrs = New String() {
                            String.Format("{0}_{1}_{2}", Tag, site.ID, sp.Left)
                        }
-                       Select New FastaToken With {
-                           .Attributes = attrs,
+                       Select New FastaSeq With {
+                           .Headers = attrs,
                            .SequenceData = sp.SequenceData
                        }
 
             Return New FastaFile(LQuery)
         End Function
 
-        Public Shared Function CreateObject(nt As FastaToken, tag$, dat As IEnumerable(Of SearchingModel.CRISPR), ScanProfile As KmerProfile) As GenomeScanResult
+        Public Shared Function CreateObject(nt As FastaSeq, tag$, dat As IEnumerable(Of SearchingModel.CRISPR), ScanProfile As KmerProfile) As GenomeScanResult
             Dim Result As New GenomeScanResult With {
                 .title = nt.Title,
                 .KMerProfile = ScanProfile,

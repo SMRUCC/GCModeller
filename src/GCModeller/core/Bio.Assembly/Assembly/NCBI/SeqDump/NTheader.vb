@@ -97,8 +97,8 @@ Namespace Assembly.NCBI.SequenceDump
             Return out
         End Function
 
-        Public Shared Function ParseNTheader(fa As FastaToken, Optional throwEx As Boolean = True) As IEnumerable(Of NTheader)
-            Return ParseNTheader(fa.Attributes, throwEx)
+        Public Shared Function ParseNTheader(fa As FastaSeq, Optional throwEx As Boolean = True) As IEnumerable(Of NTheader)
+            Return ParseNTheader(fa.Headers, throwEx)
         End Function
 
         Private Shared Function Trim(s As String) As String

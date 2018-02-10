@@ -66,7 +66,7 @@ Namespace DeltaSimilarity1998.CAI
         ''' ORF的核酸序列之中构建出密码子偏好属性
         ''' </summary>
         ''' <param name="nt">ATG -> TGA这一段之间的ORF的核酸序列</param>
-        Sub New(nt As FastaToken)
+        Sub New(nt As FastaSeq)
             ORF = New NucleicAcid(nt)
             CodonFrequencyStatics =
                 ToChar _

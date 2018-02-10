@@ -78,7 +78,7 @@ Namespace ComparativeAlignment
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property nt As FASTA.FastaToken
+        Public Property nt As FASTA.FastaSeq
         Public Property COGColors As Dictionary(Of String, Brush)
         Public Property Legends As Dictionary(Of ColorLegend)
 

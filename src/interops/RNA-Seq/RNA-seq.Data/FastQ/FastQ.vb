@@ -90,7 +90,7 @@ Namespace FQ
         ''' <returns></returns>
         Public Property Quality As String
 
-        Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+        Public Property Headers As String() Implements IAbstractFastaToken.Headers
 
         Public Overrides Function ToString() As String
             Return Title

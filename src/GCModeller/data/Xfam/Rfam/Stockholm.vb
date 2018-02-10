@@ -276,9 +276,9 @@ Public Class Stockholm
                    Let sp As String() = line.Trim.Split
                    Let id As String = sp.First
                    Let seq As String = sp.Last
-                   Let fa As SequenceModel.FASTA.FastaToken =
-                       New SequenceModel.FASTA.FastaToken With {
-                          .Attributes = {id},
+                   Let fa As SequenceModel.FASTA.FastaSeq =
+                       New SequenceModel.FASTA.FastaSeq With {
+                          .Headers = {id},
                           .SequenceData = seq
                        }
                    Select fa).ToArray

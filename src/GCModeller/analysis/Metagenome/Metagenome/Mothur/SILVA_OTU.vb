@@ -42,11 +42,11 @@ Public Module SILVA_OTU
     ''' 命令获取得到的OTU代表序列的fasta文件数据</param>
     ''' <returns></returns>
     <Extension>
-    Public Function ParseOTUrep(fasta As IEnumerable(Of FastaToken)) As Dictionary(Of String, NamedValue(Of Integer))
+    Public Function ParseOTUrep(fasta As IEnumerable(Of FastaSeq)) As Dictionary(Of String, NamedValue(Of Integer))
         Dim table As New Dictionary(Of String, NamedValue(Of Integer))
         Dim OTU$()
 
-        For Each kseq As FastaToken In fasta
+        For Each kseq As FastaSeq In fasta
             With kseq.Title.Split(ASCII.TAB)
                 OTU = .Last.Split("|"c)
                 table(.First) = New NamedValue(Of Integer) With {

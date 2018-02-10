@@ -129,7 +129,7 @@ Partial Module CLI
             Dim path As String = $"{out}/{query.qName}.fasta"
             Dim duplicates = (From x In query.sites Select x Group x By x.UniqueId Into Group).ToArray
             Dim fa As New FastaFile(duplicates.Select(Function(x) x.Group.First))
-            Dim setSeq = New SetValue(Of FastaToken) <= NameOf(FastaToken.SequenceData)
+            Dim setSeq = New SetValue(Of FastaSeq) <= NameOf(FastaSeq.SequenceData)
             fa = New FastaFile(fa.Select(Function(x) setSeq(x, Regtransbase.WebServices.Regulator.SequenceTrimming(x.SequenceData))))
             Call fa.Save(-1, path, Encodings.ASCII)
         Next

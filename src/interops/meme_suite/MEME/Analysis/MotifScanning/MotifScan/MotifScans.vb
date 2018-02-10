@@ -72,7 +72,7 @@ Namespace Analysis.MotifScans
         ''' </summary>
         ''' <param name="Nt"></param>
         ''' <returns></returns>
-        Public Function Mast(Nt As FASTA.FastaToken) As MAST.HTML.MatchedSite()
+        Public Function Mast(Nt As FASTA.FastaSeq) As MAST.HTML.MatchedSite()
             Dim SlideWindows = New NucleotideModels.NucleicAcid(Nt).ToArray _
                 .CreateSlideWindows(MotifSite.PspMatrix.Length + OffSet * 2)
             Dim NtLen As Long = Nt.Length

@@ -47,9 +47,9 @@ Public Class ProtInDb
                                                Next
 
                                                Return sBuilder.ToString
-                                           End Function Select New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
+                                           End Function Select New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq With {
                                                .SequenceData = item.SequenceData,
-                                               .Attributes = New String() {item.PdbId & "-" & item.ChainId & " " & SurfaceBuilder()}}).ToArray
+                                               .Headers = New String() {item.PdbId & "-" & item.ChainId & " " & SurfaceBuilder()}}).ToArray
 
         Call FileIO.FileSystem.CreateDirectory(ExportDir)
 

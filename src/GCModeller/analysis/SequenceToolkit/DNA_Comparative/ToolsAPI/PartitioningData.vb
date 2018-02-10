@@ -90,16 +90,16 @@ Public Class PartitioningData : Implements IAbstractFastaToken
     ''' <remarks></remarks>
     <Ignored> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
-    Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+    Public Property Headers As String() Implements IAbstractFastaToken.Headers
 
     Public Overrides Function ToString() As String
         Return Title & ":  " & SequenceData
     End Function
 
-    Public Function ToFasta() As FastaToken
-        Return New FastaToken With {
+    Public Function ToFasta() As FastaSeq
+        Return New FastaSeq With {
             .SequenceData = SequenceData,
-            .Attributes = New String() {Me.GenomeID, Me.PartitioningTag}
+            .Headers = New String() {Me.GenomeID, Me.PartitioningTag}
         }
     End Function
 End Class

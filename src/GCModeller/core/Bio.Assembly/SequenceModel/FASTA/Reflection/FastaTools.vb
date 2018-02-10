@@ -55,7 +55,7 @@ Namespace SequenceModel.FASTA.Reflection
         <ExportAPI("Complement"), Extension>
         Public Function Complement(FASTA2 As FastaFile) As FastaFile
             Dim LQuery = From FASTA In FASTA2.AsParallel
-                         Let cpFASTA = FastaToken.Complement(FASTA)
+                         Let cpFASTA = FastaSeq.Complement(FASTA)
                          Where Not cpFASTA Is Nothing
                          Select cpFASTA
                          Order By cpFASTA.ToString Ascending  '
@@ -71,7 +71,7 @@ Namespace SequenceModel.FASTA.Reflection
         <ExportAPI("Reverse")>
         <Extension>
         Public Function Reverse(fa As FastaFile) As FastaFile
-            Dim LQuery = From FASTA As FastaToken In fa.AsParallel
+            Dim LQuery = From FASTA As FastaSeq In fa.AsParallel
                          Let rvFASTA = FASTA.Reverse
                          Select rvFASTA
                          Order By rvFASTA.ToString Ascending '
@@ -88,35 +88,35 @@ Namespace SequenceModel.FASTA.Reflection
         <ExportAPI("Merge", Info:="Merge the fasta sequence file from a file list.")>
         <Extension>
         Public Function Merge(list As IEnumerable(Of String), Trim As Boolean, rawTitle As Boolean) As FastaFile
-            Dim mergeFa As FastaToken() =
-                LinqAPI.Exec(Of FastaToken) <= From file As String
+            Dim mergeFa As FastaSeq() =
+                LinqAPI.Exec(Of FastaSeq) <= From file As String
                                                In list.AsParallel
                                                Select FastaFile.Read(file)
 
             If Trim Then
                 Dim setValue =
-                    New SetValue(Of FastaToken)().GetSet(NameOf(FastaToken.Attributes))
+                    New SetValue(Of FastaSeq)().GetSet(NameOf(FastaSeq.Headers))
 
-                mergeFa = LinqAPI.Exec(Of FastaToken) <=
-                    From fa As FastaToken
+                mergeFa = LinqAPI.Exec(Of FastaSeq) <=
+                    From fa As FastaSeq
                     In mergeFa.AsParallel
-                    Let attrs As String() = New String() {fa.Attributes.First.Split.First}
+                    Let attrs As String() = New String() {fa.Headers.First.Split.First}
                     Select setValue(fa, attrs)
 
-                mergeFa = LinqAPI.Exec(Of FastaToken) <=
-                    From fa As FastaToken
+                mergeFa = LinqAPI.Exec(Of FastaSeq) <=
+                    From fa As FastaSeq
                     In mergeFa.AsParallel
                     Select fa.FastaTrimCorrupt
             Else
                 If Not rawTitle Then
-                    For Each fa As FastaToken In mergeFa
-                        fa.Attributes = {fa.Attributes.First.Split.First}
+                    For Each fa As FastaSeq In mergeFa
+                        fa.Headers = {fa.Headers.First.Split.First}
                     Next
                 End If
             End If
 
-            Dim source As IEnumerable(Of FastaToken) =
-                From fa As FastaToken
+            Dim source As IEnumerable(Of FastaSeq) =
+                From fa As FastaSeq
                 In mergeFa.AsParallel
                 Where Not String.IsNullOrEmpty(fa.SequenceData)
                 Select fa
@@ -159,7 +159,7 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <param name="fa"></param>
         ''' <returns></returns>
         <ExportAPI("Fasta.Corrupted?")>
-        <Extension> Public Function FastaCorrupted(fa As FastaToken) As Boolean
+        <Extension> Public Function FastaCorrupted(fa As FastaSeq) As Boolean
             Return __seqCorrupted(fa.SequenceData)
         End Function
 
@@ -181,7 +181,7 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <returns></returns>
         <ExportAPI("Fasta.Removes.Corruption")>
         <Extension>
-        Public Function FastaTrimCorrupt(fa As FastaToken) As FastaToken
+        Public Function FastaTrimCorrupt(fa As FastaSeq) As FastaSeq
             Dim seq As String = fa.SequenceData
             Dim isCorrupted As Boolean
             Dim n As Integer
@@ -217,8 +217,8 @@ REDO:           seq = Mid(seq, i)
                 Call $"{fa.ToString} was corrupted, automatically corrected as {locus}!".__DEBUG_ECHO
             End If
 
-            Return New FastaToken With {
-                .Attributes = {locus},
+            Return New FastaSeq With {
+                .Headers = {locus},
                 .SequenceData = seq
             }
         End Function
@@ -229,39 +229,39 @@ REDO:           seq = Mid(seq, i)
         End Function
 
         <ExportAPI("Read.FastaToken")>
-        Public Function LoadFastaToken(path As String) As FastaToken
-            Return FastaToken.Load(path)
+        Public Function LoadFastaToken(path As String) As FastaSeq
+            Return FastaSeq.Load(path)
         End Function
 
         Public Function Export(Of T As I_FastaObject)(source As IEnumerable(Of T)) As FastaFile
             Dim SchemaCache As SchemaCache = New SchemaCache(GetType(T))
             Dim LQuery = (From objItem As T
                           In source
-                          Let fsa As FastaToken = Export(objItem, SchemaCache)
+                          Let fsa As FastaSeq = Export(objItem, SchemaCache)
                           Where Not fsa Is Nothing
                           Select fsa).ToArray
             Return LQuery
         End Function
 
-        Public Function Export(Of TFsaObject As I_FastaObject)(fa As TFsaObject) As FastaToken
+        Public Function Export(Of TFsaObject As I_FastaObject)(fa As TFsaObject) As FastaSeq
             If String.IsNullOrEmpty(fa.GetSequenceData) Then
                 Return Nothing
             End If
 
             Dim SchemaCache As SchemaCache = New SchemaCache(GetType(TFsaObject))
-            Dim fsa As FastaToken = Export(fa, SchemaCache)
+            Dim fsa As FastaSeq = Export(fa, SchemaCache)
             Return fsa
         End Function
 
-        Private Function Export(objItem As I_FastaObject, SchemaCache As SchemaCache) As FastaToken
+        Private Function Export(objItem As I_FastaObject, SchemaCache As SchemaCache) As FastaSeq
             If String.IsNullOrEmpty(SchemaCache.TitleFormat) Then
                 Dim stringItems = (From pairItem As KeyValuePair(Of FastaAttributeItem, System.Reflection.PropertyInfo)
                                    In SchemaCache.attributes
                                    Let value As String = pairItem.Value.GetValue(objItem).ToString
                                    Select If(String.IsNullOrEmpty(pairItem.Key.Precursor), New String() {value}, New String() {pairItem.Key.Precursor, value})).ToArray
-                Dim Fsa As FastaToken = New FastaToken With {
+                Dim Fsa As FastaSeq = New FastaSeq With {
                     .SequenceData = objItem.GetSequenceData,
-                    .Attributes = stringItems.ToVector
+                    .Headers = stringItems.ToVector
                 }
                 Return Fsa
             Else
@@ -270,9 +270,9 @@ REDO:           seq = Mid(seq, i)
                                    Let value As String = pairItem.Value.GetValue(objItem).ToString
                                    Select If(String.IsNullOrEmpty(pairItem.Key.Format), value, String.Format(pairItem.Key.Format, value))).ToArray
                 Dim Title As String = String.Format(SchemaCache.TitleFormat, stringItems)
-                Dim Fsa As FastaToken = New FastaToken With {
+                Dim Fsa As FastaSeq = New FastaSeq With {
                     .SequenceData = objItem.GetSequenceData,
-                    .Attributes = Title.Split(CChar("|"))
+                    .Headers = Title.Split(CChar("|"))
                 }
                 Return Fsa
             End If

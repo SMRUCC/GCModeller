@@ -29,7 +29,6 @@
 Imports System.Linq
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
 
 Public Class HSP : Inherits Match

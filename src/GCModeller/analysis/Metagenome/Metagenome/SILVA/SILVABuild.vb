@@ -38,11 +38,11 @@ Public Module SILVABuild
     ''' <param name="silva"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function SILVABacteria(silva As IEnumerable(Of FastaToken)) As IEnumerable(Of FastaToken)
+    Public Iterator Function SILVABacteria(silva As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
         Dim title$
         Dim header As NamedValue(Of String)
 
-        For Each seq As FastaToken In silva
+        For Each seq As FastaSeq In silva
             title = seq.Title
             header = title.GetTagValue(" ", trim:=True)
 

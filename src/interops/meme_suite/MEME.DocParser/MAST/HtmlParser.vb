@@ -41,7 +41,7 @@ Namespace DocumentFormat.MAST.HTML
     <Package("Mast.Html.Parser", Publisher:="xie.guigang@gmail.com")>
     Public Module HtmlParser
 
-        Private Function __getRegulation(Tfbs As FASTA.FastaToken) As KeyValuePair(Of String, String)
+        Private Function __getRegulation(Tfbs As FASTA.FastaSeq) As KeyValuePair(Of String, String)
             Dim Title As String = Tfbs.Title
             Dim siteId As String = Title.Split().First
             Dim regulator As String = Regex.Match(Title, "regulator=[^]]+").Value.Split(CChar("=")).Last
@@ -62,7 +62,7 @@ Namespace DocumentFormat.MAST.HTML
                                <Parameter("Dir.Fasta")> FastaDir As String,
                                RegpreciseTFBS As FASTA.FastaFile) As String
             Dim BaseDirExported As String = FileIO.FileSystem.GetParentPath(MEME_out)
-            Dim TFBSInfos = (From Tfbs As FASTA.FastaToken
+            Dim TFBSInfos = (From Tfbs As FASTA.FastaSeq
                              In RegpreciseTFBS.AsParallel
                              Select __getRegulation(Tfbs)).ToDictionary(Function(item As KeyValuePair(Of String, String)) item.Key)
 

@@ -222,7 +222,7 @@ Public Structure SSR
     Public Property Strand As String
     Public Property RepeatUnit As String
 
-    Public Function ToFasta() As FastaToken
+    Public Function ToFasta() As FastaSeq
 
     End Function
 

@@ -38,7 +38,7 @@ Namespace Regprecise.FastaReaders
     ''' 调控位点的数据
     ''' > geneLocusTag:position|geneVIMSSId|regulonId|score|Bacteria
     ''' </summary>
-    Public Class Site : Inherits FASTA.FastaToken
+    Public Class Site : Inherits FASTA.FastaSeq
 
 #Region "Public Property"
 
@@ -79,12 +79,12 @@ Namespace Regprecise.FastaReaders
         ''' <remarks></remarks>
         <Column("motif")> Public Overrides Property SequenceData As String
 
-        Public Overrides Property Attributes As String()
+        Public Overrides Property Headers As String()
             Get
                 Return {$"{geneLocusTag}:{position}", CStr(geneVIMSSId), CStr(regulonId), CStr(score), Bacteria}
             End Get
             Set(value As String())
-                MyBase.Attributes = value
+                MyBase.Headers = value
             End Set
         End Property
 #End Region
@@ -101,9 +101,9 @@ Namespace Regprecise.FastaReaders
 
         Public Shared Function CreateObject(FASTA As FASTA.FastaFile) As Site()
             Dim LQuery As Site() =
-                LinqAPI.Exec(Of Site) <= From fa As FASTA.FastaToken
+                LinqAPI.Exec(Of Site) <= From fa As FASTA.FastaSeq
                                          In FASTA
-                                         Let attrs = fa.Attributes
+                                         Let attrs = fa.Headers
                                          Let loci As String() = attrs(Scan0).Split(":"c)
                                          Let site As Site = New Site With {
                                              .geneLocusTag = loci(Scan0),

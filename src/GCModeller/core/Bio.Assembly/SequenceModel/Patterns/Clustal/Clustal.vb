@@ -37,9 +37,9 @@ Namespace SequenceModel.Patterns.Clustal
     ''' Fasta格式的多序列比对的结果
     ''' </summary>
     Public Class Clustal : Inherits ITextFile
-        Implements IEnumerable(Of FastaToken)
+        Implements IEnumerable(Of FastaSeq)
 
-        Dim _innerList As List(Of FastaToken)
+        Dim _innerList As List(Of FastaSeq)
         Dim _SRChains As SRChain()
 
         Public ReadOnly Property Frequency As IReadOnlyDictionary(Of Integer, IReadOnlyDictionary(Of Char, Double))
@@ -49,7 +49,7 @@ Namespace SequenceModel.Patterns.Clustal
             FilePath = path
         End Sub
 
-        Sub New(source As IEnumerable(Of FastaToken))
+        Sub New(source As IEnumerable(Of FastaSeq))
             _innerList = source.AsList
             Call __initCommon()
         End Sub
@@ -96,9 +96,9 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="right">右端到位点的距离</param>
         ''' <returns></returns>
         Public Function Mid(left As Integer, right As Integer) As FastaFile
-            Dim LQuery = (From x As FastaToken In _innerList
-                          Let midFa As FastaToken = New FastaToken With {
-                              .Attributes = x.Attributes,
+            Dim LQuery = (From x As FastaSeq In _innerList
+                          Let midFa As FastaSeq = New FastaSeq With {
+                              .Headers = x.Headers,
                               .SequenceData = __mid(left, right, x.SequenceData)
                           }
                           Select midFa).ToArray
@@ -111,8 +111,8 @@ Namespace SequenceModel.Patterns.Clustal
             Return s
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator(Of FastaToken) Implements IEnumerable(Of FastaToken).GetEnumerator
-            For Each fa As FastaToken In _innerList
+        Public Iterator Function GetEnumerator() As IEnumerator(Of FastaSeq) Implements IEnumerable(Of FastaSeq).GetEnumerator
+            For Each fa As FastaSeq In _innerList
                 Yield fa
             Next
         End Function

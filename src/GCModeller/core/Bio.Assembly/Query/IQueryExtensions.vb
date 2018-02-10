@@ -97,12 +97,12 @@ Public Module IQueryExtensions
     End Function
 
     ''' <summary>
-    ''' <see cref="fastatoken.Attributes"/> parsing the first word token as uid.
+    ''' <see cref="FastaSeq.Headers"/> parsing the first word token as uid.
     ''' </summary>
     ''' <param name="fasta"></param>
     ''' <returns></returns>
-    <Extension> Public Function GetLocusTag(fasta As FastaToken) As String
-        Dim uid As String = fasta.Attributes.First.Split.First.Trim
+    <Extension> Public Function GetLocusTag(fasta As FastaSeq) As String
+        Dim uid As String = fasta.Headers.First.Split.First.Trim
         Return uid
     End Function
 

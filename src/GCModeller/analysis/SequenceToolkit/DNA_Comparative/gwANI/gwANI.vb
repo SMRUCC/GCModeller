@@ -154,7 +154,7 @@ Namespace gwANI
             _length_of_genome = 0
             _sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
 
-            For Each seq As FastaToken In New FastaFile(filename)
+            For Each seq As FastaSeq In New FastaFile(filename)
                 If number_of_samples = 0 Then
                     _length_of_genome = seq.Length
                 ElseIf length_of_genome <> seq.Length Then
@@ -216,7 +216,7 @@ Namespace gwANI
             Dim length_without_gaps As Integer
             Dim comparison_sequence As String = New String("-"c, length_of_genome + 1)
 
-            For Each seq As FastaToken In New FastaFile(filename)
+            For Each seq As FastaSeq In New FastaFile(filename)
 
                 If current_index < comparison_index Then
                     similarity_percentage(current_index) = -1
@@ -310,7 +310,7 @@ Namespace gwANI
 
             ' Store all sequences in a giant array - eek
 
-            For Each seq As FastaToken In New FastaFile(filename)
+            For Each seq As FastaSeq In New FastaFile(filename)
                 comparison_sequence(i) = seq.SequenceData
                 i += 1
             Next

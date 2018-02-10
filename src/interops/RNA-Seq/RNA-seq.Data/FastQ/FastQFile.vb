@@ -150,16 +150,16 @@ Namespace FQ
                 __attrs = Function(i, fq) {fq.SEQ_ID.ToString}
             End If
 
-            Dim LQuery As FASTA.FastaToken() =
-                LinqAPI.Exec(Of FASTA.FastaToken) <= From fq As SeqValue(Of FastQ)
+            Dim LQuery As FASTA.FastaSeq() =
+                LinqAPI.Exec(Of FASTA.FastaSeq) <= From fq As SeqValue(Of FastQ)
                                                      In Me.SeqIterator.AsParallel
                                                      Let read As FastQ = fq.value
                                                      Let attrs As String() = __trim(__attrs(fq.i, read))
-                                                     Select fasta = New FASTA.FastaToken With {
+                                                     Select fasta = New FASTA.FastaSeq With {
                                                          .SequenceData = read.SequenceData,
-                                                         .Attributes = attrs
+                                                         .Headers = attrs
                                                      }
-                                                     Order By fasta.Attributes.First Ascending
+                                                     Order By fasta.Headers.First Ascending
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 

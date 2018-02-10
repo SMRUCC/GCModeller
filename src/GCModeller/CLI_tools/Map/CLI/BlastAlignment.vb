@@ -117,7 +117,7 @@ Partial Module CLI
 
         GCSkew.Steps = 250
 
-        Dim nt As FastaToken = genbank.Origin.ToFasta
+        Dim nt As FastaSeq = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToPTT(ORF:=True)
         Dim region As Location = alignments.GetAlignmentRegion
 
@@ -135,7 +135,7 @@ Partial Module CLI
             region = New Location(CType(regionValue, IntRange))
             ' alignments = alignments.Offset(region)
             PTT = PTT.RangeSelection(region, offset:=True)
-            nt = New FastaToken({PTT.Title}, nt.CutSequenceLinear(region))
+            nt = New FastaSeq({PTT.Title}, nt.CutSequenceLinear(region))
         End If
 
         If cata.FileLength() > 0 Then

@@ -188,7 +188,7 @@ Partial Module CLI
 
             Call locis.SaveTo(base & ".Csv")
             Call New FastaFile(
-                 locis.Select(Function(x) New FastaToken({x.ID}, x.SequenceData))) _
+                 locis.Select(Function(x) New FastaSeq({x.ID}, x.SequenceData))) _
                 .Save(base & ".fasta", Encodings.ASCII)
         Next
 
@@ -243,7 +243,7 @@ Partial Module CLI
                                                     Select site
                                                     Order By site.SequenceData.Length Descending).First)
             Call New FastaFile(
-              sitesLoci.Select(Function(x) New FastaToken({x.ID}, x.SequenceData))) _
+              sitesLoci.Select(Function(x) New FastaSeq({x.ID}, x.SequenceData))) _
              .Save(path, Encodings.ASCII)
         Next
 

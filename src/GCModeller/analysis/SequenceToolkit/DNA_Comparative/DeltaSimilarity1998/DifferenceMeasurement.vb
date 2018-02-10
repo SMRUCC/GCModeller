@@ -87,7 +87,7 @@ Namespace DeltaSimilarity1998
         End Function
 
         <ExportAPI("Sigma")>
-        Public Function Sigma(f As FASTA.FastaToken, g As FASTA.FastaToken) As Double
+        Public Function Sigma(f As FASTA.FastaSeq, g As FASTA.FastaSeq) As Double
             Return Sigma(New NucleotideModels.NucleicAcid(f), New NucleotideModels.NucleicAcid(g))
         End Function
 

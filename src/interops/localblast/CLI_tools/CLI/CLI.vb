@@ -302,11 +302,11 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
             Dim prot As FastaFile = gb.ExportProteins_Short
             Dim path As String = out & "/" & gb.Locus.AccessionID & ".fasta"
             Dim nulls = (From x In prot Where String.IsNullOrEmpty(x.SequenceData) Select x).ToArray
-            prot = New FastaFile(From x As FASTA.FastaToken
+            prot = New FastaFile(From x As FASTA.FastaSeq
                                  In prot.AsParallel
                                  Where Not String.IsNullOrEmpty(x.SequenceData)
                                  Select x)
-            For Each x As FastaToken In nulls
+            For Each x As FastaSeq In nulls
                 Call VBDebugger.Warning(x.Title & "  have not sequence data!")
             Next
             Call prot.Save(path)
@@ -314,11 +314,11 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
         For Each fasta As String In ls - l - r - wildcards("*.fasta", "*.fsa", "*.faa", "*.fa") <= inDIR
             Dim fa As FastaFile = FastaFile.Read(fasta, True)
-            fa = New FastaFile((From x As FastaToken
+            fa = New FastaFile((From x As FastaSeq
                                 In fa
                                 Let id As String = Regex.Match(x.Title, "\[gene=.+?\]").Value
-                                Let title As String = If(String.IsNullOrEmpty(id), x.Attributes.First, id.GetStackValue("[", "]").Split("="c).Last)
-                                Select New FastaToken({title}, x.SequenceData)).ToArray)
+                                Let title As String = If(String.IsNullOrEmpty(id), x.Headers.First, id.GetStackValue("[", "]").Split("="c).Last)
+                                Select New FastaSeq({title}, x.SequenceData)).ToArray)
             Dim nulls = (From x In fa Where String.IsNullOrEmpty(x.SequenceData) Select x).ToArray
             fa = New FastaFile((From x In fa.AsParallel Where Not String.IsNullOrEmpty(x.SequenceData) Select x).ToArray)
             For Each x In nulls

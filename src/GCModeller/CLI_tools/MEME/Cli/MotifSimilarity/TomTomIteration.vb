@@ -77,7 +77,7 @@ Partial Module CLI
         Next
 
         Dim getUids = (From x In sites
-                       Let array As String() = x.Value.Select(Function(o) o.Attributes(Scan0)).OrderBy(Function(s) s).ToArray
+                       Let array As String() = x.Value.Select(Function(o) o.Headers(Scan0)).OrderBy(Function(s) s).ToArray
                        Let uid As String = String.Join("+", array)
                        Select uid,
                            x
@@ -96,7 +96,7 @@ Partial Module CLI
                                    hits As MotifMatch(),
                                    memeHash As Dictionary(Of String, LDM.Motif),
                                    grep As Func(Of String, String)) As FASTA.FastaFile
-        Dim query As IEnumerable(Of FASTA.FastaToken) =
+        Dim query As IEnumerable(Of FASTA.FastaSeq) =
             memeHash([mod]).Sites.Select(Function(x) x.ToFasta([mod]))
         Dim hitSites = From hit As MotifMatch
                        In hits

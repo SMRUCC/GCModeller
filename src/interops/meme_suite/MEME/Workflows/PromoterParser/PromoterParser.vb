@@ -34,89 +34,89 @@ Namespace Workflows.PromoterParser
 
 #Region "{Gene.ID, Fasta}"
 
-        Public Property Promoter_100 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_100 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_100
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_100 = value
             End Set
         End Property
 
-        Public Property Promoter_150 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_150 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_150
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_150 = value
             End Set
         End Property
-        Public Property Promoter_200 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_200 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_200
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_200 = value
             End Set
         End Property
-        Public Property Promoter_250 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_250 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_250
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_250 = value
             End Set
         End Property
-        Public Property Promoter_300 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_300 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_300
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_300 = value
             End Set
         End Property
-        Public Property Promoter_350 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_350 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_350
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_350 = value
             End Set
         End Property
-        Public Property Promoter_400 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_400 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_400
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_400 = value
             End Set
         End Property
-        Public Property Promoter_450 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_450 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_450
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_450 = value
             End Set
         End Property
-        Public Property Promoter_500 As Dictionary(Of String, FastaToken)
+        Public Property Promoter_500 As Dictionary(Of String, FastaSeq)
             Get
                 Return _Promoter_500
             End Get
-            Protected Set(value As Dictionary(Of String, FastaToken))
+            Protected Set(value As Dictionary(Of String, FastaSeq))
                 _Promoter_500 = value
             End Set
         End Property
 
-        Dim _Promoter_100 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_150 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_200 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_250 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_300 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_350 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_400 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_450 As Dictionary(Of String, FastaToken)
-        Dim _Promoter_500 As Dictionary(Of String, FastaToken)
+        Dim _Promoter_100 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_150 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_200 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_250 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_300 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_350 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_400 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_450 As Dictionary(Of String, FastaSeq)
+        Dim _Promoter_500 As Dictionary(Of String, FastaSeq)
 
 #End Region
 

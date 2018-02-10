@@ -103,7 +103,7 @@ Partial Module CLI
         Dim sam As New SAMStream(inSam)
 
         Using writer = outNt.OpenWriter(Encodings.ASCII)
-            Dim seqHash = (From x As FastaToken
+            Dim seqHash = (From x As FastaSeq
                            In New FastaFile([in])
                            Select x
                            Group x By x.Title.Split.First Into Group) _
@@ -112,13 +112,13 @@ Partial Module CLI
 
             Call writer.WriteLine("> " & [in].BaseName)
 
-            Dim list As New List(Of FastaToken)
+            Dim list As New List(Of FastaSeq)
 
             For Each readMap As AlignmentReads In sam.IteratesAllReads.Where(Function(x) Not x.RNAME = "*")
                 list += seqHash(readMap.RNAME)
             Next
 
-            For Each fa As FastaToken In (From x As FastaToken
+            For Each fa As FastaSeq In (From x As FastaSeq
                                           In list
                                           Select x
                                           Group x By x.Title.Split.First Into Group) _

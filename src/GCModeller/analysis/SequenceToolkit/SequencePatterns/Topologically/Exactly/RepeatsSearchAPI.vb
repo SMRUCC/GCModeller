@@ -153,7 +153,7 @@ RETURN_VALUE:
                                        Min As Integer,
                                        Max As Integer,
                                        Optional MinAppeared As Integer = 2) As KeyValuePair(Of Double(), Double())
-            Dim LQuery = (From genome As FastaToken
+            Dim LQuery = (From genome As FastaSeq
                           In Mla
                           Select repeats = RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared),
                               rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)).ToArray
@@ -305,7 +305,7 @@ RETURN_VALUE:
         ''' <param name="saveDIR"></param>
         <ExportAPI("Search.Batch")>
         Public Sub BatchSearch(Mla As FastaFile, Min As Integer, Max As Integer, Optional MinAppeared As Integer = 2, Optional saveDIR As String = "./")
-            For Each genome As FastaToken In Mla
+            For Each genome As FastaSeq In Mla
                 Call genome.__DEBUG_ECHO
 
                 Dim repeats = RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared)

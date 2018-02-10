@@ -54,23 +54,23 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlElement("ReferenceGeneData")>
-        Public Property ReferenceGenes As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)())()
+        Public Property ReferenceGenes As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())()
             Get
                 If _refGeneOrthology.IsNullOrEmpty Then
-                    Return New KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)())() {}
+                    Return New KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())() {}
                 End If
                 Return _refGeneOrthology.Values.ToArray
             End Get
-            Set(value As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)())())
+            Set(value As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())())
                 If value.IsNullOrEmpty Then
-                    _refGeneOrthology = New Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)()))
+                    _refGeneOrthology = New Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
                 Else
                     _refGeneOrthology = value.ToDictionary(Function(obj) obj.Key.EntryID)
                 End If
             End Set
         End Property
 
-        Dim _refGeneOrthology As Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)()))
+        Dim _refGeneOrthology As Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
         Dim _refReactions As Dictionary(Of String, ReferenceReaction) =
             New Dictionary(Of String, ReferenceReaction)
 
@@ -112,12 +112,12 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Const DBGET_URL As String = "http://www.genome.jp/dbget-bin/www_bget?"
         Const MODULE_PATTERN As String = "<a href=""/kegg-bin/show_module\?M\d+.+?\[PATH:.+?</a>\]"
 
-        Public Function GetGeneOrthology(refRxn As ReferenceMap.ReferenceReaction) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaToken)())()
+        Public Function GetGeneOrthology(refRxn As ReferenceMap.ReferenceReaction) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaSeq)())()
             Dim LQuery = (From ort In refRxn.SSDBs Where _refGeneOrthology.ContainsKey(ort.Name) Select _refGeneOrthology(ort.Name)).ToArray
             Return LQuery
         End Function
 
-        Public Function GetGeneOrthology(KO_ID As String) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaToken)())
+        Public Function GetGeneOrthology(KO_ID As String) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaSeq)())
             If _refGeneOrthology.ContainsKey(KO_ID) Then
                 Return _refGeneOrthology(KO_ID)
             Else
@@ -167,12 +167,12 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Dim ReactionEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("KEGG REACTION")) '代谢途径之中的代谢反应的集合
             Dim RefGeneEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("Gene")) '当前的这个代谢途径之中的直系同源基因列表
             RefMap.ReferenceGenes =
-                LinqAPI.Exec(Of KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaToken)())) <=
+                LinqAPI.Exec(Of KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())) <=
                     From item As ListEntry
                     In RefGeneEntryList
                     Select New KeyValuePairObject(Of
                         ListEntry,
-                        KeyValuePairObject(Of String, FASTA.FastaToken)()) With {
+                        KeyValuePairObject(Of String, FASTA.FastaSeq)()) With {
                             .Key = item,
                             .Value = Nothing
                         }

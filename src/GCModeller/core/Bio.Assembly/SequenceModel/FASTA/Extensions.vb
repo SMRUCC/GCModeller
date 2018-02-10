@@ -41,7 +41,7 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         <Extension>
         Public Function Index(fasta As FastaFile, idx$) As Integer
-            For Each seq As SeqValue(Of FastaToken) In fasta.SeqIterator
+            For Each seq As SeqValue(Of FastaSeq) In fasta.SeqIterator
                 If idx.TextEquals((+seq).Title) Then
                     Return seq.i
                 End If

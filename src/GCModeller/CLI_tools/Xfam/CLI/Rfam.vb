@@ -144,10 +144,10 @@ Partial Module CLI
         Dim sites As String = args("/sites")
         Dim out As String =
             args.GetValue("/out", sites.TrimSuffix & $".{[in].BaseName}.fasta")
-        Dim fa As New FASTA.FastaToken([in])
+        Dim fa As New FASTA.FastaSeq([in])
         Dim parser As IPolymerSequenceModel = fa
         Dim seqs As New List(Of Bac_sRNA.org.Sequence)
-        Dim ntTitle As String = fa.Attributes.Last.Trim
+        Dim ntTitle As String = fa.Headers.Last.Trim
 
         For Each hit As HitDataRow In sites.LoadCsv(Of HitDataRow)
             If hit.data("rank").Trim.Last <> "!"c Then

@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
@@ -34,7 +35,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Public Class MotifScanner : Inherits IScanner
+Public Class PatternScanner : Inherits IScanner
 
     Sub New(nt As IPolymerSequenceModel)
         Call MyBase.New(nt)
@@ -86,19 +87,21 @@ Public Class MotifScanner : Inherits IScanner
         End If
     End Function
 
-    Public Overloads Shared Function Scan(nt As String, pattern As String, equals As ISimilarity(Of String)) As SimpleSegment()
+    Public Overloads Shared Function Scan(nt$, pattern$, equals As ISimilarity(Of String)) As SimpleSegment()
         Dim words As String() = Patterns.SimpleTokens(pattern)
         Dim subject As String() = nt.Select(Function(c) CStr(c)).ToArray
         Dim GSW As New GSW(Of String)(words, subject, equals, AddressOf ToChar)
         Dim out As Output = GetOutput(GSW, 0, (2 / 3) * words.Length)
 
-        Return LinqAPI.Exec(Of SimpleSegment) <= From x As HSP
-                                                 In out.HSP
-                                                 Select New SimpleSegment With {
-                                                     .SequenceData = x.Subject,
-                                                     .Start = x.FromB,
-                                                     .Ends = x.ToB
-                                                 }
+        Return LinqAPI.Exec(Of SimpleSegment) _
+ _
+            () <= From x As HSP
+                  In out.HSP
+                  Select New SimpleSegment With {
+                      .SequenceData = x.Subject,
+                      .Start = x.FromB,
+                      .Ends = x.ToB
+                  }
     End Function
 
     ''' <summary>
@@ -106,7 +109,9 @@ Public Class MotifScanner : Inherits IScanner
     ''' </summary>
     ''' <param name="cutoff">0%-100%</param>
     ''' <returns></returns>
-    Public Shared Function GetOutput(this As GSW(Of String), cutoff As Double, minW As Integer) As Output
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function GetOutput(this As GSW(Of String), cutoff#, minW%) As Output
         Return Output.CreateObject(this, Function(x) x, cutoff, minW)
     End Function
 
