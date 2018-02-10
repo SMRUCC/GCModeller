@@ -51,7 +51,7 @@ Public Module ModelLoader
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function GetUpstreams(genome As genomic, length%) As Dictionary(Of String, FastaSeq)
+    Public Function GetUpstreams(genome As genomic, length As PrefixLength) As Dictionary(Of String, FastaSeq)
         Return New PromoterRegionParser(genome.nt, PTT:=genome.context).GetRegionCollectionByLength(length)
     End Function
 End Module
