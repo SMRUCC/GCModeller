@@ -35,18 +35,19 @@ Imports SMRUCC.genomics.ContextModel.Promoter
 
 Partial Module CLI
 
-    <ExportAPI("--CExpr.WGCNA", Usage:="--CExpr.WGCNA /mods <CytoscapeNodes.txt> /genome <genome.DIR|*.PTT;*.fna> /out <DIR.out>")>
+    <ExportAPI("--CExpr.WGCNA", Usage:="--CExpr.WGCNA /mods <CytoscapeNodes.txt> /genome <genome.DIR|*.PTT;*.fna> [/out <DIR.out>]")>
     Public Function WGCNAModsCExpr(args As CommandLine) As Integer
         Dim mods = WGCNA.ModsView(WGCNA.LoadModules(args("/mods")))
         Dim gb As New GenBank.TabularFormat.PTTDbLoader(args("/genome"))
         Dim geneParser As New PromoterRegionParser(gb)
-        Dim ExportDir As String = args("/out")
+        Dim EXPORT$ = args("/out") Or $"{args("/mods").DefaultValue.TrimDIR}.fasta/"
 
-        For Each Length As Integer In PromoterRegionParser.PrefixLength
+        For Each Length As Integer In PromoterRegionParser.PrefixLengths
 
             For Each profile In mods
-                Dim path As String = $"{ExportDir}/{Length}/{profile.Key}.fasta"
-                Dim fasta = geneParser.GetSequenceById(lstId:=profile.Value.Join(profile.Key).Distinct.ToArray, Length:=Length)
+                Dim path$ = $"{EXPORT}/{Length}/{profile.Key}.fasta"
+                Dim geneIDs$() = profile.Value.Join(profile.Key).Distinct.ToArray
+                Dim fasta = geneParser.GetSequenceById(geneIDs, length:=Length)
                 Call fasta.Save(path)
             Next
         Next
