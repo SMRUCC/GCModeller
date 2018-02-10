@@ -48,7 +48,7 @@ Namespace SequenceModel
     End Interface
 
     ''' <summary>
-    ''' This class can be using for build a <see cref="FASTA.FastaToken"/> object.
+    ''' This class can be using for build a <see cref="FASTA.FastaSeq"/> object.
     ''' </summary>
     Public MustInherit Class ISequenceBuilder : Inherits BaseClass
 

@@ -64,14 +64,14 @@ Namespace Regprecise
             Return Me.GetJson
         End Function
 
-        Public Function ExportMotifs() As FastaToken()
-            Dim LQuery As FastaToken() =
-                LinqAPI.Exec(Of FastaToken) <= From fa As MotifFasta
+        Public Function ExportMotifs() As FastaSeq()
+            Dim LQuery As FastaSeq() =
+                LinqAPI.Exec(Of FastaSeq) <= From fa As MotifFasta
                                                In Sites
                                                Let attrs As String() = {String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)}
-                                               Select New FastaToken With {
+                                               Select New FastaSeq With {
                                                    .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(fa),
-                                                   .Attributes = attrs
+                                                   .Headers = attrs
                                                }
             Return LQuery
         End Function

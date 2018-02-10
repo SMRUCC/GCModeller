@@ -176,9 +176,9 @@ Namespace Regprecise
             End If
             Dim Fasta = (From file As String
                          In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fa", "*.fsa")
-                         Select FastaReaders.Regulator.LoadDocument(FastaToken.Load(file))).ToArray
-            Return CType(Fasta.Select(Function(obj) New SequenceModel.FASTA.FastaToken With {
-                                           .Attributes = New String() {obj.KEGG},
+                         Select FastaReaders.Regulator.LoadDocument(FastaSeq.Load(file))).ToArray
+            Return CType(Fasta.Select(Function(obj) New SequenceModel.FASTA.FastaSeq With {
+                                           .Headers = New String() {obj.KEGG},
                                            .SequenceData = obj.SequenceData}), FastaFile)
         End Function
 
@@ -228,7 +228,7 @@ Namespace Regprecise
 
         Private Sub __export(Family As String, sites As List(Of FastaReaders.Site), repositoryDIR As String)
             Dim path As String = $"{repositoryDIR}/MEME/pwm/{Family}.fasta"
-            Dim siteFa = sites.Select(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaToken))
+            Dim siteFa = sites.Select(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaSeq))
             Dim Fasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Fasta = CType(siteFa, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
             Call Console.Write("+")
@@ -269,7 +269,7 @@ Namespace Regprecise
                     Call Fasta.Save(path)
                 Else
 SAVE:               Dim path As String = $"{repository}/MEME/pwm/{familyGroup.First.regulatorFamily}.part{i}.fasta"
-                    Dim siteFa = temp.Select(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaToken))
+                    Dim siteFa = temp.Select(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaSeq))
                     Dim Fasta = CType(siteFa, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                     Call Fasta.Save(path)
                     Call temp.Clear()

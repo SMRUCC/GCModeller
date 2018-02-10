@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::4a29338a69bc960ecf6a41e9cc3f0355, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -76,9 +77,9 @@ Partial Module Utilities
     <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeNT(args As CommandLine) As Integer
-        Dim NT As New FastaToken With {
+        Dim NT As New FastaSeq With {
             .SequenceData = args("/nt"),
-            .Attributes = {"auto"}
+            .Headers = {"auto"}
         }
         Dim Out As String = args("/out")
         Dim Min As Integer = args.GetValue("/min", 3)
@@ -93,11 +94,11 @@ Partial Module Utilities
                Usage:="--Palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <3> /max <20>]")>
     <Argument("/nt", False,
                    Description:="Fasta sequence file, and this file should just contains only one sequence.",
-                   AcceptTypes:={GetType(FastaToken)})>
+                   AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeFasta(args As CommandLine) As Integer
-        Dim nt As FastaToken = FastaToken.Load(args("/nt"))
+        Dim nt As FastaSeq = FastaSeq.Load(args("/nt"))
         Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
@@ -118,9 +119,9 @@ Partial Module Utilities
     <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchMirrotNT(args As CommandLine) As Integer
-        Dim NT As New FastaToken With {
+        Dim NT As New FastaSeq With {
            .SequenceData = args("/nt"),
-           .Attributes = {"auto"}
+           .Headers = {"auto"}
         }
         Dim Out As String = args("/out")
         Dim Min As Integer = args.GetValue("/min", 3)
@@ -152,7 +153,7 @@ Partial Module Utilities
 
     <ExportAPI("/Mirror.Fuzzy",
                Usage:="/Mirror.Fuzzy /in <in.fasta> [/out <out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]")>
-    <Argument("/in", False, AcceptTypes:={GetType(FastaToken)})>
+    <Argument("/in", False, AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FuzzyMirrors(args As CommandLine) As Integer
@@ -162,7 +163,7 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
-        Dim nt As New FastaToken([in])
+        Dim nt As New FastaSeq([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
         Call search.DoSearch()
         Call search.ResultSet.SaveTo(out)
@@ -181,12 +182,12 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}/")
-        Dim nt As IEnumerable(Of FastaToken) =
+        Dim nt As IEnumerable(Of FastaSeq) =
             StreamIterator.SeqSource([in], {"*.fasta", "*.fsa", "*.fa", "*.fna", "*.fas"})
         Dim CLI As New List(Of String)
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
-        For Each fa As FastaToken In nt
+        For Each fa As FastaSeq In nt
             Dim tmp As String = App.GetAppSysTempFile(".fasta")
             Dim path As String = out & "/" & fa.Title.NormalizePathString(True).Replace(" ", "_") & ".Csv"
 
@@ -220,7 +221,7 @@ Partial Module Utilities
             Dim task As Func(Of String, String) =
                 Function(path) $"{api} /nt {path.CLIPath} /out {(out & "/" & path.BaseName & ".csv").CLIPath} /min {Min} /max {Max}"
             Dim CLI As String() =
-                LinqAPI.Exec(Of String) <= From fa As FastaToken
+                LinqAPI.Exec(Of String) <= From fa As FastaSeq
                                            In NT
                                            Let norm As String = fa.Title.NormalizePathString(True).Replace(" ", "_")
                                            Let path As String = App.AppSystemTemp & $"/{norm}.fasta"
@@ -228,7 +229,7 @@ Partial Module Utilities
                                            Select task(path)
             Call App.SelfFolks(CLI, n)
         Else
-            For Each seq As FastaToken In NT
+            For Each seq As FastaSeq In NT
                 Dim Search As New Topologically.MirrorPalindrome(seq, Min, Max)
                 Dim path As String = out & $"/{seq.Title.NormalizePathString.Replace(" ", "_")}.csv"
                 Call Search.DoSearch()
@@ -249,10 +250,10 @@ Partial Module Utilities
                Info:="Mirror Palindrome, search from a fasta file.")>
     <Argument("/nt", False,
                    Description:="This fasta file should contains only just one sequence.",
-                   AcceptTypes:={GetType(FastaToken)})>
+                   AcceptTypes:={GetType(FastaSeq)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchMirrotFasta(args As CommandLine) As Integer
-        Dim Nt = FastaToken.Load(args("/nt"))
+        Dim Nt = FastaSeq.Load(args("/nt"))
         Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
@@ -292,7 +293,7 @@ Partial Module Utilities
     ''' <param name="min"></param>
     ''' <param name="max"></param>
     ''' <returns></returns>
-    Private Function __palindromeTask(fasta As FastaToken, EXPORT As String, min As Integer, max As Integer) As String
+    Private Function __palindromeTask(fasta As FastaSeq, EXPORT As String, min As Integer, max As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
         Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
         Dim CLI As String = $"--Palindrome.From.Fasta /nt {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max}"
@@ -336,7 +337,7 @@ Partial Module Utilities
     ''' <param name="cutoff"></param>
     ''' <param name="maxDist"></param>
     ''' <returns></returns>
-    Private Function __imperfectsPalindromeTask(fasta As FastaToken,
+    Private Function __imperfectsPalindromeTask(fasta As FastaSeq,
                                                 EXPORT As String,
                                                 min As Integer,
                                                 max As Integer,
@@ -351,25 +352,26 @@ Partial Module Utilities
         Return CLI
     End Function
 
-    <ExportAPI("--Palindrome.Imperfects",
-               Usage:="--Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]")>
+    <ExportAPI("--Palindrome.Imperfects")>
+    <Usage("--Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]")>
+    <Description("Gets all partly matched palindrome sites.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function ImperfectPalindrome(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim out As String = args.GetValue("/out", input.TrimSuffix & ".csv")
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim inFasta As FastaToken
+        Dim inFasta As FastaSeq
         Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
         Dim partitions As Integer = args.GetValue("/partitions", -1)
 
         If input.FileExists Then
-            inFasta = FastaToken.Load(input)
+            inFasta = FastaSeq.Load(input)
         Else
-            inFasta = New FASTA.FastaToken With {
+            inFasta = New FastaSeq With {
                 .SequenceData = input,
-                .Attributes = {"auto-generated"}
+                .Headers = {"auto-generated"}
             }
         End If
 
@@ -395,7 +397,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 35)
         Dim inFasta As New FastaFile(input)
 
-        For Each fa As FastaToken In inFasta
+        For Each fa As FastaSeq In inFasta
             Dim path As String = out & "/" & fa.Title.NormalizePathString & ".csv"
             If Not fa.SearchHairpinks(min, max, cutoff, maxDist).SaveTo(path) Then
                 Throw New Exception(fa.GetJson)
@@ -405,7 +407,7 @@ Partial Module Utilities
         Return 0
     End Function
 
-    Private Function __hairpinksCLI(fasta As FastaToken,
+    Private Function __hairpinksCLI(fasta As FastaSeq,
                                     EXPORT As String,
                                     min As Integer,
                                     max As Integer,
@@ -510,7 +512,7 @@ Partial Module Utilities
         Dim max As Integer = args.GetValue("/max", 7)
         Dim cutoff As Integer = args.GetValue("/cutoff", 3)
         Dim maxDist As Integer = args.GetValue("/max-dist", 35)
-        Dim inFasta As FastaToken = FastaToken.Load(input)
+        Dim inFasta As FastaSeq = FastaSeq.Load(input)
         Dim resultSet = inFasta.SearchHairpinks(min, max, cutoff, maxDist)
         Return resultSet.SaveTo(out)
     End Function
@@ -556,7 +558,7 @@ Partial Module Utilities
         Dim min% = args.GetValue("/min", 3)
         Dim max% = args.GetValue("/max", 20)
         Dim len% = args.GetValue("/len", 250)
-        Dim mirror As Boolean = args.GetBoolean("/mirror")
+        Dim mirror As Boolean = args("/mirror")
         Dim out$ = args.GetValue(
             "/out",
             [in].TrimSuffix & $"_min={min},max={max},upstream=-{len}bp.palindrome{If(mirror, "-mirror", "")}.csv")
@@ -565,7 +567,7 @@ Partial Module Utilities
         Dim source As New FastaFile(parser.GetRegionCollectionByLength(len).Values)
         Dim output As New List(Of PalindromeLoci)
 
-        For Each promoter As FastaToken In source
+        For Each promoter As FastaSeq In source
             Call promoter.Title.__DEBUG_ECHO
 
             If mirror Then
@@ -584,13 +586,13 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
         Dim palindromes = [in].LoadCsv(Of PalindromeLoci)
-        Dim output As New List(Of FastaToken)
+        Dim output As New List(Of FastaSeq)
         Dim tag$
 
         For Each site As PalindromeLoci In palindromes
             tag = site.Data("tag")
-            output += New FastaToken With {
-                .Attributes = {
+            output += New FastaSeq With {
+                .Headers = {
                     tag.Split.First & $" {site.Start}..{site.PalEnd}",
                     tag
                 },

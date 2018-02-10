@@ -111,7 +111,7 @@ Partial Module CLI
     Public Function StructureAlign(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim DbXml As String = args("/db")
-        Dim query = SequenceModel.FASTA.FastaToken.Load(queryFile)
+        Dim query = SequenceModel.FASTA.FastaSeq.Load(queryFile)
         Dim Db = DbXml.LoadXml(Of Category)
         Dim cutoff As Double = args.GetValue("/mp", 0.9)
         Dim score As Double = 0
@@ -122,7 +122,7 @@ Partial Module CLI
     End Function
 
     Private Function __getReport(Db As Category,
-                                 query As SequenceModel.FASTA.FastaToken,
+                                 query As SequenceModel.FASTA.FastaSeq,
                                  alignOut As AlignmentOutput,
                                  score As Double,
                                  outDIR As String) As Integer

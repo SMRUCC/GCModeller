@@ -102,14 +102,14 @@ Partial Module CLI
         Dim doc As hmmsearch = hmmsearchParser.LoadDoc([in])
         Dim pro As Dictionary(Of String, AlignmentHit()) = doc.GetProfiles
         Dim pfams As New List(Of PfamString)
-        Dim protHash As Dictionary(Of String, FASTA.FastaToken)
+        Dim protHash As Dictionary(Of String, FASTA.FastaSeq)
 
         If args.ContainsParameter("/prot", True) Then
             Dim prot As New FASTA.FastaFile(args - "/prot")
             protHash =
-            prot.ToDictionary(Function(x) x.Attributes(Scan0).Split.First)
+            prot.ToDictionary(Function(x) x.Headers(Scan0).Split.First)
         Else
-            protHash = New Dictionary(Of String, FASTA.FastaToken)
+            protHash = New Dictionary(Of String, FASTA.FastaSeq)
         End If
 
         For Each x In pro
@@ -124,7 +124,7 @@ Partial Module CLI
             Dim len As Integer, title As String
 
             If protHash.ContainsKey(x.Key) Then
-                Dim fa As FASTA.FastaToken = protHash(x.Key)
+                Dim fa As FASTA.FastaSeq = protHash(x.Key)
                 len = fa.Length
                 title = fa.Title
             Else

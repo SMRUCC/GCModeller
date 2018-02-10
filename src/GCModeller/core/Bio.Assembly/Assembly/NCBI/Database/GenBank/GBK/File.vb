@@ -171,7 +171,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <param name="Feature">The target feature site on the genome DNA sequence.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function Read(Feature As Feature) As FASTA.FastaToken
+        Public Overloads Function Read(Feature As Feature) As FASTA.FastaSeq
             Dim Left As Long = Feature.Location.Locations.First.Left
             Dim Right As Long = Feature.Location.Locations.Last.Right
             Dim Sequence As String = Mid(Origin, Left, Math.Abs(Left - Right))
@@ -180,9 +180,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Sequence = (NucleicAcid.Complement(Sequence))
             End If
 
-            Dim fa As New FASTA.FastaToken With {
+            Dim fa As New FASTA.FastaSeq With {
                 .SequenceData = Sequence,
-                .Attributes = New String() {
+                .Headers = New String() {
                     "Feature",
                     Feature.Location.ToString,
                     Feature.KeyName

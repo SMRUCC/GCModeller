@@ -40,7 +40,7 @@ Namespace Analysis.MotifScans
 
         <ExportAPI("PWM")>
         Public Function PWM(<Parameter("Nt.Seq", "ATCG base, nucleotide sequence.")> sequence As String) As MotifPM()
-            Dim Nt = New FASTA.FastaToken With {.SequenceData = sequence}
+            Dim Nt = New FASTA.FastaSeq With {.SequenceData = sequence}
             Return MotifDeltaSimilarity.PWM(Nt)
         End Function
 
@@ -50,7 +50,7 @@ Namespace Analysis.MotifScans
         End Function
 
         <ExportAPI("PWM")>
-        Public Function PWM(sequence As FASTA.FastaToken) As MotifPM()
+        Public Function PWM(sequence As FASTA.FastaSeq) As MotifPM()
             Return MotifDeltaSimilarity.PWM(sequence)
         End Function
 
@@ -60,7 +60,7 @@ Namespace Analysis.MotifScans
         End Function
 
         <ExportAPI("DeltaSimilarity")>
-        Public Function DeltaSimilarity(f As FASTA.FastaToken, g As FASTA.FastaToken) As Double
+        Public Function DeltaSimilarity(f As FASTA.FastaSeq, g As FASTA.FastaSeq) As Double
             Return DifferenceMeasurement.Sigma(f, g)
         End Function
 

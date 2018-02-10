@@ -190,8 +190,8 @@ Namespace Assembly.NCBI.GenBank
                              feature.Location.ToString,
                              feature.Query("product")
                          }
-                         Select New SequenceModel.FASTA.FastaToken With {
-                             .Attributes = attrs,
+                         Select New SequenceModel.FASTA.FastaSeq With {
+                             .Headers = attrs,
                              .SequenceData = feature.Query("translation")
                          } '
             Dim Fasta As SequenceModel.FASTA.FastaFile =
@@ -224,7 +224,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="feature"></param>
         ''' <param name="onlyLocusTag"></param>
         ''' <returns></returns>
-        <Extension> Private Function __protShort(feature As GBFF.Keywords.FEATURES.Feature, onlyLocusTag As Boolean) As SequenceModel.FASTA.FastaToken
+        <Extension> Private Function __protShort(feature As GBFF.Keywords.FEATURES.Feature, onlyLocusTag As Boolean) As SequenceModel.FASTA.FastaSeq
             Dim product As String = feature.Query("product")
             If product Is Nothing Then
                 product = ""
@@ -235,8 +235,8 @@ Namespace Assembly.NCBI.GenBank
             End If
             Dim ORF_transl As String = feature.Query("translation")
             Dim attrs As String() = If(Not onlyLocusTag, {locusId & " " & product}, {locusId})
-            Dim fa As New SequenceModel.FASTA.FastaToken With {
-                .Attributes = attrs,
+            Dim fa As New SequenceModel.FASTA.FastaSeq With {
+                .Headers = attrs,
                 .SequenceData = ORF_transl
             } '
             Return fa

@@ -50,7 +50,7 @@ Namespace DocumentFormat.MAST.HTML
         <XmlAttribute> Public Property Starts As Integer
         <XmlAttribute> Public Property Ends As Integer
 
-        Private Property Attributes As String() Implements FASTA.IAbstractFastaToken.Attributes
+        Private Property Headers As String() Implements FASTA.IAbstractFastaToken.Headers
             Get
                 Return {
                     $"{NameOf(Strand)}:={Strand}",

@@ -54,7 +54,7 @@ Namespace Regtransbase
         Public Function ExportBindingSites(Optional TryAutoFix As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites")
             Dim LQuery = (From site As Regtransbase.StructureObjects.Sites In Table
-                          Let Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
+                          Let Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
                           Where Not Fsa Is Nothing
                           Select Fsa).ToArray
             Return LQuery
@@ -65,7 +65,7 @@ Namespace Regtransbase
             Dim Genes = DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray '在其中居然会有以TGA开头的基因序列
             Dim LQuery = (From regulator As Regtransbase.StructureObjects.Regulator
                           In Table
-                          Let fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
+                          Let fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
                           Where Not fsa Is Nothing AndAlso Len(fsa.SequenceData) > 0
                           Select fsa).ToArray
             Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)

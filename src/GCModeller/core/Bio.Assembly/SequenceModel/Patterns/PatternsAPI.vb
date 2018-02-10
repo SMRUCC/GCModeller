@@ -75,7 +75,7 @@ Namespace SequenceModel.Patterns
         ''' </param>
         ''' <returns></returns>
         <ExportAPI("NT.Frequency")>
-        Public Function Frequency(source As IEnumerable(Of FastaToken)) As PatternModel
+        Public Function Frequency(source As IEnumerable(Of FastaSeq)) As PatternModel
             Dim len As Integer = source.First.Length
             Dim n As Integer = source.Count
             Dim alphabets As Char() =
@@ -120,14 +120,14 @@ Namespace SequenceModel.Patterns
                                                 "The index of the reference genome in the fasta object parameter, default value is ZERO (The first sequence as the reference.)")>
                                      Optional index As Integer = Scan0,
                                      Optional cutoff As Double = 0.75) As Double()
-            Dim ref As FASTA.FastaToken = Fasta(index)
+            Dim ref As FASTA.FastaSeq = Fasta(index)
             Return ref.NTVariations(Fasta, cutoff)
         End Function
 
         <ExportAPI("NT.Variations",
                    Info:="The conservation percentage (%) Is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from 0 to 100% for each site along the chromosome of a specific index genome.")>
         <Extension>
-        Public Function NTVariations(ref As FastaToken,
+        Public Function NTVariations(ref As FastaSeq,
                                      <Parameter("Fasta",
                                                 "The fasta object parameter should be the output of mega multiple alignment result. All of the sequence in this parameter should be in the same length.")>
                                      Fasta As FASTA.FastaFile,
@@ -183,12 +183,12 @@ Namespace SequenceModel.Patterns
         ''' <param name="C">Alphabet specific for the frequency statics</param>
         ''' <param name="numOfFasta">The total number of the fasta sequence</param>
         ''' <returns></returns>
-        Private Function __frequency(Fasta As IEnumerable(Of FastaToken),
+        Private Function __frequency(Fasta As IEnumerable(Of FastaSeq),
                                      p As Integer,
                                      C As Char,
                                      numOfFasta As Integer) As Double
 
-            Dim LQuery As Integer = (From nt As FastaToken
+            Dim LQuery As Integer = (From nt As FastaSeq
                                      In Fasta
                                      Let chr As Char = nt.SequenceData(p)
                                      Where C = chr

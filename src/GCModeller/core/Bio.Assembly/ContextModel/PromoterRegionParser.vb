@@ -52,7 +52,7 @@ Namespace ContextModel
 
         Public Shared ReadOnly Property PrefixLength As IReadOnlyList(Of Integer) = {100, 150, 200, 250, 300, 400, 500}
 
-        Public ReadOnly Property PromoterRegions As IntegerTagged(Of Dictionary(Of String, FastaToken))()
+        Public ReadOnly Property PromoterRegions As IntegerTagged(Of Dictionary(Of String, FastaSeq))()
         ReadOnly lengthIndex As New Index(Of Integer)(PrefixLength)
 
         ''' <summary>
@@ -60,15 +60,15 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="nt">全基因组序列</param>
         ''' <remarks></remarks>
-        Sub New(nt As FastaToken, PTT As PTT)
+        Sub New(nt As FastaSeq, PTT As PTT)
             Dim genome As IPolymerSequenceModel = nt
-            Dim regions(PrefixLength.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaToken))
+            Dim regions(PrefixLength.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaSeq))
             Dim i As int = 0
 
             genome.SequenceData = genome.SequenceData.ToUpper
 
             For Each l% In PrefixLength
-                regions(++i) = New IntegerTagged(Of Dictionary(Of String, FastaToken)) With {
+                regions(++i) = New IntegerTagged(Of Dictionary(Of String, FastaSeq)) With {
                     .Tag = l,
                     .Value = CreateObject(l, PTT, genome)
                 }
@@ -92,12 +92,12 @@ Namespace ContextModel
         ''' <param name="PTT"></param>
         ''' <param name="nt"></param>
         ''' <returns></returns>
-        Private Shared Function CreateObject(Length As Integer, PTT As PTT, nt As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(Length As Integer, PTT As PTT, nt As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaSeq)
             Dim LQuery = (From gene As ComponentModels.GeneBrief
                           In PTT.GeneObjects.AsParallel
                           Select gene.Synonym,
                               Promoter = GetFASTA(gene, nt, Length)).ToArray
-            Dim DictData As Dictionary(Of String, FastaToken) =
+            Dim DictData As Dictionary(Of String, FastaSeq) =
                 LQuery.ToDictionary(Function(obj) obj.Synonym,
                                     Function(obj) obj.Promoter)
             Return DictData
@@ -110,7 +110,7 @@ Namespace ContextModel
         ''' <param name="nt"></param>
         ''' <param name="len%"></param>
         ''' <returns></returns>
-        Private Shared Function GetFASTA(gene As ComponentModels.GeneBrief, nt As IPolymerSequenceModel, len%) As FastaToken
+        Private Shared Function GetFASTA(gene As ComponentModels.GeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location
 
             Call loci.Normalization()
@@ -126,15 +126,15 @@ Namespace ContextModel
                 gene.Product.StringEmpty,
                 {gene.Synonym & " " & site.ID},
                 {gene.Synonym & " " & site.ID, gene.Product})
-            Dim promoterRegion As New FastaToken With {
-                .Attributes = attrs,
+            Dim promoterRegion As New FastaSeq With {
+                .Headers = attrs,
                 .SequenceData = site.SequenceData
             }
 
             Return promoterRegion
         End Function
 
-        Public Function GetRegionCollectionByLength(l%) As Dictionary(Of String, FastaToken)
+        Public Function GetRegionCollectionByLength(l%) As Dictionary(Of String, FastaSeq)
             Dim i As Integer = Me.lengthIndex.IndexOf(l)
             Return Me.PromoterRegions(i%)
         End Function

@@ -54,15 +54,15 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="method"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function GCData(nts As IEnumerable(Of FastaToken),
+        Public Function GCData(nts As IEnumerable(Of FastaSeq),
                                Optional winSize As Integer = 250,
                                Optional steps As Integer = 50,
                                Optional method As NtProperty = Nothing) As NamedValue(Of Double())()
 
-            Dim LQuery As IEnumerable(Of (genome As SeqValue(Of FastaToken), skew As Double()))
+            Dim LQuery As IEnumerable(Of (genome As SeqValue(Of FastaSeq), skew As Double()))
 
             With method Or defaultProperty
-                LQuery = From genome As SeqValue(Of FastaToken)
+                LQuery = From genome As SeqValue(Of FastaSeq)
                          In nts.SeqIterator.AsParallel
                          Order By genome.i Ascending  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
                          Let vector = .ByRef(genome.value, winSize, steps, True)

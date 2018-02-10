@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace DocumentFormat.MAST.HTML
 
-    Public Class FastaToken : Inherits FASTA.FastaToken
+    Public Class FastaToken : Inherits FASTA.FastaSeq
         Implements ILocationNucleotideSegment
 
         Public ReadOnly Property Strand As Strands Implements ILocationNucleotideSegment.Strand
@@ -50,7 +50,7 @@ Namespace DocumentFormat.MAST.HTML
             Return LQuery
         End Function
 
-        Private Shared Function __createObject(fa As FASTA.FastaToken) As FastaToken
+        Private Shared Function __createObject(fa As FASTA.FastaSeq) As FastaToken
             Dim FsaObject As FastaToken = New FastaToken
             Dim Title As String = fa.Title
             FsaObject._UniqueId = Title.Split.First

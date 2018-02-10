@@ -70,17 +70,17 @@ Namespace Assembly.MetaCyc.File.DataFiles
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParsePromoters(Genome As SequenceModel.FASTA.FastaToken) As SequenceModel.FASTA.FastaFile
-            Dim pList As List(Of SequenceModel.FASTA.FastaToken) = New List(Of SequenceModel.FASTA.FastaToken)
+        Public Function TryParsePromoters(Genome As SequenceModel.FASTA.FastaSeq) As SequenceModel.FASTA.FastaFile
+            Dim pList As List(Of SequenceModel.FASTA.FastaSeq) = New List(Of SequenceModel.FASTA.FastaSeq)
             For Each Gene In Me
-                Dim Seq As SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken With {
-                    .Attributes = New String() {Gene.Identifier, Gene.Identifier & "_PM", "Di: " & Gene.TranscriptionDirection, Gene.CommonName}
+                Dim Seq As SequenceModel.FASTA.FastaSeq = New SequenceModel.FASTA.FastaSeq With {
+                    .Headers = New String() {Gene.Identifier, Gene.Identifier & "_PM", "Di: " & Gene.TranscriptionDirection, Gene.CommonName}
                 }
                 If String.Equals(Gene.TranscriptionDirection, "+") Then
                     Seq.SequenceData = Mid(Genome.SequenceData, Val(Gene.LeftEndPosition) - 300, 300)
                 ElseIf String.Equals(Gene.TranscriptionDirection, "-") Then
                     Seq.SequenceData = Mid(Genome.SequenceData, Val(Gene.RightEndPosition), 300)
-                    Call SequenceModel.FASTA.FastaToken.Complement(Seq)
+                    Call SequenceModel.FASTA.FastaSeq.Complement(Seq)
                 Else
 #If DEBUG Then
                     Console.WriteLine("Unknown direaction: {0}", Gene.Identifier)

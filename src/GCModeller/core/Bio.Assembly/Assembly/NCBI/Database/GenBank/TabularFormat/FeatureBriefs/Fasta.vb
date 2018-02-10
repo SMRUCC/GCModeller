@@ -31,17 +31,17 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
 
-    Public Class Fasta : Inherits FastaToken
+    Public Class Fasta : Inherits FastaSeq
 
         Public ReadOnly Property UniqueId As String
 
         Protected Sub New()
         End Sub
 
-        Public Shared Function CreateObject(UniqueId As String, Fasta As FastaToken) As Fasta
+        Public Shared Function CreateObject(UniqueId As String, Fasta As FastaSeq) As Fasta
             Return New Fasta With {
                 ._UniqueId = UniqueId,
-                .Attributes = Fasta.Attributes,
+                .Headers = Fasta.Headers,
                 .SequenceData = Fasta.SequenceData
             }
         End Function
@@ -51,24 +51,24 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
     ''' *.fna 基因组序列
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GenomeSequence : Inherits SequenceModel.FASTA.FastaToken
+    Public Class GenomeSequence : Inherits SequenceModel.FASTA.FastaSeq
 
         Public ReadOnly Property GI As String
         Public ReadOnly Property LocusID As String
         Public ReadOnly Property Description As String
 
-        Sub New(Fasta As SequenceModel.FASTA.FastaToken)
-            _GI = Fasta.Attributes(1)
-            _LocusID = Regex.Replace(Fasta.Attributes(3), "\.\d+", "")
-            _Description = Fasta.Attributes(4)
-            Attributes = Fasta.Attributes
+        Sub New(Fasta As SequenceModel.FASTA.FastaSeq)
+            _GI = Fasta.Headers(1)
+            _LocusID = Regex.Replace(Fasta.Headers(3), "\.\d+", "")
+            _Description = Fasta.Headers(4)
+            Headers = Fasta.Headers
             Me.SequenceData = Fasta.SequenceData
         End Sub
 
         Public Function SaveBriefData(Path As String, Optional encoding As System.Text.Encoding = Nothing) As Boolean
-            Dim Fasta As New SequenceModel.FASTA.FastaToken With {
+            Dim Fasta As New SequenceModel.FASTA.FastaSeq With {
                 .SequenceData = SequenceData,
-                .Attributes = New String() {LocusID}
+                .Headers = New String() {LocusID}
             }
             Return Fasta.SaveTo(Path, encoding)
         End Function
@@ -78,18 +78,18 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
     ''' *.ffn 基因序列
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneObject : Inherits SequenceModel.FASTA.FastaToken
+    Public Class GeneObject : Inherits SequenceModel.FASTA.FastaSeq
 
         Public ReadOnly Property GI As String
         Public ReadOnly Property Locus As String
         Public ReadOnly Property Location As ComponentModel.Loci.Location
         Public ReadOnly Property Description As String
 
-        Sub New(Fasta As SequenceModel.FASTA.FastaToken)
-            _GI = Fasta.Attributes(1)
-            _Locus = Fasta.Attributes(3)
-            _Description = Fasta.Attributes.Last
-            Attributes = Fasta.Attributes
+        Sub New(Fasta As SequenceModel.FASTA.FastaSeq)
+            _GI = Fasta.Headers(1)
+            _Locus = Fasta.Headers(3)
+            _Description = Fasta.Headers.Last
+            Headers = Fasta.Headers
             SequenceData = Fasta.SequenceData
             Dim sLoci As String = Mid(Regex.Match(Description, ":\d+-\d+").Value, 2)
             Dim Tokens As String() = Strings.Split(sLoci, ":")
@@ -101,17 +101,17 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
     ''' *.faa 蛋白质序列
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Protein : Inherits SequenceModel.FASTA.FastaToken
+    Public Class Protein : Inherits SequenceModel.FASTA.FastaSeq
 
         Public ReadOnly Property GI As String
         Public ReadOnly Property Locus As String
         Public ReadOnly Property Description As String
 
-        Sub New(Fasta As SequenceModel.FASTA.FastaToken)
-            _GI = Fasta.Attributes(1)
-            _Locus = Fasta.Attributes(3)
-            _Description = Fasta.Attributes.Last
-            Attributes = Fasta.Attributes
+        Sub New(Fasta As SequenceModel.FASTA.FastaSeq)
+            _GI = Fasta.Headers(1)
+            _Locus = Fasta.Headers(3)
+            _Description = Fasta.Headers.Last
+            Headers = Fasta.Headers
             SequenceData = Fasta.SequenceData
         End Sub
     End Class

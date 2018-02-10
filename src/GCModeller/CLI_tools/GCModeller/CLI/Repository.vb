@@ -125,7 +125,7 @@ Partial Module CLI
             Call path.__DEBUG_ECHO
 
             Using fasta As StreamWriter = path.OpenWriter(Encodings.ASCII)
-                For Each result As FastaToken In repo.Search(query:=x.Expression$)
+                For Each result As FastaSeq In repo.Search(query:=x.Expression$)
                     Call fasta.WriteLine(result.GenerateDocument(120))
                     Call Console.Write(".")
                 Next

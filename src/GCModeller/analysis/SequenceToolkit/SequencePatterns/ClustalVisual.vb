@@ -105,7 +105,7 @@ Public Module ClustalVisual
     ''' 
     <ExportAPI("Drawing.Clustal")>
     <Extension> Public Function InvokeDrawing(aln As FASTA.FastaFile) As Image
-        Dim titleMaxLen = (From fa As FASTA.FastaToken
+        Dim titleMaxLen = (From fa As FASTA.FastaSeq
                            In aln
                            Select l = Len(fa.Title),
                                fa.Title
@@ -150,7 +150,7 @@ Public Module ClustalVisual
         X = 0.5 * Margin + StringSize.Width + 10
         Y += DotSize
 
-        For Each fa As FASTA.FastaToken In aln
+        For Each fa As FASTA.FastaSeq In aln
             Call gdi.Graphics.DrawString(fa.Title, titleFont, Brushes.Black, New Point(Margin * 0.75, Y))
 
             For Each ch As Char In fa.SequenceData

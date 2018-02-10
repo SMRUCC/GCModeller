@@ -123,19 +123,19 @@ Partial Module Utilities
             Call $"file1:={fa1.NumberOfFasta}, file2:={fa2.NumberOfFasta} is not equals!".Warning
         End If
 
-        Dim f2Dict = (From x In fa2 Let id = x.Attributes.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
+        Dim f2Dict = (From x In fa2 Let id = x.Headers.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
 
         For Each x In fa1
-            Dim id = x.Attributes.First.Split.First
+            Dim id = x.Headers.First.Split.First
             If Not f2Dict.ContainsKey(id) Then
                 Call $"{x.Title} is not exists in  ""{f2}""".__DEBUG_ECHO
             End If
         Next
 
-        Dim f1Dict = (From x In fa1 Let id = x.Attributes.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
+        Dim f1Dict = (From x In fa1 Let id = x.Headers.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
 
         For Each x In fa2
-            Dim id = x.Attributes.First.Split.First
+            Dim id = x.Headers.First.Split.First
             If Not f1Dict.ContainsKey(id) Then
                 Call $"{x.Title} is not exists in  ""{f1}""".__DEBUG_ECHO
             End If
@@ -161,7 +161,7 @@ Partial Module Utilities
         Dim fa As String = args("/fa")
         Dim reversed As Boolean = args.GetBoolean("/reverse")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & $"{If(reversed, "-reversed-selected", "")}.fasta")
-        Dim fasta As FastaToken() = StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
+        Dim fasta As FastaSeq() = StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
         Dim field As String = args("/field")
         Dim locus_tag As String()
 
@@ -179,11 +179,11 @@ Partial Module Utilities
 
         Call $"Found {fasta.Length} fasta files in source DIR  {fa}".__DEBUG_ECHO
 
-        Dim LQuery As List(Of FastaToken)
+        Dim LQuery As List(Of FastaSeq)
 
         If Not reversed Then
-            Dim seqHash As Dictionary(Of String, FastaToken()) =
-                (From x As FastaToken
+            Dim seqHash As Dictionary(Of String, FastaSeq()) =
+                (From x As FastaSeq
                  In fasta
                  Let uid As String = x.GetLocusTag
                  Select x,
@@ -194,7 +194,7 @@ Partial Module Utilities
 
             Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
 
-            LQuery = LinqAPI.MakeList(Of FastaToken) <=
+            LQuery = LinqAPI.MakeList(Of FastaSeq) <=
  _
                 From sId As String
                 In locus_tag
@@ -203,7 +203,7 @@ Partial Module Utilities
         Else
             Dim index As New Index(Of String)(locus_tag)
 
-            LQuery = New List(Of FastaToken)
+            LQuery = New List(Of FastaSeq)
 
             For Each seq In fasta.GroupBy(Function(x) x.GetLocusTag)
                 If index.IndexOf(seq.Key) = -1 Then  ' 不在列表之中的
@@ -235,7 +235,7 @@ Partial Module Utilities
         Dim mapMultiples As Boolean = args.IsTrue("/keyword.map.multiple")
 
         Using writer As StreamWriter = out.OpenWriter
-            For Each fasta As FastaToken In StreamIterator.SeqSource(handle:=db)
+            For Each fasta As FastaSeq In StreamIterator.SeqSource(handle:=db)
                 Dim header$ = fasta.Title.NormalizePathString.ToLower
 
                 For Each word As String In keywords
@@ -301,8 +301,8 @@ Partial Module Utilities
                        .ToArray
                    Let seqData As String = Regex.Replace(columns(seqOrd)(i), "\s*", "")
                    Where Not seqData.StringEmpty
-                   Select seqFa = New FastaToken With {
-                       .Attributes = attributes,
+                   Select seqFa = New FastaSeq With {
+                       .Headers = attributes,
                        .SequenceData = seqData
                    }
                    Order By seqFa.Title Ascending
@@ -356,13 +356,13 @@ Partial Module Utilities
         End If
 
         If args.GetBoolean("/unique") Then
-            Dim Groups = From f As FastaToken
+            Dim Groups = From f As FastaSeq
                          In fasta
                          Let sid As String = f.Title.Split.First
                          Select sid,
                              f
                          Group By sid Into Group
-            Dim uniques As IEnumerable(Of FastaToken) =
+            Dim uniques As IEnumerable(Of FastaSeq) =
                 Groups.Select(Function(x) x.Group.First.f)
             fasta = New FastaFile(uniques)
         End If
@@ -419,7 +419,7 @@ Partial Module Utilities
             LociData = LociAPI.TryParse(Loci)
         End If
 
-        Dim SegmentFasta As FASTA.FastaToken = FASTA.FastaToken.Load(FastaFile)
+        Dim SegmentFasta As FASTA.FastaSeq = FASTA.FastaSeq.Load(FastaFile)
 
         If SegmentFasta Is Nothing Then
             Return -10
@@ -441,7 +441,7 @@ Partial Module Utilities
     <Group(CLIGrouping.FastaTools)>
     Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject(Of List(Of SimpleSegment))("/regions", AddressOf LoadCsv(Of SimpleSegment))
-        Dim Fasta As New FASTA.FastaToken(args("/fasta"))
+        Dim Fasta As New FASTA.FastaSeq(args("/fasta"))
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")
         Dim Segments = Regions.Select(Function(region) __fillSegment(region, Fasta, Complement, reversed))
@@ -452,16 +452,16 @@ Partial Module Utilities
         Segments.SaveTo(input & ".sequenceData.csv")
 
         Dim SequenceFasta = Segments.Select(
-            Function(segment) New FASTA.FastaToken With {
+            Function(segment) New FASTA.FastaSeq With {
                     .SequenceData = segment.SequenceData,
-                    .Attributes = dumpMethod(segment)}).ToArray
-        Dim Complements As FastaToken() =
-            LinqAPI.Exec(Of FastaToken) <= From segment As SimpleSegment
+                    .Headers = dumpMethod(segment)}).ToArray
+        Dim Complements As FastaSeq() =
+            LinqAPI.Exec(Of FastaSeq) <= From segment As SimpleSegment
                                            In Segments
                                            Where segment.MappingLocation.Strand <> Strands.Forward
-                                           Select New FastaToken With {
+                                           Select New FastaSeq With {
                                                .SequenceData = segment.Complement,
-                                               .Attributes = dumpMethod(segment)
+                                               .Headers = dumpMethod(segment)
                                            }
         Dim PTT As PTT = Segments.CreatePTTObject
         PTT.Title = BaseName(args("/fasta"))
@@ -531,7 +531,7 @@ Partial Module Utilities
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            For Each seq As FastaToken In fasta _
+            For Each seq As FastaSeq In fasta _
                 .ReadStream _
                 .Where(Function(fa) Not String.IsNullOrEmpty(Trim(fa.SequenceData))) ' 过滤掉零长度的序列
 
@@ -543,8 +543,8 @@ Partial Module Utilities
                     End If
 
                     If brief Then
-                        .Attributes = {
-                            .Attributes.First
+                        .Headers = {
+                            .Headers.First
                         }
                     End If
 
@@ -563,10 +563,10 @@ Partial Module Utilities
     Public Function SubSet(args As CommandLine) As Integer
         Dim lstID As String() = (args <= "/lstID").ReadAllLines
         Dim fa As New FASTA.FastaFile(args("/fa"))
-        Dim LQuery As FASTA.FastaToken() = (From id As String
+        Dim LQuery As FASTA.FastaSeq() = (From id As String
                                             In lstID
                                             Where Not String.IsNullOrEmpty(id)
-                                            Select (From x As FASTA.FastaToken
+                                            Select (From x As FASTA.FastaSeq
                                                     In fa
                                                     Where String.Equals(id, x.Title.Split.First, StringComparison.OrdinalIgnoreCase)
                                                     Select x).FirstOrDefault).ToArray
@@ -601,7 +601,7 @@ Partial Module Utilities
         Dim nt As String = args("/nt")
         Dim out As String = args.GetValue("/out", [in].ParentPath)
         Dim locis As IEnumerable(Of Loci) = [in].LoadCsv(Of Loci)
-        Dim parser As IPolymerSequenceModel = New FASTA.FastaToken(nt)
+        Dim parser As IPolymerSequenceModel = New FASTA.FastaSeq(nt)
 
         For Each loci In locis
             loci.SequenceData = parser.CutSequenceLinear(loci.MappingLocation).SequenceData
@@ -623,20 +623,20 @@ Partial Module Utilities
         Dim fasta As New FASTA.FastaFile([in], {"|"c, "/"c})
         Dim uidRegx As String = args("/by_uid")
 
-        fasta = New FastaFile(From x In fasta Select New FastaToken(x.Attributes, x.SequenceData.Trim("-"c)))
+        fasta = New FastaFile(From x In fasta Select New FastaSeq(x.Headers, x.SequenceData.Trim("-"c)))
 
         If Not String.IsNullOrEmpty(uidRegx) Then
             out = out.TrimSuffix & ".unique_uid.fasta"
             Call $"uidRegexp using {uidRegx}".__DEBUG_ECHO
 
-            Dim uids = From fa As FastaToken
+            Dim uids = From fa As FastaSeq
                        In fasta
                        Select fa,
                            uid = Regex.Match(fa.Title, uidRegx, RegexICSng).Value
                        Group By uid Into Group
-            fasta = New FastaFile(uids.Select(Function(x) New FastaToken({x.uid, x.Group.First.fa.Title}, x.Group.First.fa.SequenceData)).OrderByDescending(Function(fa) fa.Length))
+            fasta = New FastaFile(uids.Select(Function(x) New FastaSeq({x.uid, x.Group.First.fa.Title}, x.Group.First.fa.SequenceData)).OrderByDescending(Function(fa) fa.Length))
         Else
-            Dim uids = From fa As FastaToken
+            Dim uids = From fa As FastaSeq
                    In fasta
                        Let seq As String = fa.SequenceData.ToUpper
                        Select fa,
@@ -645,7 +645,7 @@ Partial Module Utilities
             fasta = New FastaFile(From x
                                   In uids
                                   Let fa = x.Group.First
-                                  Select New FastaToken(fa.fa.Attributes, fa.seq))
+                                  Select New FastaSeq(fa.fa.Headers, fa.seq))
         End If
 
         Return fasta.Save(out, Encodings.ASCII)
@@ -659,7 +659,7 @@ Partial Module Utilities
         Dim sites As String = args("/gff")
         Dim out As String =
             args.GetValue("/out", [in].TrimSuffix & "-" & sites.BaseName & ".fasta")
-        Dim fna = FastaToken.LoadNucleotideData([in])
+        Dim fna = FastaSeq.LoadNucleotideData([in])
         Dim gff As GFFTable = GFFTable.LoadDocument(sites)
         Dim nt As IPolymerSequenceModel = fna
         Dim result = From loci As GFF.Feature
@@ -667,9 +667,9 @@ Partial Module Utilities
                      Where (Not loci.attributes.ContainsKey("gbkey")) OrElse
                          (Not String.Equals(loci.attributes("gbkey"), "Src", StringComparison.OrdinalIgnoreCase))
                      Let seq = nt.CutSequenceLinear(loci.MappingLocation)
-                     Select New FastaToken With {
+                     Select New FastaSeq With {
                          .SequenceData = seq.SequenceData,
-                         .Attributes = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}
+                         .Headers = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}
                      }
         Dim fasta As New FastaFile(result)
 
@@ -684,8 +684,8 @@ Public Class Loci : Inherits Contig
     Public Property sp As Long
     Public Property SequenceData As String
 
-    Public Function ToFasta() As FASTA.FastaToken
-        Return New FastaToken({ID, $"{st},{sp}"}, SequenceData)
+    Public Function ToFasta() As FASTA.FastaSeq
+        Return New FastaSeq({ID, $"{st},{sp}"}, SequenceData)
     End Function
 
     Public Overrides Function ToString() As String

@@ -199,7 +199,7 @@ Public Module DomainAnalysis
 
         Dim Cache = (From prot As PfamString.PfamString
                      In result
-                     Let fasta As FASTA.FastaToken = __getFasta(prot.ProteinId, query)
+                     Let fasta As FASTA.FastaSeq = __getFasta(prot.ProteinId, query)
                      Select FastaObject = fasta,
                          pfam_string = prot).ToArray
         Dim LQuery = (From prot
@@ -221,7 +221,7 @@ Public Module DomainAnalysis
         Dim Cache = (From item In data Let fasta = __getFasta(item.ProteinId, query) Select fasta, pfam_string = item).ToArray
 
         Dim QueryHandle = Function(argv As Object) As PfamString.PfamString
-                              Dim FastaObject As FASTA.FastaToken = DirectCast(argv.fasta, FASTA.FastaToken)
+                              Dim FastaObject As FASTA.FastaSeq = DirectCast(argv.fasta, FASTA.FastaSeq)
                               Dim PfamString As PfamString.PfamString = DirectCast(argv.pfam_string, PfamString.PfamString)
 
                               If FastaObject Is Nothing Then
@@ -237,10 +237,10 @@ Public Module DomainAnalysis
         Return data
     End Function
 
-    Private Function __getFasta(id As String, Fasta As FASTA.FastaFile) As FASTA.FastaToken
-        Dim LQuery = (From item As FASTA.FastaToken
+    Private Function __getFasta(id As String, Fasta As FASTA.FastaFile) As FASTA.FastaSeq
+        Dim LQuery = (From item As FASTA.FastaSeq
                       In Fasta.AsParallel
-                      Where String.Equals(id, item.Attributes.First.Split.First, StringComparison.OrdinalIgnoreCase)
+                      Where String.Equals(id, item.Headers.First.Split.First, StringComparison.OrdinalIgnoreCase)
                       Select item).FirstOrDefault
         Return LQuery
     End Function
@@ -249,7 +249,7 @@ Public Module DomainAnalysis
     Public Function FillChouFasmanData(data As IEnumerable(Of PfamString.PfamString), Fasta As FASTA.FastaFile) As PfamString.PfamString()
         Dim Cache = (From pfString As PfamString.PfamString
                      In data
-                     Let FastaObject As FASTA.FastaToken = __getFasta(pfString.ProteinId, Fasta)
+                     Let FastaObject As FASTA.FastaSeq = __getFasta(pfString.ProteinId, Fasta)
                      Select FastaObject, pfam_string = pfString).ToArray '经过修正之后，只有一个attribute值，即第一个attribute值为目标基因的编号
         Dim LQuery = (From cfRaw In Cache.AsParallel
                       Select FillChouFasmanData(cfRaw.pfam_string, cfRaw.FastaObject)).ToArray
@@ -263,7 +263,7 @@ Public Module DomainAnalysis
     ''' <param name="Fasta">经过了Grep操作的fasta序列数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function FillChouFasmanData(pfString As PfamString.PfamString, Fasta As FASTA.FastaToken) As PfamString.PfamString
+    Public Function FillChouFasmanData(pfString As PfamString.PfamString, Fasta As FASTA.FastaSeq) As PfamString.PfamString
         If Fasta Is Nothing Then '没有找到
             Call $"{pfString.ProteinId} sequence fasta not found!".__DEBUG_ECHO
             Return pfString
@@ -280,7 +280,7 @@ Public Module DomainAnalysis
     ''' <param name="sequence"></param>
     ''' <returns>[ABCT](start|ends)</returns>
     ''' <remarks></remarks>
-    Private Function __createStructureRegion(describ As PfamString.PfamString, sequence As FASTA.FastaToken) As PfamString.PfamString
+    Private Function __createStructureRegion(describ As PfamString.PfamString, sequence As FASTA.FastaSeq) As PfamString.PfamString
         If describ.PfamString.IsNullOrEmpty OrElse describ.PfamString.Length = 1 Then
             Return describ
         End If

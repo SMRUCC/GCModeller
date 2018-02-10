@@ -69,16 +69,16 @@ Partial Module CLI
         Call words.GetJson(True).__DEBUG_ECHO
 
         Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
-            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+            For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
                 For Each word As String In words.Keys
 
-                    Dim attrs As String() = fa.Attributes
+                    Dim attrs As String() = fa.Headers
                     Dim title As String = fa.Title.ToLower
                     Dim writeData = Sub()
                                         Dim hit As New List(Of String)(attrs)
                                         hit += "word:=" & word
                                         hit += String.Join("; ", words(word))
-                                        Dim write As New FastaToken(hit, fa.SequenceData)
+                                        Dim write As New FastaSeq(hit, fa.SequenceData)
 
                                         Call writer.WriteLine(write.GenerateDocument(120))
                                         Call write.Title.__DEBUG_ECHO
@@ -133,8 +133,8 @@ Partial Module CLI
         Call writer.Add(UNKNOWN, $"{out}/{UNKNOWN}.fasta".OpenWriter(Encodings.ASCII))
 
         Using stream As New StreamIterator([in])
-            For Each fasta As FastaToken In stream.ReadStream
-                Dim title As String = fasta.Attributes.Last.Trim
+            For Each fasta As FastaSeq In stream.ReadStream
+                Dim title As String = fasta.Headers.Last.Trim
                 Dim ms$() = LinqAPI.Exec(Of String) <=
  _
                     From x As WordTokens

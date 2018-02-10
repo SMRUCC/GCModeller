@@ -44,7 +44,7 @@ Namespace Workflows.PromoterParser
         ''' </summary>
         ''' <param name="Fasta"></param>
         ''' <remarks></remarks>
-        Sub New(Fasta As FastaToken, PTT As PTT, DOOR As DOOR)
+        Sub New(Fasta As FastaSeq, PTT As PTT, DOOR As DOOR)
             Call MyBase.New(Fasta, PTT)
             _DOOR = DOOR
         End Sub

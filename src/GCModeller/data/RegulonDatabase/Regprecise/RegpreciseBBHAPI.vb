@@ -126,7 +126,7 @@ Namespace Regprecise
         Public Function SelectPfamSource(Besthits As IEnumerable(Of RegpreciseMPBBH), RegpreciseRegulators As FASTA.FastaFile) As FASTA.FastaFile
             Return MotifParallelAlignment.SelectSource(Besthits,
                                                        RegpreciseRegulators,
-                                                       Function(besthit As RegpreciseMPBBH, Fasta As FASTA.FastaToken) String.Equals(besthit.HitName, Fasta.Attributes(1).Split.First))
+                                                       Function(besthit As RegpreciseMPBBH, Fasta As FASTA.FastaSeq) String.Equals(besthit.HitName, Fasta.Headers(1).Split.First))
         End Function
 
         ''' <summary>
@@ -148,10 +148,10 @@ Namespace Regprecise
                               Optional WorkDir As String = "",
                               Optional ExportAll As Boolean = True) As RegpreciseMPBBH()
 
-            Dim siteInfoList = (From regFasta As FASTA.FastaToken
+            Dim siteInfoList = (From regFasta As FASTA.FastaSeq
                                 In RegpreciseTfbs
                                 Let site As String = Regex.Match(regFasta.Title, "gene=[^]]+").Value.Split(CChar("=")).Last
-                                Select New KeyValuePair(Of String, String)(site, regFasta.Attributes.First.Split.First)).ToArray
+                                Select New KeyValuePair(Of String, String)(site, regFasta.Headers.First.Split.First)).ToArray
             Dim BesthitBLAST = New BidirectionalBesthit_BLAST(
                 LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
             Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
@@ -159,7 +159,7 @@ Namespace Regprecise
                                                   TextGrepScriptEngine.Compile(QueryGrep).PipelinePointer,
                                                   TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").PipelinePointer,
                                                   "1e-3", ExportAll:=ExportAll)
-            Dim ExtractedTfbsInfo = (From regulator As FastaToken
+            Dim ExtractedTfbsInfo = (From regulator As FastaSeq
                                      In RegpreciseRegulators
                                      Let tfbs As String() = regulator.__gettfbs(siteInfoList)
                                      Select New KeyValuePair(Of String, String())(regulator.Title.Split.First.Split(CChar("|")).Last, tfbs)).ToArray
@@ -182,8 +182,8 @@ Namespace Regprecise
         End Function
 
         <Extension>
-        Private Function __gettfbs(regFasta As FastaToken, siteInforList As KeyValuePair(Of String, String)()) As String()
-            Dim Tokens = Regex.Match(regFasta.Attributes.Last, "tfbs=[^]]+").Value.Split(CChar("=")).Last.Split(CChar(";"))
+        Private Function __gettfbs(regFasta As FastaSeq, siteInforList As KeyValuePair(Of String, String)()) As String()
+            Dim Tokens = Regex.Match(regFasta.Headers.Last, "tfbs=[^]]+").Value.Split(CChar("=")).Last.Split(CChar(";"))
             Dim GetTfbs = (From site As KeyValuePair(Of String, String) In siteInforList Where Array.IndexOf(Tokens, site.Key) > -1 Select site.Value).ToArray
             Return GetTfbs
         End Function

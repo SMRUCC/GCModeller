@@ -130,7 +130,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             Return ori.SequenceData
         End Operator
 
-        Public Shared Narrowing Operator CType(obj As ORIGIN) As FastaToken
+        Public Shared Narrowing Operator CType(obj As ORIGIN) As FastaSeq
             Return obj.ToFasta
         End Operator
 
@@ -140,9 +140,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ToFasta() As FastaToken
+        Public Function ToFasta() As FastaSeq
             Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
-            Return New FastaToken(attrs, SequenceData)
+            Return New FastaSeq(attrs, SequenceData)
         End Function
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
@@ -151,7 +151,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             End Get
         End Property
 
-        Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+        Public Property Headers As String() Implements IAbstractFastaToken.Headers
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Char) Implements IEnumerable(Of Char).GetEnumerator
             For Each ch As Char In SequenceData

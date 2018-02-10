@@ -66,10 +66,10 @@ Partial Module CLI
         Dim files As String() = LinqAPI.Exec(Of String) <= From dr As String
                                                            In ls - l - lsDIR << args.OpenHandle("/in")
                                                            Select ls - l - wildcards("*.json") <= dr
-        Dim RegPrecise = (From fa As FASTA.FastaToken
+        Dim RegPrecise = (From fa As FASTA.FastaSeq
                           In New FASTA.StreamIterator(args.GetValue("/fasta", $"{args - "/in"}/RegPrecise.fasta")).ReadStream
                           Select fa
-                          Group fa By fa.Attributes.First.Split.First.Split(":"c).Last Into Group) _
+                          Group fa By fa.Headers.First.Split.First.Split(":"c).Last Into Group) _
                                .ToDictionary(Function(x) x.Last,
                                              Function(x) x.Group.First.Length)
         Dim PfamString As PfamString() =

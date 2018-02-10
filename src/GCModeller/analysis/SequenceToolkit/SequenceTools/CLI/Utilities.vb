@@ -74,7 +74,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Next
         Dim LQuery = New String((From a As String In AA Select Polypeptides.Abbreviate(a.ToUpper).First).ToArray)
         Dim MW As Double = CalcMW_Polypeptide(LQuery)
-        Dim Fasta As New FastaToken With {.SequenceData = LQuery, .Attributes = {$"MW={MW}"}}
+        Dim Fasta As New FastaSeq With {.SequenceData = LQuery, .Headers = {$"MW={MW}"}}
         Dim out As String = args("/out")
         If String.IsNullOrEmpty(out) Then
             out = [In] & ".fasta"
@@ -227,7 +227,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
     Public Function PromoterRegionParser_gb(args As CommandLine) As Integer
         Dim gb As String = args <= "/gb"
         Dim gbff As GBFF.File = NCBI.GenBank.GBFF.File.Load(gb)
-        Dim nt As FastaToken = gbff.Origin.ToFasta
+        Dim nt As FastaSeq = gbff.Origin.ToFasta
         Dim genes = gbff.ExportGeneFeatures
         Dim out As String = args.GetValue("/out", gb.TrimSuffix)
         Dim PTT = gbff.GbffToPTT(ORF:=True)

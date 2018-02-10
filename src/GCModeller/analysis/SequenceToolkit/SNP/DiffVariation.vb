@@ -44,7 +44,7 @@ Public Module DiffVariation
     ''' <param name="refIndex">默认是第一条序列，如果index参数是缺失的话</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function GetSeqs(aln As IEnumerable(Of FastaToken), Optional refIndex$ = Nothing) As IEnumerable(Of KSeq)
+    Public Iterator Function GetSeqs(aln As IEnumerable(Of FastaSeq), Optional refIndex$ = Nothing) As IEnumerable(Of KSeq)
         Dim source As New FastaFile(aln)
         Dim index% = If(
             String.IsNullOrEmpty(refIndex),
@@ -58,12 +58,12 @@ Public Module DiffVariation
             Call $"Using reference sequence: {source(index).Title}".__DEBUG_ECHO
         End If
 
-        Dim ref As FastaToken = source(index%)
+        Dim ref As FastaSeq = source(index%)
         Dim refs As Char() = ref.SequenceData.ToUpper.ToCharArray
 
         Call source.RemoveAt(index)
 
-        For Each seq As FastaToken In source
+        For Each seq As FastaSeq In source
             Dim nts As Char() = seq.SequenceData.ToUpper.ToCharArray
             Dim diffs As New List(Of SeqValue(Of NamedValue(Of Integer)))
             Dim b As Integer
@@ -89,11 +89,11 @@ Public Module DiffVariation
             Next
 
             Dim x As New KSeq With {
-                .attrs = seq.Attributes,
+                .attrs = seq.Headers,
                 .Diffs = diffs.ToDictionary(Function(o) o.i,
                                             Function(o) o.value)
             }
-            x.Date.value = Regex.Match(seq.Attributes.Last, "\d{6}").Value
+            x.Date.value = Regex.Match(seq.Headers.Last, "\d{6}").Value
 
             Yield x
         Next

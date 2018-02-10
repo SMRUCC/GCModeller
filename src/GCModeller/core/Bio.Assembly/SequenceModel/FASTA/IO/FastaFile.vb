@@ -47,11 +47,11 @@ Namespace SequenceModel.FASTA
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <ActiveViews(FastaToken.SampleView, type:="bash")>
+    <ActiveViews(FastaSeq.SampleView, type:="bash")>
     Public Class FastaFile : Inherits ITextFile
         Implements IDisposable
-        Implements IEnumerable(Of FastaToken)
-        Implements IList(Of FastaToken)
+        Implements IEnumerable(Of FastaSeq)
+        Implements IList(Of FastaSeq)
         Implements ICloneable
 
         Public Overloads Shared Widening Operator CType(File As Path) As FastaFile
@@ -65,11 +65,11 @@ Namespace SequenceModel.FASTA
         Sub New()
         End Sub
 
-        Sub New(source As List(Of FastaToken))
+        Sub New(source As List(Of FastaSeq))
             _innerList = source
         End Sub
 
-        Sub New(source As IEnumerable(Of FastaToken), path As String)
+        Sub New(source As IEnumerable(Of FastaSeq), path As String)
             Call Me.New(source.AsList)
             FilePath = path
         End Sub
@@ -78,24 +78,24 @@ Namespace SequenceModel.FASTA
         ''' 构造函数会自动移除空值对象
         ''' </summary>
         ''' <param name="data"></param>
-        Sub New(data As IEnumerable(Of FastaToken))
+        Sub New(data As IEnumerable(Of FastaSeq))
             _innerList =
-                LinqAPI.MakeList(Of FastaToken) <= From fa As FastaToken
+                LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
                                                    In data
                                                    Where Not fa Is Nothing
                                                    Select fa
         End Sub
 
-        Sub New(fa As FASTA.FastaToken)
+        Sub New(fa As FASTA.FastaSeq)
             Call Me.New({fa})
         End Sub
 
         Sub New(fa As IEnumerable(Of FASTA.IAbstractFastaToken))
-            Call Me.New(fa.Select(Function(x) New FastaToken(x)))
+            Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 
         Sub New(fa As IEnumerable(Of FASTA.I_FastaProvider))
-            Call Me.New(fa.Select(Function(x) New FastaToken(x)))
+            Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 
         Sub New(path As String, Optional deli As Char() = Nothing, Optional throwEx As Boolean = True)
@@ -105,10 +105,10 @@ Namespace SequenceModel.FASTA
                 If(deli.IsNullOrEmpty, {"|"c}, deli))
         End Sub
 
-        Protected Friend Overridable Property _innerList As List(Of FastaToken) = New List(Of FastaToken)
+        Protected Friend Overridable Property _innerList As List(Of FastaSeq) = New List(Of FastaSeq)
 
         Public Iterator Function AsKSource() As IEnumerable(Of KSeq)
-            For Each fa As FastaToken In _innerList
+            For Each fa As FastaSeq In _innerList
                 Yield New KSeq With {
                     .Name = fa.Title,
                     .Seq = fa.SequenceData.ToCharArray
@@ -131,7 +131,7 @@ Namespace SequenceModel.FASTA
             End Set
         End Property
 
-        Public Function AddRange(FastaCol As IEnumerable(Of FastaToken)) As Long
+        Public Function AddRange(FastaCol As IEnumerable(Of FastaSeq)) As Long
             Call __innerList.AddRange(FastaCol)
             Return __innerList.LongCount
         End Function
@@ -142,10 +142,10 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <remarks></remarks>
         Public Function Distinct() As FastaFile
-            Dim List = CType((From fasta As FastaToken
+            Dim List = CType((From fasta As FastaSeq
                               In Me.__innerList
                               Select fasta
-                              Order By fasta.Title Ascending).AsList, List(Of FastaToken))
+                              Order By fasta.Title Ascending).AsList, List(Of FastaSeq))
             For i As Integer = 1 To List.Count - 1
                 If String.Equals(List(i).Title, List(i - 1).Title) Then
                     Call List.RemoveAt(i)
@@ -209,16 +209,16 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 Return Nothing
             End If
 
-            For Each Sequence As FastaToken In Data._innerList
+            For Each Sequence As FastaSeq In Data._innerList
                 Sequence.SequenceData = Sequence.SequenceData.ToUpper.Replace("N", "-")
             Next
 
-            Dim LQuery = (From fa As FastaToken
+            Dim LQuery = (From fa As FastaSeq
                           In Data._innerList
                           Where Not fa.IsProtSource
                           Select fa).ToArray
             If Explicit Then
-                LQuery = (From fa As FastaToken
+                LQuery = (From fa As FastaSeq
                           In LQuery
                           Where Not fa.HaveGaps
                           Select fa).ToArray
@@ -239,9 +239,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="lines"></param>
         ''' <param name="deli"></param>
         ''' <returns></returns>
-        Public Shared Function DocParser(lines As String(), Optional deli As Char() = Nothing) As List(Of FastaToken)
+        Public Shared Function DocParser(lines As String(), Optional deli As Char() = Nothing) As List(Of FastaSeq)
             Dim faToken As New List(Of String)
-            Dim FASTA As New List(Of FastaToken)
+            Dim FASTA As New List(Of FastaSeq)
 
             If lines.IsNullOrEmpty Then
                 Return FASTA
@@ -254,7 +254,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 If String.IsNullOrEmpty(Line) Then
                     Continue For
                 ElseIf Line.Chars(Scan0) = ">"c Then  'New FASTA Object
-                    Call FASTA.Add(FastaToken.ParseFromStream(faToken, deli))
+                    Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
                     Call faToken.Clear()
                 End If
 
@@ -265,12 +265,12 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 Call FASTA.RemoveAt(Scan0)
             End If
 
-            Call FASTA.Add(FastaToken.ParseFromStream(faToken, deli))
+            Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
 
             Return FASTA
         End Function
 
-        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaToken)
+        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
             Dim TokenLines As String() = doc.lTokens
             Return DocParser(TokenLines, deli)
         End Function
@@ -291,7 +291,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
 
             Dim Index As Integer
 
-            For Each FASTA As FastaToken In __innerList
+            For Each FASTA As FastaSeq In __innerList
                 Index += 1
                 FASTA.SaveTo(String.Format("{0}/{1}.fasta", saveDIR, Index))
             Next
@@ -305,9 +305,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function QueryAny(KeyWord As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
-            Dim LQuery As IEnumerable(Of FastaToken) = From Fasta As FastaToken
+            Dim LQuery As IEnumerable(Of FastaSeq) = From Fasta As FastaSeq
                                                        In __innerList.AsParallel
-                                                       Where Find(Fasta.Attributes, KeyWord, CaseSensitive)
+                                                       Where Find(Fasta.Headers, KeyWord, CaseSensitive)
                                                        Select Fasta '
             Return New FastaFile With {
                 .__innerList = LQuery.AsList
@@ -321,27 +321,27 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="CaseSensitive">For text compaired method that not case sensitive, otherwise in the method od binary than case sensitive.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Query(KeyWord As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaToken
-            Dim LQuery = LinqAPI.DefaultFirst(Of FastaToken) <=
-                From fa As FastaToken
+        Public Function Query(KeyWord As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaSeq
+            Dim LQuery = LinqAPI.DefaultFirst(Of FastaSeq) <=
+                From fa As FastaSeq
                 In __innerList.AsParallel
-                Where Find(fa.Attributes, KeyWord, CaseSensitive)
+                Where Find(fa.Headers, KeyWord, CaseSensitive)
                 Select fa '
 
             Return LQuery
         End Function
 
-        Public Function Query(Keyword As String, index%, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaToken()
-            Dim list As IEnumerable(Of FastaToken) =
-                From fsa As FastaToken
+        Public Function Query(Keyword As String, index%, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaSeq()
+            Dim list As IEnumerable(Of FastaSeq) =
+                From fsa As FastaSeq
                 In __innerList
-                Where fsa.Attributes.Length - 1 >= index
+                Where fsa.Headers.Length - 1 >= index
                 Select fsa
-            Dim LQuery As FastaToken() = LinqAPI.Exec(Of FastaToken) <=
+            Dim LQuery As FastaSeq() = LinqAPI.Exec(Of FastaSeq) <=
  _
-                From fa As FastaToken
+                From fa As FastaSeq
                 In list
-                Where InStr(fa.Attributes(index), Keyword, CaseSensitive) > 0
+                Where InStr(fa.Headers(index), Keyword, CaseSensitive) > 0
                 Select fa '
 
             Return LQuery
@@ -358,10 +358,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Function Take(keyWords As IEnumerable(Of String), Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
-            Dim result As New List(Of FastaToken)
+            Dim result As New List(Of FastaSeq)
 
             For Each keyWord As String In keyWords
-                result += From FASTA As FastaToken
+                result += From FASTA As FastaSeq
                           In __innerList
                           Where InStr(FASTA.Title, keyWord, CaseSensitive) > 0
                           Select FASTA '
@@ -377,8 +377,8 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' </summary>
         ''' <param name="prediction"></param>
         ''' <returns></returns>
-        Public Function [Select](prediction As Func(Of FastaToken, Boolean)) As FastaFile
-            Dim LQuery = From fa As FastaToken
+        Public Function [Select](prediction As Func(Of FastaSeq, Boolean)) As FastaFile
+            Dim LQuery = From fa As FastaSeq
                          In Me._innerList
                          Where True = prediction(fa)
                          Select fa
@@ -433,7 +433,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Path = getPath(Path)
 
             Dim sBuilder As New StringBuilder(10 * 1024)
-            Dim parts = (From fa As FastaToken
+            Dim parts = (From fa As FastaSeq
                          In _innerList.AsParallel
                          Let NodeText As String =
                              fa.GenerateDocument(lineBreak:=LineBreak)
@@ -509,7 +509,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Dim sb As New StringBuilder(10 * 1024)
             Dim s As String
 
-            For Each fa As FastaToken In __innerList
+            For Each fa As FastaSeq In __innerList
                 s = fa.GenerateDocument(lineBreak:=60)
                 Call sb.AppendLine(s)
             Next
@@ -531,25 +531,25 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Return String.Format("{0}; [{1} records]", FilePath, Count)
         End Function
 
-        Public Shared Shadows Widening Operator CType(source As FastaToken()) As FastaFile
+        Public Shared Shadows Widening Operator CType(source As FastaSeq()) As FastaFile
             Return New FastaFile With {
                 .__innerList = source.AsList
             }
         End Operator
 
-        Public Shared Shadows Widening Operator CType(source As List(Of FastaToken)) As FastaFile
+        Public Shared Shadows Widening Operator CType(source As List(Of FastaSeq)) As FastaFile
             Return New FastaFile With {
                 .__innerList = source
             }
         End Operator
 
-        Public Shared Shadows Widening Operator CType(fa As FastaToken) As FastaFile
+        Public Shared Shadows Widening Operator CType(fa As FastaSeq) As FastaFile
             Return New FastaFile With {
-                .__innerList = New List(Of FastaToken) From {fa}
+                .__innerList = New List(Of FastaSeq) From {fa}
             }
         End Operator
 
-        Public Shadows Iterator Function GetEnumerator() As IEnumerator(Of FastaToken) Implements IEnumerable(Of FastaToken).GetEnumerator
+        Public Shadows Iterator Function GetEnumerator() As IEnumerator(Of FastaSeq) Implements IEnumerable(Of FastaSeq).GetEnumerator
             For i As Integer = 0 To __innerList.Count - 1
                 Yield __innerList(i)
             Next
@@ -565,10 +565,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="regxText"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Match(regxText As String, Optional options As RegexOptions = RegexOptions.Singleline) As FastaToken()
+        Public Function Match(regxText As String, Optional options As RegexOptions = RegexOptions.Singleline) As FastaSeq()
             Dim regexp As New Regex(regxText, options)
-            Dim LQuery As FastaToken() =
-                LinqAPI.Exec(Of FastaToken) <= From fasta As FastaToken
+            Dim LQuery As FastaSeq() =
+                LinqAPI.Exec(Of FastaSeq) <= From fasta As FastaSeq
                                                In Me.__innerList
                                                Where regexp.Match(fasta.SequenceData.ToUpper).Success
                                                Select fasta
@@ -576,56 +576,56 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
 #Region "Implementation of IList(Of SequenceModel.FASTA.FASTA) interface."
-        Public Sub Add(item As FastaToken) Implements ICollection(Of FastaToken).Add
+        Public Sub Add(item As FastaSeq) Implements ICollection(Of FastaSeq).Add
             Call __innerList.Add(item)
         End Sub
 
-        Public Sub Clear() Implements ICollection(Of FastaToken).Clear
+        Public Sub Clear() Implements ICollection(Of FastaSeq).Clear
             Call _innerList.Clear()
         End Sub
 
-        Public Function Contains(item As FastaToken) As Boolean Implements ICollection(Of FastaToken).Contains
+        Public Function Contains(item As FastaSeq) As Boolean Implements ICollection(Of FastaSeq).Contains
             Return _innerList.Contains(item)
         End Function
 
-        Public Overloads Sub CopyTo(array() As FastaToken, arrayIndex As Integer) Implements ICollection(Of FastaToken).CopyTo
+        Public Overloads Sub CopyTo(array() As FastaSeq, arrayIndex As Integer) Implements ICollection(Of FastaSeq).CopyTo
             Call _innerList.CopyTo(array, arrayIndex)
         End Sub
 
-        Public ReadOnly Property NumberOfFasta As Integer Implements ICollection(Of FastaToken).Count
+        Public ReadOnly Property NumberOfFasta As Integer Implements ICollection(Of FastaSeq).Count
             Get
                 Return _innerList.Count
             End Get
         End Property
 
-        Public ReadOnly Property IsReadOnly As Boolean Implements ICollection(Of FastaToken).IsReadOnly
+        Public ReadOnly Property IsReadOnly As Boolean Implements ICollection(Of FastaSeq).IsReadOnly
             Get
                 Return False
             End Get
         End Property
 
-        Public Function Remove(item As FastaToken) As Boolean Implements ICollection(Of FastaToken).Remove
+        Public Function Remove(item As FastaSeq) As Boolean Implements ICollection(Of FastaSeq).Remove
             Return _innerList.Remove(item)
         End Function
 
-        Public Function IndexOf(item As FastaToken) As Integer Implements IList(Of FastaToken).IndexOf
+        Public Function IndexOf(item As FastaSeq) As Integer Implements IList(Of FastaSeq).IndexOf
             Return _innerList.IndexOf(item)
         End Function
 
-        Public Sub Insert(index As Integer, item As FastaToken) Implements IList(Of FastaToken).Insert
+        Public Sub Insert(index As Integer, item As FastaSeq) Implements IList(Of FastaSeq).Insert
             Call _innerList.Insert(index, item)
         End Sub
 
-        Default Public Property Item(index As Integer) As FastaToken Implements IList(Of FastaToken).Item
+        Default Public Property Item(index As Integer) As FastaSeq Implements IList(Of FastaSeq).Item
             Get
                 Return _innerList(index)
             End Get
-            Set(value As FastaToken)
+            Set(value As FastaSeq)
                 _innerList(index) = value
             End Set
         End Property
 
-        Public Sub RemoveAt(index As Integer) Implements IList(Of FastaToken).RemoveAt
+        Public Sub RemoveAt(index As Integer) Implements IList(Of FastaSeq).RemoveAt
             Call _innerList.RemoveAt(index)
         End Sub
 #End Region
@@ -643,23 +643,23 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 From fa As T
                 In data
                 Let line As String =
-                    FastaToken.GenerateDocumentText(fa)
+                    FastaSeq.GenerateDocumentText(fa)
                 Select line & vbLf
 
             Return LQuery.FlushAllLines(path, encoding)
         End Function
 
-        Public Overloads Shared Operator +(FASTA As FastaFile, fa As FastaToken) As FastaFile
+        Public Overloads Shared Operator +(FASTA As FastaFile, fa As FastaSeq) As FastaFile
             Call FASTA.Add(fa)
             Return FASTA
         End Operator
 
-        Public Overloads Shared Operator +(FASTA As FastaFile, source As IEnumerable(Of FastaToken)) As FastaFile
+        Public Overloads Shared Operator +(FASTA As FastaFile, source As IEnumerable(Of FastaSeq)) As FastaFile
             Call FASTA.AddRange(source)
             Return FASTA
         End Operator
 
-        Public Overloads Shared Operator +(FASTA As FastaFile, source As IEnumerable(Of IEnumerable(Of FastaToken))) As FastaFile
+        Public Overloads Shared Operator +(FASTA As FastaFile, source As IEnumerable(Of IEnumerable(Of FastaSeq))) As FastaFile
             Return FASTA + source.IteratesALL
         End Operator
 
@@ -681,7 +681,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' </summary>
         ''' <returns></returns>
         Public Function Clone() As Object Implements ICloneable.Clone
-            Dim list As New List(Of FastaToken)
+            Dim list As New List(Of FastaSeq)
 
             For Each x In Me._innerList
                 Call list.Add(x.Copy)
@@ -698,7 +698,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Shared Function SingleSequence(path$) As Boolean
             Dim i%
 
-            For Each fasta As FastaToken In New StreamIterator(path).ReadStream
+            For Each fasta As FastaSeq In New StreamIterator(path).ReadStream
                 i += 1
 
                 If i = 2 Then

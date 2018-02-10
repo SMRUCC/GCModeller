@@ -62,7 +62,7 @@ Namespace ComparativeGenomics
         ''' 
         <Extension>
         Public Function CreateObject(anno As GeneDumpInfo(),
-                                     nt As FASTA.FastaToken,
+                                     nt As FASTA.FastaSeq,
                                      Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As GenomeModel
 
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(anno, COGsColor))

@@ -112,7 +112,7 @@ Namespace SequenceModel.NucleotideModels
             }
         End Function
 
-        Public Function SimpleFasta(Optional title$ = Nothing) As FastaToken
+        Public Function SimpleFasta(Optional title$ = Nothing) As FastaSeq
             If String.IsNullOrEmpty(title) Then
                 title = ID & " " & If(
                     MappingLocation.Strand = Strands.Forward,
@@ -120,8 +120,8 @@ Namespace SequenceModel.NucleotideModels
                     $"complement({Start},{Ends})")
             End If
 
-            Return New FastaToken With {
-                .Attributes = {title},
+            Return New FastaSeq With {
+                .Headers = {title},
                 .SequenceData = SequenceData
             }
         End Function

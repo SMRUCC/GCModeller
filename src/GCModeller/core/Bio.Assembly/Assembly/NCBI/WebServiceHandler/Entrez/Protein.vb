@@ -99,7 +99,7 @@ Namespace Assembly.NCBI.Entrez
             Return Entry
         End Function
 
-        Public Shared Function FetchSeq(entry As Entry) As SequenceModel.FASTA.FastaToken
+        Public Shared Function FetchSeq(entry As Entry) As SequenceModel.FASTA.FastaSeq
             If entry.LocusTag = "" Then
                 Return Nothing
             Else

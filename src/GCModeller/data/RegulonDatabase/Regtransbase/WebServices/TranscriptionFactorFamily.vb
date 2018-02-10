@@ -67,7 +67,7 @@ Namespace Regtransbase.WebServices
             Next
 
             For i As Integer = 0 To Fsa.Count - 1
-                Fsa(i).Attributes(0) = String.Format("tfbs_{0} {1}", i, Fsa(i).Attributes(0))
+                Fsa(i).Headers(0) = String.Format("tfbs_{0} {1}", i, Fsa(i).Headers(0))
             Next
 
             Return Fsa
@@ -144,7 +144,7 @@ Namespace Regtransbase.WebServices
         <XmlAttribute> Public Property Counts As String
         Public Property Description As String
 
-        Public Function Export() As FASTA.FastaToken()
+        Public Function Export() As FASTA.FastaSeq()
             Return Logs.Select(Function(x) x.TFBSs.ExportMotifs).ToVector
         End Function
 
@@ -273,13 +273,13 @@ Namespace Regtransbase.WebServices
             Return LQuery
         End Function
 
-        Public Function ExportMotifs() As FastaToken()
+        Public Function ExportMotifs() As FastaSeq()
             Dim LQuery = (From fa As MotifFasta
                           In TFBSs
                           Let header = String.Format("[gene={0}] [family={1}] [regulog={2}]", fa.locus_tag, Family, Regulog.Key)
-                          Select New FastaToken With {
+                          Select New FastaSeq With {
                               .SequenceData = SequenceTrimming(fa),
-                              .Attributes = {header}
+                              .Headers = {header}
                           }).ToArray
             Return LQuery
         End Function
@@ -376,7 +376,7 @@ Namespace Regtransbase.WebServices
         End Property
 
         <XmlIgnore>
-        Protected ReadOnly Property Attributes As String() Implements I_FastaProvider.Attributes
+        Protected ReadOnly Property Headers As String() Implements I_FastaProvider.Headers
             Get
                 Return {UniqueId, bacteria}
             End Get
@@ -385,7 +385,7 @@ Namespace Regtransbase.WebServices
         Public Shared Function Parse(url As String) As MotifFasta()
             Dim Text As String = url.GET
             Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=Text)
-            Dim LQuery = (From fsa As FastaToken In FASTA Select MotifFasta.[New](fsa)).ToArray
+            Dim LQuery = (From fsa As FastaSeq In FASTA Select MotifFasta.[New](fsa)).ToArray
             Return LQuery
         End Function
 
@@ -395,7 +395,7 @@ Namespace Regtransbase.WebServices
 
         Const REAL As String = "-?\d+(\.\d+)?"
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As FastaToken) As MotifFasta
+        Protected Friend Shared Function [New](DownloadedFastaObject As FastaSeq) As MotifFasta
             Dim Title As String = DownloadedFastaObject.Title
             Dim FastaObject As MotifFasta = New MotifFasta
             Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value

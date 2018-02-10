@@ -466,7 +466,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Dim fasta = (From path As KeyValuePair(Of String, String)
                          In faDIR.LoadSourceEntryList({})
                          Select path.Key,
-                             FastaToken.Load(path.Value).Length) _
+                             FastaSeq.Load(path.Value).Length) _
                                 .ToDictionary(Function(item) item.Key.ToUpper,
                                               Function(item) item.Length)
 
@@ -516,7 +516,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Dim fasta = (From path As KeyValuePair(Of String, String)
                          In faDIR.LoadSourceEntryList({})
                          Select path.Key,
-                             FastaToken.Load(path.Value).Length) _
+                             FastaSeq.Load(path.Value).Length) _
                              .ToDictionary(Function(item) item.Key.ToUpper,
                                            Function(item) item.Length)
 

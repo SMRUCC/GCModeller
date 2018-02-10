@@ -95,7 +95,7 @@ Partial Module CLI
             Dim offset As Integer = args.GetValue("/offset", CInt(LQuery.Average(Function(x) x.Length) * (2 / 3)))
             Dim Grouping = LQuery.Groups(offset)
             Dim Fasta As New FastaFile(
-                Grouping.Select(Function(x) New FastaToken({$"{x.Tag} {x.First.MotifFamily}"}, x.First.Sequence)))
+                Grouping.Select(Function(x) New FastaSeq({$"{x.Tag} {x.First.MotifFamily}"}, x.First.Sequence)))
             Return Fasta.Save(out & ".fasta", Encodings.ASCII)
         Else
             Dim EXPORT As String = out
@@ -109,8 +109,8 @@ Partial Module CLI
                 source = value.Group.ToArray
                 Dim Grouping = source.Groups(If(offset = 0, source.Average(Function(site) site.Length) * (2 / 3), offset))
                 Dim Fasta As New FastaFile(
-                    Grouping.Select(Function(o) New FastaToken({$"{o.Tag} {o.First.MotifFamily}"}, o.First.Sequence)) _
-                            .OrderBy(Function(o) o.Attributes.First))
+                    Grouping.Select(Function(o) New FastaSeq({$"{o.Tag} {o.First.MotifFamily}"}, o.First.Sequence)) _
+                            .OrderBy(Function(o) o.Headers.First))
                 Call Fasta.Save(EXPORT & $"/{value.Regulator}.fasta", Encodings.ASCII)
             Next
         End If
@@ -425,7 +425,7 @@ Partial Module CLI
         Dim atgDist As Integer = args.GetValue("/atg-dist", 250)
         Dim out As String = args.GetValue("/out", meme.TrimSuffix & $"-{ntFa.BaseName},cut={atgDist}.csv")
         Dim motifs = Text.Load(meme)
-        Dim scan As New Scanner(New FastaToken(ntFa))
+        Dim scan As New Scanner(New FastaSeq(ntFa))
         Dim list As New List(Of SimpleSegment)
 
         For Each motif As LDM.Motif In motifs

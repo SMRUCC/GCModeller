@@ -135,22 +135,22 @@ Module _DEBUG_MAIN
 
 
     Public Sub Convert(dipFasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-        Dim chunkBuffer As SMRUCC.genomics.SequenceModel.FASTA.FastaToken() =
-            New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(dipFasta.Count - 1) {}
+        Dim chunkBuffer As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq() =
+            New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq(dipFasta.Count - 1) {}
         For i As Integer = 0 To chunkBuffer.Count - 1
-            Dim fsaObj = New SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+            Dim fsaObj = New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq
             Dim oldFsa = dipFasta(i)
 
             fsaObj.SequenceData = oldFsa.SequenceData
             Dim attrs As List(Of String) = New List(Of String)
-            If oldFsa.Attributes.Count = 1 Then
-                attrs.Add(Mid(oldFsa.Attributes.First, 5))
+            If oldFsa.Headers.Count = 1 Then
+                attrs.Add(Mid(oldFsa.Headers.First, 5))
             Else
-                attrs.Add(String.Format("{0} {1}", Mid(oldFsa.Attributes.First, 5), oldFsa.Attributes(1)))
-                attrs.AddRange(oldFsa.Attributes.Skip(2))
+                attrs.Add(String.Format("{0} {1}", Mid(oldFsa.Headers.First, 5), oldFsa.Headers(1)))
+                attrs.AddRange(oldFsa.Headers.Skip(2))
             End If
 
-            fsaObj.Attributes = attrs.ToArray
+            fsaObj.Headers = attrs.ToArray
 
             chunkBuffer(i) = fsaObj
         Next

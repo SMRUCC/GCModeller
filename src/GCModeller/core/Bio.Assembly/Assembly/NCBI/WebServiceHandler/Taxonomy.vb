@@ -81,8 +81,8 @@ Namespace Assembly.NCBI.Entrez
         End Function
 
         <Extension>
-        Public Iterator Function efetch(source As IEnumerable(Of FastaToken),
-                                        getId As Func(Of FastaToken, String),
+        Public Iterator Function efetch(source As IEnumerable(Of FastaSeq),
+                                        getId As Func(Of FastaSeq, String),
                                         Optional bufSize As Integer = 128) As IEnumerable(Of TSeqSet)
 
             Dim tmp As New List(Of String)
@@ -110,8 +110,8 @@ Namespace Assembly.NCBI.Entrez
         End Function
 
         <Extension>
-        Public Function efetch(source As IEnumerable(Of FastaToken), Optional bufSize As Integer = 128) As IEnumerable(Of TSeqSet)
-            Dim getId As Func(Of FastaToken, String) =
+        Public Function efetch(source As IEnumerable(Of FastaSeq), Optional bufSize As Integer = 128) As IEnumerable(Of TSeqSet)
+            Dim getId As Func(Of FastaSeq, String) =
                 Function(nt) nt.Title.Match("gi\|\d+", RegexICSng).Split("|"c).Last
             Return source.efetch(getId, bufSize)
         End Function

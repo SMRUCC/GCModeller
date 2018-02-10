@@ -188,7 +188,7 @@ Partial Module Utilities
         SSRSearch.Parallel = args.IsTrue("/parallel")
 
         If FastaFile.SingleSequence([in]) Then
-            Dim nt As FastaToken = FastaToken.LoadNucleotideData([in])
+            Dim nt As FastaSeq = FastaSeq.LoadNucleotideData([in])
 
             If nt.IsProtSource Then
                 Throw New InvalidExpressionException([in])
@@ -200,7 +200,7 @@ Partial Module Utilities
                 .SaveTo(out) _
                 .CLICode
         Else
-            For Each nt As FastaToken In New StreamIterator([in]).ReadStream
+            For Each nt As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim path$ = out.TrimSuffix & $"/{nt.Title.NormalizePathString}.csv"
 
                 If path.FileExists Then

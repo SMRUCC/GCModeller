@@ -43,10 +43,10 @@ Public Class Ecard : Inherits BaseClass
     ''' Gets the protein's aa sequence.
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetProt() As FastaToken
+    Public Function GetProt() As FastaSeq
         For Each x In Values
             If x.NAME.TextEquals("translated sequence") Then
-                Return New FastaToken({Name.Name}, x.VALUE.scalar)
+                Return New FastaSeq({Name.Name}, x.VALUE.scalar)
             End If
         Next
 
@@ -57,10 +57,10 @@ Public Class Ecard : Inherits BaseClass
     ''' Gets the gene's nt sequence
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetNt() As FastaToken
+    Public Function GetNt() As FastaSeq
         For Each x In Values
             If x.NAME.TextEquals("Gene sequence") Then
-                Return New FastaToken({Name.Name}, x.VALUE.scalar)
+                Return New FastaSeq({Name.Name}, x.VALUE.scalar)
             End If
         Next
 

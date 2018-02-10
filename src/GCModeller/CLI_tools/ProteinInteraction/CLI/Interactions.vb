@@ -55,7 +55,7 @@ Partial Module CLI
     Public Function Predicts(args As CommandLine) As Integer
         Dim Interactions = args("/db").LoadXml(Of Category())
         Dim predictSource = (args <= "/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
-        Dim prot = FastaFile.Read(args("/prot")).ToDictionary(Function(x) x.Attributes.First.Split.First.Split(":"c).Last)
+        Dim prot = FastaFile.Read(args("/prot")).ToDictionary(Function(x) x.Headers.First.Split.First.Split(":"c).Last)
         Dim clustal As ClustalOrg.Clustal = ClustalOrg.Clustal.CreateSession
         Dim LQuery = (From predictsX As Pfam.PfamString.PfamString
                       In predictSource'.AsParallel
@@ -68,12 +68,12 @@ Partial Module CLI
     End Function
 
     Private Function __getScore(predict As Pfam.PfamString.PfamString,
-                                prot As Dictionary(Of String, FastaToken),
+                                prot As Dictionary(Of String, FastaSeq),
                                 subject As Category(),
                                 clustal As ClustalOrg.Clustal) As Double
         Dim tokens = predict.ProteinId.Split("-"c)
-        Dim contacts As New FASTA.FastaToken With {
-            .Attributes = {predict.ProteinId},
+        Dim contacts As New FASTA.FastaSeq With {
+            .Headers = {predict.ProteinId},
             .SequenceData = prot(tokens.First).SequenceData & prot(tokens.Last).SequenceData
         }
         Dim struct = predict.GetDomainData(False).Select(Function(x) x.Name).ToArray
@@ -96,14 +96,14 @@ Partial Module CLI
         Return 0
     End Function
 
-    Public Function Align(query As FastaToken, category As Category,
+    Public Function Align(query As FastaSeq, category As Category,
                           ByRef score As Double,
                           Optional mp As Double = 0.65) As LevAlign
         Dim clustal As ClustalOrg.Clustal = ClustalOrg.Clustal.CreateSession
         Return __align(query, category, clustal, score, mp)
     End Function
 
-    Private Function __align(seq As FastaToken,
+    Private Function __align(seq As FastaSeq,
                              category As Category,
                              clustal As ClustalOrg.Clustal,
                              ByRef score As Double,
@@ -116,7 +116,7 @@ Partial Module CLI
         ' category = category.Folk(1, 5)
 
         Dim n As Integer = CInt(category.Signature.Length / 2) - 1
-        Dim source = (From x In category.Signature Select New FASTA.FastaToken(x)).AsList
+        Dim source = (From x In category.Signature Select New FASTA.FastaSeq(x)).AsList
         Call source.Add(seq.Repeats(n))
         Dim tmp = App.GetAppSysTempFile(".fasta")
         Call New FASTA.FastaFile(source).Save(tmp)
@@ -182,7 +182,7 @@ Partial Module CLI
         Return list.GetXml.SaveTo((args <= "/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
     End Function
 
-    Private Function __getCategory(fm As Family.FileSystem.Family, loadFasta As Dictionary(Of String, SequenceModel.FASTA.FastaToken)()) As Category
+    Private Function __getCategory(fm As Family.FileSystem.Family, loadFasta As Dictionary(Of String, SequenceModel.FASTA.FastaSeq)()) As Category
         Dim ct = (From rec As Family.FileSystem.PfamString
                   In fm.PfamString
                   Let id As String = rec.LocusTag.Split(":"c).Last
@@ -216,8 +216,8 @@ Partial Module CLI
     ''' <param name="HisK"></param>
     ''' <param name="RR"></param>
     ''' <returns></returns>
-    Public Function AlignLDM(HisK As SequenceModel.FASTA.FastaToken(),
-                             RR As SequenceModel.FASTA.FastaToken(),
+    Public Function AlignLDM(HisK As SequenceModel.FASTA.FastaSeq(),
+                             RR As SequenceModel.FASTA.FastaSeq(),
                              interactions As String(),
                              name As String,
                              ByRef alignments As KeyValuePair()) As Signature()
@@ -229,9 +229,9 @@ Partial Module CLI
                                                              Let tokens = id.Split("-"c)
                                                              Select New KeyValuePair(Of String, String)(tokens(0), tokens(1))).ToArray
         Dim contracts = intsList.Where(Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value)).Select(
-            Function(x) New SequenceModel.FASTA.FastaToken With {
+            Function(x) New SequenceModel.FASTA.FastaSeq With {
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
-                .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
+                .Headers = {$"{x.Key}-{x.Value}"}}).ToArray
         alignments = contracts.Select(
             Function(x) New KeyValuePair With {
                 .Key = x.Title,
@@ -272,8 +272,8 @@ Partial Module CLI
                       Let Tokens As String() = id.Split("-"c)
                       Select hk = HisK(Tokens(0)),
                           Rg = RRPro(Tokens(1))).ToArray
-            Dim hkk = New SequenceModel.FASTA.FastaFile((From x In ct Select x.hk, x.hk.Attributes.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.hk))
-            Dim rrg = New SequenceModel.FASTA.FastaFile((From x In ct Select x.Rg, x.Rg.Attributes.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.Rg))
+            Dim hkk = New SequenceModel.FASTA.FastaFile((From x In ct Select x.hk, x.hk.Headers.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.hk))
+            Dim rrg = New SequenceModel.FASTA.FastaFile((From x In ct Select x.Rg, x.Rg.Headers.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.Rg))
             Dim interactions As String() = fm.PfamString.Select(Function(x) x.LocusTag)
             Dim HisKFa As String = out & $"/fa/{fm.Family.NormalizePathString}-Hisk.fasta"
             Dim RRFa As String = out & $"/fa/{fm.Family.NormalizePathString}-RR.fasta"
@@ -311,20 +311,20 @@ Partial Module CLI
         End Function
 
         Public Function GetSignatureFasta() As SequenceModel.FASTA.FastaFile
-            Dim lstFa = Signature.Select(Function(x) New FastaToken(x))
+            Dim lstFa = Signature.Select(Function(x) New FastaSeq(x))
             Dim fa As New FastaFile(lstFa)
             Return fa
         End Function
 
         Public Function Folk(cutoff As Double, level As Integer) As Category
-            Dim aln As FastaToken() = Alignments.Select(
-                Function(x) New FastaToken With {
+            Dim aln As FastaSeq() = Alignments.Select(
+                Function(x) New FastaSeq With {
                     .SequenceData = x.Value,
-                    .Attributes = {x.Key}}).ToArray
+                    .Headers = {x.Key}}).ToArray
             Return FromAlign(aln, cutoff, name:=Family & "-" & CStr(cutoff), level:=level)
         End Function
 
-        Public Shared Function FromAlign(aln As Generic.IEnumerable(Of FastaToken),
+        Public Shared Function FromAlign(aln As Generic.IEnumerable(Of FastaSeq),
                                          Optional cutoff As Double = 1,
                                          Optional level As Integer = 10,
                                          Optional name As String = "") As Category
@@ -344,13 +344,13 @@ Partial Module CLI
         End Function
     End Class
 
-    Private Function __loadFa(DIRS As String(), getFa As Func(Of String, String)) As Dictionary(Of String, FastaToken)
+    Private Function __loadFa(DIRS As String(), getFa As Func(Of String, String)) As Dictionary(Of String, FastaSeq)
         Dim prot = (From x In (From DIR As String
                                In DIRS
                                Let fa = FastaFile.Read(getFa(DIR), False)
                                Where Not fa.IsNullOrEmpty
                                Select fa.Select(Function(x) New With {
-                                   .Id = x.Attributes.First.Split.First.Split(":"c).Last,
+                                   .Id = x.Headers.First.Split.First.Split(":"c).Last,
                                    .fa = x})).ToArray.Unlist
                     Select x
                     Group x By x.Id Into Group) _
@@ -388,9 +388,9 @@ Partial Module CLI
                                                              Let tokens = id.Split("-"c)
                                                              Select New KeyValuePair(Of String, String)(tokens(0), tokens(1))).ToArray
         Dim contracts = intsList.Where(Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value)).Select(
-            Function(x) New SequenceModel.FASTA.FastaToken With {
+            Function(x) New SequenceModel.FASTA.FastaSeq With {
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
-                .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
+                .Headers = {$"{x.Key}-{x.Value}"}}).ToArray
 
         alignments = contracts.Select(
             Function(x) New KeyValuePair With {

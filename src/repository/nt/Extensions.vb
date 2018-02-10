@@ -36,11 +36,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module Extensions
 
     <Extension>
-    Public Iterator Function FastaSearch(source As IEnumerable(Of FastaToken), query$) As IEnumerable(Of FastaToken)
+    Public Iterator Function FastaSearch(source As IEnumerable(Of FastaSeq), query$) As IEnumerable(Of FastaSeq)
         Dim expression As Expression = query.Build
         Dim type As New IObject(GetType(Text))
 
-        For Each x As FastaToken In source
+        For Each x As FastaSeq In source
             If expression.Evaluate(
                 type,
                 New Text With {
@@ -58,7 +58,7 @@ Public Module Extensions
     Const DuplicatedName$ = "Open file handle failure, perhaps there are duplicated name in your query data and this may cause error on Windows file system!"
 
     <Extension>
-    Public Function BatchSearch(source As IEnumerable(Of FastaToken), arguments As IEnumerable(Of NamedValue(Of String)), out$) As Boolean
+    Public Function BatchSearch(source As IEnumerable(Of FastaSeq), arguments As IEnumerable(Of NamedValue(Of String)), out$) As Boolean
         Dim expressions As New Dictionary(Of Expression, StreamWriter)
         Dim def As New IObject(GetType(Text))
 

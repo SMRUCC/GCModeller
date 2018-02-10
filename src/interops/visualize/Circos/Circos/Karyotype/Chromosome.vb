@@ -79,7 +79,7 @@ Namespace Karyotype
 
         Public Overrides ReadOnly Property Size As Integer
 
-        Public Shared Function FromNts(chrs As IEnumerable(Of FastaToken), Optional colors As String() = Nothing) As KaryotypeChromosomes
+        Public Shared Function FromNts(chrs As IEnumerable(Of FastaSeq), Optional colors As String() = Nothing) As KaryotypeChromosomes
             If colors.IsNullOrEmpty Then
                 colors = CircosColor.AllCircosColors.Shuffles
             End If
@@ -88,7 +88,7 @@ Namespace Karyotype
             Dim chrVector = chrs.ToArray
             Dim ks As Karyotype() =
  _
-                LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
+                LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaSeq)
                                               In chrVector.SeqIterator(offset:=1)
                                               Let fasta = nt.value
                                               Let name As String = fasta.Title _
@@ -119,7 +119,7 @@ Namespace Karyotype
         ''' <param name="source">Band数据</param>
         ''' <param name="chrs">karyotype数据</param>
         ''' <returns></returns>
-        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
+        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaSeq)) As KaryotypeChromosomes
             Dim ks As KaryotypeChromosomes = FromNts(chrs)
             Dim labels As Dictionary(Of String, Karyotype) =
                 ks.__karyotypes.ToDictionary(Function(x) x.nt.value.Title,
@@ -152,10 +152,10 @@ Namespace Karyotype
                     }
                 End Function)
 
-            Dim __getNt As Func(Of Band, FastaToken) = Function(x) As FastaToken
+            Dim __getNt As Func(Of Band, FastaSeq) = Function(x) As FastaSeq
                                                            Dim map As BlastnMapping = x.MapsRaw.value
                                                            Dim nt As SimpleSegment = nts(map.Reference)
-                                                           Dim fragment As FastaToken =
+                                                           Dim fragment As FastaSeq =
                                                                nt _
                                                                .CutSequenceLinear(map.MappingLocation) _
                                                                .SimpleFasta(map.ReadQuery)

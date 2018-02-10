@@ -72,7 +72,7 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="block">生成类似于domain的参数所需求的，假若这个值太低，则计算MPAlignment的时候会得分很低，除非特别应用请不要修改这个数值</param>
         ''' <param name="levels"></param>
         ''' <returns></returns>
-        Public Shared Function FromAlign(aln As IEnumerable(Of FastaToken), Optional block As Double = 1.0R, Optional levels As Integer = 10) As SRChain()
+        Public Shared Function FromAlign(aln As IEnumerable(Of FastaSeq), Optional block As Double = 1.0R, Optional levels As Integer = 10) As SRChain()
             If aln.IsNullOrEmpty Then
                 Return New SRChain() {}
             Else
@@ -85,7 +85,7 @@ Namespace SequenceModel.Patterns.Clustal
             End If
         End Function
 
-        Private Shared Function __createSafly(aln As IEnumerable(Of FastaToken), block As Double, levels As Integer) As SRChain()
+        Private Shared Function __createSafly(aln As IEnumerable(Of FastaSeq), block As Double, levels As Integer) As SRChain()
             Dim chMAT = aln.Select(Function(x) x.SequenceData.ToArray).ToArray
             Dim width As Integer = chMAT.Length
             Dim chain As SR()() = (From idx As Integer

@@ -121,13 +121,13 @@ Namespace gast
                 ref.NewLine = vbLf
                 taxon.NewLine = vbLf
 
-                For Each fa As FastaToken In reader.ReadStream
+                For Each fa As FastaSeq In reader.ReadStream
                     Dim title As String = fa.Title
                     Dim uid As String = title.Split.First
                     Dim taxnomy As String = Mid(title, uid.Length + 1).Trim
 
                     uid = uid.Replace(".", "_")
-                    fa = New FastaToken({uid}, fa.SequenceData)
+                    fa = New FastaSeq({uid}, fa.SequenceData)
                     title = {uid, taxnomy, "1"}.JoinBy(vbTab)
 
                     Call ref.WriteLine(fa.GenerateDocument(60))
@@ -164,7 +164,7 @@ Namespace gast
             Using ref As StreamWriter = out.OpenWriter(Encodings.ASCII,),
                 tax As StreamWriter = (out.TrimSuffix & ".tax").OpenWriter(Encodings.ASCII)
 
-                For Each seq As FastaToken In New StreamIterator(nt).ReadStream
+                For Each seq As FastaSeq In New StreamIterator(nt).ReadStream
                     Dim title As String = seq.Title
                     Dim gi As Integer = __gi(title)
                     Dim taxid As Integer = giTaxid(gi)
@@ -176,7 +176,7 @@ Namespace gast
 
                     Dim taxonomy As String = TaxonomyNode.Taxonomy(nodes, ";")
 
-                    seq = New FastaToken({title}, seq.SequenceData)
+                    seq = New FastaSeq({title}, seq.SequenceData)
                     title = {title, taxonomy, "1"}.JoinBy(vbTab)
 
                     Call ref.WriteLine(seq.GenerateDocument(120))

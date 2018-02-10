@@ -141,7 +141,7 @@ Public Module Installer
     ''' </param>
     ''' <param name="repo"></param>
     ''' <returns></returns>
-    Public Function GetsiRNATargetSeqs(siRNAtarget As IEnumerable(Of Bac_sRNA.org.Interaction), repo As Genbank) As IEnumerable(Of FASTA.FastaToken)
+    Public Function GetsiRNATargetSeqs(siRNAtarget As IEnumerable(Of Bac_sRNA.org.Interaction), repo As Genbank) As IEnumerable(Of FASTA.FastaSeq)
         Dim source = siRNAtarget.ToArray
         Dim index As GenbankIndex = repo.Query(source)
 
@@ -150,8 +150,8 @@ Public Module Installer
         Else
             Dim gbkk As GBFF.File = index.Gbk(repo.DIR)
             Dim genes As FASTA.FastaFile = gbkk.ExportGeneNtFasta(geneName:=True)
-            Dim hash As Dictionary(Of String, FASTA.FastaToken) =
-                genes.ToDictionary(Function(x) x.Attributes.First)
+            Dim hash As Dictionary(Of String, FASTA.FastaSeq) =
+                genes.ToDictionary(Function(x) x.Headers.First)
 
             Return From itr As Bac_sRNA.org.Interaction
                    In source

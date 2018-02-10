@@ -182,13 +182,13 @@ Public Module Views
 
     <ExportAPI("TSSs.Export")>
     Public Function ExportTSSs(data As IEnumerable(Of DocumentFormat.Transcript),
-                               NT As FASTA.FastaToken,
+                               NT As FASTA.FastaSeq,
                                Optional offset As Integer = 3, <Parameter("Just.ORF", "Only the TSSs site of ORF will be export.")>
                                Optional ORF As Boolean = True) As FASTA.FastaFile
 
         Dim Source = If(ORF, (From site In data.AsParallel Where Not String.IsNullOrEmpty(site.Synonym) Select site).ToArray, data.ToArray)
         Source = (From site In Source Select site Group site By site.TSSs Into Group).ToArray.Select(Function(obj) obj.Group.First)
-        Dim LQuery = LinqAPI.Exec(Of FASTA.FastaToken) <=
+        Dim LQuery = LinqAPI.Exec(Of FASTA.FastaSeq) <=
             From i
             In Source.Sequence.AsParallel
             Let site = Source(i)
@@ -199,8 +199,8 @@ Public Module Views
                 site.TSSs + offset + 1,
                 Strand:=site.MappingLocation.Strand)
             Let Sequence As String = NT.CutSequenceLinear(loci).SequenceData
-            Select New FASTA.FastaToken With {
-                .Attributes = ID,
+            Select New FASTA.FastaSeq With {
+                .Headers = ID,
                 .SequenceData = Sequence.ToUpper
             }
         Return New FASTA.FastaFile(LQuery)
@@ -208,7 +208,7 @@ Public Module Views
 
     <ExportAPI("TSSs.NT.Frequency")>
     Public Function TSSsNTFrequency(data As IEnumerable(Of DocumentFormat.Transcript),
-                                    NT As FASTA.FastaToken,
+                                    NT As FASTA.FastaSeq,
                                     Optional offset As Integer = 3,
                                     <Parameter("Just.ORF", "Only the TSSs site of ORF will be export.")>
                                     Optional ORF As Boolean = True) As IO.File
@@ -232,7 +232,7 @@ Public Module Views
     ''' <returns></returns>
     <ExportAPI("Upstream.Promoter")>
     Public Function UpstreamPromoter(sites As IEnumerable(Of DocumentFormat.Transcript),
-                                     NT As FASTA.FastaToken,
+                                     NT As FASTA.FastaSeq,
                                      <Parameter("Just.ORF", "Only the TSSs site of ORF will be export.")>
                                      Optional ORF As Boolean = True,
                                      <Parameter("Length.UpStream")>
@@ -242,7 +242,7 @@ Public Module Views
 
         Dim sitesGroup = (From site In sites Select site Group site By site.TSSs Into Group).ToArray
         Dim reader As IPolymerSequenceModel = NT
-        Dim LQuery = LinqAPI.Exec(Of FASTA.FastaToken) <=
+        Dim LQuery = LinqAPI.Exec(Of FASTA.FastaSeq) <=
             From site
             In sitesGroup
             Let site_loci = site.Group.First
@@ -251,8 +251,8 @@ Public Module Views
                 New NucleotideLocation(site_loci.TSSs, site_loci.TSSs + Length, Strands.Reverse))
             Where loci.Normalization.Left > 0
             Let Sequence = reader.CutSequenceLinear(loci)
-            Select New FASTA.FastaToken With {
-                .Attributes = {
+            Select New FASTA.FastaSeq With {
+                .Headers = {
                     "lcl_" & site.TSSs,
                     String.Join(",", site.Group.Select(Of String)(Function(obj) obj.Synonym))
                 },
@@ -275,7 +275,7 @@ Public Module Views
     Public Function UpStreamPromoter(<Parameter("Sites", "Please notice that there is only ORF gene its promoter sequence will be export.")>
                                      sites As Generic.IEnumerable(Of DocumentFormat.Transcript),
                                      <Parameter("DESeq.COGs")> DESeqCOGs As Generic.IEnumerable(Of DESeq2.DESeqCOGs),
-                                     NT As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+                                     NT As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,
                                      <Parameter("Length.UpStream")> Optional Length As Integer = 50,
                                      <Parameter("Dir.Export", "If this directory location is not specified, then the current directory will be used.")>
                                      Optional Export As String = "") As Boolean
@@ -308,13 +308,13 @@ Public Module Views
                       Let sites = TSSs(site)
                       Select (From site_loci As DocumentFormat.Transcript
                                   In sites
-                              Let sequence As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = __Export(site_loci, Length, Reader)
+                              Let sequence As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = __Export(site_loci, Length, Reader)
                               Where Not sequence Is Nothing
                               Select sequence).ToArray).ToArray.Unlist
         Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
     End Function
 
-    Private Function __Export(site_loci As DocumentFormat.Transcript, Length As Integer, reader As IPolymerSequenceModel) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+    Private Function __Export(site_loci As DocumentFormat.Transcript, Length As Integer, reader As IPolymerSequenceModel) As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq
         Dim loci = If(site_loci.MappingLocation.Strand = Strands.Forward,
                           New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(site_loci.TSSs - Length, site_loci.TSSs, SMRUCC.genomics.ComponentModel.Loci.Strands.Forward),
                           New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(site_loci.TSSs, site_loci.TSSs + Length, SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse))
@@ -322,8 +322,8 @@ Public Module Views
             Return Nothing
         End If
         Dim Sequence = reader.CutSequenceLinear(loci)
-        Return New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
-            .Attributes = New String() {$"lcl_{site_loci.TSSs}_{site_loci.Synonym}", site_loci.Synonym},
+        Return New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq With {
+            .Headers = New String() {$"lcl_{site_loci.TSSs}_{site_loci.Synonym}", site_loci.Synonym},
             .SequenceData = Sequence.SequenceData
         }
     End Function

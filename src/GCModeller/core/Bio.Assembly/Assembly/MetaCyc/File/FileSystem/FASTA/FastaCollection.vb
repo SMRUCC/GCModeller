@@ -45,13 +45,13 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         ''' The complete genome sequence of the target species.(目标对象的全基因组序列)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Property Origin As FastaToken
+        Public Property Origin As FastaSeq
         Public Property OriginSourceFile As String
 
-        Public Overloads Shared Function Load(Of T As FastaToken)(FilePath As String, Optional Explicit As Boolean = True) As T()
+        Public Overloads Shared Function Load(Of T As FastaSeq)(FilePath As String, Optional Explicit As Boolean = True) As T()
             Dim FASTA As FastaFile = FastaFile.Read(FilePath, Explicit)
             Dim type As Type = GetType(T)
-            Dim LQuery As T() = (From Fa As FastaToken
+            Dim LQuery As T() = (From Fa As FastaSeq
                                  In FASTA.AsParallel
                                  Select DirectCast(Activator.CreateInstance(type, {Fa}), T)).ToArray
             Return LQuery

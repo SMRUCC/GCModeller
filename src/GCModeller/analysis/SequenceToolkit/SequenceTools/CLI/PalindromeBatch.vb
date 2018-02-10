@@ -48,8 +48,8 @@ Partial Module Utilities
         Dim n As Integer = args("/n")
         Dim all As Boolean = args.GetBoolean("/all")
 
-        For Each fa As FastaToken In New FastaFile([in])
-            If fa.Attributes.Length <> n OrElse fa.ToString.Length > 220 Then
+        For Each fa As FastaSeq In New FastaFile([in])
+            If fa.Headers.Length <> n OrElse fa.ToString.Length > 220 Then
                 Call Console.WriteLine(fa.ToString)
                 If Not all Then  ' 默认是停止于遇到的第一条序列
                     Exit For
@@ -104,7 +104,7 @@ Partial Module Utilities
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Palindrome.Workflow/")
         Dim isBatch As Boolean = args.GetBoolean("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
-        Dim nt As New FASTA.FastaToken([in])
+        Dim nt As New FASTA.FastaSeq([in])
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
 
         Dim mirrorPalindrome As PalindromeLoci() = Topologically.SearchMirrorPalindrome(nt, min, max)   ' 镜像回文

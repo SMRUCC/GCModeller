@@ -53,14 +53,14 @@ Namespace TrackDatas.NtProps
         ''' <returns></returns>
         <ExportAPI("Get.Genes.GC")>
         <Extension>
-        Public Function GetGCContentForGenes(FASTA As IEnumerable(Of FastaToken)) As GeneObjectGC()
+        Public Function GetGCContentForGenes(FASTA As IEnumerable(Of FastaSeq)) As GeneObjectGC()
             Dim LQuery As GeneObjectGC() =
-                LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaToken
+                LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaSeq
                                                  In FASTA
                                                  Let gc As Double = GCContent(fa.SequenceData.ToUpper)
                                                  Let at As Double = 1 - gc
                                                  Select New GeneObjectGC With {
-                                                     .Title = fa.Attributes.First,
+                                                     .Title = fa.Headers.First,
                                                      .value = gc,
                                                      .AT = at,
                                                      .GC_AT = (gc / at)
@@ -69,7 +69,7 @@ Namespace TrackDatas.NtProps
         End Function
 
         <ExportAPI("Get.Genome.GC")>
-        Public Function GetGCContentForGENOME(FASTA As FastaToken, winSize As Integer, steps As Integer) As NASegment_GC()
+        Public Function GetGCContentForGENOME(FASTA As FastaSeq, winSize As Integer, steps As Integer) As NASegment_GC()
             Dim NT As DNA() = NucleicAcid.CreateObject(FASTA.SequenceData).ToArray
             Dim slideWins = NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
             Dim LQuery As List(Of NASegment_GC) = LinqAPI.MakeList(Of NASegment_GC) <=

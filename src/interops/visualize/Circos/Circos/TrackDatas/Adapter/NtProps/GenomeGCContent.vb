@@ -39,7 +39,7 @@ Namespace TrackDatas.NtProps
     ''' </summary>
     Public Class GenomeGCContent : Inherits data(Of ValueTrackData)
 
-        Sub New(nt As FastaToken, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10, Optional avg As Boolean = True)
+        Sub New(nt As FastaSeq, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10, Optional avg As Boolean = True)
             Call MyBase.New(
                 __sourceGC(nt, If(SegmentLength <= 0, 10, SegmentLength), steps, avg))
         End Sub
@@ -52,7 +52,7 @@ Namespace TrackDatas.NtProps
             MyBase.New(data)
         End Sub
 
-        Private Overloads Shared Function __sourceGC(nt As FastaToken, segLen As Integer, steps As Integer, usingAvg As Boolean) As NASegment_GC()
+        Private Overloads Shared Function __sourceGC(nt As FastaSeq, segLen As Integer, steps As Integer, usingAvg As Boolean) As NASegment_GC()
             Dim source As NASegment_GC() = GCProps.GetGCContentForGENOME(
                 nt,
                 winSize:=segLen,

@@ -82,24 +82,24 @@ Partial Module CLI
 
     Private Sub __exportPrimer([in] As String, out As String)
         Dim raw As IEnumerable(Of SSRPrimers) = [in].LoadCsv(Of SSRPrimers)
-        Dim forwards As FastaToken() =
-            LinqAPI.Exec(Of FastaToken) <= From x As SSRPrimers
+        Dim forwards As FastaSeq() =
+            LinqAPI.Exec(Of FastaSeq) <= From x As SSRPrimers
                                            In raw
-                                           Select New FastaToken({x.name}, x.ForwardPrimer)
-        Dim reversed As FastaToken() =
-            LinqAPI.Exec(Of FastaToken) <= From x As SSRPrimers
+                                           Select New FastaSeq({x.name}, x.ForwardPrimer)
+        Dim reversed As FastaSeq() =
+            LinqAPI.Exec(Of FastaSeq) <= From x As SSRPrimers
                                            In raw
-                                           Select New FastaToken({x.name}, x.ReversePrimer)
+                                           Select New FastaSeq({x.name}, x.ReversePrimer)
 
         Call New FastaFile(forwards).Save(out & "/F-" & [in].BaseName & ".fasta")
         Call New FastaFile(reversed).Save(out & "/R-" & [in].BaseName & ".fasta")
 
         Dim interval As String = New String("N"c, 20)
-        Dim primers As FastaToken() =
-            LinqAPI.Exec(Of FastaToken) <= From x As SSRPrimers
+        Dim primers As FastaSeq() =
+            LinqAPI.Exec(Of FastaSeq) <= From x As SSRPrimers
                                            In raw
                                            Let seq As String = x.ForwardPrimer & interval & x.ReversePrimer
-                                           Select New FastaToken({x.name}, seq)
+                                           Select New FastaSeq({x.name}, seq)
 
         Call New FastaFile(primers).Save(out & $"/Primers-{[in].BaseName}.fasta")
     End Sub

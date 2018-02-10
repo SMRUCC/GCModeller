@@ -87,12 +87,12 @@ Public Module ChromesomeMapAPI
 
     <ExportAPI("Gene2Fasta", Info:="Convert the gene annotation data into a fasta sequence.")>
     Public Function WriteGeneFasta(<Parameter("Genes.Anno")> data As IEnumerable(Of PlasmidAnnotation)) As FastaFile
-        Dim falist As IEnumerable(Of FastaToken) =
+        Dim falist As IEnumerable(Of FastaSeq) =
             From gene As PlasmidAnnotation
             In data
             Where Not String.IsNullOrEmpty(gene.GeneNA)
-            Select New FastaToken With {
-                .Attributes = New String() {gene.ORF_ID},
+            Select New FastaSeq With {
+                .Headers = New String() {gene.ORF_ID},
                 .SequenceData = gene.GeneNA
             }
 
@@ -108,7 +108,7 @@ Public Module ChromesomeMapAPI
                Info:="Generates the PTT genome data from the plasmid annotation data. NT.Src parameter is the file path of the original genome fasta source sequence.")>
     Public Function get_Converted(Annotations As IEnumerable(Of PlasmidAnnotation),
                                   <Parameter("NT.Src", "The nt fasta sequence of the plasmid whole genome.")> src As String) As PTTDbLoader
-        Dim LoaderObject = PTTDbLoader.CreateObject(Annotations, FastaToken.Load(src))
+        Dim LoaderObject = PTTDbLoader.CreateObject(Annotations, FastaSeq.Load(src))
         Dim AnnoDict = Annotations.ToDictionary(Function(ann) ann.ORF_ID)
 
         For Each gene As GeneBrief In LoaderObject.Values

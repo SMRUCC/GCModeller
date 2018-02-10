@@ -59,7 +59,7 @@ Public Module ImportsNT
 
         End Try
 
-        For Each seq As FastaToken In StreamIterator.SeqSource(nt, debug:=True)
+        For Each seq As FastaSeq In StreamIterator.SeqSource(nt, debug:=True)
             For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
                 Dim gi& = CLng(Val(h.gi))
 

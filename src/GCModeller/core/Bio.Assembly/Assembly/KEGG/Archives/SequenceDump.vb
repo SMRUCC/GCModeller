@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Assembly.KEGG.Archives
 
-    Public NotInheritable Class SequenceDump : Inherits FastaToken
+    Public NotInheritable Class SequenceDump : Inherits FastaSeq
 
         Public Property SpeciesId As String
         Public Property LocusId As String
@@ -43,9 +43,9 @@ Namespace Assembly.KEGG.Archives
         Protected Friend Sub New()
         End Sub
 
-        Public Shared Function Create(Fasta As FASTA.FastaToken) As KEGG.Archives.SequenceDump
+        Public Shared Function Create(Fasta As FASTA.FastaSeq) As KEGG.Archives.SequenceDump
             Dim Description As SequenceDump = New SequenceDump
-            Dim KEGGDescription As String = Fasta.Attributes.First
+            Dim KEGGDescription As String = Fasta.Headers.First
 
             Dim strTmp As String = KEGGDescription.Split.First
             Dim TokensTmp As String() = strTmp.Split(CChar(":"))
@@ -56,7 +56,7 @@ Namespace Assembly.KEGG.Archives
             Description.CommonName = Mid(KEGGDescription, p).Split(CChar(";")).First
             Description.Description = Mid(KEGGDescription, 2 + p + Len(Description.CommonName)).Trim
             Description.SequenceData = Fasta.SequenceData
-            Description.Attributes = Fasta.Attributes
+            Description.Headers = Fasta.Headers
 
             Return Description
         End Function

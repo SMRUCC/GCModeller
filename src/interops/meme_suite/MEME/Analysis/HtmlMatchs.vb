@@ -98,7 +98,7 @@ Namespace Analysis
                               <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
 
             Dim MEME = MEMEXml.LoadXml(Of XmlOutput.MEME.MEME)().ToMEMEHtml
-            Dim GenomeFasta As FASTA.FastaToken = FASTA.FastaToken.Load(Genome)
+            Dim GenomeFasta As FASTA.FastaSeq = FASTA.FastaSeq.Load(Genome)
             Dim result = __match(MEME, MASTHtml, GenomeFasta, CDSInfo)
             Return result
         End Function
@@ -276,7 +276,7 @@ Namespace Analysis
 
         Private Function __match(meme As MEME.HTML.MEMEHtml,
                                  masthtml As String,
-                                 genome As SequenceModel.FASTA.FastaToken,
+                                 genome As SequenceModel.FASTA.FastaSeq,
                                  cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
             Try
                 Return ____match(meme, masthtml, genome, cdsInfo)
@@ -291,7 +291,7 @@ Namespace Analysis
 
         Private Function ____match(meme As MEME.HTML.MEMEHtml,
                                    masthtml As String,
-                                   genome As SequenceModel.FASTA.FastaToken,
+                                   genome As SequenceModel.FASTA.FastaSeq,
                                    cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
 
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)

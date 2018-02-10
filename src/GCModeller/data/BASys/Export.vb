@@ -79,10 +79,10 @@ Public Module Export
     ''' <returns></returns>
     <Extension>
     Public Function ExportFaa(proj As Project) As FastaFile
-        Dim aa As IEnumerable(Of FastaToken) =
+        Dim aa As IEnumerable(Of FastaSeq) =
             From x As Ecard
             In proj.Ecards
-            Let fa As FastaToken = x.GetProt
+            Let fa As FastaSeq = x.GetProt
             Where Not fa Is Nothing
             Select fa
 
@@ -91,10 +91,10 @@ Public Module Export
 
     <Extension>
     Public Function ExportFfn(proj As Project) As FastaFile
-        Dim nt As IEnumerable(Of FastaToken) =
+        Dim nt As IEnumerable(Of FastaSeq) =
             From x As Ecard
             In proj.Ecards
-            Let fa As FastaToken = x.GetNt
+            Let fa As FastaSeq = x.GetNt
             Where Not fa Is Nothing
             Select fa
 

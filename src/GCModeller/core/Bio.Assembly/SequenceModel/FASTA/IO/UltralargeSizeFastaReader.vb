@@ -41,10 +41,10 @@ Namespace SequenceModel.FASTA
     Public Class UltralargeSizeFastaReader : Inherits ITextFile
 
         Implements IDisposable
-        Implements IEnumerable(Of FastaToken)
-        Implements IList(Of FastaToken)
+        Implements IEnumerable(Of FastaSeq)
+        Implements IList(Of FastaSeq)
 
-        Dim __linkList As LinkedList(Of FastaToken)
+        Dim __linkList As LinkedList(Of FastaSeq)
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}; [{1} records]", FilePath, Count)
@@ -167,7 +167,7 @@ Namespace SequenceModel.FASTA
 
 #Region "Implements Generic.IEnumerable(Of FastaObject)"
 
-        Public Iterator Function GetEnumerator() As IEnumerator(Of FastaToken) Implements IEnumerable(Of FastaToken).GetEnumerator
+        Public Iterator Function GetEnumerator() As IEnumerator(Of FastaSeq) Implements IEnumerable(Of FastaSeq).GetEnumerator
             Dim Target = __linkList.First
 
             For i As Integer = 0 To __linkList.Count - 1
@@ -183,39 +183,39 @@ Namespace SequenceModel.FASTA
 
 #Region "Implements Generic.IList(Of SequenceModel.FASTA.FastaObject)"
 
-        Public Sub Add(item As FastaToken) Implements ICollection(Of FastaToken).Add
-            Call __linkList.AddLast(New LinkedListNode(Of FastaToken)(item))
+        Public Sub Add(item As FastaSeq) Implements ICollection(Of FastaSeq).Add
+            Call __linkList.AddLast(New LinkedListNode(Of FastaSeq)(item))
         End Sub
 
-        Public Sub Clear() Implements ICollection(Of FastaToken).Clear
+        Public Sub Clear() Implements ICollection(Of FastaSeq).Clear
             Call __linkList.Clear()
         End Sub
 
-        Public Function Contains(item As FastaToken) As Boolean Implements ICollection(Of FastaToken).Contains
+        Public Function Contains(item As FastaSeq) As Boolean Implements ICollection(Of FastaSeq).Contains
             Return __linkList.Contains(item)
         End Function
 
-        Public Overloads Sub CopyTo(array() As FastaToken, arrayIndex As Integer) Implements ICollection(Of FastaToken).CopyTo
+        Public Overloads Sub CopyTo(array() As FastaSeq, arrayIndex As Integer) Implements ICollection(Of FastaSeq).CopyTo
             Call __linkList.CopyTo(array, arrayIndex)
         End Sub
 
-        Public ReadOnly Property Count As Integer Implements ICollection(Of FastaToken).Count
+        Public ReadOnly Property Count As Integer Implements ICollection(Of FastaSeq).Count
             Get
                 Return __linkList.Count
             End Get
         End Property
 
-        Public ReadOnly Property IsReadOnly As Boolean Implements ICollection(Of FastaToken).IsReadOnly
+        Public ReadOnly Property IsReadOnly As Boolean Implements ICollection(Of FastaSeq).IsReadOnly
             Get
                 Return False
             End Get
         End Property
 
-        Public Function Remove(item As FastaToken) As Boolean Implements ICollection(Of FastaToken).Remove
+        Public Function Remove(item As FastaSeq) As Boolean Implements ICollection(Of FastaSeq).Remove
             Return __linkList.Remove(item)
         End Function
 
-        Public Function IndexOf(item As FastaToken) As Integer Implements IList(Of FastaToken).IndexOf
+        Public Function IndexOf(item As FastaSeq) As Integer Implements IList(Of FastaSeq).IndexOf
             Dim Target = __linkList.First
 
             For i As Integer = 0 To __linkList.Count - 1
@@ -228,14 +228,14 @@ Namespace SequenceModel.FASTA
             Return -1
         End Function
 
-        Public Sub Insert(index As Integer, item As FastaToken) Implements IList(Of FastaToken).Insert
+        Public Sub Insert(index As Integer, item As FastaSeq) Implements IList(Of FastaSeq).Insert
             Dim Target = __linkList.First
 
             For i As Integer = 0 To index
                 Target = Target.Next
             Next
 
-            Call __linkList.AddBefore(Target, New LinkedListNode(Of FastaToken)(item))
+            Call __linkList.AddBefore(Target, New LinkedListNode(Of FastaSeq)(item))
         End Sub
 
         ''' <summary>
@@ -245,7 +245,7 @@ Namespace SequenceModel.FASTA
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Default Public Property Item(index As Integer) As FastaToken Implements IList(Of FastaToken).Item
+        Default Public Property Item(index As Integer) As FastaSeq Implements IList(Of FastaSeq).Item
             Get
                 Dim Target = __linkList.First
 
@@ -255,7 +255,7 @@ Namespace SequenceModel.FASTA
 
                 Return Target.Value
             End Get
-            Set(value As FastaToken)
+            Set(value As FastaSeq)
                 Dim Target = __linkList.First
 
                 For i As Integer = 0 To index
@@ -266,7 +266,7 @@ Namespace SequenceModel.FASTA
             End Set
         End Property
 
-        Public Sub RemoveAt(index As Integer) Implements IList(Of FastaToken).RemoveAt
+        Public Sub RemoveAt(index As Integer) Implements IList(Of FastaSeq).RemoveAt
             Dim Target = __linkList.First
 
             For i As Integer = 0 To index

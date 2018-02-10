@@ -867,7 +867,7 @@ SET_END:    Dim ends = i
     <ExportAPI("Plots.GC%", Info:="Adds the GC% content on the circos plots.")>
     Public Function CreateGCContent(<Parameter("NT.Fasta",
                                                "The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow")>
-                                    nt As FastaToken, winSize%, steps%) As NtProps.GenomeGCContent
+                                    nt As FastaSeq, winSize%, steps%) As NtProps.GenomeGCContent
         Return New NtProps.GenomeGCContent(nt, winSize, steps)
     End Function
 
@@ -976,7 +976,7 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Plots.Genome_Circle.From.GenbankDump",
                Info:="Creates the circos outside gene circle from the export csv data of the genbank database file.")>
-    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneDumpInfo), genome As FastaToken, Optional defaultColor As String = "blue") As PTTMarks
+    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneDumpInfo), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
     End Function
@@ -1050,7 +1050,7 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Set.Property.Basic")>
-    Public Function SetBasicProperty(doc As Configurations.Circos, nt As FASTA.FastaToken, Optional loophole As Integer = 0) As Boolean
+    Public Function SetBasicProperty(doc As Configurations.Circos, nt As FASTA.FastaSeq, Optional loophole As Integer = 0) As Boolean
         Return SetBasicProperty(doc, nt, Nothing, loophole)
     End Function
 
@@ -1064,7 +1064,7 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Skeleton.With.Bands")>
     Public Function SetBasicProperty(circos As Configurations.Circos,
-                                     NT As FastaToken,
+                                     NT As FastaSeq,
                                      bands As IEnumerable(Of NamedTuple(Of String)),
                                      Optional loopHole As Integer = 0) As Boolean
         Call circos.Includes.Add(New Ticks(Circos:=circos))
@@ -1102,7 +1102,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Skeleton.From.Door", Info:="Creates the basic Karyotype document for the circos plot.")>
     Public Function SkeletonFromDoor(doc As Configurations.Circos,
-                                     NT As FastaToken,
+                                     NT As FastaSeq,
                                      <Parameter("Door.File", "The file path of the door operon prediction data.")> DOOR As String,
                                      Optional loophole As Integer = 0) As Boolean
         Dim LQuery = (From Operon As Operon In DOOR_API.Load(DOOR)

@@ -50,7 +50,7 @@ Namespace Workflows.PromoterParser
     Public Module GenePromoterRegions
 
         <ExportAPI("Promoter.New", Info:="Create a new promoter sequence parser.")>
-        Public Function CreateObject(Fasta As FASTA.FastaToken, PTT As PTT) As PromoterRegionParser
+        Public Function CreateObject(Fasta As FASTA.FastaSeq, PTT As PTT) As PromoterRegionParser
             Return New PromoterRegionParser(Fasta, PTT)
         End Function
 
@@ -80,7 +80,7 @@ Namespace Workflows.PromoterParser
             Dim Genes As String() = (From gene As String
                                      In locus
                                      Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
-            Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
+            Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaSeq), len As Integer)
                                 Dim Path As String
                                 If String.IsNullOrEmpty(tag) Then
                                     Path = $"{EXPORT}/{len}bp.fasta"
@@ -117,7 +117,7 @@ Namespace Workflows.PromoterParser
 
             For Each [mod] As bGetObject.Module In Modules
                 Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
-                Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
+                Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaSeq), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{len}/{[mod].EntryId}.fasta"
                                     Call New FASTA.FastaFile(Genes.Select(Function(id) src(id))) _
                                         .Save(-1, Path, Encoding.ASCII)
@@ -167,7 +167,7 @@ Namespace Workflows.PromoterParser
             For Each [mod] As bGetObject.Pathway In modules
                 Dim genes$() = list([mod]).IteratesALL.Distinct.ToArray
                 Dim saveFasta =
-                    Sub(src As Dictionary(Of String, FASTA.FastaToken), len%)
+                    Sub(src As Dictionary(Of String, FASTA.FastaSeq), len%)
                         Dim path As String = $"{EXPORT}/{prefix}-{len}/{[mod].EntryId}.fasta"
                         ' 由于会存在有RNA基因，所以这里需要额外注意一下
                         Dim seqs = From id As String

@@ -74,7 +74,7 @@ Partial Module CLI
         Dim operons As RegPreciseOperon() = [in].LoadCsv(Of RegPreciseOperon)
         Dim PTTDb As New PTTDbLoader(PTT_DIR, True)
         Dim PTT As PTT = PTTDb.ORF_PTT
-        Dim fa As FastaToken = PTTDb.GenomeFasta
+        Dim fa As FastaSeq = PTTDb.GenomeFasta
         Dim opr As String = args("/door")
         Dim Parser As New PromoterRegionParser(fa, PTTDb.ORF_PTT)
 
@@ -136,19 +136,19 @@ Partial Module CLI
         For Each operon As RegPreciseOperon In operons
             Dim locus As String = operon.Operon.__firstLocus(PTT)  ' 得到当前的这个operon的第一个基因
             Dim uid As String = $"{locus}|{operon.TF_trace}|{operon.source}"
-            Dim fa As New FastaToken({uid}, Parser.GetRegionCollectionByLength(500)(locus).SequenceData)
+            Dim fa As New FastaSeq({uid}, Parser.GetRegionCollectionByLength(500)(locus).SequenceData)
             Call fasta.Add(fa)
         Next
 
-        fasta = New FastaFile(From fa As FastaToken
+        fasta = New FastaFile(From fa As FastaSeq
                               In fasta
                               Select fa
-                              Order By fa.Attributes.First Ascending)
+                              Order By fa.Headers.First Ascending)
         Return fasta.Save((EXPORT.ParentPath & "/" & EXPORT.BaseName).TrimSuffix & ".CRON.fasta")
     End Function
 
     <Extension>
-    Private Sub __save(source As Dictionary(Of String, FastaToken), locus As String(), EXPORT As String)
+    Private Sub __save(source As Dictionary(Of String, FastaSeq), locus As String(), EXPORT As String)
         Dim fasta As New FastaFile(From sid As String In locus Where source.ContainsKey(sid) Select source(sid))
         Call fasta.Save(EXPORT, Encodings.ASCII)
     End Sub
@@ -226,7 +226,7 @@ Partial Module CLI
             Dim fa = (From loci In locis
                       Let attrs As String() = {loci.x.ORF, loci.x.MotifFamily, loci.x.Sequence, loci.motifPos.ToString}
                       Let site As String = parser.CutSequenceLinear(loci.motifPos).SequenceData
-                      Let fasta = New FastaToken(attrs, site)
+                      Let fasta = New FastaSeq(attrs, site)
                       Select uid = fasta.Title,
                           fasta
                       Group By uid Into Group) _

@@ -76,8 +76,8 @@ Imports SMRUCC.genomics.SequenceModel
                 Dim fasta As FASTA.FastaFile = gb.ExportProteins_Short
 
                 If trim Then
-                    Dim hash As Dictionary(Of String, FASTA.FastaToken) =
-                        fasta.ToDictionary(Function(x) x.Attributes.First.Split.First)
+                    Dim hash As Dictionary(Of String, FASTA.FastaSeq) =
+                        fasta.ToDictionary(Function(x) x.Headers.First.Split.First)
 
                     fasta = New FASTA.FastaFile(From locus As String
                                                 In query.locusId
@@ -134,18 +134,18 @@ Imports SMRUCC.genomics.SequenceModel
         Dim query As String = args("/query")
         Dim out As String = args("/out")
         Dim locus As String() = query.ReadAllLines.Skip(2).ToArray
-        Dim fasta As New List(Of FASTA.FastaToken)
+        Dim fasta As New List(Of FASTA.FastaSeq)
 
         For Each gbk As String In FileIO.FileSystem.GetFiles(gbkDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.gbk", "*.gb")
             Dim gb As GBFF.File = GBFF.File.Load(gbk)
-            Dim prot = (From x As FASTA.FastaToken In gb.ExportProteins_Short(True)
+            Dim prot = (From x As FASTA.FastaSeq In gb.ExportProteins_Short(True)
                         Select x
-                        Group x By x.Attributes.First Into Group) _
+                        Group x By x.Headers.First Into Group) _
                              .ToDictionary(Function(x) x.First,
                                            Function(x) x.Group.First)
             For Each id As String In locus
                 If prot.ContainsKey(id) Then
-                    Dim fa As FASTA.FastaToken = prot(id)
+                    Dim fa As FASTA.FastaSeq = prot(id)
                     Call fa.Save(query.ParentPath & $"/{id}.fasta", Encodings.ASCII)
                     fasta += fa
                 End If
@@ -195,8 +195,8 @@ Imports SMRUCC.genomics.SequenceModel
 
             Dim fastas As IEnumerable(Of String) = ls - l - wildcards("*.fasta", "*.fas", "*.fa", "*.fsa") <= DIR
 
-            For Each fa As FASTA.FastaToken In fastas.Select(AddressOf FASTA.FastaToken.Load)
-                If fa.Attributes.First.Split(":"c).First = sp Then
+            For Each fa As FASTA.FastaSeq In fastas.Select(AddressOf FASTA.FastaSeq.Load)
+                If fa.Headers.First.Split(":"c).First = sp Then
                     Dim fas As FASTA.FastaFile = FASTA.Reflection.Merge(DIR, trim:=True, rawTitle:=False)
                     Dim path As String = $"{out}/{name.Replace(" ", "_")}.fasta"   ' blast 程序的序列文件名之中不可以有空格
 

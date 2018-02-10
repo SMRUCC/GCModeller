@@ -134,7 +134,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <remarks></remarks>
         Public Function CopyGenomeSequence(source As String, copyTo As String) As Integer
             Dim LQuery = (From Path In source.LoadSourceEntryList("*.fna").AsParallel
-                          Let Fasta = New TabularFormat.FastaObjects.GenomeSequence(FastaToken.Load(Path.Value))
+                          Let Fasta = New TabularFormat.FastaObjects.GenomeSequence(FastaSeq.Load(Path.Value))
                           Select Fasta.SaveBriefData(copyTo & "/" & Path.Key & ".fasta")).ToArray
             Return LQuery.Count
         End Function
@@ -294,9 +294,9 @@ Namespace Assembly.NCBI.GenBank
                                 Let Entry = gbEntryBrief.ConvertObject(Of gbEntryBrief)(GBKFF)
                                 Let FastaDump As FASTA.FastaFile =
                                     If(FastaWithAnnotation, __exportWithAnnotation(GenesTempChunk), __exportNoAnnotation(GenesTempChunk))
-                                Let Plasmid As FASTA.FastaToken =
-                                    New FASTA.FastaToken With {
-                                        .Attributes = New String() {Entry.AccessionID},
+                                Let Plasmid As FASTA.FastaSeq =
+                                    New FASTA.FastaSeq With {
+                                        .Headers = New String() {Entry.AccessionID},
                                         .SequenceData = GBKFF.Origin.SequenceData.ToUpper
                                     }
                                 Let reader As IPolymerSequenceModel = GBKFF.Origin
@@ -304,8 +304,8 @@ Namespace Assembly.NCBI.GenBank
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
                                                            Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
-                                                           Select New FASTA.FastaToken With {
-                                                               .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
+                                                           Select New FASTA.FastaSeq With {
+                                                               .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
                                                            }).ToArray, FASTA.FastaFile)
                                 Select GBKFF,
@@ -441,8 +441,8 @@ Namespace Assembly.NCBI.GenBank
                     Call FastaFile.AddRange(FastaDump)
                 End If
 
-                Dim Plasmid As New FASTA.FastaToken With {
-                        .Attributes = New String() {Entry.AccessionID & "_" & Entry.PlasmidID.Replace("-", "_")},
+                Dim Plasmid As New FASTA.FastaSeq With {
+                        .Headers = New String() {Entry.AccessionID & "_" & Entry.PlasmidID.Replace("-", "_")},
                         .SequenceData = gb.Origin.SequenceData.ToUpper
                 }
 
@@ -454,8 +454,8 @@ Namespace Assembly.NCBI.GenBank
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
                                            Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
-                                           Select New FASTA.FastaToken With {
-                                               .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
+                                           Select New FASTA.FastaSeq With {
+                                               .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
                                            }).ToArray, FASTA.FastaFile)
 
@@ -481,12 +481,12 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         Private Function __exportNoAnnotation(data As GeneDumpInfo()) As FASTA.FastaFile
-            Dim LQuery As IEnumerable(Of FASTA.FastaToken) =
+            Dim LQuery As IEnumerable(Of FASTA.FastaSeq) =
                 From gene As GeneDumpInfo
                 In data.AsParallel
-                Let fa As FASTA.FastaToken =
-                    New FASTA.FastaToken With {
-                        .Attributes = New String() {gene.LocusID},
+                Let fa As FASTA.FastaSeq =
+                    New FASTA.FastaSeq With {
+                        .Headers = New String() {gene.LocusID},
                         .SequenceData = gene.Translation
                     }
                 Select fa
@@ -497,8 +497,8 @@ Namespace Assembly.NCBI.GenBank
             Dim LQuery = From gene As GeneDumpInfo
                          In data.AsParallel
                          Let attrs As String() = {gene.LocusID, gene.GeneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
-                         Select New FASTA.FastaToken With {
-                             .Attributes = attrs,
+                         Select New FASTA.FastaSeq With {
+                             .Headers = attrs,
                              .SequenceData = gene.Translation
                          }
             Return New FASTA.FastaFile(LQuery)
@@ -523,7 +523,7 @@ Namespace Assembly.NCBI.GenBank
         <Extension>
         Public Function ExportGeneNtFasta(gb As GBFF.File, Optional geneName As Boolean = False) As FASTA.FastaFile
             Dim reader As IPolymerSequenceModel = gb.Origin
-            Dim list As New List(Of FASTA.FastaToken)
+            Dim list As New List(Of FASTA.FastaSeq)
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
             Dim Sequence As String
@@ -554,7 +554,7 @@ Namespace Assembly.NCBI.GenBank
                     Sequence = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
                     Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
 
-                    list += New FastaToken(attrs, Sequence)
+                    list += New FastaSeq(attrs, Sequence)
                 Next
             Catch ex As Exception
                 ex = New Exception(gb.ToString, ex)

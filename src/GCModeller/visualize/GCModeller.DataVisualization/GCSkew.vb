@@ -72,21 +72,21 @@ Public Module GCSkew
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("GC.Content.Drawing")>
-    Public Function InvokeDrawingGCContent(source As Image, nt As FASTA.FastaToken, Location As Point, Width As Integer) As Image
+    Public Function InvokeDrawingGCContent(source As Image, nt As FASTA.FastaSeq, Location As Point, Width As Integer) As Image
         Dim GCContent As Double() = NucleotideModels.GCContent(nt, WindowSize, Steps, True)
         Return DrawingCurve(source, GCContent, Location, New Size(Width, PlotsHeight)) ', loci:=__getLoci(nt))
     End Function
 
-    Private Function __getLoci(nt As FASTA.FastaToken) As Loci.Location
-        If nt.Attributes.Length < 3 Then
+    Private Function __getLoci(nt As FASTA.FastaSeq) As Loci.Location
+        If nt.Headers.Length < 3 Then
             Dim List As New List(Of String)
-            Call List.AddRange(nt.Attributes)
+            Call List.AddRange(nt.Headers)
             Call List.Add("")
             Call List.Add("")
-            nt.Attributes = List.ToArray
+            nt.Headers = List.ToArray
         End If
 
-        Dim Loci = New Loci.Location(Val(nt.Attributes(1)), Val(nt.Attributes(2)))
+        Dim Loci = New Loci.Location(Val(nt.Headers(1)), Val(nt.Headers(2)))
         If Loci.Right = 0 Then
             Loci.Right = nt.Length
         End If
@@ -135,7 +135,7 @@ Public Module GCSkew
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("GCSkew.Drawing")>
-    Public Function InvokeDrawing(source As Image, nt As FASTA.FastaToken, Location As Point, Width As Integer) As Image
+    Public Function InvokeDrawing(source As Image, nt As FASTA.FastaSeq, Location As Point, Width As Integer) As Image
         ' 绘制gc偏移曲线
         Dim Skew As Double() = NucleotideModels.GCSkew(nt, WindowSize, Steps, True)
         Return DrawingCurve(source,

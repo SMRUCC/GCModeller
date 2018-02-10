@@ -630,9 +630,9 @@ Partial Module CLI
                     .lTokens _
                     .JoinBy("") _
                     .Replace(" ", "")
-                Dim fa As New FastaToken With {
+                Dim fa As New FastaSeq With {
                     .SequenceData = seq,
-                    .Attributes = {prot.accessions.First & " " & prot.proteinFullName}
+                    .Headers = {prot.accessions.First & " " & prot.proteinFullName}
                 }
 
                 Call writer.WriteLine(fa.GenerateDocument(120))

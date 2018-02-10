@@ -100,7 +100,7 @@ Namespace Programs
                 Return $"{uid}::{LocusId}"
             End Get
         End Property
-        <Ignored> Public ReadOnly Property Attributes As String() Implements I_FastaProvider.Attributes
+        <Ignored> Public ReadOnly Property Headers As String() Implements I_FastaProvider.Headers
             Get
                 Return {Title}
             End Get
