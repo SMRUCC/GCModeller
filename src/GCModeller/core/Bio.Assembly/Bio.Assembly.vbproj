@@ -580,6 +580,7 @@
     <Compile Include="ContextModel\Extensions.vb" />
     <Compile Include="ContextModel\Operon\FeatureScores.vb" />
     <Compile Include="ContextModel\Promoter\Extensions.vb" />
+    <Compile Include="ContextModel\Promoter\PrefixLength.vb" />
     <Compile Include="ContextModel\Promoter\PromoterRegionParser.vb" />
     <Compile Include="LICENSE.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\DBLink.vb" />

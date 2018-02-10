@@ -92,7 +92,7 @@ Namespace Workflows.PromoterParser
                                     .Save(-1, Path, Encodings.ASCII)
                             End Sub
 
-            For Each l% In PromoterRegionParser.PrefixLength
+            For Each l% In PromoterRegionParser.PrefixLengths
                 Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
             Next
         End Sub
@@ -123,7 +123,7 @@ Namespace Workflows.PromoterParser
                                         .Save(-1, Path, Encoding.ASCII)
                                 End Sub
 
-                For Each l% In PromoterRegionParser.PrefixLength
+                For Each l% In PromoterRegionParser.PrefixLengths
                     Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
@@ -178,7 +178,7 @@ Namespace Workflows.PromoterParser
                         Call New FASTA.FastaFile(seqs).Save(-1, path, Encoding.ASCII)
                     End Sub
 
-                For Each l% In PromoterRegionParser.PrefixLength
+                For Each l% In PromoterRegionParser.PrefixLengths
                     Call saveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
@@ -262,7 +262,7 @@ Namespace Workflows.PromoterParser
             End If
 
 
-            For Each Length As Integer In PromoterRegionParser.PrefixLength
+            For Each Length As Integer In PromoterRegionParser.PrefixLengths
 
                 Call Console.WriteLine($" >> {Length} bp ......")
 

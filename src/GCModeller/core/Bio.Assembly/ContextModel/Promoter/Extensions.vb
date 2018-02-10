@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -8,6 +9,34 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Namespace ContextModel.Promoter
 
     Public Module Extensions
+
+        ''' <summary>
+        ''' Read from <see cref="PrefixLength"/> members.
+        ''' </summary>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetPrefixLengths() As IEnumerable(Of Integer)
+            Return From L In GetType(PrefixLength).GetEnumValues Select CInt(L)
+        End Function
+
+        ''' <summary>
+        ''' 解析出所有基因前面的序列片段
+        ''' </summary>
+        ''' <param name="context"></param>
+        ''' <param name="nt"></param>
+        ''' <param name="length%"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ParseUpstreamByLength(context As PTT, nt As IPolymerSequenceModel, length%) As Dictionary(Of String, FastaSeq)
+            Dim genes = context.GeneObjects
+            Dim parser = From gene As GeneBrief
+                         In genes.AsParallel
+                         Let upstream = gene.GetUpstreamSeq(nt, length)
+                         Select gene.Synonym,
+                             promoter = upstream
+            Dim table = parser.ToDictionary(Function(g) g.Synonym, Function(g) g.promoter)
+            Return table
+        End Function
 
         ''' <summary>
         ''' Get upstream nt sequence in a specific length for target gene.

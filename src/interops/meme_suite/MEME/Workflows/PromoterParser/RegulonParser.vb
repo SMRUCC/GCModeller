@@ -60,7 +60,7 @@ Namespace Workflows.PromoterParser
         End Function
 
         Public Function RegulonParser(genome As Regprecise.BacteriaRegulome, outDIR As String) As Boolean
-            For Each len As Integer In PromoterRegionParser.PrefixLength
+            For Each len As Integer In PromoterRegionParser.PrefixLengths
                 For Each regulon In genome.regulons.regulators
                     Dim fa = RegulonParser(regulon, len)
                     Dim path As String = $"{outDIR}/{len}/{regulon.LocusId.NormalizePathString(True)}.{regulon.locus_tag.text.NormalizePathString(True)}.fasta"
