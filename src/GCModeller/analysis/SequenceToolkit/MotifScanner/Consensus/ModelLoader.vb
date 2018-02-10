@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.NCBI
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -41,9 +43,16 @@ Public Module ModelLoader
 
             Yield New genomic With {
                 .nt = nt,
-                .organism = genome.org
+                .organism = genome.org,
+                .context = gb.GbffToPTT(ORF:=True)
             }
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function GetUpstreams(genome As genomic, length%) As Dictionary(Of String, FastaSeq)
+        Return New PromoterRegionParser(genome.nt, PTT:=genome.context).GetRegionCollectionByLength(length)
     End Function
 End Module
 
@@ -51,6 +60,7 @@ Public Structure genomic
 
     Dim nt As FastaSeq
     Dim organism As OrganismModel
+    Dim context As PTT
 
     Public Overrides Function ToString() As String
         Return organism.ToString
