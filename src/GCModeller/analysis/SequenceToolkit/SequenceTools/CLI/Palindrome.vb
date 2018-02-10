@@ -381,7 +381,7 @@ Partial Module Utilities
             }
         End If
 
-        Dim search As New Topologically.Imperfect(seq, min, max, cutoff, maxDist, partitions)
+        Dim search As New Imperfect(seq, min, max, cutoff, maxDist, partitions)
         Call search.DoSearch()
         Return search.ResultSet.SaveTo(out)
     End Function

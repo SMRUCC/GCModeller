@@ -29,7 +29,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports Microsoft.VisualBasic.Text.Search
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
@@ -83,31 +82,36 @@ Namespace Topologically
 
         Protected Overrides Sub DoSearch(seed As Seed)
             Dim palLoci As String = PalindromeLoci.GetPalindrome(seed.Sequence)
-            Dim pali As Map(Of TextSegment, DistResult)() =
-                _index.Found(seed.Sequence, _cutoff, _partitions)
+            Dim pali As Map(Of TextSegment, DistResult)() = _index.Found(seed.Sequence, _cutoff, _partitions)
             Dim segment As String = seed.Sequence
             Dim locis%() = FindLocation(seq.SequenceData, segment)
-            Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) <=
-                From loci As Map(Of TextSegment, DistResult)
-                In pali.AsParallel
-                Let palLeft As Integer = loci.Key.Index
-                Let lev As DistResult = loci.Maps
-                Select From left As Integer
-                       In locis
-                       Let d As Integer = palLeft - left
-                       Where d > 0 AndAlso d <= _maxDist
-                       Select New ImperfectPalindrome With {
-                           .Site = segment,
-                           .Left = left,
-                           .Palindrome = loci.Key.Segment,
-                           .Paloci = loci.Key.Index,
-                           .Distance = lev.Distance,
-                           .Evolr = lev.DistEdits,
-                           .Matches = lev.Matches,
-                           .Score = lev.Score
-                       }
+            Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) _
+ _
+                () <= From loci As Map(Of TextSegment, DistResult)
+                      In pali.AsParallel
+                      Let palLeft As Integer = loci.Key.Index
+                      Select createOutput(locis, palLeft, segment, loci)
 
             Call _resultSet.AddRange(imperfects)
         End Sub
+
+        Private Function createOutput(locis%(), palLeft%, segment$, loci As Map(Of TextSegment, DistResult)) As IEnumerable(Of ImperfectPalindrome)
+            Dim levenshtein As DistResult = loci.Maps
+
+            Return From left As Integer
+                   In locis
+                   Let d As Integer = palLeft - left
+                   Where d > 0 AndAlso d <= _maxDist
+                   Select New ImperfectPalindrome With {
+                       .Site = segment,
+                       .Left = left,
+                       .Palindrome = loci.Key.Segment,
+                       .Paloci = loci.Key.Index,
+                       .Distance = levenshtein.Distance,
+                       .Evolr = levenshtein.DistEdits,
+                       .Matches = levenshtein.Matches,
+                       .Score = levenshtein.Score
+                   }
+        End Function
     End Class
 End Namespace
