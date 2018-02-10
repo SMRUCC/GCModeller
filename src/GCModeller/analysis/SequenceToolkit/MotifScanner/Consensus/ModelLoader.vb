@@ -1,6 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Data
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.NCBI
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module ModelLoader
 
@@ -26,4 +29,30 @@ Public Module ModelLoader
                               Return org.GetGenbankSource
                           End Function)
     End Function
+
+    Public Iterator Function LoadGenomic(assembly$, kegg$) As IEnumerable(Of genomic)
+        Dim models = LoadKEGGModels(repo:=kegg)
+
+        For Each genome As (name$, org As OrganismModel) In models.EnumerateTuples
+            Dim name$ = genome.name
+            Dim search$ = RepositoryExtensions.GetAssemblyPath(assembly, name)
+            Dim gb As GBFF.File = RepositoryExtensions.GetGenomeData(gb:=search)
+            Dim nt As FastaSeq = gb.Origin.ToFasta
+
+            Yield New genomic With {
+                .nt = nt,
+                .organism = genome.org
+            }
+        Next
+    End Function
 End Module
+
+Public Structure genomic
+
+    Dim nt As FastaSeq
+    Dim organism As OrganismModel
+
+    Public Overrides Function ToString() As String
+        Return organism.ToString
+    End Function
+End Structure

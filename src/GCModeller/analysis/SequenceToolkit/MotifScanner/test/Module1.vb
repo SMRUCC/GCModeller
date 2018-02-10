@@ -9,6 +9,7 @@ Module Module1
 
     Sub loadTest()
         Dim orgs = "P:\XCC\models".LoadKEGGModels
+        Dim models = ModelLoader.LoadGenomic("P:\XCC\assembly", "P:\XCC\models").ToArray
 
         Pause()
     End Sub
