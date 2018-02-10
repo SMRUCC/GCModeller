@@ -105,7 +105,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MotifScanner.vb" />
+    <Compile Include="ConsensusScanner.vb" />
+    <Compile Include="PatternScanner.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
