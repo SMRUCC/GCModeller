@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace NCBI
 
@@ -16,6 +17,11 @@ Namespace NCBI
                            Return InStr(g.Definition.Value, "plasmid", CompareMethod.Text) = 0
                        End Function) _
                 .FirstOrDefault
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetAssemblyPath(repo$, assembly$) As String
+            Return $"{repo}/{assembly}/{assembly}_genomic.gbff"
         End Function
     End Module
 End Namespace
