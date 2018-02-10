@@ -354,6 +354,12 @@ Partial Module Utilities
 
     <ExportAPI("--Palindrome.Imperfects")>
     <Usage("--Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]")>
+    <Argument("/in", False,
+              CLITypes.File,
+              PipelineTypes.std_in,
+              AcceptTypes:={GetType(FastaSeq)},
+              Extensions:="*.fasta, *.fsa, *.fa",
+              Description:="This parameter is a file path of a nt sequence in fasta format, or you can directly input the sequence data from commandline ``std_in``.")>
     <Description("Gets all partly matched palindrome sites.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function ImperfectPalindrome(args As CommandLine) As Integer
@@ -361,21 +367,21 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", input.TrimSuffix & ".csv")
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim inFasta As FastaSeq
+        Dim seq As FastaSeq
         Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
         Dim partitions As Integer = args.GetValue("/partitions", -1)
 
         If input.FileExists Then
-            inFasta = FastaSeq.Load(input)
+            seq = FastaSeq.Load(input)
         Else
-            inFasta = New FastaSeq With {
+            seq = New FastaSeq With {
                 .SequenceData = input,
                 .Headers = {"auto-generated"}
             }
         End If
 
-        Dim search As New Topologically.Imperfect(inFasta, min, max, cutoff, maxDist, partitions)
+        Dim search As New Topologically.Imperfect(seq, min, max, cutoff, maxDist, partitions)
         Call search.DoSearch()
         Return search.ResultSet.SaveTo(out)
     End Function
