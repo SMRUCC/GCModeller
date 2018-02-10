@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ccc6dc8033121d8b81edc400bfd79930, ..\interops\meme_suite\MEME\Workflows\PromoterParser\GenePromoterRegions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -40,8 +40,8 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.ContextModel
-Imports SMRUCC.genomics.ContextModel.PromoterRegionParser
+Imports SMRUCC.genomics.ContextModel.Promoter
+Imports SMRUCC.genomics.ContextModel.Promoter.PromoterRegionParser
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
 
@@ -262,31 +262,31 @@ Namespace Workflows.PromoterParser
             End If
 
 
-            For Each Length As Integer In {150, 200, 250, 300, 350, 400, 450, 500}
+            For Each Length As Integer In PromoterRegionParser.PrefixLength
 
                 Call Console.WriteLine($" >> {Length} bp ......")
 
                 '首先解析出总的
-                Call GetSequenceById(Promoter, idList:=DiffEntiredIDList, Length:=Length).Save($"{EXPORT}/Diff/Entired_{Length}.fasta")
-                Call GetSequenceById(Promoter, idList:=DiffUpIDList, Length:=Length).Save($"{EXPORT}/Diff/Up_{Length}.fasta")
-                Call GetSequenceById(Promoter, idList:=DiffDownIDList, Length:=Length).Save($"{EXPORT}/Diff/Down_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=DiffEntiredIDList, length:=Length).Save($"{EXPORT}/Diff/Entired_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=DiffUpIDList, length:=Length).Save($"{EXPORT}/Diff/Up_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=DiffDownIDList, length:=Length).Save($"{EXPORT}/Diff/Down_{Length}.fasta")
 
                 For Each Level In DiffUpWithFoldChangeLevels
-                    Call GetSequenceById(Promoter, idList:=Level.Value, Length:=Length).Save($"{EXPORT}/Diff/DiffUpWithFoldChangeLevels_{Level.Key}_{Length}.fasta")
+                    Call GetSequenceById(Promoter, geneIDs:=Level.Value, length:=Length).Save($"{EXPORT}/Diff/DiffUpWithFoldChangeLevels_{Level.Key}_{Length}.fasta")
                 Next
 
                 For Each Level In DiffDownWithFoldChnageLevels
-                    Call GetSequenceById(Promoter, idList:=Level.Value, Length:=Length).Save($"{EXPORT}/Diff/DiffDownWithFoldChnageLevels_{Level.Key}_{Length}.fasta")
+                    Call GetSequenceById(Promoter, geneIDs:=Level.Value, length:=Length).Save($"{EXPORT}/Diff/DiffDownWithFoldChnageLevels_{Level.Key}_{Length}.fasta")
                 Next
 
 
                 '没有差异性的
-                Call GetSequenceById(Promoter, idList:=IdenticalEntiredIDList, Length:=Length).Save($"{EXPORT}/Identical/Entired_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=IdenticalEntiredIDList, length:=Length).Save($"{EXPORT}/Identical/Entired_{Length}.fasta")
 
-                Call GetSequenceById(Promoter, idList:=IdenticalHighLevel, Length:=Length).Save($"{EXPORT}/Identical/IdenticalHighLevel_{Length}.fasta")
-                Call GetSequenceById(Promoter, idList:=IdenticalLowLevel, Length:=Length).Save($"{EXPORT}/Identical/IdenticalLowLevel_{Length}.fasta")
-                Call GetSequenceById(Promoter, idList:=IdenticalUltraLowlevel, Length:=Length).Save($"{EXPORT}/Identical/IdenticalUltraLowlevel_{Length}.fasta")
-                Call GetSequenceById(Promoter, idList:=IdenticalNormalLevel, Length:=Length).Save($"{EXPORT}/Identical/IdenticalNormalLevel_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=IdenticalHighLevel, length:=Length).Save($"{EXPORT}/Identical/IdenticalHighLevel_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=IdenticalLowLevel, length:=Length).Save($"{EXPORT}/Identical/IdenticalLowLevel_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=IdenticalUltraLowlevel, length:=Length).Save($"{EXPORT}/Identical/IdenticalUltraLowlevel_{Length}.fasta")
+                Call GetSequenceById(Promoter, geneIDs:=IdenticalNormalLevel, length:=Length).Save($"{EXPORT}/Identical/IdenticalNormalLevel_{Length}.fasta")
             Next
 
             Dim Statics = LinqAPI.MakeList(Of GeneIDList) <= {

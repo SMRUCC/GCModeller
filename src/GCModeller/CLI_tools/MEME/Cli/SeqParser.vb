@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.NCBI
 Imports SMRUCC.genomics.Data.Regprecise
