@@ -43,13 +43,13 @@ Namespace SequenceModel.FASTA
     ''' <summary>
     ''' The FASTA format file of a bimolecular sequence.(Notice that this file is 
     ''' only contains on sequence.)
-    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，请复写<see cref="FastaToken.ToString"></see>方法)
+    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，请复写<see cref="FastaSeq.ToString"></see>方法)
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
     <Package("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
-    <ActiveViews(FastaToken.SampleView, type:="bash")>
-    Public Class FastaToken : Inherits ISequenceModel
+    <ActiveViews(FastaSeq.SampleView, type:="bash")>
+    Public Class FastaSeq : Inherits ISequenceModel
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
         Implements ISaveHandle
@@ -74,7 +74,7 @@ AAGCGAACAAATGTTCTATA"
         End Property
 
         ''' <summary>
-        ''' 方便通过<see cref="FASTA.FastaToken.AddAttribute">Add接口</see>向<see cref="FASTA.FastaToken.Attributes">Attribute列表</see>中添加数据
+        ''' 方便通过<see cref="FASTA.FastaSeq.AddAttribute">Add接口</see>向<see cref="FASTA.FastaSeq.Headers">Attribute列表</see>中添加数据
         ''' </summary>
         ''' <remarks></remarks>
         Dim innerList As List(Of String)
@@ -85,7 +85,7 @@ AAGCGAACAAATGTTCTATA"
         ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Overridable Property Attributes As String() Implements IAbstractFastaToken.Attributes, I_FastaProvider.Attributes
+        Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, I_FastaProvider.Headers
             Get
                 Return innerList.ToArray
             End Get
@@ -175,25 +175,25 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="path">File path of a fasta sequence.</param>
         ''' <remarks></remarks>
         Sub New(path As String)
-            Dim fa As FastaToken = FastaToken.Load(path)
+            Dim fa As FastaSeq = FastaSeq.Load(path)
 
-            Attributes = fa.Attributes
+            Headers = fa.Headers
             SequenceData = fa.SequenceData
         End Sub
 
         Sub New(seq As IAbstractFastaToken)
             Me.SequenceData = seq.SequenceData
-            Me.Attributes = seq.Attributes
+            Me.Headers = seq.Headers
         End Sub
 
         Sub New(attrs As IEnumerable(Of String), seq As String)
             Me.SequenceData = seq
-            Me.Attributes = attrs.ToArray
+            Me.Headers = attrs.ToArray
         End Sub
 
         Sub New(seq As I_FastaProvider)
             Me.SequenceData = seq.SequenceData
-            Me.Attributes = seq.Attributes
+            Me.Headers = seq.Headers
         End Sub
 
         Sub New(attrs$(), seq As IPolymerSequenceModel)
@@ -211,7 +211,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Join(DefaultHeaderDelimiter, Me.Attributes)
+            Return String.Join(DefaultHeaderDelimiter, Me.Headers)
         End Function
 
         ''' <summary>
@@ -220,26 +220,26 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="MethodPointer"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GrepTitle(MethodPointer As TextGrepMethod) As FastaToken
+        Public Function GrepTitle(MethodPointer As TextGrepMethod) As FastaSeq
             Dim strValue As String = MethodPointer(Me.ToString)
             Dim attributes As String() = New String() {strValue}
 
-            Return New FastaToken With {
-                .Attributes = attributes,
+            Return New FastaSeq With {
+                .Headers = attributes,
                 .SequenceData = SequenceData
             }
         End Function
 
         ''' <summary>
-        ''' Convert the <see cref="SequenceData"/> to upper case and then return the new created <see cref="FastaToken"/>.
+        ''' Convert the <see cref="SequenceData"/> to upper case and then return the new created <see cref="FastaSeq"/>.
         ''' </summary>
         ''' <returns></returns>
-        Public Function ToUpper() As FastaToken
-            Return New FastaToken(Attributes, SequenceData.ToUpper)
+        Public Function ToUpper() As FastaSeq
+            Return New FastaSeq(Headers, SequenceData.ToUpper)
         End Function
 
-        Public Function ToLower() As FastaToken
-            Return New FastaToken(Attributes, SequenceData.ToLower)
+        Public Function ToLower() As FastaSeq
+            Return New FastaSeq(Headers, SequenceData.ToLower)
         End Function
 
         ''' <summary>
@@ -253,8 +253,8 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Load.NT")>
-        Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaToken
-            Dim nt As FastaToken = FastaToken.Load(path)
+        Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaSeq
+            Dim nt As FastaSeq = FastaSeq.Load(path)
 
             If nt Is Nothing Then
                 Return Nothing
@@ -301,7 +301,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Load")>
-        Public Shared Function Load(File As String, Optional deli As Char() = Nothing) As FastaToken
+        Public Shared Function Load(File As String, Optional deli As Char() = Nothing) As FastaSeq
             Dim lines As String() = IO.File.ReadAllLines(File.FixPath)
 
             If lines.IsNullOrEmpty Then
@@ -320,7 +320,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("FastaToken.From.Stream")>
-        Public Shared Function ParseFromStream(stream As IEnumerable(Of String), deli As Char()) As FastaToken
+        Public Shared Function ParseFromStream(stream As IEnumerable(Of String), deli As Char()) As FastaSeq
             If stream.IsNullOrEmpty Then
                 Return Nothing
             End If
@@ -331,8 +331,8 @@ AAGCGAACAAATGTTCTATA"
 
             attrs = attrs.Select(removeInvalids).ToArray
 
-            Dim fa As New FastaToken With {
-                .Attributes = attrs,
+            Dim fa As New FastaSeq With {
+                .Headers = attrs,
                 .SequenceData = String.Join("", lines.Skip(1).ToArray)  ' Linux mono does not support <Extension> attribute!
             }
 
@@ -347,9 +347,9 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("FastaToken.Parser")>
-        Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaToken
+        Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaSeq
             Dim lines$() = s.lTokens
-            Return FastaToken.ParseFromStream(lines, {deli})
+            Return FastaSeq.ParseFromStream(lines, {deli})
         End Function
 
         ''' <summary>
@@ -366,7 +366,7 @@ AAGCGAACAAATGTTCTATA"
             If [overrides] Then
                 Call sb.Append(Me.ToString)
             Else
-                Call sb.Append(String.Join(DefaultHeaderDelimiter, Attributes))
+                Call sb.Append(String.Join(DefaultHeaderDelimiter, Headers))
             End If
 
             Call sb.AppendLine()
@@ -392,7 +392,7 @@ AAGCGAACAAATGTTCTATA"
 
         Public Shared Function SequenceLineBreak(lineBreak%, sequence$) As String
             With New StringBuilder
-                FastaToken.SequenceLineBreak(.ref, lineBreak, sequence)
+                FastaSeq.SequenceLineBreak(.ByRef, lineBreak, sequence)
                 Return .ToString
             End With
         End Function
@@ -404,8 +404,8 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function Equals(obj As Object) As Boolean
-            If TypeOf obj Is FastaToken Then
-                Dim fa As FastaToken = DirectCast(obj, FastaToken)
+            If TypeOf obj Is FastaSeq Then
+                Dim fa As FastaSeq = DirectCast(obj, FastaSeq)
                 Return String.Equals(fa.Title, Me.Title) AndAlso
                     String.Equals(fa.SequenceData, Me.SequenceData)
             Else
@@ -418,9 +418,9 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function Copy() As FastaToken
-            Return New FastaToken With {
-                .Attributes = Me.Attributes.ToArray,
+        Public Overloads Function Copy() As FastaSeq
+            Return New FastaSeq With {
+                .Headers = Me.Headers.ToArray,
                 .SequenceData = New String(SequenceData)
             } ' 在這裏完完全全的按值複製
         End Function
@@ -432,12 +432,12 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="FastaObject">The target fasta object will be copied to, if the value is null of this fasta 
         ''' object, then this function will generate a new fasta sequence object.(假若值为空，则会创建一个新的序列对象)</param>
         ''' <remarks></remarks>
-        Public Overloads Sub CopyTo(Of TFasta As FastaToken)(ByRef FastaObject As TFasta)
+        Public Overloads Sub CopyTo(Of TFasta As FastaSeq)(ByRef FastaObject As TFasta)
             If FastaObject Is Nothing Then
                 FastaObject = Activator.CreateInstance(Of TFasta)()
             End If
 
-            FastaObject.Attributes = Me.Attributes
+            FastaObject.Headers = Me.Headers
             FastaObject.SequenceData = Me.SequenceData
         End Sub
 
@@ -447,7 +447,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <typeparam name="T">Type information of the target fasta object.</typeparam>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function Copy(Of T As FastaToken)() As T
+        Public Overloads Function Copy(Of T As FastaSeq)() As T
             Dim Model As T = Activator.CreateInstance(Of T)()
             Call CopyTo(Model)
             Return Model
@@ -458,11 +458,11 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Reverse() As FastaToken
-            Dim attrs As List(Of String) = Attributes.AsList.Join("Reversed_sequence")
+        Public Function Reverse() As FastaSeq
+            Dim attrs As List(Of String) = Headers.AsList.Join("Reversed_sequence")
             Dim revSeq As String = New String(SequenceData.Reverse.ToArray)
-            Dim fa As New FastaToken With {
-                .Attributes = attrs.ToArray,
+            Dim fa As New FastaSeq With {
+                .Headers = attrs.ToArray,
                 .SequenceData = revSeq
             }
 
@@ -475,15 +475,15 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="feature">只是从这个特性对象之中得到蛋白质序列</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Shadows Widening Operator CType(feature As Feature) As FastaToken
+        Public Shared Shadows Widening Operator CType(feature As Feature) As FastaSeq
             Dim GI$ = LinqAPI.DefaultFirst(Of String) <=
                 From s As String
                 In feature.QueryDuplicated("db_xref")
                 Where InStr(s, "GI:")
                 Select s.Split(CChar(":")).Last '
             Dim gb As String = String.Format("gb|{0}", feature.Query("protein_id"))
-            Dim fa As New FastaToken With {
-                .Attributes = {$"gi|{GI}", gb, feature.Query("locus_tag"), feature.Query("product")},
+            Dim fa As New FastaSeq With {
+                .Headers = {$"gi|{GI}", gb, feature.Query("locus_tag"), feature.Query("product")},
                 .SequenceData = feature.Query("translation")
             }
 
@@ -498,14 +498,14 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Complement")>
-        Public Shared Function Complement(FASTA As FastaToken) As FastaToken
+        Public Shared Function Complement(FASTA As FastaSeq) As FastaSeq
             If FASTA.IsProtSource Then
                 Throw New DataException(InvalidComplementSource)
             End If
 
             Dim cmplSeq As String = NucleicAcid.Complement(FASTA.SequenceData)
-            Dim FastaObject As New FastaToken With {
-                .Attributes = FASTA.Attributes,
+            Dim FastaObject As New FastaSeq With {
+                .Headers = FASTA.Headers,
                 .SequenceData = cmplSeq
             }
             Return FastaObject
@@ -522,7 +522,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="obj"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Shadows Narrowing Operator CType(obj As FastaToken) As String
+        Public Shared Shadows Narrowing Operator CType(obj As FastaSeq) As String
             Return obj.GenerateDocument(lineBreak:=60)
         End Operator
 

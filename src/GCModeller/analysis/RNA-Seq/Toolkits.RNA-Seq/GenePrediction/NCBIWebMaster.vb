@@ -96,7 +96,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
             Const GeneticCode As String = "gencode"
             Const Shape As String = "topology"
 
-            Public Function UploadFasta(Fasta As SequenceModel.FASTA.FastaToken) As Specialized.NameValueCollection
+            Public Function UploadFasta(Fasta As SequenceModel.FASTA.FastaSeq) As Specialized.NameValueCollection
                 Dim reqparm As New Specialized.NameValueCollection
                 Call reqparm.Add(InputFasta, Fasta.GenerateDocument(-1))
                 Call reqparm.Add(GeneticCode, _gencode)
@@ -114,7 +114,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Function
 
         <ExportAPI("Genemark")>
-        Public Function Predicts(source As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+        Public Function Predicts(source As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,
                                  Optional Bacteria As Boolean = True,
                                  Optional linear As Boolean = False) As GeneMark
             Dim webPage As String = GetPredictsData(source, Bacteria, linear)
@@ -131,7 +131,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Function
 
         <ExportAPI("Run.Genemark")>
-        Public Function GetPredictsData(source As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+        Public Function GetPredictsData(source As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,
                                         Optional Bacteria As Boolean = True,
                                         Optional linear As Boolean = False) As String
             Dim webPage As String

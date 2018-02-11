@@ -173,10 +173,10 @@ Public Module MothurContigsOTU
     ''' <param name="contig"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function GetContigAlignmentTemplate(contig As String) As FastaToken
+    Public Function GetContigAlignmentTemplate(contig As String) As FastaSeq
         Dim length As New Dictionary(Of Integer, Counter)
 
-        For Each seq As FastaToken In StreamIterator.SeqSource(handle:=contig)
+        For Each seq As FastaSeq In StreamIterator.SeqSource(handle:=contig)
             If Not length.ContainsKey(seq.Length) Then
                 Call length.Add(seq.Length, New Counter)
             End If
@@ -191,7 +191,7 @@ Public Module MothurContigsOTU
             .First _
             .Key
 
-        For Each seq As FastaToken In StreamIterator.SeqSource(handle:=contig)
+        For Each seq As FastaSeq In StreamIterator.SeqSource(handle:=contig)
             If seq.Length = n Then
                 Return seq
             End If

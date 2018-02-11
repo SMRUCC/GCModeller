@@ -42,7 +42,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
         Dim _ORF_PTT As PTT
         Dim _RNARnt As PTT
-        Dim _genomeOrigin As FASTA.FastaToken
+        Dim _genomeOrigin As FASTA.FastaSeq
         Dim _lstFile As PTTEntry
 
         ''' <summary>
@@ -73,7 +73,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function CreateObject(briefs As IEnumerable(Of IGeneBrief), SourceFasta As FASTA.FastaToken) As PTTDbLoader
+        Public Shared Function CreateObject(briefs As IEnumerable(Of IGeneBrief), SourceFasta As FASTA.FastaSeq) As PTTDbLoader
             Dim BriefData As GeneBrief() =
                 LinqAPI.Exec(Of GeneBrief) <= From prot As IGeneBrief
                                               In briefs
@@ -146,20 +146,20 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
             Dim FastaFile As FASTA.FastaFile
             FastaFile = FASTA.FastaFile.Read(_lstFile.faa, strict)
-            Proteins = (From prot As FASTA.FastaToken
+            Proteins = (From prot As FASTA.FastaSeq
                         In FastaFile.SafeQuery
-                        Let uniqueId As String = GetLocusId(prot.Attributes.ElementAtOrDefault(1), prot.Attributes.First)
+                        Let uniqueId As String = GetLocusId(prot.Headers.ElementAtOrDefault(1), prot.Headers.First)
                         Select FastaObjects.Fasta.CreateObject(uniqueId, prot)) _
                             .ToDictionary(Function(x) x.UniqueId)
 
             FastaFile = FASTA.FastaFile.Read(_lstFile.ffn, strict)
-            GeneFastas = (From genFa As FASTA.FastaToken
+            GeneFastas = (From genFa As FASTA.FastaSeq
                           In FastaFile.SafeQuery
-                          Let UniqueId As String = GetGeneUniqueId(genFa.Attributes.ElementAtOrDefault(4), genFa.Attributes.First)
+                          Let UniqueId As String = GetGeneUniqueId(genFa.Headers.ElementAtOrDefault(4), genFa.Headers.First)
                           Select FastaObjects.Fasta.CreateObject(UniqueId, genFa)) _
                              .ToDictionary(Function(x As FastaObjects.Fasta) x.UniqueId)
             FastaFile = FASTA.FastaFile.Read(_lstFile.frn, strict)
-            For Each genFa As FastaObjects.Fasta In (From fa As FASTA.FastaToken
+            For Each genFa As FastaObjects.Fasta In (From fa As FASTA.FastaSeq
                                                      In FastaFile.SafeQuery
                                                      Let UniqueId As String = Regex.Match(fa.Title, "locus_tag=[^]]+").Value.Split(CChar("=")).Last
                                                      Select FastaObjects.Fasta.CreateObject(UniqueId, fa))
@@ -240,9 +240,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' (*.fna)(基因组的全长序列)
         ''' </summary>
         ''' <returns></returns>
-        Public Function GenomeFasta() As FASTA.FastaToken
+        Public Function GenomeFasta() As FASTA.FastaSeq
             If _genomeOrigin Is Nothing Then
-                _genomeOrigin = FASTA.FastaToken.LoadNucleotideData(_lstFile.fna)
+                _genomeOrigin = FASTA.FastaSeq.LoadNucleotideData(_lstFile.fna)
             End If
             Return _genomeOrigin
         End Function

@@ -264,7 +264,7 @@ both of these relationships hold
         ''' <param name="vector$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CutSequence(loci As Location, org$, Optional vector% = 1) As FastaToken
+        Public Function CutSequence(loci As Location, org$, Optional vector% = 1) As FastaSeq
             With loci.Normalization
                 Dim url$ = $"http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM={ .Left}&TO={ .Right}&VECTOR={vector}&ORG={org}"
                 Dim html$ = url.GET
@@ -278,8 +278,8 @@ both of these relationships hold
                     .Skip(1) _
                     .JoinBy("")
 
-                Return New FastaToken With {
-                    .Attributes = {
+                Return New FastaSeq With {
+                    .Headers = {
                         url
                     },
                     .SequenceData = seq

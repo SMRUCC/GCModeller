@@ -68,7 +68,7 @@ Partial Module CLI
                                  Function(x) x.ID.Split(":"c).First).ToArray
 
         If seq.FileExists Then
-            Dim nt As FastaToken = FastaToken.LoadNucleotideData(seq)
+            Dim nt As FastaSeq = FastaSeq.LoadNucleotideData(seq)
 
             For Each site As SimpleSegment In sites
                 site.SequenceData = nt.CutSequenceLinear(site.MappingLocation).SequenceData

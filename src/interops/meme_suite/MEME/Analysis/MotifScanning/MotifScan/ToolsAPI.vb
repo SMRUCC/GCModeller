@@ -58,7 +58,7 @@ Namespace Analysis.MotifScans
         End Function
 
         <ExportAPI("MotifScan")>
-        Public Function MotifScan(LDM As MotifScans, Nt As SequenceModel.FASTA.FastaToken) As MatchedSite()
+        Public Function MotifScan(LDM As MotifScans, Nt As SequenceModel.FASTA.FastaSeq) As MatchedSite()
             Return LDM.Mast(Nt)
         End Function
     End Module

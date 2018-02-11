@@ -203,21 +203,21 @@ Namespace Regtransbase.StructureObjects
             Return String.Format("{0} (Family:={1})", Name, Family)
         End Function
 
-        Public Shared Function ExportFasta(regulator As Regulator, Genes As Regtransbase.StructureObjects.Gene(), Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+        Public Shared Function ExportFasta(regulator As Regulator, Genes As Regtransbase.StructureObjects.Gene(), Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq
             If regulator.GeneGuid Is Nothing OrElse regulator.GeneGuid = -1 Then
                 Return Nothing
             Else
-                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
+                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = New SequenceModel.FASTA.FastaSeq
                 Dim Gene = (From g In Genes Where regulator.GeneGuid = g.Guid Select g).First
-                If SMRUCC.genomics.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
+                If SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.IsProteinSource(Gene) Then
                     Fsa.SequenceData = Gene.signature
-                    Fsa.Attributes = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, "*"}
+                    Fsa.Headers = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, "*"}
                 Else
                     Fsa.SequenceData = Gene.signature.ToUpper
                     If TryAutoFixed AndAlso Sites.FixSequenceError(Fsa.SequenceData) Then '序列中包含有错误
-                        Fsa.Attributes = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, Sites.SEQUENCE_ERROR_FIXED}
+                        Fsa.Headers = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, Sites.SEQUENCE_ERROR_FIXED}
                     Else
-                        Fsa.Attributes = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus}
+                        Fsa.Headers = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus}
                     End If
                     Fsa.SequenceData = SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.Translate(Fsa.SequenceData)
                 End If
@@ -230,7 +230,7 @@ Namespace Regtransbase.StructureObjects
         Public Function TryAssignSequence(Genes As Regtransbase.StructureObjects.Gene()) As Regulator
             If Not (Me.GeneGuid Is Nothing OrElse Me.GeneGuid = -1) Then
                 Dim Gene = (From g In Genes Where Me.GeneGuid = g.Guid Select g).First
-                If SMRUCC.genomics.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
+                If SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.IsProteinSource(Gene) Then
                     _SequenceData = Gene.signature
                 Else
                     _SequenceData = Gene.signature.ToUpper
@@ -376,17 +376,17 @@ Namespace Regtransbase.StructureObjects
         <DatabaseField("regulator_guid")> Public Property RegulatorGuid As Integer?
         <DatabaseField("site_guid")> Public Overrides Property Guid As Integer
 
-        Public Shared Function ExportFasta(site As Sites, Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+        Public Shared Function ExportFasta(site As Sites, Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq
             If String.IsNullOrEmpty(site.Sequence) Then
                 Return Nothing
             Else
-                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
+                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = New SequenceModel.FASTA.FastaSeq
                 Fsa.SequenceData = site.Sequence.ToUpper
                 If TryAutoFixed AndAlso FixSequenceError(Fsa.SequenceData) Then '序列中包含有错误
-                    Fsa.Attributes = New String() {"site", site.Guid, "tfrg", If(site.RegulatorGuid Is Nothing, -1, site.RegulatorGuid), site.Name, SEQUENCE_ERROR_FIXED}
+                    Fsa.Headers = New String() {"site", site.Guid, "tfrg", If(site.RegulatorGuid Is Nothing, -1, site.RegulatorGuid), site.Name, SEQUENCE_ERROR_FIXED}
                     Call Console.WriteLine("Sequence ""{0}"" contains some error, try to fixed it!", Fsa.Title)
                 Else '序列中没有任何错误
-                    Fsa.Attributes = New String() {"site", site.Guid, "tfrg", If(site.RegulatorGuid Is Nothing, -1, site.RegulatorGuid), site.Name}
+                    Fsa.Headers = New String() {"site", site.Guid, "tfrg", If(site.RegulatorGuid Is Nothing, -1, site.RegulatorGuid), site.Name}
                 End If
 
                 Return Fsa

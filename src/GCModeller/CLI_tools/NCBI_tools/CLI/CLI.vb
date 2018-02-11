@@ -80,7 +80,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             writer.BaseStream.AutoFlush = True
             writer.BaseStream.NewLine = vbLf
 
-            For Each fa As FastaToken In nt.ReadStream
+            For Each fa As FastaSeq In nt.ReadStream
                 Dim title As String = fa.Title
                 Dim gi As String = title.Match("gi\|\d+", RegexICSng).Split("|"c).Last  ' 由于bowetie程序建库的时候只取最开始的值，所以在这里只需要第一个match就行了
                 Dim result As New TaxiValue With {
@@ -159,7 +159,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             table As New WriteStream(Of TaxiSummary)(out.TrimSuffix & ".Csv"),
             taxNotFoun = notFoundTax.OpenWriter(Encodings.ASCII)
 
-            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+            For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim gi As Integer = CInt(Val(Regex.Match(fa.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last))
 
                 If gi > 0 AndAlso taxiHash.ContainsKey(gi) Then
@@ -199,7 +199,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     Call table.Flush(x)
 
                     Dim title As String = $"gi_{gi} {taxi} {x.Taxonomy}"
-                    fa = New FastaToken({title}, fa.SequenceData)
+                    fa = New FastaSeq({title}, fa.SequenceData)
                     Call writer.WriteLine(fa.GenerateDocument(120))
                 Else
                     Call $"gi {gi} not found taxid...".__DEBUG_ECHO
@@ -266,7 +266,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim index As String = args("/index")
         Dim tax As String = args("/ref")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
-        Dim taxHash = (From x As FastaToken
+        Dim taxHash = (From x As FastaSeq
                        In New FastaFile(tax)
                        Select sid = x.Title.Split.First,
                            x.Title
@@ -328,7 +328,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
         For Each fa In New StreamIterator(ref).ReadStream
             Dim title As String = fa.Title
-            Dim uid As String = fa.Attributes.First.Split.First
+            Dim uid As String = fa.Headers.First.Split.First
             tax(uid) = title
         Next
 
@@ -486,7 +486,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         If FastaFile.IsValidFastaFile([in]) Then
             gis = New List(Of String)
 
-            For Each seq As FastaToken In New StreamIterator([in]).ReadStream
+            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 gis += Regex.Match(seq.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
             Next
         Else
@@ -534,7 +534,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         If FastaFile.IsValidFastaFile([in]) Then
             acclist = New List(Of String)
 
-            For Each seq As FastaToken In New StreamIterator([in]).ReadStream
+            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 acclist += seq.Title.Split.First
             Next
         Else

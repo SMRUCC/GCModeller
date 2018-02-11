@@ -265,7 +265,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Public Overrides Function CheckIntegrity(source As FASTA.FastaFile) As Boolean
             Dim empty = LinqAPI.DefaultFirst(Of Query()) _
  _
-                () <= From fasta As FastaToken
+                () <= From fasta As FastaSeq
                       In source.AsParallel
                       Let list = __checkIntegrity(fasta, Me.Queries)
                       Where list.IsNullOrEmpty  ' 空集合表示没有匹配的项目，则可能是不完整的结果
@@ -274,7 +274,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return empty Is Nothing  ' 不为空值，说明有空的记录，即匹配不上的记录，则说明blast操作是被中断的，需要重新做
         End Function
 
-        Private Shared Function __checkIntegrity(Fasta As FASTA.FastaToken, Queries As Query()) As Query()
+        Private Shared Function __checkIntegrity(Fasta As FASTA.FastaSeq, Queries As Query()) As Query()
             Dim Title As String = Fasta.Title
             Dim GetLQuery = LinqAPI.Exec(Of Query) <=
  _

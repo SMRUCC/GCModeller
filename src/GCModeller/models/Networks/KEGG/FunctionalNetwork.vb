@@ -159,7 +159,7 @@ Public Module FunctionalNetwork
             !Unknown = DashStyle.Dash
             !pathway_outbounds = DashStyle.Dash
 
-            dash = .ref
+            dash = .ByRef
         End With
 
         Using g As Graphics2D = graph _
@@ -189,15 +189,15 @@ Public Module FunctionalNetwork
                 End If
 
                 With colors.Next
-                    Dim pen As New Pen(.ref, strokePen.width) With {
+                    Dim pen As New Pen(.ByRef, strokePen.width) With {
                         .DashStyle = strokePen.dash
                     }
-                    Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
+                    Dim fill As New SolidBrush(Color.FromArgb(40, .ByRef))
 
                     Call g.DrawPolygon(pen, polygon)
                     Call g.FillPolygon(fill, polygon)
 
-                    KEGGColors.Add(name, (nodes.Length, .ref))
+                    KEGGColors.Add(name, (nodes.Length, .ByRef))
                 End With
             Next
 

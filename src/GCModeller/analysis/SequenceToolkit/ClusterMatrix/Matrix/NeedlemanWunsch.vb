@@ -42,9 +42,9 @@ Public Module Matrix
     End Function
 
     <Extension>
-    Public Function NeedlemanWunsch(locis As IEnumerable(Of FastaToken), Optional ByRef out As StreamWriter = Nothing) As DataSet()
-        Dim buffer As FastaToken() = locis.ToArray
-        Dim LQuery = From fa As SeqValue(Of FastaToken)
+    Public Function NeedlemanWunsch(locis As IEnumerable(Of FastaSeq), Optional ByRef out As StreamWriter = Nothing) As DataSet()
+        Dim buffer As FastaSeq() = locis.ToArray
+        Dim LQuery = From fa As SeqValue(Of FastaSeq)
                      In buffer _
                          .SeqIterator _
                          .AsParallel
@@ -75,12 +75,12 @@ Public Module Matrix
     End Function
 
     <Extension>
-    Private Function __needlemanWunsch(query As FastaToken, buffer As FastaToken()) As (vector As DataSet, log As StreamWriter, title$)
+    Private Function __needlemanWunsch(query As FastaSeq, buffer As FastaSeq()) As (vector As DataSet, log As StreamWriter, title$)
         Dim dev As StreamWriter = App.NullDevice(Encodings.ASCII)
         Dim score#
         Dim vector As New Dictionary(Of String, Double)
 
-        For Each target As FastaToken In buffer
+        For Each target As FastaSeq In buffer
             score = RunNeedlemanWunsch.RunAlign(query, target, True, dev, echo:=False)
             dev.WriteLine()
             vector.Add(target.Title, score)

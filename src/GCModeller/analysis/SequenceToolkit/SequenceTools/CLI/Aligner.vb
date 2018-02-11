@@ -44,34 +44,34 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module Utilities
 
     ''' <summary>
-    ''' <see cref="RunNeedlemanWunsch.RunAlign(FASTA.FastaToken, FASTA.FastaToken, Boolean, String)"/>
+    ''' <see cref="RunNeedlemanWunsch.RunAlign(FASTA.FastaSeq, FASTA.FastaSeq, Boolean, String)"/>
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/nw",
                Info:="RunNeedlemanWunsch",
                Usage:="/nw /query <query.fasta> /subject <subject.fasta> [/out <out.txt>]")>
-    <Argument("/query", False, AcceptTypes:={GetType(FastaToken)})>
-    <Argument("/subject", False, AcceptTypes:={GetType(FastaToken)})>
+    <Argument("/query", False, AcceptTypes:={GetType(FastaSeq)})>
+    <Argument("/subject", False, AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={GetType(String)})>
     <Group(CLIGrouping.Aligner)>
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & subject.BaseName & ".txt")
-        Call RunNeedlemanWunsch.RunAlign(New FASTA.FastaToken(query), New FASTA.FastaToken(subject), False, out)
+        Call RunNeedlemanWunsch.RunAlign(New FASTA.FastaSeq(query), New FASTA.FastaSeq(subject), False, out)
         Return 0
     End Function
 
     <ExportAPI("/NeedlemanWunsch.NT",
                Usage:="/NeedlemanWunsch.NT /query <nt> /subject <nt>")>
     Public Function NWNT(args As CommandLine) As Integer
-        Dim query As New FastaToken With {
-            .Attributes = {"query_nt"},
+        Dim query As New FastaSeq With {
+            .Headers = {"query_nt"},
             .SequenceData = args <= "/query"
         }
-        Dim target As New FastaToken With {
-            .Attributes = {"target_nt"},
+        Dim target As New FastaSeq With {
+            .Headers = {"target_nt"},
             .SequenceData = args <= "/subject"
         }
 
@@ -91,8 +91,8 @@ Partial Module Utilities
         Dim subject As String = args("/subject")
         Dim blosum As String = args("/blosum")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject) & ".xml")
-        Dim queryFa As New FASTA.FastaToken(query)
-        Dim subjectFa As New FASTA.FastaToken(subject)
+        Dim queryFa As New FASTA.FastaSeq(query)
+        Dim subjectFa As New FASTA.FastaSeq(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
         Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
@@ -116,10 +116,10 @@ Partial Module Utilities
     Private Function __alignCommon(query As FASTA.FastaFile, subject As FASTA.FastaFile, cost As Double, outDIR As String) As AlignmentResult()
         Dim resultSet As New List(Of AlignmentResult)
 
-        For Each queryToken As FASTA.FastaToken In query
+        For Each queryToken As FASTA.FastaSeq In query
             Dim queryCache As Integer() = queryToken.SequenceData.Select(Function(x) Asc(x))
             Dim alignSet As AlignmentResult() =
-                LinqAPI.Exec(Of AlignmentResult) <= From subjectToken As FASTA.FastaToken
+                LinqAPI.Exec(Of AlignmentResult) <= From subjectToken As FASTA.FastaSeq
                                                     In subject.AsParallel
                                                     Let aln = AlignmentResult.SafeAlign(
                                                         queryToken.Title,
@@ -162,14 +162,14 @@ Partial Module Utilities
         Sub New()
         End Sub
 
-        Sub New(query As FASTA.FastaToken, subject As FASTA.FastaToken, cost As Double)
+        Sub New(query As FASTA.FastaSeq, subject As FASTA.FastaSeq, cost As Double)
             Call Me.New(query.Title, query.SequenceData, query.SequenceData.Select(AddressOf Asc), subject, cost)
         End Sub
 
         Sub New(queryTitle As String,
                 query As String,
                 queryArray As Integer(),
-                subject As FASTA.FastaToken,
+                subject As FASTA.FastaSeq,
                 cost As Double)
             Dim result = LevenshteinDistance.ComputeDistance(queryArray, subject.SequenceData, cost)
 
@@ -186,7 +186,7 @@ Partial Module Utilities
         Public Shared Function SafeAlign(queryTitle As String,
                 query As String,
                 queryArray As Integer(),
-                subject As FASTA.FastaToken,
+                subject As FASTA.FastaSeq,
                 cost As Double) As AlignmentResult
             Try
                 Return New AlignmentResult(queryTitle, query, queryArray, subject, cost)

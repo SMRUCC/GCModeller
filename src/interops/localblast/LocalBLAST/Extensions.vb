@@ -89,7 +89,7 @@ Public Module Extensions
     ''' <param name="Blastbin">If the services handler is nothing then the function will construct a new handle automatically.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function BlastpSearch(Query As FastaToken, Subject As String,
+    <Extension> Public Function BlastpSearch(Query As FastaSeq, Subject As String,
                                              Optional Evalue As String = "1e-3",
                                              Optional ByRef Blastbin As LocalBLAST.InteropService.InteropService = Nothing) As BlastPlus.v228
 

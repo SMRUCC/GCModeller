@@ -76,9 +76,9 @@ Public Module UniProtBuild
     <Extension>
     Public Sub CopyTo(cache As (KO_list$, taxonomy$, counts$), destination$)
         With destination & "/"
-            Call cache.KO_list.FileCopy(.ref)
-            Call cache.taxonomy.FileCopy(.ref)
-            Call cache.counts.FileCopy(.ref)
+            Call cache.KO_list.FileCopy(.ByRef)
+            Call cache.taxonomy.FileCopy(.ByRef)
+            Call cache.counts.FileCopy(.ByRef)
         End With
     End Sub
 

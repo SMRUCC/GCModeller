@@ -100,10 +100,10 @@ Module Extensions
         Return List.Count
     End Function
 
-    <Extension> Public Function GetIdList(source As IEnumerable(Of FASTA.FastaToken)) As String
+    <Extension> Public Function GetIdList(source As IEnumerable(Of FASTA.FastaSeq)) As String
         Dim sBuilder As StringBuilder = New StringBuilder(1024)
         For Each fsa In source
-            Call sBuilder.AppendFormat("{0},", fsa.Attributes.First)
+            Call sBuilder.AppendFormat("{0},", fsa.Headers.First)
         Next
         Call sBuilder.Remove(sBuilder.Length - 1, 1)
 

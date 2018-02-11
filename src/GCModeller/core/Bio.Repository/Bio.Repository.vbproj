@@ -309,12 +309,12 @@
     <Compile Include="KEGG\ReactionRepository\RepositoryExtensions.vb" />
     <Compile Include="KEGG\ReactionRepository\ReactionRepository.vb" />
     <Compile Include="KEGG\KEGGOrthology\KEGGOrthology.vb" />
-    <Compile Include="Genbank.vb" />
+    <Compile Include="NCBI\Genbank.vb" />
     <Compile Include="KEGG\KEGGOrganism.vb" />
     <Compile Include="KEGG\KEGGOrthology\KO_gene.vb" />
     <Compile Include="KEGG\SSDB.vb" />
-    <Compile Include="Settings.vb" />
-    <Compile Include="WebAPI.vb" />
+    <Compile Include="NCBI\RepositoryExtensions.vb" />
+    <Compile Include="NCBI\WebAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -364,6 +364,7 @@
       <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

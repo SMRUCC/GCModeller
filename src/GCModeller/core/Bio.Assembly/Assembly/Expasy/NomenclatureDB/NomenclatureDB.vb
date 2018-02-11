@@ -102,7 +102,7 @@ Namespace Assembly.Expasy.Database
             Dim UniprotIDs As String() = (From enz As Enzyme
                                           In Me.Enzymes
                                           Select enz.SwissProt).IteratesALL.Distinct.ToArray
-            Dim LQuery As IEnumerable(Of FASTA.FastaToken) = From fa As Uniprot.UniprotFasta
+            Dim LQuery As IEnumerable(Of FASTA.FastaSeq) = From fa As Uniprot.UniprotFasta
                                                              In data.AsParallel
                                                              Where Array.IndexOf(UniprotIDs, fa.UniprotID)
                                                              Select fa

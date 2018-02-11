@@ -163,7 +163,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Shared Sub New()
             With App.GetVariable("sleep")
                 If Not .StringEmpty Then
-                    sleepTime = Val(.ref)
+                    sleepTime = Val(.ByRef)
 
                     If sleepTime <= 0 Then
                         sleepTime = 2000

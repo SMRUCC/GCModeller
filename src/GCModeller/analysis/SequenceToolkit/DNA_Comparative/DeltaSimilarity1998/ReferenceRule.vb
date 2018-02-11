@@ -74,7 +74,7 @@ Namespace DeltaSimilarity1998
         ''' <param name="proteins"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function dnaA_gyrB(nt As FastaToken, proteins As PTT) As FastaToken
+        Public Function dnaA_gyrB(nt As FastaSeq, proteins As PTT) As FastaSeq
             Return nt.GetReferenceRule(proteins, dnaA, gyrB)
         End Function
 
@@ -83,7 +83,7 @@ Namespace DeltaSimilarity1998
         ''' </summary>
         ''' <returns></returns>
         <Extension>
-        Public Function dnaA_gyrB(genome As GBFF.File) As FastaToken
+        Public Function dnaA_gyrB(genome As GBFF.File) As FastaSeq
             Return genome.GetReferenceRule(dnaA, gyrB)
         End Function
 
@@ -96,7 +96,7 @@ Namespace DeltaSimilarity1998
         <ExportAPI("Get.Ref_Rule",
                    Info:="Gets the segment betweens the dnaA and gyrB nucleotide sequence as the default reference rule for the homogeneity measuring.")>
         <Extension>
-        Public Function GetReferenceRule(nt As FastaToken, PTT As PTT, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaToken
+        Public Function GetReferenceRule(nt As FastaSeq, PTT As PTT, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaSeq
             Dim dnaA As GeneBrief = PTT.MatchGene(start.Name, start.Value)
             Dim gyrB As GeneBrief = PTT.MatchGene(ends.Name, ends.Value)
 
@@ -129,15 +129,15 @@ Namespace DeltaSimilarity1998
                 Return Nothing
             End Try
 
-            Return New FastaToken With {
-                .Attributes = New String() {$"{start.Name}-{ends.Name}", nt.Title},
+            Return New FastaSeq With {
+                .Headers = New String() {$"{start.Name}-{ends.Name}", nt.Title},
                 .SequenceData = ruleSegment.SequenceData
             }
         End Function
 
         <Extension>
-        Public Function GetReferenceRule(genome As GBFF.File, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaToken
-            Dim nt As FastaToken = genome.Origin.ToFasta
+        Public Function GetReferenceRule(genome As GBFF.File, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaSeq
+            Dim nt As FastaSeq = genome.Origin.ToFasta
             Dim proteins As PTT = genome.GbffToPTT(ORF:=True)
             Return nt.GetReferenceRule(proteins, start, ends)
         End Function

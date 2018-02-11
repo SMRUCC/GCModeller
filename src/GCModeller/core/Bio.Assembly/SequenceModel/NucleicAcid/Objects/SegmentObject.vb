@@ -85,7 +85,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="title">If this value is not presents, then the function will using the location info as default.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetFasta(Optional title As String = "") As FASTA.FastaToken
+        Public Function GetFasta(Optional title As String = "") As FASTA.FastaSeq
             Dim attrs As String()
 
             If String.IsNullOrEmpty(title) Then
@@ -98,8 +98,8 @@ Namespace SequenceModel.NucleotideModels
                 attrs = title.Split("|"c)
             End If
 
-            Return New FASTA.FastaToken With {
-                .Attributes = attrs,
+            Return New FASTA.FastaSeq With {
+                .Headers = attrs,
                 .SequenceData = SequenceData
             }
         End Function

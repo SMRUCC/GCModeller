@@ -73,7 +73,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
                 .KEGG_ID = locusTag.ToString
             }
 
-            Dim Fa As FASTA.FastaToken = WebRequest.FetchSeq(locusTag)
+            Dim Fa As FASTA.FastaSeq = WebRequest.FetchSeq(locusTag)
 
             If Not Fa Is Nothing Then
                 Ortholog.Definition = Fa.Title

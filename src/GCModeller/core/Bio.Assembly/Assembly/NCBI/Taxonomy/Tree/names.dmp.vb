@@ -98,10 +98,10 @@ Namespace Assembly.NCBI.Taxonomy
                            Return Nothing
                        Else
                            With name.ToLower
-                               If Not names.ContainsKey(.ref) Then
+                               If Not names.ContainsKey(.ByRef) Then
                                    Return {}
                                Else
-                                   Return names(.ref)
+                                   Return names(.ByRef)
                                End If
                            End With
                        End If

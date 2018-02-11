@@ -272,7 +272,7 @@ Partial Module CLI
         Dim subject As String = args("/subject")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject))
         Dim profiles = Parameters.SiteScanProfile
-        Dim reuslt = SiteScanner.Scan(query.LoadXml(Of AnnotationModel), New FastaToken(subject), profiles)
+        Dim reuslt = SiteScanner.Scan(query.LoadXml(Of AnnotationModel), New FastaSeq(subject), profiles)
         Return TomReport.WriteHTML(reuslt, outDIR:=out).CLICode
     End Function
 

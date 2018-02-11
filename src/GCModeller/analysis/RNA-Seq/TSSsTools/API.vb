@@ -48,7 +48,7 @@ Public Module API
     Public Function Count(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".ReadsCount.Csv")
-        Dim ref As New FastaToken(args("/ref"))
+        Dim ref As New FastaSeq(args("/ref"))
         Dim mappings As New IO.Linq.DataStream(inFile)  ' 读取测序数据的mapping结果
         Dim readsCount As ___readsCount = New ___readsCount(ref)
 

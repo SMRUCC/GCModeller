@@ -54,16 +54,16 @@ Partial Module CLI
                              In motif.Sites
                              Select x
                              Group x By uid = $"{x.locus_tag}:{x.position}" Into Group
-            Dim sites As List(Of FastaToken) =
+            Dim sites As List(Of FastaSeq) =
                 GroupQuery.ToList(
-                    Function(x) New FastaToken(
+                    Function(x) New FastaSeq(
                         {x.uid}, SequenceTrimming(x.Group.First.SequenceData)))
             Dim fa As New FastaFile(sites)
             Dim i As Integer = 1
             Dim path As String = __path(EXPORT, motif)
 
             Do While fa.NumberOfFasta < 6
-                Dim copy = sites.Select(Function(x) New FastaToken({__title(x.Attributes.First, i)}, x.SequenceData))
+                Dim copy = sites.Select(Function(x) New FastaSeq({__title(x.Headers.First, i)}, x.SequenceData))
                 Call fa.AddRange(copy)
                 i += 1
             Loop
@@ -105,9 +105,9 @@ Partial Module CLI
         Call $" >>>> {out.ToFileURL} fro {xmls.Count} genomes....".__DEBUG_ECHO
         Call $"Create hash for {fasta.ToFileURL}".__DEBUG_ECHO
 
-        Dim protHash = (From x As FastaToken
+        Dim protHash = (From x As FastaSeq
                         In prot
-                        Select x, locus = x.Attributes.First.Split(":"c).Last.Trim    ' 按照基因编号生成哈希表
+                        Select x, locus = x.Headers.First.Split(":"c).Last.Trim    ' 按照基因编号生成哈希表
                         Group By locus Into Group) _
                              .ToDictionary(Function(x) x.locus,
                                            Function(x) x.Group.First.x)
@@ -123,7 +123,7 @@ Partial Module CLI
         Next
 
         If args.GetBoolean("/locus-out") Then
-            Dim outLocus As String() = prot.Select(Function(x) x.Attributes(Scan0))
+            Dim outLocus As String() = prot.Select(Function(x) x.Headers(Scan0))
             Call outLocus.FlushAllLines(out.TrimSuffix & "-locus_tags.txt")
         End If
 

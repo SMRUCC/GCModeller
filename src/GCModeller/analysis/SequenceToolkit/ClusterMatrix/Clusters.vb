@@ -39,12 +39,12 @@ Public Module Clusters
     ''' <param name="source"></param>
     ''' <param name="delimiter$"></param>
     <Extension>
-    Public Sub FirstTokenID(ByRef source As FastaFile, Optional delimiter$ = FastaToken.DefaultHeaderDelimiter)
-        Dim tokens As Func(Of FastaToken, String())
+    Public Sub FirstTokenID(ByRef source As FastaFile, Optional delimiter$ = FastaSeq.DefaultHeaderDelimiter)
+        Dim tokens As Func(Of FastaSeq, String())
 
-        If delimiter = FastaToken.DefaultHeaderDelimiter Then
+        If delimiter = FastaSeq.DefaultHeaderDelimiter Then
             tokens = Function(f) {
-                f.Attributes(Scan0)
+                f.Headers(Scan0)
             }
         Else
             tokens = Function(f) {
@@ -52,8 +52,8 @@ Public Module Clusters
             }
         End If
 
-        For Each f As FastaToken In source
-            f.Attributes = tokens(f)
+        For Each f As FastaSeq In source
+            f.Headers = tokens(f)
         Next
     End Sub
 

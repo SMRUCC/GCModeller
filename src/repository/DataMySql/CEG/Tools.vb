@@ -57,7 +57,7 @@ Namespace CEG
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Export.Nt.Cluster")>
-        Public Function ExportClusterNt(<Parameter("Fasta.Nt")> Nt As FastaToken,
+        Public Function ExportClusterNt(<Parameter("Fasta.Nt")> Nt As FastaSeq,
                                         <Parameter("Annotation.Ptt")> Ptt As PTT,
                                         <Parameter("Assembly.CEG")> CEG As CEG.CEGAssembly) As FastaFile
             Dim GetClusterLQuery = (From Cluster As CEG.GeneCluster In CEG.GeneClusters.AsParallel
@@ -85,8 +85,8 @@ Namespace CEG
                             Let Gid As String = CsvParsingRow(0)
                             Where Annotations.ContainsKey(Gid)
                             Let AnnotationData = Annotations(Gid)
-                            Select New FastaToken With {
-                                .Attributes = New String() {AnnotationData.GeneName},
+                            Select New FastaSeq With {
+                                .Headers = New String() {AnnotationData.GeneName},
                                 .SequenceData = CsvParsingRow(2)}).ToArray
             Dim Fasta As FastaFile = CType(Proteins, FastaFile)
             Return Fasta
@@ -131,7 +131,7 @@ Namespace CEG
                 End Get
             End Property
 
-            Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+            Public Property Headers As String() Implements IAbstractFastaToken.Headers
 
             Public Overrides Function ToString() As String
                 Return ClusterID
@@ -150,7 +150,7 @@ Namespace CEG
                           Let EntryData = InternalGetPttData(Bacteria.Path)
                           Let ClusterData = (From Entry As PathEntry
                                              In EntryData
-                                             Let Nt As FastaToken = FastaToken.Load(Entry.Value)
+                                             Let Nt As FastaSeq = FastaSeq.Load(Entry.Value)
                                              Let Ptt = TabularFormat.PTT.Load(Entry.Name)
                                              Let Cluster = Function() As EssentialGeneCluster()
                                                                Try
@@ -276,7 +276,7 @@ Namespace CEG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Essential.Gene.Cluster")>
-        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As FastaToken,
+        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As FastaSeq,
                                                      <Parameter("Annotation.Ptt")> Ptt As PTT,
                                                      <Parameter("Path.CEG.Annotation")> Annotation As IEnumerable(Of CEG.Annotation),
                                                      <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As EssentialGeneCluster()
@@ -375,17 +375,17 @@ Namespace CEG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Essential.Gene.Cluster")>
-        Public Function ExportEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+        Public Function ExportEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,
                                                    <Parameter("Annotation.Ptt")> Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                                    <Parameter("Path.CEG.Annotation")> Annotation As String,
                                                    <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim AnnotationData = LoadAnnotation(Annotation)
             Dim Fasta = (From Cluster As EssentialGeneCluster
                          In InternalEssentialGeneCluster(Nt, Ptt, AnnotationData, AllowedGaps).AsParallel
-                         Select New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With
+                         Select New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq With
                                 {
                                     .SequenceData = Cluster.Nt,
-                                    .Attributes = New String() {Cluster.ClusterID}}).ToArray
+                                    .Headers = New String() {Cluster.ClusterID}}).ToArray
             Return CType(Fasta, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         End Function
     End Module

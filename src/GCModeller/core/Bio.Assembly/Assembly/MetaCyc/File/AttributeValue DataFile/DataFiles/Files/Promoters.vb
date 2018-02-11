@@ -63,18 +63,18 @@ Namespace Assembly.MetaCyc.File.DataFiles
         ''' <param name="Genome"></param>
         ''' <returns></returns>
         ''' <remarks>启动子的序列长度取250bp</remarks>
-        Public Function GetPromoters(Genome As FASTA.FastaToken) As FASTA.FastaFile
-            Dim pList As List(Of FASTA.FastaToken) = New List(Of FASTA.FastaToken)
+        Public Function GetPromoters(Genome As FASTA.FastaSeq) As FASTA.FastaFile
+            Dim pList As List(Of FASTA.FastaSeq) = New List(Of FASTA.FastaSeq)
             For Each Promoter In Me
-                Dim Seq As FASTA.FastaToken = New FASTA.FastaToken With {
-                    .Attributes = New String() {Promoter.Identifier}
+                Dim Seq As FASTA.FastaSeq = New FASTA.FastaSeq With {
+                    .Headers = New String() {Promoter.Identifier}
                 }
                 Dim d As Integer = Promoter.Direction
                 If d = 1 Then
                     Seq.SequenceData = Mid(Genome.SequenceData, Val(Promoter.AbsolutePlus1Pos) - 250, 250)
                 ElseIf d = -1 Then
                     Seq.SequenceData = Mid(Genome.SequenceData, Val(Promoter.AbsolutePlus1Pos), 250)
-                    Call FASTA.FastaToken.Complement(Seq)
+                    Call FASTA.FastaSeq.Complement(Seq)
                 Else
                     Continue For
                 End If

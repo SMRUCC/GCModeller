@@ -44,8 +44,8 @@ Public Class SeqDiff : Implements INamedValue
     Public Property [Date] As String
     Public Property data As Dictionary(Of String, String)
 
-    Public Shared Function Parser(fa As FastaToken) As SeqDiff
-        Dim attrs As String() = fa.Attributes
+    Public Shared Function Parser(fa As FastaSeq) As SeqDiff
+        Dim attrs As String() = fa.Headers
 
         Return New SeqDiff With {
             .uid = attrs(Scan0),
@@ -57,7 +57,7 @@ Public Class SeqDiff : Implements INamedValue
         }
     End Function
 
-    Public Shared Sub GCOutlier(mla As IEnumerable(Of FastaToken), ByRef bufs As SeqDiff(), quantiles As Double(),
+    Public Shared Sub GCOutlier(mla As IEnumerable(Of FastaSeq), ByRef bufs As SeqDiff(), quantiles As Double(),
                                 Optional winsize As Integer = 250,
                                 Optional steps As Integer = 50,
                                 Optional slideSize As Integer = 5)
@@ -70,7 +70,7 @@ Public Class SeqDiff : Implements INamedValue
         Call __addData(dict, gcContentData, "GC%")
 
         For Each fa In mla
-            Dim uid As String = fa.Attributes.First & fa.Attributes.Last
+            Dim uid As String = fa.Headers.First & fa.Headers.Last
             dict(uid).data.Add("GCSkew (avg)", GCSkew(fa, winsize, steps, False).Average)
             dict(uid).data.Add("GC% (avg)", GCContent(fa, winsize, steps, False).Average)
         Next
@@ -105,7 +105,7 @@ Public Class SeqDiff : Implements INamedValue
     ''' <param name="bufs"></param>
     ''' <param name="DIR"></param>
     ''' <param name="title"></param>
-    Public Shared Sub ApplyPalindrom(mla As IEnumerable(Of FastaToken), ByRef bufs As SeqDiff(), DIR As String, title As String)
+    Public Shared Sub ApplyPalindrom(mla As IEnumerable(Of FastaSeq), ByRef bufs As SeqDiff(), DIR As String, title As String)
         Dim files = (ls - l - r - wildcards("*.csv") <= DIR).ToDictionary(Function(x) x.BaseName)
         Dim dict = bufs.ToDictionary(Function(x) x.uid & x.Date)
 
@@ -117,7 +117,7 @@ Public Class SeqDiff : Implements INamedValue
             End If
             Try
                 Dim data = files(key).LoadCsv(Of ImperfectPalindrome)
-                Dim uid As String = fa.Attributes.First & fa.Attributes.Last
+                Dim uid As String = fa.Headers.First & fa.Headers.Last
                 dict(uid).data.Add($"{title}.distance(Avg)", data.Average(Function(x) x.Distance))
                 dict(uid).data.Add($"{title}.score(Avg)", data.Average(Function(x) x.Score))
                 dict(uid).data.Add($"{title}.maxMatch(Avg)", data.Average(Function(x) x.MaxMatch))
@@ -137,7 +137,7 @@ Public Class SeqDiff : Implements INamedValue
     ''' <param name="bufs"></param>
     ''' <param name="DIR"></param>
     ''' <param name="rev"></param>
-    Public Shared Sub ApplyRepeats(mla As IEnumerable(Of FastaToken), ByRef bufs As SeqDiff(), DIR As String, rev As Boolean)
+    Public Shared Sub ApplyRepeats(mla As IEnumerable(Of FastaSeq), ByRef bufs As SeqDiff(), DIR As String, rev As Boolean)
         Dim files = (ls - l - r - wildcards("*.csv") <= DIR).ToDictionary(Function(x) x.BaseName)
         Dim dict = bufs.ToDictionary(Function(x) x.uid & x.Date)
 
@@ -146,7 +146,7 @@ Public Class SeqDiff : Implements INamedValue
             If Not files.ContainsKey(key) Then
                 Continue For
             End If
-            Dim uid As String = fa.Attributes.First & fa.Attributes.Last
+            Dim uid As String = fa.Headers.First & fa.Headers.Last
             Dim seq As SeqDiff = dict(uid)
             Try
                 If rev Then

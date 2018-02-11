@@ -35,24 +35,24 @@ Imports Microsoft.VisualBasic
 
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
 
-    Public Class GeneObject : Inherits FastaToken
+    Public Class GeneObject : Inherits FastaSeq
         Implements IReadOnlyId
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
             Get
-                Return Attributes.Last.Split.First
+                Return Headers.Last.Split.First
             End Get
         End Property
 
         Public ReadOnly Property AccessionId As String
             Get
-                Return Attributes.Last.Split()(1)
+                Return Headers.Last.Split()(1)
             End Get
         End Property
 
         Public ReadOnly Property ProductUniqueId As String
             Get
-                Return Attributes.Last.Split()(2).Replace("""", "")
+                Return Headers.Last.Split()(2).Replace("""", "")
             End Get
         End Property
 
@@ -63,7 +63,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Public ReadOnly Property Location As NucleotideLocation
             Get
                 ' Dim strLocation As String = Attributes.Last.Split()(3)
-                Dim strLocation As String = Regex.Match(Attributes.Last, METACYC_LOCATION_REGX).Value
+                Dim strLocation As String = Regex.Match(Headers.Last, METACYC_LOCATION_REGX).Value
                 Dim Tokens As String() = Nothing
                 Dim Strand As Strands
 
@@ -88,7 +88,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Public ReadOnly Property Species As String
             Get
                 Dim sBuilder As StringBuilder = New StringBuilder(128)
-                Dim Tokens As String() = Attributes.Last.Split
+                Dim Tokens As String() = Headers.Last.Split
 
                 For i As Integer = 4 To Tokens.Length - 1
                     Call sBuilder.Append(Tokens(i) & " ")
@@ -101,15 +101,15 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New()
         End Sub
 
-        Sub New(fa As FastaToken)
-            Attributes = fa.Attributes
+        Sub New(fa As FastaSeq)
+            Headers = fa.Headers
             SequenceData = fa.SequenceData
         End Sub
 
         Public Overloads Shared Sub Save(Data As GeneObject(), FilePath As String)
             Dim FsaFile As FastaFile = New FastaFile With {
                 .FilePath = FilePath,
-                ._innerList = New List(Of FastaToken)
+                ._innerList = New List(Of FastaSeq)
             }
             Call FsaFile._innerList.AddRange(Data)
             Call FsaFile.Save()

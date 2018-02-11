@@ -74,7 +74,7 @@ Module MySQLExtensions
                 .Database = DBName
             End If
 
-            If (ping = (mysqli <= .ref)) = -1.0R Then
+            If (ping = (mysqli <= .ByRef)) = -1.0R Then
                 Throw New NullReferenceException("No mysql connection!")
             Else
                 Call $"Ping to mysql server in {ping}ms...".__DEBUG_ECHO

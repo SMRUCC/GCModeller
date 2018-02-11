@@ -35,18 +35,18 @@ Namespace Assembly.NCBI.SequenceDump
     ''' <summary>
     ''' NCBI genbank title format fasta parser
     ''' </summary>
-    Public Class Protein : Inherits FASTA.FastaToken
+    Public Class Protein : Inherits FASTA.FastaSeq
 
         Public Property GI As String
         Public Property Description As String
 
-        Private Shared Function __createObject(Fasta As FASTA.FastaToken) As Protein
+        Private Shared Function __createObject(Fasta As FASTA.FastaSeq) As Protein
             Dim prot As New Protein With {
                 .SequenceData = Fasta.SequenceData,
-                .Attributes = Fasta.Attributes
+                .Headers = Fasta.Headers
             }
-            prot.GI = Fasta.Attributes(1)
-            prot.Description = Fasta.Attributes(4).Trim
+            prot.GI = Fasta.Headers(1)
+            prot.Description = Fasta.Headers(4).Trim
 
             Return prot
         End Function
@@ -55,7 +55,7 @@ Namespace Assembly.NCBI.SequenceDump
             Dim raw = FASTA.FastaFile.Read(path)
             Dim LQuery = LinqAPI.Exec(Of Protein) <=
  _
-                From Fasta As FASTA.FastaToken
+                From Fasta As FASTA.FastaSeq
                 In raw.AsParallel
                 Select Protein.__createObject(Fasta)
 

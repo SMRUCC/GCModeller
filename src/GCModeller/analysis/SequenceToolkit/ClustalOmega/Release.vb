@@ -44,8 +44,8 @@ Public Module Release
         Call FileIO.FileSystem.CreateDirectory(DIR)
 
         With App.GetAppSysTempFile(".zip", App.PID)
-            Call My.Resources.clustal_omega_1_2_2_win64.FlushStream(.ref)
-            Call GZip.ImprovedExtractToDirectory(.ref, DIR, Overwrite.Always)
+            Call My.Resources.clustal_omega_1_2_2_win64.FlushStream(.ByRef)
+            Call GZip.ImprovedExtractToDirectory(.ByRef, DIR, Overwrite.Always)
         End With
 
         Return DIR & "/clustalo.exe"

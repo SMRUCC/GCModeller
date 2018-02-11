@@ -105,8 +105,7 @@ Namespace Topologically
     ''' -- A.G. Pedersen And L.J. Jensen And H.H. St\aerfeldt And S. Brunak And D.W. 
     '''    Ussery A DNA structural atlas of extitE. coli (2000) 299907-930
     ''' </summary>
-    <Package("Palindrome.Search",
-                      Publisher:="xie.guigang@gcmodeller.org", Url:="http://gcmodeller.org")>
+    <Package("Palindrome.Search", Publisher:="xie.guigang@gcmodeller.org", Url:="http://gcmodeller.org")>
     Public Module Palindrome
 
         ''' <summary>
@@ -120,7 +119,7 @@ Namespace Topologically
         ''' <param name="minMatch">至少需要连续匹配这么多个碱基</param>
         ''' <returns></returns>
         <Extension>
-        Public Function SearchHairpinks(fa As FastaToken,
+        Public Function SearchHairpinks(fa As FastaSeq,
                                         Optional min As Integer = 6,
                                         Optional max As Integer = 8,
                                         Optional cutoff As Integer = 3,
@@ -140,7 +139,7 @@ Namespace Topologically
 
         End Function
 
-        Private Function Found(inFasta As FastaToken,
+        Private Function Found(inFasta As FastaSeq,
                                segment As TextSegment,
                                cutoff As Integer,
                                search As TextIndexing,

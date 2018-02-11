@@ -208,8 +208,8 @@ Public Module TMod
         Next
     End Sub
 
-    <Extension> Private Function __subSample(source As IEnumerable(Of FASTA.FastaToken), n As Integer) As FASTA.FastaFile
-        Dim data As FASTA.FastaToken() = source.Shuffles
+    <Extension> Private Function __subSample(source As IEnumerable(Of FASTA.FastaSeq), n As Integer) As FASTA.FastaFile
+        Dim data As FASTA.FastaSeq() = source.Shuffles
         Return New FASTA.FastaFile(data.Take(n))
     End Function
 
@@ -246,10 +246,10 @@ Public Module TMod
         Next
 
         '可能还有一些没有被覆盖掉，则在这里讲这些对象取出来进行subsample
-        Dim Sampled = (From fa As FASTA.FastaToken
+        Dim Sampled = (From fa As FASTA.FastaSeq
                        In (From item In LQuery Select item.fasta.ToArray).IteratesALL
                        Select fa.Title Distinct).ToArray
-        Dim UnSampled = (From fa As FASTA.FastaToken
+        Dim UnSampled = (From fa As FASTA.FastaSeq
                          In source.AsParallel
                          Where Array.IndexOf(Sampled, fa.Title) = -1
                          Select fa).ToArray
@@ -295,9 +295,9 @@ Public Module TMod
     Public Function MotifSelect(source As FASTA.FastaFile,
                                 <Parameter("id.list", "Using these keywords to search in the fasta collection.")>
                                 lstLocus As IEnumerable(Of String)) As FASTA.FastaFile
-        Dim LQuery = (From fa As FASTA.FastaToken In source
+        Dim LQuery = (From fa As FASTA.FastaSeq In source
                       Where (From s As String In lstLocus
-                             Where InStr(fa.Attributes.First, s, CompareMethod.Text) > 0
+                             Where InStr(fa.Headers.First, s, CompareMethod.Text) > 0
                              Select 1).Count > 0
                       Select fa).ToArray
         Return New FASTA.FastaFile(LQuery)

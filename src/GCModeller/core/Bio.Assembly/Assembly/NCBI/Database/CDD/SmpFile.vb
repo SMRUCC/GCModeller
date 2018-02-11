@@ -94,11 +94,11 @@ Namespace Assembly.NCBI.CDD
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function EXPORT() As FastaToken
+        Public Function EXPORT() As FastaSeq
             Dim Title As String = $"{ID}/1-2 {ID}.1 {Name}.1;{CommonName};"
-            Dim fasta As New FastaToken With {
+            Dim fasta As New FastaSeq With {
                 .SequenceData = SequenceData,
-                .Attributes = New String() {Title}
+                .Headers = New String() {Title}
             }
 
             Return fasta

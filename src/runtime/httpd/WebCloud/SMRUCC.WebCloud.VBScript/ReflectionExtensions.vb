@@ -35,7 +35,7 @@ Module ReflectionExtensions
 
     Public Function IsVariableType(obj As Object) As Boolean
         With obj.GetType
-            If .ref Is GetType(String) Then
+            If .ByRef Is GetType(String) Then
                 Return True
             ElseIf Not .ImplementInterface(GetType(IEnumerable)) Then
                 Return True
@@ -47,7 +47,7 @@ Module ReflectionExtensions
 
     Public Function IsCollectionType(obj As Object) As Boolean
         With obj.GetType
-            If Not .ref Is GetType(String) AndAlso .ImplementInterface(GetType(IEnumerable)) Then
+            If Not .ByRef Is GetType(String) AndAlso .ImplementInterface(GetType(IEnumerable)) Then
                 Return True
             Else
                 Return False

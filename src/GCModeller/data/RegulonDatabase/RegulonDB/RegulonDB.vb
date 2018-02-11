@@ -52,7 +52,7 @@ Namespace RegulonDB
             Return CType(fasta, FastaFile)
         End Function
 
-        Private Shared Function __export(site As Tables.site) As SequenceModel.FASTA.FastaToken
+        Private Shared Function __export(site As Tables.site) As SequenceModel.FASTA.FastaSeq
             Dim attrs As String() = New String() {
                 site.key_id_org,
                 site.site_id,
@@ -62,9 +62,9 @@ Namespace RegulonDB
                 site.site_posleft,
                 site.site_posright
             }
-            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
+            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq With {
                 .SequenceData = site.site_sequence,
-                .Attributes = attrs
+                .Headers = attrs
             }
         End Function
     End Class

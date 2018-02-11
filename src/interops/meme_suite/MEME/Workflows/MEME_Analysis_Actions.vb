@@ -68,15 +68,15 @@ Namespace Workflows
             Console.WriteLine("create dir {0}", dir)
             Console.WriteLine("createing tfbs informations...")
             Dim tfbsInfo As KeyValuePair(Of String, String)() = (From fsa In regprecisetfbs.AsParallel
-                                                                 Let attr = fsa.Attributes.First
+                                                                 Let attr = fsa.Headers.First
                                                                  Let tokens = attr.Split
                                                                  Let id = tokens.First
                                                                  Let gene = Regex.Match(tokens(1), "[a-z0-9_]+[:][-\d+]+").Value
                                                                  Select New KeyValuePair(Of String, String)(id, gene)).ToArray
             Console.WriteLine("creating regulators informations...")
             Dim regulators As KeyValuePair(Of String, String())() = (From fsa In regpreciseRegulator.AsParallel
-                                                                     Let list = Regex.Match(fsa.Attributes.Last, "tfbs=[^]]+").Value.Split(CChar("=")).Last.Split(CChar(";"))
-                                                                     Let id = String.Format("{0}|{1}", fsa.Attributes.First, fsa.Attributes(1).Split.First)
+                                                                     Let list = Regex.Match(fsa.Headers.Last, "tfbs=[^]]+").Value.Split(CChar("=")).Last.Split(CChar(";"))
+                                                                     Let id = String.Format("{0}|{1}", fsa.Headers.First, fsa.Headers(1).Split.First)
                                                                      Select New KeyValuePair(Of String, String())(id, list)).ToArray
 
             Console.WriteLine("matching data file")
@@ -246,7 +246,7 @@ Namespace Workflows
 
         Public Function SequenceNotDownload(regprecise As String, DownloadSeq As FASTA.FastaFile) As KeyValuePair()
             Dim AllList = GetKeywords(regprecise).AsList
-            Dim DonwloadList = (From fsa In DownloadSeq Let id = fsa.Attributes.Last Let tokens = Strings.Split(id, " - ") Select New KeyValuePair With {.Key = tokens(0), .Value = tokens(1)}).ToArray
+            Dim DonwloadList = (From fsa In DownloadSeq Let id = fsa.Headers.Last Let tokens = Strings.Split(id, " - ") Select New KeyValuePair With {.Key = tokens(0), .Value = tokens(1)}).ToArray
 
             For Each iten In DonwloadList
                 Call AllList.RemoveAll(Function(n As KeyValuePair) iten.Equals(n, strict:=False))
@@ -276,10 +276,10 @@ Namespace Workflows
 
                     If Not LQuery.IsNullOrEmpty Then
                         Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(LQuery.First)
-                        attrList = fsa.Attributes.AsList
+                        attrList = fsa.Headers.AsList
                         attrList.Add(item.Key & " - " & item.Value)
 
-                        fsa.Attributes = attrList.ToArray
+                        fsa.Headers = attrList.ToArray
                         Call FsaList.Add(fsa)
                     End If
                 Else
@@ -287,10 +287,10 @@ Namespace Workflows
 
                     If Not entryList.IsNullOrEmpty Then
                         Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(entryList.First)
-                        attrList = fsa.Attributes.AsList
+                        attrList = fsa.Headers.AsList
                         attrList.Add(item.Key & " - " & item.Value)
 
-                        fsa.Attributes = attrList.ToArray
+                        fsa.Headers = attrList.ToArray
                         Call FsaList.Add(fsa)
                     End If
                 End If

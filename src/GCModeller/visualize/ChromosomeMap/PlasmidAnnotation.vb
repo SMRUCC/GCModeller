@@ -129,8 +129,8 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
         Dim LQuery = (From PlasmidGene As PlasmidAnnotation
                       In data
                       Where Not String.IsNullOrEmpty(PlasmidGene.Protein)
-                      Select New SequenceModel.FASTA.FastaToken With {
-                          .Attributes = GetTitle(PlasmidGene),
+                      Select New SequenceModel.FASTA.FastaSeq With {
+                          .Headers = GetTitle(PlasmidGene),
                           .SequenceData = PlasmidGene.Protein}).ToArray
         Return CType(LQuery, SequenceModel.FASTA.FastaFile)
     End Function

@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::12d829d0783625c9d4eea42102a0f856, ..\GCModeller\CLI_tools\KEGG\Tools\PathwayAssociationAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
+Imports Microsoft.VisualBasic.DataMining.AprioriRules.Entities
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.DataMining.AprioriRules
 
 ''' <summary>
 ''' 代谢途径功能关联分析
@@ -50,9 +51,9 @@ Module PathwayAssociationAnalysis
     ''' <param name="Df"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Analysis(Df As IO.File) As Entities.Output()
+    Public Function Analysis(Df As IO.File) As Output()
         Dim Genes = (From col As String In Df.First.Skip(2) Select col).ToArray
-        Dim ChrW As Char() = EncodingServices.GenerateCodes(Genes.Length)
+        Dim ChrW As Char() = Encoding.GenerateCodes(Genes.Length).ToArray
         Dim items = (From i As Integer In Genes.Sequence Select ChrW(i + 1)).ToArray      '创建映射
         Dim Mappings = (From i As Integer In items.Sequence
                         Select code = items(i),
@@ -64,7 +65,7 @@ Module PathwayAssociationAnalysis
                             Group By [Class] Into Group)    '生成事务
         Dim GetResultLQuery = (From [Class] In Transactions.AsParallel
                                Let trans = (From obj In [Class].Group.ToArray Select obj.Transcation).ToArray
-                               Let Result = AlgorithmInvoker.CreateObject.AnalysisTransactions(trans, Items:=items)
+                               Let Result = trans.AnalysisTransactions(items:=items)
                                Let StrongRules = Result.StrongRules.ToArray
                                Let FrequentItems = Result.FrequentItems.Values.ToArray
                                Let MappedResult = (From r As Entities.Rule

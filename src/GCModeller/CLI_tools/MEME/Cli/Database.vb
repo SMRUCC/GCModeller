@@ -55,7 +55,7 @@ Partial Module CLI
         Dim strict As Boolean = args.GetBoolean("/strict")
         Dim PTT As PTT = TabularFormat.PTT.Read(args("/ptt"))
         Dim outDIR As String = args("/o") Or (args("/nt").TrimSuffix & $".intergenic.{len}bp.{If(strict, "strict", "")}.fasta")
-        Dim NT As New FASTA.FastaToken(args("/nt"))
+        Dim NT As New FASTA.FastaSeq(args("/nt"))
         Dim fa As FASTA.FastaFile =
             IntergenicSigma70.Sigma70Parser(NT, PTT, Length:=len, StrictOverlap:=strict)
         Return fa.Save(outDIR).CLICode

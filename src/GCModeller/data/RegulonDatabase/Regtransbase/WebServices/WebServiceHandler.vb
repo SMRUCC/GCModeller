@@ -87,7 +87,7 @@ Namespace Regtransbase.WebServices
 
                     Try
                         Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(Entry:=RegulatorEntry)
-                        Dim TempList = Fsa.Attributes.First
+                        Dim TempList = Fsa.Headers.First
 
                         TempList = TempList & String.Format(" [Regulog={0}]", Item.Key)
                         Dim sBuilder As StringBuilder = New StringBuilder(128)
@@ -100,7 +100,7 @@ Namespace Regtransbase.WebServices
                         TempList = TempList & (String.Format(" [tfbs={0}]", sBuilder.ToString))
 
                         i += 1
-                        Fsa.Attributes = New String() {String.Format("lcl{0}", i), TempList}
+                        Fsa.Headers = New String() {String.Format("lcl{0}", i), TempList}
 
                         Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                         Call FsaFile.Add(item:=Fsa)
@@ -110,7 +110,7 @@ Namespace Regtransbase.WebServices
                         Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
                     End Try
                 Else '为通用的基因名称，则按照TFBS的LocusTag信息得到KEGG的物种编号，在进行组合查询
-                    Dim TempObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Nothing
+                    Dim TempObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Nothing
                     Dim TempObject_LocusTagList As List(Of String) = New List(Of String)
 
                     For Each LocusId In Item.Value  'LocusId的物种是唯一的
@@ -137,13 +137,13 @@ Namespace Regtransbase.WebServices
                                         Call TempObject_LocusTagList.AddRange(LocusId.Value)
                                         Continue For
                                     Else
-                                        Dim TempList = Fsa.Attributes.First
+                                        Dim TempList = Fsa.Headers.First
 
                                         TempList = TempList & String.Format(" [Regulog={0}]", Item.Key)
                                         TempList = TempList & (String.Format(" [tfbs={0}]", stringLine(LocusId.Value)))
 
                                         i += 1
-                                        Fsa.Attributes = New String() {String.Format("lcl{0}", i), TempList}
+                                        Fsa.Headers = New String() {String.Format("lcl{0}", i), TempList}
 
                                         Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                                         Call FsaFile.Add(item:=Fsa)
@@ -167,14 +167,14 @@ Namespace Regtransbase.WebServices
                         Call Console.WriteLine(Err)
                         Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
                     Else '将缓存数据写入文件
-                        Dim TempList = TempObject.Attributes.First
+                        Dim TempList = TempObject.Headers.First
                         Dim LOCUS_TAG_ENTRY As String = stringLine(TempObject_LocusTagList.ToArray)
 
                         TempList = TempList & String.Format(" [Regulog={0}]", Item.Key)
                         TempList = TempList & (String.Format(" [tfbs={0}]", LOCUS_TAG_ENTRY))
 
                         i += 1
-                        TempObject.Attributes = New String() {String.Format("lcl{0}", i), TempList}
+                        TempObject.Headers = New String() {String.Format("lcl{0}", i), TempList}
 
                         Call FileIO.FileSystem.WriteAllText(FileSaved, TempObject.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                         Call FsaFile.Add(item:=TempObject)

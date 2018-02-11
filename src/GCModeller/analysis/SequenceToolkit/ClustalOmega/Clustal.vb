@@ -128,7 +128,7 @@ Public Class Clustal : Inherits CLI
     ''' </summary>
     ''' <param name="source"></param>
     ''' <returns></returns>
-    Public Function Align(source As IEnumerable(Of FASTA.FastaToken)) As FASTA.FastaFile
+    Public Function Align(source As IEnumerable(Of FASTA.FastaSeq)) As FASTA.FastaFile
         Dim fa As New FASTA.FastaFile(source)
         Dim input As String = fa.Generate
         Dim out As String = MyBase._executableAssembly.Call("", input)

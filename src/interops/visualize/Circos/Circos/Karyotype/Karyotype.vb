@@ -54,8 +54,8 @@ Namespace Karyotype
         ''' <param name="x"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function nt(x As Karyotype) As PropertyValue(Of FastaToken)
-            Return PropertyValue(Of FastaToken).Read(Of Karyotype)(x, NameOf(nt))
+        Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
+            Return PropertyValue(Of FastaSeq).Read(Of Karyotype)(x, NameOf(nt))
         End Function
 
         <Extension>

@@ -64,10 +64,10 @@ Namespace Assembly.Uniprot.Web
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Protein.Download", Info:="Download a protein sequence fasta data from http://www.uniprot.org/ using a specific UniprotId.")>
-        Public Function DownloadProtein(UniprotId As String) As FASTA.FastaToken
+        Public Function DownloadProtein(UniprotId As String) As FASTA.FastaSeq
             Dim url As String = String.Format(UNIPROT_FASTA_DOWNLOAD_URL, UniprotId)
             Dim html As String = url.GET
-            Return FASTA.FastaToken.TryParse(html)
+            Return FASTA.FastaSeq.TryParse(html)
         End Function
 
         ''' <summary>

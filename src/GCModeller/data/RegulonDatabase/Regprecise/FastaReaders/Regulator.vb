@@ -37,7 +37,7 @@ Namespace Regprecise.FastaReaders
     ''' 调控因子的蛋白质序列
     ''' > xcb:XC_1184|Family|Regulates|Regulog|Definition
     ''' </summary>
-    Public Class Regulator : Inherits FASTA.FastaToken
+    Public Class Regulator : Inherits FASTA.FastaSeq
         Implements INamedValue
 
         ''' <summary>
@@ -73,12 +73,12 @@ Namespace Regprecise.FastaReaders
             Return $"{KEGG}|{Family}|{String.Join(";", Sites)}|{Regulog}|{Definition}"
         End Function
 
-        Public Shared Function LoadDocument(FastaObject As FASTA.FastaToken) As Regulator
-            Dim attributes As String() = FastaObject.Attributes
+        Public Shared Function LoadDocument(FastaObject As FASTA.FastaSeq) As Regulator
+            Dim attributes As String() = FastaObject.Headers
             Dim RegpreciseRegulator As Regulator =
                 New Regulator With {
                     .KEGG = attributes(Scan0),
-                    .Attributes = attributes,
+                    .Headers = attributes,
                     .Family = attributes(1),
                     .Sites = Strings.Split(attributes(2), ";"),
                     .Regulog = attributes(3),
@@ -90,7 +90,7 @@ Namespace Regprecise.FastaReaders
         End Function
 
         Public Shared Function LoadDocument(FastaFile As FASTA.FastaFile) As Regulator()
-            Dim LQuery As Regulator() = (From FastaObject As FASTA.FastaToken
+            Dim LQuery As Regulator() = (From FastaObject As FASTA.FastaSeq
                                          In FastaFile.AsParallel
                                          Select Regulator.LoadDocument(FastaObject)).ToArray
             Return LQuery

@@ -116,7 +116,7 @@ Namespace Assembly.KEGG.WebServices
                 Call .DownloadFile(tmp)
 
                 img = tmp.LoadImage.ToBase64String
-                img = FastaToken.SequenceLineBreak(200, img)
+                img = FastaSeq.SequenceLineBreak(200, img)
             End With
 
             Dim info As NamedValue(Of String) = GetEntryInfo(html)

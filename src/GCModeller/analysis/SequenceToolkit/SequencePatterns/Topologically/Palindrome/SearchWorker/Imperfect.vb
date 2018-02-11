@@ -1,36 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::b584ca7431e7c0d8a298ddd05780c8ab, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports Microsoft.VisualBasic.Text.Search
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
@@ -50,6 +48,7 @@ Namespace Topologically
         ReadOnly _resultSet As New List(Of ImperfectPalindrome)
 
         Public Shadows ReadOnly Property ResultSet As ImperfectPalindrome()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _resultSet.ToArray
             End Get
@@ -64,24 +63,18 @@ Namespace Topologically
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Sequence"></param>
-        ''' <param name="Min"></param>
-        ''' <param name="Max"></param>
-        Sub New(Sequence As IPolymerSequenceModel,
-                <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
-                cutoff As Double,
-                maxDist As Integer,
-                partitions As Integer)
-
-            Call MyBase.New(Sequence, Min, Max)
+        ''' <param name="nt"></param>
+        ''' <param name="Min">The minimum length of the repeat sequence loci.</param>
+        ''' <param name="Max">The maximum length of the repeat sequence loci.</param>
+        Sub New(nt As IPolymerSequenceModel, min%, max%, cutoff#, maxDist%, partitions%)
+            Call MyBase.New(nt, min, max)
 
             ' 因为是回文重复，所以到一半长度的时候肯定是没有了的
-            If Me.max > Len(Sequence.SequenceData) / 2 Then
-                Me.max = Len(Sequence.SequenceData) / 2
+            If Me.max > Len(nt.SequenceData) / 2 Then
+                Me.max = Len(nt.SequenceData) / 2
             End If
 
-            _index = New TextIndexing(Sequence.SequenceData, Min, Max)
+            _index = New TextIndexing(nt.SequenceData, min, max)
             _cutoff = cutoff
             _maxDist = maxDist
             _partitions = partitions
@@ -89,31 +82,36 @@ Namespace Topologically
 
         Protected Overrides Sub DoSearch(seed As Seed)
             Dim palLoci As String = PalindromeLoci.GetPalindrome(seed.Sequence)
-            Dim pali As Map(Of TextSegment, DistResult)() =
-                _index.Found(seed.Sequence, _cutoff, _partitions)
+            Dim pali As Map(Of TextSegment, DistResult)() = _index.Found(seed.Sequence, _cutoff, _partitions)
             Dim segment As String = seed.Sequence
             Dim locis%() = FindLocation(seq.SequenceData, segment)
-            Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) <=
-                From loci As Map(Of TextSegment, DistResult)
-                In pali.AsParallel
-                Let palLeft As Integer = loci.Key.Index
-                Let lev As DistResult = loci.Maps
-                Select From left As Integer
-                       In locis
-                       Let d As Integer = palLeft - left
-                       Where d > 0 AndAlso d <= _maxDist
-                       Select New ImperfectPalindrome With {
-                           .Site = segment,
-                           .Left = left,
-                           .Palindrome = loci.Key.Segment,
-                           .Paloci = loci.Key.Index,
-                           .Distance = lev.Distance,
-                           .Evolr = lev.DistEdits,
-                           .Matches = lev.Matches,
-                           .Score = lev.Score
-                       }
+            Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) _
+ _
+                () <= From loci As Map(Of TextSegment, DistResult)
+                      In pali.AsParallel
+                      Let palLeft As Integer = loci.Key.Index
+                      Select createOutput(locis, palLeft, segment, loci)
 
             Call _resultSet.AddRange(imperfects)
         End Sub
+
+        Private Function createOutput(locis%(), palLeft%, segment$, loci As Map(Of TextSegment, DistResult)) As IEnumerable(Of ImperfectPalindrome)
+            Dim levenshtein As DistResult = loci.Maps
+
+            Return From left As Integer
+                   In locis
+                   Let d As Integer = palLeft - left
+                   Where d > 0 AndAlso d <= _maxDist
+                   Select New ImperfectPalindrome With {
+                       .Site = segment,
+                       .Left = left,
+                       .Palindrome = loci.Key.Segment,
+                       .Paloci = loci.Key.Index,
+                       .Distance = levenshtein.Distance,
+                       .Evolr = levenshtein.DistEdits,
+                       .Matches = levenshtein.Matches,
+                       .Score = levenshtein.Score
+                   }
+        End Function
     End Class
 End Namespace

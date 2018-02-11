@@ -133,7 +133,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
         Dim query As New FASTA.FastaFile(queryFile)
 
-        For Each seq As FastaToken In query
+        For Each seq As FastaSeq In query
             Dim path As String = $"{out}/{seq.Title.NormalizePathString(False)}.csv"
             Dim result = Global.KEGG_tools.Blastn.Submit(seq)
             Call result.SaveTo(path)
@@ -454,10 +454,10 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".fasta")
         Dim fasta As New FASTA.FastaFile([in])
         Dim splist As List(Of String) = sp.ReadAllLines.ToList(Function(s) s.ToLower)
-        Dim LQuery As IEnumerable(Of FASTA.FastaToken) =
-            From fa As FASTA.FastaToken
+        Dim LQuery As IEnumerable(Of FASTA.FastaSeq) =
+            From fa As FASTA.FastaSeq
             In fasta
-            Let tag As String = fa.Attributes(Scan0).Split(":"c).First.ToLower
+            Let tag As String = fa.Headers(Scan0).Split(":"c).First.ToLower
             Where splist.IndexOf(tag) > -1
             Select fa '
 
@@ -496,7 +496,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                 End If
             End If
 
-            Dim prot As FASTA.FastaToken = FetchSeq(sp, sId)
+            Dim prot As FASTA.FastaSeq = FetchSeq(sp, sId)
             If Not prot Is Nothing Then
                 Call prot.SaveTo(path)
             Else
@@ -504,11 +504,11 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
             End If
         Next
 
-        Dim result = LinqAPI.Exec(Of FastaToken) <=
+        Dim result = LinqAPI.Exec(Of FastaSeq) <=
             From fa As String
             In lstFiles
             Where fa.FileExists
-            Select New FastaToken(fa)
+            Select New FastaSeq(fa)
 
         Return New FastaFile(result).Save(out & ".fasta")
     End Function

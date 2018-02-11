@@ -42,7 +42,7 @@ Namespace Analysis.MotifScans
     Public Module SiteScanner
 
         <ExportAPI("Fa.LDM")>
-        <Extension> Public Function CreateModel(fa As SequenceModel.FASTA.FastaToken) As AnnotationModel
+        <Extension> Public Function CreateModel(fa As SequenceModel.FASTA.FastaSeq) As AnnotationModel
             Dim seq As ResidueSite() = Time(Function() fa.SequenceData.Select(Function(x) New ResidueSite(x)))
             Return New AnnotationModel With {
                 .Uid = fa.Title,
@@ -58,7 +58,7 @@ Namespace Analysis.MotifScans
         End Function
 
         <ExportAPI("Scan")>
-        <Extension> Public Function Scan(Motif As AnnotationModel, genome As SequenceModel.FASTA.FastaToken, params As Parameters) As Analysis.Similarity.TOMQuery.Output
+        <Extension> Public Function Scan(Motif As AnnotationModel, genome As SequenceModel.FASTA.FastaSeq, params As Parameters) As Analysis.Similarity.TOMQuery.Output
             Return Motif.Scan(genome.CreateModel, params)
         End Function
 

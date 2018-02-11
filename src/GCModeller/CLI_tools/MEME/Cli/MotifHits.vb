@@ -375,7 +375,7 @@ Partial Module CLI
     Public Function SiteRegexScan(args As CommandLine) As Integer
         Dim batch As Boolean = args.GetBoolean("/batch")
         Dim nt As String = args("/nt")
-        Dim ntFa As New FastaToken(nt)
+        Dim ntFa As New FastaSeq(nt)
         Dim scanner As New Scanner(ntFa)
 
         If Not batch Then

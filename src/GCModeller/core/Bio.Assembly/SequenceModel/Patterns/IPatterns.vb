@@ -119,7 +119,7 @@ Namespace SequenceModel.Patterns
         ''' <param name="ref">序列的长度必须要和<see cref="Residues"/>的长度相等</param>
         ''' <param name="cutoff"></param>
         ''' <returns></returns>
-        Public Function GetVariation(ref As FASTA.FastaToken, cutoff As Double) As Double()
+        Public Function GetVariation(ref As FASTA.FastaSeq, cutoff As Double) As Double()
             Dim refs As Char() = ref.SequenceData.ToUpper.ToCharArray
             Return Residues.Select(Function(x, i) x.Variation(refs(i), cutoff)).ToArray
         End Function

@@ -78,7 +78,7 @@ Public Class RepositoryWebApp : Inherits WebApp
         End Function
     End Structure
 
-    <[GET](GetType(FastaToken))>
+    <[GET](GetType(FastaSeq))>
     <ExportAPI("/DATA/Download.fasta")>
     Public Function Downloads(request As HttpRequest, response As HttpResponse) As Boolean
         Dim task$ = request.URLParameters("task")

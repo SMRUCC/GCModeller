@@ -47,45 +47,45 @@ Namespace DocumentFormat
             Return LQuery.ToCsvDoc(False)
         End Function
 
-        Public Function _5UTR(source As Generic.IEnumerable(Of Transcript), genome As SequenceModel.FASTA.FastaToken) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
+        Public Function _5UTR(source As Generic.IEnumerable(Of Transcript), genome As SequenceModel.FASTA.FastaSeq) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             source = (From x In source Where Not x.IsRNA AndAlso Not String.IsNullOrEmpty(x.TSS_ID) AndAlso x._5UTR > 0 Select x).ToArray
             Dim lst5UTR = (From transcript As Transcript In source
                            Let loci = transcript.__5UTRRegion
                            Let seq = genome.CutSequenceLinear(loci)
-                           Let fa = New SequenceModel.FASTA.FastaToken With {
+                           Let fa = New SequenceModel.FASTA.FastaSeq With {
                                .SequenceData = seq.SequenceData,
-                               .Attributes = {transcript.TSS_ID, transcript.Synonym}
+                               .Headers = {transcript.TSS_ID, transcript.Synonym}
                            }
                            Select fa).ToArray
             Return New SequenceModel.FASTA.FastaFile(lst5UTR)
         End Function
 
         Public Function TSSs(source As Generic.IEnumerable(Of Transcript),
-                             genome As SequenceModel.FASTA.FastaToken,
+                             genome As SequenceModel.FASTA.FastaSeq,
                              len As Integer) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim offset As Integer = len / 2
             source = (From x In source Where Not String.IsNullOrEmpty(x.TSS_ID) Select x).ToArray
             Dim lstTSSs = (From transcript As Transcript In source
                            Let loci = transcript.__TSSsRegion(offset)
                            Let seq = genome.CutSequenceLinear(loci)
-                           Let fa = New SequenceModel.FASTA.FastaToken With {
+                           Let fa = New SequenceModel.FASTA.FastaSeq With {
                                .SequenceData = seq.SequenceData,
-                               .Attributes = {transcript.TSS_ID, transcript.Synonym}
+                               .Headers = {transcript.TSS_ID, transcript.Synonym}
                            }
                            Select fa).ToArray
             Return New SequenceModel.FASTA.FastaFile(lstTSSs)
         End Function
 
         Public Function UpStream(source As Generic.IEnumerable(Of Transcript),
-                                 genome As SequenceModel.FASTA.FastaToken,
+                                 genome As SequenceModel.FASTA.FastaSeq,
                                  len As Integer) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             source = (From x In source Where Not x.IsRNA AndAlso Not String.IsNullOrEmpty(x.TSS_ID) Select x).ToArray
             Dim lstUpStream = (From transcript As Transcript In source
                                Let loci = transcript.__upStreamRegion(offset:=len)
                                Let seq = genome.CutSequenceLinear(loci)
-                               Let fa = New SequenceModel.FASTA.FastaToken With {
+                               Let fa = New SequenceModel.FASTA.FastaSeq With {
                                    .SequenceData = seq.SequenceData,
-                                   .Attributes = {transcript.TSS_ID, transcript.Synonym}
+                                   .Headers = {transcript.TSS_ID, transcript.Synonym}
                                }
                                Select fa).ToArray
             Return New SequenceModel.FASTA.FastaFile(lstUpStream)

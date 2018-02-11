@@ -486,7 +486,7 @@ Partial Module CLI
         Dim regulators As FastaReaders.Regulator() =
             FileIO.FileSystem.GetFiles(regulatorsRepository,
                                        FileIO.SearchOption.SearchAllSubDirectories,
-                                       "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
+                                       "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaSeq.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
                                                     FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(
                                                     Function(xml) xml.LoadXml(Of JSON.regulator())).Unlist

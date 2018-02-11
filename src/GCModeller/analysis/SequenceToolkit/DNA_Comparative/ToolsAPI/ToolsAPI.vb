@@ -170,7 +170,7 @@ Public Module ToolsAPI
                                        <Parameter("Column.Tag")> TagCol As String,
                                        <Parameter("Column.Start")> StartTag As String,
                                        <Parameter("Column.Stop")> StopTag As String,
-                                       <Parameter("Nt.Source")> Nt As FastaToken) As PartitioningData()
+                                       <Parameter("Nt.Source")> Nt As FastaSeq) As PartitioningData()
 
         Dim LQuery As PartitioningData() =
             LinqAPI.Exec(Of PartitioningData) <= From row As DynamicObjectLoader
@@ -185,7 +185,7 @@ Public Module ToolsAPI
                                    Reader As IPolymerSequenceModel,
                                    startTag$,
                                    <Parameter("Column.Stop")> stopTag$,
-                                   nt As FastaToken) As PartitioningData
+                                   nt As FastaSeq) As PartitioningData
         Dim Left As String = row(startTag).Replace(",", "")
         Dim Right As String = row(stopTag).Replace(",", "")
         Dim Join As Boolean = False
@@ -221,11 +221,11 @@ Public Module ToolsAPI
     ''' <param name="St">标尺片段的起始位置</param>
     <ExportAPI("Measure.Homogeneity")>
     Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
-                                       <Parameter("With.Rule")> Rule As FastaToken,
+                                       <Parameter("With.Rule")> Rule As FastaSeq,
                                        St As Integer,
                                        Sp As Integer) As IO.DataFrame
         Dim Reader As IPolymerSequenceModel = Rule
-        Dim fa As New FastaToken With {
+        Dim fa As New FastaSeq With {
             .SequenceData = Reader.CutSequenceLinear(St, Sp - St).SequenceData
         }
         Dim RuleSegment As New NucleotideModels.NucleicAcid(fa)
@@ -262,7 +262,7 @@ Public Module ToolsAPI
     ''' <param name="Fasta">>Region1(1492-6218)</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __regionMetaParser(Fasta As FastaToken) As PartitioningData
+    Private Function __regionMetaParser(Fasta As FastaSeq) As PartitioningData
         Dim Loci As Integer() = (From m As Match
                                  In Regex.Matches(Regex.Match(Fasta.Title, "\(\d+[-]\d+\)").Value, "\d+")
                                  Select CInt(Val(m.Value))).ToArray
@@ -315,7 +315,7 @@ Public Module ToolsAPI
             For Each locus In genes
                 Call locus.__DEBUG_ECHO
 
-                Dim Rule As FastaToken = FastaToken.LoadNucleotideData(Folder & "/" & locus.ID & ".fna")
+                Dim Rule As FastaSeq = FastaSeq.LoadNucleotideData(Folder & "/" & locus.ID & ".fna")
 
                 If Rule Is Nothing Then
                     Continue For
@@ -368,7 +368,7 @@ Public Module ToolsAPI
         Dim resource = faDIR.LoadSourceEntryList({}) '加载Fasta资源数据
         Dim FastaReader = (From entry As KeyValuePair(Of String, String)
                            In resource.AsParallel
-                           Let fa = FastaToken.Load(entry.Value)
+                           Let fa = FastaSeq.Load(entry.Value)
                            Select ID = entry.Key,
                                Reader = fa) _
                               .ToDictionary(Function(item) item.ID,
@@ -428,7 +428,7 @@ Public Module ToolsAPI
         Return LQuery.ToArray
     End Function
 
-    Private Function __readSeq(left As Integer, right As Integer, faReader As Dictionary(Of String, FastaToken), genomeId As String) As String
+    Private Function __readSeq(left As Integer, right As Integer, faReader As Dictionary(Of String, FastaSeq), genomeId As String) As String
         If Not faReader.ContainsKey(genomeId) Then
             Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".__DEBUG_ECHO
             Return ""
@@ -448,7 +448,7 @@ Public Module ToolsAPI
         Return seq
     End Function
 
-    Private Function __readSequence(fastaReader As Dictionary(Of String, FastaToken),
+    Private Function __readSequence(fastaReader As Dictionary(Of String, FastaSeq),
                                     genomeId As String,
                                     left As Integer,
                                     right As Integer) As String
@@ -519,7 +519,7 @@ Public Module ToolsAPI
         Dim EmptySigma As SiteSigma() = New SiteSigma() {}
 
         Dim LQuery = (From SubjectData As KeyValuePair(Of String, PartitioningData) In subject
-                      Let SubjectFasta As FastaToken = SubjectData.Value.ToFasta
+                      Let SubjectFasta As FastaSeq = SubjectData.Value.ToFasta
                       Let procResult As KeyValuePair(Of String, SiteSigma()) =
                           __process(SubjectData, SubjectFasta, EmptySigma, InternalCache, querySource, EXPORT)
                       Where Not procResult.Value.IsNullOrEmpty
@@ -533,7 +533,7 @@ Public Module ToolsAPI
     End Function
 
     Private Function __process(SubjectData As KeyValuePair(Of String, PartitioningData),
-                               SubjectFasta As FastaToken,
+                               SubjectFasta As FastaSeq,
                                EmptySigma As SiteSigma(),
                                InternalCache As Cache(),
                                querySource As PartitioningData,
@@ -562,7 +562,7 @@ Public Module ToolsAPI
     End Function
 
     <ExportAPI("CAI")>
-    Public Function CAI(ORF As FastaToken) As CodonAdaptationIndex
+    Public Function CAI(ORF As FastaSeq) As CodonAdaptationIndex
         Return New CodonAdaptationIndex(New RelativeCodonBiases(ORF))
     End Function
 
@@ -633,8 +633,8 @@ Public Module ToolsAPI
         Dim ResultList = New List(Of KeyValuePair(Of String, CodonAdaptationIndex))
 
         For i As Integer = 0 To gene_source.Count - 1
-            Dim Sequence As FastaToken = gene_source(i)
-            Dim Path As String = String.Format("({0}){1}", InternalID, Sequence.Attributes.First.NormalizePathString)
+            Dim Sequence As FastaSeq = gene_source(i)
+            Dim Path As String = String.Format("({0}){1}", InternalID, Sequence.Headers.First.NormalizePathString)
             Dim SeqID As String = Path
             Dim CAIData As CodonAdaptationIndex
 
@@ -655,16 +655,16 @@ Public Module ToolsAPI
     End Function
 
     Public Function CompileCAIBIASCalculationThread_p(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CodonAdaptationIndex)()
-        Dim ResultList = (From Sequence As FastaToken
+        Dim ResultList = (From Sequence As FastaSeq
                           In gene_source.AsParallel
-                          Let Path As String = String.Format("({0}){1}", InternalID, Sequence.Attributes.First.NormalizePathString)
+                          Let Path As String = String.Format("({0}){1}", InternalID, Sequence.Headers.First.NormalizePathString)
                           Let SeqID As String = Path
                           Let CAIData As CodonAdaptationIndex = __createTable(WorkTemp, Path, Sequence, SeqID)
                           Select New KeyValuePair(Of String, CodonAdaptationIndex)(SeqID, CAIData)).ToArray
         Return ResultList.ToArray
     End Function
 
-    Private Function __createTable(workTMP As String, path As String, Sequence As FastaToken, seqId As String) As CodonAdaptationIndex
+    Private Function __createTable(workTMP As String, path As String, Sequence As FastaSeq, seqId As String) As CodonAdaptationIndex
         Dim XMLPath = workTMP & "/" & path & ".xml"
         Dim da As CodonAdaptationIndex
 
@@ -719,7 +719,7 @@ Public Module ToolsAPI
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("genome.sigma_diff")>
-    Public Function GenomeSigmaDifference_p(genome As FastaToken, compare As FastaToken, Optional windowsSize As Integer = 1000) As SiteSigma()
+    Public Function GenomeSigmaDifference_p(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
         Call Console.WriteLine("Start to create slide window for difference calculation.")
         Dim Windows = New NucleotideModels.NucleicAcid(genome).ToArray.CreateSlideWindows(windowsSize)
         Call Console.WriteLine("Creation job done!")
@@ -754,7 +754,7 @@ Public Module ToolsAPI
     ''' <param name="compare"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __genomeSigmaDiff(cache As Cache(), compare As FastaToken) As SiteSigma()
+    Private Function __genomeSigmaDiff(cache As Cache(), compare As FastaSeq) As SiteSigma()
         Call "Creating compare cache..... ".__DEBUG_ECHO
         Dim CompareCache = New DeltaSimilarity1998.NucleicAcid(compare)
         Call "Compare cache creating job done!".__DEBUG_ECHO
@@ -891,10 +891,10 @@ Public Module ToolsAPI
     Private Function __sigmaCompareWith(query As String, subject As String, EXPORT As String, windowsSize As Integer) As Boolean
         Dim FastaObjects = (From path As String
                             In FileIO.FileSystem.GetFiles(subject, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
-                            Select FastaToken.LoadNucleotideData(path)).ToArray
+                            Select FastaSeq.LoadNucleotideData(path)).ToArray
 
         Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO
-        Dim QueryFasta = FastaToken.LoadNucleotideData(query)
+        Dim QueryFasta = FastaSeq.LoadNucleotideData(query)
         Dim Windows = New NucleotideModels.NucleicAcid(QueryFasta).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache = (From Window In Windows.AsParallel
                              Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Items)
@@ -912,7 +912,7 @@ Public Module ToolsAPI
         Return File.Save(FileName, False)
     End Function
 
-    Private Function __process(subjectFasta As FastaToken, queryFasta As FastaToken, Export As String, internalCache As Cache()) As KeyValuePair(Of String, SiteSigma())
+    Private Function __process(subjectFasta As FastaSeq, queryFasta As FastaSeq, Export As String, internalCache As Cache()) As KeyValuePair(Of String, SiteSigma())
         Call Console.WriteLine("[DEBUG] Start the calculation threads ""{0}""... ", subjectFasta.Title)
         Dim sigma = __genomeSigmaDiff(internalCache, subjectFasta)
         Dim f As String = queryFasta.Title.Split(CChar("|")).First.NormalizePathString
@@ -981,11 +981,11 @@ Public Module ToolsAPI
         Using pb As New CBusyIndicator(_start:=True)
             Dim FastaObjects = (From path As String
                                 In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
-                                Select FastaToken.Load(path)).ToArray
+                                Select FastaSeq.Load(path)).ToArray
 
             Call Console.WriteLine("[DEBUG] fasta data load done!, start to calculates the sigma differences in window_size {0}KB....", windowsSize / 1000)
 
-            Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
+            Dim MAT = Comb(Of FastaSeq).CreateCompleteObjectPairs(FastaObjects)
             Dim ChunkBuffer = (From pairedList
                                In MAT
                                Select pairedList.__calculates(windowsSize, EXPORT)).Unlist
@@ -1000,7 +1000,7 @@ Public Module ToolsAPI
         Return True
     End Function
 
-    <Extension> Private Function __calculates(pairedList As Tuple(Of FastaToken, FastaToken)(),
+    <Extension> Private Function __calculates(pairedList As Tuple(Of FastaSeq, FastaSeq)(),
                                               windowsSize As Integer,
                                               EXPORT As String) As KeyValuePair(Of String, String)()
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
@@ -1031,11 +1031,11 @@ Public Module ToolsAPI
 
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
         Dim pb As New CBusyIndicator(_start:=True)
-        Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Load(path)).ToArray
+        Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.Load(path)).ToArray
 
         Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO
 
-        Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
+        Dim MAT = Comb(Of FastaSeq).CreateCompleteObjectPairs(FastaObjects)
         Dim ChunkBuffer = (From pairedList In MAT.AsParallel
                            Select __calculate(windowsSize, EXPORT, pairedList)).Unlist
 
@@ -1049,7 +1049,7 @@ Public Module ToolsAPI
         Return True
     End Function
 
-    Private Function __calculate(windowsSize As Integer, EXPORT As String, paireds As Tuple(Of FastaToken, FastaToken)()) As KeyValuePair(Of String, String)()
+    Private Function __calculate(windowsSize As Integer, EXPORT As String, paireds As Tuple(Of FastaSeq, FastaSeq)()) As KeyValuePair(Of String, String)()
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
 
         For Each paired In paireds

@@ -138,10 +138,10 @@ Namespace Assembly.NCBI.CDD
             Return Nothing '没有查询到任何记录
         End Function
 
-        Public Function GetDomainFasta(Id As String) As FASTA.FastaToken
+        Public Function GetDomainFasta(Id As String) As FASTA.FastaSeq
             For Each DbPath In DbPaths.Values
                 Dim Db As SequenceModel.FASTA.FastaFile = DbPath.Value()()
-                Dim LQuery = From Fsa In Db Where String.Equals(Fsa.Attributes(0), Id) Select Fsa '
+                Dim LQuery = From Fsa In Db Where String.Equals(Fsa.Headers(0), Id) Select Fsa '
                 Dim Result = LQuery.FirstOrDefault
                 Return Result
             Next

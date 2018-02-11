@@ -376,8 +376,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Shared Sub New()
             With App.GetVariable("sleep")
-                If Not .StringEmpty AndAlso Val(.ref) > 1 Then
-                    thread_sleep = Val(.ref)
+                If Not .StringEmpty AndAlso Val(.ByRef) > 1 Then
+                    thread_sleep = Val(.ByRef)
                 Else
                     thread_sleep = 2000
                 End If

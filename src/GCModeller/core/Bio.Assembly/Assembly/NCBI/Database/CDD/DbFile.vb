@@ -208,7 +208,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Call $" EXPORT fasta sequence data {FASTA}".__DEBUG_ECHO
             Call CType((From Smp As SmpFile
                         In DbFile.SmpData.AsParallel
-                        Let Fsa As FASTA.FastaToken = Smp.EXPORT
+                        Let Fsa As FASTA.FastaSeq = Smp.EXPORT
                         Select Fsa).ToArray, FASTA.FastaFile).Save(FASTA)
             Call DbFile.GetXml.SaveTo(DbFile.FilePath)
         End Sub

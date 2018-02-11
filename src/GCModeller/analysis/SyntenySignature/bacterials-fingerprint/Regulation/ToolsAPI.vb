@@ -56,11 +56,11 @@ Namespace RegulationSignature
         End Function
 
         <ExportAPI("ToFasta")>
-        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As FASTA.FastaToken
+        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As FASTA.FastaSeq
             Dim Sequence As String = SignatureBuilder.ToString
-            Dim Fasta As New FASTA.FastaToken With {
+            Dim Fasta As New FASTA.FastaSeq With {
                 .SequenceData = Sequence,
-                .Attributes = New String() {SignatureBuilder.Title}
+                .Headers = New String() {SignatureBuilder.Title}
             }
             Return Fasta
         End Function

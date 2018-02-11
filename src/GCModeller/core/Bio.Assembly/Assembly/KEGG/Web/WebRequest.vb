@@ -83,7 +83,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="LocusID">The GeneID.(基因号)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Delegate Function GetFastaSequenceMethod(speciesId As String, LocusID As String) As FASTA.FastaToken
+        Public Delegate Function GetFastaSequenceMethod(speciesId As String, LocusID As String) As FASTA.FastaSeq
 
         ''' <summary>
         ''' 好像因为没有窗体所以这段代码不能够正常的工作
@@ -139,11 +139,11 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
         Public Function FetchSeq(<Parameter("sp.Id", "KEGG species id.")> specieId As String,
-                                 <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FASTA.FastaToken
+                                 <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FASTA.FastaSeq
             Return __fetchSequence(KEGG_DBGET_QUERY_PROTEIN, specieId, accessionId)
         End Function
 
-        Private Function __fetchSequence(url As String, specieId As String, accessionId As String) As FASTA.FastaToken
+        Private Function __fetchSequence(url As String, specieId As String, accessionId As String) As FASTA.FastaSeq
             Dim pageContent As String = String.Format(url, specieId, accessionId).GET
             If String.IsNullOrEmpty(pageContent) OrElse InStr(pageContent, ": No such data.", CompareMethod.Text) > 0 Then
                 Return Nothing
@@ -152,9 +152,9 @@ Namespace Assembly.KEGG.WebServices
             Dim FsaText As String = Regex.Match(pageContent, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline).Value
             Dim PreLength As Integer = Len(String.Format("<pre>" & vbCrLf & "<!-- bget:db:genes --><!-- {0}:{1} -->", specieId, accessionId))
             FsaText = Mid(FsaText, PreLength + 1, Len(FsaText) - PreLength - 6)
-            Dim Fsa As FASTA.FastaToken = New FASTA.FastaToken
+            Dim Fsa As FASTA.FastaSeq = New FASTA.FastaSeq
             Dim Tokens As String() = Strings.Split(FsaText, vbLf)
-            Fsa.Attributes = New String() {Tokens.First}
+            Fsa.Headers = New String() {Tokens.First}
             Fsa.SequenceData = Mid(FsaText, Len(Tokens.First) + 1).Replace(vbCr, "").Replace(vbLf, "")
             If String.IsNullOrEmpty(Fsa.SequenceData) Then
                 Return Nothing
@@ -172,7 +172,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
-        Public Function FetchNt(specieId As String, accessionId As String) As FASTA.FastaToken
+        Public Function FetchNt(specieId As String, accessionId As String) As FASTA.FastaSeq
             Return __fetchSequence(KEGG_DBGET_QUERY_NT, specieId, accessionId)
         End Function
 
@@ -184,7 +184,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
-        Public Function FetchNt(Entry As KEGG.WebServices.QueryEntry) As FASTA.FastaToken
+        Public Function FetchNt(Entry As KEGG.WebServices.QueryEntry) As FASTA.FastaSeq
             Return FetchNt(Entry.SpeciesId, Entry.LocusId)
         End Function
 
@@ -196,7 +196,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
-        Public Function FetchSeq(Entry As QueryEntry) As FASTA.FastaToken
+        Public Function FetchSeq(Entry As QueryEntry) As FASTA.FastaSeq
             If Entry Is Nothing Then
                 Return Nothing
             End If
@@ -296,7 +296,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Download", Info:="Download fasta sequence data from KEGG database, this function will automatically handles the species brief code.")>
-        Public Function DownloadSequence(Id As String) As FASTA.FastaToken
+        Public Function DownloadSequence(Id As String) As FASTA.FastaSeq
             Dim Entry As QueryEntry = GetQueryEntry(Id)
             Dim fa = WebRequest.FetchSeq(Entry)
             If fa Is Nothing Then Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(Entry)}] KEGG not sure the object is a protein.".__DEBUG_ECHO
@@ -328,11 +328,11 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         <ExportAPI("Fasta.Download")>
-        Public Function Downloads(DIR As String, sId As String) As FastaToken
+        Public Function Downloads(DIR As String, sId As String) As FastaSeq
             Dim path As String = $"{DIR}/Downloaded/{sId}.fasta"
 
             If path.FileExists Then
-                Return FastaToken.Load(path)
+                Return FastaSeq.Load(path)
             Else
                 Try
                     Return __downloads(path, sId)
@@ -343,8 +343,8 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
-        Private Function __downloads(fa As String, sId As String) As FastaToken
-            Dim Fasta As FastaToken = WebRequest.DownloadSequence(sId)
+        Private Function __downloads(fa As String, sId As String) As FastaSeq
+            Dim Fasta As FastaSeq = WebRequest.DownloadSequence(sId)
             If Not Fasta Is Nothing Then
                 Call Fasta.SaveTo(fa)
             End If
@@ -376,18 +376,18 @@ Namespace Assembly.KEGG.WebServices
             Return New FastaFile(batchDownloads)
         End Function
 
-        Private Function __downloadDirect(DIR As String, sId As String, sp As String) As FASTA.FastaToken
+        Private Function __downloadDirect(DIR As String, sId As String, sp As String) As FASTA.FastaSeq
             Dim path As String = $"{DIR}/Downloaded/{sId}.fasta"
 
             If path.FileExists Then
-                Return FastaToken.Load(path)
+                Return FastaSeq.Load(path)
             Else
                 Try
                     Dim entry As New QueryEntry With {
                         .SpeciesId = sp,
                         .LocusId = sId
                     }
-                    Dim fa As FastaToken = WebRequest.FetchSeq(entry)
+                    Dim fa As FastaSeq = WebRequest.FetchSeq(entry)
                     If Not fa Is Nothing Then
                         Call fa.SaveTo(path)
                     End If
@@ -413,10 +413,10 @@ Namespace Assembly.KEGG.WebServices
         <ExportAPI("Download.16S_rRNA")>
         Public Function Download16S_rRNA(outDIR As String) As FastaFile
             Dim ortholog = DBGET.bGetObject.SSDB.API.QueryURL(_16S_rRNA)
-            Dim out As New List(Of FastaToken)
+            Dim out As New List(Of FastaSeq)
 
             For Each gene As QueryEntry In ortholog.Genes
-                Dim fa As FastaToken = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
+                Dim fa As FastaSeq = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
 
                 If Not fa Is Nothing Then
                     Dim path As String = $"{outDIR}/{gene.SpeciesId}_{gene.LocusId}.fasta"

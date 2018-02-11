@@ -188,7 +188,7 @@ Namespace Regprecise
                 }
                     Call .GetXml.SaveTo(save)
 
-                    Return .ref
+                    Return .ByRef
                 End With
             End If
         End Function
@@ -208,7 +208,7 @@ Namespace Regprecise
                 For Each Bacteria As BacteriaRegulome In Regprecise.genomes
                     Dim downloads = (From regulator As Regulator
                                      In Bacteria.regulons.regulators
-                                     Let fa As FASTA.FastaToken = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
+                                     Let fa As FASTA.FastaSeq = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
                                      Where Not fa Is Nothing
                                      Select fa).ToArray
                     Call FileData.AddRange(downloads)
@@ -221,7 +221,7 @@ Namespace Regprecise
         Private Function __downloads(regulator As Regulator,
                                      genome As BacteriaRegulome,
                                      ErrLog As LogFile,
-                                     DownloadDIR As String) As FASTA.FastaToken
+                                     DownloadDIR As String) As FASTA.FastaSeq
 
             If regulator.type = Types.RNA Then
                 Return Nothing

@@ -40,7 +40,7 @@ Namespace PfamFastaComponentModels
 
         Public Property Location As SMRUCC.genomics.ComponentModel.Loci.Location
 
-        Public Shared Function CreateObject(FastaObject As FastaToken) As PfamFasta
+        Public Shared Function CreateObject(FastaObject As FastaSeq) As PfamFasta
             Dim FastaData = ParseHeadTitle(FastaObject.Title)
             FastaData.SequenceData = FastaObject.SequenceData
             Return FastaData
@@ -139,6 +139,6 @@ Namespace PfamFastaComponentModels
             End Get
         End Property
 
-        Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+        Public Property Headers As String() Implements IAbstractFastaToken.Headers
     End Class
 End Namespace

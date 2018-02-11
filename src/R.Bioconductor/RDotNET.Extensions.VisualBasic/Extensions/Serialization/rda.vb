@@ -138,8 +138,8 @@ Public Module rda
         Else
             ' write as dataframe
             With App.GetAppSysTempFile(, App.PID)
-                Call list.SaveTable(.ref, type:=base)
-                Return utils.read.csv(.ref)
+                Call list.SaveTable(.ByRef, type:=base)
+                Return utils.read.csv(.ByRef)
             End With
         End If
 
@@ -154,8 +154,8 @@ Public Module rda
     Public Function PushComplexObject(obj As Object) As String
         If obj Is Nothing Then
             With App.NextTempName
-                Call WriteMemoryInternal.WriteNothing(.ref)
-                Return .ref
+                Call WriteMemoryInternal.WriteNothing(.ByRef)
+                Return .ByRef
             End With
         End If
 

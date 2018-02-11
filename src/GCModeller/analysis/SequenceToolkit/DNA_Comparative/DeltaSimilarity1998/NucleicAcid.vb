@@ -93,10 +93,10 @@ Namespace DeltaSimilarity1998
         End Sub
 
         ''' <summary>
-        ''' Fasta序列会自动使用<see cref="FastaToken.Title"/>来作为序列的<see cref="UserTag"/>
+        ''' Fasta序列会自动使用<see cref="FastaSeq.Title"/>来作为序列的<see cref="UserTag"/>
         ''' </summary>
         ''' <param name="nt"></param>
-        Sub New(nt As FastaToken)
+        Sub New(nt As FastaSeq)
             Call Me.New(New NucleotideModels.NucleicAcid(nt, strict:=False).ToArray)
             Me.UserTag = nt.Title
         End Sub
