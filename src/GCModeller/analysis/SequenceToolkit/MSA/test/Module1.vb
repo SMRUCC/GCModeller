@@ -1,4 +1,5 @@
 ﻿Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Module1
 
@@ -13,6 +14,12 @@ CCTGTAGGAACAG".lTokens
         Dim msa = seq.MultipleAlignment(matrix)
 
         Call msa.ToFasta.Save("./msa.txt")
+        Call Console.WriteLine(msa)
+
+        Console.WriteLine(vbCrLf)
+
+        msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment(matrix)
+
         Call Console.WriteLine(msa)
 
         Pause()
