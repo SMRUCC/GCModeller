@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::20bae2ae9f79f3fefe19eae2d2eb6452, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::421fc5f6ed82e77b221f244c90004fb1, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DbFile
+    ' 
+    '         Properties: FastaUrl
+    ' 
+    '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
+    '                   Save, Takes, ToString
+    ' 
+    '         Sub: (+2 Overloads) __buildDb, BuildDb
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

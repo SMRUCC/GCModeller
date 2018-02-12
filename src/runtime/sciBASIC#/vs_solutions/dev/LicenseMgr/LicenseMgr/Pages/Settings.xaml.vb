@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::19cb1e767ff1e798f4b608f4f4e83f72, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\MainWindow.xaml.vb"
+﻿#Region "Microsoft.VisualBasic::06a72870b4dcb69ec26606e4f33387d7, vs_solutions\dev\LicenseMgr\LicenseMgr\Pages\Settings.xaml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,23 +25,31 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Settings
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
-Imports FirstFloor.ModernUI.Windows.Controls
-'Imports Microsoft.VisualBasic.Windows.Forms
+Imports System.Windows.Controls
 
-''' <summary>
-''' Interaction logic for MainWindow.xaml
-''' </summary>
-Partial Public Class MainWindow
-    Inherits ModernWindow
-    Public Sub New()
-        InitializeComponent()
-    End Sub
-
-    Private Sub ModernWindow_Initialized(sender As Object, e As EventArgs)
-        '  If VistaSecurity.IsAdmin() Then
-        '  Me.Title += " (Elevated)"
-        '  End If
-    End Sub
-End Class
+Namespace Pages
+    ''' <summary>
+    ''' Interaction logic for Settings.xaml
+    ''' </summary>
+    Partial Public Class Settings
+        Inherits UserControl
+        Public Sub New()
+            InitializeComponent()
+        End Sub
+    End Class
+End Namespace

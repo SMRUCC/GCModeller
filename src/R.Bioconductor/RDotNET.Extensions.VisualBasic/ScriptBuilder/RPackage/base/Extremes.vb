@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3930b207923aef4d08f6ec4e0ba4c054, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\Extremes.vb"
+﻿#Region "Microsoft.VisualBasic::3930b207923aef4d08f6ec4e0ba4c054, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\Extremes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class extremes
+    ' 
+    '         Properties: NArm, x
+    ' 
+    '     Class max
+    ' 
+    '         Sub: New
+    ' 
+    '     Class min
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pmax
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pmin
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pmaxInt
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pminInt
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

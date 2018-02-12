@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::505946f3eaec2d0805259e3617852155, ..\Settings\Shared\InternalApps_CLI\Apps\Reflector.vb"
+﻿#Region "Microsoft.VisualBasic::6bdcd973ae7263c6bf00ca9af3ca7014, Shared\InternalApps_CLI\Apps\Reflector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Reflector
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -158,4 +172,3 @@ Public Function ReflectsConvert(sql As String, Optional o As String = "", Option
 End Function
 End Class
 End Namespace
-

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e545c647fcd0d6f0350f7c24a58eec4c, ..\GCModeller\CLI_tools\RNA-seq\CLI\gast.vb"
+﻿#Region "Microsoft.VisualBasic::c9a61a0124ca748db501a8906ed87779, CLI_tools\RNA-seq\CLI\gast.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: ClusterOTU, ContactsRef, ExportSSUBatch, ExportSSURefs, ExportToMegan
+    '               gastInvoke, ImportsRefFromNt, MergeLabels, RankStatics, StateNames
+    '     Class LabelData
+    ' 
+    '         Properties: label, Name, value
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

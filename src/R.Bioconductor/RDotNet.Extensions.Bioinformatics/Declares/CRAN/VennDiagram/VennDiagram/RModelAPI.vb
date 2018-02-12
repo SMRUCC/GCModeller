@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1c4b823dcdc4cd94b3d6d40692690323, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\VennDiagram\VennDiagram\RModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1c4b823dcdc4cd94b3d6d40692690323, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\RModelAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RModelAPI
+    ' 
+    '         Function: __vector, Generate, (+3 Overloads) VectorMapper
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

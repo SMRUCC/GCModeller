@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9a1e39ad8acf96d64d773a0d96231ccb, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\API.vb"
+﻿#Region "Microsoft.VisualBasic::9a1e39ad8acf96d64d773a0d96231ccb, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module API
+    ' 
+    '         Function: rgb
+    ' 
+    '     Class rgb
+    ' 
+    '         Properties: alpha, blue, green, maxColorValue, names
+    '                     red
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

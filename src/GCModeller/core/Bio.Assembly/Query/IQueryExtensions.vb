@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ce29057a01349429a2650db91aaec7b3, ..\GCModeller\core\Bio.Assembly\Query\IQueryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::68d4459c583ddde5f99cd1cae2554fef, core\Bio.Assembly\Query\IQueryExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module IQueryExtensions
+    ' 
+    '     Function: ContainsMultipleSequence, MatchGene
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

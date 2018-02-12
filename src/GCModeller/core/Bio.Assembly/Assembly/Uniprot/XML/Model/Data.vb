@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6cf41b9dee189a0b354e6c03a344e9de, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::6cf41b9dee189a0b354e6c03a344e9de, core\Bio.Assembly\Assembly\UniProt\XML\Model\Data.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,79 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class sequence
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class gene
+    ' 
+    '         Properties: ORF, Primary
+    ' 
+    '         Function: HaveKey, ToString
+    ' 
+    '     Class organism
+    ' 
+    '         Properties: commonName, dbReference, lineage, namesData, scientificName
+    ' 
+    '     Class lineage
+    ' 
+    ' 
+    ' 
+    '     Class protein
+    ' 
+    '         Properties: alternativeNames, FullName, recommendedName, submittedName
+    ' 
+    '     Class feature
+    ' 
+    '         Properties: location, original, variation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class location
+    ' 
+    '         Properties: [end], begin, IsRegion, IsSite, position
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class position
+    ' 
+    '         Properties: position
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class recommendedName
+    ' 
+    '         Properties: ecNumber, fullName, shortNames
+    ' 
+    '     Class value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class dbReference
+    ' 
+    '         Properties: molecule, properties
+    ' 
+    '         Function: ToString
+    ' 
+    '     Structure molecule
+    ' 
+    '         Properties: id
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class [property]
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

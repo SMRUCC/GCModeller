@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8a98c3df25b44bde34aca4f0be32e27c, ..\interops\meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
+﻿#Region "Microsoft.VisualBasic::8a98c3df25b44bde34aca4f0be32e27c, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MotifPM
+    ' 
+    '         Properties: MostProperly
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: __setValue, (+3 Overloads) New
+    '         Delegate Function
+    ' 
+    '             Properties: GetValueMethods, Index
+    ' 
+    '             Function: __createObject, CreateFromNtBase, CreateObject, EnumerateKeys, EnumerateValues
+    '                       ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum I3Mers
+    ' 
+    '         AAA, AAC, AAG, AAT, ACA
+    '         ACC, ACG, ACT, AGA, AGC
+    '         AGG, AGT, ATA, ATC, ATG
+    '         ATT, CAA, CAC, CAG, CAT
+    '         CCA, CCC, CCG, CCT, CGA
+    '         CGC, CGG, CGT, CTA, CTC
+    '         CTG, CTT, GAA, GAC, GAG
+    '         GAT, GCA, GCC, GCG, GCT
+    '         GGA, GGC, GGG, GGT, GTA
+    '         GTC, GTG, GTT, TAA, TAC
+    '         TAG, TAT, TCA, TCC, TCG
+    '         TCT, TGA, TGC, TGG, TGT
+    '         TTA, TTC, TTG, TTT
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Module VectorAPI
+    ' 
+    '         Properties: I3Mersx
+    ' 
+    '         Function: Count, GetVector, Transform
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

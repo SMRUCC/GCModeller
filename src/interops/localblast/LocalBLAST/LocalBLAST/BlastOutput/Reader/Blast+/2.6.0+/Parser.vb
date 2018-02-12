@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::250b5438f917dc15d39385829235032e, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::250b5438f917dc15d39385829235032e, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Parser
+    ' 
+    '         Function: __fileSizeTooLarge, __parsingInner, __tryParseDatabase, IsBlastn, LoadBlastOutput
+    '                   ParsingSizeAuto, TryParse, UltraLarge
+    '         Enum ReaderTypes
+    ' 
+    '             BLASTN, BLASTP, BLASTX
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: DefaultEncoding
+    ' 
+    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __loadData, __queryParser
+    '               __tryParseBlastnOutput, __tryParseUltraLarge, BuildGrepScript, IsBlastOut, TryParseBlastnOutput
+    '               TryParseUltraLarge
+    ' 
+    '     Sub: (+2 Overloads) Transform
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

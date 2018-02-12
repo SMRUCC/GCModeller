@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f6692428211201de311a8285cd6e1e24, ..\GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
+﻿#Region "Microsoft.VisualBasic::f098f1b498c439c0c51b02292ae23ea2, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Site
+    ' 
+    '         Properties: Bacteria, Headers, uid
+    ' 
+    '         Function: BacteriaNameFromRegulog, CreateFrom, CreateObject, Load, ToFastaObject
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

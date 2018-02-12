@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d88de0ac44bc1c44becfba83f0980601, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
+﻿#Region "Microsoft.VisualBasic::3c8a501f008706766ddd255dbc1e81f0, CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __align, __getCategory, __getScore, __loadFa, Align
+    '               (+2 Overloads) AlignLDM, DbMergeFromExists, DomainInteractions, GenerateModel, Predicts
+    '               SignatureGenerates
+    '     Class Category
+    ' 
+    '         Properties: Alignments, Signature
+    ' 
+    '         Function: CreateObject, Folk, FromAlign, GetSignatureFasta
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

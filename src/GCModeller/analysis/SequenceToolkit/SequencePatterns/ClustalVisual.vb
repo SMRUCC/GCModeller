@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3e423f8cfff12bf04dcaf25fd82b1a55, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::ad198ab959e3b4b6ffc5471d7ef324eb, analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ClustalVisual
+    ' 
+    '     Function: InvokeDrawing
+    ' 
+    '     Sub: New, SetDotSize
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

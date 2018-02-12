@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a391bdadfa97628cc64722dfb1964a2f, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\ResourceNodes.vb"
+﻿#Region "Microsoft.VisualBasic::a391bdadfa97628cc64722dfb1964a2f, engine\GCTabular\CsvTabularData\Storage\ResourceNodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class HrefLink
+    ' 
+    '         Properties: Md5_Hash, TypeId
+    ' 
+    '         Function: get_Path, InternalWriteEmptyFile, (+5 Overloads) LoadResource, (+3 Overloads) SaveResource, set_Category
+    ' 
+    '         Sub: InternalGetMd5
+    ' 
+    '     Class ResourceNode
+    ' 
+    '         Properties: InternalHrefLinks, ResourceCategory
+    ' 
+    '         Function: CopyFile, get_Resource, get_ResourceEntry, ToString, (+3 Overloads) WriteResource
+    ' 
+    '         Sub: Add
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2cc7a8b869635aadad6590a10953d530, ..\interops\RNA-Seq\Rockhopper\Java\SamOps.vb"
+﻿#Region "Microsoft.VisualBasic::2cc7a8b869635aadad6590a10953d530, RNA-Seq\Rockhopper\Java\SamOps.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SamOps
+    ' 
+    '         Properties: maxQuality, pairedEnd, replicons, validBam, validSam
+    ' 
+    '         Function: byteArrayToInt, checkAlignmentLine_BAM, checkAlignmentLine_SAM, getRepliconLength, isHeaderLine
+    '                   isTextFile, parseAlignmentLine_BAM, parseAlignmentLine_SAM, parseHeaderLine_SAM, prepBAM
+    '                   prepSAM, readCigarString, readInSAM, readInt, readSequence
+    '                   readString, reverseComplement, ToString
+    ' 
+    '         Sub: disregardHeader_BAM, Main, mapReadToCoords, merge, mergesort
+    '              New, output, parseCigar, readInBAM
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

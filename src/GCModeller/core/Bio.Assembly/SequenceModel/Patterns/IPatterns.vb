@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8750dce0f8f0bf447e1f46b460addae1, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::8a81778da9507feb294455805675e9ab, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface IPatternProvider
+    ' 
+    '         Properties: Site
+    ' 
+    '         Function: PWM
+    ' 
+    '     Interface IPatternSite
+    ' 
+    '         Properties: Probability
+    ' 
+    '         Function: EnumerateKeys, EnumerateValues
+    ' 
+    '     Structure SimpleSite
+    ' 
+    '         Properties: Address, Alphabets, IsConserved
+    ' 
+    '         Function: EnumerateKeys, EnumerateValues, ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Structure PatternModel
+    ' 
+    '         Properties: Residues
+    ' 
+    '         Function: GetVariation, PWM, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

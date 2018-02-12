@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4b2aec551461e77f3e29704d68af8de6, ..\interops\meme_suite\MEME.DocParser\MEME\HtmlParser\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4b2aec551461e77f3e29704d68af8de6, meme_suite\MEME.DocParser\MEME\HtmlParser\ParserAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ParserAPI
+    ' 
+    '         Function: CreateDictionary, LoadDocument
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

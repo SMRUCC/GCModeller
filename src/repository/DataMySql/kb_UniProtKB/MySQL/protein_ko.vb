@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c05375e1449557b99e83d21dd8a0e9ef, ..\repository\DataMySql\kb_UniProtKB\MySQL\protein_ko.vb"
+﻿#Region "Microsoft.VisualBasic::8d0469d6a2628ec25ba0765639f94dc2, DataMySql\kb_UniProtKB\MySQL\protein_ko.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class protein_ko
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -129,4 +143,3 @@ End Class
 
 
 End Namespace
-

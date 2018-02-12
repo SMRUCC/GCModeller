@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4152fc0d72667c992837985db6ac8f6e, ..\GCModeller\data\RCSB PDB\PDB\Keywords\Header.vb"
+﻿#Region "Microsoft.VisualBasic::4152fc0d72667c992837985db6ac8f6e, data\RCSB PDB\PDB\Keywords\Header.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,99 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Header
+    ' 
+    '         Properties: [Date], Keyword, pdbID, Title
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Title
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Compound
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Source
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Keywords
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Author
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Journal
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Remark
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class DbReference
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Sequence
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Helix
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Sheet
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Site
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Master
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

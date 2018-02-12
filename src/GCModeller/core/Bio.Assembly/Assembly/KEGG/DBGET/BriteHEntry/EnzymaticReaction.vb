@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f1d03cc012da8ef290abd0b6fad58ed6, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::702faa8152826e6115af2933a317129d, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class EnzymaticReaction
+    ' 
+    '         Properties: [Class], Category, EC, Entry, SubCategory
+    ' 
+    '         Function: __getDIR, __rxns, __source, __trimInner, Build
+    '                   DownloadReactions, LoadFile, LoadFromResource, ToString
+    ' 
+    '         Sub: __downloadInternal, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

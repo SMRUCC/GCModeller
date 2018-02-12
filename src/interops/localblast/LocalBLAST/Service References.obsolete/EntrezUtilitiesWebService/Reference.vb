@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e3d50898572c059b0f48e149c7ba7df8, ..\interops\localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::e3d50898572c059b0f48e149c7ba7df8, localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,408 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface eUtilsServiceSoap
+    ' 
+    '         Function: run_eGquery, run_eGqueryAsync, run_eInfo, run_eInfoAsync, run_eLink
+    '                   run_eLinkAsync, run_ePost, run_ePostAsync, run_eSearch, run_eSearchAsync
+    '                   run_eSpell, run_eSpellAsync, run_eSummary, run_eSummaryAsync
+    ' 
+    '     Class eGqueryRequest
+    ' 
+    '         Properties: email, term, tool
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkInfoType
+    ' 
+    '         Properties: DbTo, HtmlTag, LinkName, MenuTag, Priority
+    '                     Url
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class UrlType
+    ' 
+    '         Properties: LNG, Value
+    ' 
+    '         Sub: New, RaisePropertyChanged
+    ' 
+    '     Enum UrlTypeLNG
+    ' 
+    '         DA, DE, EL, EN, ES
+    '         FR, IT, IW, JA, NL
+    '         NO, RU, SV, ZH
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class IdLinkSetType
+    ' 
+    '         Properties: Id, LinkInfo
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class IdType
+    ' 
+    '         Properties: HasLinkOut, HasLinkOutSpecified, HasNeighbor, HasNeighborSpecified, Value
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum IdTypeHasLinkOut
+    ' 
+    '         N, Y
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum IdTypeHasNeighbor
+    ' 
+    '         N, Y
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class IdCheckListType
+    ' 
+    '         Properties: [ERROR], Items
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class FirstCharsType
+    ' 
+    '         Properties: FirstChar
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ProviderType
+    ' 
+    '         Properties: IconUrl, Id, Name, NameAbbr, Url
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class IconUrlType
+    ' 
+    '         Properties: LNG, Value
+    ' 
+    '         Sub: New, RaisePropertyChanged
+    ' 
+    '     Enum IconUrlTypeLNG
+    ' 
+    '         DA, DE, EL, EN, ES
+    '         FR, IT, IW, JA, NL
+    '         NO, RU, SV, ZH
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class ObjUrlType
+    ' 
+    '         Properties: Attribute, Category, IconUrl, LinkName, Provider
+    '                     SubjectType, SubProvider, Url
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class IdUrlSetType
+    ' 
+    '         Properties: Id, Items
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class IdUrlListType
+    ' 
+    '         Properties: Items
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkSetDbHistoryType
+    ' 
+    '         Properties: [ERROR], DbTo, Info, LinkName, QueryKey
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkType1
+    ' 
+    '         Properties: Id, Score
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkSetDbType
+    ' 
+    '         Properties: [ERROR], DbTo, Info, Link, LinkName
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkSetType
+    ' 
+    '         Properties: [ERROR], DbFrom, IdCheckList, IdList, IdUrlList
+    '                     LinkSetDb, LinkSetDbHistory, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ItemType
+    ' 
+    '         Properties: Item, ItemContent, Name, Type
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum ItemTypeType
+    ' 
+    '         [Date], [Integer], [String], [Structure], Enumerator
+    '         Flags, List, Qualifier, Unknown
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class DocSumType
+    ' 
+    '         Properties: Id, Item
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class WarningListType
+    ' 
+    '         Properties: OutputMessage, PhraseIgnored, QuotedPhraseNotFound
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ErrorListType
+    ' 
+    '         Properties: FieldNotFound, PhraseNotFound
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class TermSetType
+    ' 
+    '         Properties: Count, Explode, Field, Term
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class TranslationType
+    ' 
+    '         Properties: [To], From
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LinkType
+    ' 
+    '         Properties: DbTo, Description, Menu, Name
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class FieldType
+    ' 
+    '         Properties: Description, FullName, Hierarchy, IsDate, IsHidden
+    '                     IsNumerical, IsRangable, IsTruncatable, Name, SingleToken
+    '                     TermCount
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class DbInfoType
+    ' 
+    '         Properties: Count, DbName, Description, FieldList, LastUpdate
+    '                     LinkList, MenuName
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class DbListType
+    ' 
+    '         Properties: Items
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ResultItemType
+    ' 
+    '         Properties: Count, DbName, MenuName, Status
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eGQueryResultType
+    ' 
+    '         Properties: [ERROR], ResultItem
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class Result
+    ' 
+    '         Properties: eGQueryResult, Term
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_eGqueryRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eGqueryResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class eInfoRequest
+    ' 
+    '         Properties: db, email, tool
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eInfoResult
+    ' 
+    '         Properties: [ERROR], DbInfo, DbList
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_eInfoRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eInfoResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class eSearchRequest
+    ' 
+    '         Properties: datetype, db, email, field, maxdate
+    '                     mindate, QueryKey, reldate, RetMax, RetStart
+    '                     rettype, sort, term, tool, usehistory
+    '                     WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eSearchResult
+    ' 
+    '         Properties: [ERROR], Count, ErrorList, IdList, QueryKey
+    '                     QueryTranslation, RetMax, RetStart, TranslationSet, TranslationStack
+    '                     WarningList, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_eSearchRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eSearchResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class eSummaryRequest
+    ' 
+    '         Properties: db, email, id, query_key, retmax
+    '                     retstart, tool, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eSummaryResult
+    ' 
+    '         Properties: [ERROR], DocSum
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_eSummaryRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eSummaryResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class eLinkRequest
+    ' 
+    '         Properties: cmd, datetype, db, dbfrom, email
+    '                     id, linkname, maxdate, mindate, query_key
+    '                     reldate, term, tool, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eLinkResult
+    ' 
+    '         Properties: [ERROR], LinkSet
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_eLinkRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eLinkResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class eSpellRequest
+    ' 
+    '         Properties: db, email, term, tool
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class eSpellResult
+    ' 
+    '         Properties: [ERROR], CorrectedQuery, Database, Query, SpelledQuery
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class SpelledQuery
+    ' 
+    '         Properties: Items, ItemsElementName
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum ItemsChoiceType
+    ' 
+    '         Original, Replaced
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class run_eSpellRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_eSpellResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class ePostRequest
+    ' 
+    '         Properties: db, email, id, tool, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ePostResult
+    ' 
+    '         Properties: [ERROR], InvalidIdList, QueryKey, WebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class run_ePostRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class run_ePostResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Interface eUtilsServiceSoapChannel
+    ' 
+    ' 
+    ' 
+    '     Class eUtilsServiceSoapClient
+    ' 
+    '         Function: run_eGquery, run_eGqueryAsync, run_eInfo, run_eInfoAsync, run_eLink
+    '                   run_eLinkAsync, run_ePost, run_ePostAsync, run_eSearch, run_eSearchAsync
+    '                   run_eSpell, run_eSpellAsync, run_eSummary, run_eSummaryAsync
+    ' 
+    '         Sub: (+5 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

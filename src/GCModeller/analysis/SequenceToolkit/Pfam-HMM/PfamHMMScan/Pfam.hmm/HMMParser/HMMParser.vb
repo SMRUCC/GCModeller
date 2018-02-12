@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::254fe5f07302a6ffc3c996e39b1c69ff, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMMParser.vb"
+﻿#Region "Microsoft.VisualBasic::254fe5f07302a6ffc3c996e39b1c69ff, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMMParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class HMMParser
+    ' 
+    '     Properties: [DATE], ACC, ALPH, BM, CKSUM
+    '                 COM, CONS, CS, DESC, EFFN
+    '                 GA, HMM, LENG, MAP, MAXL
+    '                 MM, NAME, NC, NSEQ, RF
+    '                 SM, STATS, TC
+    ' 
+    ' Structure STATS
+    ' 
+    '     Properties: FORWARD, MSV, VITERBI
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

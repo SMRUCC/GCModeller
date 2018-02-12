@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::691e2e1e50c6d826bd03bbafcd8fbc85, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\io\PrefixHelper.vb"
+﻿#Region "Microsoft.VisualBasic::691e2e1e50c6d826bd03bbafcd8fbc85, data\GO_gene-ontology\obographs\obographs\io\PrefixHelper.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class PrefixHelper
+    ' 
+    ' 	    Properties: (+3 Overloads) Context, ContextString, DefaultContext, Prefixes, PrefixManager
+    ' 
+    ' 	    Function: createIRI, getContext, guessCatalogFile, makePrefixManager, parseContext
+    ' 
+    ' 	    Sub: (+2 Overloads) addPrefix, (+5 Overloads) New, (+2 Overloads) saveContext, setContext
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2968277412a71632b9eaf65beb17ae40, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\Views.vb"
+﻿#Region "Microsoft.VisualBasic::2968277412a71632b9eaf65beb17ae40, WebCloud\SMRUCC.WebCloud.GIS\MaxMind\Views.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Country
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class CityLocation
+    ' 
+    '         Function: IPLocatedAtCity, ToString
+    ' 
+    '     Class GeographicLocation
+    ' 
+    '         Function: Locating, ToString
+    ' 
+    '     Class CIDR
+    ' 
+    '         Properties: CIDR, Invalid
+    ' 
+    '         Function: (+2 Overloads) Locating, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

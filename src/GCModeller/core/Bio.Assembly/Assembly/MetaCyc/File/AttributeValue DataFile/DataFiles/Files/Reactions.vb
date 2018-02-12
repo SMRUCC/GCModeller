@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::172768e27a18455e1c5f0b0a4a633fda, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Reactions.vb"
+﻿#Region "Microsoft.VisualBasic::172768e27a18455e1c5f0b0a4a633fda, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Reactions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Reactions
+    ' 
+    '         Properties: AttributeList
+    ' 
+    '         Function: getECDictionary, GetTransportReactions, ToString, (+2 Overloads) Trim
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

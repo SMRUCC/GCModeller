@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::722159e86d7dd8edf68fe5d55d23108b, ..\GCModeller\CLI_tools\GCModeller\CLI\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::bba62e9d03f8ff5d46731fce0d5a79e2, CLI_tools\GCModeller\CLI\Repository.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: CopyFiles, Install_NCBI_nt, InstallCDD, InstallCOGs, InstallGenbank
+    '               MatchHits, ntRepositoryExports, NtScaner, UniqueTitle
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

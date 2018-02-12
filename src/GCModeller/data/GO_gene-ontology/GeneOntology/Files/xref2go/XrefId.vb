@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fce96c29bbe1b06ec5443f58b70b314c, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Files\xref2go\XrefId.vb"
+﻿#Region "Microsoft.VisualBasic::fce96c29bbe1b06ec5443f58b70b314c, data\GO_gene-ontology\GeneOntology\Files\xref2go\XrefId.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,129 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class XrefId
+    ' 
+    '         Sub: New
+    ' 
+    '     Module XrefIdParser
+    ' 
+    '         Properties: XrefIdParsers
+    ' 
+    '         Function: Parse
+    ' 
+    '     Class cog
+    ' 
+    '         Sub: New
+    ' 
+    '     Class ec
+    ' 
+    '         Sub: New
+    ' 
+    '     Class egad
+    ' 
+    '         Sub: New
+    ' 
+    '     Class genprotec
+    ' 
+    '         Sub: New
+    ' 
+    '     Class hamap
+    ' 
+    '         Sub: New
+    ' 
+    '     Class interpro
+    ' 
+    '         Sub: New
+    ' 
+    '     Class kegg
+    ' 
+    '         Sub: New
+    ' 
+    '     Class metacyc
+    ' 
+    '         Sub: New
+    ' 
+    '     Class mips
+    ' 
+    '         Sub: New
+    ' 
+    '     Class multifun
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pfam
+    ' 
+    '         Sub: New
+    ' 
+    '     Class pirsf
+    ' 
+    '         Sub: New
+    ' 
+    '     Class prints
+    ' 
+    '         Sub: New
+    ' 
+    '     Class prodom
+    ' 
+    '         Sub: New
+    ' 
+    '     Class prosite
+    ' 
+    '         Sub: New
+    ' 
+    '     Class reactome
+    ' 
+    '         Sub: New
+    ' 
+    '     Class rfam
+    ' 
+    '         Sub: New
+    ' 
+    '     Class rhea
+    ' 
+    '         Sub: New
+    ' 
+    '     Class smart
+    ' 
+    '         Sub: New
+    ' 
+    '     Class tigr
+    ' 
+    '         Sub: New
+    ' 
+    '     Class tigrfams
+    ' 
+    '         Sub: New
+    ' 
+    '     Class um_bbd_enzymeid
+    ' 
+    '         Sub: New
+    ' 
+    '     Class um_bbd_pathwayid
+    ' 
+    '         Sub: New
+    ' 
+    '     Class um_bbd_reactionid
+    ' 
+    '         Sub: New
+    ' 
+    '     Class uniprotkb_kw
+    ' 
+    '         Sub: New
+    ' 
+    '     Class uniprotkb_sl
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

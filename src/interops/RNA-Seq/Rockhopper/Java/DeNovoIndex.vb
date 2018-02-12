@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::92457c628f11d1ecdeb2f4e11da9ab86, ..\interops\RNA-Seq\Rockhopper\Java\DeNovoIndex.vb"
+﻿#Region "Microsoft.VisualBasic::92457c628f11d1ecdeb2f4e11da9ab86, RNA-Seq\Rockhopper\Java\DeNovoIndex.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DeNovoIndex
+    ' 
+    '         Properties: avgLengthOfReads, numMappingReads, numReads, totalReads, transform
+    ' 
+    '         Function: (+2 Overloads) exactMatch, getC, getNumMappingReads, getNumReads, getOcc
+    '                   getRotations, getStringInRotationsMatrix, lessThanOrEqualTo, partition, rotations
+    '                   stepLeft, unpermute
+    ' 
+    '         Sub: combinePairedEndHits, (+2 Overloads) exactMatch_fullRead, halveReads, initializeReadMapping, Main
+    '              New, precomputeCharacterInfo, quicksort, swap
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

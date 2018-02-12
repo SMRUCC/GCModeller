@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::67dd3cb06bf63f02caeb6ba208e6f551, ..\GCModeller\sub-system\PLAS.NET\SSystem\Script\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::67dd3cb06bf63f02caeb6ba208e6f551, sub-system\PLAS.NET\SSystem\Script\SBML.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SBML
+    ' 
+    '         Properties: AutoFixError
+    ' 
+    '         Function: __contact, __generateSystem, __where, (+2 Overloads) Compile, GenerateFunction
+    '                   Link, PreCompile
+    ' 
+    '         Sub: __strip, __stripNumber
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

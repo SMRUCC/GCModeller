@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a8b2d0e44fe6c14be1b4a6c998625681, ..\GCModeller\data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::a8b2d0e44fe6c14be1b4a6c998625681, data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum OntologyRelations
+    ' 
+    '     ends_during, happens_during, has_part, negatively_regulates, occurs_in
+    '     part_of, positively_regulates, regulates
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9693a4cc3e135730f94ed8d6f3b4f71f, ..\GCModeller\sub-system\FBA_DP\FBA\Models\gcFBA\rFBA.vb"
+﻿#Region "Microsoft.VisualBasic::9693a4cc3e135730f94ed8d6f3b4f71f, sub-system\FBA\FBA_DP\FBA\Models\gcFBA\rFBA.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class rFBAMetabolism
+    ' 
+    '         Properties: GeneFactors
+    ' 
+    '         Function: (+2 Overloads) __calFactor, __getBounds, __getBoundValue, __getLowerbound, __getUpbound
+    '                   __lowBound, __regImpact, __upBound, getConstraint
+    ' 
+    '         Sub: New, ResetStat, SetObjectiveGenes, SetRPKM
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

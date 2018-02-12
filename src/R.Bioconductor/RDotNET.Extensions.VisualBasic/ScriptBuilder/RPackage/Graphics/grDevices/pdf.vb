@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fa52998a8501fb4cb1ca743124d4b5f4, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\pdf.vb"
+﻿#Region "Microsoft.VisualBasic::fa52998a8501fb4cb1ca743124d4b5f4, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\pdf.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class pdf
+    ' 
+    '         Properties: colormodel, compress, encoding, fg, file
+    '                     fillOddEven, fonts, onefile, pagecentre, paper
+    '                     pointsize, title, useDingbats, useKerning, version
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

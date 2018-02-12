@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7351bbc547d4bb7da3392fc9e2c0863c, ..\interops\RNA-Seq\Rockhopper\Java\ObjectModels\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::7351bbc547d4bb7da3392fc9e2c0863c, RNA-Seq\Rockhopper\Java\ObjectModels\Gene.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Gene
+    ' 
+    '         Properties: [stop], first, last, maxCoordinate, minCoordinate
+    '                     minQvalue, name, oRF, product, start
+    '                     startT, stopT, strand
+    ' 
+    '         Function: expressionToString, getAvg, getMean, getNormalizedCount, getNumReplicates
+    '                   getRawCount, getRawCount_reads, hasQvalue, isDifferntiallyExpressedORF, ToString
+    ' 
+    '         Sub: computeDifferentialExpression, computeExpression, computeVariance, correctPvalues, merge
+    '              mergesort, New, setLowessVariances, setNormalizedCount, setRawCount
+    '              setRawCount_reads
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

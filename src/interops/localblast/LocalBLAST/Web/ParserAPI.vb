@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, ..\interops\localblast\LocalBLAST\Web\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, localblast\LocalBLAST\Web\ParserAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module AlignmentTableParserAPI
+    ' 
+    '         Function: (+2 Overloads) __createFromBlastn, __hspHits, __parseTable, CreateFromBlastn, CreateFromBlastnFile
+    '                   CreateFromBlastnFiles, CreateFromBlastX, IterateTables, LoadTable
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

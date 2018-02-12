@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::830b0a84584ffaf49c82a7dec023f468, ..\interops\visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
+﻿#Region "Microsoft.VisualBasic::830b0a84584ffaf49c82a7dec023f468, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,62 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Cyjs
+    ' 
+    '         Properties: data, elements, format_version, generated_by, target_cytoscapejs_version
+    ' 
+    '         Function: __json, (+2 Overloads) Save, ToGraphModel, ToNetworkGraph, ToString
+    ' 
+    '     Class Data
+    ' 
+    '         Properties: __Annotations, attributes, DynamicsSlot, id, name
+    '                     selected, shared_name, SUID
+    ' 
+    '         Function: GetAttrJson, Replace
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Network
+    ' 
+    '         Properties: edges, nodes
+    ' 
+    '     Class Edge
+    ' 
+    '         Properties: data, selected
+    ' 
+    '     Class EdgeData
+    ' 
+    '         Properties: Confidence, EdgeBetweenness, interaction, SelfLoop, shared_interaction
+    '                     source, target
+    ' 
+    '     Class Node
+    ' 
+    '         Properties: data, position, selected
+    ' 
+    '     Class NodeData
+    ' 
+    '         Properties: AverageShortestPathLength, BetweennessCentrality, ClosenessCentrality, ClusteringCoefficient, Degree
+    '                     Eccentricity, Identifer, IsSingleNode, NeighborhoodConnectivity, NodeType
+    '                     NumberOfDirectedEdges, NumberOfUndirectedEdges, PartnerOfMultiEdgedNodePairs, Radiality, SelfLoops
+    '                     Size, Stress, TopologicalCoefficient
+    ' 
+    '     Class position
+    ' 
+    '         Properties: x, y
+    ' 
+    '     Interface IDynamicsProperty
+    ' 
+    '         Properties: attributes, DynamicsSlot
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

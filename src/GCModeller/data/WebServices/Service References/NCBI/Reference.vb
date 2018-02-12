@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ccce4312746f08a8375d250aa658a2ba, ..\GCModeller\data\WebServices\Service References\NCBI\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::ccce4312746f08a8375d250aa658a2ba, data\WebServices\Service References\NCBI\Reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,321 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface PUGSoap
+    ' 
+    '         Function: AssayDownload, AssayDownloadAsync, Download, DownloadAsync, GetAssayColumnDescription
+    '                   GetAssayColumnDescriptionAsync, GetAssayColumnDescriptions, GetAssayColumnDescriptionsAsync, GetAssayDescription, GetAssayDescriptionAsync
+    '                   GetDownloadUrl, GetDownloadUrlAsync, GetEntrezKey, GetEntrezKeyAsync, GetEntrezUrl
+    '                   GetEntrezUrlAsync, GetIDList, GetIDListAsync, GetListItemsCount, GetListItemsCountAsync
+    '                   GetOperationStatus, GetOperationStatusAsync, GetStandardizedCID, GetStandardizedCIDAsync, GetStandardizedStructure
+    '                   GetStandardizedStructureAsync, GetStandardizedStructureBase64, GetStandardizedStructureBase64Async, GetStatusMessage, GetStatusMessageAsync
+    '                   IdentitySearch, IdentitySearchAsync, IDExchange, IDExchangeAsync, InputAssay
+    '                   InputAssayAsync, InputEntrez, InputEntrezAsync, InputList, InputListAsync
+    '                   InputListString, InputListStringAsync, InputListText, InputListTextAsync, InputStructure
+    '                   InputStructureAsync, InputStructureBase64, InputStructureBase64Async, MFSearch, MFSearchAsync
+    '                   ScoreMatrix, ScoreMatrixAsync, SimilaritySearch2D, SimilaritySearch2DAsync, Standardize
+    '                   StandardizeAsync, SubstructureSearch, SubstructureSearchAsync, SuperstructureSearch, SuperstructureSearchAsync
+    ' 
+    '     Enum AssayFormatType
+    ' 
+    '         eAssayFormat_ASN_Binary, eAssayFormat_ASN_Text, eAssayFormat_CSV, eAssayFormat_XML
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum CompressType
+    ' 
+    '         eCompress_BZip2, eCompress_GZip, eCompress_None
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum FormatType
+    ' 
+    '         eFormat_ASNB, eFormat_ASNT, eFormat_Image, eFormat_InChI, eFormat_SDF
+    '         eFormat_SMILES, eFormat_Thumbnail, eFormat_XML
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class DataBlobType
+    ' 
+    '         Properties: BlobFormat, BlobFormatSpecified, Data, eCompress, eCompressSpecified
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum BlobFormatType
+    ' 
+    '         eBlobFormat_ASNB, eBlobFormat_ASNT, eBlobFormat_CSV, eBlobFormat_HTML, eBlobFormat_Other
+    '         eBlobFormat_PNG, eBlobFormat_SDF, eBlobFormat_Text, eBlobFormat_Unspecified, eBlobFormat_XML
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class StructureSearchOptions
+    ' 
+    '         Properties: ChainsMatchRings, ChainsMatchRingsSpecified, eStereo, eStereoSpecified, MatchCharges
+    '                     MatchChargesSpecified, MatchIsotopes, MatchIsotopesSpecified, MatchTautomers, MatchTautomersSpecified
+    '                     RingsNotEmbedded, RingsNotEmbeddedSpecified, SingeDoubleBondsMatch, SingeDoubleBondsMatchSpecified, StripHydrogen
+    '                     StripHydrogenSpecified, ToWebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum StereoType
+    ' 
+    '         eStereo_Exact, eStereo_Ignore, eStereo_NonConflicting, eStereo_Relative
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class SimilaritySearchOptions
+    ' 
+    '         Properties: threshold, ToWebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class MFSearchOptions
+    ' 
+    '         Properties: AllowOtherElements, ToWebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class LimitsType
+    ' 
+    '         Properties: ListKey, maxRecords, maxRecordsSpecified, seconds, secondsSpecified
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class IdentitySearchOptions
+    ' 
+    '         Properties: eIdentity, ToWebEnv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum IdentityType
+    ' 
+    '         eIdentity_AnyTautomer, eIdentity_SameConnectivity, eIdentity_SameIsotope, eIdentity_SameIsotopeNonconflictStereo, eIdentity_SameNonconflictStereo
+    '         eIdentity_SameStereo, eIdentity_SameStereoIsotope
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class EntrezKey
+    ' 
+    '         Properties: db, key, webenv
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class AssayTargetType
+    ' 
+    '         Properties: gi, Name
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class AssayDescriptionType
+    ' 
+    '         Properties: CIDCountActive, CIDCountActiveSpecified, CIDCountAll, CIDCountAllSpecified, CIDCountInactive
+    '                     CIDCountInactiveSpecified, CIDCountInconclusive, CIDCountInconclusiveSpecified, CIDCountProbe, CIDCountProbeSpecified
+    '                     CIDCountUnspecified, CIDCountUnspecifiedSpecified, Comment, Description, HasScore
+    '                     LastDataChange, LastDataChangeSpecified, Method, Name, NumberOfTIDs
+    '                     Protocol, Revision, RevisionSpecified, SIDCountActive, SIDCountActiveSpecified
+    '                     SIDCountAll, SIDCountAllSpecified, SIDCountInactive, SIDCountInactiveSpecified, SIDCountInconclusive
+    '                     SIDCountInconclusiveSpecified, SIDCountProbe, SIDCountProbeSpecified, SIDCountUnspecified, SIDCountUnspecifiedSpecified
+    '                     Targets, Version, VersionSpecified
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class TestedConcentrationType
+    ' 
+    '         Properties: Concentration, Unit
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ColumnDescriptionType
+    ' 
+    '         Properties: ActiveConcentration, ActiveConcentrationSpecified, Description, Heading, Name
+    '                     TestedConcentration, TID, TIDSpecified, Type, Unit
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Enum HeadingType
+    ' 
+    '         outcome, score, TID
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class DownloadRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class DownloadResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class GetAssayColumnDescriptionsRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class GetAssayColumnDescriptionsResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class GetAssayDescriptionRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class GetAssayDescriptionResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Enum StatusType
+    ' 
+    '         eStatus_DataError, eStatus_HitLimit, eStatus_InputError, eStatus_Queued, eStatus_Running
+    '         eStatus_ServerError, eStatus_Stopped, eStatus_Success, eStatus_TimeLimit, eStatus_Unknown
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class GetStandardizedStructureBase64Request
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class GetStandardizedStructureBase64Response
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Enum IDOperationType
+    ' 
+    '         eIDOperation_Same, eIDOperation_SameConnectivity, eIDOperation_SameIsotope, eIDOperation_SameParent, eIDOperation_SameParentConnectivity
+    '         eIDOperation_SameParentIsotope, eIDOperation_SameParentStereo, eIDOperation_SameStereo, eIDOperation_Similar2D, eIDOperation_Similar3D
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum PCIDType
+    ' 
+    '         eID_AID, eID_CID, eID_ConformerID, eID_InChI, eID_InChIKey
+    '         eID_SID, eID_SourceID, eID_TID
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum IDOutputFormatType
+    ' 
+    '         eIDOutputFormat_Entrez, eIDOutputFormat_FileList, eIDOutputFormat_FilePair
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class IDExchangeRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class IDExchangeResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Enum AssayColumnsType
+    ' 
+    '         eAssayColumns_Complete, eAssayColumns_Concise, eAssayColumns_TIDs
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum AssayOutcomeFilterType
+    ' 
+    '         eAssayOutcome_Active, eAssayOutcome_All, eAssayOutcome_Inactive, eAssayOutcome_Inconclusive, eAssayOutcome_Unspecified
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class InputListStringRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class InputListStringResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class InputStructureBase64Request
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class InputStructureBase64Response
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Enum ScoreTypeType
+    ' 
+    '         eScoreType_FeatureOpt3D, eScoreType_ShapeOpt3D, eScoreType_Sim2DSubs
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum MatrixFormatType
+    ' 
+    '         eMatrixFormat_CSV, eMatrixFormat_IdIdScore
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class StandardizeRequest
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class StandardizeResponse
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Interface PUGSoapChannel
+    ' 
+    ' 
+    ' 
+    '     Class PUGSoapClient
+    ' 
+    '         Function: AssayDownload, AssayDownloadAsync, Download, DownloadAsync, GetAssayColumnDescription
+    '                   GetAssayColumnDescriptionAsync, GetAssayColumnDescriptions, GetAssayColumnDescriptionsAsync, GetAssayDescription, GetAssayDescriptionAsync
+    '                   GetDownloadUrl, GetDownloadUrlAsync, GetEntrezKey, GetEntrezKeyAsync, GetEntrezUrl
+    '                   GetEntrezUrlAsync, GetIDList, GetIDListAsync, GetListItemsCount, GetListItemsCountAsync
+    '                   GetOperationStatus, GetOperationStatusAsync, GetStandardizedCID, GetStandardizedCIDAsync, GetStandardizedStructure
+    '                   GetStandardizedStructureAsync, GetStandardizedStructureBase64, GetStandardizedStructureBase64Async, GetStatusMessage, GetStatusMessageAsync
+    '                   IdentitySearch, IdentitySearchAsync, IDExchange, IDExchangeAsync, InputAssay
+    '                   InputAssayAsync, InputEntrez, InputEntrezAsync, InputList, InputListAsync
+    '                   InputListString, InputListStringAsync, InputListText, InputListTextAsync, InputStructure
+    '                   InputStructureAsync, InputStructureBase64, InputStructureBase64Async, MFSearch, MFSearchAsync
+    '                   NCBI_PUGSoap_Download, NCBI_PUGSoap_GetAssayColumnDescriptions, NCBI_PUGSoap_GetAssayColumnDescriptionsAsync, NCBI_PUGSoap_GetAssayDescription, NCBI_PUGSoap_GetStandardizedStructureBase64
+    '                   NCBI_PUGSoap_GetStandardizedStructureBase64Async, NCBI_PUGSoap_IDExchange, NCBI_PUGSoap_InputListString, NCBI_PUGSoap_InputListStringAsync, NCBI_PUGSoap_InputStructureBase64
+    '                   NCBI_PUGSoap_InputStructureBase64Async, NCBI_PUGSoap_Standardize, ScoreMatrix, ScoreMatrixAsync, SimilaritySearch2D
+    '                   SimilaritySearch2DAsync, StandardizeAsync, SubstructureSearch, SubstructureSearchAsync, SuperstructureSearch
+    '                   SuperstructureSearchAsync
+    ' 
+    '         Sub: (+5 Overloads) New, Standardize
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

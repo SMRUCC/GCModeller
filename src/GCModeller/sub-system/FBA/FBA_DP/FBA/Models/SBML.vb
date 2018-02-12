@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ed3cb4a15331f12fbd6f795ccc40a107, ..\GCModeller\sub-system\FBA_DP\FBA\Models\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::ed3cb4a15331f12fbd6f795ccc40a107, sub-system\FBA\FBA_DP\FBA\Models\SBML.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SBML
+    ' 
+    '         Properties: allCompounds, fluxColumns
+    ' 
+    '         Function: __getLowerbound, __getStoichiometry, __getUpbound, getConstraint
+    ' 
+    '         Sub: New, SetObjectiveFunc
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

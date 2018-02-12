@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::739651385066ef600072c94682a07e5f, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\TomTom.vb"
+﻿#Region "Microsoft.VisualBasic::739651385066ef600072c94682a07e5f, meme_suite\MEME\Analysis\Similarity\TomQuery\TomTom.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,38 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module TomTOm
+    ' 
+    '         Properties: Motifs
+    ' 
+    '         Function: ED, GetFamilyMotifs, KLD, PCC, SW
+    ' 
+    '         Sub: New
+    '         Delegate Function
+    ' 
+    '             Function: (+2 Overloads) Compare, (+2 Overloads) CompareBest, CreateResult, GetMethod
+    '         Class __equals
+    ' 
+    '             Function: BitsEquals, Equals
+    ' 
+    '             Sub: New
+    ' 
+    '         Class CompareResult
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

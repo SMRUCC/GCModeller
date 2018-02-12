@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::854c4ce3de45981af8137095eb1e4bcd, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::854c4ce3de45981af8137095eb1e4bcd, analysis\Motifs\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module CRTMotifSearchTool
+    ' 
+    '         Function: ExactKMerMatches
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

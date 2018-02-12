@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::abac1dac7f6cc35125d8b3c8dec51a2e, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\Csv.vb"
+﻿#Region "Microsoft.VisualBasic::abac1dac7f6cc35125d8b3c8dec51a2e, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\Csv.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Csv
+    ' 
+    '         Properties: GetHandles
+    ' 
+    '         Function: CommitData
+    ' 
+    '         Sub: Append, Close, CreateHandle, Initialize, New
+    '         Class SerialsData
+    ' 
+    '             Properties: DataPackage
+    ' 
+    '             Function: CreateCsvData, GetPackage, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

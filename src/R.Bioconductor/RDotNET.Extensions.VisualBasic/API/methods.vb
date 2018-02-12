@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6d5907210264b79949b3aafd45847761, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\methods.vb"
+﻿#Region "Microsoft.VisualBasic::6d5907210264b79949b3aafd45847761, RDotNET.Extensions.VisualBasic\API\methods.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module methods
+    ' 
+    '         Function: slotNames
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

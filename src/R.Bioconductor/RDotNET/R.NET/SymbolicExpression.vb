@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fff26e8fbc2a3b208b883b21ac63cfca, ..\R.Bioconductor\RDotNET\R.NET\SymbolicExpression.vb"
+﻿#Region "Microsoft.VisualBasic::fff26e8fbc2a3b208b883b21ac63cfca, RDotNET\R.NET\SymbolicExpression.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SymbolicExpression
+    ' 
+    '     Properties: Engine, IsInvalid, IsProtected, Type
+    ' 
+    '     Function: (+2 Overloads) Equals, (+2 Overloads) GetAttribute, GetAttributeNames, GetFunction, GetHashCode
+    '               GetInternalStructure, GetMetaObject, op_Dynamic, ReleaseHandle
+    ' 
+    '     Sub: New, Preserve, (+2 Overloads) SetAttribute, Unpreserve
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

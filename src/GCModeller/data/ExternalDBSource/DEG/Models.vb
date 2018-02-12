@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4a83678dbb195ab52328ed63fe85beed, ..\GCModeller\data\ExternalDBSource\DEG\Models.vb"
+﻿#Region "Microsoft.VisualBasic::309bd0ec6458c3b7faeb6d371c2904f8, data\ExternalDBSource\DEG\Models.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Annotations
+    ' 
+    '         Function: GetSpeciesId, (+2 Overloads) Load, ToString
+    ' 
+    '     Class DEG_AminoAcidSequence
+    ' 
+    '         Properties: DEGAccessionId, GeneName, SpeciesId
+    ' 
+    '         Function: CreateObject, Load
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

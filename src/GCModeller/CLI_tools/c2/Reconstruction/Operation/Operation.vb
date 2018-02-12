@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::034552deba88b4189b069031b49ad876, ..\GCModeller\CLI_tools\c2\Reconstruction\Operation\Operation.vb"
+﻿#Region "Microsoft.VisualBasic::034552deba88b4189b069031b49ad876, CLI_tools\c2\Reconstruction\Operation\Operation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Operation
+    ' 
+    '         Properties: HomologousProteins, LocalBLAST, Reconstructed, Subject, Workspace
+    ' 
+    '         Function: Performance
+    ' 
+    '         Sub: (+2 Overloads) Dispose, New
+    '         Class ReconstructedList
+    ' 
+    '             Properties: ListData
+    ' 
+    '             Function: GetEntity, GetEnumerator, GetEnumerator1, ToString, ToTable
+    ' 
+    '             Sub: Add
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

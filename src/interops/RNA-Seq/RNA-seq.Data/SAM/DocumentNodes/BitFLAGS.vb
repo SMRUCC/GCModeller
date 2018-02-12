@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4710b0601c001824233350a9a1255413, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
+﻿#Region "Microsoft.VisualBasic::4710b0601c001824233350a9a1255413, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum BitFlags
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Module BitFLAGS_API
+    ' 
+    '         Properties: BitFLAG, Descriptions
+    ' 
+    '         Function: bitFLAGDescriptions, ComputeBitFLAGS, GetBitFLAGDescriptions
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fc57b6695fbdae76ede43bc20c9bc114, ..\interops\meme_suite\MEME\Workflows\MEME_Analysis_Actions.vb"
+﻿#Region "Microsoft.VisualBasic::aa934598b5f56aed06a49fad4a8adc82, meme_suite\MEME\Workflows\MEME_Analysis_Actions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module MEME_Analysis_ACtions
+    ' 
+    '         Function: GetKeywords, GetMaxItem, SequenceNotDownload
+    ' 
+    '         Sub: Action, Export, FinalRegulationMatch, match, TokenInvoke
+    '         Class __Parallelinvoker
+    ' 
+    '             Function: __createAction
+    ' 
+    '             Sub: Invoke
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dd3811fbfc8a4a26023dc289e97dec0b, ..\GCModeller\CLI_tools\gcc\CLI\ProteinDomain.vb"
+﻿#Region "Microsoft.VisualBasic::dd3811fbfc8a4a26023dc289e97dec0b, CLI_tools\gcc\CLI\ProteinDomain.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ProteinDomain
+    ' 
+    '     Function: AddingRules, GetList, SMART
+    '     Class Extend
+    ' 
+    '         Function: Invoke
+    ' 
+    '     Class Rule
+    ' 
+    '         Properties: CheckThrought, Left, Right
+    ' 
+    '         Function: Copy, Generate, GetDomains, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    '         Class Refx
+    ' 
+    '             Properties: DomainModify, IsDomain, Stochem, UniqueId
+    ' 
+    '             Function: CopyData, ToString
+    ' 
+    '             Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

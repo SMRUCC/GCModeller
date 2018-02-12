@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1abf0d40eb9b6c6dc4b822e9187b798d, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::1abf0d40eb9b6c6dc4b822e9187b798d, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DBLinkManager
+    ' 
+    '         Properties: CHEBI, IsEmpty, PUBCHEM
+    ' 
+    '         Function: CreateFromMetaCycFormat, CreateObject, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    '         Class DBLink
+    ' 
+    '             Properties: AccessionId, attributes, DBName
+    ' 
+    '             Function: CreateObject, GetFormatValue, GetMetaCycFormatValue, GetUniprotId, ToString
+    '                       TryParse, TryParseMetaCycDBLink
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

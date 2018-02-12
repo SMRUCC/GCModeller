@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::be1886e3e77e5cf9f08deece6317de29, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\PfsNET.vb"
+﻿#Region "Microsoft.VisualBasic::be1886e3e77e5cf9f08deece6317de29, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\PfsNET.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module PfsNETRInvoke
+    ' 
+    '         Function: Evaluate, InitializeSession, RInvoke
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

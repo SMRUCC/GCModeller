@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::10310bdf28346c8f120e7d1112c160aa, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
+﻿#Region "Microsoft.VisualBasic::da618a949aa0fc93ce9882f97d1b92c6, core\Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SecondaryIDSolver
+    ' 
+    '         Properties: ALL
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: Add, New
+    '         Delegate Function
+    ' 
+    ' 
+    '         Delegate Function
+    ' 
+    '             Function: Create
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

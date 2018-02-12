@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f72e1f511580c2ce9791ce16423ea651, ..\R.Bioconductor\RDotNET\R.NET\DynamicVector.vb"
+﻿#Region "Microsoft.VisualBasic::f72e1f511580c2ce9791ce16423ea651, RDotNET\R.NET\DynamicVector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class DynamicVector
+    ' 
+    '     Properties: DataSize, Item
+    ' 
+    '     Function: GetArrayFast, GetValue, ReadBoolean, ReadByte, ReadComplex
+    '               ReadDouble, ReadInt32, ReadString, ReadSymbolicExpression
+    ' 
+    '     Sub: New, SetValue, SetVectorDirect, WriteBoolean, WriteByte
+    '          WriteComplex, WriteDouble, WriteInt32, WriteString, WriteSymbolicExpression
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

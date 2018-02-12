@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::815aa810e841f25722d5cb0a36eb0767, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::815aa810e841f25722d5cb0a36eb0767, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ShellScriptAPI
+    ' 
+    '         Function: CurrentTimeIs, DrawMetabolism, ExportDynamicsCellSystem, Get_currentTime, SaveNetwork
+    ' 
+    '         Sub: set_EngineKernel
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

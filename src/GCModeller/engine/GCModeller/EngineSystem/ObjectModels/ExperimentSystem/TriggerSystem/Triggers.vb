@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::91e5a06bca107c82c3fb160df025dbb6, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
+﻿#Region "Microsoft.VisualBasic::91e5a06bca107c82c3fb160df025dbb6, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ConditionalTrigger
+    ' 
+    '         Properties: Handle
+    ' 
+    '         Function: CreateObject, TriggerTest
+    ' 
+    '         Sub: New
+    ' 
+    '     Class PeriodicTrigger
+    ' 
+    ' 
+    '         Enum QuantitativeRelations
+    ' 
+    '             Equals, GreaterThan, GreaterThanOrEquals, NotEquals, SmallerThan
+    '             SmallerThanOrEquals
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: ComparedMethods
+    ' 
+    '     Function: TriggerTest
+    ' 
+    '     Class TriggerBase
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ad0192aefd5d6bab0ee4db0493fb2dd6, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
+﻿#Region "Microsoft.VisualBasic::ad0192aefd5d6bab0ee4db0493fb2dd6, RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class S4ObjectDebugView
+    ' 
+    ' 	    Properties: Slots
+    ' 
+    ' 	    Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

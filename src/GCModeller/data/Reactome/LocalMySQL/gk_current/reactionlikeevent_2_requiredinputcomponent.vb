@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ec76d0a0f06e1fad465038f51ffd10e0, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::ec76d0a0f06e1fad465038f51ffd10e0, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class reactionlikeevent_2_requiredinputcomponent
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

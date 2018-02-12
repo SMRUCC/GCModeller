@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::aa6ac6e1daa6b0e299e7a8f2a4b32a2f, ..\interops\localblast\venn\VennDataModel.vb"
+﻿#Region "Microsoft.VisualBasic::aa6ac6e1daa6b0e299e7a8f2a4b32a2f, localblast\venn\VennDataModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module VennDataModel
+    ' 
+    '         Function: __parserIndex, BeginLoadCdsDumpInfo, Copy, DeltaMove, ExportBidirectionalBesthit
+    '                   LoadCdsDumpInfo, NullHash, OutputConservedCluster, ReadBesthitXML, ReadXml
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

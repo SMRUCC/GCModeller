@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1b1a3fa5bc6c63da4e04a37c65e2b941, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\API.vb"
+﻿#Region "Microsoft.VisualBasic::1b1a3fa5bc6c63da4e04a37c65e2b941, engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module API
+    ' 
+    '         Function: __add_author, __add_email, __add_publication, __add_reversion, __add_URL
+    '                   _set_Comments, _set_DBLinks, _set_Name, _set_Title, set_SpeciesId
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

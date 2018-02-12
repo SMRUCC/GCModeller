@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a6be0c33172855ea123c770fef4f128c, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
+﻿#Region "Microsoft.VisualBasic::fdd30e20065d4bf73322446598311efe, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PGDB
+    ' 
+    '         Properties: BindRxns, Compounds, DataDIR, DNABindingSites, Enzrxns
+    '                     FASTAFiles, Genes, Pathways, Promoters, ProteinFeature
+    '                     Proteins, ProtLigandCplxes, Reactions, Regulations, Species
+    '                     Terminators, TransUnits, WholeGenome
+    ' 
+    '         Function: Load, ParallelReadingMetaCyc, PreLoad, ReflectionLoadMetaCyc, ToString
+    ' 
+    '         Sub: Add, Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

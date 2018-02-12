@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ab4e636d4ac681fafe8944bedf49d57e, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::ab4e636d4ac681fafe8944bedf49d57e, sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module PhenotypeRegulations
+    ' 
+    '     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
+    '               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
+    '               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
+    '               ExportCytoscapeNetwork, ExportNetworkModel, ExportPfsNET, ExportTCSCrossTalksCytoscape, FamilyStatics
+    '               ImportantPhenotypeRegulators, ModelApplyingConfiguration, ModelSetupKernelLoops, ModelSetupMutation, MonteCarloExperiment
+    '               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
+    '               WriteRegulationState
+    ' 
+    '     Sub: CommandLineTools, New
+    '     Class CrossTalk
+    ' 
+    ' 
+    '         Class TCS_GeneObject
+    ' 
+    '             Properties: Quantity
+    ' 
+    ' 
+    ' 
+    '     Structure __phenotype
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

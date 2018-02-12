@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::640435749f3922ab1b3ecfabd2852a93, ..\workbench\devenv\TabPages\StartPage.vb"
+﻿#Region "Microsoft.VisualBasic::640435749f3922ab1b3ecfabd2852a93, devenv\TabPages\StartPage.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class StartPage
+    ' 
+    '         Sub: StartPage_Load, StartPage_Resize
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a360d21ed7dadfa783e127c5af2a7504, ..\GCModeller\data\STRING\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::a360d21ed7dadfa783e127c5af2a7504, data\STRING\Tsv.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class LinkAction
+    ' 
+    '         Properties: a_is_acting, action, item_id_a, item_id_b, mode
+    '                     score
+    ' 
+    '         Function: LoadText
+    ' 
+    '     Class linksDetail
+    ' 
+    '         Properties: coexpression, combined_score, cooccurence, database, experimental
+    '                     fusion, neighborhood, protein1, protein2, textmining
+    ' 
+    '         Function: IteratesLinks, LoadFile, Selects, ToString
+    ' 
+    '     Class entrez_gene_id_vs_string
+    ' 
+    '         Properties: STRING_Locus_ID
+    ' 
+    '         Function: BuildMaps, BuildMapsFromFile, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

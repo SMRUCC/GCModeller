@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b3a09178dc64f31101e008b884911a14, ..\interops\meme_suite\MEME\Analysis\MotifScanning\MotifScan\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::42e9a7494ad2cf968a3eaf4216ddc1e7, meme_suite\MEME\Analysis\MotifScanning\MotifScan\ToolsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module MotifScansTools
+    ' 
+    '         Function: (+2 Overloads) CreateModel, LoadRegulations, MotifScan
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

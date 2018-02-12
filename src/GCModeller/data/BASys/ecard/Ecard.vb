@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f7760d6d3d4deb46f814abcfc4123055, ..\GCModeller\data\BASys\ecard\Ecard.vb"
+﻿#Region "Microsoft.VisualBasic::c349c19d248dde7315623a5660688c9d, data\BASys\ecard\Ecard.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,37 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Ecard
+    ' 
+    '     Properties: Func, Keys, Name, Values
+    ' 
+    '     Function: GetNt, GetProt, Parser, ToString
+    ' 
+    ' Class EcardValue
+    ' 
+    '     Properties: [CDATE], [VARIANT], AUTHORS, BINOMIAL, CATEGORY
+    '                 CLASSIFICATION, COMMENT, COMMON_NAME, EVIDENCE, GENUS
+    '                 JOURNAL, MDATE, MEDLINE, NAME, NCBI_TAXID
+    '                 PARAMETER, PUBMED, QUALITY, RP, Schema
+    '                 SOURCE, SPECIES, SUBSPECIES, TITLE, TYPE
+    '                 VALUE
+    ' 
+    '     Function: [New], __setValue, ToString
+    ' 
+    ' Structure Value
+    ' 
+    '     Function: ToString
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

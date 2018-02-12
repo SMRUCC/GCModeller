@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0411bfba4abc2ce4fcdf3b0ceb190844, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\FileSystem\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::0411bfba4abc2ce4fcdf3b0ceb190844, analysis\ProteinTools\ProteinTools.Family\FileSystem\PfamString.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PfamString
+    ' 
+    '         Function: AsPfamString, CreateObject, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

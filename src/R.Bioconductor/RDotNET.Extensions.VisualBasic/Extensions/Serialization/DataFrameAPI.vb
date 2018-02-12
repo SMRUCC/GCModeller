@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5da10561ee14841eaf3e607fd5cb98fd, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5da10561ee14841eaf3e607fd5cb98fd, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DataFrameAPI
+    ' 
+    '     Function: dataframe, GetDataFrame, PushAsDataFrame, PushAsTable, WriteDataFrame
+    ' 
+    '     Sub: (+2 Overloads) PushAsDataFrame, PushAsTable
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

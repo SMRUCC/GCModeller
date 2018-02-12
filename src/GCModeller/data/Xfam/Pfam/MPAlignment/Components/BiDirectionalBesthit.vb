@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, ..\GCModeller\data\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, data\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class BiDirectionalBesthit
+    ' 
+    '         Properties: Score, Similarity
+    ' 
+    '         Function: Upgrade
+    '         Interface IMPAlignmentResult
+    ' 
+    '             Properties: MPScore, Similarity
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

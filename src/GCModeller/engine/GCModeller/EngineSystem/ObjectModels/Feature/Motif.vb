@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f22cc40ee4559ebb9ebe2f2f487ea3b7, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::f22cc40ee4559ebb9ebe2f2f487ea3b7, engine\GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MotifSite
+    ' 
+    '         Properties: MappingHandler, Regulators, TypeId
+    ' 
+    '         Function: get_RegulationEffect, get_RegulatorQuantitySum, Initialize, MostAppears, Regulators_SiteSpecificDynamicsRegulations
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

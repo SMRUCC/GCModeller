@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2ecc8df01c4272e5f1a9ff29a4054bd5, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\FluxSystemFramework.vb"
+﻿#Region "Microsoft.VisualBasic::2ecc8df01c4272e5f1a9ff29a4054bd5, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\FluxSystemFramework.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,45 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ReactorMachine
+    ' 
+    '         Properties: ATP_EnergyConsumption, Count, DataSource, Guid, Keys
+    '                     NetworkComponents, RuntimeTicks, SystemLogging, Values
+    ' 
+    '         Function: __innerTicks, ContainsKey, get_DataSerializerHandles, get_RuntimeContainer, GetEnumerator
+    '                   GetEnumerator1, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Dispose, set_NetworkComponents
+    ' 
+    '     Interface ICellComponentContainer
+    ' 
+    '         Properties: SystemLogging
+    ' 
+    '         Function: get_runtimeContainer
+    ' 
+    '     Class SubSystemContainer
+    ' 
+    '         Properties: SystemLogging
+    ' 
+    '         Function: get_runtimeContainer
+    ' 
+    '         Sub: New
+    ' 
+    '     Class CellComponentSystemFramework
+    ' 
+    '         Function: Get_cellComponentContainer
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

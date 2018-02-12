@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::373f85d6676fc5e49ec06489515a9bdf, ..\GCModeller\sub-system\FBA_DP\FBA\lpSolveRModel.vb"
+﻿#Region "Microsoft.VisualBasic::373f85d6676fc5e49ec06489515a9bdf, sub-system\FBA\FBA_DP\FBA\lpSolveRModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class lpSolveRModel
+    ' 
+    '     Properties: BoundsOverrides, CDirect, Objectives
+    ' 
+    '     Function: __add_constraint, __buildLine, __objFunc, __R_script, __set_bounds
+    '               __set_objfn, CreateResultFile, GetEquation, getLowerbound, getMatrix
+    '               GetName, getObjectFunction, getUpbound
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

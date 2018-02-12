@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::765e937f5200bfbad28a0c77ae55449a, ..\GCModeller\data\Xfam\Rfam\Infernal\cmsearch\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::765e937f5200bfbad28a0c77ae55449a, data\Xfam\Rfam\Infernal\cmsearch\ParserAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ParserAPI
+    ' 
+    '         Function: __queryParser, __querys, LoadCMSearch
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

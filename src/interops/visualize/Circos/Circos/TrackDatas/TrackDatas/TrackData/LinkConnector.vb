@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::170f1dffdd3879affebd2d7e3e9a6764, ..\interops\visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\LinkConnector.vb"
+﻿#Region "Microsoft.VisualBasic::170f1dffdd3879affebd2d7e3e9a6764, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\LinkConnector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure link
+    ' 
+    '         Properties: comment
+    ' 
+    '         Function: ToString
+    ' 
+    '     Structure Connection
+    ' 
+    '         Properties: [to], chr, comment, from, IsEmpty
+    ' 
+    '         Function: GetLineData, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

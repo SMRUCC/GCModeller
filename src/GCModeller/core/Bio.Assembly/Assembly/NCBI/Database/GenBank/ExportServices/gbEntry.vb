@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::56807975ec1018a1fb3e8334f0ae8e08, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::56807975ec1018a1fb3e8334f0ae8e08, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class gbEntryBrief
+    ' 
+    '         Properties: AccessionID, AverageCDSLength, CDSsWithFunctionalAssignment, Comments, ConservedHypotheticalCDSs
+    '                     Definition, GC_Content, GCSkew, GI, HypotheticalCDSs
+    '                     II_VirusesEffector, III_VirusesEffector, IV_VirusesEffector, Length, Locus
+    '                     Mob, Number_conjugal, Number_of_CDSs, Number_of_IS, Number_of_mobile_element
+    '                     Number_of_Transposases, NumberOfGenes, Organism, PSEUDOProteins, Published
+    '                     Reference1, Reference2, Reference3, Reference4, Reference5
+    '                     Reference6, RepliconCoding, Species, Strain, Submit
+    '                     Taxon, Tra, tRNA, VI_VirusesEffector, VirusesProteinCounts
+    ' 
+    '         Function: ConvertObject, GetSubmitDate, ToString
+    ' 
+    '     Class Plasmid
+    ' 
+    '         Properties: Country, Host, isolation_source, IsShortGun, PlasmidID
+    '                     PlasmidType
+    ' 
+    '         Function: Build
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

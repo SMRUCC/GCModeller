@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a3739863b0f1c4d7a3a5490842fabe9e, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::312607c0a5693a87434d384616628621, core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module EquationBuilder
+    ' 
+    '         Function: __tryParse, (+2 Overloads) CreateObject, (+4 Overloads) ToString
+    ' 
+    '         Sub: __appendSide, (+2 Overloads) AppendSides
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

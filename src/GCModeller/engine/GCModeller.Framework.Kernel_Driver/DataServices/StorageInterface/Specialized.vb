@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4dab914858e8268bdcb36649f6ef64e8, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\Specialized.vb"
+﻿#Region "Microsoft.VisualBasic::4dab914858e8268bdcb36649f6ef64e8, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\Specialized.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CHUNK_BUFFER_TransitionStates
+    ' 
+    ' 
+    ' 
+    '     Class CHUNK_BUFFER_EntityQuantities
+    ' 
+    ' 
+    ' 
+    '     Class CHUNK_BUFFER_StateEnumerations
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

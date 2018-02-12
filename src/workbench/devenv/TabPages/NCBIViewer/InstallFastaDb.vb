@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2883742c2c817197f632972ac6b98a4e, ..\workbench\devenv\TabPages\NCBIViewer\InstallFastaDb.vb"
+﻿#Region "Microsoft.VisualBasic::2883742c2c817197f632972ac6b98a4e, devenv\TabPages\NCBIViewer\InstallFastaDb.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class InstallFastaDb
+    ' 
+    '     Sub: Button1_Click, CheckBox1_CheckedChanged, Install, LinkLabel2_LinkClicked, LoadUninstall
+    '          (+2 Overloads) New, Out2
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

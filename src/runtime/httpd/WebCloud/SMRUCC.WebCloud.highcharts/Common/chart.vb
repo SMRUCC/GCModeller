@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2a4e15c3f46e566e955a577fc7e280ab, ..\httpd\WebCloud\SMRUCC.WebCloud.highcharts\Common\chart.vb"
+﻿#Region "Microsoft.VisualBasic::36b876db3b95e8c46cbc736f5509bd09, WebCloud\SMRUCC.WebCloud.highcharts\Common\chart.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,89 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class chart
+    ' 
+    '     Properties: inverted, margin, options3d, polar, renderTo
+    '                 type, zoomType
+    ' 
+    '     Function: BarChart3D, PieChart3D, ToString
+    ' 
+    ' Class Axis
+    ' 
+    '     Properties: allowDecimals, categories, className, crosshair, dateTimeLabelFormats
+    '                 endOnTick, gridLineWidth, labels, max, min
+    '                 opposite, plotBands, showFirstLabel, showLastLabel, startOnTick
+    '                 tickInterval, title, type
+    ' 
+    ' Class dateTimeLabelFormats
+    ' 
+    '     Properties: month, year
+    ' 
+    ' Class Band
+    ' 
+    '     Properties: [to], color, from
+    ' 
+    ' Class legendOptions
+    ' 
+    '     Properties: align, backgroundColor, borderWidth, enabled, floating
+    '                 layout, reversed, shadow, verticalAlign, x
+    '                 y
+    ' 
+    ' Class title
+    ' 
+    '     Properties: align, enable, skew3d, text
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class tooltip
+    ' 
+    '     Properties: [shared], footerFormat, headerFormat, pointFormat, useHTML
+    '                 valueSuffix
+    ' 
+    ' Class labelOptions
+    ' 
+    '     Properties: connectorAllowed, formatter, overflow, skew3d, style
+    ' 
+    ' Class lambda
+    ' 
+    '     Properties: func
+    ' 
+    ' Class styleOptions
+    ' 
+    '     Properties: fontSize
+    ' 
+    ' Class dataLabels
+    ' 
+    '     Properties: enabled, format
+    ' 
+    ' Class responsiveOptions
+    ' 
+    '     Properties: rules
+    ' 
+    ' Class rule
+    ' 
+    '     Properties: chartOptions, condition
+    ' 
+    ' Class ruleConditions
+    ' 
+    '     Properties: maxWidth
+    ' 
+    ' Class chartOptions
+    ' 
+    '     Properties: legend
+    ' 
+    ' Class credits
+    ' 
+    '     Properties: enabled
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

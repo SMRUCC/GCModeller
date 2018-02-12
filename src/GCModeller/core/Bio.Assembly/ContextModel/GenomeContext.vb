@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::21bd42b49af775047be35f0d54fc66d8, ..\GCModeller\core\Bio.Assembly\ContextModel\GenomeContext.vb"
+﻿#Region "Microsoft.VisualBasic::666aadbdf64e2e26bc9d41db5de30396, core\Bio.Assembly\ContextModel\GenomeContext.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GenomeContext
+    ' 
+    '         Properties: AllFeatureKeys, N
+    ' 
+    '         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand
+    '                   ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

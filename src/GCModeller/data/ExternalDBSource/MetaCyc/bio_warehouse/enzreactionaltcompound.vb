@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::21429b6ed5c9597458d0e49820f35dd6, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
+﻿#Region "Microsoft.VisualBasic::21429b6ed5c9597458d0e49820f35dd6, data\ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class enzreactionaltcompound
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f67cebe99b1cb58888f33072cd066e18, ..\GCModeller\foundation\PSICQUIC\psidev\XML\XmlCommon.vb"
+﻿#Region "Microsoft.VisualBasic::f67cebe99b1cb58888f33072cd066e18, foundation\PSICQUIC\psidev\XML\XmlCommon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataItem
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Names
+    ' 
+    '         Properties: [alias], fullName, shortLabel
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Xref
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Reference
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

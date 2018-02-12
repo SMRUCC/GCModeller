@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dd277e9d5d4610c389c9b0c175be5f5e, ..\interops\visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Translator.vb"
+﻿#Region "Microsoft.VisualBasic::dd277e9d5d4610c389c9b0c175be5f5e, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Translator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CSSTranslator
+    ' 
+    '         Properties: BackgroundColor, BackgroundOpacity, BorderOpacity, Color, FontSize
+    '                     Shape, TextOpacity, Width
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

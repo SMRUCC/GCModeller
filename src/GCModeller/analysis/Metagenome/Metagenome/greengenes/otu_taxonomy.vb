@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5ee42a22956bfee578c9d9a46c8dc4cc, ..\GCModeller\analysis\Metagenome\Metagenome\greengenes\otu_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::5ee42a22956bfee578c9d9a46c8dc4cc, analysis\Metagenome\Metagenome\greengenes\otu_taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class otu_taxonomy
+    ' 
+    '         Properties: ID, Taxonomy
+    ' 
+    '         Function: Load, Parser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

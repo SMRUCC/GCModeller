@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4058aee5d4c7e807c94658d1982e1dc0, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\ExpressionRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::4058aee5d4c7e807c94658d1982e1dc0, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\ExpressionRegulations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TranscriptionRegulation
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class TranslationRegulation
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ec5cde00f941810b548080583c182da9, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\VennDiagram\VennDiagram\VennDiagram.vb"
+﻿#Region "Microsoft.VisualBasic::ec5cde00f941810b548080583c182da9, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\VennDiagram.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class VennDiagram
+    ' 
+    '         Properties: categoryNames, plot
+    ' 
+    '         Function: __R_script, ToString
+    ' 
+    '         Sub: New, RandomColors
+    ' 
+    '         Operators: +
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

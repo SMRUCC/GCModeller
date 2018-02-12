@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::525e10ceeecfc3ad8d279def2b175daf, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
+﻿#Region "Microsoft.VisualBasic::ccb7791554ffd432bf2433f8bb0f104e, CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class CompileDomains
+    ' 
+    '     Function: Compile, CreateProteinDescription, ExportDb, GetLastProcessData, Performance
+    ' 
+    '     Sub: New
+    ' 
+    ' Class SMARTDB
+    ' 
+    '     Function: Export, Generate, Takes
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

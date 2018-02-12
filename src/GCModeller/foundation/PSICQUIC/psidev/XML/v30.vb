@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, ..\GCModeller\foundation\PSICQUIC\psidev\XML\v30.vb"
+﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, foundation\PSICQUIC\psidev\XML\v30.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class v30
+    ' 
+    '         Properties: minorVersion
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

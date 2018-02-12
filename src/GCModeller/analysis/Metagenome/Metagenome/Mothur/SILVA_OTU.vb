@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5fc9e2c3f0592238816acedef7470a37, ..\GCModeller\analysis\Metagenome\Metagenome\Mothur\SILVA_OTU.vb"
+﻿#Region "Microsoft.VisualBasic::016ec816547ebc6fd50a77e6ffe9f38c, analysis\Metagenome\Metagenome\Mothur\SILVA_OTU.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module SILVA_OTU
+    ' 
+    '     Function: OTUsilvaTaxonomy, ParseOTUrep, RemovesOTUlt
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

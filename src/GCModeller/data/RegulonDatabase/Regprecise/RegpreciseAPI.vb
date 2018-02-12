@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8cfcc72078f98bafddcf29e39f2c8d1b, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::26415f9b49597de757e12e045cf3d305, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,34 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RegpreciseAPI
+    ' 
+    '         Function: __exportMotif, __exportMotifs, __getFastaCollection, __getTfFamilies, __matches
+    '                   (+2 Overloads) Compile, Distinct, Download, DownloadRegulatorSequence, Export
+    '                   ExportBySpecies, ExportMotifs, FamilyStatics, FamilyStatics2, GenerateDatabase
+    '                   GenerateFastaData, InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml
+    '                   ReGenerate, RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
+    ' 
+    '         Sub: __mergeAction
+    '         Class Matches
+    ' 
+    '             Properties: Matched, RegpreciseRegulator, RegulonSites
+    ' 
+    '         Interface IRegulatorMatched
+    ' 
+    '             Properties: Address, Family, locusId
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

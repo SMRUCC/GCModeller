@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0ce31608191f839f500c178d2f5f2d28, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\model\Meta.vb"
+﻿#Region "Microsoft.VisualBasic::0ce31608191f839f500c178d2f5f2d28, data\GO_gene-ontology\obographs\obographs\model\Meta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class Meta
+    ' 
+    ' 	    Properties: BasicPropertyValues, Comments, Definition, Subsets, Synonyms
+    '                  Xrefs, XrefsValues
+    ' 
+    ' 	    Sub: New
+    ' 		Class Builder
+    ' 
+    ' 		    Function: addSubset, addSynonym, addXref, basicPropertyValues, build
+    '                 comments, (+2 Overloads) definition, (+2 Overloads) subsets, synonyms, version
+    '                 xrefs
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

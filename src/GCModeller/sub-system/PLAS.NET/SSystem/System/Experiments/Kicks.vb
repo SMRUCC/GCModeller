@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9cc59257d659aa58a365745dd567aa5f, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Experiments\Kicks.vb"
+﻿#Region "Microsoft.VisualBasic::9cc59257d659aa58a365745dd567aa5f, sub-system\PLAS.NET\SSystem\System\Experiments\Kicks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Kicks
+    ' 
+    '         Function: __getExpireds, __getPendings
+    ' 
+    '         Sub: (+2 Overloads) New, Tick
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::db5bcb0aa1cac6f80b8c94b8ec13d296, ..\GCModeller\CLI_tools\MEME\RegpreciseSummary.vb"
+﻿#Region "Microsoft.VisualBasic::db5bcb0aa1cac6f80b8c94b8ec13d296, CLI_tools\MEME\RegpreciseSummary.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RegpreciseSummary
+    ' 
+    '         Function: __correlationFilter, (+2 Overloads) __createSites, __getMapped, __getregDataSet, __regulationMappings
+    '                   (+3 Overloads) GenerateRegulations, LoadMEME, LoadRegpreciseBBH, (+2 Overloads) SiteToRegulation
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

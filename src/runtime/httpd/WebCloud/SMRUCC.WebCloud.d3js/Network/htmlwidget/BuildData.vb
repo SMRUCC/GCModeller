@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d76fb7c5e574d9a3c8e2443a562a330e, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\BuildData.vb"
+﻿#Region "Microsoft.VisualBasic::d76fb7c5e574d9a3c8e2443a562a330e, WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\BuildData.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module BuildData
+    ' 
+    '         Function: BuildGraph, ParseHTML
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

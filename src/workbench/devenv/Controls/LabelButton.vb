@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c78387c86ff4f60a20fd614d77ac0977, ..\workbench\devenv\Controls\LabelButton.vb"
+﻿#Region "Microsoft.VisualBasic::c78387c86ff4f60a20fd614d77ac0977, devenv\Controls\LabelButton.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class LabelButton
+    ' 
+    '     Properties: Text
+    ' 
+    '     Function: DrawText
+    ' 
+    '     Sub: Button1_Click, LabelButton_Load
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

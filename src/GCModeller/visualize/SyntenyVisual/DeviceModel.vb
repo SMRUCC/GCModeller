@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::43725c1f89f9cbb1032c8da1a82d2913, ..\GCModeller\visualize\SyntenyVisual\DeviceModel.vb"
+﻿#Region "Microsoft.VisualBasic::43725c1f89f9cbb1032c8da1a82d2913, visualize\SyntenyVisual\DeviceModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class DeviceModel
+    ' 
+    '     Properties: Colors, DefaultColor, Margin, Meta, Orders
+    '                 penWidth, PTT, Size, style, Titles
+    ' 
+    '     Function: GetColors, GetTitles, Template
+    ' 
+    ' Class Title
+    ' 
+    '     Properties: key, Title
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::46463d2a5e7bd384b0352b48c23af107, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::c028244d78721e9f75fe784e5545a88e, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module WebRequest
+    ' 
+    '         Function: GetText
+    '         Delegate Function
+    ' 
+    '             Function: __downloadDirect, __downloads, __fetchSequence, __queryEntryParser, BatchQuery
+    '                       Download16S_rRNA, Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt
+    '                       (+2 Overloads) FetchSeq, GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
+    '                       LoadList
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

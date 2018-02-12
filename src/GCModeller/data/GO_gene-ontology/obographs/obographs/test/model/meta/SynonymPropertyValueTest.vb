@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1aa226aa905282d4db03c24b222828cc, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\test\model\meta\SynonymPropertyValueTest.vb"
+﻿#Region "Microsoft.VisualBasic::1aa226aa905282d4db03c24b222828cc, data\GO_gene-ontology\obographs\obographs\test\model\meta\SynonymPropertyValueTest.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class SynonymPropertyValueTest
+    ' 
+    ' 	    Function: build
+    ' 
+    ' 	    Sub: test, testSyn
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

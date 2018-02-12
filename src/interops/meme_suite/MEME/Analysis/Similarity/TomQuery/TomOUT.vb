@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::db11a181fbe7e6f44deae594ba910d5f, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\TomOUT.vb"
+﻿#Region "Microsoft.VisualBasic::db11a181fbe7e6f44deae594ba910d5f, meme_suite\MEME\Analysis\Similarity\TomQuery\TomOUT.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TomOUT
+    ' 
+    '         Properties: Alignment, Query, QueryLength, Subject, SubjectLength
+    ' 
+    '         Function: ResultView, ToString, Visual
+    ' 
+    '     Class SW_HSP
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

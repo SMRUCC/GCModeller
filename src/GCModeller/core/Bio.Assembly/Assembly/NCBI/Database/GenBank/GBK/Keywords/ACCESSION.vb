@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ac8ff87de2e8ff186a4d5a6241446824, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::ac8ff87de2e8ff186a4d5a6241446824, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ACCESSION
+    ' 
+    '         Properties: AccessionId, Alternative
+    ' 
+    '         Function: CreateObject, ToString
+    ' 
+    '     Class LOCUS
+    ' 
+    '         Properties: AccessionID, Length, Molecular, Type, UpdateTime
+    ' 
+    '         Function: InternalParser, ToString
+    ' 
+    '     Class DEFINITION
+    ' 
+    '         Properties: Value
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class VERSION
+    ' 
+    '         Properties: AccessionID, GI, IsEmpty, Ver, VersionString
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

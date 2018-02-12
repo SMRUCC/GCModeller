@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::92a76aa07b99f7c81ddb36d994cb5ad9, ..\GCModeller\models\Networks\Network.BLAST\DataModels\LocusDict.vb"
+﻿#Region "Microsoft.VisualBasic::92a76aa07b99f7c81ddb36d994cb5ad9, models\Networks\Network.BLAST\DataModels\LocusDict.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class LocusDict
+    ' 
+    '         Function: CreateDictionary, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

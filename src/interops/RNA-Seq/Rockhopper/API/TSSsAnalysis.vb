@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::795781fc87cffacc4f832ae1456475e6, ..\interops\RNA-Seq\Rockhopper\API\TSSsAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::795781fc87cffacc4f832ae1456475e6, RNA-Seq\Rockhopper\API\TSSsAnalysis.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module TSSsAnalysis
+    ' 
+    '         Function: DifferentTSSs, (+2 Overloads) GenerateDoorGene, (+3 Overloads) GenerateDoorOperon, InternalTrimHead, KEGGDifferent
+    '                   LoadOperonResult, LoadResult, Parsing5UTR, ParsingPromoterBox, ParsingTSSs
+    '                   ParsingTTSs, (+2 Overloads) SubstituteID
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

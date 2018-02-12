@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f4322f5be7db0d3e41ca3c9c9b0abfa7, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
+﻿#Region "Microsoft.VisualBasic::5e1c2405b03a12d353e1f5433e6c9450, core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Database
+    ' 
+    '         Properties: Cdd, Cog, DbPaths, DomainInfo, Kog
+    '                     Paths, Pfam, Prk, Smart, Tigr
+    ' 
+    '         Function: GetDomainFasta, GetDomainInfo, ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, New
+    '         Class FastaLoader
+    ' 
+    '             Function: GetCdd, GetCog, GetKog, GetPfam, GetPrk
+    '                       GetSmart, GetTigr, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

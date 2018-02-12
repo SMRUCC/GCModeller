@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6ad3a65182c4d92ae5b0804ae62f3b33, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb"
+﻿#Region "Microsoft.VisualBasic::6ad3a65182c4d92ae5b0804ae62f3b33, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: adjCol, adjRow, breaks, cellnote, col
+    '                 colCol, colRow, colsep, Colv, dendrogram
+    '                 densadj, denscol, extrafun, hline, key
+    '                 keysize, lhei, linecol, lmat, lwid
+    '                 notecex, notecol, offsetCol, offsetRow, rowsep
+    '                 Rowv, sepcolor, sepwidth, srtCol, srtRow
+    '                 symbreaks, symkey, trace, tracecol, vline
+    ' 
+    '     Function: Puriney
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

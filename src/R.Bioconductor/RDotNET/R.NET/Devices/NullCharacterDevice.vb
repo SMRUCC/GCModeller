@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9ba4d8f50951bfce64d3c36f61c2e607, ..\R.Bioconductor\RDotNET\R.NET\Devices\NullCharacterDevice.vb"
+﻿#Region "Microsoft.VisualBasic::9ba4d8f50951bfce64d3c36f61c2e607, RDotNET\R.NET\Devices\NullCharacterDevice.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class NullCharacterDevice
+    ' 
+    ' 	    Function: AddHistory, Ask, ChooseFile, LoadHistory, ReadConsole
+    '                SaveHistory, ShowFiles
+    ' 
+    ' 	    Sub: Busy, Callback, CleanUp, ClearErrorConsole, EditFile
+    '           FlushConsole, ResetConsole, ShowMessage, Suicide, WriteConsole
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

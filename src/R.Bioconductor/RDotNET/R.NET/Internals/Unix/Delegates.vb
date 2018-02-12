@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b4747bafa4f004c4b70ad3b667f3c303, ..\R.Bioconductor\RDotNET\R.NET\Internals\Unix\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b4747bafa4f004c4b70ad3b667f3c303, RDotNET\R.NET\Internals\Unix\Delegates.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,93 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 	Delegate Sub
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 	Delegate Function
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2c281217d4110809d764cf417596b71a, ..\GCModeller\engine\GCTabular\DifferTool.vb"
+﻿#Region "Microsoft.VisualBasic::2c281217d4110809d764cf417596b71a, engine\GCTabular\DifferTool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class DifferTool
+    ' 
+    '     Function: MergeMetaCycCompounds
+    ' 
+    '     Sub: Invoke, New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

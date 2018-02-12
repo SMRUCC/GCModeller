@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::957473211c37e090d83a9cb89902d1c4, ..\GCModeller\data\Xfam\Pfam\Analysis\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::7331c13bdf63256a600e5760ef8004a2, data\Xfam\Pfam\Analysis\DomainAnalysis.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DomainAnalysis
+    ' 
+    '     Function: __createResult, __createResultPLinq, __createStructureRegion, __getFasta, CreatePfamString
+    '               (+2 Overloads) EnzymeClassified, (+2 Overloads) FillChouFasmanData, LoadPfamDescribRes, PfamStringEquals, SavePfamString
+    '               ToPfamString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

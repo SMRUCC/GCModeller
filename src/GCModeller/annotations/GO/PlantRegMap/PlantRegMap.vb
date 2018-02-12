@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, ..\GCModeller\annotations\GO\PlantRegMap\PlantRegMap.vb"
+﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, annotations\GO\PlantRegMap\PlantRegMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PlantRegMap_GoTermEnrichment
+    ' 
+    '         Properties: Annotated, Aspect, Count, Expected, Genes
+    '                     Term
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bbdbf35e574f0e577b7c98f768e8a1af, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
+﻿#Region "Microsoft.VisualBasic::bbdbf35e574f0e577b7c98f768e8a1af, Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: blocks, blockSizePenaltyPower, checkMissingData, corType, cosineCorrelation
+    '                 datExpr, deepSplit, detectCutHeight, getTOMs, impute
+    '                 indent, loadTOM, maxAbsCoreScatter, maxBlockSize, maxCoreScatter
+    '                 maxPOutliers, mergeCutHeight, minAbsGap, minAbsSplitHeight, minBranchEigennodeDissim
+    '                 minCoreKME, minCoreKMESize, minGap, minKMEtoStay, minModuleSize
+    '                 minSplitHeight, minStabilityDissim, networkType, nThreads, numericLabels
+    '                 pamRespectsDendro, pamStage, pearsonFallback, power, quickCor
+    '                 randomSeed, reassignThreshold, saveTOMFileBase, saveTOMs, stabilityLabels
+    '                 TOMDenom, TOMType, trapErrors, useBranchEigennodeDissim, verbose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

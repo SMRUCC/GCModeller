@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6ab9efbd49fab902f2cf3a007c484dfc, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\LicenseInfo.vb"
+﻿#Region "Microsoft.VisualBasic::899b7ab8fbcf82922a8bd20af3e995d9, Microsoft.VisualBasic.Core\Language\Value\ByRefValueExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,23 +25,31 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ByRefValueExtensions
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
-Module LicenseInfo
+Imports System.Runtime.CompilerServices
+Imports ByRefString = Microsoft.VisualBasic.Language.Value(Of String)
 
-    Dim __content As SoftwareToolkits.LicenseInfo
+Namespace Language.Values
 
-    Public Property info As SoftwareToolkits.LicenseInfo
-        Get
-            If __content Is Nothing Then
-                __content = New SoftwareToolkits.LicenseInfo
-            End If
+    Public Module ByRefValueExtensions
 
-            Return __content
-        End Get
-        Set(value As SoftwareToolkits.LicenseInfo)
-            __content = value
-        End Set
-    End Property
-
-End Module
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function Split(s As ByRefString, ParamArray delimiter As Char()) As String()
+            Return s.Value.Split(delimiter)
+        End Function
+    End Module
+End Namespace

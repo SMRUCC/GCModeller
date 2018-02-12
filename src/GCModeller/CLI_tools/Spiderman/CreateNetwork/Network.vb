@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fe618c2ea05cf2787dbf0036d278b049, ..\GCModeller\CLI_tools\Spiderman\CreateNetwork\Network.vb"
+﻿#Region "Microsoft.VisualBasic::fe618c2ea05cf2787dbf0036d278b049, CLI_tools\Spiderman\CreateNetwork\Network.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,36 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Network
+    ' 
+    '     Function: ToString
+    '     Class Edge
+    ' 
+    ' 
+    '         Enum Directions
+    ' 
+    '             Bidirectional, DirectlyTo
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: Edges
+    ' 
+    '     Function: LoadCSVTabularModel, (+2 Overloads) LoadModel, SearchPath
+    ' 
+    '     Sub: Save
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

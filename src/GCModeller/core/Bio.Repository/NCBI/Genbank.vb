@@ -1,28 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::41e28f01100a9241de79fbbb6a75f5ca, ..\GCModeller\core\Bio.Repository\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::af13562135682a966002c9ca953ad016, core\Bio.Repository\NCBI\Genbank.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Installer
+    ' 
+    '     Function: BuildLocusHash, BuildNameHash, GetsiRNATargetSeqs, Install
+    ' 
+    ' Class Genbank
+    ' 
+    '     Properties: DIR
+    ' 
+    '     Function: __entryQuery, __query, AddNew, Exists, GetAll
+    '               GetByKey, GetWhere, (+3 Overloads) Query
+    ' 
+    '     Sub: AddOrUpdate, Delete, New
+    ' 
+    ' Class GeneInfo
+    ' 
+    '     Properties: [function], accId, locus_tag, name
+    ' 
+    '     Function: NameEquals, ToString
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    ' Class GenbankIndex
+    ' 
+    '     Properties: AccId, definition, DIR, genome
+    ' 
+    '     Function: Gbk, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

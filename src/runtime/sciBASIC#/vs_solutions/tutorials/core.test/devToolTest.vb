@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8f47ed2a3a056cae65bbc3b18f55c97e, ..\sciBASIC#\vs_solutions\tutorials\core.test\devToolTest.vb"
+﻿#Region "Microsoft.VisualBasic::6faa773f990dafa98fb3382de871a7ca, vs_solutions\tutorials\core.test\devToolTest.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,13 +25,128 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module devToolTest
+    ' 
+    '     Sub: loadTest, Main, parserTest
+    '     Class innerTest
+    ' 
+    '         Properties: (+2 Overloads) AA
+    ' 
+    '         Function: X, (+2 Overloads) Z
+    ' 
+    '         Sub: ACC, (+3 Overloads) X1
+    ' 
+    '         Operators: -, +, <<, <=, >=
+    '                    (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+    ' 
+    '     Enum innerEnum
+    ' 
+    '         AAA, BBB, CCC, Get
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
+#Region "Microsoft.VisualBasic::d6e7d85c4444ef86dd581810dc5570d5, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module devToolTest
+    ' 
+    '     Sub: loadTest, Main, parserTest
+    ' 
+    '     Class innerTest
+    ' 
+    '         Properties: (+2 Overloads) AA
+    ' 
+    '         Function: X, (+2 Overloads) Z
+    ' 
+    '         Sub: ACC, (+3 Overloads) X1
+    ' 
+    '         Operators: -, +, <<, <=, >=
+    '                    (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+    ' 
+    ' 
+    '     Enum innerEnum
+    ' 
+    '         AAA, BBB, CCC, Get
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::f5c85a2ca7e9da2e3b03f531838242c5, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module devToolTest
+    ' 
+    '     Sub: loadTest, Main, parserTest
+    ' 
+    ' 
+    '     Class innerTest
+    ' 
+    '         Properties: (+2 Overloads) AA
+    ' 
+    ' 
+    '         Function: X, (+2 Overloads) Z
+    ' 
+    ' 
+    '         Sub: ACC, (+3 Overloads) X1
+    ' 
+    ' 
+    '         Operators: -, +, <<, <=, >=
+    '                    (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+    ' 
+    ' 
+    ' 
+    '     Enum innerEnum
+    ' 
+    '         AAA, BBB, CCC
+    ' 
+    ' 
+
+#End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Development.XmlDoc.Assembly
 
-Module devToolTest
+Public Module devToolTest
 
     Sub Main()
+        Call parserTest()
         Call loadTest()
     End Sub
 
@@ -41,5 +157,78 @@ Module devToolTest
 
         Pause()
     End Sub
-End Module
 
+    Sub parserTest()
+        Dim code = "E:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\ApplicationServices\App.vb".ReadAllText
+        Dim list = VBCodeSignature.SummaryModules(code)
+
+        Console.WriteLine(list)
+
+        Pause()
+    End Sub
+
+    Public MustInherit Class innerTest
+
+        Property AA As String
+        ReadOnly Property AA(o$) As Integer
+            Get
+
+            End Get
+        End Property
+
+        Function X() As Double
+        End Function
+
+        Function Z()
+
+        End Function
+        Function Z(o#)
+
+        End Function
+
+        Sub ACC()
+
+        End Sub
+
+        Sub X1()
+
+        End Sub
+        Sub X1(a$)
+
+        End Sub
+        Sub X1(o&)
+
+        End Sub
+
+        Public Shared Operator +(o As innerTest) As innerTest
+
+        End Operator
+        Public Shared Operator -(o As innerTest) As innerTest
+
+        End Operator
+        Public Shared Operator <<(o As innerTest, i%) As Double
+
+        End Operator
+
+        Public Shared Operator <=(o As innerTest, i%) As Double
+
+        End Operator
+        Public Shared Operator >=(o As innerTest, i%) As Double
+
+        End Operator
+
+        Public Shared Operator IsTrue(o As innerTest) As Boolean
+
+        End Operator
+        Public Shared Operator IsFalse(o As innerTest) As Boolean
+
+        End Operator
+    End Class
+
+    Enum innerEnum
+        AAA
+        BBB
+        CCC
+        DDD = 5
+    End Enum
+End Module

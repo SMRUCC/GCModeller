@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::407493748e4b0844ea94bb9222d80495, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
+﻿#Region "Microsoft.VisualBasic::7c23b3e924019fd19a438bbf5c1c527d, CLI_tools\eggHTS\CLI\2. DEP.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: DEPs_heatmapKmeans, DEPsCloudPlot, DEPStatics, DEPsUnion, DEPUniprotIDlist
+    '               DEPUniprotIDs2, edgeRDesigner, iTraqInvert, logFCHistogram, logFCVolcano
+    '               MergeDEPs, PairedSampleDesigner, TakeDEPsValues, TtestDesigner, TtestDesignerLFQ
+    '               Union, unionDATA, VennData
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9752414b13b81be546db3b1ced14d821, ..\R.Bioconductor\RDotNET\Graphics\Color.vb"
+﻿#Region "Microsoft.VisualBasic::9752414b13b81be546db3b1ced14d821, RDotNET\Graphics\Color.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure Color
+    ' 
+    '         Properties: Alpha, Blue, Green, IsTransparent, Opaque
+    '                     Red
+    ' 
+    '         Function: (+2 Overloads) Equals, FromArgb, FromRgb, FromUInt32, GetHashCode
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

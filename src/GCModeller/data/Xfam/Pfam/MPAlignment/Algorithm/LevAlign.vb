@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e53d245d4b50f5266a523abdec62b9af, ..\GCModeller\data\Xfam\Pfam\MPAlignment\Algorithm\LevAlign.vb"
+﻿#Region "Microsoft.VisualBasic::e53d245d4b50f5266a523abdec62b9af, data\Xfam\Pfam\MPAlignment\Algorithm\LevAlign.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class LevAlign
+    ' 
+    '         Properties: Codes, DomainCodes, LengthDelta, Query, QueryPfam
+    '                     StructMatched, Subject, SubjectPfam
+    ' 
+    '         Function: __asChar, __getReference, __getSubject, __innerInsert, ToRow
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

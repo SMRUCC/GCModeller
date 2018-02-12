@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fe7d44b373a9eb4c90138490f7e09fba, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::fe7d44b373a9eb4c90138490f7e09fba, Bioconductor\Bioconductor\Web\Repository.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Repository
+    ' 
+    '         Properties: annotation, DefaultFile, experiment, softwares, version
+    ' 
+    '         Function: GetPackage, Load, LoadDefault, (+2 Overloads) Save, Search
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

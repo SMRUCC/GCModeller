@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9eb09cd05876dc036635c20d4090d78e, ..\interops\meme_suite\MEME\Analysis\MotifScanning\MastSites.vb"
+﻿#Region "Microsoft.VisualBasic::9eb09cd05876dc036635c20d4090d78e, meme_suite\MEME\Analysis\MotifScanning\MastSites.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MastSites
+    ' 
+    '         Properties: ATGDist, evalue, Family, Gene, gStop
+    '                     Length, match, pValue, Regulators, SequenceData
+    '                     Sites, Start, Strand, Trace
+    ' 
+    '         Function: (+4 Overloads) __createObject, __getMappingLoci, __getRegulatorys, __getsVIMSSID, __toSites
+    '                   (+2 Overloads) Compile, Copy, HasEmptyMappings, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

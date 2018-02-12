@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b4a805b4a04e307ee1ff04e82ddac3ff, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::792b4f4eccfafd31b9a6440998122285, core\Bio.Assembly\ComponentModel\Loci.Models\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class NucleotideLocation
+    ' 
+    '         Properties: Ends, IsValid, Start
+    ' 
+    '         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship
+    '                   (+2 Overloads) GetUpStreamLoci, LociIsContact, MoveFrame, Normalization, Parse
+    '                   ToString
+    ' 
+    '         Sub: (+12 Overloads) New
+    ' 
+    '         Operators: -, +
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

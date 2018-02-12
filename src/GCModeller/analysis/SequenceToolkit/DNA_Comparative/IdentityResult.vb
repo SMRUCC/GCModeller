@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1415785ff260f73b4c33a910382675b2, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::c1f301aff9fa90c8e6398da851470d04, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class IdentityResult
+    ' 
+    '     Properties: Identities, SeqId
+    ' 
+    '     Function: (+2 Overloads) SigmaMatrix, SimpleTag, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

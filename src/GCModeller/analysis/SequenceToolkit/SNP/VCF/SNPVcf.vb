@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, ..\GCModeller\analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
+﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SNPVcf
+    ' 
+    '         Properties: ALT, CHROM, FILTER, FORMAT, ID
+    '                     INFO, POS, QUAL, REF, Sequences
+    ' 
+    '         Function: Load, ToString, VcfHighMutateScreens
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

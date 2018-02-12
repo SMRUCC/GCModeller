@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8e28b135f7883e60138b2f09cf278c26, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\Identifier.vb"
+﻿#Region "Microsoft.VisualBasic::8e28b135f7883e60138b2f09cf278c26, analysis\ProteinTools\Interactions.BioGRID\Identifier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Identifier
+    ' 
+    '     Properties: ANIMALQTLDB, APHIDBASE, BEEBASE, BGD, BIOGRID
+    '                 BIOGRID_ID, CGD, CGNC, DICTYBASE, ECOGENE
+    '                 ENSEMBL, ENTREZ_GENE, ENTREZ_GENE_ETG, FLYBASE, HGNC
+    '                 HPRD, MAIZEGDB, MGI, MIM, MIRBASE
+    '                 ORGANISM_OFFICIAL_NAME, PBR, RGD, SGD, SYNONYM
+    '                 TAIR, TREMBL, TUBERCULIST, VECTORBASE, VEGA
+    '                 WORMBASE, XENBASE, ZFIN
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

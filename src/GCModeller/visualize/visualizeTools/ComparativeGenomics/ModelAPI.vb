@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9bd6b166fa5f3e7b0c38e40c3a704908, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2bc32509c5c360d7c27272989645a147, visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ModelAPI
+    ' 
+    '         Function: __COGsColor, (+3 Overloads) CreateObject, GetMethod
+    '         Delegate Function
+    ' 
+    '             Function: COGsColorBrush, GeneNameAsID, OnlyDisplayGeneName, SynonymAsID
+    '         Delegate Function
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

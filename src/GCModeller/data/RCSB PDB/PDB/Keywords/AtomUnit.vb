@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b28a425f7f194e6795f4e63f828c5423, ..\GCModeller\data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
+﻿#Region "Microsoft.VisualBasic::b28a425f7f194e6795f4e63f828c5423, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure Point3D
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AtomUnit
+    ' 
+    '         Properties: AA_ID, AA_IDX, Atom, Index, Location
+    ' 
+    '         Function: InternalParser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

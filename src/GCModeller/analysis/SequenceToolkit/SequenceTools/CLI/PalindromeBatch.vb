@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::91d344d8db3aa7f1e6758946d057769a, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\PalindromeBatch.vb"
+﻿#Region "Microsoft.VisualBasic::8ed4384e7d4edb48860603223f320d0b, analysis\SequenceToolkit\SequenceTools\CLI\PalindromeBatch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Utilities
+    ' 
+    '     Function: CheckHeaders, PalindromeBatchTask, PalindromeWorkflow
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

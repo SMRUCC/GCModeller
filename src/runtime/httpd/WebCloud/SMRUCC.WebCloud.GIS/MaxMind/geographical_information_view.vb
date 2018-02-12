@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b8b47da20292b4331ed02aa41e80a5ad, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\geographical_information_view.vb"
+﻿#Region "Microsoft.VisualBasic::b8b47da20292b4331ed02aa41e80a5ad, WebCloud\SMRUCC.WebCloud.GIS\MaxMind\geographical_information_view.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class geographical_information_view
+    ' 
+    '         Properties: city_name, country_iso_code, country_name, geoname_id, latitude
+    '                     longitude, subdivision_1_name, subdivision_2_name
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

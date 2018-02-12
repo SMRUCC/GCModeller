@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dd646b2cc07638160aca764a20459c68, ..\interops\visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\style.vb"
+﻿#Region "Microsoft.VisualBasic::dd646b2cc07638160aca764a20459c68, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\style.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class JSON
+    ' 
+    '         Properties: format_version, generated_by, style, target_cytoscapejs_version, title
+    ' 
+    '         Function: Load, ToString
+    ' 
+    '     Class style
+    ' 
+    '         Properties: css, selector
+    ' 
+    '         Function: GetStyle, MySelector, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

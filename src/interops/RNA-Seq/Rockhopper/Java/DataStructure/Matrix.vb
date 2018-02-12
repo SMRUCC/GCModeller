@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ab0743766ba16ab40635737bc47be155, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::ab0743766ba16ab40635737bc47be155, RNA-Seq\Rockhopper\Java\DataStructure\Matrix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,37 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Matrix
+    ' 
+    '         Properties: array, arrayCopy, cols, rows
+    ' 
+    '         Function: (+2 Overloads) getMatrix, hypot, solve
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class LUDecomposition
+    ' 
+    '         Function: solve
+    ' 
+    '         Sub: New
+    ' 
+    '     Class QRDecomposition
+    ' 
+    '         Properties: fullRank
+    ' 
+    '         Function: solve
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

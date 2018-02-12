@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::040bdedcbb0a6b43df4317fb270d465c, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::040bdedcbb0a6b43df4317fb270d465c, core\Bio.Assembly\Assembly\UniProt\IdMapping.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class IdMapping
+    ' 
+    '         Properties: Additional_PubMed, EMBL, EMBL_CDS, Ensembl, Ensembl_PRO
+    '                     Ensembl_TRS, GeneID_EntrezGene, GI, GO, MIM
+    '                     NCBI_Taxon, PDB, PIR, PubMed, RefSeq
+    '                     UniGene, UniParc, UniProtKB_AC, UniProtKB_ID, UniRef100
+    '                     UniRef50, UniRef90
+    ' 
+    '         Function: __createObject, LoadDoc
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
