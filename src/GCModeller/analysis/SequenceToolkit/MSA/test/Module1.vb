@@ -20,7 +20,7 @@ CCTGTAGGAACAG".lTokens
 
         msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment(matrix)
 
-        Call Console.WriteLine(msa)
+        Call msa.Print(15)
 
         Pause()
     End Sub
