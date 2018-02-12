@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::008a2f2664779b9aade8ca26081ece81, ..\httpd\WebCloud\SMRUCC.WebCloud.VBScript\vbhtml.vb"
+﻿#Region "Microsoft.VisualBasic::34f6863ca1adb1a2072083363080aec1, WebCloud\SMRUCC.WebCloud.VBScript\vbhtml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module vbhtml
+    ' 
+    '     Function: GetIncludesPath, ParseVariables, TemplateInterplot
+    ' 
+    '     Sub: (+2 Overloads) ApplyStrings
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

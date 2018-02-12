@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1066563994912613f37f94b5d07eca01, ..\httpd\WebCloud\SMRUCC.WebCloud.highcharts\Charts\BarChart.vb"
+﻿#Region "Microsoft.VisualBasic::f0eea8f3cfe760cdbbc55c68afc97753, WebCloud\SMRUCC.WebCloud.highcharts\Charts\BarChart.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class barOptions
+    ' 
+    '         Properties: dataLabels
+    ' 
+    '     Class columnrangeSerial
+    ' 
+    '         Properties: data, name
+    ' 
+    '     Class columnrangeOptions
+    ' 
+    '         Properties: dataLabels
+    ' 
+    '     Class columnOptions
+    ' 
+    '         Properties: borderRadius, borderWidth, depth, groupPadding, pointPadding
+    '                     stacking
+    ' 
+    '     Class BarChart
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class VariWideBarChart
+    ' 
+    '         Function: variwide
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -66,4 +101,3 @@ Namespace BarChart
         End Function
     End Class
 End Namespace
-

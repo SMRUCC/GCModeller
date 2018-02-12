@@ -1,28 +1,92 @@
-﻿#Region "Microsoft.VisualBasic::148328699be7abf7078ed86aa49cb714, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Methods.vb"
+﻿#Region "Microsoft.VisualBasic::cd32be7d5b2700029b2c2f4ad8ab323b, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Methods.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class [GET]
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class POST
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class HEAD
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class PUT
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class DELETE
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class TRACE
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class OPTIONS
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class CONNECT
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    '     Class PATCH
+    ' 
+    '         Function: GetMethodHelp
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
