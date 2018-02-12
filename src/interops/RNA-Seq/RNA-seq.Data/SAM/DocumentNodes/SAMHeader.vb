@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::df37d3e36fcccb1522773c220115c5aa, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
+﻿#Region "Microsoft.VisualBasic::df37d3e36fcccb1522773c220115c5aa, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SAMHeader
+    ' 
+    '         Properties: Tag, TagValue, TAGValues
+    ' 
+    '         Function: GenerateDocumentLine, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

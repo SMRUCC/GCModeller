@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7721a1f50ee8493810542e9d1ddcc3c2, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\clusterProfiler\Enricher.vb"
+﻿#Region "Microsoft.VisualBasic::7721a1f50ee8493810542e9d1ddcc3c2, RDotNet.Extensions.Bioinformatics\Declares\bioconductor\clusterProfiler\Enricher.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Enricher
+    ' 
+    '         Properties: go2name
+    ' 
+    '         Function: (+2 Overloads) Enrich
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

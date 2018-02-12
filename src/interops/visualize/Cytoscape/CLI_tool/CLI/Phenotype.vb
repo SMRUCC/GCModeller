@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7c51afb42ee5f46425aabbe6f4f365c0, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::7c51afb42ee5f46425aabbe6f4f365c0, visualize\Cytoscape\CLI_tool\CLI\Phenotype.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __clusterFastCommon, __clusteringCommon, __expends, __getMaxMods, __getMaxRelates
+    '               __getMods, __merges, BuildTreeNET, BuildTreeNET_DEGs, BuildTreeNET_KEGGModules
+    '               BuildTreeNET_KEGGPathways, BuildTreeNET_MergeRegulons, BuildTreeNETCOGs, BuildTreeNetTF, ClusterMatrix
+    '               FastCluster, MotifCluster, MotifClusterSites, rFBATreeCluster, TreeCluster
+    ' 
+    '     Sub: __briefTrim, New
+    '     Class FamilyHit
+    ' 
+    '         Properties: Family, HitName, QueryName
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

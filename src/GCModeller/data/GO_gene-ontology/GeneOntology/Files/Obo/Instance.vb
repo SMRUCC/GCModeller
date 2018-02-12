@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c62e8e6ec5e3feddf42f76af2a364202, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\Instance.vb"
+﻿#Region "Microsoft.VisualBasic::c62e8e6ec5e3feddf42f76af2a364202, data\GO_gene-ontology\GeneOntology\Files\Obo\Instance.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Instance
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

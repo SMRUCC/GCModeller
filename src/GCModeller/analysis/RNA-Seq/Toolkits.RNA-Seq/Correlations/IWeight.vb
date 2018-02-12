@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::51c5ead9828463d649ed3eeba8946b3e, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
+﻿#Region "Microsoft.VisualBasic::51c5ead9828463d649ed3eeba8946b3e, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Interface IWeightPaired
+    ' 
+    '     Function: GetValue
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

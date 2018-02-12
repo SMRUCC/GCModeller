@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::996481d503d0ab62b7778a7f42aa2b76, ..\GCModeller\CLI_tools\RNA-seq\CLI\SAMtools.vb"
+﻿#Region "Microsoft.VisualBasic::a160c27c5dcccf9aaf0c547e852c4e6c, CLI_tools\RNA-seq\CLI\SAMtools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __export, __writeFile, AssociateGI, chisqTest, Clustering
+    '               ContactsNNN, CorrelatesVector, ExportSAMMaps, ExportSAMMapsBySamples, FormatGI
+    '               Fq2fa, MergeFastQ, SAMcontigs, SelectSubs
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

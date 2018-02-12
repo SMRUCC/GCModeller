@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::07439946f8ed5fa41dba2277efc9ca20, ..\GCModeller\foundation\PSICQUIC\psidev\TAB\v27.vb"
+﻿#Region "Microsoft.VisualBasic::07439946f8ed5fa41dba2277efc9ca20, foundation\PSICQUIC\psidev\TAB\v27.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class v27
+    ' 
+    '         Properties: alias_A, alias_B, alt_identifier_A, alt_identifier_B, annotations_A
+    '                     annotations_B, annotations_interaction, author, biological_role_A, biological_role_B
+    '                     checksum_A, checksum_B, checksum_interaction, confidence_score, creation_date
+    '                     exp_role_A, exp_role_B, expansion_method, features_A, features_B
+    '                     idinteraction_in_source_db, interaction_detection_method, interaction_type, interactor_type_A, interactor_type_B
+    '                     ncbi_taxid_A, ncbi_taxid_B, ncbi_taxid_host_organism, negative, parameters_interaction
+    '                     participant_identification_method_A, participant_identification_method_B, pmid, source_database, stoichiometry_A
+    '                     stoichiometry_B, unique_identifier_A, unique_identifier_B, update_date, xrefs_A
+    '                     xrefs_B, xrefs_interaction
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

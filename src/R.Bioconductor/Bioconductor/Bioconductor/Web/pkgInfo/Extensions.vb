@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b1291ca9d010b5af046aad69272a9e66, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\pkgInfo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b1291ca9d010b5af046aad69272a9e66, Bioconductor\Bioconductor\Web\pkgInfo\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Extensions
+    ' 
+    '         Function: __buildHash, ArchivesParser, DescriptionParser, DetailsParser, (+2 Overloads) GetDetails
+    '                   GetURL
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

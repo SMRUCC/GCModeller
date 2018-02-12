@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b9c370c613a3ceac14e4bf551112fb48, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::b9c370c613a3ceac14e4bf551112fb48, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,34 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ProgramProfiles
+    ' 
+    '         Properties: BLASTPlus, ExecutableCommands, LocalBLAST, RpsBLAST
+    ' 
+    '         Function: GetCommand, Load, ToString
+    ' 
+    '     Class Executable
+    ' 
+    '         Function: GetValue, ToString
+    '         Class Executable_BLAST
+    ' 
+    '             Function: CreateCommand, ToString
+    ' 
+    '         Class Executable_BuildDB
+    ' 
+    '             Function: CreateCommand
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

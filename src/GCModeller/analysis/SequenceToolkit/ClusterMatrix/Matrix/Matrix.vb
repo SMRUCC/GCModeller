@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Matrix
+    ' 
+    ' 
+    '     Enum MatrixMethods
+    ' 
+    '         NeedlemanWunsch, SmithWaterman
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

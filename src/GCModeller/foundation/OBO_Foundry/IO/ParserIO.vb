@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, ..\GCModeller\foundation\OBO_Foundry\IO\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ParserIO
+    ' 
+    '     Function: __createModel, LoadClassSchema, (+2 Overloads) LoadData, (+2 Overloads) ToLines
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

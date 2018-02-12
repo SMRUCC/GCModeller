@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b4491c81c7b5c77ceffb595fd902b489, ..\R.Bioconductor\RDotNET\R.NET\Utility.vb"
+﻿#Region "Microsoft.VisualBasic::b4491c81c7b5c77ceffb595fd902b489, RDotNET\R.NET\Utility.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Utility
+    ' 
+    '     Function: AddFirst, ArrayConvertAll, ArrayConvertAllOneDim, (+2 Overloads) ArrayConvertAllTwoDim, ArrayConvertOneDim
+    '               CheckNil, CheckUnbound, DeserializeComplexFromDouble, SerializeComplexToDouble, Subset
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

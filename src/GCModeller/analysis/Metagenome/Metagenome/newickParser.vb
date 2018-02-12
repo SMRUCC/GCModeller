@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e0e71dc849c576895bb2ed750bdb9d22, ..\GCModeller\analysis\Metagenome\Metagenome\newickParser.vb"
+﻿#Region "Microsoft.VisualBasic::e0e71dc849c576895bb2ed750bdb9d22, analysis\Metagenome\Metagenome\newickParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NewickParser
+    ' 
+    '     Function: __makeInternalNode, __makeLeafNode, TreeParser
+    ' 
+    '     Sub: parseInforAndMakeNewLeafNode, TreeParser
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

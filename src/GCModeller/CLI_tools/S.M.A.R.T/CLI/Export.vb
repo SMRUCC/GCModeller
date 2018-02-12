@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b1bc75fa8d54e1f03e3c4e833c187622, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\Export.vb"
+﻿#Region "Microsoft.VisualBasic::3b2d00c9290665175a0acc75a4e5eacc, CLI_tools\S.M.A.R.T\CLI\Export.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: (+2 Overloads) Export
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

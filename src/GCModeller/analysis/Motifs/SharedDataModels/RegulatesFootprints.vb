@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0c05b1b4211b3404531200cef011b959, ..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\RegulatesFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::0c05b1b4211b3404531200cef011b959, analysis\Motifs\SharedDataModels\RegulatesFootprints.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RegulatesFootprints
+    ' 
+    '         Properties: [Class], Category, DoorId, InteractionType, MotifFamily
+    '                     Pcc, Regulator, sPcc, tag, Type
+    '                     WGCNA
+    ' 
+    '         Function: __posUid, __posUidNonStrict, Equals, ToString, TraceUid
+    '                   TraceUidStrict
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

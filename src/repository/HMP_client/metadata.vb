@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f69edcf982c03a4e498566e8ce704b57, ..\repository\HMP_client\metadata.vb"
+﻿#Region "Microsoft.VisualBasic::847ae75a32a1037103cb652b49a9e9a6, HMP_client\metadata.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,9 +25,20 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class metadata
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Public Class metadata
 
 End Class
-

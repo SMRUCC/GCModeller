@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e005e4ba45b68cad3ac1bb5e0b016ea8, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
+﻿#Region "Microsoft.VisualBasic::d23f502b5ad99a2ff6a133be464608a5, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class names
+    ' 
+    '         Properties: name_class, name_txt, tax_id, unique_name
+    ' 
+    '         Function: BuildTaxiIDFinder, FileParser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

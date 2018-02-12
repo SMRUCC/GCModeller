@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4be84b0da85162189f6995deb0ec1fba, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\Web\Uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::0599e150c6afed8ae5eb3baacd6d7b61, core\Bio.Assembly\Assembly\UniProt\Web\Uniprot.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module WebServices
+    ' 
+    '         Function: CreateQuery, DownloadProtein, GetEntries
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

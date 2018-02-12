@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8535f88975487962e6c0d2ebcfc66e9d, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::4e18c56bcc92c9fd3567655ee7c65eb3, data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Compiler
+    ' 
+    '         Function: __predicate_genomeId, __predicate_name, __predicate_taxonomyId, GetGenome, LoadRegulon
+    '                   LoadRegulons
+    '         Delegate Function
+    ' 
+    '             Function: (+2 Overloads) __createRegulations, (+2 Overloads) Compile, CompileRegulations, FetchRegulators, FetchSites
+    ' 
+    '             Sub: __export, __genomePartitions, SitesFamilyCategory
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

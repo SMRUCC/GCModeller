@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b2910988583b9c6094f74ed069d8466b, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
+﻿#Region "Microsoft.VisualBasic::b2910988583b9c6094f74ed069d8466b, RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NegativeBinomial
+    ' 
+    '     Function: bd0, (+2 Overloads) pmf, stirlerr
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

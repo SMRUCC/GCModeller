@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::24cc05d2393c1a3a5b7e6a0c93dd3b4b, ..\GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::24cc05d2393c1a3a5b7e6a0c93dd3b4b, core\Bio.Assembly\ComponentModel\ValuePair.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module KeyValuePairExtensions
+    ' 
+    '         Function: CreateObject, Distinct, Equals, Format_Prints, GetKey
+    '                   GetValue
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

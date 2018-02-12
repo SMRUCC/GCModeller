@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::113639b48b44f16149979d0c2b4ad579, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
+﻿#Region "Microsoft.VisualBasic::113639b48b44f16149979d0c2b4ad579, core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CDDLoader
+    ' 
+    '         Function: GetCdd, GetCog, GetFastaUrl, GetItem, GetKog
+    '                   GetPfam, GetPrk, GetSmart, GetTigr, Load
+    '                   LoadFASTA, ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

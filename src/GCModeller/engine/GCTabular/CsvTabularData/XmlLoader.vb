@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e2bb5bb37d9551b53d20e5bdd8056706, ..\GCModeller\engine\GCTabular\CsvTabularData\XmlLoader.vb"
+﻿#Region "Microsoft.VisualBasic::e2bb5bb37d9551b53d20e5bdd8056706, engine\GCTabular\CsvTabularData\XmlLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class XmlresxLoader
+    ' 
+    '         Properties: CellSystemModel, CheBMethylesterase, CheBPhosphate, ChemotaxisSensing, CheRMethyltransferase
+    '                     ConstraintMetabolites, CrossTalk, CrossTalksAnnotation, CultivationMediums, DoorOperon
+    '                     EffectorMapping, EnzymeMapping, Enzymes, ExpressionKinetics, GenomeAnnotiation
+    '                     HkAutoPhosphorus, KEGG_Pathways, MetabolismModel, MetabolitesModel, MisT2
+    '                     ModelParentDIR, Motifs, ObjectiveFunctionModel, OCSSensing, Pathway
+    '                     ProteinAssembly, Proteins, Regulators, RibosomeAssembly, RNAPolymerase
+    '                     StringInteractions, STrPModel, SystemVariables, TranscriptionModel, Transcripts
+    '                     TransmembraneTransportation
+    ' 
+    '         Function: CreateObject, Decryption, Encryption, LoadCsvData, LoadData
+    '                   SaveCsvData, SaveData, SaveTo, ToString
+    ' 
+    '         Sub: Copy, InternalLoadResourceData, (+3 Overloads) New, SetExportDirectory
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

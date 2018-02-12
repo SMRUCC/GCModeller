@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4c72472f74104c5ec205b73c7a6588eb, ..\GCModeller\CLI_tools\KEGG\Tools\SystemDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::4c72472f74104c5ec205b73c7a6588eb, CLI_tools\KEGG\Tools\SystemDistribution.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module SystemDistribution
+    ' 
+    '     Function: InvokeDrawing
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

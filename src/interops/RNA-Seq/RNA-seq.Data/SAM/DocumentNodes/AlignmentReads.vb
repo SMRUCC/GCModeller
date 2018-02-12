@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::40eff055927d5d7abae61d6359226f34, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
+﻿#Region "Microsoft.VisualBasic::40eff055927d5d7abae61d6359226f34, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class AlignmentReads
+    ' 
+    '         Properties: CIGAR, FLAG, IsUnmappedReads, LowQuality, MAPQ
+    '                     OptionalTable, PNEXT, POS, QNAME, QUAL
+    '                     RNAME, RNEXT, Strand, TLEN
+    ' 
+    '         Function: GenerateDocumentLine, GetBitFLAGSDescriptions, GetLocation, HaveFLAG, (+2 Overloads) RangeAt
+    '                   ToString
+    ' 
+    '         Sub: CIGARParser, (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

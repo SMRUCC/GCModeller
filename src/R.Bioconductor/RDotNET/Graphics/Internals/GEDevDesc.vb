@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cc4c0d7348098fcea53ad00ab70a279f, ..\R.Bioconductor\RDotNET\Graphics\Internals\GEDevDesc.vb"
+﻿#Region "Microsoft.VisualBasic::cc4c0d7348098fcea53ad00ab70a279f, RDotNET\Graphics\Internals\GEDevDesc.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure GEDevDesc
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

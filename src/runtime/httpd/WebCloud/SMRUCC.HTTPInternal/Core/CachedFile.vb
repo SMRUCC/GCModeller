@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::164092597b6d1b9589aa7a3debde7cca, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\CachedFile.vb"
+﻿#Region "Microsoft.VisualBasic::164092597b6d1b9589aa7a3debde7cca, WebCloud\SMRUCC.HTTPInternal\Core\CachedFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CachedFile
+    ' 
+    '         Properties: bufs, content, Path
+    ' 
+    '         Function: CacheAllFiles, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::52440a29f58121ee9534b0ff57d6d522, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e44d1171606e2a8c169e6af9b6b4ee47, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RepeatsSearchAPI
+    ' 
+    '         Function: Density, GenerateRepeats, (+2 Overloads) RepeatsDensity, RevRepeatsDensity, SaveDensity
+    '                   (+2 Overloads) SaveDocument, SaveRepeatsViews, SaveRevViews, SearchRepeats, SearchReversedRepeats
+    '                   (+2 Overloads) WriteSearchResult
+    ' 
+    '         Sub: BatchSearch, BatchTrim, TrimRepeats, TrimRevRepeats
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a6fa9699c06fdd87e1b31ff7e6039641, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\Correlation2.vb"
+﻿#Region "Microsoft.VisualBasic::a6fa9699c06fdd87e1b31ff7e6039641, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\Correlation2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Correlation2
+    ' 
+    '     Properties: Pcc, SPcc, WGCNA
+    ' 
+    '     Function: CreateFromName, GetPcc, GetPccGreaterThan, GetPccSignificantThan, GetSPcc
+    '               GetWGCNAWeight, LoadAuto
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

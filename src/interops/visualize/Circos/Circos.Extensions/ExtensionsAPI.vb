@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b4dc1dc4a46132e4b1d2df711c5fb3c8, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b4dc1dc4a46132e4b1d2df711c5fb3c8, visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ExtensionsAPI
+    ' 
+    '     Function: CreateDeltaDiffPlots, FromRegulons, (+2 Overloads) FromVirtualFootprint
+    ' 
+    '     Sub: GeneratePhenotypeRegulations
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

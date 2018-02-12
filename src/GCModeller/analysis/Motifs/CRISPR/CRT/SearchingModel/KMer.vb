@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ea564e5efa374af6056c09d3eaaec89e, ..\GCModeller\analysis\Motifs\CRISPR\CRT\SearchingModel\KMer.vb"
+﻿#Region "Microsoft.VisualBasic::ea564e5efa374af6056c09d3eaaec89e, analysis\Motifs\CRISPR\CRT\SearchingModel\KMer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module KMer
+    ' 
+    '         Function: __sequenceScan, CheckLeftFlank, CheckRightFlank, GetActualRepeatLength, HasNonRepeatingSpacers
+    '                   HasSimilarlySizedSpacers, Min, PatternMatches, ScanRight, Trim
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

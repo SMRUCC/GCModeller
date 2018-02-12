@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::67416d49c3cb8fdeb704ee18af3c3473, ..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\IEquals.vb"
+﻿#Region "Microsoft.VisualBasic::67416d49c3cb8fdeb704ee18af3c3473, analysis\Motifs\SharedDataModels\IEquals.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module IEqualsAPI
+    ' 
+    '     Function: __equals, __equalsStrict, Equals, Intersection
+    '     Structure __motifEquals
+    ' 
+    '         Function: Equals
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c57f2edb6e9f74d6292e5a08cd17cbcb, ..\repository\HMP_client\Download.vb"
+﻿#Region "Microsoft.VisualBasic::fa88faf74d663cd9f234a935c362bbdb, HMP_client\Download.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Download
+    ' 
+    '     Function: HandleFileDownloads
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -65,4 +78,3 @@ Public Module Download
         Next
     End Function
 End Module
-

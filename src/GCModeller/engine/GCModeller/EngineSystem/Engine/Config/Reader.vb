@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::abda13c2cf51c01341ad8b4422234953, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Config\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::abda13c2cf51c01341ad8b4422234953, engine\GCModeller\EngineSystem\Engine\Config\Reader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ConfigReader
+    ' 
+    '         Properties: ATP_Compensate, CommitLoopsInterval, Configs, CultivationMediumPath, DataStorageURL
+    '                     DefaultCompartmentId, DumpData, ExperimentData, Initial_pH, Initial_Temperature
+    '                     KernelLoops, LambdaWeight_mRNA, LambdaWeight_rRNA, LambdaWeight_tRNA, Model_ExpressionNetwork
+    '                     Model_MetabolismSystem, PathHash, RootDIR, ScriptMountPoint, SuppressErrorMessage
+    '                     SuppressPeriodicMessage, SuppressWarnMessage, TrimMetabolism
+    ' 
+    '         Function: GetPath, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

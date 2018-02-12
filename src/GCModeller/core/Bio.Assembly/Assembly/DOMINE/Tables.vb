@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::373627aeba688cfd5c77f5811d7c4e21, ..\GCModeller\core\Bio.Assembly\Assembly\DOMINE\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::373627aeba688cfd5c77f5811d7c4e21, core\Bio.Assembly\Assembly\DOMINE\Tables.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Interaction
+    ' 
+    '         Function: GetInteractionDomain, ToString
+    ' 
+    '     Class Pfam
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Go
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class PGMap
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

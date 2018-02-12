@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9bfd8deb6b43ff8e9f2d2620363132c2, ..\GCModeller\visualize\visualizeTools\GC.vb"
+﻿#Region "Microsoft.VisualBasic::7a709f4d5e80dc55f6ceb53dd40eb586, visualize\visualizeTools\GC.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module GCPlot
+    ' 
+    '     Function: (+2 Overloads) PlotGC, PlotGCContent, PlotGCSkew
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

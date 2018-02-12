@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e88310fab02bbae798a2005da426b050, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\chisq.test.vb"
+﻿#Region "Microsoft.VisualBasic::e88310fab02bbae798a2005da426b050, RDotNET.Extensions.VisualBasic\API\stats\chisq.test.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module stats
+    ' 
+    '         Function: chisqTest
+    ' 
+    '     Class chisqTestResult
+    ' 
+    '         Properties: dataName, expected, method, observed, parameter
+    '                     pvalue, residuals, statistic, stdres
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

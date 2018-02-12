@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4889c1e702ff279b144da73dea348b4f, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\System.vb"
+﻿#Region "Microsoft.VisualBasic::d0b4cd386e9c36f00bb76ae26ecb839d, RDotNET.Extensions.VisualBasic\Extensions\System.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ExtendedEngine
+    ' 
+    '     Properties: [call]
+    ' 
+    '     Function: __init, Evaluate, hasSlot
+    ' 
+    '     Sub: __cleanHook, (+2 Overloads) New
+    ' 
+    ' Module RSystem
+    ' 
+    '     Properties: R, RColors
+    ' 
+    '     Function: ColorMaps, getwd, Library, packageVersion, params
+    '               setwd, source
+    ' 
+    '     Sub: New, (+2 Overloads) TryInit
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

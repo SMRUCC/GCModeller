@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\XML\Model\reference.vb"
+﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, core\Bio.Assembly\Assembly\UniProt\XML\Model\reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class reference
+    ' 
+    '         Properties: citation, key, scope, source
+    ' 
+    '     Class citation
+    ' 
+    '         Properties: authorList, dbReferences, title
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class person
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class source
+    ' 
+    '         Properties: tissues
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

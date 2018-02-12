@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0bbdc6c9e243ce6c024d2823357c2011, ..\Settings\Shared\InternalApps_CLI\Apps\Excel.vb"
+﻿#Region "Microsoft.VisualBasic::8d300a06218ca030368c33dc347b07aa, Shared\InternalApps_CLI\Apps\Excel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Excel
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -199,4 +213,3 @@ Public Function rbind([in] As String, Optional out As String = "") As Integer
 End Function
 End Class
 End Namespace
-

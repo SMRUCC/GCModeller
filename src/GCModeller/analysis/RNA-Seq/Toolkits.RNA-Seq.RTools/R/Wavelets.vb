@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9ef50fd0b61dd1444dee0bf7b84dde9a, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
+﻿#Region "Microsoft.VisualBasic::9ef50fd0b61dd1444dee0bf7b84dde9a, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Filter
+    ' 
+    '         Function: Initialize
+    ' 
+    '     Class Waveletmodwt
+    ' 
+    '         Properties: nboundary
+    ' 
+    '         Function: Load, ToString
+    ' 
+    '  
+    ' 
+    '     Function: AnalysisSignals, DWT, DWT_RInvoke, MODWT, Shift
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3c8c22af3a5d1cd455004e10baad4e5c, ..\GCModeller\CLI_tools\Xfam\CLI\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::43e6af4373f6014c5c6aa0768d7ea2f1, CLI_tools\Xfam\CLI\Pfam.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __getPfam, ExportHMMScan, ExportHMMSearch, ExportUltraLarge
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

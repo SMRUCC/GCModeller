@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a344beedcb23741c073413dd27d3cce1, ..\repository\DataMySql\kb_UniProtKB\MySQL\protein_reference_scopes.vb"
+﻿#Region "Microsoft.VisualBasic::026ca638bb4f9359d151f31160932a31, DataMySql\kb_UniProtKB\MySQL\protein_reference_scopes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class protein_reference_scopes
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -138,4 +152,3 @@ End Class
 
 
 End Namespace
-

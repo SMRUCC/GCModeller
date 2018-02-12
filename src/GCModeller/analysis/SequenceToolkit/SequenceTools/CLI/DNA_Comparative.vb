@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ee4600cc5f0e7381d040b86b0140fa8f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
+﻿#Region "Microsoft.VisualBasic::f83dfdc5e68adca9280ce844e27c44ee, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Utilities
+    ' 
+    '     Function: CAI, dnaA_gyrB_rule, gwANI, RuleMatrix, Sigma
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

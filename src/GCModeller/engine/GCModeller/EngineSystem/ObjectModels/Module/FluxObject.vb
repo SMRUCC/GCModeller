@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c737d892001322cebc264b5a996d5c57, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\FluxObject.vb"
+﻿#Region "Microsoft.VisualBasic::c737d892001322cebc264b5a996d5c57, engine\GCModeller\EngineSystem\ObjectModels\Module\FluxObject.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FluxObject
+    ' 
+    '         Properties: DataSource, get_ATP_EnergyConsumption, Identifier, SerialsHandle
+    ' 
+    '         Function: CreateHandle, InternalEventInvoke, Invoke
+    '         Interface IFluxObjectHandle
+    ' 
+    '             Properties: FluxValue, SerialsHandle
+    ' 
+    '             Function: Invoke
+    ' 
+    '         Interface IConsumptionStaticsInterface
+    ' 
+    '             Properties: get_ATP_EnergyConsumption
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

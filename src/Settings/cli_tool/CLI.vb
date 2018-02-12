@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c53835c0a0249f53e0430252cf974e48, ..\Settings\cli_tool\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::0a237e6e8d5d23d9aa5e79c813aef3e2, cli_tool\CLI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Function: [Set], CLIDevelopment, SetMySQL, ViewVar
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

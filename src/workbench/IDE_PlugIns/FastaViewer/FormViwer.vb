@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a81a105c3db856cf9ad8333fb678e986, ..\workbench\IDE_PlugIns\FastaViewer\FormViwer.vb"
+﻿#Region "Microsoft.VisualBasic::a81a105c3db856cf9ad8333fb678e986, IDE_PlugIns\FastaViewer\FormViwer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class FormViwer
+    ' 
+    '     Function: PWMHtml
+    ' 
+    '     Sub: AboutToolStripMenuItem_Click, FormViwer_Load, New, OpenToolStripMenuItem_Click, QuitToolStripMenuItem_Click
+    '          SequenceLogoToolStripMenuItem_Click
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

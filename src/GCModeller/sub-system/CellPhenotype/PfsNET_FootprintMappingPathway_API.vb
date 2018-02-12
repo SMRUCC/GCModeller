@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::00faf5e24310d07e1ab15263a631d66d, ..\GCModeller\sub-system\CellPhenotype\PfsNET_FootprintMappingPathway_API.vb"
+﻿#Region "Microsoft.VisualBasic::00faf5e24310d07e1ab15263a631d66d, sub-system\CellPhenotype\PfsNET_FootprintMappingPathway_API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module PFSNet
+    ' 
+    '     Function: Evaluate
+    ' 
+    ' Module PfsNET_FootprintMappingPathway_API
+    ' 
+    '     Function: __createNetwork, __fileName, AnalysisFootprintPathway, CreateExpressionWindows, ExportCSV
+    '               GenomeProgrammingAnalysis, Initialize
+    ' 
+    '     Sub: New, SetPfsNETHandle
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

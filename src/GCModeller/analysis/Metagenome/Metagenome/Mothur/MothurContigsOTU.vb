@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4cef73025c44f3591117690bdc731f58, ..\GCModeller\analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
+﻿#Region "Microsoft.VisualBasic::d980cfcf1a2721b7bf6485830f1c2b6d, analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module MothurContigsOTU
+    ' 
+    '     Function: GetContigAlignmentTemplate, RunAutoScreen, RunAutoScreen2
+    ' 
+    '     Sub: ClusterOTUByMothur, New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

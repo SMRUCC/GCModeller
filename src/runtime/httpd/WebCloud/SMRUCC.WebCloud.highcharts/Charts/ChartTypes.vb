@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f1cf088c1d74bddfdba235e3e6da839a, ..\httpd\WebCloud\SMRUCC.WebCloud.highcharts\Charts\ChartTypes.vb"
+﻿#Region "Microsoft.VisualBasic::72cd7af26e94fde647bbab951207cc83, WebCloud\SMRUCC.WebCloud.highcharts\Charts\ChartTypes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,6 +25,23 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum ChartTypes
+    ' 
+    '     area, areaspline, bar, column, columnrange
+    '     pie
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Public Enum ChartTypes As Integer
@@ -34,4 +52,3 @@ Public Enum ChartTypes As Integer
     columnrange
     areaspline
 End Enum
-

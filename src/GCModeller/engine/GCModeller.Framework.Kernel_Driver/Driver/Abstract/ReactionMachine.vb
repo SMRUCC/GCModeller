@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ae4c1571d85a206b81780e79139ed191, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
+﻿#Region "Microsoft.VisualBasic::ae4c1571d85a206b81780e79139ed191, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ReactorMachine
+    ' 
+    '     Function: get_Expressions, TICK
+    ' 
+    ' Interface IReactorMachine
+    ' 
+    '     Properties: IterationCycle
+    ' 
+    '     Function: Initialize, TICK
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

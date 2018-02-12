@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::995635a75fda40e990240c03f63c3f9d, ..\GCModeller\data\WebServices\Options.vb"
+﻿#Region "Microsoft.VisualBasic::995635a75fda40e990240c03f63c3f9d, data\WebServices\Options.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,85 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class OptionValueCollection
+    ' 
+    '         Properties: Count, ICollection_IsSynchronized, ICollection_SyncRoot, IList_IsFixedSize, IList_Item
+    '                     IsReadOnly
+    ' 
+    '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IList_Add, IList_Contains
+    '                   IList_IndexOf, IndexOf, Remove, ToArray, ToList
+    '                   ToString
+    ' 
+    '         Sub: Add, AssertValid, Clear, CopyTo, ICollection_CopyTo
+    '              IList_Insert, IList_Remove, IList_RemoveAt, Insert, New
+    '              RemoveAt
+    ' 
+    '     Class OptionContext
+    ' 
+    '         Properties: [Option], OptionIndex, OptionName, OptionSet, OptionValues
+    ' 
+    '         Sub: New
+    ' 
+    '     Enum OptionValueType
+    ' 
+    '         [Optional], None, Required
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class [Option]
+    ' 
+    '         Properties: Description, MaxValueCount, Names, OptionValueType, Prototype
+    '                     ValueSeparators
+    ' 
+    '         Function: GetNames, GetValueSeparators, Parse, ParsePrototype, ToString
+    ' 
+    '         Sub: AddSeparators, Invoke, (+2 Overloads) New
+    ' 
+    '     Class OptionException
+    ' 
+    '         Properties: OptionName
+    ' 
+    '         Sub: GetObjectData, (+4 Overloads) New
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Class OptionSet
+    ' 
+    '         Properties: MessageLocalizer
+    ' 
+    '         Function: (+9 Overloads) Add, CreateOptionContext, GetArgumentName, GetDescription, GetKeyForItem
+    '                   GetLineEnd, GetLines, GetNextOptionIndex, GetOptionForName, GetOptionParts
+    '                   (+3 Overloads) Parse, ParseBool, ParseBundledValue, Unprocessed, WriteOptionPrototype
+    ' 
+    '         Sub: AddImpl, InsertItem, Invoke, (+2 Overloads) New, ParseValue
+    '              RemoveItem, SetItem, Write, WriteOptionDescriptions
+    '         Class ActionOption
+    ' 
+    '             Sub: New, OnParseComplete
+    ' 
+    '         Class ActionOption
+    ' 
+    '             Sub: New, OnParseComplete
+    ' 
+    '         Class ActionOption
+    ' 
+    '             Sub: New, OnParseComplete
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

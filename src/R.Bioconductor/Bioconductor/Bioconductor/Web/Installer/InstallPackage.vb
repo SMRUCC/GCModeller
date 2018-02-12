@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ef28f0c785385d0824749efef13324a7, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Installer\InstallPackage.vb"
+﻿#Region "Microsoft.VisualBasic::ef28f0c785385d0824749efef13324a7, Bioconductor\Bioconductor\Web\Installer\InstallPackage.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class InstallPackage
+    ' 
+    '     Properties: Current, Repository
+    ' 
+    '     Function: __addNodes
+    ' 
+    '     Sub: __runR, __updateInfo, AboutToolStripMenuItem1_Click, Button1_Click, CloseToolStripMenuItem_Click
+    '          EMailAuthorToolStripMenuItem_Click, HomeToolStripMenuItem_Click, InstallPackage_FormClosing, InstallPackage_Load, InstallUpdateToolStripMenuItem_Click
+    '          LinkLabel1_LinkClicked, LinkLabel2_LinkClicked, LinkLabel3_LinkClicked, LinkLabel4_LinkClicked, ListBox1_SelectedIndexChanged
+    '          (+2 Overloads) New, SaveToolStripMenuItem_Click, TreeView1_AfterSelect, TreeView1_NodeMouseClick, UpdateToolStripMenuItem_Click
+    '          ViewOnBioconductorToolStripMenuItem_Click, ViewToolStripMenuItem_Click
+    '     Class __runRScript
+    ' 
+    '         Function: run
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

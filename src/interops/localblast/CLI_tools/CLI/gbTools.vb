@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f809d9ae48b925485467ad4466803968, ..\interops\localblast\CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::078c399b38256541727a51f643a9ab08, localblast\CLI_tools\CLI\gbTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
+    '               CopyPTT, ExportBlastX, ExportGenesFasta, EXPORTgpff, EXPORTgpffs
+    '               ExportPTTDb, HitsIDList, MergeFaa, Print
+    ' 
+    ' Class NameAnno
+    ' 
+    '     Properties: Maximum, Minimum, Name
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

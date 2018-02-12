@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b26089aec449214e5d96a2476d7537b2, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::b26089aec449214e5d96a2476d7537b2, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Attributes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Attribute
+    ' 
+    '         Properties: TypeMapping
+    ' 
+    '         Function: StringValue, ToString
+    ' 
+    '     Class AttributeDictionary
+    ' 
+    '         Function: AddAttribute, SetAttribute, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

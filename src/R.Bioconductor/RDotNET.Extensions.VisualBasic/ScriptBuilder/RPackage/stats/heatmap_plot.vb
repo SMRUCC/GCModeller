@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b680f081f54681ac6d2c2f8609090b7b, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\heatmap_plot.vb"
+﻿#Region "Microsoft.VisualBasic::b680f081f54681ac6d2c2f8609090b7b, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\heatmap_plot.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class heatmap_plot
+    ' 
+    '         Properties: cexCol, cexRow, ColSideColors, distfun, hclustfun
+    '                     labCol, labRow, main, margins, reorderfun
+    '                     revC, RowSideColors, scale, symm, verbose
+    '                     x, xlab, ylab
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1f2b16552a7f2fab9287f5b637642bff, ..\R.Bioconductor\RDotNET\Graphics\GraphicsContext.vb"
+﻿#Region "Microsoft.VisualBasic::1f2b16552a7f2fab9287f5b637642bff, RDotNET\Graphics\GraphicsContext.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GraphicsContext
+    ' 
+    '         Properties: Background, CharacterExpansion, FontFace, FontFamily, FontSizeInPoints
+    '                     Foreground, Gamma, IsInvalid, LineEnd, LineHeight
+    '                     LineJoin, LineMitre, LineType, LineWidth
+    ' 
+    '         Function: GetContext, ReleaseHandle
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

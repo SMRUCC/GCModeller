@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::207accdd57d5b5ed4e113ac0f2978997, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
+﻿#Region "Microsoft.VisualBasic::207accdd57d5b5ed4e113ac0f2978997, analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum OutFmts
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

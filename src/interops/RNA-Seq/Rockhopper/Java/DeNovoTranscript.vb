@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::59a523e70a461cf59e0fe52e317f1e21, ..\interops\RNA-Seq\Rockhopper\Java\DeNovoTranscript.vb"
+﻿#Region "Microsoft.VisualBasic::59a523e70a461cf59e0fe52e317f1e21, RNA-Seq\Rockhopper\Java\DeNovoTranscript.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DeNovoTranscript
+    ' 
+    '         Properties: lowess, means, numPvalues, pvalues, qvalues
+    '                     rPKMs, variances
+    ' 
+    '         Function: array2D_to_1D_long, getMean, getNormalizedCounts_array, getPvalue, getRawCountNTs
+    '                   getRawCountReads, getRawCounts_nts_array, getRawCounts_reads_array, Length, listToArray_double
+    '                   listToArray_long, SequenceData, ToString
+    ' 
+    '         Sub: computeDifferentialExpression, computeExpression, computeVariance, (+2 Overloads) New, setNormalizedCount
+    '              setQvalue
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::525eeedc7c1d759db88b5f45710b3e45, ..\interops\RNA-Seq\Rockhopper\API\TSSsDifferent.vb"
+﻿#Region "Microsoft.VisualBasic::525eeedc7c1d759db88b5f45710b3e45, RNA-Seq\Rockhopper\API\TSSsDifferent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TSSsDifferent
+    ' 
+    '         Properties: Condition1, Condition2, GeneID, Pathway, TSSs_Condition1
+    '                     TSSs_Condition2, TTSs_Condition1, TTSs_Condition2
+    ' 
+    '         Function: HaveBoth, HaveTSSs, HaveTTSs, ToString, TSSChanged
+    '                   TTSChnaged
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

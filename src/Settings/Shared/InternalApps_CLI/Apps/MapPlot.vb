@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2fba45b4e3370a53925278ccb5fa631a, ..\Settings\Shared\InternalApps_CLI\Apps\MapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::e71b58cca9758b45819f60425d872af5, Shared\InternalApps_CLI\Apps\MapPlot.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MapPlot
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -196,4 +210,3 @@ Public Function DrawGenbank(gb As String, Optional conf As String = "", Optional
 End Function
 End Class
 End Namespace
-

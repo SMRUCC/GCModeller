@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a852f1dc3cd35b316c52cf730e85c0f5, ..\repository\DataMySql\kb_UniProtKB\MySQL\protein_structures.vb"
+﻿#Region "Microsoft.VisualBasic::3679f242d42993d0f80909794c95e785, DataMySql\kb_UniProtKB\MySQL\protein_structures.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class protein_structures
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -143,4 +157,3 @@ End Class
 
 
 End Namespace
-

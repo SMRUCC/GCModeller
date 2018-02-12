@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2295f27ea2a8855f03ac32e0d8192eb8, ..\GCModeller\visualize\PDB_canvas\Canvas.vb"
+﻿#Region "Microsoft.VisualBasic::2295f27ea2a8855f03ac32e0d8192eb8, visualize\PDB_canvas\Canvas.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Canvas
+    ' 
+    '     Properties: AutoRotate
+    ' 
+    '     Sub: __update, Canvas_Disposed, Canvas_MouseDown, Canvas_MouseMove, Canvas_MouseUp
+    '          Canvas_MouseWheel, Canvas_Paint, LoadModel
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

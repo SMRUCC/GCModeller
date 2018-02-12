@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, ..\GCModeller\models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,94 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SmallMolecule
+    ' 
+    '     Properties: cellularLocation, dataSource, displayName, entityReference, standardName
+    ' 
+    ' Class BiochemicalReaction
+    ' 
+    '     Properties: conversionDirection, dataSource, displayName, eCNumber
+    ' 
+    ' Class CellularLocationVocabulary
+    ' 
+    '     Properties: term
+    ' 
+    ' Class ChemicalStructure
+    ' 
+    '     Properties: structureData, structureFormat
+    ' 
+    ' Class SmallMoleculeReference
+    ' 
+    '     Properties: molecularWeight
+    ' 
+    ' Class UnificationXref
+    ' 
+    '     Properties: db, id, idVersion
+    ' 
+    ' Class Provenance
+    ' 
+    '     Properties: name
+    ' 
+    ' Class Complex
+    ' 
+    '     Properties: cellularLocation, componentStoichiometry, dataSource, displayName
+    ' 
+    ' Class Protein
+    ' 
+    '     Properties: cellularLocation, dataSource, displayName, entityReference, feature
+    ' 
+    ' Class ProteinReference
+    ' 
+    '     Properties: organism
+    ' 
+    ' Class BioSource
+    ' 
+    '     Properties: name
+    ' 
+    ' Class FragmentFeature
+    ' 
+    '     Properties: featureLocation
+    ' 
+    ' Class SequenceInterval
+    ' 
+    '     Properties: sequenceIntervalBegin, sequenceIntervalEnd
+    ' 
+    ' Class SequenceSite
+    ' 
+    '     Properties: positionStatus, sequencePosition
+    ' 
+    ' Class Stoichiometry
+    ' 
+    '     Properties: physicalEntity, stoichiometricCoefficient
+    ' 
+    ' Class Catalysis
+    ' 
+    '     Properties: controlled, controller, controlType, dataSource
+    ' 
+    ' Class RelationshipXref
+    ' 
+    '     Properties: db, id, relationshipType
+    ' 
+    ' Class RelationshipTypeVocabulary
+    ' 
+    '     Properties: term, xref
+    ' 
+    ' Class PublicationXref
+    ' 
+    '     Properties: db, id, source, title, year
+    ' 
+    ' Class PhysicalEntity
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::808b1ca7c3143c0aa4c6daf36ae2ded0, ..\GCModeller\data\Xfam\Rfam\RfamRegulatory.vb"
+﻿#Region "Microsoft.VisualBasic::adc500e4af45e999e90d4dea19a6ada5, data\Xfam\Rfam\RfamRegulatory.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class RfamRegulatory
+    ' 
+    '     Properties: ATGDist, Gene, gStop, site, SiteEvalue
+    '                 SiteLocation, SitePvalue, siteStrand, Trace
+    ' 
+    '     Function: __createObject, __nullRegulatory, __siteCreates, AnalysisRegulatory
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

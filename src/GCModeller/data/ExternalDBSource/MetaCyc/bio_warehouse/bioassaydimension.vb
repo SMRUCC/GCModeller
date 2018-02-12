@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::918fc89499e66f6b170eb174f7266647, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\bioassaydimension.vb"
+﻿#Region "Microsoft.VisualBasic::918fc89499e66f6b170eb174f7266647, data\ExternalDBSource\MetaCyc\bio_warehouse\bioassaydimension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class bioassaydimension
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

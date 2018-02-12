@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2b70a729ff4a865469a87841d3fb9b37, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
+﻿#Region "Microsoft.VisualBasic::2b70a729ff4a865469a87841d3fb9b37, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module DESeq
+    ' 
+    '         Function: __runR, (+3 Overloads) DESeq2, DiffGeneCOGs, FilterDifferentExpression, HTSeqCount
+    '                   Initialize, LoadPTT, SaveResult, summarizeOverlaps
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

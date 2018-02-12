@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::11d73d79e9d329e6b78d71d3f17e52f9, ..\interops\RNA-Seq\Rockhopper\TSSsValidation.vb"
+﻿#Region "Microsoft.VisualBasic::11d73d79e9d329e6b78d71d3f17e52f9, RNA-Seq\Rockhopper\TSSsValidation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module TSSsValidation
+    ' 
+    '     Function: AssignValue, CreateView, RockhopperGeneStructures, SaveView
+    '     Class RockhopperGeneStructure
+    ' 
+    '         Properties: ATG, ATG_Dist, Category, Condition, DoorID
+    '                     Is_sRNA, IsDoorPromoter, isPredictedOperonPromoter, IsPredictedRNA, IsRNA
+    '                     Leaderless, Loci, Minus35BoxLoci, MTU_Length, predictedOperon
+    '                     RelatedGeneID, RelatedGeneLoci, RelatedGeneStrand, Sigma70ATGDistance, Sigma70TSSsDist
+    '                     Strand, Synonym, TGA, TSSLoci, TTSs
+    ' 
+    '         Function: Clone
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::854b393540f5e524c04c3829a7a5263f, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::854b393540f5e524c04c3829a7a5263f, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class dict_effectors_superclasses
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

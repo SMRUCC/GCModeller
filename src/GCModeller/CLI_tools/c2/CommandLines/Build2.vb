@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::00a84350d8845abaed8424db0cb353ec, ..\GCModeller\CLI_tools\c2\CommandLines\Build2.vb"
+﻿#Region "Microsoft.VisualBasic::00a84350d8845abaed8424db0cb353ec, CLI_tools\c2\CommandLines\Build2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CommandLines
+    ' 
+    '     Function: Reconstruct
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

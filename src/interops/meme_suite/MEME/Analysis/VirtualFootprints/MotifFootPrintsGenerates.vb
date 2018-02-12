@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6f6b6123b3d9a9891701a77745fef6fd, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb"
+﻿#Region "Microsoft.VisualBasic::6f6b6123b3d9a9891701a77745fef6fd, meme_suite\MEME\Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module MotifFootPrintsGenerates
+    ' 
+    '         Function: __checkMoitfCoRegulations, __getEffect, __reGenerate, CreateMotifInformations, DataFilteringByPathwayCoExpression
+    '                   Diff, Effect2Pcc, ExpandRegulatorRegulations, ExportRegulators, FilteringEmptyData
+    '                   FootPrintMatches, FootprintMatchesTEXT, GenerateDocument, GenerateNetwork, GetSiteTag
+    '                   GroupMotifs, LoadMotifDatabase, Matches, (+2 Overloads) MatchRegulator, MergeFootprints
+    '                   PathwayFunctionAssociation, PccAssumption, ReadRegulations, ReadVirtualFootprints, SaveRegulations
+    '                   StructurePcc, WriteMotifDatabase, WriteVirtualFootprints
+    ' 
+    '         Sub: __pathwaysInfo
+    '         Class GetPccValue
+    ' 
+    '             Function: EmptyReader, GetPcc, InternalGetMixedMATValue, InternalGetPccMATValue
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

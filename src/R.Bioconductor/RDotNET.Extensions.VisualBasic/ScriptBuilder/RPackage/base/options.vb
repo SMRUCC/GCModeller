@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d0a507f98e637b8d5df389dfe3a8349d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\options.vb"
+﻿#Region "Microsoft.VisualBasic::d0a507f98e637b8d5df389dfe3a8349d, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\options.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module getOption
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: [continue], [error], BioC_mirror, browser, browserNLdisabled
+    '                 CBoundsCheck, ccaddress, checkPackageLicense, contrasts, defaultPackages
+    '                 device, digits, dvipscmd, echo, editor
+    '                 encoding, expressions, help_type, HTTPUserAgent, locatorBell
+    '                 mailer, nwarnings, OutDec, pager, papersize
+    '                 pdfviewer, pkgType, printcmd, prompt, repos
+    '                 scipen, showErrorCalls, showNCalls, showWarnCalls, stringsAsFactors
+    '                 SweaveHooks, SweaveSyntax, texi2dvi, timeout, topLevelEnvironment
+    '                 unzip, useFancyQuotes, useHTTPS, verbose, warn
+    '                 warnPartialMatchArgs, warnPartialMatchAttr, warnPartialMatchDollar, width, windowsTimeout
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

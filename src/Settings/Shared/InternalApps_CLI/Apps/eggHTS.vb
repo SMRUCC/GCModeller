@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f0a92fa446d725fb26d7fdba9e99e205, ..\Settings\Shared\InternalApps_CLI\Apps\eggHTS.vb"
+﻿#Region "Microsoft.VisualBasic::b2bca1e952c187a3ace18ded2d8d6d71, Shared\InternalApps_CLI\Apps\eggHTS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class eggHTS
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -2342,4 +2356,3 @@ Public Function Update2UniprotMappedID([in] As String, mapping As String, Option
 End Function
 End Class
 End Namespace
-

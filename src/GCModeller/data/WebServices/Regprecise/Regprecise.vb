@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2123d703131e12b802e6472b3efa22c5, ..\GCModeller\data\WebServices\Regprecise\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::2123d703131e12b802e6472b3efa22c5, data\WebServices\Regprecise\Regprecise.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Regprecise
+    ' 
+    '         Function: __getRequest, __getResponse, genes, genomes, genomeStats
+    '                   regulators, regulog, regulogCollections, regulogCollectionStats, regulogs
+    '                   regulon, regulons, release, Retrieves, searchExtRegulons
+    '                   searchRegulons, sites, (+3 Overloads) wGetDownload
+    ' 
+    '         Sub: New, wGetDownload
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

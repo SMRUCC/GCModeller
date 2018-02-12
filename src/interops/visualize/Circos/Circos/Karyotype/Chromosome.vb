@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::eb76c853d3ce73e8927e00c96a745512, ..\interops\visualize\Circos\Circos\Karyotype\Chromosome.vb"
+﻿#Region "Microsoft.VisualBasic::c39421dda57d8bc4ffed9d1ade215a80, visualize\Circos\Circos\Karyotype\Chromosome.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class KaryotypeChromosomes
+    ' 
+    '         Properties: Size
+    ' 
+    '         Function: FromBlastnMappings, FromNts, GenerateDocument
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

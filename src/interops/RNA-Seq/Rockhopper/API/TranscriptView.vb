@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d91fd06830c06eb1b6ab15392350d16b, ..\interops\RNA-Seq\Rockhopper\API\TranscriptView.vb"
+﻿#Region "Microsoft.VisualBasic::d91fd06830c06eb1b6ab15392350d16b, RNA-Seq\Rockhopper\API\TranscriptView.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class TranscriptView
+    ' 
+    '     Properties: Category, COG, Coverage, gpStart, gpStop
+    '                 gStrand, Product, pStart, pStop, Replicon
+    '                 Strand, TSS_id
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

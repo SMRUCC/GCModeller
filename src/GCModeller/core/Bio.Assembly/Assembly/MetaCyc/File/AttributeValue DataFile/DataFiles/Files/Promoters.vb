@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a5f5577d7ef34667c9616df28825165a, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
+﻿#Region "Microsoft.VisualBasic::52d7a44d955859f957f4f0f60775980c, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Promoters
+    ' 
+    '         Properties: AttributeList
+    ' 
+    '         Function: GetPromoters, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

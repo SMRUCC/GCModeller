@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4988abc63c39d2e4e5e0d712c9c09b7f, ..\interops\visualize\Phylip\Evolview\TreeDecoType.vb"
+﻿#Region "Microsoft.VisualBasic::4988abc63c39d2e4e5e0d712c9c09b7f, visualize\Phylip\Evolview\TreeDecoType.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum TreeDecoType
+    ' 
+    '         BARS, BRANCHCOLOR, CHARTS, LEAFBKCOLOR, LEAFCOLOR
+    '         PIES, PROTEINDOMAINS, STRIPS
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

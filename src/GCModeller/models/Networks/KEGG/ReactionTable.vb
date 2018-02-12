@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::38c0f423be81dc93523265936ab749f9, ..\GCModeller\models\Networks\KEGG\ReactionTable.vb"
+﻿#Region "Microsoft.VisualBasic::38c0f423be81dc93523265936ab749f9, models\Networks\KEGG\ReactionTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ReactionTable
+    ' 
+    '     Properties: definition, EC, entry, name, products
+    '                 substrates
+    ' 
+    '     Function: __creates, Load, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::31f2ca36a391850e56b9509057d951fb, ..\R.Bioconductor\RDotNET\Graphics\DeviceDescription.vb"
+﻿#Region "Microsoft.VisualBasic::31f2ca36a391850e56b9509057d951fb, RDotNET\Graphics\DeviceDescription.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DeviceDescription
+    ' 
+    '         Properties: Adjustment, Bounds, CharacterSizeInRasterX, CharacterSizeInRasterY, CharOffsetX
+    '                     CharOffsetY, ClipBounds, DeviceSpecific, DisplayListOn, Gamma
+    '                     InchesPerRasterX, InchesPerRasterY, IsClippable, IsGammaModifiable, IsInvalid
+    '                     IsTextRotatedInContour, LineBiasY, StartBackground, StartFont, StartFontSize
+    '                     StartForeground, StartGamma, StartLineType
+    ' 
+    '         Function: ReleaseHandle
+    ' 
+    '         Sub: New, SetDefaultParameter, SetMethod, WriteBoolean, WriteColor
+    '              WriteDouble, WriteDoubleArray, WriteInt32, WriteInt32Enum, WriteIntPtr
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

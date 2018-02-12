@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::56d66d8dad289af97c9d40d3299e30eb, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
+﻿#Region "Microsoft.VisualBasic::56d66d8dad289af97c9d40d3299e30eb, core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ChEBIEntity
+    ' 
+    '         Properties: Address, charge, chebiAsciiName, chebiId, ChemicalStructures
+    '                     Citations, CompoundOrigins, DatabaseLinks, definition, entityStar
+    '                     Formula, Formulae, inchi, inchiKey, IupacNames
+    '                     mass, OntologyChildren, OntologyParents, RegistryNumbers, SecondaryChEBIIds
+    '                     smiles, status, Synonyms
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b567f8088cf6f9e970891b0ccd1f64b2, ..\GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::b567f8088cf6f9e970891b0ccd1f64b2, models\SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,106 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class XmlFile
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Model
+    ' 
+    ' 
+    ' 
+    '     Class Compartment
+    ' 
+    ' 
+    ' 
+    '     Class Species
+    ' 
+    ' 
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: listOfModifiers, listOfProducts, listOfReactants
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class modifierSpeciesReference
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class SpeciesReference
+    ' 
+    ' 
+    ' 
+    '     Class kineticLaw
+    ' 
+    '         Properties: listOfLocalParameters
+    '         Class annotation
+    ' 
+    ' 
+    '             Class sabiork
+    ' 
+    ' 
+    '                 Class experimentalConditions
+    ' 
+    ' 
+    ' 
+    '                 Class temperature
+    ' 
+    '                     Properties: startValueTemperature, temperatureUnit
+    ' 
+    '                 Class pH
+    ' 
+    '                     Properties: startValuepH
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class RDF
+    ' 
+    ' 
+    '         Class Description
+    ' 
+    ' 
+    ' 
+    '         Class isDescribedBy
+    ' 
+    '             Properties: Bag
+    ' 
+    '         Class Bag
+    ' 
+    '             Properties: li
+    ' 
+    '         Class li
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class Math
+    ' 
+    ' 
+    '         Class Apply
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class localParameter
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

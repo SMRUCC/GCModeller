@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f802b624648675c019f2af695f383742, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::f802b624648675c019f2af695f383742, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Operon
+    ' 
+    '         Properties: ID, members
+    ' 
+    '         Function: __geneParser, __locusParser, __operonParser, OperonParser, PageParser
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

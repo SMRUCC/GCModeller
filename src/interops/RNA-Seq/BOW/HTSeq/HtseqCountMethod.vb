@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ad60477cf28f33a2c003770c922495af, ..\interops\RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
+﻿#Region "Microsoft.VisualBasic::ad60477cf28f33a2c003770c922495af, RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module HtseqCountMethod
+    ' 
+    '     Function: DataFrame, HtseqCount, (+2 Overloads) RPKM, TrimGFF
+    '     Delegate Function
+    ' 
+    '         Properties: HtSeqMethods
+    ' 
+    '         Function: __getFeatures, __htSeqCount, GetMethod, HtseqCount, HtseqCountBatchParallel
+    '                   (+2 Overloads) IntersectionNonempty, (+2 Overloads) IntersectionStrict, ToDoc, (+2 Overloads) Union
+    ' 
+    '         Sub: __getFeatures
+    '     Class CountResult
+    ' 
+    '         Properties: Counts, Feature
+    ' 
+    '         Function: Load, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

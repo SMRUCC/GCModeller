@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6930d3f350ee282df4bd420de2169ac5, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\BitArrayHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::6930d3f350ee282df4bd420de2169ac5, WebCloud\SMRUCC.WebCloud.QRCode\BitArrayHelpers.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module BitArrayHelpers
+    ' 
+    '     Function: (+2 Overloads) ToBitArray, ToBitString, ToByteArray
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d1deddf5ba388e5342e047660d56f1f3, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Index.vb"
+﻿#Region "Microsoft.VisualBasic::d1deddf5ba388e5342e047660d56f1f3, RNA-Seq\Rockhopper\Java\DataStructure\Index.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Index
+    ' 
+    '         Properties: numReplicons, randomSeed, stopAfterOneHit
+    ' 
+    '         Function: charToInt, getReplicon, reverseComplement
+    ' 
+    '         Sub: (+3 Overloads) exactMatch, (+2 Overloads) inexactMatch, Main, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

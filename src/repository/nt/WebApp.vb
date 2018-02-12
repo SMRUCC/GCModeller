@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b9ad86a3aa8656dd6e630431b8fb5e1e, ..\repository\nt\WebApp.vb"
+﻿#Region "Microsoft.VisualBasic::e27d6aab2cb2323b099ae2308ec7e35c, nt\WebApp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class RepositoryWebApp
+    ' 
+    '     Function: Downloads, InvokeQuery
+    ' 
+    '     Sub: New
+    '     Structure QueryTask
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

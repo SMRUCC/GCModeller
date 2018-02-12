@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4f8766fccf2ec70a54b1547c6df55d8a, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ObjectModel.vb"
+﻿#Region "Microsoft.VisualBasic::4f8766fccf2ec70a54b1547c6df55d8a, engine\GCModeller\EngineSystem\ObjectModels\ObjectModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ObjectModel
+    ' 
+    '         Properties: Handle, Identifier
+    ' 
+    '         Function: ToString
+    '         Enum TypeIds
+    ' 
+    '             ActiveTransportationFlux, BasalExpression, CentralDogma, EntityCompound, EntityReactionModifier
+    '             EntityRegulator, EntityTranscript, EnzymaticFlux, EventTranscription, EventTranslation
+    '             ExpressionConstraintFlux, FeatureGene, FeatureMetabolismEnzyme, FeatureMotifSite, FeatureTranscriptionUnit
+    '             MetabolismFlux, PassiveTransportationFlux, Pathway
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::79701ac645edf3db5b144e7cf891fe2c, ..\GCModeller\visualize\ChromosomeMap\Data\ReadsMap.vb"
+﻿#Region "Microsoft.VisualBasic::79701ac645edf3db5b144e7cf891fe2c, visualize\ChromosomeMap\Data\ReadsMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ReadsMap
+    ' 
+    '     Function: CreateLoci, GetLocation, Left, LoadConfig, MapDrawing
+    '               OrderReads, Reads, TSSStatics
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

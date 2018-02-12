@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::56a34ac7c992432107af12876e3450d5, ..\interops\RNA-Seq\Rockhopper\Java\Parameters.vb"
+﻿#Region "Microsoft.VisualBasic::56a34ac7c992432107af12876e3450d5, RNA-Seq\Rockhopper\Java\Parameters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Parameters
+    ' 
+    '         Sub: New, outputParametersToFile
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::615e1cbe364a6e068271d3fa271aa5a1, ..\interops\visualize\Phylip\Evolview\PhyloTree.vb"
+﻿#Region "Microsoft.VisualBasic::615e1cbe364a6e068271d3fa271aa5a1, visualize\Phylip\Evolview\PhyloTree.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PhyloTree
+    ' 
+    '         Properties: AllLeafLabels, AllNodes, Description, errorMessage, FirstLeafNode
+    '                     HasBranchLength, ID, InternalID, LastLeafNode, LeafNodes
+    '                     maxHorizontalLevel, maxTotalBranchLengthFromRootToAnyTip, maxVerticalLevel, RootNode, treeDataValid
+    '                     treeFormat, treeString
+    ' 
+    '         Function: getAllAncestors, getAttributeValueByItemID, getExternalIDbyInternalID, getLCA, getNodeByID
+    '                   getNumericValueForNamedItemFromAnXMLNode, hasBootstrapScores, MakeNewInternalNode, makeNewLeafNode, phyloNodeToString
+    '                   reMakeEssentialVariables, ToString, toTreeString
+    ' 
+    '         Sub: CalcDistanceToRoot, CalcLevels, CalcMaxDistanceToTip, InternalReCalcLevels, InternalReDoID2Node
+    '              New, newickParser, NewickParser, NexusParser, nhxParser
+    '              parseInforAndMakeNewLeafNode, phyloXMLparserNodesIterator, reCalcDistanceToRoot, reCalcMaxDistanceToTip, rerootTree
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

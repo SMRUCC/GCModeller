@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ce1f9868b3336346ddff914d5352c013, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::ce1f9868b3336346ddff914d5352c013, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Ortholog
+    ' 
+    '         Properties: bits, Definition, identity, KO, LocusId
+    '                     overlap, query_length, sp
+    ' 
+    '         Function: __createObject, CreateObjects, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0fdcc7899c46304e27ab027a25b91746, ..\GCModeller\engine\GCModeller\DataVisualization.DynamicMap\IMapBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::0fdcc7899c46304e27ab027a25b91746, engine\GCModeller\DataVisualization.DynamicMap\IMapBuilder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class IMapBuilder
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Component
+    ' 
+    '         Properties: Quantity
+    ' 
+    '     Class ComponentInteraction
+    ' 
+    '         Properties: InteractionType
+    ' 
+    '         Function: ShadowCopy
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

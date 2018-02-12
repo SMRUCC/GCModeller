@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d3b202e921a77138f11082d40dc36153, ..\GCModeller\engine\GCTabular\CsvTabularData\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::d3b202e921a77138f11082d40dc36153, engine\GCTabular\CsvTabularData\FileStream.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,52 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Pathway
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ExpressionKinetics
+    ' 
+    '         Properties: Km, pH, ProteinComplex, Temperature
+    ' 
+    '     Class ProteinAssembly
+    ' 
+    '         Properties: Comments, Lambda, p_Dynamics_K, ProteinComplexes, Upper_Bound
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Transcript
+    ' 
+    '         Properties: Comments, Lamda, Product, Template, TranscriptType
+    '                     UniqueId
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Protein
+    ' 
+    '         Properties: ECNumber, Identifier, ProteinType
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class MetabolismFlux
+    ' 
+    '         Properties: CommonName, EnzymeClass, Equation, Identifier, KEGGReaction
+    '                     Left, MetaCycId, Reversible, Right
+    ' 
+    '         Function: CreateGCMLModel, CreateMetaCycReactionSchema, (+3 Overloads) CreateObject, get_Coefficient, get_Metabolites
+    '                   ToString
+    ' 
+    '         Sub: ReCreateEquation
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

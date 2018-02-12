@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4d3fc7d93ac6524e22a6d37cd37db029, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::4d3fc7d93ac6524e22a6d37cd37db029, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compound
+    ' 
+    '         Properties: __cheBI, __pubChem, CHEBI, ComponentOf, Components
+    '                     Identifier, KEGGCompound, PUBCHEM, Table, Types
+    ' 
+    '         Function: GetDBLinkManager, GetMolecularWeight, Trim, TrimHTML
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

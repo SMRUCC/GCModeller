@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fe7da575ac52dd6f302efae98d844424, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
+﻿#Region "Microsoft.VisualBasic::fe7da575ac52dd6f302efae98d844424, core\Bio.InteractionModel\DataServicesExtension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure SerialsData
+    ' 
+    '         Properties: ChunkBuffer, Length, Tag
+    ' 
+    '         Function: GetEnumerator, GetEnumerator1, ToString
+    ' 
+    '  
+    ' 
+    '     Function: (+2 Overloads) LoadCsv, LoadData, (+2 Overloads) SaveCsv
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

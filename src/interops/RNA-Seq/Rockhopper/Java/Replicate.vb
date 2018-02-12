@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5ead13a7904c097f92726e5436c5fd97, ..\interops\RNA-Seq\Rockhopper\Java\Replicate.vb"
+﻿#Region "Microsoft.VisualBasic::5ead13a7904c097f92726e5436c5fd97, RNA-Seq\Rockhopper\Java\Replicate.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Replicate
+    ' 
+    '         Properties: avgLengthReads, avgReads, minExpression, minExpressionRNA, minExpressionUTR
+    '                     name, totalReads, upperQuartile
+    ' 
+    '         Function: getBackgroundProb, getCompressedFileName, getMeanOfRange, getReads, getReadsInRange
+    '                   getStdevOfRange, ToString, transformation
+    ' 
+    '         Sub: New, readInAlignmentFile
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

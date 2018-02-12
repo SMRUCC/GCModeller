@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::25ff0c7d09f2f4cde5939acb08b7dda5, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
+﻿#Region "Microsoft.VisualBasic::25ff0c7d09f2f4cde5939acb08b7dda5, localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Hit
+    ' 
+    '         Properties: Coverage, Gaps, HitLength, Identities, QueryLength
+    ' 
+    '         Function: Grep, ToString
+    ' 
+    '     Class Hsp
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Statistics
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

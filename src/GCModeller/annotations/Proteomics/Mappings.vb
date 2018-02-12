@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8ed8a4197667849ac0077fbeda753b7f, ..\GCModeller\annotations\Proteomics\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::5b458fda1fae364bf9cd659013c671e9, annotations\Proteomics\Mappings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Mappings
+    ' 
+    '     Function: SplitID, UserCustomMaps
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::69de7b2f1403fac65e40ec002b65301c, ..\interops\RNA-Seq\Assembler\API\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::69de7b2f1403fac65e40ec002b65301c, RNA-Seq\Assembler\API\Assembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,60 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Assembler
+    ' 
+    '     Properties: DataOverviews, ForwardsReadsBuffer, ReversedReadsBuffer, Transcripts
+    ' 
+    '     Function: __Assembler, Assembling
+    ' 
+    '     Sub: __Assembler, New
+    '     Class DirectionalAssembler
+    ' 
+    '         Properties: readsBufferChunk, resultBuffer
+    ' 
+    '         Function: Assemble, ToString
+    ' 
+    '         Sub: New
+    '         Class ForwardsAssembler
+    ' 
+    '             Function: __initReadsBufferChunk
+    ' 
+    '             Sub: New
+    ' 
+    '         Class ReversedAssembler
+    ' 
+    '             Function: __initReadsBufferChunk
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    '     Delegate Function
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Delegate Function
+    ' 
+    '         Function: ForwardsDeltaPrediction, getForwordsLeft, getReversedRight, ReversedDeltaPrediction
+    ' 
+    '         Sub: setForwardsRight, setReversedLeft
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

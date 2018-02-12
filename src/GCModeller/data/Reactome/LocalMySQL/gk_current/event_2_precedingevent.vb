@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5c3fd95d7f89c30ce15e8ad242b8ccae, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\event_2_precedingevent.vb"
+﻿#Region "Microsoft.VisualBasic::5c3fd95d7f89c30ce15e8ad242b8ccae, data\Reactome\LocalMySQL\gk_current\event_2_precedingevent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class event_2_precedingevent
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

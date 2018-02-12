@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0f7afb4695cfbb761a14d7ddf7e6d541, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
+﻿#Region "Microsoft.VisualBasic::d8385f634c822aede07228d7e78a3a59, CLI_tools\KEGG\CLI\DumpTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __create, __queryKO, DownloadHumanGenes, DumpDb, DumpOrganisms
+    '               GetKOAnnotation, GetSource, QueryKOAnno, ShowOrganism
+    ' 
+    '     Sub: __queryKO2
+    '     Class KOAnno
+    ' 
+    '         Properties: [Class], Category, COG, Definition, GO
+    '                     KO, Name, PathwayId, PathwayName, QueryId
+    '                     Reactions
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

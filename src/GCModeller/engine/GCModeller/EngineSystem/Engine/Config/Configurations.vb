@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a8bba30734020e88f58e8223aa5cf0c5, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Config\Configurations.vb"
+﻿#Region "Microsoft.VisualBasic::a8bba30734020e88f58e8223aa5cf0c5, engine\GCModeller\EngineSystem\Engine\Config\Configurations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Configurations
+    ' 
+    '         Properties: ActionScripts, CultivationMediums, DataStorageUrl, DefaultCompartmentId, DumpData
+    '                     ExpressionRegulationNetwork, GeneMutations, Initial_pH, Initial_Temperature, MetabolismModel
+    '                     mRNA_LambdaWeight, rRNA_LambdaWeight, ScriptMountPoint, SuppressErrorMessage, SuppressPeriodicMessage
+    '                     SuppressWarnMessage, TriggerScripts, TrimMetabolismMetabolites, tRNA_LambdaWeight
+    ' 
+    '         Function: DefaultValue, Load, Save, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

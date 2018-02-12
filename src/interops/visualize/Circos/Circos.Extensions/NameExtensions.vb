@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bb44267d3566cb6c26f7b6d7f4ecfb66, ..\interops\visualize\Circos\Circos.Extensions\NameExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::bb44267d3566cb6c26f7b6d7f4ecfb66, visualize\Circos\Circos.Extensions\NameExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NameExtensions
+    ' 
+    '     Function: __loadCommon, DumpNames, RegulonRegulators
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

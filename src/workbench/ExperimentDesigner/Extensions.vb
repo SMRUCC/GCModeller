@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ff42d8c329adcffe9513aec191150ce8, ..\workbench\ExperimentDesigner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::91fe98c3a7fa9aa86332a32b2d0e7877, ExperimentDesigner\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Extensions
+    ' 
+    '     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
+    '               SampleGroupInfo, SampleNames, TakeGroup, ToCategory
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

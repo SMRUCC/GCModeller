@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bddc325f5dbd23994e97736860f1df2f, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
+﻿#Region "Microsoft.VisualBasic::fbbc18054607a5011184b22a61e317fd, core\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SmpFile
+    ' 
+    '         Properties: CommonName, Describes, ID, Length, Name
+    '                     SequenceData, Title
+    ' 
+    '         Function: __contactLines, EXPORT, Load, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

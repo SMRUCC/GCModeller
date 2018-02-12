@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::065194760bcd962dec4849b4dc7b28bf, ..\GCModeller\engine\GCTabular\CsvTabularData\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::065194760bcd962dec4849b4dc7b28bf, engine\GCTabular\CsvTabularData\MotifSite.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MotifSite
+    ' 
+    '         Properties: Internal_GUID, MotifName, ORF, Position, Regulators
+    '                     TU_MODEL_GUID
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Regulator
+    ' 
+    '         Properties: Pcc, ProteinId, RegulatesMotif
+    ' 
+    '         Function: get_PCs, get_TargetGeneId, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

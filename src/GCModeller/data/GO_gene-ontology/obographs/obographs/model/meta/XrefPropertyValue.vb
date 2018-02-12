@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::642216446385ab87ea1007b78005e7ef, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\model\meta\XrefPropertyValue.vb"
+﻿#Region "Microsoft.VisualBasic::642216446385ab87ea1007b78005e7ef, data\GO_gene-ontology\obographs\obographs\model\meta\XrefPropertyValue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class XrefPropertyValue
+    ' 
+    ' 	    Properties: Lbl
+    ' 
+    ' 	    Sub: New
+    ' 		Class Builder
+    ' 
+    ' 		    Function: build, lbl, val, xrefs
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

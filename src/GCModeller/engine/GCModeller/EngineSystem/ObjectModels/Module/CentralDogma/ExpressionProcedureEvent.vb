@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9b9d91e06c45b2cb1e7724cc7b0f9ec8, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\ExpressionProcedureEvent.vb"
+﻿#Region "Microsoft.VisualBasic::9b9d91e06c45b2cb1e7724cc7b0f9ec8, engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\ExpressionProcedureEvent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface IEventUnit
+    ' 
+    '         Properties: MotifSites
+    ' 
+    '     Class ExpressionProcedureEvent
+    ' 
+    '         Properties: RegulationValue
+    ' 
+    '         Function: CreateInstance
+    '         Interface I_EventProcess
+    ' 
+    '             Properties: CompositionVector, Product, RegulationValue, Template
+    ' 
+    '             Function: InitializeConstraints, Invoke
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

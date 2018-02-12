@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::df8d861296b01a2523739242f0943ebe, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\utils\readTable.vb"
+﻿#Region "Microsoft.VisualBasic::df8d861296b01a2523739242f0943ebe, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\utils\readTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,47 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class readTableAPI
+    ' 
+    '         Properties: file, header
+    ' 
+    '     Class readTable
+    ' 
+    '         Properties: allowEscapes, colClasses, dec, encoding, fileEncoding
+    '                     fill, flush, nrows, numerals, quote
+    '                     sep, skip, skipNul, stringsAsFactors, text
+    ' 
+    '     Class readcsv
+    ' 
+    '         Properties: dec, fill, quote, sep
+    ' 
+    '         Function: ReadCsv
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class readcsv2
+    ' 
+    '         Properties: dec, fill, quote, sep
+    ' 
+    '         Function: ReadCsv
+    ' 
+    '     Class readdelim
+    ' 
+    '         Properties: dec, fill, quote, sep
+    ' 
+    '     Class readdelim2
+    ' 
+    '         Properties: dec, fill, quote, sep
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

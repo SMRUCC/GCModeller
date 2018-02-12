@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::239de428880c2524338bc85531647bea, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
+﻿#Region "Microsoft.VisualBasic::239de428880c2524338bc85531647bea, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataFile
+    ' 
+    '         Properties: __indexItem, DbProperty, First, Index, IsReadOnly
+    '                     Last, NumOfTokens, Values
+    ' 
+    '         Function: Append, Contains, GetEnumerator, GetEnumerator1, GetTypes
+    '                   IDictionary_ContainsKey, IDictionary_TryGetValue, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Remove
+    '                   Save, ToString
+    ' 
+    '         Sub: (+3 Overloads) Add, AddRange, Clear, CopyTo, (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

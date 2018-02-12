@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bf234c768de306cd587d3b9821a294b5, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2OUT.vb"
+﻿#Region "Microsoft.VisualBasic::d59172202e8de70c73ec8940339d980e, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2OUT.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class heatmap2OUT
+    ' 
+    '         Properties: [call], breaks, carpet, col, colDendrogram
+    '                     colInd, colorTable, locus, rowDendrogram, rowInd
+    '                     rowMeans, rowSDs, samples
+    ' 
+    '         Function: __getMaps, ColorParser, colorTableParser, GetColDendrogram, GetColMaps
+    '                   GetRowDendrogram, GetRowMaps, IndParser, MeansParser, RParser
+    '                   TreeBuilder
+    ' 
+    '     Structure colorTable
+    ' 
+    '         Properties: color, high, low
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

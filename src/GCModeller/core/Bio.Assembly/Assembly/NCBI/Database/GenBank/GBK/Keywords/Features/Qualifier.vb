@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::eef579092c59f89da4ad82ec0664d14f, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
+﻿#Region "Microsoft.VisualBasic::eef579092c59f89da4ad82ec0664d14f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum FeatureQualifiers
+    ' 
+    '         [function], [partial], anticodon, bound_moiety, citation
+    '         codon, codon_start, cons_splice, db_xref, direction
+    '         EC_number, evidence, frequency, gene, label
+    '         locus_tag, map, mod_base, note, number
+    '         organism, phenotype, product, protein_id, pseudo
+    '         rpt_family, rpt_type, rpt_unit, standard_name, transl_except
+    '         transl_table, translation, type, usedin
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

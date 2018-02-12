@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3aedf6c13d0036b80e0ecefe8f783a34, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\images.vb"
+﻿#Region "Microsoft.VisualBasic::3aedf6c13d0036b80e0ecefe8f783a34, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\images.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,42 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class grImage
+    ' 
+    '         Properties: antialias, pointsize, res, restoreConsole, type
+    '                     units
+    ' 
+    '  
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    '  
+    ' 
+    '     Properties: quality
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    '  
+    ' 
+    '     Properties: type
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    '  
+    ' 
+    '     Properties: compression
+    ' 
+    '     Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

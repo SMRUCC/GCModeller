@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a8c054a4b4478ff5cda8058ff52ae9f8, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\MetabolismSystem.vb"
+﻿#Region "Microsoft.VisualBasic::a8c054a4b4478ff5cda8058ff52ae9f8, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\MetabolismSystem.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,39 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MetabolismSystem
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class EnzymeActivity
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class ConstraintsMetabolite
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

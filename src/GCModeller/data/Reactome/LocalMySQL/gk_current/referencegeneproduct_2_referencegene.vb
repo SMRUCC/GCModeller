@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6cf4e6184aa87b6615b63f83d815eeb2, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_referencegene.vb"
+﻿#Region "Microsoft.VisualBasic::6cf4e6184aa87b6615b63f83d815eeb2, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_referencegene.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class referencegeneproduct_2_referencegene
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

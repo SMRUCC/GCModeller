@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e2688eebeb27cadd11b27d83ddcc8521, ..\GCModeller\shoalAPI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::e2688eebeb27cadd11b27d83ddcc8521, shoalAPI\FastaTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module FastaTools
+    ' 
+    '     Function: ConstructSegmentReader, ExportMapping, ExportMappingBatch, Fq2Fasta, Fq2FastaBatch
+    '               Genbank2ProFasta, GetSegment, LengthStatics, LoadFasta, LoadFastaToken
+    '               NewLoci, TryParseGetSegment, TryParseGetSegment2, (+2 Overloads) WriteFasta
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

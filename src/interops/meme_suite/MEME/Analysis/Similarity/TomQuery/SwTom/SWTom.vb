@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fed85e8873f9dfb8eb508613e14fdb9d, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
+﻿#Region "Microsoft.VisualBasic::fed85e8873f9dfb8eb508613e14fdb9d, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SWAlignment
+    ' 
+    '         Sub: New
+    ' 
+    '     Module SWTom
+    ' 
+    '         Function: __alignHSP, __parts, (+3 Overloads) Compare, (+2 Overloads) CompareBest
+    '         Class __similarity
+    ' 
+    '             Function: Similarity
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

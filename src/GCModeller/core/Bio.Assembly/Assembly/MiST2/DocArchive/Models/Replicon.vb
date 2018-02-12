@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::62956066d670104a537b59f8f25713f2, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
+﻿#Region "Microsoft.VisualBasic::62956066d670104a537b59f8f25713f2, core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Replicon
+    ' 
+    '         Properties: Chemotaxis, OneComponent, Other, TwoComponent
+    ' 
+    '         Function: SignalProteinCollection, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::713df91ddbb1eb2ab3b9f5d10e7d64e6, ..\GCModeller\CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4a2f4f1859cd3d907843d1f9f10a97c1, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Function: DownloadFasta, DownloadMotifSites, DownloadProteinMotifs, DownloadRegprecise2, Fetch
+    '               FetchRepostiory, FetchThread, MergeDownload
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

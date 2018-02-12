@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1d9bab0db13fd7b3fe3f9e6b11aa1644, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\RibosomeAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::1d9bab0db13fd7b3fe3f9e6b11aa1644, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\RibosomeAssembly.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,55 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RibosomeAssembly
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class RibosomeAssemblyCompounds
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class RNAPolymeraseAssembly
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class RNAPolymeraseAssemblyCompounds
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles
+    ' 
+    '         Sub: New
+    ' 
+    '     Class TransmembraneTransportation
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: DataSource, DefHandles, GenerateId
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

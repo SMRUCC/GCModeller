@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ecd784340c2e9da6a50a61265fa1b15e, ..\interops\localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::15cda5faee2ae12dd7dc1ea1df787a7c, localblast\CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
+    '               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
+    '               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
+    '     Class __writeIO
+    ' 
+    '         Function: __creates
+    ' 
+    '         Sub: (+2 Overloads) Dispose, InvokeWrite, New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fe76c258c2937ebefdcf1eb02ed57d18, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\nodecontents.vb"
+﻿#Region "Microsoft.VisualBasic::fe76c258c2937ebefdcf1eb02ed57d18, data\ExternalDBSource\MetaCyc\bio_warehouse\nodecontents.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class nodecontents
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

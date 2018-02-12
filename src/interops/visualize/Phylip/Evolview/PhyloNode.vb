@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::915f96fab2583b025186972bba28f068, ..\interops\visualize\Phylip\Evolview\PhyloNode.vb"
+﻿#Region "Microsoft.VisualBasic::915f96fab2583b025186972bba28f068, visualize\Phylip\Evolview\PhyloNode.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PhyloNode
+    ' 
+    '         Properties: AdditionalAttributs, BootStrap, BranchLength, BranchLengthToRoot, Descendents
+    '                     Description, DistanceToRoot, ID, InternalID, IsFork
+    '                     IsLeaf, IsRoot, LevelHorizontal, LevelVertical, LevelVerticalSlanted
+    '                     MaxDistanceToTip, maxLeafVerticalLevel, minLeafVerticalLevel, NodeComplete, NumberOfDescendents
+    '                     NumberOfLeafDescendents, Parent, Processed
+    ' 
+    '         Function: Clone, getBranchColorByColorsetID, getColorByDatasetID, getColorByDataTypeAndID, getLeafBKColorByColorsetID
+    '                   getLeafColorByColorsetID, InternalCountLeafDescendents, RemoveFromParent, SetProcessed, ToString
+    ' 
+    '         Sub: addColorByDataTypeAndID, AddColorToBranch, addColorToLeaf, addColorToLeafBK, addColorWithID
+    '              AddDescendent, removeAllBranchColors, RemoveAllDescendents, removeAllLeafBKColors, removeAllLeafColors
+    '              removeBranchColorByColorsetID, removeColorByDataTypeAndID, RemoveDescendent, removeLeafBKColorByColorsetID, removeLeafColorByColorsetID
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

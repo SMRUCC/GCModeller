@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::25b75d4792678d8c1cdffd90fad37c14, ..\Settings\Shared\InternalApps_CLI\Apps\seqtools.vb"
+﻿#Region "Microsoft.VisualBasic::b7c91dc75c77d9309f61e828eff083ed, Shared\InternalApps_CLI\Apps\seqtools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class seqtools
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -2060,4 +2074,3 @@ Public Function Trim([in] As String, Optional [case] As String = "", Optional br
 End Function
 End Class
 End Namespace
-

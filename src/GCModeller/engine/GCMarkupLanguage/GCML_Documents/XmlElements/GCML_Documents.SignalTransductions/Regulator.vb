@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1eaac1ed5b02a6214761b7c8199f16ac, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::1eaac1ed5b02a6214761b7c8199f16ac, engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Regulator
+    ' 
+    '         Properties: CommonName, Effector, ProteinAssembly, Regulates, Types
+    '                     Weight
+    ' 
+    '         Function: Clone
+    '         Enum RegulationTypes
+    ' 
+    '             EnzymeActivityRegulation, Regulation, TranscriptionRegulation, TranslationRegulation
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: CastTo, GetRegulationsType, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

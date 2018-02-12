@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cd1e16f35ad8c80bf9c4933bb47dc4f4, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::cd1e16f35ad8c80bf9c4933bb47dc4f4, core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Enzyme
+    ' 
+    '         Properties: AlternateName, CatalyticActivity, Cofactor, Comments, Identification
+    '                     PROSITE, SwissProt
+    ' 
+    '         Function: __cLines, __createObjectFromText, CreateCatalystActivity, CreateCofactors, CreateProSiteReference
+    '                   CreateSwissProtEntries, ToString, TryParse
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

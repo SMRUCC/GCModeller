@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e2a6ecf730895bb2c3e282d89410e4e5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
+﻿#Region "Microsoft.VisualBasic::4e69110072bb922e50b59e2238999029, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module API
+    ' 
+    '         Function: __entryParser, __genesParser, __queryEntryParser, __xRefParser, CutSequence
+    '                   HandleDownload, HandleDownloads, HandleQuery, Query, QueryURL
+    '                   (+2 Overloads) Transform, xRefParser
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

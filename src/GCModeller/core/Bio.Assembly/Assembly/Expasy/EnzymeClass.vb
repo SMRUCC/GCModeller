@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c639cf885b60b1e1dac13f05d22d7d67, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::c639cf885b60b1e1dac13f05d22d7d67, core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class EnzymeClass
+    ' 
+    '         Properties: Catalysts, EC_Class, ExpasyAnnotations, Hits, KEGG_ENTRIES
+    '                     ProteinId
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class T_ECPaired
+    ' 
+    '         Properties: ProteinId, uniprot
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class T_EnzymeClass_BLAST_OUT
+    ' 
+    '         Properties: [Class], EValue, Identity
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a0202fde4a4bea23067830c4ab4a57ae, ..\GCModeller\shoalAPI\IO\IO.vb"
+﻿#Region "Microsoft.VisualBasic::a0202fde4a4bea23067830c4ab4a57ae, shoalAPI\IO\IO.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module IO
+    ' 
+    '     Function: AddOutputItem, BuildCDD, Convert2PfamCsv, CreateAlignmentOutput, CreateReader
+    '               CreateScript, DisplayPfamScore, ExportProteins, GetGenomeSequence, GetIdList
+    '               GetSequenceData, GrepFasta, Len, LoadBesthit, LoadChromosomeMapConfig
+    '               LoadExpasy, LoadExpasyAnnotations, LoadGenbank, LoadPGDB, LoadPtt
+    '               LoadRefmap, LoadToGoDocument, LoadUniprotFasta, MergeFasta, ReadBBh
+    '               ReadChEBINamesTable, ReadCytoscapeModelView, ReadDoor, ReadFastaFile, ReadFastaObject
+    '               ReadGAF, ReadGbk, ReadMiST2, ReadMyvaCog, ReadOBOFile
+    '               ReadPDB, ReadPfam, ReadPfamString, ReadPTT, ReadRegpreciseAnnotationModel
+    '               ReadRegpreciseFootprint, ReadRegpreciseXml, ReadVritualFootprint, Save_ChromosomeMap, SaveAlignmentOutput
+    '               (+2 Overloads) SaveFasta, SaveOBOFile, TrimNull, WriteAnnotationResult, (+2 Overloads) WriteBesthit
+    '               WriteCytoscapeModelView, WriteDoor, WriteEnzymeClassData, WriteExpasyAnnotations, WriteFastaObject
+    '               (+2 Overloads) WriteFootprintData, WriteGAF, WriteMPAlignmentOutput, WriteMyvaCog, WriteOboAsCsv
+    '               WritePccMAT, WritePfamCsv, WritePfamFasta, WritePfamString, (+2 Overloads) WritePfsNETResult
+    '               (+2 Overloads) WriteResult, WriteToGoAsCsv, WriteUniprotFasta
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

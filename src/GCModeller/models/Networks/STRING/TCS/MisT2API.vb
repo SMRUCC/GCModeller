@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, ..\GCModeller\models\Networks\STRING\TCS\MisT2API.vb"
+﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, models\Networks\STRING\TCS\MisT2API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module MisT2API
+    ' 
+    '     Function: (+2 Overloads) AssemblySignalTransductionNetwork, LoadRegpreciseRegulators, LoadStringNetwork, ReadEffectorMap, SaveNetwork
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::49900a56cfca6096b87b81c92f61ef25, ..\GCModeller\annotations\Proteomics\iTraq\iTraq_csvReader.vb"
+﻿#Region "Microsoft.VisualBasic::f3e41dcb6d12bd7ade073790a019ec30, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module iTraq_csvReader
+    ' 
+    '     Function: __mergeHeaders, Combinations, iTraqMatrix, MergeShotgunAnnotations, StripCsv
+    '               SymbolReplace
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

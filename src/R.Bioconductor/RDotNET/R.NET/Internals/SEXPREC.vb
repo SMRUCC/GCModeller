@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::16aa54b2c0e53066dd718c2745521255, ..\R.Bioconductor\RDotNET\R.NET\Internals\SEXPREC.vb"
+﻿#Region "Microsoft.VisualBasic::16aa54b2c0e53066dd718c2745521255, RDotNET\R.NET\Internals\SEXPREC.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,52 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Structure SEXPREC
+    ' 
+    ' 	    Properties: attrib, closxp, envsxp, gengc_next_node, gengc_prev_node
+    '                  listsxp, primsxp, promsxp, sxpinfo, symsxp
+    ' 
+    ' 	Structure u
+    ' 
+    ' 
+    ' 
+    ' 	Structure vecsxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure primsxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure symsxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure listsxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure envsxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure closxp
+    ' 
+    ' 
+    ' 
+    ' 	Structure promsxp
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

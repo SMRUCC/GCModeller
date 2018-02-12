@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1328cccc8f1780af7376529b50554352, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\CellSystem\CellSystem.vb"
+﻿#Region "Microsoft.VisualBasic::1328cccc8f1780af7376529b50554352, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\CellSystem\CellSystem.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CellSystem
+    ' 
+    '         Properties: CellDeathDetection, DataModel, EventId, SystemLogging
+    ' 
+    '         Function: CreateServiceSerials, Initialize, Tick, ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, InitializeGeneObjectMutation, MemoryDump, New, set_CultivationMedium
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

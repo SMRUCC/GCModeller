@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dccec270468bfe02ed23abe23149ab95, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Entity\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::dccec270468bfe02ed23abe23149ab95, engine\GCModeller\EngineSystem\ObjectModels\Entity\Compound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,37 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compound
+    ' 
+    '         Properties: DataSource, DEBUG_TagId, Identifier, PBS_MMF_DATA, Quantity
+    '                     SerialsHandle, TypeId
+    ' 
+    '         Function: (+2 Overloads) CreateObject, SetFluxValue, ToString
+    ' 
+    '         Sub: New, set_Tag
+    ' 
+    '     Class IDisposableCompound
+    ' 
+    ' 
+    '         Enum DisposableCompoundTypes
+    ' 
+    '             Polypeptide, Transcripts
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

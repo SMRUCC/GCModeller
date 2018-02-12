@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c0d114928f9f47bce011b764d4bc2dd9, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\NodesMapping\MappingPool.vb"
+﻿#Region "Microsoft.VisualBasic::c0d114928f9f47bce011b764d4bc2dd9, engine\GCModeller\EngineSystem\ObjectModels\NodesMapping\MappingPool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MappingPool
+    ' 
+    '         Properties: Count, HandlerIdCollection, Values
+    ' 
+    '         Function: ContainsHandle, get_MappedNodes, GetEnumerator, GetEnumerator1, ModifyMapping
+    '                   TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Dispose, UpdateCache, UpdateEnzymes
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fc7ff53f709ac8316c729648b1b8e762, ..\interops\localblast\CLI_tools\CLI\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::96603886ce0985b23efb7090fa19fc76, localblast\CLI_tools\CLI\Tree.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: ExportFasta, IdentitiesMAT
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

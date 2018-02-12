@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d18f1f4d13949dba69a78b1cebc2ba9a, ..\GCModeller\visualize\GCModeller.DataVisualization\ColorMgr.vb"
+﻿#Region "Microsoft.VisualBasic::d18f1f4d13949dba69a78b1cebc2ba9a, visualize\GCModeller.DataVisualization\ColorMgr.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ColorMgr
+    ' 
+    '     Properties: [Default]
+    ' 
+    '     Function: GetEntityColor, GetValue, ToString
+    ' 
+    '     Sub: New
+    ' 
+    ' Class ClMap
+    ' 
+    '     Properties: Identifier, map
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
