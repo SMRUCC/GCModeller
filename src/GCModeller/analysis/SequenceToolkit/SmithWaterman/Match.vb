@@ -1,33 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::c4c036100820a3bb75de4d1580023e26, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Match.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Collections.Generic
-Imports System.Text
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 
 ''' <summary>
@@ -78,22 +77,24 @@ Public Class Match
     ''' </summary>
     ''' <param name="m"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function notOverlap(m As Match) As Boolean
         Return (m.FromA > _ToA OrElse _FromA > m.ToA) AndAlso (m.FromB > _ToB OrElse _FromB > m.ToB)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function isChainable(m As Match) As Boolean
         Return (m.FromA > _ToA AndAlso m.FromB > _ToB)
     End Function
 
     Public Overrides Function ToString() As String
-        Return $"[query: {FromA}  ===> {ToA}] <---> [subject: {FromB}  ===> {ToB}], score:={Score}"
+        Return $"[query: {{{FromA}, {ToA}}}, ref: {{{FromB}, {ToB}}}], score:={Score}"
     End Function
 
-    Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) = New ComparatorAnonymousInnerClassHelper()
+    Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) = New ComparatorHelper()
 
-    Private Class ComparatorAnonymousInnerClassHelper
-        Implements IComparer(Of Match)
+    Private Class ComparatorHelper : Implements IComparer(Of Match)
 
         Public Sub New()
         End Sub

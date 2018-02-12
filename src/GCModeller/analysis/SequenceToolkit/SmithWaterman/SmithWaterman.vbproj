@@ -218,11 +218,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CoreDump.vb" />
     <Compile Include="Extension\Extensions.vb" />
     <Compile Include="Extension\Output.vb" />
     <Compile Include="Extension\HSP.vb" />
     <Compile Include="SmithWaterman.vb" />
-    <Compile Include="GSW.vb" />
+    <Compile Include="Core\GSW.vb" />
     <Compile Include="Match.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Properties\Resources.Designer.vb">

@@ -1,4 +1,5 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.ContextModel.Promoter
@@ -57,7 +58,8 @@ Public Class ConsensusScanner
         Next
     End Function
 
-    Public Iterator Function PopulateMotifs(KO As String) As IEnumerable(Of Probability)
-
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function PopulateMotifs(KO As String) As IEnumerable(Of Probability)
+        Return KOUpstream(KO).PopulateMotifs
     End Function
 End Class
