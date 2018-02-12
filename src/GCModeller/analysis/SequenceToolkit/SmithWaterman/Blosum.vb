@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::deb2017e8ce81fa99b39a7b3363f3ed4, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Blosum.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Linq
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 ''' <summary>
@@ -76,27 +78,32 @@ Public Class Blosum
     ''' <param name="doc"></param>
     ''' <returns></returns>
     Public Shared Function LoadFromStream(doc As String) As Blosum
-        Dim tokens As String() = doc.lTokens
-        Dim i As Integer
+        Dim tokens$() = doc.lTokens
+        Dim i%
 
         Do While tokens.Read(i).First = "#"c
         Loop
 
-        tokens = tokens.Skip(i).ToArray
+        Dim matrix%()() = LinqAPI.Exec(Of Integer()) _
+ _
+            () <= From line As String
+                  In tokens.Skip(i)
+                  Where Not String.IsNullOrWhiteSpace(line)
+                  Select __toVector(line)
 
-        Dim MAT As Integer()() = (From line As String In tokens
-                                  Where Not String.IsNullOrWhiteSpace(line)
-                                  Select __toVector(line)).ToArray
         Return New Blosum() With {
-            ._Matrix = MAT
+            ._Matrix = matrix
         }
     End Function
 
     Private Shared Function __toVector(line As String) As Integer()
-        Dim array As Integer() = (From x As String
-                                  In line.Split.Skip(1)
-                                  Where Not String.IsNullOrWhiteSpace(x)
-                                  Select CInt(Val(x))).ToArray
+        Dim array%() = LinqAPI.Exec(Of Integer) _
+ _
+            () <= From x As String
+                  In line.Split.Skip(1)
+                  Where Not String.IsNullOrWhiteSpace(x)
+                  Select CInt(Val(x))
+
         Return array
     End Function
 
@@ -169,7 +176,7 @@ Public Class Blosum
         End Select
     End Function
 
-    Private Function getDistance(i As Integer, j As Integer) As Integer
+    Private Function getDistance(i%, j%) As Integer
         If i < 0 OrElse i > Matrix(0).Length Then
             Throw New Exception("Invalid amino acid character at string1, position " & i)
         End If
@@ -186,7 +193,9 @@ Public Class Blosum
     ''' <param name="a1"></param>
     ''' <param name="a2"></param>
     ''' <returns></returns>
-    Public Function getDistance(a1 As Char, a2 As Char) As Integer
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetDistance(a1 As Char, a2 As Char) As Integer
         ' toUpper
         Return getDistance(getIndex(a1), getIndex(a2))
     End Function

@@ -27,6 +27,8 @@
 #End Region
 
 Imports System.Linq
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -38,6 +40,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class SmithWaterman : Inherits GSW(Of Char)
 
+    Shared ReadOnly blosum62 As DefaultValue(Of Blosum) = Blosum.FromInnerBlosum62
+
     ''' <summary>
     '''
     ''' </summary>
@@ -47,26 +51,20 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' If the matrix parameter is null, then the default build in blosum62 matrix will be used.
     ''' </param>
     Sub New(query$, subject$, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.ToArray, subject.ToArray, __blosum(blosum), Function(x) x)
+        Call MyBase.New(query.ToArray, subject.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
     End Sub
 
     Sub New(query As ISequenceModel, subject As ISequenceModel, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, __blosum(blosum), Function(x) x)
+        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
     End Sub
-
-    Private Shared Function __blosum(input As Blosum) As ISimilarity(Of Char)
-        If input Is Nothing Then
-            input = Blosum.FromInnerBlosum62
-        End If
-
-        Return AddressOf input.getDistance
-    End Function
 
     ''' <summary>
     '''
     ''' </summary>
     ''' <param name="cutoff">0%-100%</param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetOutput(cutoff As Double, minW As Integer) As Output
         Return Output.CreateObject(Me, Function(x) x, cutoff, minW)
     End Function

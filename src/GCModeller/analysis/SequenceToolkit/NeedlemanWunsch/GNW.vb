@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::698f8da920d85588d2b07a94de7b872f, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GNW.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Linq
 Imports System.Linq
+Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
 
 ''' <summary>
 ''' Needleman-Wunsch Algorithm
@@ -42,7 +43,7 @@ Public Class NeedlemanWunsch(Of T)
     Dim matrix As Integer()() = Nothing
     Dim tracebackMatrix As Integer()() = Nothing
 
-    Sub New(match As IEquals(Of T), empty As T, toChar As Func(Of T, Char))
+    Sub New(match As Equals(Of T), empty As T, toChar As Func(Of T, Char))
         Call MyBase.New(match, toChar)
         __empty = empty
     End Sub

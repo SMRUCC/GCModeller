@@ -95,5 +95,4 @@ Public Class HSP : Inherits Match
 
         Return hsp
     End Function
-
 End Class

@@ -1,5 +1,5 @@
 ﻿
-Imports Microsoft.VisualBasic.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.ContextModel.Promoter
@@ -50,10 +50,6 @@ Public Class ConsensusScanner
         End With
     End Sub
 
-    ''' <summary>
-    ''' Export motifs for all of the KO category
-    ''' </summary>
-    ''' <returns></returns>
     Public Iterator Function PopulateMotifs() As IEnumerable(Of Probability)
         For Each KO As String In Me.KO.Keys
             For Each motif As Probability In PopulateMotifs(KO)
@@ -62,20 +58,8 @@ Public Class ConsensusScanner
         Next
     End Function
 
-    ''' <summary>
-    ''' Export motifs for a specific KO category
-    ''' </summary>
-    ''' <param name="KO">KEGG orthology ID</param>
-    ''' <returns></returns>
-    Public Iterator Function PopulateMotifs(KO As String) As IEnumerable(Of Probability)
-        Dim upstreams = KOUpstream(KO)
-        ' 先进行两两比对，找出最相似的片段
-        Dim pairwise As New List(Of Map(Of (query$, subject$), HSP))
-
-        For Each fa As FastaSeq In upstreams
-            For Each fb As FastaSeq In upstreams.Where(Function(s) Not s Is fa)
-
-            Next
-        Next
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function PopulateMotifs(KO As String) As IEnumerable(Of Probability)
+        Return KOUpstream(KO).PopulateMotifs
     End Function
 End Class
