@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6ab9efbd49fab902f2cf3a007c484dfc, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\LicenseInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ae74b9296db08d7df5499dbbecfb6cb2, LicenseMgr\LicenseInfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,21 +25,35 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module LicenseInfoExtensions
+    ' 
+    '     Properties: info
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
-Module LicenseInfo
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 
-    Dim __content As SoftwareToolkits.LicenseInfo
+Module LicenseInfoExtensions
 
-    Public Property info As SoftwareToolkits.LicenseInfo
+    Dim __content As LicenseInfo
+
+    Public Property info As LicenseInfo
         Get
             If __content Is Nothing Then
-                __content = New SoftwareToolkits.LicenseInfo
+                __content = New LicenseInfo
             End If
 
             Return __content
         End Get
-        Set(value As SoftwareToolkits.LicenseInfo)
+        Set(value As LicenseInfo)
             __content = value
         End Set
     End Property

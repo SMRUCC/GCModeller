@@ -1,28 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::82a931dc0b83918cb053220a02060b92, ..\sciBASIC#\vs_solutions\tutorials\core.test\reflectionTest.vb"
+﻿#Region "Microsoft.VisualBasic::a79b5a2c5ee6b97e1a407b9e8782ef31, reflectionTest.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module reflectionTest
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Sub: Main, testDefault
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::700ceb977ff257a3ac7674e64f6c5d4a, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module reflectionTest
+    ' 
+    '     Sub: Main, testDefault
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::82a931dc0b83918cb053220a02060b92, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module reflectionTest
+    ' 
+    '     Sub: Main, testDefault
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -124,3 +163,5 @@ Public Structure ColorTheme
             }
     End Function
 End Structure
+
+

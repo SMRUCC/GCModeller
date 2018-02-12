@@ -1,28 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::32bf033d93b65934e75dc90194c7a96a, ..\sciBASIC#\vs_solutions\tutorials\core.test\LogFileTest.vb"
+﻿#Region "Microsoft.VisualBasic::7822fc9038a3162e341e9f2fbf072c81, LogFileTest.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module LogFileTest
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Sub: Main, PrintTest, WriteTes
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::8fc81cb896b9d27851d6b33e234c6ff9, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module LogFileTest
+    ' 
+    '     Sub: Main, PrintTest, WriteTes
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::32bf033d93b65934e75dc90194c7a96a, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module LogFileTest
+    ' 
+    '     Sub: Main, PrintTest, WriteTes
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -47,3 +86,5 @@ Module LogFileTest
 
     End Sub
 End Module
+
+

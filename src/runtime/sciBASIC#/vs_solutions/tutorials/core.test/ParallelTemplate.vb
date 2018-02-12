@@ -1,28 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::5f7806e3be017574758ccbbca8142932, ..\sciBASIC#\vs_solutions\tutorials\core.test\ParallelTemplate.vb"
+﻿#Region "Microsoft.VisualBasic::ab9785f6578b27340a9d868b0b454005, ParallelTemplate.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module ParallelTemplate
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Sub: Main
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::079c39c18aa05ac55970509e9ad8cfc3, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module ParallelTemplate
+    ' 
+    '     Sub: Main
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::5f7806e3be017574758ccbbca8142932, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module ParallelTemplate
+    ' 
+    '     Sub: Main
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -39,3 +78,5 @@ Module ParallelTemplate
         '   Call Socket.SendMessage(LoadResult.GetSerializeBuffer) '返回内存数据
     End Sub
 End Module
+
+

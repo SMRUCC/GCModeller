@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b725a507b1b53751230cc7318f8dbeff, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\Pages\FolderSymbolic.xaml.vb"
+﻿#Region "Microsoft.VisualBasic::9c038e448e84af2295159d3e505335cf, LicenseMgr\Pages\FolderSymbolic.xaml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,6 +25,19 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FolderSymbolic
+    ' 
+    '         Sub: Admin_Rights, New, Original_Folder, Symlink_Create, UserControl_Initialized
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports FirstFloor.ModernUI.Presentation
@@ -35,6 +49,7 @@ Imports System.Windows.Media
 'Imports Microsoft.VisualBasic.FileIO.SymLinker
 Imports Microsoft
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.ApplicationServices
 'Imports Microsoft.VisualBasic.Windows.Forms
 
 Namespace Pages
@@ -67,9 +82,8 @@ Namespace Pages
             Else
                 Try
 
-                    info.RootDIR = BrowsedFolder.Text
-
-                    Dim failures = SoftwareToolkits.LicenseMgr.Inserts(info)
+                    Dim rootDir$ = BrowsedFolder.Text
+                    Dim failures = Development.LicenseMgr.Inserts(info, rootDir)
 
                     If failures.Length > 0 Then
                         Dim ex As New Exception("These files are write data failures!")

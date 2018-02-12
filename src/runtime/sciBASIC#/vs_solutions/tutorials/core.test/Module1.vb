@@ -1,28 +1,105 @@
-﻿#Region "Microsoft.VisualBasic::12b87139cec3a6fada99e7fcd6855f3d, ..\sciBASIC#\vs_solutions\tutorials\core.test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ca60e3b27c9bd92a969dccdbf9d53657, Module1.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module Module1
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Sub: Main, New
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    '     Structure Foo
+    ' 
+    '         Operators: (+2 Overloads) Like
+    ' 
+    ' 
+    ' 
+    '     Structure Lazy
+    ' 
+    '         Function: LongLoad
+    ' 
+    ' 
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::61a7d586cdb61bfcb962e1aae4ec475f, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module Module1
+    ' 
+    '     Sub: Main, New
+    ' 
+    '     Structure Foo
+    ' 
+    '         Operators: (+2 Overloads) Like
+    ' 
+    ' 
+    ' 
+    '     Structure Lazy
+    ' 
+    '         Function: LongLoad
+    ' 
+    ' 
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::12b87139cec3a6fada99e7fcd6855f3d, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module Module1
+    ' 
+    '     Sub: Main, New
+    ' 
+    ' 
+    '     Structure Foo
+    ' 
+    '         Operators: (+2 Overloads) Like
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Structure Lazy
+    ' 
+    '         Function: LongLoad
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -129,3 +206,5 @@ Module Module1
     End Structure
 
 End Module
+
+

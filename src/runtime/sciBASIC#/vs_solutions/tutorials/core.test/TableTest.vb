@@ -1,28 +1,74 @@
-﻿#Region "Microsoft.VisualBasic::1191a65b2ff94589cc9e086aa8621b65, ..\sciBASIC#\vs_solutions\tutorials\core.test\TableTest.vb"
+﻿#Region "Microsoft.VisualBasic::079cb13fe73306a9e7d59c79b4269ae5, TableTest.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module TableTest
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Function: integers
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    '     Sub: assertTest, main, test_dictionary
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::b2b34e0303713b7851580efd2040bab3, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module TableTest
+    ' 
+    '     Function: integers
+    ' 
+    '     Sub: assertTest, main, test_dictionary
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::1191a65b2ff94589cc9e086aa8621b65, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module TableTest
+    ' 
+    '     Function: integers
+    ' 
+    ' 
+    '     Sub: assertTest, main, test_dictionary
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -71,3 +117,5 @@ Module TableTest
         Next
     End Function
 End Module
+
+

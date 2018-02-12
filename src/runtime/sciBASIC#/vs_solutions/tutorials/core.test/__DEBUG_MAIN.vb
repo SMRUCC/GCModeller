@@ -1,28 +1,93 @@
-﻿#Region "Microsoft.VisualBasic::6660b77ad410437ae8a352f521748860, ..\sciBASIC#\vs_solutions\tutorials\core.test\__DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::b18af9a40d7a1af9221b26fb449da8a2, __DEBUG_MAIN.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module __DEBUG_MAIN
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Function: Main
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    '     Sub: fffff, ListTest, testVariables
+    ' 
+    '     Class TestJSON
+    ' 
+    '         Properties: Data, Extensions, Name
+    ' 
+    ' 
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::6c3aed97d4188e0cde64b5f39037c8b7, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module __DEBUG_MAIN
+    ' 
+    '     Function: Main
+    ' 
+    '     Sub: fffff, ListTest, testVariables
+    ' 
+    '     Class TestJSON
+    ' 
+    '         Properties: Data, Extensions, Name
+    ' 
+    ' 
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::17c41d15ad1a1aac28f5433024a03881, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module __DEBUG_MAIN
+    ' 
+    '     Function: Main
+    ' 
+    ' 
+    '     Sub: fffff, ListTest, testVariables
+    ' 
+    ' 
+    '     Class TestJSON
+    ' 
+    '         Properties: Data, Extensions, Name
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -49,6 +114,8 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
 'Imports Microsoft.VisualBasic.Webservices
 'Imports System.Windows.Forms
+
+' 中文测试
 
 Public Module __DEBUG_MAIN
 
@@ -287,12 +354,12 @@ Public Module __DEBUG_MAIN
 
 
         Dim iii = LicenseMgr.Template
-        iii.RootDIR = "G:\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework"
+        Dim RootDIR = "G:\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework"
 
 
-        Call LicenseMgr.Insert("G:\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Tools\SoftwareToolkits\LicenseMgr.vb", iii)
+        Call LicenseMgr.Insert("G:\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Tools\SoftwareToolkits\LicenseMgr.vb", iii, RootDIR)
 
-        Dim fff = LicenseMgr.Inserts(iii)
+        Dim fff = LicenseMgr.Inserts(iii, RootDIR)
 
         Call this.__DEBUG_ECHO
 
@@ -493,3 +560,5 @@ Public Class sdfsd(Of T1, T3)
     <DumpNode> Public Property safsdfsdf As T3
     <DumpNode> Protected ffff As String = Now.ToString
 End Class
+
+

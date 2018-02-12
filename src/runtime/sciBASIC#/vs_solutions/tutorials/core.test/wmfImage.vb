@@ -1,28 +1,74 @@
-﻿#Region "Microsoft.VisualBasic::1be04f96bf1e0ee3fedc9390bfca589f, ..\sciBASIC#\vs_solutions\tutorials\core.test\wmfImage.vb"
+﻿#Region "Microsoft.VisualBasic::13b86d27c97a627c7ecac05e61be7e6a, wmfImage.vb"
 
     ' Author:
     ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
     ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
+
+
+    ' Source file summaries:
+
+    ' Module wmfImage
     ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
+    '     Function: colorsTest
     ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    '     Sub: Main, replaceColorsTest
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::f573f300673cb9ee52c4ef73c25a91d5, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module wmfImage
+    ' 
+    '     Function: colorsTest
+    ' 
+    '     Sub: Main, replaceColorsTest
+    ' 
+    ' 
+
+#End Region
+
+#Region "Microsoft.VisualBasic::1be04f96bf1e0ee3fedc9390bfca589f, core.test"
+
+    ' Author:
+    ' 
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+
+
+    ' Source file summaries:
+
+    ' Module wmfImage
+    ' 
+    '     Function: colorsTest
+    ' 
+    ' 
+    '     Sub: Main, replaceColorsTest
+    ' 
+    ' 
+    ' 
 
 #End Region
 
@@ -87,3 +133,5 @@ Module wmfImage
         Pause()
     End Sub
 End Module
+
+

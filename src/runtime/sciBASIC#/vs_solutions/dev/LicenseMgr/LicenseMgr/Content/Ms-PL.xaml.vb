@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5386687f6a3b1945115dc69dea2fbb24, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\Content\SettingsAppearance.xaml.vb"
+﻿#Region "Microsoft.VisualBasic::2341461641c672795a56e9ff61d0c358, LicenseMgr\Content\Ms-PL.xaml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,21 +25,43 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Ms_PL
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Text
+Imports System.Threading.Tasks
+Imports System.Windows
 Imports System.Windows.Controls
+Imports System.Windows.Data
+Imports System.Windows.Documents
+Imports System.Windows.Input
+Imports System.Windows.Media
+Imports System.Windows.Media.Imaging
+Imports System.Windows.Navigation
+Imports System.Windows.Shapes
 
 Namespace Content
     ''' <summary>
-    ''' Interaction logic for SettingsAppearance.xaml
+    ''' Interaction logic for Ms_PL.xaml
     ''' </summary>
-    Public Class SettingsAppearance
+    Public Class Ms_PL
         Inherits UserControl
         Public Sub New()
             InitializeComponent()
-
-            ' a simple view model for appearance configuration
-            Me.DataContext = New SettingsAppearanceViewModel()
         End Sub
     End Class
 End Namespace

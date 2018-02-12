@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::92bdf137c2a84222a99b634957ba6b45, ..\sciBASIC#\CLI_tools\LicenseMgr\LicenseMgr\Pages\FileSymbolic.xaml.vb"
+﻿#Region "Microsoft.VisualBasic::cc6253b3d85fc3c3087c8f639f213181, LicenseMgr\Pages\FileSymbolic.xaml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,6 +25,19 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FileSymbolic
+    ' 
+    '         Sub: Admin_Rights, New, Original_File, Symlink_Create, UserControl_Initialized
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports System.IO
@@ -33,6 +47,7 @@ Imports System.Windows.Media
 Imports FirstFloor.ModernUI.Presentation
 Imports FirstFloor.ModernUI.Windows.Controls
 Imports Microsoft
+Imports Microsoft.VisualBasic.ApplicationServices
 'Imports Microsoft.VisualBasic.Windows.Forms
 Imports Microsoft.Win32
 'Imports Microsoft.VisualBasic.FileIO.SymLinker
@@ -71,8 +86,9 @@ Namespace Pages
                 ModernDialog.ShowMessage("You didn't choose a source. Please do it.", "Oops!", MessageBoxButton.OK)
             Else
                 Try
-                    info.RootDIR = BrowsedFile.Text.ParentPath
-                    Call SoftwareToolkits.LicenseMgr.Insert(BrowsedFile.Text, info)
+                    Dim rootDir = BrowsedFile.Text.ParentPath
+
+                    Development.LicenseMgr.Insert(BrowsedFile.Text, info, rootDir)
                     BrowsedFile.Text = "You haven't selected a source yet."
                     ModernDialog.ShowMessage("License information applied success.", "Success!", MessageBoxButton.OK)
                 Catch ex As Exception

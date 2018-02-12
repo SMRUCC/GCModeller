@@ -11,18 +11,25 @@ Namespace ApplicationServices.Development
 
     Public Module VBCodeSignature
 
-        Const AccessPattern$ = "((Public )|(Private )|(Friend )|(Protected )|(Shadows )|(Shared )|(Overrides )|(Overloads )|(Overridable )|(MustOverrides )|(NotInheritable )|(MustInherit ))*"
+        Const AccessPattern$ = "((Partial )|(Public )|(Private )|(Friend )|(Protected )|(Shadows )|(Shared )|(Overrides )|(Overloads )|(Overridable )|(MustOverrides )|(NotInheritable )|(MustInherit ))*"
         Const TypePatterns$ = "^\s*" & AccessPattern & "((Class)|(Module)|(Structure)|(Enum)|(Delegate)|(Interface))\s+" & VBLanguage.IdentiferPattern
         Const PropertyPatterns$ = "^\s+" & AccessPattern & "\s*((ReadOnly )|(WriteOnly )|(Default ))*\s*Property\s+" & VBLanguage.IdentiferPattern
         Const MethodPatterns$ = "^\s+" & AccessPattern & "\s*((Sub )|(Function )|(Iterator )|(Operator ))+\s*" & VBLanguage.IdentiferPattern
         Const OperatorPatterns$ = "^\s+" & AccessPattern & "\s*Operator\s+(([<]|[>]|\=|\+|\-|\*|/|\^|\\)+|(" & VBLanguage.IdentiferPattern & "))"
         Const ClosePatterns$ = "^\s+End\s((Sub)|(Function)|(Class)|(Structure)|(Enum)|(Interface)|(Operator)|(Module))"
-        Const CloseTypePatterns$ = "^\s+End\s((Class)|(Structure)|(Enum)|(Interface)|(Module))"
+        Const CloseTypePatterns$ = "^\s*End\s((Class)|(Structure)|(Enum)|(Interface)|(Module))"
         Const IndentsPattern$ = "^\s+"
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function SummaryModules(vb As String) As String
-            Return New Pointer(Of String)(vb.lTokens).SummaryInternal(vb)
+            Dim vblines As Pointer(Of String) = vb.lTokens
+            Dim summary As New StringBuilder
+
+            Do While Not vblines.EndRead
+                summary.AppendLine(vblines.SummaryInternal(vb))
+            Loop
+
+            Return summary.ToString
         End Function
 
         <Extension>
@@ -58,10 +65,14 @@ Namespace ApplicationServices.Development
                             .ToArray
 
                         Dim enumType As New StringBuilder
+                        Dim memberList = members.memberList
 
                         enumType.AppendLine(indents & type & " " & name)
                         enumType.AppendLine()
-                        enumType.AppendLine(indents & "    " & members.JoinBy(", "))
+
+                        For Each line In memberList
+                            enumType.AppendLine(indents & "    " & line)
+                        Next
 
                         If container.IsEmpty Then
                             Return enumType.ToString
@@ -70,7 +81,7 @@ Namespace ApplicationServices.Development
                         End If
                     Else
                         If container.IsEmpty Then
-                            container = New NamedValue(Of String)(name, type, indents)
+                            container = New NamedValue(Of String)(name, type, indents.Trim(ASCII.CR, ASCII.LF))
                         Else
                             ' 下一层堆栈
                             innerModules.AppendLine((vblines - 1).SummaryInternal(vb))
@@ -110,69 +121,107 @@ Namespace ApplicationServices.Development
                     End If
                 End If
                 If Not (tokens = line.Match(CloseTypePatterns, RegexICMul)).StringEmpty Then
-                    Dim vbType As New StringBuilder
-                    Dim members As New List(Of String)
-                    Dim prefix$
-                    Dim lines$()
-
-                    vbType.AppendLine(container.Description & container.Value & " " & container.Name)
-                    vbType.AppendLine()
-
-                    If Not properties.IsNullOrEmpty Then
-                        prefix = container.Description & "    Properties: "
-                        lines = properties.Keys.memberList
-                        members += prefix & lines(Scan0)
-                        members += lines _
-                            .Skip(1) _
-                            .Select(Function(l) New String(" "c, prefix.Length) & l) _
-                            .JoinBy(ASCII.LF)
-                        members += ""
-                    End If
-                    If Not methods.IsNullOrEmpty Then
-                        Dim types = methods _
-                            .GroupBy(Function(m) m.Value) _
-                            .ToDictionary(Function(t) t.Key,
-                                          Function(l) l.Keys.memberList)
-
-                        If types.ContainsKey("Function") Then
-                            prefix = container.Description & $"    Function: "
-                            members += prefix & types!Function.First
-                            members += types!Function _
-                                .Skip(1) _
-                                .Select(Function(l) New String(" "c, prefix.Length) & l) _
-                                .JoinBy(ASCII.LF)
-                            members += ""
-                        End If
-                        If types.ContainsKey("Sub") Then
-                            prefix = container.Description & $"    Sub: "
-                            members += prefix & types!Sub.First
-                            members += types!Sub _
-                                .Skip(1) _
-                                .Select(Function(l) New String(" "c, prefix.Length) & l) _
-                                .JoinBy(ASCII.LF)
-                            members += ""
-                        End If
-                    End If
-                    If Not operators.IsNullOrEmpty Then
-                        prefix = container.Description & "    Operators: "
-                        lines = operators.Keys.memberList
-                        members += prefix & lines(Scan0)
-                        members += lines _
-                            .Skip(1) _
-                            .Select(Function(l) New String(" "c, prefix.Length) & l) _
-                            .JoinBy(ASCII.LF)
-                        members += ""
-                    End If
-
-                    vbType.AppendLine(members.JoinBy(ASCII.LF))
-                    vbType.AppendLine()
-                    vbType.AppendLine(innerModules.ToString)
-
-                    Return vbType.ToString
+                    Return container.typeSummary(properties, methods, operators, innerModules)
                 End If
             Loop
 
-            Throw New NotImplementedException
+            If Not container.IsEmpty Then
+                Return container.typeSummary(properties, methods, operators, innerModules)
+            ElseIf Not innerModules.Length = 0 Then
+                Return innerModules.ToString
+            Else
+                Return ""
+            End If
+        End Function
+
+        <Extension>
+        Private Function typeSummary(container As NamedValue(Of String),
+                                     properties As List(Of NamedValue(Of String)),
+                                     methods As List(Of NamedValue(Of String)),
+                                     operators As List(Of NamedValue(Of String)),
+                                     innerModules As StringBuilder) As String
+
+            Dim vbType As New StringBuilder
+            Dim members As New List(Of String)
+            Dim prefix$
+            Dim lines$()
+
+            vbType.AppendLine(container.Description & container.Value & " " & container.Name)
+            vbType.AppendLine()
+
+            If Not properties.IsNullOrEmpty Then
+                prefix = container.Description & "    Properties: "
+                lines = properties.Keys.memberList
+                members += prefix & lines(Scan0)
+
+                If lines.Length > 1 Then
+                    members += lines _
+                        .Skip(1) _
+                        .Select(Function(l) New String(" "c, prefix.Length) & l) _
+                        .JoinBy(ASCII.LF)
+                End If
+
+                If Not methods.IsNullOrEmpty Then
+                    members += ""
+                End If
+            End If
+            If Not methods.IsNullOrEmpty Then
+                Dim types = methods _
+                    .GroupBy(Function(m) m.Value) _
+                    .ToDictionary(Function(t) t.Key,
+                                  Function(l) l.Keys.memberList)
+
+                If types.ContainsKey("Function") Then
+                    prefix = container.Description & $"    Function: "
+                    members += prefix & types!Function.First
+
+                    If types!Function.Length > 1 Then
+                        members += types!Function _
+                            .Skip(1) _
+                            .Select(Function(l) New String(" "c, prefix.Length) & l) _
+                            .JoinBy(ASCII.LF)
+                    End If
+
+                    If types.Count > 1 Then
+                        members += ""
+                    End If
+                End If
+                If types.ContainsKey("Sub") Then
+                    prefix = container.Description & $"    Sub: "
+                    members += prefix & types!Sub.First
+
+                    If types!Sub.Length > 1 Then
+                        members += types!Sub _
+                            .Skip(1) _
+                            .Select(Function(l) New String(" "c, prefix.Length) & l) _
+                            .JoinBy(ASCII.LF)
+                    End If
+
+                    If Not operators.IsNullOrEmpty Then
+                        members += ""
+                    End If
+                End If
+            End If
+            If Not operators.IsNullOrEmpty Then
+                prefix = container.Description & "    Operators: "
+                lines = operators.Keys.memberList
+                members += prefix & lines(Scan0)
+
+                If lines.Length > 1 Then
+                    members += lines _
+                        .Skip(1) _
+                        .Select(Function(l) New String(" "c, prefix.Length) & l) _
+                        .JoinBy(ASCII.LF)
+                End If
+            End If
+
+            vbType.AppendLine(members.JoinBy(ASCII.LF))
+
+            If innerModules.Length > 0 Then
+                vbType.AppendLine(innerModules.ToString)
+            End If
+
+            Return vbType.ToString
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
