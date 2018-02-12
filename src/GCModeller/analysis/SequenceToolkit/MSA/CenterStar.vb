@@ -3,7 +3,20 @@ Imports System.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
-''' https://github.com/EranCohenSW/Multiple-sequence-alignment/blob/master/Project/src/CenterStar.java
+''' ##### Multiple-sequence-alignment
+''' 
+''' This program calculates the multiple sequence alignment of k>1 DNA sequences.
+''' 
+''' The program use the Matrix.txt file For the substitution matrix. The matrix 
+''' can be changed, And it used With Default values As: 
+''' 
+''' + 0 - Match
+''' + 1 - Missmatch
+''' + 2 - Indel
+''' 
+''' Algorithm used For this purpose Is Center Star Algotrithm
+''' 
+''' > https://github.com/EranCohenSW/Multiple-sequence-alignment/blob/master/Project/src/CenterStar.java
 ''' </summary>
 Public Module CenterStar
 
