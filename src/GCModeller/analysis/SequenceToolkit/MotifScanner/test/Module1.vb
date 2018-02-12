@@ -1,13 +1,21 @@
 ﻿Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.ContextModel.Promoter
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Module1
 
     Sub Main()
 
+        Call seeding()
+
         Call scanerTest()
 
         Call loadTest()
+    End Sub
+
+    Sub seeding()
+        Dim test As FastaFile = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta")
+        Dim result = test.PopulateMotifs.ToArray
     End Sub
 
     Sub scanerTest()
