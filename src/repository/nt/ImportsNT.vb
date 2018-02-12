@@ -30,7 +30,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Scripting
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySqli
@@ -59,7 +59,7 @@ Public Module ImportsNT
 
         End Try
 
-        For Each seq As FastaToken In StreamIterator.SeqSource(nt, debug:=True)
+        For Each seq As FastaSeq In StreamIterator.SeqSource(nt, debug:=True)
             For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
                 Dim gi& = CLng(Val(h.gi))
 

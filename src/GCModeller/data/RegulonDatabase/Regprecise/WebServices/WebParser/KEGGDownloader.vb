@@ -60,10 +60,10 @@ Namespace Regprecise
                                            Bacteria As BacteriaRegulome,
                                            ErrLog As LogFile,
                                            DownloadDirectory As String,
-                                           FastaSaved As String) As FASTA.FastaToken
+                                           FastaSaved As String) As FASTA.FastaSeq
 
             If FileIO.FileSystem.FileExists(FastaSaved) AndAlso FileIO.FileSystem.GetFileInfo(FastaSaved).Length > 0 Then
-                Return FASTA.FastaToken.Load(FastaSaved)
+                Return FASTA.FastaSeq.Load(FastaSaved)
             End If
 
             Dim FastaObject = RegulatorDownloads(Regulator.locus_tag.name, ErrLog, Bacteria.genome.name)
@@ -79,7 +79,7 @@ Namespace Regprecise
         <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
         Public Function RegulatorDownloads(locusTag As String,
                                            ErrLog As LogFile,
-                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As FastaToken
+                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As FastaSeq
             Dim EntryList = WebRequest.HandleQuery(locusTag)
             If EntryList.IsNullOrEmpty Then
                 Dim Msg = String.Format("[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}]", locusTag, bacteria)
@@ -107,11 +107,11 @@ Namespace Regprecise
 
         <ExportAPI("Regulator.Downloads")>
         Public Function RegulatorDownloads(Regulator As JSON.regulator, ErrLog As LogFile) As Regprecise.FastaReaders.Regulator
-            Dim Fasta As FastaToken = RegulatorDownloads(Regulator.locusTag, ErrLog, Regulator.ToString)
+            Dim Fasta As FastaSeq = RegulatorDownloads(Regulator.locusTag, ErrLog, Regulator.ToString)
             If Fasta Is Nothing Then
                 Return Nothing
             End If
-            Dim KEGG As String = Fasta.Attributes(Scan0).Split.First
+            Dim KEGG As String = Fasta.Headers(Scan0).Split.First
             Dim RegulatorFasta As New Regprecise.FastaReaders.Regulator With {
                 .Family = Regulator.regulatorFamily,
                 .KEGG = KEGG,

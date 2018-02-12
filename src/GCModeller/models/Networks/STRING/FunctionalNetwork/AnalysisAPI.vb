@@ -62,7 +62,7 @@ Public Module AnalysisAPI
             radius:=radius,
             groupLowerBounds:=4)
 
-            Return (model, .ref)
+            Return (model, .ByRef)
         End With
     End Function
 

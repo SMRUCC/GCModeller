@@ -51,7 +51,7 @@ Namespace Assembly.Bac_sRNA.org
             End Set
         End Property
 
-        Dim __raw As FastaToken
+        Dim __raw As FastaSeq
 
         Sub New()
         End Sub
@@ -74,7 +74,7 @@ Namespace Assembly.Bac_sRNA.org
                 UniqueId, Specie, name,
                 CStr(loci.Left), CStr(loci.Right), loci.Strand.ToString
             }
-            __raw = New FastaToken(attrs, seq)
+            __raw = New FastaSeq(attrs, seq)
         End Sub
 
         Sub New(atts As String())
@@ -86,11 +86,11 @@ Namespace Assembly.Bac_sRNA.org
                                                atts(5).GetStrand))
         End Sub
 
-        Public Shared Function [CType](fa As FastaToken) As Sequence
+        Public Shared Function [CType](fa As FastaSeq) As Sequence
             Return New Sequence With {
-                ._UniqueId = fa.Attributes(Scan0),
-                ._Specie = fa.Attributes(1),
-                ._Name = fa.Attributes(2),
+                ._UniqueId = fa.Headers(Scan0),
+                ._Specie = fa.Headers(1),
+                ._Name = fa.Headers(2),
                 .__raw = fa
             }
         End Function
@@ -99,15 +99,15 @@ Namespace Assembly.Bac_sRNA.org
             Return __raw.GetJson
         End Function
 
-        Public Function ToFasta() As FastaToken
-            Return New FastaToken(__raw.Attributes, __raw.SequenceData)
+        Public Function ToFasta() As FastaSeq
+            Return New FastaSeq(__raw.Headers, __raw.SequenceData)
         End Function
 
         Protected Overrides Function __getMappingLoci() As NucleotideLocation
             Return New NucleotideLocation With {
-                .Left = __raw.Attributes(3),
-                .Right = __raw.Attributes(4),
-                .Strand = LociAPI.GetStrand(__raw.Attributes(5))
+                .Left = __raw.Headers(3),
+                .Right = __raw.Headers(4),
+                .Strand = LociAPI.GetStrand(__raw.Headers(5))
             }
         End Function
     End Class

@@ -47,9 +47,9 @@ Public Class ProteinChain : Inherits ITextFile
     ''' <remarks></remarks>
     <XmlElement> Public Property InterfaceOnSurface As KeyValuePairObject(Of String, Integer())()
 
-    Public Function ToFASTA() As FASTA.FastaToken
-        Dim FsaObject As FASTA.FastaToken = New FASTA.FastaToken With {.SequenceData = SequenceData}
-        FsaObject.Attributes = New String() {String.Format("[PdbId:={0}] [ChainId:={1}]", PdbId, ChainId)}
+    Public Function ToFASTA() As FASTA.FastaSeq
+        Dim FsaObject As FASTA.FastaSeq = New FASTA.FastaSeq With {.SequenceData = SequenceData}
+        FsaObject.Headers = New String() {String.Format("[PdbId:={0}] [ChainId:={1}]", PdbId, ChainId)}
         Return FsaObject
     End Function
 

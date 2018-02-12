@@ -76,7 +76,7 @@ Partial Module CLI
 
         With args <= "/custom"
             If .FileExists(True) Then
-                KEGG_PATH = PathwayMapping.CustomPathwayTable(ko00001:= .ref)
+                KEGG_PATH = PathwayMapping.CustomPathwayTable(ko00001:= .ByRef)
             End If
         End With
 
@@ -147,7 +147,7 @@ Partial Module CLI
 
         With args <= "/DEPs"
             If .FileLength > 0 Then
-                Dim DEPgenes = EntityObject.LoadDataSet(.ref).SplitID.ToArray
+                Dim DEPgenes = EntityObject.LoadDataSet(.ByRef).SplitID.ToArray
                 Dim isDEP As Func(Of EntityObject, Boolean) =
                     Function(gene)
                         Return gene("is.DEP").TextEquals("TRUE")

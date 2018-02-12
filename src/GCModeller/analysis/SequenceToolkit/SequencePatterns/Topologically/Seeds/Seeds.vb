@@ -34,6 +34,17 @@ Namespace Topologically.Seeding
     Public Module Seeds
 
         ''' <summary>
+        ''' 将所输入的位于目标序列<paramref name="seq"/>之上的所有的有效的种子<paramref name="seeds"/>都拿出来
+        ''' </summary>
+        ''' <param name="seeds"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function PopulateExistsSeeds(seq$, seeds As IEnumerable(Of String)) As IEnumerable(Of String)
+            Return seeds.Where(Function(s) seq.IndexOf(s) > -1)
+        End Function
+
+        ''' <summary>
         ''' 延伸种子的长度
         ''' </summary>
         ''' <param name="source"></param>
@@ -41,9 +52,11 @@ Namespace Topologically.Seeding
         ''' <returns></returns>
         <Extension>
         Public Function ExtendSequence(source As IEnumerable(Of String), Chars As Char()) As List(Of String)
-            Return LinqAPI.MakeList(Of String) <= From s As String
-                                                  In source.AsParallel
-                                                  Select Seeds.Combo(s, Chars)
+            Return LinqAPI.MakeList(Of String) _
+ _
+                () <= From s As String
+                      In source.AsParallel
+                      Select Seeds.Combo(s, Chars)
         End Function
 
         ''' <summary>
@@ -53,37 +66,46 @@ Namespace Topologically.Seeding
         ''' <param name="length"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function InitializeSeeds(chars As Char(), length As Integer) As List(Of String)
-            Dim tmp As List(Of String) = New List(Of String) From {""}
+        Public Function InitializeSeeds(chars As Char(), length%) As List(Of String)
+            Dim tmp As New List(Of String) From {""}
 
             For i As Integer = 1 To length
                 tmp = ExtendSequence(tmp, chars)
             Next
 
-            Return LinqAPI.MakeList(Of String) <=
-                From s As String
-                In tmp
-                Select s
-                Order By s Descending
+            Return LinqAPI.MakeList(Of String) _
+ _
+                () <= From s As String
+                      In tmp
+                      Select s
+                      Order By s Descending
         End Function
 
         <Extension>
-        Public Function InitializeSeeds(chars As Char(), length As Integer, sequence As String) As String()
+        Public Function InitializeSeeds(chars As Char(), length%, sequence$) As String()
             Dim buf As List(Of String) = InitializeSeeds(chars, length)
-            Dim LQuery As String() =
-                LinqAPI.Exec(Of String) <= From seed As String
-                                           In buf.AsParallel
-                                           Where InStr(sequence, seed, CompareMethod.Text) > 0
-                                           Select seed
+            Dim LQuery$() = LinqAPI.Exec(Of String) _
+ _
+                () <= From seed As String
+                      In buf.AsParallel
+                      Where InStr(sequence, seed, CompareMethod.Text) > 0
+                      Select seed
+
             Return LQuery
         End Function
 
-        <Extension>
-        Public Function Combo(Sequence As String, Chars As Char()) As String()
-            Return LinqAPI.Exec(Of String) <=
-                From ch As Char
-                In Chars
-                Select Sequence & CStr(ch)
+        ''' <summary>
+        ''' Extend target <paramref name="seq"/> with one base character.
+        ''' </summary>
+        ''' <param name="seq$"></param>
+        ''' <param name="Chars"></param>
+        ''' <returns></returns>
+        <Extension> Public Function Combo(seq$, Chars As Char()) As String()
+            Return LinqAPI.Exec(Of String) _
+ _
+                () <= From ch As Char
+                      In Chars
+                      Select seq & CStr(ch)
         End Function
     End Module
 End Namespace

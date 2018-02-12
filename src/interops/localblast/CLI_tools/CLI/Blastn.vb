@@ -337,7 +337,7 @@ Partial Module CLI
         Dim [in] As String = args("/reads")
         Dim maps As String = args("/maps")
         Dim out As String = args.GetValue("/out", maps.TrimSuffix & "-" & [in].BaseName & "/")
-        Dim fasta As IEnumerable(Of FastaToken)
+        Dim fasta As IEnumerable(Of FastaSeq)
         Dim mappings As IEnumerable(Of BlastnMapping)
 
         If [in].DirectoryExists Then
@@ -353,7 +353,7 @@ Partial Module CLI
         End If
 
         Dim chrs = (From x As BlastnMapping In mappings Select x Group x By x.Reference Into Group)
-        Dim hash As Dictionary(Of String, FastaToken()) = (From x As FastaToken
+        Dim hash As Dictionary(Of String, FastaSeq()) = (From x As FastaSeq
                                                            In fasta
                                                            Select x
                                                            Group x By x.Title Into Group) _
@@ -361,7 +361,7 @@ Partial Module CLI
                                                                               Function(x) x.Group.ToArray)
         For Each chrom In chrs
             Dim path As String = out & "/" & chrom.Reference.NormalizePathString & ".fasta"
-            Dim c = LinqAPI.Exec(Of FastaToken) <= From read
+            Dim c = LinqAPI.Exec(Of FastaSeq) <= From read
                                                    In (From x As BlastnMapping
                                                        In chrom.Group
                                                        Select x  ' 因为可能会有多个位置被比对上，所以在这里还需要再进行一次Group操作
@@ -384,9 +384,9 @@ Partial Module CLI
     End Function
 
     <Extension>
-    Private Iterator Function __loads(DIR As String) As IEnumerable(Of FastaToken)
+    Private Iterator Function __loads(DIR As String) As IEnumerable(Of FastaSeq)
         For Each file As String In ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa", "*.fna") <= DIR
-            For Each fa As FastaToken In New FastaFile(file)
+            For Each fa As FastaSeq In New FastaFile(file)
                 Yield fa
             Next
         Next

@@ -118,7 +118,7 @@ Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction
                                 End Function
                 )
                 If Not list.ContainsKey(.Entry) Then
-                    list(.Entry) = .ref
+                    list(.Entry) = .ByRef
                 End If
             End With
         Next

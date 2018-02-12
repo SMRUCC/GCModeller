@@ -44,7 +44,7 @@ Namespace Model
     Public Module StoreProcedure
 
         <Extension>
-        Public Function ToTableFrame(worksheet As worksheet, strings As sharedStrings) As csv
+        Public Function ToTableFrame(worksheet As worksheets.worksheet, strings As sharedStrings) As csv
             Dim getValues As IEnumerable(Of RowObject) = worksheet _
                 .sheetData _
                 .rows _
@@ -65,10 +65,10 @@ Namespace Model
                 colIndex = cellIndex.Y ' 因为这里都是同一行的数据，所以只取列下标即可
 
                 With col.sharedStringsRef
-                    If .ref = -1 Then
+                    If .ByRef = -1 Then
                         [string] = col.v
                     Else
-                        [string] = strings.strings(.ref).t
+                        [string] = strings.strings(.ByRef).t
                     End If
                 End With
 
@@ -78,6 +78,12 @@ Namespace Model
             Return csv
         End Function
 
+        ''' <summary>
+        ''' 创建新的表格对象
+        ''' </summary>
+        ''' <param name="table"></param>
+        ''' <param name="strings"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function CreateWorksheet(table As csv, strings As sharedStrings) As worksheet
             Dim stringTable = strings.ToHashTable

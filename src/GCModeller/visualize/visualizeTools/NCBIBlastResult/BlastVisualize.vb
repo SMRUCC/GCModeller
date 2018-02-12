@@ -138,7 +138,7 @@ Namespace NCBIBlastResult
             Return AlignmentTableParserAPI.CreateFromBlastn(source)
         End Function
 
-        Private Function InternalShortID_s(srcFasta As FASTA.FastaToken) As String
+        Private Function InternalShortID_s(srcFasta As FASTA.FastaSeq) As String
             Dim ss As String = Regex.Match(srcFasta.Title, "(emb|gb|dbj)\|[a-z]+\d+(\.\d+)?", RegexOptions.IgnoreCase).Value
 
             If Not String.IsNullOrEmpty(ss) Then
@@ -162,14 +162,14 @@ Namespace NCBIBlastResult
                                            "if this dir path parameter is not empty then the function will export the entry information into the directory that this parameter specificed.")>
                                 Optional EXPORT$ = "") As FastaFile
 
-            Dim LQuery = (From fa As FastaToken
+            Dim LQuery = (From fa As FastaSeq
                           In data
                           Let ShortID_s As String = InternalShortID_s(fa)
                           Select ShortID_s,
                               fa.Title,
                               Fasta = fa).ToArray
 
-            Const attrs$ = NameOf(FastaToken.Attributes)
+            Const attrs$ = NameOf(FastaSeq.Headers)
 
             With LQuery
                 VBLinq _
@@ -548,7 +548,7 @@ CONTINUTE:
                                 <Parameter("using.id.type.alt", "idType: 1 -> locusID; 2 -> geneName + id_number; 3 -> only display gene name, default value is 1 (locusID)")> Optional idType% = 1,
                                 <Parameter("using.arrow.type.alt")> Optional ArrowAlternativeStyle As Boolean = False,
                                 <Parameter("align.color.schema", "The alignment hit bar color.")> Optional AlignmentColorSchema$ = "bit_scores",
-                                <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FastaToken = Nothing,
+                                <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FastaSeq = Nothing,
                                 <Parameter("using.id.anno.alt")> Optional AltIDAnnotation As Boolean = False,
                                 <Parameter("query.color.none")> Optional QueryNoColor As Boolean = False,
                                 <Parameter("identity.color.none")> Optional IdentityNoColor As Boolean = True,

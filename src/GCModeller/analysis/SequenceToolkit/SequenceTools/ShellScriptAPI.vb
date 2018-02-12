@@ -45,8 +45,8 @@ Public Module ShellScriptAPI
 
     <ExportAPI("search.title_keyword")>
     Public Function SearchByTitleKeyword(fasta As FastaFile, Keyword As String) As FastaFile
-        Dim LQuery As FastaToken() =
-            LinqAPI.Exec(Of FastaToken) <= From fa As FastaToken
+        Dim LQuery As FastaSeq() =
+            LinqAPI.Exec(Of FastaSeq) <= From fa As FastaSeq
                                            In fasta
                                            Where InStr(fa.Title, Keyword, CompareMethod.Binary) > 0
                                            Select fa
@@ -59,7 +59,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("reverse")>
-    Public Function Reverse(fasta As FastaToken) As FastaFile
+    Public Function Reverse(fasta As FastaSeq) As FastaFile
         Return fasta.Reverse
     End Function
 
@@ -74,12 +74,12 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("get_fasta")>
-    Public Function GetObject(fasta As FastaFile, index As Integer) As FastaToken
+    Public Function GetObject(fasta As FastaFile, index As Integer) As FastaSeq
         Return fasta.Item(index)
     End Function
 
     <ExportAPI("get_sequence")>
-    Public Function GetSequenceData(fsa As FastaToken) As String
+    Public Function GetSequenceData(fsa As FastaSeq) As String
         Return fsa.SequenceData
     End Function
 
@@ -118,7 +118,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Search")>
-    Public Function PatternSearch(Fasta As FastaToken, Pattern As String) As SegLoci()
+    Public Function PatternSearch(Fasta As FastaSeq, Pattern As String) As SegLoci()
         Throw New NotImplementedException
     End Function
 
@@ -128,7 +128,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Align")>
-    Public Function Align(query As FastaToken, subject As FastaToken, Optional cost As Double = 0.7) As AlignmentResult
+    Public Function Align(query As FastaSeq, subject As FastaSeq, Optional cost As Double = 0.7) As AlignmentResult
         Return New AlignmentResult(query, subject, cost)
     End Function
 End Module

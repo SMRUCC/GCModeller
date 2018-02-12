@@ -52,7 +52,7 @@ Namespace SangerSNPs
                 bases_for_snps(i) = New Char(snps.length_of_genome - 1) {}
             Next
 
-            For Each fa As FastaToken In fasta
+            For Each fa As FastaSeq In fasta
                 Dim seq As Char() = fa.SequenceData.ToCharArray
 
                 If sequenceNumber = 0 Then
@@ -100,7 +100,7 @@ Namespace SangerSNPs
             snps.length_of_genome = 0
             snps.sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
 
-            For Each fa As FastaToken In fasta
+            For Each fa As FastaSeq In fasta
 
                 If snps.number_of_samples = 0 Then
                     snps.length_of_genome = fa.Length

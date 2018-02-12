@@ -45,7 +45,7 @@ Public Module GCWindows
     ''' <param name="steps"></param>
     ''' <param name="[property]"><see cref="GCSkew"/> or <see cref="GCContent"/> or your custom engine.</param>
     ''' <returns></returns>
-    Public Iterator Function GetWindows(nt As FastaToken, slideWin As Integer, steps As Integer, Optional [property] As NtProperty = Nothing) As IEnumerable(Of NucleotideLocation)
+    Public Iterator Function GetWindows(nt As FastaSeq, slideWin As Integer, steps As Integer, Optional [property] As NtProperty = Nothing) As IEnumerable(Of NucleotideLocation)
         Dim gc As Double() = If([property] Is Nothing, New NtProperty(AddressOf GCSkew), [property])(nt, slideWin, steps, True)
         Dim avg As Double = gc.Average
         Dim pdelta As Double = (gc.Max - gc.Min) / 10

@@ -71,7 +71,7 @@ Namespace ComponentModel.EquaionModel
                     Throw New Exception(msg, ex)
                 End Try
 
-                Return .ref
+                Return .ByRef
             End With
         End Function
 

@@ -117,7 +117,7 @@ Public Module PathwayMap
                             If drugs.ContainsKey(cpdID) Then
                                 With drugs(cpdID)
                                     If Not .IsNullOrEmpty Then
-                                        replaceList += .ref
+                                        replaceList += .ByRef
                                     End If
                                 End With
                             Else

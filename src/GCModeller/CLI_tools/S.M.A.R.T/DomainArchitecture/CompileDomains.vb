@@ -138,7 +138,7 @@ Public Class CompileDomains
                          In QueryIteration.Hits
                          Where Hit.HitLength / Val(Hit.Len) > 0.85 AndAlso Math.Abs(Hit.HitLength - Hit.QueryLength) < 20
                          Let Idx As Long = Val(Regex.Match(Hit.Id, "\d+").Value)
-                         Let SmpFile = DomainInfo.Query(SubjectDb(Idx - 1).Attributes(1), CddDb)
+                         Let SmpFile = DomainInfo.Query(SubjectDb(Idx - 1).Headers(1), CddDb)
                          Select New DomainObject(SmpFile) With {
                              .Position = New Location() With {
                                     .Left = Val(Hit.Hsps.First.HitFrom),

@@ -82,13 +82,13 @@ Public Module SSDB
                     Continue For
                 End If
 
-                Dim seq As FastaToken =
+                Dim seq As FastaSeq =
                     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(
                     region,
                     org:=code,
                     vector:=loci.Strand)
 
-                seq.Attributes = {title}
+                seq.Headers = {title}
 
                 Call write.WriteLine(seq.GenerateDocument(60))
                 Call Thread.Sleep(1500)

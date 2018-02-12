@@ -47,7 +47,7 @@ Namespace Workflows.PromoterParser
         End Sub
 
         Private Sub InitalizeOperons(DoorFile As String, OS As String)
-            Dim GenomeSeq As FASTA.FastaToken = SMRUCC.genomics.SequenceModel.FASTA.FastaToken.LoadNucleotideData(OS)
+            Dim GenomeSeq As FASTA.FastaSeq = SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.LoadNucleotideData(OS)
             Dim Door As Assembly.DOOR.OperonView = Me.DoorOperonView
 
             Me.Promoter_150 = CreateObject(150, Door, GenomeSeq)
@@ -60,14 +60,14 @@ Namespace Workflows.PromoterParser
             Me.Promoter_500 = CreateObject(500, Door, GenomeSeq)
         End Sub
 
-        Private Shared Function CreateObject(SegmentLength As Integer, Door As OperonView, GenomeSeq As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(SegmentLength As Integer, Door As OperonView, GenomeSeq As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaSeq)
             Dim LQuery = (From i As Integer
                           In Door.Operons.Sequence.AsParallel
                           Let Operon = Door.Operons(i)
                           Let FirstGene = Operon.InitialX
                           Select Operon.Key,
                               PromoterFasta = GetFASTA(i, SegmentLength, Operon, FirstGene, GenomeSeq)).ToArray
-            Dim DictData As Dictionary(Of String, SMRUCC.genomics.SequenceModel.FASTA.FastaToken) =
+            Dim DictData As Dictionary(Of String, SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) =
                 LQuery.ToDictionary(Function(obj) obj.Key, elementSelector:=Function(obj) obj.PromoterFasta)
             Return DictData
         End Function
@@ -77,11 +77,11 @@ Namespace Workflows.PromoterParser
                                          Operon As Operon,
                                          FirstGene As OperonGene,
                                          GenomeSeq As IPolymerSequenceModel) _
-            As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+            As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq
 
-            Dim PromoterFsa As SequenceModel.FASTA.FastaToken =
-                New SequenceModel.FASTA.FastaToken With {
-                .Attributes = New String() {
+            Dim PromoterFsa As SequenceModel.FASTA.FastaSeq =
+                New SequenceModel.FASTA.FastaSeq With {
+                .Headers = New String() {
                     $"lcl_{i + 1} [AssociatedOperon={Operon.Key}] [OperonPromoter={FirstGene.Synonym}; {FirstGene.Location.ToString}] [OperonGenes={ViewAPI.GenerateLstIdString(Operon)}]"}}
 
             Dim Location As NucleotideLocation = FirstGene.Location

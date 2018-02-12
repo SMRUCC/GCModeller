@@ -115,7 +115,7 @@ Partial Module Utilities
     <ExportAPI("/CAI", Usage:="/CAI /ORF <orf_nt.fasta> [/out <out.XML>]")>
     <Argument("/ORF", False, CLITypes.File,
               PipelineTypes.std_in,
-              AcceptTypes:={GetType(FastaFile), GetType(FastaToken)},
+              AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
               Description:="If the target fasta file contains multiple sequence, then the CAI table xml will output to a folder or just output to a xml file if only one sequence in thye fasta file.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function CAI(args As CommandLine) As Integer
@@ -124,13 +124,13 @@ Partial Module Utilities
 
         If fasta.NumberOfFasta = 1 Then
             Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex.XML")
-            Dim prot As FastaToken = fasta.First
+            Dim prot As FastaSeq = fasta.First
             Dim table As New CodonAdaptationIndex(New RelativeCodonBiases(prot))
             Return table.SaveAsXml(out).CLICode
         Else
             Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex/")
 
-            For Each prot As FastaToken In fasta
+            For Each prot As FastaSeq In fasta
                 Dim table As New CodonAdaptationIndex(New RelativeCodonBiases(prot))
                 Dim path$ = out & "/" & prot.Title.NormalizePathString & ".XML"
                 Call table.SaveAsXml(path)

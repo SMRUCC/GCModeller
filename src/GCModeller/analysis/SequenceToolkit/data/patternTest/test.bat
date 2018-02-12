@@ -1,0 +1,1 @@
+seqtools --Palindrome.Imperfects /in ./palindrome.fasta /min 3 /max 20 /cutoff 0.6 /max-dist 100

@@ -202,7 +202,7 @@ Partial Module CLI
                     Dim experiment = totals(group)
                     Dim relative# = experiment.proteins(protein.ID) / experiment.total ' * 100%
 
-                    .ref(group) = relative
+                    .ByRef(group) = relative
                 Next
 
                 !AVERAGE = (Aggregate s In .Properties.Values Into Average(Val(s))) * 100%
@@ -210,7 +210,7 @@ Partial Module CLI
                 !fullName = uniprots(protein.ID) _
                 !fullName
 
-                relativeAmounts += .ref
+                relativeAmounts += .ByRef
             End With
         Next
 

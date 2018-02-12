@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::38bd0eb58c4ca738a9fa2908b0bb18fc, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunschArguments.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
 Imports System.Linq
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
 
 ''' <summary>
 ''' Base class for the Needleman-Wunsch Algorithm
@@ -123,13 +123,13 @@ Public Class NeedlemanWunschArguments(Of T)
     ''' <returns> score </returns>
     Public Property Score As Integer
 
-    Sub New(match As IEquals(Of T), toChar As Func(Of T, Char))
+    Sub New(match As Equals(Of T), toChar As Func(Of T, Char))
         __equals = match
         __toChar = toChar
     End Sub
 
     Protected ReadOnly __toChar As Func(Of T, Char)
-    ReadOnly __equals As IEquals(Of T)
+    ReadOnly __equals As Equals(Of T)
 
     ''' <summary>
     ''' if char a is equal to char b

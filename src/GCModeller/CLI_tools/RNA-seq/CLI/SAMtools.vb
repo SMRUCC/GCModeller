@@ -191,7 +191,7 @@ Partial Module CLI
         If ref.FileExists Then
             Dim rawRef As New FastaFile(ref)
 
-            tagsHash = (From x As FastaToken
+            tagsHash = (From x As FastaSeq
                         In rawRef
                         Select x,
                             sid = x.Title.Split.First
@@ -273,7 +273,7 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
         Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
         Dim ref$ = args <= "/ref"
-        Dim provider As Func(Of String(), IEnumerable(Of FastaToken))
+        Dim provider As Func(Of String(), IEnumerable(Of FastaSeq))
 
         If ref.FileExists Then
             provider = Function(locus)
@@ -308,7 +308,7 @@ Partial Module CLI
     <ExportAPI("/Export.SAM.Maps",
                Usage:="/Export.SAM.Maps /in <in.sam> [/large /contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
     <Argument("/raw", True,
-              AcceptTypes:={GetType(FastaFile), GetType(FastaToken)},
+              AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
               Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -348,7 +348,7 @@ Partial Module CLI
                 Using rawRef As New StreamIterator(ref)
                     tagsHash = New Dictionary(Of String, String)
 
-                    For Each x As FastaToken In rawRef.ReadStream
+                    For Each x As FastaSeq In rawRef.ReadStream
                         Dim sid$ = x.Title.Split.First
 
                         If Not tagsHash.ContainsKey(sid) Then
@@ -557,7 +557,7 @@ Partial Module CLI
         Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
             Call writer.WriteLine("> " & [in].BaseName)
 
-            For Each fa As FastaToken In StreamIterator.SeqSource(handle:=[in], debug:=True)
+            For Each fa As FastaSeq In StreamIterator.SeqSource(handle:=[in], debug:=True)
                 Call writer.Write(fa.SequenceData)
                 Call writer.Write(Interval)
 

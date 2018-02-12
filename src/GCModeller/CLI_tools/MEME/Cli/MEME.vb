@@ -120,7 +120,7 @@ Partial Module CLI
             Return -100
         End If
 
-        Dim NtSequence = FastaToken.Load(Nt)
+        Dim NtSequence = FastaSeq.Load(Nt)
         Dim LQuery = (From path As String
                       In Files
                       Let MotifSites = New MEME_Suite.Analysis.MotifScans.MotifScans(

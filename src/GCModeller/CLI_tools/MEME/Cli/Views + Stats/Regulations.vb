@@ -152,14 +152,14 @@ Partial Module CLI
                         Select regu
                         Group regu By regu.Regulator Into Group).ToArray
         For Each regulatss In Promotes
-            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
+            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaSeq With {.Headers = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
             Dim path As String = outDIR & $"/MEME/UP/fa/{regulatss.Regulator}.fasta"
             Call New FastaFile(fa).Save(path)
         Next
 
         Promotes = (From regu In coreRegulations Where regu.Pcc < 0 Select regu Group regu By regu.Regulator Into Group).ToArray
         For Each regulatss In Promotes
-            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
+            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaSeq With {.Headers = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
             Dim path As String = outDIR & $"/MEME/Supress/fa/{regulatss.Regulator}.fasta"
             Call New FastaFile(fa).Save(path)
         Next

@@ -77,7 +77,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         Sub New()
             With App.GetVariable("/sleep")
                 If Not .StringEmpty Then
-                    sleep = Val(.ref)
+                    sleep = Val(.ByRef)
                 End If
 
                 If sleep <= 0 Then

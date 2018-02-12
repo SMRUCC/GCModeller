@@ -197,7 +197,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <returns></returns>
         <ExportAPI("Sigma70.Parser")>
         <Extension>
-        Public Function Sigma70Parser(genomeOS As FASTA.FastaToken,
+        Public Function Sigma70Parser(genomeOS As FASTA.FastaSeq,
                                       PTT As PTT,
                                       Optional StrictOverlap As Boolean = False,
                                       Optional Length As Integer = 100) As FASTA.FastaFile
@@ -222,7 +222,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
         <ExportAPI("Sigma70.Parser")>
-        Public Function Sigma70Parser(genomeOS As FASTA.FastaToken,
+        Public Function Sigma70Parser(genomeOS As FASTA.FastaSeq,
                                       PTT As PTT,
                                       Motifs As IEnumerable(Of Motif),
                                       Optional StrictOverlap As Boolean = False,
@@ -251,7 +251,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
             Return True
         End Function
 
-        Delegate Function GetFastaToken(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaToken
+        Delegate Function GetFastaToken(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
 
         ''' <summary>
         ''' 不管链的方向，只要发生了重叠就必须要剪裁
@@ -260,7 +260,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="PTT"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
-        Public Function TrimStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaToken
+        Public Function TrimStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
             Return OverlapCommon(PTT.GeneObjects, Reader, GeneObject, Length)
         End Function
 
@@ -273,7 +273,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="Reader"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
-        Private Function OverlapCommon(Genes As GeneBrief(), Reader As IPolymerSequenceModel, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaToken
+        Private Function OverlapCommon(Genes As GeneBrief(), Reader As IPolymerSequenceModel, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
             Dim Loci As NucleotideLocation = GeneObject.Location.GetUpStreamLoci(Length)
             'Dim RelatedGenes = Genes.GetRelatedGenes(Loci.Left, Loci.Right, 0)
 
@@ -346,7 +346,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="PTT"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
-        Public Function TrimNotStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaToken
+        Public Function TrimNotStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
             Dim Genes As GeneBrief() =
                 (GeneObject.Location.Strand = Strands.Forward).[If](PTT.forwards, PTT.reversed)
             Return OverlapCommon(Genes, Reader, GeneObject, Length)

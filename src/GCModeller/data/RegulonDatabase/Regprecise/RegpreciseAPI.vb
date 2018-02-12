@@ -313,7 +313,7 @@ Rodionov, D. A.", Volume:=14)>
         ''' <remarks></remarks>
         Private Function __exportMotifs(source As IEnumerable(Of KeyValuePair(Of String, Regtransbase.WebServices.MotifFasta)),
                                         Family As String,
-                                        Regprecise As TranscriptionFactors) As FASTA.FastaToken()
+                                        Regprecise As TranscriptionFactors) As FASTA.FastaSeq()
 
             Dim LQuery = (From i As Integer In source.Sequence
                           Let FastaObject = source(i)
@@ -326,13 +326,13 @@ Rodionov, D. A.", Volume:=14)>
                                           Family As String,
                                           Species As String,
                                           lcl As Integer,
-                                          Regulator As String) As FASTA.FastaToken
+                                          Regulator As String) As FASTA.FastaSeq
 
             Dim title As String = $"{Site.locus_tag}:{Site.position}_lcl.{lcl} [regulator={Regulator}] [family={Family}] [regulog={Family} - {Species}]"
 
-            Return New FASTA.FastaToken With {
+            Return New FASTA.FastaSeq With {
                 .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(Site),
-                .Attributes = New String() {title}
+                .Headers = New String() {title}
             }
         End Function
 
@@ -396,9 +396,9 @@ Rodionov, D. A.", Volume:=14)>
                 Dim FastaFile = item.Value
                 For i As Integer = 0 To FastaFile.Count - 1
                     Dim FastaObject = FastaFile(i)
-                    Dim attrs = FastaObject.Attributes.AsList
+                    Dim attrs = FastaObject.Headers.AsList
                     attrs(0) = String.Format("lcl_{0} ", i) & attrs.First
-                    FastaObject.Attributes = attrs.ToArray
+                    FastaObject.Headers = attrs.ToArray
                 Next
                 Call FastaFile.Save(String.Format("{0}/{1}.fasta", outDIR, item.Key))
             Next
@@ -453,12 +453,12 @@ Rodionov, D. A.", Volume:=14)>
                         Continue For
                     End If
 
-                    Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaToken.Load(Path))
+                    Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(Path))
                     Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
                                                                      Regulator.Regulog.name,
                                                                      String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
                     lcl += 1
-                    FastaSequence.Attributes = New String() {String.Format("lcl{0}", lcl), FastaSequence.Attributes(1), RegpreciseProperty}
+                    FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
 
                     Call FileData.Add(FastaSequence)
                 Next

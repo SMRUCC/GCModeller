@@ -1,6 +1,6 @@
 [submodule "VisualBasic.DBI"]
 	path = src/runtime/mysqli
-	url = https://github.com/xieguigang/VisualBasic.DBI.git
+	url = https://github.com/xieguigang/mysqli.vb.git
 	branch = master
 
 [submodule "src/runtime/sciBASIC.ComputingServices"]

@@ -46,7 +46,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Views/")
         Dim TSSsLen As Integer = args.GetValue("/TSS-len", 5)
         Dim upstreamLen As Integer = args.GetValue("/upstream", 150)
-        Dim genome As New FASTA.FastaToken(args("/genome"))
+        Dim genome As New FASTA.FastaSeq(args("/genome"))
         Dim inData = inFile.LoadCsv(Of Transcript)
 
         Call TSSsDataViews.UpStream(inData, genome, upstreamLen).Save(out & "/TSSs.UpStream.fasta")

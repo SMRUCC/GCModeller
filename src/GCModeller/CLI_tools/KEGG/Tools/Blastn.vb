@@ -51,7 +51,7 @@ Public Module Blastn
         Return hits
     End Function
 
-    Public Function Submit(seq As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Public Function Submit(seq As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Dim doc As String = seq.GenerateDocument(60)
         Return __submit(doc)
     End Function

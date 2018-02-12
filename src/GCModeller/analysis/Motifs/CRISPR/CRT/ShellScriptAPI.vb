@@ -199,7 +199,7 @@ Public Module ShellScriptAPI
         Dim Data As New List(Of GenomeScanResult)
 
         For Each Path In LoadGbkSource(source).Values
-            Dim seq = FastaToken.LoadNucleotideData(Path.Value)
+            Dim seq = FastaSeq.LoadNucleotideData(Path.Value)
             If seq Is Nothing Then
                 Continue For
             End If
@@ -233,7 +233,7 @@ Public Module ShellScriptAPI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-scan.loci")>
-    Public Function ScanMotif(Sequence As FastaToken,
+    Public Function ScanMotif(Sequence As FastaSeq,
                               Optional k As Integer = 8,
                               Optional minR As Integer = 19,
                               Optional maxR As Integer = 38,
@@ -284,7 +284,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("-scan.loci")>
-    Public Function ScanMotif(Sequence As FastaToken, profile As KmerProfile, Optional p As Double = 0.75, Optional MinNumRepeats As Integer = 3) As SearchingModel.CRISPR()
+    Public Function ScanMotif(Sequence As FastaSeq, profile As KmerProfile, Optional p As Double = 0.75, Optional MinNumRepeats As Integer = 3) As SearchingModel.CRISPR()
         Return CRTMotifSearchTool.ExactKMerMatches(New NucleicAcid(Sequence), profile, p:=p, MinNumberOfRepeats:=MinNumRepeats)
     End Function
 

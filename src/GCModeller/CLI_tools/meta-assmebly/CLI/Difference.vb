@@ -86,7 +86,7 @@ Partial Module CLI
 
                     With New DataSet With {.ID = x.ID}
                         !pvalue = pvalue
-                        result += .ref
+                        result += .ByRef
                     End With
                 Next
 

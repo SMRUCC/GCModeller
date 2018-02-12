@@ -52,12 +52,12 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
         Dim sites = [in].LoadCsv(Of MastSites)
         Dim fasta = sites.Select(
-            Function(site) New FastaToken With {
+            Function(site) New FastaSeq With {
                 .SequenceData = site.SequenceData,
-                .Attributes = {
+                .Headers = {
                     $"{site.Gene}:{site.ATGDist} {site.Trace}"
                 }
-            }).GroupBy(Function(x) x.Attributes(0).Split.First) _
+            }).GroupBy(Function(x) x.Headers(0).Split.First) _
             .Select(Function(x) x.First)
         Return New FastaFile(fasta).Save(out, Encodings.ASCII).CLICode
     End Function
@@ -87,7 +87,7 @@ Partial Module CLI
         Dim motifs As LDM.Motif() = MEME_TEXT.SafelyLoad(meme, True)
 
         For Each motif As LDM.Motif In motifs
-            Dim sites As IEnumerable(Of FASTA.FastaToken) =
+            Dim sites As IEnumerable(Of FASTA.FastaSeq) =
                 motif.Sites.Select(Function(x) x.ToFasta)
             Dim fasta As New FASTA.FastaFile(sites)
             Dim path As String = out & "/" & motif.uid & ".fasta"
@@ -176,7 +176,7 @@ Partial Module CLI
             End Get
         End Property
 
-        Public Function GetHitSites(memehash As Dictionary(Of String, LDM.Motif)) As IEnumerable(Of FASTA.FastaToken)
+        Public Function GetHitSites(memehash As Dictionary(Of String, LDM.Motif)) As IEnumerable(Of FASTA.FastaSeq)
             Return memehash(HitId).Sites.Select(Function(x) x.ToFasta)
         End Function
 

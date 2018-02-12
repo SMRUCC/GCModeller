@@ -55,10 +55,10 @@ Namespace SabiorkKineticLaws.TabularDump
             Return LQuery
         End Function
 
-        Public Function ConvertToFastaObject() As FastaToken
-            Return New FastaToken With {
+        Public Function ConvertToFastaObject() As FastaSeq
+            Return New FastaSeq With {
                 .SequenceData = SequenceData,
-                .Attributes = New String() {Me.Uniprot, Me.CommonName}
+                .Headers = New String() {Me.Uniprot, Me.CommonName}
             }
         End Function
     End Class

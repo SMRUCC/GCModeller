@@ -30,12 +30,12 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
 
-    Public Class Proteins : Inherits FastaToken
+    Public Class Proteins : Inherits FastaSeq
         Dim Description As String
 
         Public ReadOnly Property UniqueId As String
             Get
-                Return Me.Attributes.Last.Split.First
+                Return Me.Headers.Last.Split.First
             End Get
         End Property
 
@@ -48,10 +48,10 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New()
         End Sub
 
-        Sub New(fa As FastaToken)
-            Attributes = fa.Attributes
+        Sub New(fa As FastaSeq)
+            Headers = fa.Headers
             SequenceData = fa.SequenceData
-            Description = fa.Attributes.Last
+            Description = fa.Headers.Last
         End Sub
     End Class
 End Namespace

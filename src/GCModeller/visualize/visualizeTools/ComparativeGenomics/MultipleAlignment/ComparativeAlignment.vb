@@ -276,7 +276,7 @@ Namespace ComparativeAlignment
                                                 Query As String,
                                                 PTT As String,
                                                 Subject_Fasta As String,
-                                                Query_nt As FASTA.FastaToken,
+                                                Query_nt As FASTA.FastaSeq,
                                                 Query_anno As IEnumerable(Of GeneDumpInfo)) As DrawingModel
 
             Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
@@ -288,7 +288,7 @@ Namespace ComparativeAlignment
                 Query = BaseName(Query)
             End If
             Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
-                          Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Attributes.First).ToArray).ToVector
+                          Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Headers.First).ToArray).ToVector
             Dim bir = (From item In bbhFiles Where String.Equals(Query, item.logEntry.HitName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Dim queryBBH = (From item In bbhFiles Where String.Equals(Query, item.logEntry.QueryName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             '创建BBH数据，生成 gene link
@@ -375,7 +375,7 @@ Namespace ComparativeAlignment
 
             Dim Reader As New NucleicAcid(Query_nt)
             Query_nt.SequenceData = Reader.ReadSegment(ql.Min, QueryModel.Length)
-            Query_nt.Attributes = New String() {Query_nt.Attributes.First, ql.Min.ToString, ql.Max.ToString}
+            Query_nt.Headers = New String() {Query_nt.Headers.First, ql.Min.ToString, ql.Max.ToString}
 
             Return New DrawingModel With {
                 .nt = Query_nt,

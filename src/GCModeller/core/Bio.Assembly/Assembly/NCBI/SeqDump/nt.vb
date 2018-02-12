@@ -40,7 +40,7 @@ Namespace Assembly.NCBI.SequenceDump
     ''' <summary>
     ''' NCBI genbank title format fasta parser
     ''' </summary>
-    Public Class Nucleotide : Inherits FASTA.FastaToken
+    Public Class Nucleotide : Inherits FASTA.FastaSeq
 
 #Region "ReadOnly properties"
 
@@ -51,7 +51,7 @@ Namespace Assembly.NCBI.SequenceDump
         Public ReadOnly Property Location As NucleotideLocation
 #End Region
 
-        Sub New(FastaObj As FASTA.FastaToken)
+        Sub New(FastaObj As FASTA.FastaSeq)
             Dim strTitle As String = FastaObj.Title
             Dim LocusTag As String = Regex.Match(strTitle, "locus_tag=[^]]+").Value
             Dim Location As String = Regex.Match(strTitle, "location=[^]]+").Value
@@ -60,7 +60,7 @@ Namespace Assembly.NCBI.SequenceDump
             Me._LocusTag = LocusTag.Split(CChar("=")).Last
             Me._CommonName = CommonName.Split(CChar("=")).Last
             Me._Location = LociAPI.TryParse(Location)
-            Me.Attributes = FastaObj.Attributes
+            Me.Headers = FastaObj.Headers
             Me.SequenceData = FastaObj.SequenceData
         End Sub
 
@@ -68,7 +68,7 @@ Namespace Assembly.NCBI.SequenceDump
             Dim FASTA As FastaFile = FastaFile.Read(path)
             Dim LQuery As Nucleotide() = LinqAPI.Exec(Of Nucleotide) <=
  _
-                From fa As FastaToken
+                From fa As FastaSeq
                 In FASTA
                 Select New Nucleotide(fa)
 

@@ -55,7 +55,7 @@ Public Module Mappings
                 ' 将用户基因号转换为uniprot编号
                 For Each gene In DEPgenes
                     If .ContainsKey(gene.ID) Then
-                        gene.ID = .ref(gene.ID).First
+                        gene.ID = .ByRef(gene.ID).First
                     End If
                 Next
             End If

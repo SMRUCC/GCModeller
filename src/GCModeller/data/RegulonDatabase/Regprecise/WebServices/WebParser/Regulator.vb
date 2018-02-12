@@ -129,18 +129,18 @@ Namespace Regprecise
         ''' 这个函数会自动移除一些表示NNNN的特殊符号
         ''' </summary>
         ''' <returns></returns>
-        Public Function ExportMotifs() As FASTA.FastaToken()
-            Dim LQuery As FASTA.FastaToken() =
-                LinqAPI.Exec(Of FASTA.FastaToken) <=
+        Public Function ExportMotifs() As FASTA.FastaSeq()
+            Dim LQuery As FASTA.FastaSeq() =
+                LinqAPI.Exec(Of FASTA.FastaSeq) <=
                     From FastaObject As Regtransbase.WebServices.MotifFasta
                     In regulatorySites
                     Let t As String = $"[gene={FastaObject.locus_tag}:{FastaObject.position}] [family={family}] [regulog={regulog.name}]"
                     Let attrs = New String() {t}
                     Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(FastaObject)
-                    Let fa As FASTA.FastaToken =
-                        New FASTA.FastaToken With {
+                    Let fa As FASTA.FastaSeq =
+                        New FASTA.FastaSeq With {
                             .SequenceData = seq,
-                            .Attributes = attrs
+                            .Headers = attrs
                         }
                     Select fa
             Return LQuery

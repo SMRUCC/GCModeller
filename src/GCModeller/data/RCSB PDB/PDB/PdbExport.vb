@@ -51,8 +51,8 @@ Public Module PdbExport
 
         Dim Sequence = GetByKeyword(chunkBuffer, "SEQRES")
         Dim Chains As String() = (From item In Sequence.AsParallel Let id = item(1) Select id Distinct Order By id Ascending).ToArray
-        Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaToken() =
-            New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(Chains.Count - 1) {}
+        Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq() =
+            New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq(Chains.Count - 1) {}
         Dim Definitions = GetByKeyword(chunkBuffer, "DBREF")
 
         For i As Integer = 0 To Chains.Count - 1
@@ -67,11 +67,11 @@ Public Module PdbExport
             Next
 
             Dim Def = (From item In Definitions Where String.Equals(item(1), ChainId) Select item).First
-            Dim FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken =
-                New SequenceModel.FASTA.FastaToken
+            Dim FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq =
+                New SequenceModel.FASTA.FastaSeq
 
             FsaObject.SequenceData = seqBuilder.ToString
-            FsaObject.Attributes = New String() {Def(0), Def(1), Def(4), Def(5), Def(6)}
+            FsaObject.Headers = New String() {Def(0), Def(1), Def(4), Def(5), Def(6)}
             FASTA(i) = FsaObject
         Next
 

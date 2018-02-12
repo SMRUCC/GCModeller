@@ -48,13 +48,13 @@ Public Class Contig : Inherits NucleotideModels.Contig
         End Get
     End Property
 
-    Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+    Public Property Headers As String() Implements IAbstractFastaToken.Headers
     Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
-    Public Function ToFastaToken() As FastaToken
-        Return New FastaToken With {
+    Public Function ToFastaToken() As FastaSeq
+        Return New FastaSeq With {
             .SequenceData = SequenceData,
-            .Attributes = {Location.ToString, String.Join(" / ", FLAGS)}
+            .Headers = {Location.ToString, String.Join(" / ", FLAGS)}
         }
     End Function
 

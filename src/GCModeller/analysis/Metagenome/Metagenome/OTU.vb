@@ -49,9 +49,9 @@ Public Module OTU
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildOTUClusters(contigs As IEnumerable(Of FastaToken), output As StreamWriter, Optional similarity# = 97%) As NamedValue(Of String())()
-        Dim ref As FastaToken = contigs.First
-        Dim OTUs As New List(Of (ref As FastaToken, fullEquals#, cluster As NamedValue(Of List(Of String))))
+    Public Function BuildOTUClusters(contigs As IEnumerable(Of FastaSeq), output As StreamWriter, Optional similarity# = 97%) As NamedValue(Of String())()
+        Dim ref As FastaSeq = contigs.First
+        Dim OTUs As New List(Of (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String))))
         Dim n As int = 1
 
         OTUs += (ref,
@@ -66,9 +66,9 @@ Public Module OTU
                 }
         })
 
-        For Each seq As FastaToken In contigs.Skip(1)
-            Dim matched = LinqAPI.DefaultFirst(Of (ref As FastaToken, fullEquals#, cluster As NamedValue(Of List(Of String)))) <=
-                From OTU As (ref As FastaToken, fullEquals#, cluster As NamedValue(Of List(Of String)))
+        For Each seq As FastaSeq In contigs.Skip(1)
+            Dim matched = LinqAPI.DefaultFirst(Of (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))) <=
+                From OTU As (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))
                 In OTUs.AsParallel
                 Let score As Double = RunNeedlemanWunsch.RunAlign(
                     seq, OTU.ref,
@@ -98,11 +98,11 @@ Public Module OTU
 
         Return LinqAPI.Exec(Of NamedValue(Of String())) <=
  _
-            From OTU As (ref As FastaToken, fullEquals#, cluster As NamedValue(Of List(Of String)))
+            From OTU As (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))
             In OTUs
-            Let refSeq As FastaToken = New FastaToken With {
+            Let refSeq As FastaSeq = New FastaSeq With {
                 .SequenceData = OTU.ref.SequenceData,
-                .Attributes = {
+                .Headers = {
                     OTU.cluster.Name & " " & OTU.ref.Title
                 }
             }

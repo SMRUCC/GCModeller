@@ -57,7 +57,7 @@ Partial Module CLI
 
         If String.IsNullOrEmpty(Db) OrElse String.Equals(Db, "all") Then
 
-            Dim List As New List(Of FastaToken)
+            Dim List As New List(Of FastaSeq)
             For Each Db In New NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
@@ -80,9 +80,9 @@ Partial Module CLI
         Return 0
     End Function
 
-    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken()
+    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq()
         Dim FASTAFile As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DB)
-        Dim Query As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken)
+        Dim Query As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)
         If Any Then
             Query = From fsa In FASTAFile.AsParallel Where fsa.Title.ContainsAny(Keywords, CaseSense) Select fsa '
         Else

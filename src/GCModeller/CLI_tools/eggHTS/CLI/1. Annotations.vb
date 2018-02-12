@@ -552,7 +552,8 @@ Partial Module CLI
 
         With args <= "/custom"
             If .FileExists(True) Then
-                catalogs = maps.KOCatalog(.ref)   ' 如果自定义的KO分类数据文件存在的话，则使用自定义库
+                ' 如果自定义的KO分类数据文件存在的话，则使用自定义库
+                catalogs = maps.KOCatalog(.ByRef)
             Else
                 ' 直接使用系统库进行分析
                 catalogs = maps.KOCatalog
@@ -629,9 +630,9 @@ Partial Module CLI
                     .lTokens _
                     .JoinBy("") _
                     .Replace(" ", "")
-                Dim fa As New FastaToken With {
+                Dim fa As New FastaSeq With {
                     .SequenceData = seq,
-                    .Attributes = {prot.accessions.First & " " & prot.proteinFullName}
+                    .Headers = {prot.accessions.First & " " & prot.proteinFullName}
                 }
 
                 Call writer.WriteLine(fa.GenerateDocument(120))
@@ -723,8 +724,8 @@ Partial Module CLI
         For Each protein As EntityObject In dataset
             If alignHits.ContainsKey(protein.ID) Then
                 With alignHits(protein.ID).HitName
-                    If Not .StringEmpty AndAlso .ref <> IBlastOutput.HITS_NOT_FOUND Then
-                        protein.ID = .ref
+                    If Not .StringEmpty AndAlso .ByRef <> IBlastOutput.HITS_NOT_FOUND Then
+                        protein.ID = .ByRef
                     End If
                 End With
             End If

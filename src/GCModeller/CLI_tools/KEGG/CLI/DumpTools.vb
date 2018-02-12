@@ -217,7 +217,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim outFa As FastaFile = New FastaFile(LQuery)
 
         If args.GetBoolean("/brief") Then  ' 将基因号去除，只保留三字母的基因组编号，因为在做16S_rRNA进化树的时候，只需要一个基因就可以了
-            Dim briefFa = (From x In outFa Select New FastaToken({x.Attributes.First.Split(":"c).First}, x.SequenceData)).ToArray
+            Dim briefFa = (From x In outFa Select New FastaSeq({x.Headers.First.Split(":"c).First}, x.SequenceData)).ToArray
             outFa = New FastaFile(briefFa)
         End If
 

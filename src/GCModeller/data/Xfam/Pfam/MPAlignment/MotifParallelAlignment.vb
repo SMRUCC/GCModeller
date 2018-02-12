@@ -186,9 +186,9 @@ Namespace ProteinDomainArchitecture.MPAlignment
         Public Function SelectSource(Of TBesthit As BBH.BiDirectionalBesthit)(
                                         Besthits As IEnumerable(Of TBesthit),
                                         SubjectFasta As FASTA.FastaFile,
-                                        SelectMethod As Func(Of BBH.BiDirectionalBesthit, FASTA.FastaToken, Boolean)) As FASTA.FastaFile
+                                        SelectMethod As Func(Of BBH.BiDirectionalBesthit, FASTA.FastaSeq, Boolean)) As FASTA.FastaFile
 
-            Dim LQuery = (From SequenceItem As FASTA.FastaToken
+            Dim LQuery = (From SequenceItem As FASTA.FastaSeq
                           In SubjectFasta.AsParallel
                           Where (From item In Besthits Where SelectMethod(item, SequenceItem) = True Select 100).FirstOrDefault > 50
                           Select SequenceItem).ToArray
@@ -206,9 +206,9 @@ Namespace ProteinDomainArchitecture.MPAlignment
         Public Function SelectSource(Of TBesthit As BBH.BestHit)(
                                         Besthits As IEnumerable(Of TBesthit),
                                         SubjectFasta As FASTA.FastaFile,
-                                        SelectMethod As Func(Of BBH.BestHit, FASTA.FastaToken, Boolean)) As FASTA.FastaFile
+                                        SelectMethod As Func(Of BBH.BestHit, FASTA.FastaSeq, Boolean)) As FASTA.FastaFile
 
-            Dim LQuery = (From SequenceItem As FASTA.FastaToken
+            Dim LQuery = (From SequenceItem As FASTA.FastaSeq
                           In SubjectFasta.AsParallel
                           Where (From item In Besthits Where SelectMethod(item, SequenceItem) = True Select 100).FirstOrDefault > 50
                           Select SequenceItem).ToArray
@@ -228,8 +228,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Return SelectSource(Besthits, subjects, AddressOf __idEquals)
         End Function
 
-        Private Function __idEquals(besthit As BBH.BestHit, Fasta As FASTA.FastaToken) As Boolean
-            Return String.Equals(besthit.HitName, Fasta.Attributes(1))
+        Private Function __idEquals(besthit As BBH.BestHit, Fasta As FASTA.FastaSeq) As Boolean
+            Return String.Equals(besthit.HitName, Fasta.Headers(1))
         End Function
     End Module
 End Namespace

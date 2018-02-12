@@ -109,16 +109,16 @@ Partial Module Utilities
             For Each g As GroupResult(Of PalindromeLoci, String) In data.FuzzyGroups(
                 Function(x) x.Loci, cut, parallel:=Not batch)
 
-                Dim fa As FastaToken() =
-                    LinqAPI.Exec(Of FastaToken) <= From x As PalindromeLoci In g.Group Select x.__lociFa
+                Dim fa As FastaSeq() =
+                    LinqAPI.Exec(Of FastaSeq) <= From x As PalindromeLoci In g.Group Select x.__lociFa
                 Dim path As String = $"{outDIR}/{g.Tag}.fasta"
 
                 Call New FastaFile(fa).Save(path, Encodings.ASCII)
             Next
         Else
             For Each g In (From x As PalindromeLoci In data Select x Group x By x.Loci Into Group)
-                Dim fa As FastaToken() =
-                    LinqAPI.Exec(Of FastaToken) <= From x As PalindromeLoci In g.Group Select x.__lociFa
+                Dim fa As FastaSeq() =
+                    LinqAPI.Exec(Of FastaSeq) <= From x As PalindromeLoci In g.Group Select x.__lociFa
                 Dim path As String = $"{outDIR}/{g.Loci}.fasta"
 
                 Call New FastaFile(fa).Save(path, Encodings.ASCII)
@@ -134,12 +134,12 @@ Partial Module Utilities
     ''' <param name="x"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function __lociFa(x As PalindromeLoci) As FastaToken
+    Private Function __lociFa(x As PalindromeLoci) As FastaSeq
         Dim uid As String = x.MappingLocation.ToString.Replace(" ", "_")
         Dim atrs As String() = {uid, x.Loci}
 
-        Return New FastaToken With {
-            .Attributes = atrs,
+        Return New FastaSeq With {
+            .Headers = atrs,
             .SequenceData = x.Loci & x.Palindrome
         }
     End Function

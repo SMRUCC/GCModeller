@@ -72,7 +72,7 @@ Public Module NCBILocalBlast
             Return False
         End If
 
-        Dim isIntegrity = From fa As FASTA.FastaToken
+        Dim isIntegrity = From fa As FASTA.FastaSeq
                           In query
                           Let InternalIntegrityCheck As Boolean = fa.__integrity(queries)
                           Where Not InternalIntegrityCheck
@@ -82,7 +82,7 @@ Public Module NCBILocalBlast
     End Function
 
     <Extension>
-    Private Function __integrity(Fasta As FASTA.FastaToken, queries$()) As Boolean
+    Private Function __integrity(Fasta As FASTA.FastaSeq, queries$()) As Boolean
         Dim Title As String = Fasta.Title
         Dim GetLQuery = (From Query As String
                          In queries

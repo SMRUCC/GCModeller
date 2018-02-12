@@ -50,17 +50,17 @@ Namespace SequenceModel.FASTA
         ''' Read all sequence from the fasta file.
         ''' </summary>
         ''' <returns></returns>
-        Public Iterator Function ReadStream() As IEnumerable(Of FastaToken)
+        Public Iterator Function ReadStream() As IEnumerable(Of FastaSeq)
             Dim stream As New List(Of String)
 
             Do While Not Me.EndRead  ' 一直循环直到读完文件为止
-                For Each fa As FastaToken In __loops(stream)
+                For Each fa As FastaSeq In __loops(stream)
                     Yield fa
                 Next
             Loop
 
             If Not stream.Count = 0 Then
-                Yield FastaToken.ParseFromStream(stream, {"|"c})
+                Yield FastaSeq.ParseFromStream(stream, {"|"c})
             End If
         End Function
 
@@ -73,7 +73,7 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="stream"></param>
         ''' <returns></returns>
-        Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaToken)
+        Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
             For Each line As String In MyBase.BufferProvider   ' 读取一个数据块
                 If line.StringEmpty Then  ' 跳过空白的行
                     Continue For
@@ -82,7 +82,7 @@ Namespace SequenceModel.FASTA
                 If line.First = ">"c AndAlso stream.Count > 0 Then  ' 在这里碰见了一个fasta头部
 
                     ' 则解析临时数据，然后清空临时缓存变量
-                    Dim fa As FastaToken = FastaToken.ParseFromStream(stream, __deli)
+                    Dim fa As FastaSeq = FastaSeq.ParseFromStream(stream, __deli)
                     Yield fa
 
                     stream.Clear()
@@ -101,12 +101,12 @@ Namespace SequenceModel.FASTA
         ''' <param name="size"></param>
         ''' <returns></returns>
         Public Iterator Function Split(size As Integer) As IEnumerable(Of FastaFile)
-            Dim temp As New List(Of FastaToken)
+            Dim temp As New List(Of FastaSeq)
             Dim i As Integer
 
             Call MyBase.Reset()
 
-            For Each fa As FastaToken In Me.ReadStream
+            For Each fa As FastaSeq In Me.ReadStream
                 If i < size Then
                     Call temp.Add(fa)
                     i += 1
@@ -136,13 +136,13 @@ Namespace SequenceModel.FASTA
         ''' 文件搜索的文件名匹配模式，如果<paramref name="handle"/>是一个文件夹的话
         ''' </param>
         ''' <returns></returns>
-        Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaToken)
+        Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaSeq)
             If (handle.Last <> "/"c AndAlso handle.Last <> "\"c) AndAlso handle.FixPath.FileExists Then
                 If debug Then
                     Call "File exists, reading fasta data from file...".__DEBUG_ECHO
                 End If
 
-                For Each fa As FastaToken In New StreamIterator(handle).ReadStream
+                For Each fa As FastaSeq In New StreamIterator(handle).ReadStream
                     Yield fa
                 Next
             Else
@@ -155,7 +155,7 @@ Namespace SequenceModel.FASTA
                     If debug Then
                         Call file.ToFileURL.__DEBUG_ECHO
                     End If
-                    For Each nt As FastaToken In New StreamIterator(file).ReadStream
+                    For Each nt As FastaSeq In New StreamIterator(file).ReadStream
                         Yield nt
                     Next
                 Next

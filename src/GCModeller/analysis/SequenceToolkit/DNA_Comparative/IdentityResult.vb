@@ -49,7 +49,7 @@ Public Class IdentityResult : Implements INamedValue
         Return Me.GetJson
     End Function
 
-    Public Shared Function SimpleTag(fa As FastaToken) As String
+    Public Shared Function SimpleTag(fa As FastaSeq) As String
         Return fa.Title.Split.First
     End Function
 

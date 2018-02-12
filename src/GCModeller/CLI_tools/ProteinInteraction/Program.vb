@@ -69,8 +69,8 @@ Module Program
                 If Pfams.Contains(skPfam) Then
                     Dim nxt = GenomeData(i + 1)
                     If nxt.Column(3).Contains(RRPfam) Then '找到一对Cognate双组份系统
-                        Call Sk.Add(New FASTA.FastaToken With {.SequenceData = row(4), .Attributes = New String() {row.First, row(2)}})
-                        Call RR.Add(New FASTA.FastaToken With {.SequenceData = nxt(4), .Attributes = New String() {nxt.First, nxt(2)}})
+                        Call Sk.Add(New FASTA.FastaSeq With {.SequenceData = row(4), .Headers = New String() {row.First, row(2)}})
+                        Call RR.Add(New FASTA.FastaSeq With {.SequenceData = nxt(4), .Headers = New String() {nxt.First, nxt(2)}})
                     End If
                 End If
             Next

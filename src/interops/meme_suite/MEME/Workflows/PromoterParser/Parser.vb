@@ -65,7 +65,7 @@ Namespace Workflows.PromoterParser
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="os">全基因组核酸序列的<see cref="FastaToken"/>单序列文件的文件路径</param>
+        ''' <param name="os">全基因组核酸序列的<see cref="FastaSeq"/>单序列文件的文件路径</param>
         ''' <param name="Door"></param>
         Sub New(os As String, Door As String)
             Me.PromoterParser = New OperonPromoterParser(os, Door)
@@ -98,7 +98,7 @@ Namespace Workflows.PromoterParser
         End Function
 
         Private Shared Sub Extract(DoorIdList As String(),
-                                   DataSource As Dictionary(Of String, FastaToken),
+                                   DataSource As Dictionary(Of String, FastaSeq),
                                    PathwayId As String,
                                    Length As Integer,
                                    ExportLocation As String)
@@ -125,7 +125,7 @@ Namespace Workflows.PromoterParser
             Return 0
         End Function
 
-        Private Shared Function GetFasta(operonList As String(), promoterRegions As Dictionary(Of String, FastaToken)) As FastaFile
+        Private Shared Function GetFasta(operonList As String(), promoterRegions As Dictionary(Of String, FastaSeq)) As FastaFile
 
             Dim LQuery = (From itemId As String In operonList Select promoterRegions(itemId)).ToArray
             Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
@@ -153,7 +153,7 @@ Namespace Workflows.PromoterParser
         Public Sub ExtractPromoterRegion_KEGGModules(ExportDir As String, KEGGModules As KEGG.Archives.Csv.Module())
             Dim Operons As DOOR.OperonView = PromoterParser.DoorOperonView
 
-            Dim getFasta = Function(operonList As String(), promoterRegions As Dictionary(Of String, FastaToken)) As FastaFile
+            Dim getFasta = Function(operonList As String(), promoterRegions As Dictionary(Of String, FastaSeq)) As FastaFile
                                Dim LQuery = (From oprId As String
                                              In operonList
                                              Select promoterRegions(oprId)).ToArray
@@ -237,7 +237,7 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Private Shared Sub __extractForGenes(DoorIdList As String(),
-                                     DataSource As Dictionary(Of String, FastaToken),
+                                     DataSource As Dictionary(Of String, FastaSeq),
                                      GeneId As String,
                                      Length As Integer,
                                      ExportDir As String)
@@ -251,7 +251,7 @@ Namespace Workflows.PromoterParser
 
         Public Sub WholeGenomeParser(ChipData As MatrixFrame, pccCutoff As Double, Export As String)
             Dim PccMatrix = ChipData.CalculatePccMatrix
-            Dim GetFastaList = Function(DoorIdList As List(Of String), DataSource As Dictionary(Of String, FastaToken)) As FastaFile
+            Dim GetFastaList = Function(DoorIdList As List(Of String), DataSource As Dictionary(Of String, FastaSeq)) As FastaFile
                                    Dim LQuery = (From strId As String In DoorIdList Select DataSource(strId)).ToArray
                                    Return LQuery
                                End Function
@@ -291,7 +291,7 @@ Namespace Workflows.PromoterParser
             Call BriefInfo.Save(String.Join("/", Export, "BriefInfo.csv"), False)
         End Sub
 
-        Private Function __getFastaList(lstDOOR As List(Of String), DataSource As Dictionary(Of String, FastaToken)) As FastaFile
+        Private Function __getFastaList(lstDOOR As List(Of String), DataSource As Dictionary(Of String, FastaSeq)) As FastaFile
             Dim LQuery = (From sId As String In lstDOOR Select DataSource(sId)).ToArray
             Return LQuery
         End Function

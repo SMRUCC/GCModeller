@@ -96,12 +96,12 @@ Namespace DocumentFormat.MEME.LDM
         ''' <see cref="Name"/>:<see cref="Start"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Function ToFasta(Optional prefix As String = "") As FASTA.FastaToken
+        Public Function ToFasta(Optional prefix As String = "") As FASTA.FastaSeq
             If String.IsNullOrEmpty(prefix) Then
-                Return New FASTA.FastaToken({$"{Name}:{Start}"}, Site)
+                Return New FASTA.FastaSeq({$"{Name}:{Start}"}, Site)
             Else
                 Dim uid As String = prefix & $"-{Name}:{Start}"
-                Return New FASTA.FastaToken({uid}, Site)
+                Return New FASTA.FastaSeq({uid}, Site)
             End If
         End Function
 

@@ -118,8 +118,8 @@ Public Class QueryEngine
 
                      For Each m As NamedValue(Of String) In LQuery
                          Dim seq$ = index.ReadNT_by_gi(gi:=m.Name)
-                         Dim fa As New FastaToken With {
-                             .Attributes = {"gi", m.Name, m.Value},
+                         Dim fa As New FastaSeq With {
+                             .Headers = {"gi", m.Name, m.Value},
                              .SequenceData = seq
                          }
                          Dim line$ = fa.GenerateDocument(lineBreak)
@@ -143,7 +143,7 @@ Public Class QueryEngine
     ''' </summary>
     ''' <param name="query$"></param>
     ''' <returns></returns>
-    Public Iterator Function Search(query$) As IEnumerable(Of FastaToken)
+    Public Iterator Function Search(query$) As IEnumerable(Of FastaSeq)
         Dim LQuery = From db As TitleIndex
                      In __headers.Values.AsParallel
                      Let expression As Expression = Build(query$)
@@ -156,8 +156,8 @@ Public Class QueryEngine
             Dim seq$ = __nt(x.Description) _
                 .ReadNT_by_gi(gi:=x.Name)
 
-            Yield New FastaToken With {
-                .Attributes = {"gi", x.Name, x.Value},
+            Yield New FastaSeq With {
+                .Headers = {"gi", x.Name, x.Value},
                 .SequenceData = seq
             }
         Next

@@ -67,7 +67,7 @@ Public Module iTraqSample
         ' 所以还需要translation进行转换，得到获取数据的标签
         With samples.DataAnalysisDesign(analysisDesign)
 
-            For Each group As NamedCollection(Of AnalysisDesigner) In .ref.IterateNameCollections
+            For Each group As NamedCollection(Of AnalysisDesigner) In .IterateNameCollections
                 Dim groupName$ = group.Name
                 Dim labels = group.Value
                 Dim data = matrix _
@@ -89,17 +89,17 @@ Public Module iTraqSample
 
         For Each label As AnalysisDesigner In labels
             With label.ToString(translation)
-                If data.HasProperty(.ref) Then
-                    Call values.Add(label.ToString, data(.ref))
+                If data.HasProperty(.ByRef) Then
+                    Call values.Add(label.ToString, data(.ByRef))
                 Else
                     ' 可能是在进行质谱实验的时候将顺序颠倒了，在这里将标签颠倒一下试试
                     With label.Swap.ToString(translation)
-                        If data.HasProperty(.ref) Then
+                        If data.HasProperty(.ByRef) Then
                             ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
                             If allowedSwap Then
-                                values.Add(label.ToString, 1 / data(.ref))
+                                values.Add(label.ToString, 1 / data(.ByRef))
                             Else
-                                values.Add(label.ToString, data(.ref))
+                                values.Add(label.ToString, data(.ByRef))
                             End If
                         End If
                     End With

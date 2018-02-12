@@ -49,7 +49,7 @@ Public Class Signature : Implements IAbstractFastaToken
         End Get
     End Property
 
-    Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
+    Public Property Headers As String() Implements IAbstractFastaToken.Headers
         Get
             Return {PfamString.ProteinId}
         End Get
@@ -65,8 +65,8 @@ Public Class Signature : Implements IAbstractFastaToken
         Return PfamString.ToString
     End Function
 
-    Public Function ToFasta() As FASTA.FastaToken
-        Return New FastaToken(Me)
+    Public Function ToFasta() As FASTA.FastaSeq
+        Return New FastaSeq(Me)
     End Function
 
     Public Shared Function CreateObject(SRChain As SR(), Name As String) As Signature

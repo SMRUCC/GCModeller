@@ -83,7 +83,7 @@ Namespace SangerSNPs
                     seq.Add(pseudo_reference_sequence(snp_locations(snp_counter)))
                 Next
 
-                fasta += New FastaToken({SNPsFasta.pseudo_reference_sequence}, New String(seq.ToArray))
+                fasta += New FastaSeq({SNPsFasta.pseudo_reference_sequence}, New String(seq.ToArray))
             End If
 
             For sample_counter As Integer = 0 To number_of_samples - 1
@@ -95,7 +95,7 @@ Namespace SangerSNPs
                     Call seq.Add(bases_for_snps(snp_counter)(sample_counter))
                 Next
 
-                fasta += New FastaToken({atrs}, New String(seq.ToArray))
+                fasta += New FastaSeq({atrs}, New String(seq.ToArray))
             Next
 
             Return fasta

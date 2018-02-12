@@ -66,7 +66,7 @@ Public Module GCOutlier
     ''' <param name="method"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function OutlierAnalysis(mla As IEnumerable(Of FastaToken), quantiles As Double(),
+    Public Iterator Function OutlierAnalysis(mla As IEnumerable(Of FastaSeq), quantiles As Double(),
                                      Optional winsize As Integer = 250,
                                      Optional steps As Integer = 50,
                                      Optional slideSize As Integer = 5,

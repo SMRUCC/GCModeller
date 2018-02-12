@@ -36,7 +36,7 @@ Namespace SequenceModel.FASTA
 
     Public Interface I_FastaProvider : Inherits IPolymerSequenceModel
         ReadOnly Property Title As String
-        ReadOnly Property Attributes As String()
+        ReadOnly Property Headers As String()
     End Interface
 
     ''' <summary>
@@ -57,7 +57,7 @@ Namespace SequenceModel.FASTA
         ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
         ''' </summary>
         ''' <returns></returns>
-        Property Attributes As String()
+        Property Headers As String()
     End Interface
 
     Public Interface I_FastaObject

@@ -61,7 +61,7 @@ Namespace Karyotype.GeneObjects
             Call __karyotype()
         End Sub
 
-        Sub New(genes As GeneDumpInfo(), nt As FastaToken, Optional defaultColor As String = "blue")
+        Sub New(genes As GeneDumpInfo(), nt As FastaSeq, Optional defaultColor As String = "blue")
             Dim MyvaCog = LinqAPI.Exec(Of MyvaCOG) <=
                 From gene As GeneDumpInfo
                 In genes

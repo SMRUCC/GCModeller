@@ -47,7 +47,7 @@ Namespace TrackDatas.NtProps
             SourceFasta = Source
         End Sub
 
-        Sub New(genome As IEnumerable(Of FastaToken),
+        Sub New(genome As IEnumerable(Of FastaSeq),
                 karyotype As Karyotype.SkeletonInfo,
                 winSize As Integer,
                 steps As Integer,
@@ -58,7 +58,7 @@ Namespace TrackDatas.NtProps
                 Function(x) x.chrLabel,
                 Function(x) x.chrName)
 
-            For Each nt As FastaToken In genome
+            For Each nt As FastaSeq In genome
                 Dim raw As Double() = GCProps.GetGCContentForGENOME(
                     nt,
                     winSize,

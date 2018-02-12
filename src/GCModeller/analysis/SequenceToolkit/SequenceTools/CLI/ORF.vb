@@ -58,7 +58,7 @@ Partial Module Utilities
         Return PROFasta.Save(args("/orf") & ".PRO.fasta").CLICode
     End Function
 
-    <Extension> Private Function __translate(ORF As FastaToken, transl_table As TranslTable, force As Boolean) As FastaToken
+    <Extension> Private Function __translate(ORF As FastaSeq, transl_table As TranslTable, force As Boolean) As FastaSeq
         Dim proLenExpected As Integer = ORF.Length / 3 - 1  ' -1是因为肯定有一个终止密码子
         Dim NT As String = ORF.SequenceData
         ORF.SequenceData = transl_table.Translate(ORF.SequenceData, force)

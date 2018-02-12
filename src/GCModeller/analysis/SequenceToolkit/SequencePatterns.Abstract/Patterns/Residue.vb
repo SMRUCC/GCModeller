@@ -32,6 +32,7 @@ Imports System.Xml.Serialization
 Namespace Motif.Patterns
 
     Public Class Residue
+
         <XmlAttribute> Public Property Raw As String
         <XmlAttribute> Public Property Regex As String
         Public Property RepeatRanges As Ranges

@@ -40,8 +40,8 @@ Partial Module CLI
     Public Function gpff2Fasta(args As CommandLine) As Integer
         Using out As StreamWriter = args.OpenStreamOutput("/out", Encodings.ASCII)
             For Each seq In GBFF.File.LoadDatabase(args <= "/in")
-                Dim fasta As New FastaToken With {
-                    .Attributes = {
+                Dim fasta As New FastaSeq With {
+                    .Headers = {
                         seq.Locus.AccessionID,
                         seq.Definition.Value
                     },

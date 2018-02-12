@@ -62,7 +62,7 @@ Public Module CLI
         Dim source As New FastaFile(mla)
 
         If ref.FileExists Then
-            Dim refFa As FastaToken = New FastaToken(ref)
+            Dim refFa As FastaSeq = New FastaSeq(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "-" & ref.BaseName & ".NTVariations.txt")
             Dim vec = refFa.NTVariations(source, cut)
             Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
@@ -95,7 +95,7 @@ Public Module CLI
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
-    Private Function __propertyVector(method As NtProperty, inFasta As FastaToken, out As String, winSize As Integer, steps As Integer) As Integer
+    Private Function __propertyVector(method As NtProperty, inFasta As FastaSeq, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function

@@ -344,7 +344,7 @@ Partial Module CLI
             For Each group In data
                 With group.Value
                     If .ContainsKey(id) Then
-                        With .ref(id)
+                        With .ByRef(id)
                             If .isDEP Then
                                 If outGroup Then
 
@@ -668,7 +668,7 @@ Partial Module CLI
         With args <= "/data"
             If .FileLength > 0 Then
                 data = EntityObject _
-                    .LoadDataSet(.ref) _
+                    .LoadDataSet(.ByRef) _
                     .ToDictionary
             Else
                 data = source.ToDictionary

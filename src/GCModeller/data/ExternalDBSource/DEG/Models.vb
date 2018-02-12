@@ -68,21 +68,21 @@ Namespace DEG
         End Function
     End Class
 
-    Public Class DEG_AminoAcidSequence : Inherits FastaToken
+    Public Class DEG_AminoAcidSequence : Inherits FastaSeq
 
         Public ReadOnly Property DEGAccessionId As String
         Public ReadOnly Property SpeciesId As String
         Public ReadOnly Property GeneName As String
 
         Public Overloads Shared Function Load(FilePath As String) As DEG.DEG_AminoAcidSequence()
-            Dim LQuery = (From FsaObject As FastaToken
+            Dim LQuery = (From FsaObject As FastaSeq
                           In FastaFile.Read(FilePath)
                           Select DEG.DEG_AminoAcidSequence.CreateObject(FsaObject)).ToArray
             Return LQuery
         End Function
 
-        Public Shared Function CreateObject(FsaObject As FastaToken) As DEG.DEG_AminoAcidSequence
-            Dim strData As String = FsaObject.Attributes.First
+        Public Shared Function CreateObject(FsaObject As FastaSeq) As DEG.DEG_AminoAcidSequence
+            Dim strData As String = FsaObject.Headers.First
             Dim Tokens As String() = strData.Split("_"c)
             Dim Sequence As DEG.DEG_AminoAcidSequence = New DEG_AminoAcidSequence
 

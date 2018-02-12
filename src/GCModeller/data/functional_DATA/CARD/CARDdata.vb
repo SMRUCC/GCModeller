@@ -37,8 +37,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module CARDdata
 
     Public Iterator Function FastaParser(directory As String) As IEnumerable(Of SeqHeader)
-        For Each fasta As FastaToken In StreamIterator.SeqSource(handle:=directory, debug:=True)
-            Dim headers$() = fasta.Attributes
+        For Each fasta As FastaSeq In StreamIterator.SeqSource(handle:=directory, debug:=True)
+            Dim headers$() = fasta.Headers
 
             If headers.Length = 4 Then
                 ' protien

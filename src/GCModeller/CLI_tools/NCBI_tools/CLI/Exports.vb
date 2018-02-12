@@ -62,10 +62,10 @@ Partial Module CLI
                 Dim taxid As Integer = gi2taxid(gi)
                 Dim taxon = tax.GetAscendantsWithRanksAndNames(taxid, True)
                 Dim tree = TaxonomyNode.Taxonomy(taxon, deli).NormalizePathString.Replace(deli, "/")
-                Dim name As String = fa.Attributes.ElementAtOrDefault(4, "").Trim
+                Dim name As String = fa.Headers.ElementAtOrDefault(4, "").Trim
                 Dim write As Boolean = False
 
-                Call fa.Attributes.Add(TaxonomyNode.Taxonomy(taxon,))
+                Call fa.Headers.Add(TaxonomyNode.Taxonomy(taxon,))
 
                 For Each s As String In wordList
                     If InStr(name, s, CompareMethod.Text) > 0 OrElse

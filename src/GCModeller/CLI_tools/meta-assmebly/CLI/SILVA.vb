@@ -53,8 +53,8 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.headers.tsv"
 
         Using writer As StreamWriter = out.OpenWriter
-            For Each SSU As FastaToken In StreamIterator.SeqSource(handle:=[in], debug:=True)
-                Dim headers = SSU.Attributes.JoinBy("|").GetTagValue(" ", trim:=True)
+            For Each SSU As FastaSeq In StreamIterator.SeqSource(handle:=[in], debug:=True)
+                Dim headers = SSU.Headers.JoinBy("|").GetTagValue(" ", trim:=True)
                 Call writer.WriteLine(headers.Name & vbTab & headers.Value)
             Next
         End Using
@@ -69,7 +69,7 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].ParentPath}/SILVA.bacterial_ssuref.fasta"
 
         Using writer As StreamWriter = out.OpenWriter
-            For Each SSU As FastaToken In StreamIterator.SeqSource(handle:=[in]).SILVABacteria
+            For Each SSU As FastaSeq In StreamIterator.SeqSource(handle:=[in]).SILVABacteria
                 Call writer.WriteLine(SSU.GenerateDocument(lineBreak:=120))
             Next
         End Using

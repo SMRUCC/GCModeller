@@ -77,8 +77,8 @@ Namespace ProteinModel
             End Get
         End Property
 
-        Public Function EXPORT() As FASTA.FastaToken
-            Return New FASTA.FastaToken({ID, Description}, SequenceData)
+        Public Function EXPORT() As FASTA.FastaSeq
+            Return New FASTA.FastaSeq({ID, Description}, SequenceData)
         End Function
 
         Public Function ContainsDomain(DomainAccession As String) As Boolean

@@ -57,7 +57,7 @@ Namespace Reports
         Public Shared Function CompileResult(Orthologs As Dictionary(Of String, BiDirectionalBesthit()),
                                              Paralogs As BestHit(),
                                              Fasta As String, AnnotationSource As AnnotationTool.MetaSource()) As GenomeAnnotations
-            Dim Proteins = (From FastaObject In FastaFile.Read(Fasta) Select ID = FastaObject.Attributes.First, FastaObject).ToArray
+            Dim Proteins = (From FastaObject In FastaFile.Read(Fasta) Select ID = FastaObject.Headers.First, FastaObject).ToArray
             Dim LQuery As ProteinAnnotationResult() = (From Entry In Proteins
                                                        Select New ProteinAnnotationResult With {
                                                                   .Protein = Entry.ID,

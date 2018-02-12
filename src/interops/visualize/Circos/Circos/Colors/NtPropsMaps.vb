@@ -54,7 +54,7 @@ Namespace Colors
         End Function
 
         <Extension>
-        Public Function PropertyMaps(source As IEnumerable(Of FastaToken)) As NtPropsMaps
+        Public Function PropertyMaps(source As IEnumerable(Of FastaSeq)) As NtPropsMaps
             Dim genome As New FastaFile(source)
             Dim props As GeneObjectGC() = GCProps.GetGCContentForGenes(genome)
             Dim AT As Mappings() = props.FromAT
