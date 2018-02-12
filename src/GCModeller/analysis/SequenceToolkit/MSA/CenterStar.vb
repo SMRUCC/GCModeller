@@ -53,7 +53,7 @@ Public Class CenterStar
         findStarIndex()
         centerString = sequence(starIndex)
         multipleAlign = New String(n - 1) {}
-        MultipleAlignment(sequence)
+        multipleAlignmentImpl()
 
         Return New MSAOutput With {
             .names = names.ToArray,
@@ -88,7 +88,7 @@ Public Class CenterStar
     ''' <summary>
     ''' The Function do the multiple alignment according to the center string 
     ''' </summary>
-    Private Sub MultipleAlignment(sequence$())
+    Private Sub multipleAlignmentImpl()
         Dim centerString2$ = centerString
         Dim n = sequence.Length
 

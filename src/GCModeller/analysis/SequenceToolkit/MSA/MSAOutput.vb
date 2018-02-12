@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Structure MSAOutput
 
@@ -12,6 +13,19 @@ Public Structure MSAOutput
             Print(, New StreamWriter(.ByRef))
             Return .ToArray.UTF8String
         End With
+    End Function
+
+    Public Function ToFasta() As FastaFile
+        Dim MSA = Me.MSA
+        Dim seqs = names _
+            .Select(Function(name, i)
+                        Return New FastaSeq With {
+                            .Headers = {name},
+                            .SequenceData = MSA(i)
+                        }
+                    End Function)
+
+        Return New FastaFile(seqs)
     End Function
 
     Public Sub Print(Optional maxNameWidth% = 10, Optional dev As TextWriter = Nothing)
