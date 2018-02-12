@@ -47,7 +47,7 @@ Public Class CenterStar
     ''' </summary>
     ''' <param name="matrix">得分矩阵</param>
     ''' <returns></returns>
-    Public Function Compute(matrix As Char()()) As String
+    Public Function Compute(matrix As Char()()) As MSAOutput
         Dim n = sequence.Length
 
         findStarIndex()
@@ -55,38 +55,11 @@ Public Class CenterStar
         multipleAlign = New String(n - 1) {}
         MultipleAlignment(sequence)
 
-        Return Me.print(10)
-    End Function
-
-    Private Function print(maxName As Integer) As String
-        Dim result As New StringBuilder
-        Dim n = sequence.Length
-        Dim names = Me.names.ToArray
-
-        For i As Integer = 0 To n - 1
-            names(i) = Mid(names(i), 1, maxName)
-            names(i) = names(i) & New String(" "c, maxName - names(i).Length)
-            result.AppendLine(names(i) & vbTab & multipleAlign(i))
-        Next
-
-        Dim conserved$ = ""
-
-        For j As Integer = 0 To multipleAlign(0).Length - 1
-            Dim index% = j
-            Dim column = multipleAlign.Select(Function(s) s(index)).ToArray
-
-            If column.Distinct.Count = 1 Then
-                conserved &= "*"
-            Else
-                conserved &= " "
-            End If
-        Next
-
-        If Not Trim(conserved).StringEmpty Then
-            result.AppendLine(New String(" "c, maxName) & vbTab & conserved)
-        End If
-
-        Return result.ToString
+        Return New MSAOutput With {
+            .names = names.ToArray,
+            .MSA = multipleAlign.ToArray,
+            .cost = calculateTotalCost(matrix, n)
+        }
     End Function
 
     ''' <summary>
