@@ -94,11 +94,17 @@ Public Class CenterStar
         Dim n = sequence.Length
         Dim totalCost#
 
-        findStarIndex()
-        centerString = sequence(starIndex)
-        multipleAlign = New String(n - 1) {}
-        multipleAlignmentImpl()
-        totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+        If sequence.All(Function(s) s = sequence(Scan0)) Then
+            ' 所输入的序列全部都是一样的？？
+            multipleAlign = sequence.ToArray
+            totalCost = 0
+        Else
+            findStarIndex()
+            centerString = sequence(starIndex)
+            multipleAlign = New String(n - 1) {}
+            multipleAlignmentImpl()
+            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+        End If
 
         Return New MSAOutput With {
             .names = names.ToArray,

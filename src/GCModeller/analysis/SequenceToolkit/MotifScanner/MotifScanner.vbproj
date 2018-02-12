@@ -105,6 +105,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProbabilityScanner.vb" />
     <Compile Include="Consensus\ConsensusScanner.vb" />
     <Compile Include="Consensus\ModelLoader.vb" />
     <Compile Include="Consensus\Protocol.vb" />
