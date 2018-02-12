@@ -64,7 +64,7 @@ Public Module Protocol
                                 .SequenceData = repSeq(seq.ID)
                             }
                         End Function) _
-                .MultipleAlignment
+                .MultipleAlignment(0)
 
             Yield MSA.PWM(members:=group.Select(Function(m) repSeq(m.ID)))
         Next
