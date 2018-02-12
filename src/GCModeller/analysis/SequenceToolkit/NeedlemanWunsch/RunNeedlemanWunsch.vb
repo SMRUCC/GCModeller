@@ -81,11 +81,13 @@ Public Module RunNeedlemanWunsch
 
         If [single] Then
             If output Is Nothing Then
-                Console.WriteLine("Alignment :")
-                Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(0))
-                Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(0))
-                Console.WriteLine("--------------------------------")
-                Console.WriteLine("Alignment-Score = " & nw.Score)
+                If echo Then
+                    Console.WriteLine("Alignment :")
+                    Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(0))
+                    Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(0))
+                    Console.WriteLine("--------------------------------")
+                    Console.WriteLine("Alignment-Score = " & nw.Score)
+                End If
             Else
                 SyncLock output
                     Call nw.writeAlignment(output, True)
@@ -93,15 +95,17 @@ Public Module RunNeedlemanWunsch
             End If
         Else
             If output Is Nothing Then
-                ' display all possible optimal alignments
-                For i As Integer = 0 To nw.NumberOfAlignments - 1
-                    Console.WriteLine("Alignment " & (i + 1) & ":")
-                    Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(i))
-                    Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(i))
-                Next
+                If echo Then
+                    ' display all possible optimal alignments
+                    For i As Integer = 0 To nw.NumberOfAlignments - 1
+                        Console.WriteLine("Alignment " & (i + 1) & ":")
+                        Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(i))
+                        Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(i))
+                    Next
 
-                Console.WriteLine("--------------------------------")
-                Console.WriteLine("Alignment-Score = " & nw.Score)
+                    Console.WriteLine("--------------------------------")
+                    Console.WriteLine("Alignment-Score = " & nw.Score)
+                End If
             Else
                 SyncLock output
                     Call nw.writeAlignment(output, False)
