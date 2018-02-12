@@ -20,12 +20,14 @@ Public Module Protocol
 
         ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
         Dim matrix As New List(Of DataSet)
+        Dim i As int = 1
 
         For Each q As HSP In seeds
             Dim row As New DataSet With {
-                .ID = q.Query,
+                .ID = ++i,
                 .Properties = New Dictionary(Of String, Double)
             }
+            Dim j As int = 1
 
             For Each s As HSP In seeds
                 ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
@@ -36,9 +38,14 @@ Public Module Protocol
                     echo:=False
                 )
 
-
+                row(++j) = score
             Next
+
+            matrix += row
         Next
+
+        ' 进行聚类分簇
+        Dim clusters = matrix.kmeans
     End Function
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq) As IEnumerable(Of HSP)
