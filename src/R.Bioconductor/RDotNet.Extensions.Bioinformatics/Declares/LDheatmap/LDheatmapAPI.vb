@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::194abcacc8e6a9b34ed7592712aad9f8, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\LDheatmap\LDheatmapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::194abcacc8e6a9b34ed7592712aad9f8, RDotNet.Extensions.Bioinformatics\Declares\LDheatmap\LDheatmapAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module API
+    ' 
+    '         Function: LDheatmap
+    ' 
+    '         Sub: New
+    ' 
+    '     Class LDheatmapS4Object
+    ' 
+    '         Properties: color, distance, geneticsDistance, labels, LDmatrix
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5fd270fc00080abf7bf2bf819a626597, ..\R.Bioconductor\RDotNET\R.NET\SpecialFunction.vb"
+﻿#Region "Microsoft.VisualBasic::5fd270fc00080abf7bf2bf819a626597, RDotNET\R.NET\SpecialFunction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SpecialFunction
+    ' 
+    '     Function: (+2 Overloads) Invoke
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

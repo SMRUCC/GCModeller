@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cfeeed34564de6876ab6a9a43fd6616c, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\igraph\make_lattice.vb"
+﻿#Region "Microsoft.VisualBasic::cfeeed34564de6876ab6a9a43fd6616c, RDotNet.Extensions.Bioinformatics\Declares\igraph\make_lattice.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: [dim], circular, dimvector, directed, length
+    '                 mutual, nei
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

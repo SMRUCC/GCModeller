@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6c52ae682755fe050e0c75999e78dc13, ..\R.Bioconductor\RDotNET\Graphics\Size.vb"
+﻿#Region "Microsoft.VisualBasic::6c52ae682755fe050e0c75999e78dc13, RDotNET\Graphics\Size.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure Size
+    ' 
+    '         Properties: Height, Width
+    ' 
+    '         Function: (+2 Overloads) Equals, GetHashCode
+    ' 
+    '         Sub: New
+    ' 
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

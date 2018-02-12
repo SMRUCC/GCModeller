@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::899e3efb1ad05e8e5a9b633430fe4c81, ..\R.Bioconductor\RDotNET\Graphics\IGraphicsDevice.vb"
+﻿#Region "Microsoft.VisualBasic::899e3efb1ad05e8e5a9b633430fe4c81, RDotNET\Graphics\IGraphicsDevice.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface IGraphicsDevice
+    ' 
+    '         Properties: Name
+    ' 
+    '         Function: Capture, ConfirmNewFrame, GetLocation, GetMetricInfo, GetSize
+    '                   MeasureWidth, OnResized
+    ' 
+    '         Sub: Clip, DrawCircle, DrawLine, DrawPath, DrawPolygon
+    '              DrawPolyline, DrawRaster, DrawRectangle, DrawText, OnActivated
+    '              OnClosed, OnDeactivated, OnDrawStarted, OnDrawStopped, OnNewPageRequested
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

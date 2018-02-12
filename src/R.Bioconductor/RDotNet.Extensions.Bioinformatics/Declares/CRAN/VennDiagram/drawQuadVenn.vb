@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::15e706821c3fb58a76b84127c0ed2df5, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\VennDiagram\drawQuadVenn.vb"
+﻿#Region "Microsoft.VisualBasic::15e706821c3fb58a76b84127c0ed2df5, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\drawQuadVenn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: alpha, area1, area2, area3, area4
+    '                 category, cex, col, fill, fontface
+    '                 fontfamily, ind, lty, lwd, n12
+    '                 n123, n1234, n124, n13, n134
+    '                 n14, n23, n234, n24, n34
+    '                 sigdigs
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

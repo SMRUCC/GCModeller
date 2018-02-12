@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9081cf687f1ca7ae8b45eff96d26b684, ..\R.Bioconductor\RDotNET\R.NET\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::9081cf687f1ca7ae8b45eff96d26b684, RDotNET\R.NET\DataFrame.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class DataFrame
+    ' 
+    '     Properties: ColumnCount, ColumnNames, DataSize, Item, RowCount
+    '                 RowNames
+    ' 
+    '     Function: GetArrayFast, GetColumn, GetMetaObject, (+2 Overloads) GetRow, (+2 Overloads) GetRows
+    ' 
+    '     Sub: New, SetColumn, SetVectorDirect
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

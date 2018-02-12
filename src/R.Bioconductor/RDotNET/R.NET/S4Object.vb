@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::91e4e7da24a977ea3176d60f6c73a073, ..\R.Bioconductor\RDotNET\R.NET\S4Object.vb"
+﻿#Region "Microsoft.VisualBasic::91e4e7da24a977ea3176d60f6c73a073, RDotNET\R.NET\S4Object.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class S4Object
+    ' 
+    '     Properties: Item, SlotCount, SlotNames
+    ' 
+    '     Function: GetClassDefinition, GetSlotTypes, HasSlot
+    ' 
+    '     Sub: checkSlotName, New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

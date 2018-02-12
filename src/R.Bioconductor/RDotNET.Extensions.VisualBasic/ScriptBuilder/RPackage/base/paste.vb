@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e8d02ff3a8661d318fba33407b4ad937, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\paste.vb"
+﻿#Region "Microsoft.VisualBasic::e8d02ff3a8661d318fba33407b4ad937, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\paste.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: collapse, x
+    ' 
+    '     Function: Func
+    ' 
+    '  
+    ' 
+    '     Properties: sep
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

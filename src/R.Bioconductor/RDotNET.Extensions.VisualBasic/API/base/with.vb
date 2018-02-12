@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fc625a1e1b59c6cb7e2445ab3082b53f, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\with.vb"
+﻿#Region "Microsoft.VisualBasic::fc625a1e1b59c6cb7e2445ab3082b53f, RDotNET.Extensions.VisualBasic\API\base\with.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module base
+    ' 
+    '         Function: [with]
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

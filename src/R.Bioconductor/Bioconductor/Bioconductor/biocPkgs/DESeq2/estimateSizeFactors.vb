@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b51dd85ae554cac07fd7686978968612, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\DESeq2\estimateSizeFactors.vb"
+﻿#Region "Microsoft.VisualBasic::b51dd85ae554cac07fd7686978968612, Bioconductor\Bioconductor\biocPkgs\DESeq2\estimateSizeFactors.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: [object], controlGenes, geoMeans, locfunc, normMatrix
+    '                 type
+    ' 
+    '  
+    ' 
+    '     Properties: controlGenes, counts, geoMeans, locfunc
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2b76184f609831f27e664809359b0780, ..\R.Bioconductor\RDotNET\R.NET\REngineExtension.vb"
+﻿#Region "Microsoft.VisualBasic::2b76184f609831f27e664809359b0780, RDotNET\R.NET\REngineExtension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module REngineExtension
+    ' 
+    '     Function: CreateCharacter, (+2 Overloads) CreateCharacterMatrix, (+2 Overloads) CreateCharacterVector, CreateComplex, (+2 Overloads) CreateComplexMatrix
+    '               (+2 Overloads) CreateComplexVector, CreateDataFrame, CreateEnvironment, CreateInteger, (+2 Overloads) CreateIntegerMatrix
+    '               (+2 Overloads) CreateIntegerVector, CreateIsolatedEnvironment, CreateLogical, (+2 Overloads) CreateLogicalMatrix, (+2 Overloads) CreateLogicalVector
+    '               CreateNamedArgs, CreateNumeric, (+2 Overloads) CreateNumericMatrix, (+2 Overloads) CreateNumericVector, CreateRaw
+    '               (+2 Overloads) CreateRawMatrix, (+2 Overloads) CreateRawVector, ToVector, ToVectors
+    ' 
+    '     Sub: Install
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
