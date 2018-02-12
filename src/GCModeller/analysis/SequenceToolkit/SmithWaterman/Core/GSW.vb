@@ -54,7 +54,7 @@ Public Class GSW(Of T)
     ''' <summary>
     ''' The lengths of the input strings
     ''' </summary>
-    Dim queryLength As Integer, subjectLength As Integer
+    Friend queryLength%, subjectLength%
 #End Region
 
 #Region "Matrix"
@@ -78,28 +78,28 @@ Public Class GSW(Of T)
     ''' To get the true score, divide the integer score used in computation
     ''' by the normalization factor.
     ''' </summary>
-    Const NORM_FACTOR As Double = 1.0
+    Public Const NORM_FACTOR As Double = 1.0
 
     ''' <summary>
     ''' The similarity function constants.
     ''' They are amplified by the normalization factor to be integers.
     ''' </summary>
-    Const MATCH_SCORE As Integer = 10
-    Const MISMATCH_SCORE As Integer = -8
-    Const INDEL_SCORE As Integer = -9
+    Public Const MATCH_SCORE As Integer = 10
+    Public Const MISMATCH_SCORE As Integer = -8
+    Public Const INDEL_SCORE As Integer = -9
 
     ''' <summary>
     ''' Constants of directions.
     ''' Multiple directions are stored by bits.
     ''' The zero direction is the starting point.
     ''' </summary>
-    Const DR_LEFT As Integer = 1
+    Public Const DR_LEFT As Integer = 1
     ' 0001
-    Const DR_UP As Integer = 2
+    Public Const DR_UP As Integer = 2
     ' 0010
-    Const DR_DIAG As Integer = 4
+    Public Const DR_DIAG As Integer = 4
     ' 0100
-    Const DR_ZERO As Integer = 8
+    Public Const DR_ZERO As Integer = 8
     ' 1000
 
 #Region "Interface"
@@ -110,7 +110,7 @@ Public Class GSW(Of T)
     ''' A position of 0 represents a gap. 
     ''' </summary>
     ReadOnly similarity As ISimilarity(Of T)
-    ReadOnly ToChar As ToChar(Of T)
+    Friend ReadOnly ToChar As ToChar(Of T)
 #End Region
 
     ''' <summary>
@@ -209,7 +209,7 @@ Public Class GSW(Of T)
     ''' <summary>
     ''' Get the maximum value in the score matrix.
     ''' </summary>
-    Private ReadOnly Property MaxScore() As Double
+    Public ReadOnly Property MaxScore() As Double
         Get
             Dim max As Double = 0
 
@@ -235,42 +235,6 @@ Public Class GSW(Of T)
             Return MaxScore / NORM_FACTOR
         End Get
     End Property
-
-    ''' <summary>
-    ''' Output the local alignments ending in the (i, j) cell.
-    ''' aligned1 and aligned2 are suffixes of final aligned strings
-    ''' found in backtracking before calling this function.
-    ''' Note: the strings are replicated at each recursive call.
-    ''' Use buffers or stacks to improve efficiency.
-    ''' </summary>
-    Private Sub printAlignments(i As Integer, j As Integer, aligned1 As String, aligned2 As String)
-        ' we've reached the starting point, so print the alignments	
-
-        If (prevCells(i)(j) And DR_ZERO) > 0 Then
-            Console.WriteLine(aligned1)
-            Console.WriteLine(aligned2)
-            Console.WriteLine("")
-
-            ' Note: we could check other directions for longer alignments
-            ' with the same score. we don't do it here.
-            Return
-        End If
-
-        ' find out which directions to backtrack
-        If (prevCells(i)(j) And DR_LEFT) > 0 Then
-            Dim ch As Char = ToChar(query(i - 1))
-            printAlignments(i - 1, j, ch & aligned1, "_" & aligned2)
-        End If
-        If (prevCells(i)(j) And DR_UP) > 0 Then
-            Dim ch As Char = ToChar(subject(j - 1))
-            printAlignments(i, j - 1, "_" & aligned1, ch & aligned2)
-        End If
-        If (prevCells(i)(j) And DR_DIAG) > 0 Then
-            Dim q As Char = ToChar(query(i - 1))
-            Dim s As Char = ToChar(subject(j - 1))
-            printAlignments(i - 1, j - 1, q & aligned1, s & aligned2)
-        End If
-    End Sub
 
     ''' <summary>
     ''' given the bottom right corner point trace back  the top left conrner.
@@ -309,48 +273,6 @@ Public Class GSW(Of T)
         Dim m As Integer() = New Integer() {i, j}
         Return m
     End Function
-
-    ''' <summary>
-    ''' Output the local alignments with the maximum score.
-    ''' </summary>
-    Public Sub printAlignments()
-        ' find the cell with the maximum score
-        Dim maxScore As Double = Me.MaxScore
-
-        ' skip the first row and column
-        For i As Integer = 1 To queryLength
-            For j As Integer = 1 To subjectLength
-                If score(i)(j) = maxScore Then
-                    printAlignments(i, j, "", "")
-                End If
-            Next
-        Next
-        ' Note: empty alignments are not printed.
-    End Sub
-
-    ''' <summary>
-    ''' print the dynmaic programming matrix
-    ''' </summary>
-    Public Sub printDPMatrix()
-        Console.Write(vbTab)
-        For j As Integer = 1 To subjectLength
-            Dim ch As Char = ToChar(subject(j - 1))
-            Console.Write(vbTab & ch)
-        Next
-        Console.WriteLine()
-        For i As Integer = 0 To queryLength
-            If i > 0 Then
-                Dim ch As Char = ToChar(query(i - 1))
-                Console.Write(ch & vbTab)
-            Else
-                Console.Write(vbTab)
-            End If
-            For j As Integer = 0 To subjectLength
-                Console.Write(score(i)(j) / NORM_FACTOR & vbTab)
-            Next
-            Console.WriteLine()
-        Next
-    End Sub
 
     ''' <summary>
     ''' Gets the dynmaic programming matrix

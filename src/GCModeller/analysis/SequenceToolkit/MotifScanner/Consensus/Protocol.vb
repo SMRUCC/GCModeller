@@ -1,7 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Language
 
 Public Module Protocol
 
@@ -17,7 +18,27 @@ Public Module Protocol
             Next
         Next
 
+        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
+        Dim matrix As New List(Of DataSet)
 
+        For Each q As HSP In seeds
+            Dim row As New DataSet With {
+                .ID = q.Query,
+                .Properties = New Dictionary(Of String, Double)
+            }
+
+            For Each s As HSP In seeds
+                ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
+                Dim score = RunNeedlemanWunsch.RunAlign(
+                    New FastaSeq With {.SequenceData = q.Query},
+                    New FastaSeq With {.SequenceData = s.Query},
+                    [single]:=True,
+                    echo:=False
+                )
+
+
+            Next
+        Next
     End Function
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq) As IEnumerable(Of HSP)

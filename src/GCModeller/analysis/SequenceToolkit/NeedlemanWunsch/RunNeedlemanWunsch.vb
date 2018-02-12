@@ -47,8 +47,8 @@ Public Module RunNeedlemanWunsch
     ''' <param name="output">假若这个参数为空，则会被输出到终端窗口，如果不想有任何输出，则可以重定向到<see cref="App.NullDevice"/></param>
     ''' <exception cref="Exception"> </exception>
     ''' <returns>This function returns the alignment score</returns>
-    Public Function RunAlign(fasta1 As FASTA.FastaSeq,
-                             fasta2 As FASTA.FastaSeq,
+    Public Function RunAlign(fasta1 As IPolymerSequenceModel,
+                             fasta2 As IPolymerSequenceModel,
                              [single] As Boolean,
                              Optional output As StreamWriter = Nothing,
                              Optional echo As Boolean = True) As Double
