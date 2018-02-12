@@ -113,5 +113,8 @@
       <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Matrix.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

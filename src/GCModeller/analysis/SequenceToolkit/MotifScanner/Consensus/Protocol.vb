@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module Protocol
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq)) As IEnumerable(Of Probability)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10) As IEnumerable(Of Probability)
         Dim regions As FastaSeq() = inputs.ToArray
         Dim seeds As New List(Of HSP)
 
@@ -94,20 +94,25 @@ Public Module Protocol
         Next
 
         ' 进行聚类分簇
-        Dim clusters = matrix.ToKMeansModels.Kmeans(10)
-        Dim motifs = clusters.GroupBy(Function(c) c.Cluster).ToArray
+        Dim clusters = matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=expectedMotifs)
+        Dim motifs = clusters _
+            .GroupBy(Function(c) c.Cluster) _
+            .ToArray
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each group As IGrouping(Of String, EntityClusterModel) In motifs
             Dim MSA = group _
                 .Select(Function(seq)
                             Return New FastaSeq With {
-                                .SequenceData = repSeq(seq.ID)
+                                .SequenceData = repSeq(seq.ID),
+                                .Headers = {seq.ID}
                             }
                         End Function) _
                 .MultipleAlignment(Nothing)
 
-            Yield MSA.MSA.PWM(members:=group.Select(Function(m) repSeq(m.ID)))
+            Yield MSA.MSA.PWM(members:=regions)
         Next
     End Function
 
@@ -118,7 +123,7 @@ Public Module Protocol
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(MSA$(), members As IEnumerable(Of String)) As Probability
+    Private Function PWM(MSA$(), members As FastaSeq()) As Probability
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
 
@@ -139,6 +144,7 @@ Public Module Protocol
         Next
 
         ' pvalue / scores
+        ' 在这里score是这个motif的多重比对的结果的PWM矩阵对原始序列的扫描结果的最高得分值
         Dim scores As Vector = Nothing
         Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
 
@@ -158,7 +164,7 @@ Public Module Protocol
     <Extension>
     Public Function Consensus(pairwise As HSP) As String
         Dim globalAlign = LevenshteinDistance.ComputeDistance(pairwise.Query, pairwise.Subject)
-        Return globalAlign.DistEdits
+        Return globalAlign.Matches
     End Function
 End Module
 

@@ -55,7 +55,7 @@ Module Module1
     End Sub
 
     Sub seeding()
-        Dim test As FastaFile = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta")
+        Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta")
         Dim result = test.PopulateMotifs.ToArray
     End Sub
 
