@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c66b3c66480d9406e65fa67358db2c3c, ..\repository\DataTools\Interpro\Xml\DbArchive.vb"
+﻿#Region "Microsoft.VisualBasic::c66b3c66480d9406e65fa67358db2c3c, DataTools\Interpro\Xml\DbArchive.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,60 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DbArchive
+    ' 
+    '         Properties: release
+    ' 
+    '         Function: Save
+    ' 
+    '     Class DbInfo
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Publication
+    ' 
+    '         Properties: author_list, db_xref, journal, location, title
+    '                     year
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Location
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class DbXref
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class RelRef
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class TaxonData
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Interpro
+    ' 
+    '         Properties: abstract, contains, external_doc_list, found_in, member_list
+    '                     name, parent_list, pub_list, sec_list, structure_db_links
+    '                     taxonomy_distribution
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class SecAcc
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
