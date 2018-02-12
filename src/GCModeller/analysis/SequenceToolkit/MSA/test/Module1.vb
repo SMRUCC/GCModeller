@@ -3,13 +3,15 @@
 Module Module1
 
     Sub Main()
-        Dim seq$() = "GATGTGCCG
+        Dim seq$() = "GATGTGGGGCCG
 GATGTGCAG
 CCGCTAGCAG
 CCTGCTGCAG
 CCTGTAGG".lTokens
+        Dim matrix = "D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\MSA\Matrix.txt".ReadAllLines.Select(Function(l) l.Replace(" "c, "").ToArray).ToArray
+        Dim msa = seq.MultipleAlignment(matrix)
 
-        Dim msa = seq.MultipleAlignment()
+        Call Console.WriteLine(msa)
 
         Pause()
     End Sub

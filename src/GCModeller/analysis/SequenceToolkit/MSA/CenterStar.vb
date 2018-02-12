@@ -1,5 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-Imports System.Text
+﻿Imports System.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -18,35 +17,61 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' 
 ''' > https://github.com/EranCohenSW/Multiple-sequence-alignment/blob/master/Project/src/CenterStar.java
 ''' </summary>
-Public Module CenterStar
+Public Class CenterStar
 
-    Public starIndex%
-    Public centerString$
-    Public direction%
-    Public globalAlign$() = New String(2) {}
-    Public multipleAlign$()
-    Public sequence$() = New String(10000) {}
-    Public totalScore% = 0
+    Dim starIndex%
+    Dim centerString$
+    Dim direction%
+    Dim globalAlign$() = New String(2) {}
+    Dim multipleAlign$()
+    Dim sequence$()
+    Dim totalScore% = 0
+
+    Sub New(input As IEnumerable(Of FastaSeq))
+        sequence = input _
+            .Select(Function(fa) fa.SequenceData) _
+            .ToArray
+    End Sub
+
+    Sub New(input As IEnumerable(Of String))
+        sequence = input.ToArray
+    End Sub
 
     ''' <summary>
     ''' Main
     ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="n%"></param>
+    ''' <param name="matrix">得分矩阵</param>
     ''' <returns></returns>
-    Public Function cumpute(matrix As Char()(), n%) As String
+    Public Function Compute(matrix As Char()()) As String
+        Dim n = sequence.Length
 
-        findStarIndex(n, sequence)
+        findStarIndex()
         centerString = sequence(starIndex)
-        multipleAlign = New String(n) {}
-        MultipleAlignment(sequence, n)
-        println("total cost: " + calculateTotalCost(matrix, n))
+        multipleAlign = New String(n - 1) {}
+        MultipleAlignment(sequence)
 
         Dim result As New StringBuilder
 
         For i As Integer = 0 To n - 1
             result.AppendLine(multipleAlign(i))
         Next
+
+        Dim conserved$ = ""
+
+        For j As Integer = 0 To multipleAlign(0).Length - 1
+            Dim index% = j
+            Dim column = multipleAlign.Select(Function(s) s(index)).ToArray
+
+            If column.Distinct.Count = 1 Then
+                conserved &= "*"
+            Else
+                conserved &= " "
+            End If
+        Next
+
+        If Not Trim(conserved).StringEmpty Then
+            result.AppendLine(conserved)
+        End If
 
         Return result.ToString
     End Function
@@ -55,8 +80,9 @@ Public Module CenterStar
     ''' this Function calculate() the total cost
     ''' </summary>
     ''' <returns></returns>
-    Public Function calculateTotalCost(matrix As Char()(), n%) As Double
+    Private Function calculateTotalCost(matrix As Char()(), n%) As Double
         Dim length = multipleAlign(0).Length
+
         For i As Integer = 0 To n - 1
             For j As Integer = 0 To n - 1
                 If (j > i) Then
@@ -76,12 +102,9 @@ Public Module CenterStar
     ''' <summary>
     ''' The Function do the multiple alignment according to the center string 
     ''' </summary>
-    ''' <param name="input"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function MultipleAlignment(input As IEnumerable(Of FastaSeq), n%) As String()
-        Dim sequence$() = input.Select(Function(seq) seq.SequenceData).ToArray
+    Private Sub MultipleAlignment(sequence$())
         Dim centerString2$ = centerString
+        Dim n = sequence.Length
 
         For i As Integer = 0 To n - 1
             If (i = starIndex) Then
@@ -95,7 +118,7 @@ Public Module CenterStar
             If (globalAlign(0).Length > centerString2.Length) Then
 
                 Dim j2 = 0
-                For j1 As Integer = 0 To globalAlign(0).Length
+                For j1 As Integer = 0 To globalAlign(0).Length - 1
                     If (centerString2(j2) <> globalAlign(0)(j1)) Then
                         Dim a As StringBuilder
                         For k As Integer = 0 To i - 1
@@ -113,7 +136,7 @@ Public Module CenterStar
             If (globalAlign(0).Length < centerString2.Length) Then
                 Dim j2 = 0
 
-                For j1 As Integer = 0 To centerString2.Length
+                For j1 As Integer = 0 To centerString2.Length - 1
                     If (centerString2(j1) <> globalAlign(0)(j2)) Then
                         Dim a As New StringBuilder(multipleAlign(i))
                         a.Insert(j1, "-")
@@ -124,26 +147,32 @@ Public Module CenterStar
                 Next
             End If
         Next
-    End Function
+
+        Dim maxLen = Aggregate a In multipleAlign Into Max(a.Length)
+
+        For i As Integer = 0 To multipleAlign.Length - 1
+            multipleAlign(i) &= New String("-"c, maxLen - multipleAlign(i).Length)
+        Next
+    End Sub
 
     ''' <summary>
     ''' This Function finds the minimum star cost from all sequences
     ''' </summary>
-    ''' <param name="n%"></param>
-    ''' <param name="s$"></param>
-    Public Sub findStarIndex(n%, s$())
+    Private Sub findStarIndex()
         Dim editDist = 0
         Dim minEditDist = Integer.MaxValue
+        Dim n = sequence.Length
 
         For i As Integer = 0 To n - 1
             For j As Integer = 0 To n - 1
-                editDist = editDist + calculateEditDistance(s(i), s(j))
+                editDist += calculateEditDistance(sequence(i), sequence(j))
             Next
 
             If (editDist < minEditDist) Then
                 minEditDist = editDist
                 starIndex = i
             End If
+
             editDist = 0
         Next
     End Sub
@@ -263,4 +292,4 @@ Public Module CenterStar
 
         Return temp
     End Function
-End Module
+End Class
