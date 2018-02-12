@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::63e3f8760810c227c15c34c5a78a783b, ..\Settings\Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
+﻿#Region "Microsoft.VisualBasic::98ab160ef50de62aec8a56036c2bd7a3, Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class KEGG_tools
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -1033,4 +1047,3 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
-

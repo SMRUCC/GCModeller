@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ba054ac5ee54b966bc51950449599ca6, ..\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb"
+﻿#Region "Microsoft.VisualBasic::ba054ac5ee54b966bc51950449599ca6, Shared\Settings.Configuration\Config\Programs\IDE.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,48 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class IDE
+    ' 
+    ' 
+    '         Enum Languages
+    ' 
+    ' 
+    ' 
+    ' 
+    '         Class StartPageF
+    ' 
+    '             Function: (+2 Overloads) [Default]
+    ' 
+    '         Class IDEConfig
+    ' 
+    '             Function: [Default]
+    '             Class PointF
+    ' 
+    ' 
+    ' 
+    '             Class SizeF
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '         Class SessionF
+    ' 
+    '             Function: [Default]
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

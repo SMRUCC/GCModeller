@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3985764abe9bf825aa2dd90ab0df465c, ..\Settings\Shared\InternalApps_CLI\Apps\Cytoscape.vb"
+﻿#Region "Microsoft.VisualBasic::b2d2686a1d5d9eb9aaf33bf65f054d05, Shared\InternalApps_CLI\Apps\Cytoscape.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Cytoscape
+    ' 
+    '     Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -1114,4 +1128,3 @@ Public Function TCS([in] As String, regulations As String, out As String, Option
 End Function
 End Class
 End Namespace
-

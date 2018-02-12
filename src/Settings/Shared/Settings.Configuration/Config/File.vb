@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::029f9f1fb79827050d3f2a279e162166, ..\Settings\Shared\Settings.Configuration\Config\File.vb"
+﻿#Region "Microsoft.VisualBasic::029f9f1fb79827050d3f2a279e162166, Shared\Settings.Configuration\Config\File.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class File
+    ' 
+    '         Properties: BlastBin, BlastDb, COG2003_2014, DefaultXmlFile, Java
+    '                     Mothur, Perl, Phylip, Python, R_HOME
+    '                     RepositoryRoot, Rockhopper, ShoalShell
+    ' 
+    '         Function: GetMplParam, Save
+    ' 
+    '         Sub: Dispose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
