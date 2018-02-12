@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::22ecd2b8d36a7f5ffccf07aebcae2dd5, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::22ecd2b8d36a7f5ffccf07aebcae2dd5, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module TFDensity
+    ' 
+    '         Function: __getCisGenes, __getGenes, Density
+    '         Structure __sourceHelper
+    ' 
+    '             Function: __stranded, __unstranded
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    '     Class Density
+    ' 
+    '         Properties: Abundance, Hits, loci, locus_tag, product
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

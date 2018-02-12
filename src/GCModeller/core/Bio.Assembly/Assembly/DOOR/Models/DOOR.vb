@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8c6fc74740cf5748554e371b1a87f187, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::8c6fc74740cf5748554e371b1a87f187, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DOOR
+    ' 
+    '         Properties: DOOROperonView, Genes
+    ' 
+    '         Function: [Select], CreateEmpty, Export, GetEnumerator, GetOperon
+    '                   HaveGene, HaveOperon, IEnumerable_GetEnumerator, IsOprPromoter, SameOperon
+    '                   Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

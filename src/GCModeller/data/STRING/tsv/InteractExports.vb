@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, ..\GCModeller\data\STRING\tsv\InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, data\STRING\tsv\InteractExports.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class InteractExports
+    ' 
+    '     Properties: automated_textmining, coexpression, combined_score, database_annotated, experimentally_determined_interaction
+    '                 gene_fusion, homology, neighborhood_on_chromosome, node1, node1_external_id
+    '                 node1_string_internal_id, node2, node2_external_id, node2_string_internal_id, phylogenetic_cooccurrence
+    ' 
+    '     Function: ImportsTsv, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c95092ab7875d692d69a6d657ad08213, ..\GCModeller\data\ExternalDBSource\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::c95092ab7875d692d69a6d657ad08213, data\ExternalDBSource\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,55 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RegPreciseTFFamily
+    ' 
+    '         Function: Download, Export, FindAtRegulog, ToString
+    ' 
+    '         Sub: Export
+    ' 
+    '     Class TranscriptionFactorFamily
+    ' 
+    '         Properties: Regulogs, Url
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class Regulogs
+    ' 
+    '         Properties: Description
+    ' 
+    '         Function: Export, GetDescription, GetUniqueIds, TrimText
+    ' 
+    '         Sub: Parse
+    '         Class Item
+    ' 
+    '             Properties: Regulog, TFBSs
+    ' 
+    '             Function: Parse, ParseLog, ToString
+    ' 
+    ' 
+    ' 
+    '     Class Regulator
+    ' 
+    '         Properties: BiologicalProcess, Effector, Regulog, TFBSs
+    ' 
+    '         Function: [Select], ExportMotifs, GetUniqueId, Parse, ParseLog
+    '                   SequenceTrimming
+    ' 
+    '     Class FastaObject
+    ' 
+    '         Properties: Bacteria, SequenceData
+    ' 
+    '         Function: [New], Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

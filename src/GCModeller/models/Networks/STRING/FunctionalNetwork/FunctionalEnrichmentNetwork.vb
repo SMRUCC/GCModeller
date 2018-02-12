@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::562c072dc6d8c4c5c15bbbc8455e81ea, ..\GCModeller\models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::6b01815427a982a44c9270339d804e6c, models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module FunctionalEnrichmentNetwork
+    ' 
+    '     Function: BuildModel, RenderDEGsColor, RenderDEGsColorSchema
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

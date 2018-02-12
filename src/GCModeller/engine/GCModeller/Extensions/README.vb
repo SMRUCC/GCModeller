@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b96efda9c3a6ac6fbacaf3adf4fe2514, ..\GCModeller\engine\GCModeller\Extensions\README.vb"
+﻿#Region "Microsoft.VisualBasic::b96efda9c3a6ac6fbacaf3adf4fe2514, engine\GCModeller\Extensions\README.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module README
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

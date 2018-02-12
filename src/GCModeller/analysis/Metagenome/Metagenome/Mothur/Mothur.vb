@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5ce377d87fc045615c3b8d7e8095825b, ..\GCModeller\analysis\Metagenome\Metagenome\Mothur\Mothur.vb"
+﻿#Region "Microsoft.VisualBasic::5ce377d87fc045615c3b8d7e8095825b, analysis\Metagenome\Metagenome\Mothur\Mothur.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Mothur
+    ' 
+    '     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
+    '               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
+    '               (+2 Overloads) Summary_seqs, Unique_seqs
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

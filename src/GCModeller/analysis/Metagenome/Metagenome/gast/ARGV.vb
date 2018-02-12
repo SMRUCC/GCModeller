@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::25e26add7437bda756a8a6f38b103296, ..\GCModeller\analysis\Metagenome\Metagenome\gast\ARGV.vb"
+﻿#Region "Microsoft.VisualBasic::25e26add7437bda756a8a6f38b103296, analysis\Metagenome\Metagenome\gast\ARGV.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure ARGV
+    ' 
+    '         Properties: [in], db_host, db_name, full, m
+    '                     maj, maxa, maxr, minp, mp
+    '                     out, ref, rtax, table, terse
+    '                     udb, wdb
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::553e5450390da1c637fce0609d53adab, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::553e5450390da1c637fce0609d53adab, engine\GCTabular\Compiler\KEGG.Compiler\Compound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Compound
+    ' 
+    '         Function: Compile, GenerateObject, (+2 Overloads) NormalizeUniqueId
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

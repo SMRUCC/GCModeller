@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d0829ca0f84a1b702703bcfa3604d98e, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ConstraintMetabolites.vb"
+﻿#Region "Microsoft.VisualBasic::d0829ca0f84a1b702703bcfa3604d98e, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ConstraintMetabolites.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MetabolismCompartment
+    ' 
+    '         Properties: TransmembraneFluxs
+    ' 
+    '         Function: GetTransmembraneFluxs, InsertNewMetabolite
+    '         Class ConstraintMetabolites
+    ' 
+    '             Function: GetEnumerator, GetEnumerator1
+    ' 
+    '             Sub: Initialize, InvokeATP_Compensate, setup_ATP_Compensate
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

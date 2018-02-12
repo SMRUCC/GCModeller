@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::eebaafbbaaa6c67c865d806963221d04, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
+﻿#Region "Microsoft.VisualBasic::b3825a33d865107747a7e3bea9c12466, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PTTDbLoader
+    ' 
+    '         Properties: Count, GeneFastas, Keys, Proteins, RptGenomeBrief
+    '                     Values
+    ' 
+    '         Function: ContainsKey, CreateObject, ExportCOGProfiles, GenomeFasta, GetEnumerator
+    '                   GetEnumerator1, GetGeneUniqueId, GetLocusId, (+2 Overloads) GetRelatedGenes, ORF_PTT
+    '                   RNARnt, TryGetValue
+    ' 
+    '         Sub: (+3 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

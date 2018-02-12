@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::02648a36dc7704c26186441f13665e2d, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::b17dba263e76fd411a1c44ec887332f4, visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,36 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure ColorLegend
+    ' 
+    '         Properties: color, type
+    ' 
+    '         Function: TCSColors, ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Class DrawingModel
+    ' 
+    '         Properties: aligns, COGColors, Legends, links, nt
+    '                     Query
+    ' 
+    '         Function: EnumerateTitles
+    ' 
+    '     Class Orthology
+    ' 
+    '         Properties: spPairs
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

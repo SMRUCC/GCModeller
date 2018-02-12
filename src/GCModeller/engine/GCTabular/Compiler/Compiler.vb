@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0821f8e69735c63a0d98bbf05ff1d3bb, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::0821f8e69735c63a0d98bbf05ff1d3bb, engine\GCTabular\Compiler\Compiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compiler
+    ' 
+    '         Function: _____createTranscript, _createProteinAssembly, AnalysisTransmenbraneFlux, Compile, CreateNewTransmembraneModel
+    '                   GetGeneId, GetProteinSequenceData, GetTranscriptSequenceData, Link, PreCompile
+    ' 
+    '         Sub: __createProteinObjects, __Initialize_MetaCyc, _createEnzymeObjects, _createRibosomeAssembly, _createTranscripts
+    '              CreatePathwayObjects, Dispose, GenerateCompositionVectors, LinkEffectors
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

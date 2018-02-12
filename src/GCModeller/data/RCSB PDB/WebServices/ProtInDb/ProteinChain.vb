@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::49ea087e77bd6b0395da437848c416ab, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
+﻿#Region "Microsoft.VisualBasic::40bd21a76f06bf8fad69f6a4bfc20c02, data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ProteinChain
+    ' 
+    '     Function: Save, ToFASTA, ToString, TryParse
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

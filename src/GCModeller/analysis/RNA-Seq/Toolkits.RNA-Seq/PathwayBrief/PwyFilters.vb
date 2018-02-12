@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5d6464e427bab4424eee55bd091e5e53, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\PathwayBrief\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::5d6464e427bab4424eee55bd091e5e53, analysis\RNA-Seq\Toolkits.RNA-Seq\PathwayBrief\PwyFilters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,34 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PwyFilters
+    ' 
+    '         Properties: AssociatedGenes, ContiansSubPathway, MetaCycBaseType, ReactionList, SuperPathway
+    '                     UniqueId
+    ' 
+    '         Function: Performance, ToString
+    ' 
+    '         Sub: New
+    ' 
+    '         Class PathwayBrief
+    ' 
+    '             Properties: Associated_gene_counts, Associated_gene_list, Description, UniqueId
+    ' 
+    '             Function: GenerateReport, ToString
+    ' 
+    '  
+    ' 
+    '     Function: CreateGeneCollection
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e0bce84c0a7e7089817be3a8831bfa13, ..\GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::1c0cb3884678e02e89f0bbbe6fdade5a, data\RegulonDatabase\Regprecise\FastaReaders\Regulator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Regulator
+    ' 
+    '         Properties: Definition, Family, KEGG, KEGGFamily, LocusTag
+    '                     Regulog, Sites, SpeciesCode
+    ' 
+    '         Function: __KEGGFamily, (+3 Overloads) LoadDocument, NullDictionary, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

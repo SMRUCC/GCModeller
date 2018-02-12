@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::172ebc036c2b00f5cea1a775823bf48f, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\derivbioassaywidbioassaymapwid.vb"
+﻿#Region "Microsoft.VisualBasic::172ebc036c2b00f5cea1a775823bf48f, data\ExternalDBSource\MetaCyc\bio_warehouse\derivbioassaywidbioassaymapwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class derivbioassaywidbioassaymapwid
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

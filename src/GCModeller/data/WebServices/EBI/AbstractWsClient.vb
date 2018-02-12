@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::be1062c5d7d6a8fd84717b73f78349a2, ..\GCModeller\data\WebServices\EBI\AbstractWsClient.vb"
+﻿#Region "Microsoft.VisualBasic::be1062c5d7d6a8fd84717b73f78349a2, data\WebServices\EBI\AbstractWsClient.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ClientException
+    ' 
+    '         Sub: (+4 Overloads) New
+    ' 
+    '     Class AbstractWsClient
+    ' 
+    '         Properties: Action, Async, DebugLevel, Email, JobId
+    '                     JobTitle, MaxCheckInterval, OutFile, OutFormat, OutputLevel
+    '                     ParamName, ServiceEndPoint
+    ' 
+    '         Function: constuctUserAgentStr, LoadBinData, LoadData, NextIdentifier, NextSequence
+    '                   ObjectFieldsToString, ObjectPropertiesToString, ObjectValueToString, ReadFile, ReadTextFile
+    ' 
+    '         Sub: ClientPoll, CloseIdentifierFile, CloseSequenceFile, (+2 Overloads) Dispose, (+2 Overloads) GetResults
+    '              New, PrintDebugMessage, PrintGenericOptsUsage, PrintParams, PrintProgressMessage
+    '              PrintStatus, SetIdentifierFile, SetSequenceFile, WriteBinaryFile, (+2 Overloads) WriteTextFile
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

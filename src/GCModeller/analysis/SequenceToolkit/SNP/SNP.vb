@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4d7e7d648135088f20bae5a8830e8050, ..\GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::4d7e7d648135088f20bae5a8830e8050, analysis\SequenceToolkit\SNP\SNP.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SNP
+    ' 
+    '     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
+    '                 CodonChange, CodonNumber, Coverage, gene, Intervals
+    '                 Length, Name, note, PolymorphismType, PositionWithinCodon
+    '                 product, protein_id, ProteinEffect, ReferenceFrequency, ReferenceNucleotides
+    '                 SignificantStrandBias, Site, StrandBias, TotalLength, VariantFrequency
+    '                 VariantNucleotides, VariantRawFrequency, VariantSequences
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::45d79f6f3ecdd78a91e1d3ced15f704e, ..\GCModeller\data\ExternalDBSource\Regprecise\AnalysisResult\MEME_HTML_Match.vb"
+﻿#Region "Microsoft.VisualBasic::45d79f6f3ecdd78a91e1d3ced15f704e, data\ExternalDBSource\Regprecise\AnalysisResult\MEME_HTML_Match.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Matched
+    ' 
+    '     Properties: DoorId, Ends, Information_Content, Log_Likelihood_Ratio, MatchedMotif
+    '                 MotifId, ObjectId, OperonPromoter, Relative_Entropy, Signature
+    '                 Starts, Strand, TF, Width
+    ' 
+    '     Function: Clone
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

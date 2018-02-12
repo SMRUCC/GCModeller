@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f6d66252325e72cd4e673b51729b7842, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::c205cc015eac0f1be244de07fb169370, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Utilities
+    ' 
+    '     Function: CompareFile, Count, GetSegment, GetSegments, Merge
+    '               SelectByLocus, SimpleMerge, Sites2Fasta, SubsetFastaDb, ToFasta
+    '     Delegate Function
+    ' 
+    '         Function: __attrBrief, __attrFull, __fillSegment, Distinct, GetSimpleSegments
+    '                   GffSites, Split, SubSet, Trim
+    ' 
+    ' Class Loci
+    ' 
+    '     Properties: ID, SequenceData, sp, st
+    ' 
+    '     Function: __getMappingLoci, ToFasta, ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

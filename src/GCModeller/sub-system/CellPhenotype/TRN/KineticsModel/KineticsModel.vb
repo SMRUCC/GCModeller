@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::293119e0ba38246ad78daef027b19279, ..\GCModeller\sub-system\CellPhenotype\TRN\KineticsModel\KineticsModel.vb"
+﻿#Region "Microsoft.VisualBasic::293119e0ba38246ad78daef027b19279, sub-system\CellPhenotype\TRN\KineticsModel\KineticsModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class BinaryExpression
+    ' 
+    '         Properties: __address, Identifier, Is_RegulatorType, RegulationValue, RegulatorCounts
+    '                     Status, Value
+    ' 
+    '         Function: CreateHandle, Evaluate, InternalGetMostPossibleAppearState, Regulators_DynamicsRegulation, Regulators_SiteSpecificDynamicsRegulations
+    '                   SetConfigs, ToString
+    ' 
+    '         Sub: InternalFactorDecays, (+2 Overloads) New, set_Mutation
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

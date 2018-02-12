@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c812e4dfa0d23afd67962d58adde26e3, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmscan.vb"
+﻿#Region "Microsoft.VisualBasic::c812e4dfa0d23afd67962d58adde26e3, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmscan.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,65 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class hmmscan
+    ' 
+    '         Properties: HMM, query, Querys, version
+    ' 
+    '         Function: GetTable, ToString
+    ' 
+    '     Class Query
+    ' 
+    '         Properties: Alignments, Hits, length, name, uncertain
+    ' 
+    '         Function: __getTable, GetTable, ToString
+    ' 
+    '     Class ScanTable
+    ' 
+    '         Properties: describ, exp, len, model, name
+    ' 
+    '         Function: GetPfamToken, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class Hit
+    ' 
+    '         Properties: Best, Description, exp, Full, Model
+    '                     N
+    ' 
+    '         Function: ToString
+    ' 
+    '     Structure Score
+    ' 
+    '         Properties: bias, score
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class Alignment
+    ' 
+    '         Properties: Aligns, describ, model
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Align
+    ' 
+    '         Properties: acc, alifrom, bias, envfrom, hmmfrom
+    '                     IsMatched, score
+    ' 
+    '         Function: GetPfamToken, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::805cd0c38e40aab93f568c749587813d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::805cd0c38e40aab93f568c749587813d, core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class QuerySource
+    ' 
+    '         Properties: genome, locusId
+    ' 
+    '         Function: DocParser, GetDoc, QuerySpCode, ToString
+    ' 
+    '     Structure ListEntry
+    ' 
+    '         Function: InternalParser, ToString
+    ' 
+    '     Class QueryEntry
+    ' 
+    '         Properties: Description
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

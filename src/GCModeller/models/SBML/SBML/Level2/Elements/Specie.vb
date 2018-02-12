@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::016baf5d4b497ed4a952f7c5ec2c8278, ..\GCModeller\models\SBML\SBML\Level2\Elements\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::016baf5d4b497ed4a952f7c5ec2c8278, models\SBML\SBML\Level2\Elements\Specie.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Specie
+    ' 
+    '         Properties: Charge, CompartmentID, ID, InitialAmount
+    ' 
+    '         Function: GetTrimmedId, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

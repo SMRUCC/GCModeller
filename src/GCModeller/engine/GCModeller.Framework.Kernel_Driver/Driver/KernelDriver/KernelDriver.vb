@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ef478fca9f2ef084ec05924266b84445, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
+﻿#Region "Microsoft.VisualBasic::ef478fca9f2ef084ec05924266b84445, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Interface IKernelDriver
+    ' 
+    '     Function: LoadEngineKernel
+    ' 
+    '     Sub: SetFilterHandles, SetKernelLoops
+    ' 
+    ' Class KernelDriver
+    ' 
+    '     Function: __loadEngineKernel, get_DataSerials, Get_ObjectHandlers, LoadEngineKernel, Run
+    ' 
+    '     Sub: __innerTicks, __invokeDataAcquisition, (+2 Overloads) Dispose, SetFilterHandles, SetKernelLoops
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

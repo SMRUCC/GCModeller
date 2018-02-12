@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4d99530ae5a9650dc039ababfd4a1bcc, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f9f8d4a3a5687c4c5194317d15968032, analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ShellScriptAPI
+    ' 
+    '     Function: Align, GetObject, GetSequenceData, MatchLocation, PatternSearch
+    '               PatternSearchA, ReadFile, (+2 Overloads) Reverse, SearchByTitleKeyword, WriteFile
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

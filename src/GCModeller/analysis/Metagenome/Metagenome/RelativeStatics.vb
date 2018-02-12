@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1a15aed828a41b411d9042a654313e48, ..\GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::1a15aed828a41b411d9042a654313e48, analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module RelativeStatics
+    ' 
+    '     Function: ExportByRanks
+    '     Class RankView
+    ' 
+    '         Properties: OTUs, Samples, TaxonomyName, Tree
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class View
+    ' 
+    '         Properties: OTU, Samples, TaxonTree
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d64ea8363a941e82944cdb2a2e14a1bb, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\DataModels\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::d64ea8363a941e82944cdb2a2e14a1bb, data\RegulonDatabase\Regprecise\WebServices\DataModels\Regulation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,39 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class regulog
+    ' 
+    ' 
+    ' 
+    '     Class regulon
+    ' 
+    '         Properties: effector, pathway, regulatorFamily, regulatorName
+    ' 
+    '     Class regulator
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class gene
+    ' 
+    ' 
+    ' 
+    '     Class site
+    ' 
+    ' 
+    ' 
+    '     Class regulonRef
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

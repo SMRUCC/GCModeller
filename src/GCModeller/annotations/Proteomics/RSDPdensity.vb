@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c1ed3b6cac33a5389a7f12de90079003, ..\GCModeller\annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::0ad4b4eaccfe4598288fa3157d313e05, annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module RSDPdensity
+    ' 
+    '     Function: RSDP, RSDPdensity
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

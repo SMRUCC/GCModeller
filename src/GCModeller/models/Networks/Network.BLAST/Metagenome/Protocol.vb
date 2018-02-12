@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dace2fdfd93505f17eda4b25cb108653, ..\GCModeller\models\Networks\Network.BLAST\Metagenome\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::16afe1e61e94e6712af192eeba9a086a, models\Networks\Network.BLAST\Metagenome\Protocol.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Protocol
+    ' 
+    '         Function: __buildNetwork, __subNetwork, (+2 Overloads) BuildMatrix, (+2 Overloads) BuildNetwork, Dump_x2taxid
+    '                   TaxonomyMaps
+    ' 
+    '         Sub: __styleNetwork
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

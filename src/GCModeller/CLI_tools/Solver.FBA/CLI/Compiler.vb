@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a097c3d1c5565ab64f4f99c77202136b, ..\GCModeller\CLI_tools\Solver.FBA\CLI\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::a097c3d1c5565ab64f4f99c77202136b, CLI_tools\Solver.FBA\CLI\Compiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: Compile, CompileMetaCyc, CompileSBML
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

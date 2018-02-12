@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::15a18beae505f3de40cfa4d97e51ef3c, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\XML\UniRef\entry.vb"
+﻿#Region "Microsoft.VisualBasic::15a18beae505f3de40cfa4d97e51ef3c, core\Bio.Assembly\Assembly\UniProt\XML\UniRef\entry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class entry
+    ' 
+    '         Properties: id, members, representativeMember
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class representativeMember
+    ' 
+    '         Properties: dbReference, sequence, source_organism, UniProtKB_accession
+    ' 
+    '         Function: ToString
+    ' 
+    '     Module Extensions
+    ' 
+    '         Function: PopulateALL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

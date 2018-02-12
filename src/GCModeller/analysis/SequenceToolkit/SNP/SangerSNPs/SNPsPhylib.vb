@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dca6b4978f3fb055d99af5a7bc2fd079, ..\GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::15019a0e6e7e374fd2476a5667a2e378, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module SNPsPhylib
+    ' 
+    '         Function: PhylibOfSNPSites
+    ' 
+    '     Structure Phylip
+    ' 
+    '         Function: Doc, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

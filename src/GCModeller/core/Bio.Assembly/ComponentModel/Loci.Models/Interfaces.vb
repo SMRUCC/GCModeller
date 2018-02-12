@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9f988bcf5aae46bd04858f2fdc49fe2b, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::9f988bcf5aae46bd04858f2fdc49fe2b, core\Bio.Assembly\ComponentModel\Loci.Models\Interfaces.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface ILocationSegment
+    ' 
+    '         Properties: Location, UniqueId
+    ' 
+    '     Interface IContig
+    ' 
+    '         Properties: Location
+    ' 
+    '     Interface ILocationNucleotideSegment
+    ' 
+    '         Properties: Strand
+    ' 
+    '     Interface ILocationComponent
+    ' 
+    '         Properties: Right
+    ' 
+    '     Interface ILoci
+    ' 
+    '         Properties: Left
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

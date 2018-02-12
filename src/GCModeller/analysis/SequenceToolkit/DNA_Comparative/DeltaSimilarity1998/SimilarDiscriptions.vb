@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ac4ae48f7b8971f09a2fdeecf3473329, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\SimilarDiscriptions.vb"
+﻿#Region "Microsoft.VisualBasic::ac4ae48f7b8971f09a2fdeecf3473329, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\SimilarDiscriptions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum SimilarDiscriptions
+    ' 
+    '         Close, Distant, DistantlySimilar, ModeratelySimilar, VeryDistant
+    '         WeaklySimilar
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

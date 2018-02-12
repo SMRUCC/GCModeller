@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e55f7a9225d585d16a80c11066fd1200, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
+﻿#Region "Microsoft.VisualBasic::662ff2448878deea9137b64d78983c4c, core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,34 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure Position
+    ' 
+    '         Properties: Left, Right
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Location
+    ' 
+    '         Properties: Center, FragmentSize, IsNormalized
+    ' 
+    '         Function: Clone, ContainSite, CreateObject, Equals, Inside
+    '                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
+    ' 
+    '         Sub: (+4 Overloads) New
+    ' 
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

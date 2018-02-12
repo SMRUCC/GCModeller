@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ec718faab42374dc5f7df7aae8259f71, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ec718faab42374dc5f7df7aae8259f71, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Delegate Function
+    ' 
+    ' 
+    ' Module CorrsDbAPI
+    ' 
+    '     Function: FastImports, IsTrue, IsTrueFunc
+    '     Class __isTRUE
+    ' 
+    '         Function: IsTrue
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

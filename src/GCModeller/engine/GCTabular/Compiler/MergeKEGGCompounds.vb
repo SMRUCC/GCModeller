@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d03632a5e3e09baa6623eac0328d4fe2, ..\GCModeller\engine\GCTabular\Compiler\MergeKEGGCompounds.vb"
+﻿#Region "Microsoft.VisualBasic::d03632a5e3e09baa6623eac0328d4fe2, engine\GCTabular\Compiler\MergeKEGGCompounds.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MergeKEGGCompounds
+    ' 
+    '         Function: Internal_getCompound
+    ' 
+    '         Sub: InvokeMergeCompoundSpecies, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e79f3841172b5eb67f1522a21ce20770, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::e79f3841172b5eb67f1522a21ce20770, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,34 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TaxiValue
+    ' 
+    '         Properties: Name, taxid, TaxonomyTree, Title, x
+    ' 
+    '         Function: BuildHash, ToString
+    ' 
+    '     Class TaxonValue
+    ' 
+    '         Properties: nodes, Rank, sp
+    ' 
+    '     Class BriefInfo
+    ' 
+    ' 
+    ' 
+    '     Module Taxonomy
+    ' 
+    '         Function: __gi2Taxid, __loadArchive, AcquireAuto, Archive, Hash_gi2Taxi
+    '                   LoadArchive
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

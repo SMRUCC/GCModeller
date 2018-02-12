@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::39fea8a7bd84711d311a899e3cde4fa3, ..\GCModeller\sub-system\FBA_DP\rFBA\ModelWriter.vb"
+﻿#Region "Microsoft.VisualBasic::39fea8a7bd84711d311a899e3cde4fa3, sub-system\FBA\FBA_DP\rFBA\ModelWriter.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ModelWriter
+    ' 
+    '     Function: __creates, __generate, __getEffectors, (+2 Overloads) CreateObject
+    '     Class Regulation
+    ' 
+    '         Properties: GeneId
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

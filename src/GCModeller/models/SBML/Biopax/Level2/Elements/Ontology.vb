@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, ..\GCModeller\models\SBML\Biopax\Level2\Elements\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, models\SBML\Biopax\Level2\Elements\Ontology.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,72 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Ontology
+    ' 
+    '     Properties: Comment
+    '     Class [Imports]
+    ' 
+    '         Properties: Resource
+    ' 
+    ' 
+    ' 
+    ' Class PhysicalEntityParticipant
+    ' 
+    '     Properties: CellularLocation, PhysicalEntity, Stoichiometric
+    '     Class PhysicalEntity_
+    ' 
+    '         Properties: Protein
+    '         Class Protein_
+    ' 
+    '             Properties: Comment, Id, Name, Organism, Synonyms
+    '                         Xref
+    '             Class Organism_
+    ' 
+    '                 Properties: BioSource
+    '                 Class BioSource_
+    ' 
+    '                     Properties: Id, Name, TaxonXref
+    '                     Class TaxonXref_
+    ' 
+    '                         Properties: UnificationXref
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class CellularLocation_
+    ' 
+    '         Properties: OpenControlledVocabulary
+    '         Class OpenControlledVocabulary_
+    ' 
+    '             Properties: Id, Term, Xref
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class Xref
+    ' 
+    '         Properties: UnificationXref
+    '         Class UnificationXref_
+    ' 
+    '             Properties: attrId, Db, Id
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

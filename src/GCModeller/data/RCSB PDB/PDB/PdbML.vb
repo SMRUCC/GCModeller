@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::301a49a6309f1e1c950f56a5b6ee9331, ..\GCModeller\data\RCSB PDB\PDB\PdbML.vb"
+﻿#Region "Microsoft.VisualBasic::301a49a6309f1e1c950f56a5b6ee9331, data\RCSB PDB\PDB\PdbML.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,108 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PdbML
+    ' 
+    ' 
+    '         Class entity_polyCategory
+    ' 
+    ' 
+    '             Class entity_poly
+    ' 
+    '                 Properties: pdbx_seq_one_letter_code, pdbx_seq_one_letter_code_can, pdbx_strand_id, type
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class PDBx
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class PDBxEntity
+    ' 
+    '         Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: pdbx_auth_asym_id, pdbx_auth_atom_id, pdbx_auth_comp_id, pdbx_auth_seq_id, pdbx_label_asym_id
+    '                 pdbx_label_atom_id, pdbx_label_comp_id, pdbx_label_seq_id, type_symbol, U11
+    '                 U12, U13, U22, U23, U33
+    ' 
+    '  
+    ' 
+    '     Properties: fract_transf_matrix11, fract_transf_matrix12, fract_transf_matrix13, fract_transf_matrix21, fract_transf_matrix22
+    '                 fract_transf_matrix23, fract_transf_matrix31, fract_transf_matrix32, fract_transf_matrix33, fract_transf_vector1
+    '                 fract_transf_vector2, fract_transf_vector3
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: atom_sites
+    ' 
+    '  
+    ' 
+    '     Properties: atom_site_anisotrop
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: name
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: dict_location
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: angle_alpha, angle_beta, angle_gamma, length_a, length_b
+    '                 length_c, Z_PDB
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: formula, formula_weight, mon_nstd_flag, name, type
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

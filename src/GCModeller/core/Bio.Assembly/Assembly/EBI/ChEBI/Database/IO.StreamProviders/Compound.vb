@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e53e9e4e14788f11d0d8a947d51627d2, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::e53e9e4e14788f11d0d8a947d51627d2, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compound
+    ' 
+    '         Properties: CHEBI_ACCESSION, CREATED_BY, DEFINITION, ID, MODIFIED_ON
+    '                     NAME, PARENT_ID, SOURCE, STAR, STATUS
+    ' 
+    '         Function: Load, LoadTable, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

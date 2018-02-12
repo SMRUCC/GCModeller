@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ae5e9f6aa38679fc3c3fd4ec62fc021c, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Files\xref2go\ToGo.vb"
+﻿#Region "Microsoft.VisualBasic::ae5e9f6aa38679fc3c3fd4ec62fc021c, data\GO_gene-ontology\GeneOntology\Files\xref2go\ToGo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ToGo
+    ' 
+    '         Properties: DbXrefID, FunctionAnnotation, GO_ID, Parser, xrefId
+    ' 
+    '         Function: LoadDocument, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

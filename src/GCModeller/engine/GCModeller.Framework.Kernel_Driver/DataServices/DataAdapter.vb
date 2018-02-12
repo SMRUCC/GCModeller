@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2e1bb59e7ed3c9dba8880c701bb51a01, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::2e1bb59e7ed3c9dba8880c701bb51a01, engine\GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataAdapter
+    ' 
+    '         Function: __createRow, CreateDataPackage, GetDataPackage, Tick
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

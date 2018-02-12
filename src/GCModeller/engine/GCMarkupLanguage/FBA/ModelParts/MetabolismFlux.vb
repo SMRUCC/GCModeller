@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a1800bc05f79ff18d6e60ca6ebe8d0a2, ..\GCModeller\engine\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
+﻿#Region "Microsoft.VisualBasic::a1800bc05f79ff18d6e60ca6ebe8d0a2, engine\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MetabolismFlux
+    ' 
+    '         Properties: Get_LOWER, Get_UPPER, GetObjCoefficient, Name, Products
+    '                     Reactants, Reversible
+    ' 
+    '         Function: Convert, GetStoichiometry, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

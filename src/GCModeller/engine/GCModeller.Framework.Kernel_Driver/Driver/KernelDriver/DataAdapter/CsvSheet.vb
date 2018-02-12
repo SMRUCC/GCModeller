@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fd466f6d8cd3f30f7aa94831346a4b80, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\CsvSheet.vb"
+﻿#Region "Microsoft.VisualBasic::fd466f6d8cd3f30f7aa94831346a4b80, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\CsvSheet.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MsCsvChunkBuffer
+    ' 
+    '     Function: AttachKernel, Generate_CsvRow, (+2 Overloads) get_Result, (+2 Overloads) WriteData
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

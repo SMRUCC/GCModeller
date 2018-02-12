@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3d3b179b1d5587e6100e427e6ff37fcc, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::2b7d2c169a53490c62efc80f35202810, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module TaxonomyWebAPI
+    ' 
+    '         Function: (+4 Overloads) efetch
+    ' 
+    '     Class TSeqSet
+    ' 
+    ' 
+    ' 
+    '     Class SeqBrief
+    ' 
+    '         Properties: TSeq_accver, TSeq_defline, TSeq_gi, TSeq_length, TSeq_orgname
+    '                     TSeq_taxid
+    ' 
+    '     Class TSeq
+    ' 
+    '         Properties: TSeq_seqtype, TSeq_sequence
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

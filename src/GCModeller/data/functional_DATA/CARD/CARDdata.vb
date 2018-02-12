@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::510de083e3f0693768bd75422ce37ae5, ..\GCModeller\data\functional_DATA\CARD\CARDdata.vb"
+﻿#Region "Microsoft.VisualBasic::403515e1c64594a667991db3c2fc77f0, data\functional_DATA\CARD\CARDdata.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CARDdata
+    ' 
+    '     Function: (+2 Overloads) AntibioticResistanceRelationship, FastaParser, TravelAntibioticResistance, TravelAntibioticTree
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

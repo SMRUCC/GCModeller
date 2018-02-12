@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::df2bc256494b59003cd7b3f2c06e352d, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
+﻿#Region "Microsoft.VisualBasic::5351f6c71fb1d21e1337b41031b79870, core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class NomenclatureDB
+    ' 
+    '         Properties: Copyright, Enzymes, Release
+    ' 
+    '         Function: CreateObject, GetSwissProtEntries, Save, TryExportUniprotFasta
+    ' 
+    '         Sub: Export
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

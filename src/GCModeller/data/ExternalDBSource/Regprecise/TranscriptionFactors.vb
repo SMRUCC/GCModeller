@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6a488f97fa8a489a9f3999f3b466543d, ..\GCModeller\data\ExternalDBSource\Regprecise\TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::6a488f97fa8a489a9f3999f3b466543d, data\ExternalDBSource\Regprecise\TranscriptionFactors.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,46 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TranscriptionFactors
+    ' 
+    '         Properties: DownloadTime
+    ' 
+    '         Function: Download, DownloadRegulatorSequence, ExportTFBSInfo, GetId, GetRegulatorId
+    '                   Load, Regulators, Save
+    ' 
+    '     Class BacteriaGenome
+    ' 
+    '         Function: Download, ToString
+    '         Class Regulon
+    ' 
+    '             Function: CreateObject, ExportMotifs, GetExportData, GetMotifSite, GetTagValue
+    '                       GetTagValue_td, More, ToString
+    '             Class Regulator
+    ' 
+    ' 
+    '                 Enum Types
+    ' 
+    '                     RNA, TF
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

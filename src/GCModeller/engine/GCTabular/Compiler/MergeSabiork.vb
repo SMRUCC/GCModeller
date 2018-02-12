@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8fec7d1114593ab48043224d169c9c46, ..\GCModeller\engine\GCTabular\Compiler\MergeSabiork.vb"
+﻿#Region "Microsoft.VisualBasic::8fec7d1114593ab48043224d169c9c46, engine\GCTabular\Compiler\MergeSabiork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MergeSabiork
+    ' 
+    '         Function: GetCompound, GetItems, LoadSabiorkEnzyme, LoadUniprotBesthits, Matches
+    '                   WriteResult
+    ' 
+    '         Sub: InvokeMergeCompoundSpecies, New
+    '         Class MatchedSabiorkEnzyme
+    ' 
+    '             Properties: MatchedId
+    ' 
+    '             Function: CreateObject, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

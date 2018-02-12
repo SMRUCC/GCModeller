@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::71985201199540fe264c757f85b8b251, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Release.vb"
+﻿#Region "Microsoft.VisualBasic::3574629a187e00c7f8051ccd764dce58, analysis\SequenceToolkit\ClustalOmega\Release.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Release
+    ' 
+    '     Function: ReleasePackage
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bac056e46f55c35398daed176eb198bd, ..\GCModeller\engine\GCTabular\PolynomialFit.vb"
+﻿#Region "Microsoft.VisualBasic::bac056e46f55c35398daed176eb198bd, engine\GCTabular\PolynomialFit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class PolynomialFit
+    ' 
+    '     Function: ErrorSquared, F, FindPolynomialLeastSquaresFit, GaussianElimination, TryFit
+    '     Structure PointF
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

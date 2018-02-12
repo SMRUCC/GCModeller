@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::eec806231333e76ab6c9cdbfaed09d93, ..\GCModeller\data\functional_DATA\CARD\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::298f42b43fe770582459d8c962aabcbf, data\functional_DATA\CARD\Fasta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SeqHeader
+    ' 
+    '     Properties: AccessionID, ARO, loci, name, species
+    ' 
+    '     Function: NucleotideHeader, ProteinHeader, ToString
+    '     Class LocationParser
+    ' 
+    '         Function: ToString, TryParse
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

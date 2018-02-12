@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d3c326857eac4222f26fbbf1ad395a21, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
+﻿#Region "Microsoft.VisualBasic::d3c326857eac4222f26fbbf1ad395a21, engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DriverAPI
+    ' 
+    '     Function: CsvDataStorage, DetectedDriver, RunDriver, WriteData
+    ' 
+    '     Sub: set_DataAdapter_FilteringHandles, SetKernelLoops
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

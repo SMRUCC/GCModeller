@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b1f0e05f43504b415fd0602b88e1ecc7, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::b1f0e05f43504b415fd0602b88e1ecc7, analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Matrix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MatrixFrame
+    ' 
+    '         Properties: Average, LstExperiments, LstLocusId, Name
+    ' 
+    '         Function: [Get], __caculation, __createRow, CalculatePccMatrix, GetCurrentRPKMsVector
+    '                   GetOriginalMatrix, GetValue, Load, Log2, SetColumnAuto
+    '                   ToDictionary, ToString
+    ' 
+    '         Sub: (+2 Overloads) SetColumn
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

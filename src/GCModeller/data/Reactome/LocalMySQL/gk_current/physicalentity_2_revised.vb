@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ff82bbf7ada4c9309ea809386bb1ac18, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\physicalentity_2_revised.vb"
+﻿#Region "Microsoft.VisualBasic::ff82bbf7ada4c9309ea809386bb1ac18, data\Reactome\LocalMySQL\gk_current\physicalentity_2_revised.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class physicalentity_2_revised
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

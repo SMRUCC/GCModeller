@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, ..\GCModeller\engine\GCMarkupLanguage\EquationGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, engine\GCMarkupLanguage\EquationGenerator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,37 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class EquationGenerator
+    ' 
+    '     Function: Balance, Generate
+    '     Class ChemicalCompound
+    ' 
+    '         Function: Exists, TryParse
+    '         Class Element
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class Equation
+    ' 
+    '         Function: GetAtoms, (+2 Overloads) ToString
+    '         Class SpeciesReference
+    ' 
+    '             Function: ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

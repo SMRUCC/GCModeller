@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d48dbec9004f351e807c19cfc7e6a74f, ..\GCModeller\data\ExternalDBSource\Regtransbase\StructureObjects\RegulatoryElements.vb"
+﻿#Region "Microsoft.VisualBasic::d48dbec9004f351e807c19cfc7e6a74f, data\ExternalDBSource\Regtransbase\StructureObjects\RegulatoryElements.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,70 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RegulatoryElement
+    ' 
+    '         Properties: Description
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Effector
+    ' 
+    '         Properties: Guid
+    ' 
+    '  
+    ' 
+    '     Function: ExportFasta, GetSequenceData, ToString, TryAssignSequence
+    ' 
+    '  
+    ' 
+    '     Function: ExportFasta, FixSequenceError
+    ' 
+    '     Class Gene
+    ' 
+    ' 
+    ' 
+    '     Class Transcript
+    ' 
+    '         Properties: Guid, pfo_side_guid, pfo_type_id, pos_from, pos_from_guid
+    '                     pos_to, pos_to_guid, pto_side_guid, pto_type_id, tr_len
+    ' 
+    '     Class Operon
+    ' 
+    '         Properties: Guid
+    ' 
+    '     Class Locuses
+    ' 
+    '         Properties: Guid, location
+    ' 
+    '     Class Regulon
+    ' 
+    '         Properties: Guid
+    ' 
+    '     Class sec_structures
+    ' 
+    '         Properties: Guid, pfo_side_guid, pfo_type_id, pos_from, pos_from_guid
+    '                     pos_to, pos_to_guid, pto_side_guid, pto_type_id, sequence
+    ' 
+    '     Class helices
+    ' 
+    '         Properties: Guid, pos_from1, pos_from2, pos_to1, pos_to2
+    '                     sec_struc_guid
+    ' 
+    '     Class ObjSynonyms
+    ' 
+    '         Properties: art_guid, fl_real_name, obj_guid, pkg_guid, syn_name
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

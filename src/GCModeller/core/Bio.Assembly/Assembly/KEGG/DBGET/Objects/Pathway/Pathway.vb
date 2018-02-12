@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e16baa363f98965d1051169395efce40, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::3b5294713e77c19c92d32dd34649c174, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Pathway
+    ' 
+    '         Properties: BriteId, compound, disease, drugs, genes
+    '                     KOpathway, modules, name, organism, otherDBs
+    '                     pathwayMap, references
+    ' 
+    '         Function: __source, Download, (+2 Overloads) DownloadPage, DownloadPathwayMap, (+2 Overloads) GetCompoundCollection
+    '                   GetPathwayGenes, IsContainsCompound, IsContainsGeneObject, IsContainsModule
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

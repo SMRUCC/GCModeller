@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::efd8ac90d4d1483fe7d7217a40e12f6b, ..\GCModeller\analysis\Metagenome\Metagenome\SILVA\SILVABuild.vb"
+﻿#Region "Microsoft.VisualBasic::b8801b3849e515a7efe572a950355ca2, analysis\Metagenome\Metagenome\SILVA\SILVABuild.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module SILVABuild
+    ' 
+    '     Function: SILVABacteria
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

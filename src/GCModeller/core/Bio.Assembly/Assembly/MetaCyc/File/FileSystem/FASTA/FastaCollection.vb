@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::449c4fa75ff201c9ce62210c7c21ea21, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
+﻿#Region "Microsoft.VisualBasic::b2928fb9ba47253828ce7d11b471b937, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FastaCollection
+    ' 
+    '         Properties: DNAseq, DNASourceFilePath, Origin, OriginSourceFile, ProteinSourceFile
+    '                     protseq
+    ' 
+    '         Function: Load, LoadGeneObjects, LoadProteins
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

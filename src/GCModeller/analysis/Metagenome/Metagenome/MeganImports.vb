@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1670dc54600ce13a8770adb3dab31012, ..\GCModeller\analysis\Metagenome\Metagenome\MeganImports.vb"
+﻿#Region "Microsoft.VisualBasic::1670dc54600ce13a8770adb3dab31012, analysis\Metagenome\Metagenome\MeganImports.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MeganImports
+    ' 
+    '     Properties: CLASS_NAME, COUNT, READ_NAME
+    ' 
+    '     Function: (+2 Overloads) [Imports], Out, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dfd4dd6e17ec70618aa09723d1320be1, ..\GCModeller\models\Networks\Microbiome\UniProtBuild.vb"
+﻿#Region "Microsoft.VisualBasic::751b3b037e673d01a8e601306771bc87, models\Networks\Microbiome\UniProtBuild.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module UniProtBuild
+    ' 
+    '     Function: ko00000Provider, ScanInternal, (+2 Overloads) ScanModels, skipUntil
+    ' 
+    '     Sub: CopyTo
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

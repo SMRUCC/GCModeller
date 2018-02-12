@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f7b70b79e34f3b674ef07004b66955c6, ..\GCModeller\data\Reactome\Owl\ExtractOwl.vb"
+﻿#Region "Microsoft.VisualBasic::f7b70b79e34f3b674ef07004b66955c6, data\Reactome\Owl\ExtractOwl.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ExtractOwl
+    ' 
+    '     Function: __fromTempId, __GenerateInputOutput, __getSTO, __process, __trim
+    '               ExtractFile, ExtractMetabolites, ExtractReaction, GenerateComplex, GenerateProtein
+    '               GenerateSmallMolecule, GenerateTempId, GetId
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

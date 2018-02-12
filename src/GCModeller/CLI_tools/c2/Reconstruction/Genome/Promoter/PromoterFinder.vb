@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ae3ab11c75d4ac8cedd035b62f26c467, ..\GCModeller\CLI_tools\c2\Reconstruction\Genome\Promoter\PromoterFinder.vb"
+﻿#Region "Microsoft.VisualBasic::ae3ab11c75d4ac8cedd035b62f26c467, CLI_tools\c2\Reconstruction\Genome\Promoter\PromoterFinder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,36 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '         Class PromoterFinder
+    ' 
+    '             Properties: ReconstructedDNASegments
+    ' 
+    '             Function: GetSegments, Performance, (+2 Overloads) TryParse
+    ' 
+    '             Sub: New
+    '             Class Chromosome
+    ' 
+    '                 Properties: Complement, Length, Sequence, Title
+    ' 
+    '                 Function: ToString
+    ' 
+    '                 Sub: New
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

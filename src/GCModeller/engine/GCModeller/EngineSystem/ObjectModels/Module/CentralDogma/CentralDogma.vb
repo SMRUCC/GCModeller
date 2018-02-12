@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1263dbce136a91c3d619f395ecb50313, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::1263dbce136a91c3d619f395ecb50313, engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\CentralDogma.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CentralDogma
+    ' 
+    '         Properties: FluxValue, TypeId
+    ' 
+    '         Function: __Internal_createMotifRegulators, CreateInstance, get_Regulators, Initialize, Invoke
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::df4f7caa108bd773c8db6fa5b5e05631, ..\GCModeller\core\Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::93fb06629f3981628547ad820dad307d, core\Bio.Repository\KEGG\SSDB.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module SSDB
+    ' 
+    '     Sub: CutSequence_Upstream
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

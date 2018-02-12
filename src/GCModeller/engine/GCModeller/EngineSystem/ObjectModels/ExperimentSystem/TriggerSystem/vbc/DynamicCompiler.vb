@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a11c25eba211c8dc05cc63651478bfbb, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::a11c25eba211c8dc05cc63651478bfbb, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DynamicCompiler
+    ' 
+    '         Properties: CompiledCode
+    ' 
+    '         Function: (+2 Overloads) Compile, CreateTriggerConditionTest, DeclareAssembly, DeclareFunction, GenerateCode
+    '                   GetDebugInformation, ImportsNamespace
+    ' 
+    '         Sub: AddTestModel, (+2 Overloads) Dispose, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

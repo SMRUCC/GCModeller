@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::43c746f942a84674a418e91eaa423c1d, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::33003fdca740e8144ac5c6f6fd3edce2, CLI_tools\S.M.A.R.T\CLI\UniProt.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: UniProt2Pfam, UniProtXmlDomains
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

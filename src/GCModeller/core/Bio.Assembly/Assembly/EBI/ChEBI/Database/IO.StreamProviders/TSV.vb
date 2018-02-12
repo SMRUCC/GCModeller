@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b733d8b77055960bd65e3414751c6ea4, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
+﻿#Region "Microsoft.VisualBasic::b733d8b77055960bd65e3414751c6ea4, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TSVTables
+    ' 
+    '         Properties: FileName, TsvFiles
+    ' 
+    '         Function: __lazyLoadData, GetChemicalData, GetDatabaseAccessions, GetInChI, GetNames
+    ' 
+    '         Sub: New
+    '         Structure FileNames
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

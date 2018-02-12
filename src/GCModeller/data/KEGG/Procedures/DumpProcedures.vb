@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b17c63c1e2fa5ec4c5da3a42fcf6fad7, ..\GCModeller\data\KEGG\Procedures\DumpProcedures.vb"
+﻿#Region "Microsoft.VisualBasic::be52f0fdc8284ae5f9f1e170e02b9a40, data\KEGG\Procedures\DumpProcedures.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DumpProcedures
+    ' 
+    '     Sub: DumpCompounds, DumpKO, DumpReactions, DumpReferencePathwayMap
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

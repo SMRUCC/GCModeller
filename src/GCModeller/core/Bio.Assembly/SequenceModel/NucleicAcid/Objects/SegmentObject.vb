@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::26356f453ff5965667ea5db80061e06a, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::62459b46646b86bd5d3a265ffea394d8, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SegmentObject
+    ' 
+    '         Properties: Complement, Description, GC_Content, SequenceData, Title
+    ' 
+    '         Function: (+2 Overloads) Get_GCContent, GetFasta, ToLoci, ToString
+    ' 
+    '         Sub: (+4 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

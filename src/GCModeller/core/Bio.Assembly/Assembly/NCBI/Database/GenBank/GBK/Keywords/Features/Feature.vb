@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b93b1dac42ba71e47849bb20d9f0cc41, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::b93b1dac42ba71e47849bb20d9f0cc41, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Feature
+    ' 
+    '         Properties: Count, IsReadOnly, Keys, PairedValues, SequenceData
+    '                     Values
+    ' 
+    '         Function: __parser, Contains, ContainsKey, GetEnumerator, GetEnumerator1
+    '                   (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove, SetValue
+    '                   ToGff, ToString, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

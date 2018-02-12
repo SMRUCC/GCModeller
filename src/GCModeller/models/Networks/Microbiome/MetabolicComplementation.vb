@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::03e95fdd42240f3b9b1ec04db41c4709, ..\GCModeller\models\Networks\Microbiome\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::91f8cb510c22b67622c4b83620d6931e, models\Networks\Microbiome\MetabolicComplementation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module MetabolicComplementation
+    ' 
+    '     Function: BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
+    ' 
+    '     Sub: FetchModels
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

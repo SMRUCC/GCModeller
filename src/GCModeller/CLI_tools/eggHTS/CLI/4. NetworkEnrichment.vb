@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4a9d7b5b01f112a7717b834b13aacf7e, ..\GCModeller\CLI_tools\eggHTS\CLI\4. NetworkEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::96e3be24a684b26541a484c4d834ca74, CLI_tools\eggHTS\CLI\4. NetworkEnrichment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: FunctionalNetworkEnrichment, GeneIDListFromKOBASResult, KOBASNetwork
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

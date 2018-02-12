@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c2738178a49b9254aaf777f26cc4bb6f, ..\GCModeller\CLI_tools\NCBI_tools\CLI\Exports.vb"
+﻿#Region "Microsoft.VisualBasic::5f74f9a67be7d3d0850e869883ca7f37, CLI_tools\NCBI_tools\CLI\Exports.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: FilterExports
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

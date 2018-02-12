@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cefc8fc889d91688101779b426de90a9, ..\GCModeller\CLI_tools\MEME\Cli\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::1abd2e245cf29b7e6e08f804e4ff04df, CLI_tools\MEME\Cli\MEME.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __getLocusTag, __getModels, __getSites, __isFamilyName, __isFile
+    '               __isLDMName, __loadMEME, __siteMatchesCommon, GetFastaSource, LogoBatch
+    '               MastRegulations, MEMEBatch, MotifScan, RfamSites, SequenceLogoTask
+    '               SiteMatch, SiteMatches, SiteMatchesText
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

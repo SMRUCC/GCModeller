@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9b2050aaa52226621f9e5c7108f04c65, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
+﻿#Region "Microsoft.VisualBasic::9b2050aaa52226621f9e5c7108f04c65, engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GCModeller
+    ' 
+    '         Properties: args, ConfigurationData, EventId, KernelModule, KernelProfile
+    '                     RuntimeTicks, SystemLogging, SystemVariable
+    ' 
+    '         Function: __innerTicks, (+2 Overloads) ConnectDataService, get_DataModel, GetArguments, Initialize
+    '                   Load, RegisterEvent, Run, ToString
+    ' 
+    '         Sub: ConnectLoggingClient, (+2 Overloads) Dispose, InternalRecordActivityStatus, LoadKernel, LoadSystemModule
+    '              MemoryDump, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

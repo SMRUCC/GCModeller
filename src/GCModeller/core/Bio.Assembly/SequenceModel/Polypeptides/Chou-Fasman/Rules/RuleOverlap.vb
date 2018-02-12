@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7d0c5094fe9ddd8703d26afea9033c8e, ..\GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb"
+﻿#Region "Microsoft.VisualBasic::7d0c5094fe9ddd8703d26afea9033c8e, core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RuleOverlap
+    ' 
+    '         Sub: CalculateHelixSheetOverlap, CalculateHelixTurnOverlap, CalculateSheetTurnOverlap, Invoke, SetStructureType
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b5b83d60af2b5939ef12404aa1caeb37, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::c7faad2ba30eda9e63960a041f6a40a4, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum Types
+    ' 
+    '         RNA, TF
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class Regulator
+    ' 
+    '         Properties: infoURL, LocusId, regulatorySites
+    ' 
+    '         Function: __exportServlet, __getTagValue, __getTagValue_td, CreateObject, ExportMotifs
+    '                   (+2 Overloads) GetMotifSite, More, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

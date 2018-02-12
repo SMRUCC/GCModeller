@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::26c4c3505c832357e5a7f11d8052eb8c, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\XML\Model\CommentData.vb"
+﻿#Region "Microsoft.VisualBasic::26c4c3505c832357e5a7f11d8052eb8c, core\Bio.Assembly\Assembly\UniProt\XML\Model\CommentData.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class comment
+    ' 
+    '         Properties: [event], isoforms, subcellularLocations, text
+    ' 
+    '     Class subcellularLocation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class isoform
+    ' 
+    '         Properties: id, name, sequence, text
+    ' 
+    '     Class disease
+    ' 
+    '         Properties: acronym, dbReference, description, id, name
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

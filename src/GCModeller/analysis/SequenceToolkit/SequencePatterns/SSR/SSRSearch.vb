@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::284f77bc4ce82288e050feba596c6c27, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SSR\SSRSearch.vb"
+﻿#Region "Microsoft.VisualBasic::44a6fecef3a259f1c5e5f216257b9002, analysis\SequenceToolkit\SequencePatterns\SSR\SSRSearch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module SSRSearch
+    ' 
+    '     Properties: Parallel
+    ' 
+    '     Function: CompoundSSR, InterruptedSSR, PureSSR, SeedingInternal, SSR
+    ' 
+    '     Sub: MatchInternal
+    ' 
+    ' Structure SSR
+    ' 
+    '     Properties: Ends, RepeatUnit, Sequence, Start, Strand
+    ' 
+    '     Function: ToFasta, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

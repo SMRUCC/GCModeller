@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f6c50eb846277105b22f211813d62f53, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::f6c50eb846277105b22f211813d62f53, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: InsertSQL
+    ' 
+    '     Function: CreateObject, ToCsvRow, ToString
+    ' 
+    '     Structure HandleF
+    ' 
+    '         Properties: Handle, Identifier, InsertSQL
+    ' 
+    '         Function: GenerateSQL, GetHandles, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

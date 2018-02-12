@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::572414cfb771b420083867ee5c0e948d, ..\GCModeller\models\Networks\Microbiome\PathwayProfile.vb"
+﻿#Region "Microsoft.VisualBasic::acd0843543540dd6887cd3d206ac59af, models\Networks\Microbiome\PathwayProfile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module PathwayProfile
+    ' 
+    '     Function: (+2 Overloads) CreateProfile, EnrichmentTestInternal, MicrobiomePathwayNetwork, PathwayProfile, (+3 Overloads) PathwayProfiles
+    '               ProfileEnrichment
+    '     Class Profile
+    ' 
+    '         Properties: pct, Profile, RankGroup, Taxonomy
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class EnrichmentProfiles
+    ' 
+    '         Properties: pathway, profile, pvalue, RankGroup
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

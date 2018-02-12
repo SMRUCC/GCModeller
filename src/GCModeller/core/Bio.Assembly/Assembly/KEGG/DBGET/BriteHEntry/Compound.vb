@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1e7a4ec9aeb76a66f4fb84a1ac40d7bf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::9bc1c6c6ec41e47aa2aaa0db0402ee0d, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compound
+    ' 
+    '         Properties: [Class], Category, Entry, Order, SubCategory
+    ' 
+    '         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
+    '                   Lipids, LoadFile
+    ' 
+    '         Sub: __downloadsInternal, New, WorkspaceCleanup
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8ec257f15524ae609164de213e2b8ff0, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Entity\Peptide.vb"
+﻿#Region "Microsoft.VisualBasic::8ec257f15524ae609164de213e2b8ff0, engine\GCModeller\EngineSystem\ObjectModels\Entity\Peptide.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Peptide
+    ' 
+    '         Properties: DataSource, ProteinType, Quantity
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

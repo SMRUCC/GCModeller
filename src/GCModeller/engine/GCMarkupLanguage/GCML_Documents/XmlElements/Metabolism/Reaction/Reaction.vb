@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::20416ab1b0dcbcefe59d7aa2b81c087b, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::20416ab1b0dcbcefe59d7aa2b81c087b, engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Reaction
+    ' 
+    '         Properties: __ObjectiveCoefficient, DynamicsRegulators, Equation, Identifier, IFBAC2_LOWER_BOUND
+    '                     IFBAC2_UPPER_BOUND, IsEnzymaticMetabolismFlux, LOWER_BOUND, Metabolites, Products
+    '                     Reactants, Substrates, TCSCrossTalk, UPPER_BOUND
+    ' 
+    '         Function: _add_Regulator, CastTo, get_Regulators, GetStoichiometry, ToString
+    '         Structure Parameter
+    ' 
+    '             Function: ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a255b7edb99604014df641a34e6a956b, ..\GCModeller\visualize\PDB_canvas\ChainModel.vb"
+﻿#Region "Microsoft.VisualBasic::a255b7edb99604014df641a34e6a956b, visualize\PDB_canvas\ChainModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ChainModel
+    ' 
+    '     Properties: Chian
+    ' 
+    '     Function: __draw, GraphToScreen, ToString
+    ' 
+    '     Sub: New, Rotate, RotateX, RotateY, UpdateGraph
+    ' 
+    ' Class AA
+    ' 
+    '     Properties: Color, Point
+    ' 
+    '     Function: ToString
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

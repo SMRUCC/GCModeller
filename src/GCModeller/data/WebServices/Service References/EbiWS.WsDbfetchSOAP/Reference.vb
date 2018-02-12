@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::42bbb337e50731f1cb16c83ab67c1b99, ..\GCModeller\data\WebServices\Service References\EbiWS.WsDbfetchSOAP\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::42bbb337e50731f1cb16c83ab67c1b99, data\WebServices\Service References\EbiWS.WsDbfetchSOAP\Reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface WSDBFetchServer
+    ' 
+    '         Sub: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDbFormats
+    '              getDbFormatsAsync, getFormatStyles, getFormatStylesAsync, getSupportedDBs, getSupportedDBsAsync
+    '              getSupportedFormats, getSupportedFormatsAsync, getSupportedStyles, getSupportedStylesAsync
+    ' 
+    '     Interface WSDBFetchServerChannel
+    ' 
+    ' 
+    ' 
+    '     Class WSDBFetchServerClient
+    ' 
+    '         Sub: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDbFormats
+    '              getDbFormatsAsync, getFormatStyles, getFormatStylesAsync, getSupportedDBs, getSupportedDBsAsync
+    '              getSupportedFormats, getSupportedFormatsAsync, getSupportedStyles, getSupportedStylesAsync, (+5 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
