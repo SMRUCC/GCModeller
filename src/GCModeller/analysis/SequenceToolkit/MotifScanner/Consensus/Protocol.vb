@@ -1,10 +1,13 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 
 Public Module Protocol
 
@@ -63,12 +66,46 @@ Public Module Protocol
                         End Function) _
                 .MultipleAlignment
 
+            Yield MSA.PWM(members:=group.Select(Function(m) repSeq(m.ID)))
         Next
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="MSA$">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
+    ''' <param name="members"></param>
+    ''' <returns></returns>
     <Extension>
-    Private Function PWM(MSA$()()) As Probability
+    Private Function PWM(MSA$(), members As IEnumerable(Of String)) As Probability
+        Dim residues As New List(Of Probability.Residue)
+        Dim nt = {"A"c, "T"c, "G"c, "C"c}
 
+        For i As Integer = 0 To MSA(Scan0).Length - 1
+            Dim index% = i
+            Dim P = MSA _
+                .Select(Function(seq) seq(index)) _
+                .GroupBy(Function(c) c) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(g) g.Count / MSA.Length)
+            Dim Pi = nt.ToDictionary(
+                Function(base) base,
+                Function(base) P.TryGetValue(base))
+
+            residues += New Probability.Residue With {
+                .frequency = Pi
+            }
+        Next
+
+        ' pvalue / scores
+        Dim scores As Vector = Nothing
+        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
+
+        Return New Probability With {
+            .region = residues,
+            .pvalue = pvalue,
+            .score = scores.Sum
+        }
     End Function
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq) As IEnumerable(Of HSP)
@@ -79,6 +116,7 @@ Public Module Protocol
 
     <Extension>
     Public Function Consensus(pairwise As HSP) As String
-
+        Dim globalAlign = LevenshteinDistance.ComputeDistance(pairwise.Query, pairwise.Subject)
+        Return globalAlign.DistEdits
     End Function
 End Module

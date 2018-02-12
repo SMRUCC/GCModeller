@@ -7,7 +7,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module CenterStar
 
     <Extension>
-    Public Function MultipleAlignment(input As IEnumerable(Of FastaSeq)) As String()()
+    Public Function MultipleAlignment(input As IEnumerable(Of FastaSeq)) As String()
 
     End Function
 End Module
