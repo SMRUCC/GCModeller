@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::64fc5e7f11bd247eb560692f4a44a2a7, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\GSW.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Linq
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
@@ -210,18 +211,18 @@ Public Class GSW(Of T)
     ''' </summary>
     Private ReadOnly Property MaxScore() As Double
         Get
-            Dim maxScore__1 As Double = 0
+            Dim max As Double = 0
 
             ' skip the first row and column
             For i As Integer = 1 To queryLength
                 For j As Integer = 1 To subjectLength
-                    If score(i)(j) > maxScore__1 Then
-                        maxScore__1 = score(i)(j)
+                    If score(i)(j) > max Then
+                        max = score(i)(j)
                     End If
                 Next
             Next
 
-            Return maxScore__1
+            Return max
         End Get
     End Property
 
@@ -229,6 +230,7 @@ Public Class GSW(Of T)
     ''' Get the alignment score between the two input strings.
     ''' </summary>
     Public ReadOnly Property AlignmentScore() As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return MaxScore / NORM_FACTOR
         End Get
@@ -313,12 +315,12 @@ Public Class GSW(Of T)
     ''' </summary>
     Public Sub printAlignments()
         ' find the cell with the maximum score
-        Dim maxScore__1 As Double = MaxScore
+        Dim maxScore As Double = Me.MaxScore
 
         ' skip the first row and column
         For i As Integer = 1 To queryLength
             For j As Integer = 1 To subjectLength
-                If score(i)(j) = maxScore__1 Then
+                If score(i)(j) = maxScore Then
                     printAlignments(i, j, "", "")
                 End If
             Next
@@ -430,6 +432,7 @@ Public Class GSW(Of T)
     ''' 
     ''' </summary>
     Public ReadOnly Property Matches(Optional scoreThreshold As Double = 19.9) As Match()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return GetMatches(scoreThreshold)
         End Get

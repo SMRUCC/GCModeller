@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Consensus\ConsensusScanner.vb" />
     <Compile Include="Consensus\ModelLoader.vb" />
+    <Compile Include="Consensus\Protocol.vb" />
     <Compile Include="PatternScanner.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
