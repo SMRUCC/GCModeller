@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ee5def3062f3b550331a419599691322, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
+﻿#Region "Microsoft.VisualBasic::ee5def3062f3b550331a419599691322, visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,33 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module GeneInteractions
+    ' 
+    '         Function: __exportPathwayGraph, __getRxnRels, __kModNetwork, CreateNetworkObject, (+3 Overloads) ExportPathwayGraph
+    '                   ExportPathwayGraphFile, Generate, PfsNETNetwork, PfsNETNetwork_assemble_keggpathways
+    '         Class Enzyme
+    ' 
+    '             Properties: EC
+    ' 
+    '         Class Interaction
+    ' 
+    '             Properties: Modules, Pathways, Reactions
+    ' 
+    '         Class PfsNETNode
+    ' 
+    '             Properties: Important
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

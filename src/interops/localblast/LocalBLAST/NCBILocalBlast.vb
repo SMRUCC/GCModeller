@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fda71e6c11f779a9c1c563ed609537f7, ..\interops\localblast\LocalBLAST\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::883c459db1b65c7db8fea63a6d766b5f, localblast\LocalBLAST\NCBILocalBlast.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NCBILocalBlast
+    ' 
+    '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
+    '               (+2 Overloads) BlastX, ClassifyEnzyme, CreateGrepScript, CreateSession, (+2 Overloads) Export_BidirBesthit
+    '               ExportBesthit, ExportBesthits, ExportOverviewCsv, Grephits, GrepQuery
+    '               LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview
+    '               LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH
+    '               SaveBlastOutput, Version, WriteBesthit
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

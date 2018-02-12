@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::86b87181acf60fcd118dcf5c32698b3d, ..\interops\visualize\Cytoscape\Cytoscape\csv\csv.vb"
+﻿#Region "Microsoft.VisualBasic::86b87181acf60fcd118dcf5c32698b3d, visualize\Cytoscape\Cytoscape\csv\csv.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Edge
+    ' 
+    ' 
+    ' 
+    '     Class Node
+    ' 
+    '         Properties: NodeType
+    ' 
+    '         Function: Dominate
+    '         Operators: <, >
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a0aad6515f3f47a0f2a528bdcf4c2a81, ..\interops\meme_suite\MEME\CommonModel\Match.vb"
+﻿#Region "Microsoft.VisualBasic::a0aad6515f3f47a0f2a528bdcf4c2a81, meme_suite\MEME\CommonModel\Match.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MatchedResult
+    ' 
+    '     Properties: DoorId, Ends, Information_Content, Log_Likelihood_Ratio, MatchedMotif
+    '                 MotifId, ObjectId, OperonPromoter, RegulationEffects, Relative_Entropy
+    '                 Signature, Starts, Strand, TF, TFFamily
+    '                 Width
+    ' 
+    '     Function: Clone
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

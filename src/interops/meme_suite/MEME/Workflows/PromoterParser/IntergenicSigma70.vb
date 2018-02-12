@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f7738a5f6f6447d590e1627245e067db, ..\interops\meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
+﻿#Region "Microsoft.VisualBasic::75ca4e1c0d323cc916355866b681ae31, meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module IntergenicSigma70
+    ' 
+    '         Function: DIPAssociation, SaveView, (+2 Overloads) Sigma70Parser
+    '         Class MEME_DIP
+    ' 
+    '             Properties: DIP, EValue, MotifGuid, PValue, RightEndDownStream
+    '                         Sequence, Signature, Start
+    ' 
+    '         Delegate Function
+    ' 
+    '             Function: LoadTranscripts, (+2 Overloads) MEMEPredictedTSSsAssociations, OverlapCommon, TrimNotStrictOverlap, TrimStrictOverlap
+    '                       VirtualFootprintDIP, WriteTranscripts
+    '         Class VF_DIP
+    ' 
+    '             Properties: DIP_ENTRY, Distance, Ends, Length, LocationDescriptions
+    '                         MotifFamily, MotifId, MotifLocation, ORF, ORFDirection
+    '                         RNAGene, Sequence, Signature, Starts, Strand
+    ' 
+    '         Class Transcript
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

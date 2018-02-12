@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::358afc554d425d712cbaee8ac84d3a82, ..\interops\meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::45a38cf2b46237eeab09dfc4977d9f6b, meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataPreparingParser
+    ' 
+    '         Function: __getFastaList, (+2 Overloads) CreateObject, ExtractFromStringInteraction, ExtractMekkPathwayPromoter, ExtractMetacycPathwayPromoter
+    '                   ExtractPromoterRegion_Pathway, ExtractPromoterRegion_PhenotypePathways, (+2 Overloads) ExtractWholeGenomePromoter, GetFasta
+    ' 
+    '         Sub: Extract, ExtractKEGGModulesPromoter, ExtractPromoterRegion_KEGGModules, (+2 Overloads) New, StringDbInteractions
+    '              (+2 Overloads) WholeGenomeParser
+    '         Class __extractFromStringTask
+    ' 
+    '             Sub: __extractForGenes, __extractFromString, New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

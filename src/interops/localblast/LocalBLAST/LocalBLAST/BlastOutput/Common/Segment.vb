@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::39cee1d06401f3f2d10162ca60563c68, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
+﻿#Region "Microsoft.VisualBasic::39cee1d06401f3f2d10162ca60563c68, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class HitSegment
+    ' 
+    '         Properties: Consensus
+    ' 
+    '         Function: ToString, TryParse
+    ' 
+    '     Class Segment
+    ' 
+    '         Properties: Location, UniqueId
+    ' 
+    '         Function: ToString, TryParse
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

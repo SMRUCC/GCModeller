@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::37820aeb3814124625e71d902323e94f, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MAST.vb"
+﻿#Region "Microsoft.VisualBasic::37820aeb3814124625e71d902323e94f, meme_suite\MEME.DocParser\XmlOutput\MAST.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,94 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ValueBase
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    '         Class RemoveCorrelated
+    ' 
+    ' 
+    ' 
+    '         Class StrandHandling
+    ' 
+    ' 
+    ' 
+    '         Class TranslateDNA
+    ' 
+    ' 
+    ' 
+    '         Class adj_hit_pvalue
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class Model
+    ' 
+    '         Properties: adj_hit_pvalue, remove_correlated, strand_handling, translate_dna
+    ' 
+    '     Class Motif
+    ' 
+    '         Properties: BriefName, Directory, memePWM
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class MotifSite
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Correlation
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    '     Properties: ListCount
+    ' 
+    '     Function: ToString
+    ' 
+    '     Class SequenceDescript
+    ' 
+    '         Properties: title
+    ' 
+    '         Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: SequenceData
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    '     Function: GetId, GetStrand, ToString
+    ' 
+    '     Class RuntimeEnvironment
+    ' 
+    '         Function: ToString
+    ' 
+    '  
+    ' 
+    '     Function: Convert, ExportMotifs, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

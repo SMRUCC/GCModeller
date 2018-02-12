@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::02d048af633b50b70d0b63ad22db879e, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
+﻿#Region "Microsoft.VisualBasic::b1905141719b6e4aba3ffea3915bfc51, visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface ITrackPlot
+    ' 
+    '         Properties: fill_color, orientation, stroke_color, stroke_thickness, thickness
+    '                     TracksData
+    ' 
+    '         Function: Save
+    ' 
+    '     Class TracksPlot
+    ' 
+    '         Properties: Rules, TracksData
+    ' 
+    '         Function: Build, GeneratePlotsElementListChunk, (+2 Overloads) Save, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

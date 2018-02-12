@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cb105ea20fa5c446af5b45c469f4d920, ..\interops\RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
+﻿#Region "Microsoft.VisualBasic::c428122243f1935b1ebab6d70e85e78b, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FastQFile
+    ' 
+    '         Properties: IsReadOnly, NumOfReads
+    ' 
+    '         Function: __trim, Contains, GetEnumerator, GetEnumerator1, IndexOf
+    '                   Load, Remove, Save, ToFasta
+    ' 
+    '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

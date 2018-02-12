@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::79900489206d5b6dc0102e4baf22e434, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::79900489206d5b6dc0102e4baf22e434, meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,93 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    '     Function: GetValue, ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class Scores
+    ' 
+    ' 
+    ' 
+    '         Class ProbabilitiesArray
+    ' 
+    '             Function: GetEvalue, ToString
+    ' 
+    '  
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: LoadDocument, ToMEMEHtml, ToString
+    ' 
+    '  
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class TrainingSet
+    ' 
+    '         Function: GetObject, ToString
+    '         Class AmbigsArray
+    ' 
+    ' 
+    ' 
+    '         Class Sequence
+    ' 
+    '             Function: ToString
+    ' 
+    ' 
+    ' 
+    '     Class LetterFrequencies
+    ' 
+    ' 
+    ' 
+    '     Class Alphabet
+    ' 
+    '         Function: ToString
+    '         Class Letter
+    ' 
+    '             Function: ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::efd18058644081208505d28dee6f6660, ..\interops\meme_suite\MEME.DocParser\TomTom\Xml.vb"
+﻿#Region "Microsoft.VisualBasic::efd18058644081208505d28dee6f6660, meme_suite\MEME.DocParser\TomTom\Xml.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,73 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TOMXml
+    ' 
+    '         Properties: model, queries, runtime, targets
+    ' 
+    '         Function: HaveData, ToString
+    ' 
+    '     Class runtime
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class target_file
+    ' 
+    ' 
+    ' 
+    '     Class queries
+    ' 
+    '         Properties: query_file
+    ' 
+    '     Class MotifFile
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class query_file
+    ' 
+    ' 
+    ' 
+    '     Class query
+    ' 
+    '         Properties: motif
+    ' 
+    '     Class match
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class motif
+    ' 
+    ' 
+    ' 
+    '     Class pos
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Model
+    ' 
+    '         Properties: [when], background, distance_measure, threshold
+    ' 
+    '     Class value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class threshold
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class background
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

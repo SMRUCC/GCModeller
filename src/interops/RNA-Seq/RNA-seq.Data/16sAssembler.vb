@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::168d0affd385ec9154e60ac34d704262, ..\interops\RNA-Seq\RNA-seq.Data\16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::8b9debf398a62c83d853f015a7a79f13, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Assembler
+    ' 
+    '     Function: SequenceCoverage
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

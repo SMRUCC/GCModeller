@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::64230bc294289d1f59c41a6b2f7a50e1, ..\interops\visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::eaf99ecf1eebe368df765a019c599369, visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PTTMarks
+    ' 
+    '         Properties: Size
+    ' 
+    '         Function: (+2 Overloads) Generate
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

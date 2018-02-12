@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::debaa0852b1ebd4f8997d33ccd5df1c3, ..\interops\RNA-Seq\Rockhopper\API\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::debaa0852b1ebd4f8997d33ccd5df1c3, RNA-Seq\Rockhopper\API\DataModels.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Operon
+    ' 
+    '         Properties: [Stop], NumberOfGenes, Start, Strand
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Transcripts
+    ' 
+    '         Properties: Expression, Is_sRNA, IsPredictedRNA, IsRNA, Leaderless
+    '                     Minus35BoxLoci, Name, Product, Strand, Synonym
+    '                     TranscriptLength
+    ' 
+    '         Function: FromReadsMap, GenerateTranscripts, GetTULoci, InterGenicTranscript
+    '         Enum Categories
+    ' 
+    '             asTSS, lmTSS, pmTSS, seTSS, sTSS
+    '             ULmTSS
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: Get5UTRLeader, GetLociStrand, GetPromoterBoxLoci, GetTSSLoci, GetTTSsLoci
+    '               ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

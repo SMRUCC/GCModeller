@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::85745ac3c561681eaf7457a2fd7f7cae, ..\interops\visualize\Circos\Circos\ConfFiles\ComponentModel\DocAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::85745ac3c561681eaf7457a2fd7f7cae, visualize\Circos\Circos\ConfFiles\ComponentModel\DocAbstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CircosConfig
+    ' 
+    '         Properties: Includes, main, RefPath
+    ' 
+    '         Function: GenerateIncludes, Save
+    ' 
+    '         Sub: __appendLine, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

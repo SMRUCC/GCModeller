@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7a1676c15dcd401a3ea07fe62322ef51, ..\interops\visualize\Circos\Circos\Colors\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::83ddf0d3c053d2bf62d6a9dd0ad58991, visualize\Circos\Circos\Colors\NtPropsMaps.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module NtPropsMapsExtensions
+    ' 
+    '         Function: FromAT, FromGC, PropertyMaps
+    ' 
+    '     Structure NtPropsMaps
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
