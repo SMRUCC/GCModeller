@@ -183,6 +183,7 @@ Public Class GSW(Of T)
 
         Dim i As Integer        ' length of prefix substring of str1
         Dim j As Integer        ' length of prefix substring of str2
+
         ' base case
         score(0)(0) = 0
         prevCells(0)(0) = DR_ZERO

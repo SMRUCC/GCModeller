@@ -62,8 +62,8 @@ Public Class Parameter
 
     Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
         Return New Parameter With {
-            .minW = 6,
-            .seedingCutoff = 0.6,
+            .minW = 10,
+            .seedingCutoff = 0.85,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
         }
@@ -85,6 +85,29 @@ Public Module Protocol
     End Function
 
     <Extension>
+    Private Function matrixRow(q As HSP, i%, seeds As IEnumerable(Of HSP)) As DataSet
+        Dim row As New DataSet With {
+                .ID = i,
+                .Properties = New Dictionary(Of String, Double)
+            }
+        Dim j As int = 1
+
+        For Each s As HSP In seeds
+            ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
+            Dim score = RunNeedlemanWunsch.RunAlign(
+                New FastaSeq With {.SequenceData = q.Query},
+                New FastaSeq With {.SequenceData = s.Query},
+                [single]:=True,
+                echo:=False
+            )
+
+            row(++j) = score
+        Next
+
+        Return row
+    End Function
+
+    <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Probability)
         Dim regions As FastaSeq() = inputs.ToArray
 
@@ -98,33 +121,22 @@ Public Module Protocol
             .AsList
 
         ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        Dim matrix As New List(Of DataSet)
         Dim i As int = 1
         Dim repSeq As New Dictionary(Of String, String)
 
         For Each q As HSP In seeds
-            Dim row As New DataSet With {
-                .ID = ++i,
-                .Properties = New Dictionary(Of String, Double)
-            }
-            Dim j As int = 1
-
-            repSeq(row.ID) = q.Consensus
-
-            For Each s As HSP In seeds
-                ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
-                Dim score = RunNeedlemanWunsch.RunAlign(
-                    New FastaSeq With {.SequenceData = q.Query},
-                    New FastaSeq With {.SequenceData = s.Query},
-                    [single]:=True,
-                    echo:=False
-                )
-
-                row(++j) = score
-            Next
-
-            matrix += row
+            repSeq(CStr(++i)) = q.Consensus
         Next
+
+        Dim matrix As DataSet() = seeds _
+            .SeqIterator _
+            .AsParallel _
+            .Select(Function(seed)
+                        Dim q = seed.value
+                        Dim row = q.matrixRow(seed.i, seeds)
+                        Return row
+                    End Function) _
+            .ToArray
 
         ' 进行聚类分簇
         Dim clusters = matrix _

@@ -123,6 +123,9 @@ Public Module RunNeedlemanWunsch
     ''' <param name="outfile">假若文件路径的参数为空，则会被输出到终端</param>
     ''' <exception cref="Exception"> </exception>
     ''' <returns>This function returns the alignment score</returns>
+    ''' <remarks>
+    ''' 如果两条序列长度不一样，则较短的序列会被补充长度到最长的一条序列
+    ''' </remarks>
     Public Function RunAlign(fasta1 As FASTA.FastaSeq, fasta2 As FASTA.FastaSeq, [single] As Boolean, Optional outfile$ = Nothing) As Double
         If String.IsNullOrEmpty(outfile) Then
             Return RunAlign(fasta1, fasta2, [single], output:=Nothing)
