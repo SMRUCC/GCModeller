@@ -1,46 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::3e656dc474b5451be79fb29b492cb9db, analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RunNeedlemanWunsch
-    ' 
-    '     Function: (+2 Overloads) RunAlign
-    ' 
-    ' /********************************************************************************/
+' Module RunNeedlemanWunsch
+' 
+'     Function: (+2 Overloads) RunAlign
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Text
+Imports System.Linq
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
@@ -57,82 +61,52 @@ Public Module RunNeedlemanWunsch
     ''' Run the Needleman-Wunsch Algorithm 
     ''' </summary>
     ''' <param name="fasta1"> commandline arguments </param>
-    ''' <param name="output">假若这个参数为空，则会被输出到终端窗口，如果不想有任何输出，则可以重定向到<see cref="App.NullDevice"/></param>
     ''' <exception cref="Exception"> </exception>
     ''' <returns>This function returns the alignment score</returns>
     Public Function RunAlign(fasta1 As IPolymerSequenceModel,
                              fasta2 As IPolymerSequenceModel,
-                             [single] As Boolean,
-                             Optional output As StreamWriter = Nothing,
-                             Optional echo As Boolean = True) As Double
+                             Optional ByRef score# = 0) As IEnumerable(Of GlobalAlign(Of Char))
 
         Dim nw As New NeedlemanWunsch(fasta1.SequenceData, fasta2.SequenceData)
 
-        ' display input
-        If echo Then
-            Console.WriteLine("Input:")
-            Console.WriteLine(vbTab & "seq1 = " & nw.Query)
-            Console.WriteLine(vbTab & "seq2 = " & nw.Subject)
-            Console.WriteLine()
-        End If
-
         ' run algorithm
         Call nw.compute()
+        Call score.SetValue(nw.Score)
 
-        If [single] Then
-            If output Is Nothing Then
-                If echo Then
-                    Console.WriteLine("Alignment :")
-                    Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(0))
-                    Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(0))
-                    Console.WriteLine("--------------------------------")
-                    Console.WriteLine("Alignment-Score = " & nw.Score)
-                End If
-            Else
-                SyncLock output
-                    Call nw.writeAlignment(output, True)
-                End SyncLock
-            End If
-        Else
-            If output Is Nothing Then
-                If echo Then
-                    ' display all possible optimal alignments
-                    For i As Integer = 0 To nw.NumberOfAlignments - 1
-                        Console.WriteLine("Alignment " & (i + 1) & ":")
-                        Console.WriteLine(vbTab & "aligned1 = " & nw.getAligned1(i))
-                        Console.WriteLine(vbTab & "aligned2 = " & nw.getAligned2(i))
-                    Next
-
-                    Console.WriteLine("--------------------------------")
-                    Console.WriteLine("Alignment-Score = " & nw.Score)
-                End If
-            Else
-                SyncLock output
-                    Call nw.writeAlignment(output, False)
-                End SyncLock
-            End If
-        End If
-
-        Return nw.Score
+        Return nw.PopulateAlignments.ToArray
     End Function
 
     ''' <summary>
     ''' Run the Needleman-Wunsch Algorithm 
     ''' </summary>
     ''' <param name="fasta1"> commandline arguments </param>
-    ''' <param name="outfile">假若文件路径的参数为空，则会被输出到终端</param>
     ''' <exception cref="Exception"> </exception>
-    ''' <returns>This function returns the alignment score</returns>
     ''' <remarks>
     ''' 如果两条序列长度不一样，则较短的序列会被补充长度到最长的一条序列
     ''' </remarks>
-    Public Function RunAlign(fasta1 As FASTA.FastaSeq, fasta2 As FASTA.FastaSeq, [single] As Boolean, Optional outfile$ = Nothing) As Double
-        If String.IsNullOrEmpty(outfile) Then
-            Return RunAlign(fasta1, fasta2, [single], output:=Nothing)
-        Else
-            Using writer As StreamWriter = outfile.OpenWriter(Encodings.ASCII)
-                Return RunAlign(fasta1, fasta2, [single], writer)
-            End Using
-        End If
+    Public Function RunAlign(fasta1 As FASTA.FastaSeq, fasta2 As FASTA.FastaSeq, Optional dev As TextWriter = Nothing) As Double
+        Dim score# = 0
+        RunAlign(fasta1, fasta2, score).Print(dev)
+        Return score
     End Function
+
+    <Extension>
+    Public Sub Print(results As IEnumerable(Of GlobalAlign(Of Char)), Optional dev As TextWriter = Nothing)
+        With dev Or Console.Out.AsDefault
+            For Each alignment In results
+                Call .WriteLine("align1: " & alignment.query)
+                Call .WriteLine("align2: " & alignment.subject)
+                Call .WriteLine("        " & alignment _
+                         .query _
+                         .Select(Function(c, i)
+                                     If alignment.subject(i) = c Then
+                                         Return "*"c
+                                     Else
+                                         Return " "c
+                                     End If
+                                 End Function) _
+                         .CharString)
+            Next
+        End With
+    End Sub
 End Module
