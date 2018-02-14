@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c9d1fc8fabf8eff79d6c8ff98e7b6bf, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::7f0d335f8af41495d33fcf0362f58090, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -66,6 +66,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Windows.Forms.VistaSecurity
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -86,6 +87,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
+Imports DevAssmInfo = Microsoft.VisualBasic.ApplicationServices.Development.AssemblyInfo
 
 '                   _ooOoo_
 '                  o8888888o
@@ -242,7 +244,7 @@ Public Module App
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property ExecutablePath As String
-    Public ReadOnly Property Info As ApplicationDetails
+    Public ReadOnly Property Info As DevAssmInfo
 
     ''' <summary>
     ''' Gets the name, without the extension, of the assembly file for the application.
@@ -421,7 +423,7 @@ Public Module App
                 .Replace("/", "\")
             App.Desktop = My.Computer.FileSystem.SpecialDirectories.Desktop
             App.ExecutablePath = FileIO.FileSystem.GetFileInfo(Application.ExecutablePath).FullName    ' (Process.GetCurrentProcess.StartInfo.FileName).FullName
-            App.Info = ApplicationDetails.CurrentExe()
+            App.Info = ApplicationInfoUtils.CurrentExe()
             App.AssemblyName = BaseName(App.ExecutablePath)
             App.ProductName = Application.ProductName Or AssemblyName.AsDefault(Function(s) String.IsNullOrEmpty(s))
             App.HOME = FileIO.FileSystem.GetParentPath(App.ExecutablePath)
@@ -444,8 +446,8 @@ Public Module App
     End Function
 
     Public Function GetAppLocalData(exe$) As String
-        Dim app As New ApplicationDetails(Assembly.LoadFile(path:=IO.Path.GetFullPath(exe)))
-        Return GetAppLocalData(app:=app.ProductName, assemblyName:=exe.BaseName)
+        Dim app As DevAssmInfo = Assembly.LoadFile(path:=IO.Path.GetFullPath(exe)).FromAssembly
+        Return GetAppLocalData(app:=app.AssemblyProduct, assemblyName:=exe.BaseName)
     End Function
 
 #Region "这里的环境变量方法主要是操作从命令行之中所传递进来的额外的参数的"
@@ -650,7 +652,7 @@ Public Module App
     ''' <returns></returns>
     Public Function GetProductSharedDIR(type As Type) As String
         Dim assm As Assembly = type.Assembly
-        Dim productName As String = ApplicationDetails.GetProductName(assm)
+        Dim productName As String = ApplicationInfoUtils.GetProductName(assm)
 
         If String.IsNullOrEmpty(productName) Then
             productName = BaseName(assm.Location)

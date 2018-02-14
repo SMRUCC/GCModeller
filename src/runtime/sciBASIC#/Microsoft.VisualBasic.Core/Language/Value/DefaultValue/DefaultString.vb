@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c047713622a5019511e4079d1750c51, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
+﻿#Region "Microsoft.VisualBasic::b69808a010112cbd26c87ce20c2fb224, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
 
     ' Author:
     ' 
@@ -84,10 +84,17 @@ Namespace Language.Default
             Return DefaultValue.LoadXml(Of T)
         End Function
 
+        ''' <summary>
+        ''' 如果文件不存在或者文本内容为空，则函数返回空值
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadJson(Of T)() As T
             If DefaultValue.FileExists Then
                 Return DefaultValue.ReadAllText.LoadObject(Of T)
+            ElseIf DefaultValue.StringEmpty Then
+                Return Nothing
             Else
                 Return DefaultValue.LoadObject(Of T)
             End If

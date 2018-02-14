@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77614039bebd1e23ce6f386f2b824239, vs_solutions\dev\vbproj\Template\Project.vb"
+﻿#Region "Microsoft.VisualBasic::4f3e7f9d3f5454c490f8cba867262a92, vs_solutions\dev\VisualStudio\vbproj\Project.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '     Properties: [Imports], ItemGroups, PropertyGroups, Targets
     ' 
-    '     Function: GetProfile, RemoveNamespace, (+2 Overloads) Save, ToString
+    '     Function: GetProfile, (+2 Overloads) Save, ToString
     ' 
     ' Class Target
     ' 
@@ -55,15 +55,18 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Xml
 
+<XmlRoot("Project", [Namespace]:=Project.xmlns)>
 Public Class Project : Implements ISaveHandle
+
+    Public Const xmlns$ = "http://schemas.microsoft.com/developer/msbuild/2003"
 
     <XmlAttribute> Public Property ToolsVersion As String
     <XmlAttribute> Public Property DefaultTargets As String
@@ -78,14 +81,15 @@ Public Class Project : Implements ISaveHandle
     <XmlElement("Target")>
     Public Property Targets As Target()
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetProfile(condition As String) As PropertyGroup
         Return LinqAPI.DefaultFirst(Of PropertyGroup) _
  _
-        () <= From x As PropertyGroup
-              In PropertyGroups
-              Where Not x.Condition.StringEmpty AndAlso
-                  condition.TextEquals(x.Condition)
-              Select x
+            () <= From x As PropertyGroup
+                  In PropertyGroups
+                  Where Not x.Condition.StringEmpty AndAlso
+                      condition.TextEquals(x.Condition)
+                  Select x
 
     End Function
 
@@ -93,25 +97,12 @@ Public Class Project : Implements ISaveHandle
         Return Me.GetJson
     End Function
 
-    Public Shared Function RemoveNamespace(xml As String) As String
-        Dim doc As New XmlDoc(xml)
-        doc.xmlns.xmlns = Nothing
-        xml = doc.ToString
-        Return xml
-    End Function
-
-    Const xmlns$ = "http://schemas.microsoft.com/developer/msbuild/2003"
-
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Save(Optional path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-        Dim xml As New XmlDoc(GetXml)
-        xml.xmlns.xmlns = Project.xmlns
-        xml.xmlns.xsd = ""
-        xml.xmlns.xsi = ""
-        xml.encoding = XmlEncodings.UTF8
-        xml.standalone = True
-        Return xml.ToString.SaveTo(path, encoding)
+        Return Me.GetXml.SaveTo(path, encoding)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Save(Optional path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
         Return Save(path, encoding.CodePage)
     End Function

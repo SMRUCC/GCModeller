@@ -70,8 +70,7 @@ Public Module OTU
         OTUs += (ref,
             fullEquals:=RunNeedlemanWunsch.RunAlign(
                 ref, ref,
-                False,
-                output, echo:=False),
+                output),
             cluster:=New NamedValue(Of List(Of String)) With {
                 .Name = "OTU_" & ++n,
                 .Value = New List(Of String) From {
@@ -85,8 +84,7 @@ Public Module OTU
                 In OTUs.AsParallel
                 Let score As Double = RunNeedlemanWunsch.RunAlign(
                     seq, OTU.ref,
-                    False,
-                    output, echo:=False)
+                    output)
                 Let is_matched As Double = 100 * score / OTU.fullEquals
                 Where is_matched >= similarity
                 Select OTU
@@ -96,8 +94,7 @@ Public Module OTU
                 OTUs += (seq,
                     fullEquals:=RunNeedlemanWunsch.RunAlign(
                         seq, seq,
-                        False,
-                        output, echo:=False),
+                        output),
                     cluster:=New NamedValue(Of List(Of String)) With {
                         .Name = "OTU_" & ++n,
                         .Value = New List(Of String) From {

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4160b0cb3e10b50a1fd4239a40633bba, Microsoft.VisualBasic.Core\Scripting\ScriptBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::5140a0510ea203e3e27533184a0d1f0f, Microsoft.VisualBasic.Core\Scripting\ScriptBuilder.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class ScriptBuilder
     ' 
-    '         Properties: Script
+    '         Properties: Preview, Script
     ' 
-    '         Function: AppendLine, (+2 Overloads) Save, ToString
+    '         Function: AppendLine, Replace, (+2 Overloads) Save, ToString
     ' 
-    '         Sub: (+3 Overloads) New
+    '         Sub: (+4 Overloads) New
     ' 
     '         Operators: +
     ' 
@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
@@ -59,6 +60,28 @@ Namespace Scripting.SymbolBuilder
 
         Public ReadOnly Property Script As StringBuilder
 
+        ''' <summary>
+        ''' The variable in target script text should be in format like: ``{$name}``
+        ''' </summary>
+        ''' <param name="name"></param>
+        Default Public WriteOnly Property Assign(name As String) As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Set
+                Call Script.Replace($"{{${name}}}", Value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Equals to <see cref="StringBuilder.ToString()"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Preview As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Script.ToString
+            End Get
+        End Property
+
         Sub New(sb As StringBuilder)
             Script = sb
         End Sub
@@ -70,6 +93,15 @@ Namespace Scripting.SymbolBuilder
         Sub New()
             Call Me.New(capacity:=1024)
         End Sub
+
+        Sub New(script$)
+            Call Me.New(New StringBuilder(script))
+        End Sub
+
+        Public Function Replace(key$, value$) As ScriptBuilder
+            Call Script.Replace(key, value)
+            Return Me
+        End Function
 
         ''' <summary>
         ''' Display the string text in the <see cref="StringBuilder"/> object.

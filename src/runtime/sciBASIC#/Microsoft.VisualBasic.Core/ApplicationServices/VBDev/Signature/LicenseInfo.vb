@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9c95598b3fd2016222357d333882cfb, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\LicenseInfo.vb"
+﻿#Region "Microsoft.VisualBasic::206e700a52512a3d894c76c2f45bc381, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\LicenseInfo.vb"
 
     ' Author:
     ' 
@@ -92,6 +92,7 @@ Namespace ApplicationServices.Development
         <XmlText>
         Public Property Brief As String
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return Brief
         End Function

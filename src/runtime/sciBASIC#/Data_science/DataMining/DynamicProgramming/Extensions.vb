@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c001f8ce73a4a5d8dc9fd33c27f3e4b, mime\text%html\HTML\CSS\Parser\Enums\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c02a928b394d39427b39093dc007318d, Data_science\DataMining\DynamicProgramming\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,35 +31,34 @@
 
     ' Summaries:
 
-    '     Module Extensions
+    ' Module Extensions
     ' 
-    '         Function: GetTagValue
-    ' 
+    '     Function: PopulateAlignments
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 
-Namespace HTML.CSS
+Public Module Extensions
 
-    Public Module Extensions
+    ''' <summary>
+    ''' This funktion provide a easy way to write a computed alignment into a fasta file
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="nw"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function PopulateAlignments(Of T)(nw As Workspace(Of T)) As IEnumerable(Of GlobalAlign(Of T))
+        For i As Integer = 0 To nw.NumberOfAlignments - 1
+            Yield New GlobalAlign(Of T) With {
+                .Score = nw.Score,
+                .query = nw.getAligned1(i),
+                .subject = nw.getAligned2(i)
+            }
+        Next
+    End Function
+End Module
 
-        ReadOnly tags As Dictionary(Of String, HtmlTags) =
-            Enums(Of HtmlTags)() _
-            .ToDictionary(Function(t) t.Description.ToLower)
-
-        <Extension>
-        Public Function GetTagValue(str As String) As HtmlTags
-            With Strings.Trim(str).ToLower
-                If tags.ContainsKey(.ByRef) Then
-                    Return tags(.ByRef)
-                Else
-                    Return HtmlTags.NA
-                End If
-            End With
-        End Function
-    End Module
-End Namespace

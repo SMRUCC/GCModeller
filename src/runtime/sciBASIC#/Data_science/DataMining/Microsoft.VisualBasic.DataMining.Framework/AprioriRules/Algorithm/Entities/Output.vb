@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7370400b67fc8ca4ba74d19aadaddb, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\AprioriRules\Algorithm\Entities\Output.vb"
+﻿#Region "Microsoft.VisualBasic::b6f176a5e551bb0c4a855c7b7ffc3fa3, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\AprioriRules\Algorithm\Entities\Output.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,9 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace AprioriRules.Entities
 
@@ -87,7 +87,7 @@ Namespace AprioriRules.Entities
                                 %s
                             </tbody>, rules)
 
-            Return sprintf(<table>%s</table>.ToString, html)
+            Return sprintf(<table>%s</table>, html)
         End Function
     End Class
 End Namespace

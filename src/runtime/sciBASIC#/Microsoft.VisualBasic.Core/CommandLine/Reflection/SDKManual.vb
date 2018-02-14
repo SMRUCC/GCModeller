@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cddcdb8c2010185dde66eba23e08e3ec, Microsoft.VisualBasic.Core\CommandLine\Reflection\SDKManual.vb"
+﻿#Region "Microsoft.VisualBasic::03d4e8eba2614c60431f348a42a4b95b, Microsoft.VisualBasic.Core\CommandLine\Reflection\SDKManual.vb"
 
     ' Author:
     ' 
@@ -44,8 +44,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Grouping
 Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.TokenIcer.Prefix
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
+Imports VBCore = Microsoft.VisualBasic.App
 
 Namespace CommandLine.Reflection
 
@@ -73,14 +74,14 @@ Namespace CommandLine.Reflection
         ''' <returns></returns>
         <Extension>
         Public Function LaunchManual(CLI As Interpreter) As Integer
-            Dim assm As ApplicationDetails = ApplicationDetails.FromTypeModule(CLI.Type)
+            Dim assm As AssemblyInfo = ApplicationInfoUtils.FromTypeModule(CLI.Type)
             Dim title As String = $"{Application.ProductName} [version {Application.ProductVersion}]" & vbCrLf &
                 vbCrLf &
-                "## " & assm.ProductTitle & vbCrLf &
+                "## " & assm.AssemblyTitle & vbCrLf &
                 vbCrLf &
-                "Description: " & assm.ProductDescription & vbCrLf &
-                "Company:     " & assm.CompanyName & vbCrLf &
-                assm.CopyRightsDetail  ' 首页
+                "Description: " & assm.AssemblyDescription & vbCrLf &
+                "Company:     " & assm.AssemblyCompany & vbCrLf &
+                assm.AssemblyCopyright  ' 首页
 
             Dim sb As New StringBuilder
 
@@ -115,16 +116,16 @@ Namespace CommandLine.Reflection
         Public Function MarkdownDoc(App As Interpreter) As String
             Dim sb As New StringBuilder($"# { VisualBasic.App.ProductName} [version { VisualBasic.App.Version}]")
             Dim type As Type = App.Type
-            Dim assm As ApplicationDetails = ApplicationDetails.FromTypeModule(App.Type)
+            Dim assm As AssemblyInfo = ApplicationInfoUtils.FromTypeModule(App.Type)
 
             Call sb.AppendLine()
             Call sb.AppendLine("> " & App.Type.NamespaceEntry.Description.lTokens.JoinBy(vbCrLf & "> "))
             Call sb.AppendLine()
             Call sb.AppendLine("<!--more-->")
             Call sb.AppendLine()
-            Call sb.AppendLine($"**{assm.ProductTitle}**<br/>")
-            Call sb.AppendLine($"_{assm.ProductDescription}_<br/>")
-            Call sb.AppendLine(assm.CopyRightsDetail)
+            Call sb.AppendLine($"**{assm.AssemblyTitle}**<br/>")
+            Call sb.AppendLine($"_{assm.AssemblyDescription}_<br/>")
+            Call sb.AppendLine(assm.AssemblyCopyright)
             Call sb.AppendLine()
 
             Call sb.AppendLine($"**Module AssemblyName**: {type.Assembly.Location.ToFileURL}<br/>")
@@ -199,9 +200,7 @@ Namespace CommandLine.Reflection
                 .Max
 
             If Not markdown Then
-                Dim descr = Microsoft.VisualBasic.App _
-                    .Info _
-                    .ProductDescription
+                Dim descr = VBCore.Info.AssemblyDescription
 
                 descr = Trim(descr)
 

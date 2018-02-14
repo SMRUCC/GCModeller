@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff5db45a60e5f1942f38e43128e99511, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::991b21eda28166345008acfa03559a72, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -35,14 +35,14 @@
     ' 
     '     Properties: NonStrictCompares, StrictCompares
     ' 
-    '     Function: __json, AllEquals, AppendLine, CharString, (+2 Overloads) Count
-    '               CreateBuilder, DistinctIgnoreCase, EqualsAny, First, FormatString
-    '               GetBetween, GetEMails, GetStackValue, (+2 Overloads) GetTagValue, GetURLs
-    '               IgnoreCase, Intersection, IsNullOrEmpty, JoinBy, Lookup
-    '               Matches, (+2 Overloads) MaxLengthString, RepeatString, ReplaceChars, Reverse
-    '               RNull, SaveTo, Split, SplitBy, StringReplace
-    '               StripBlank, Strips, TextEquals, TokenCountIgnoreCase, ToTruncateInt32
-    '               ToTruncateInt64, WildcardsLocated
+    '     Function: __json, AllEquals, CharString, (+2 Overloads) Count, CreateBuilder
+    '               DistinctIgnoreCase, EqualsAny, First, FormatString, GetBetween
+    '               GetEMails, GetStackValue, (+2 Overloads) GetTagValue, GetURLs, IgnoreCase
+    '               Intersection, IsNullOrEmpty, JoinBy, Lookup, Matches
+    '               (+2 Overloads) MaxLengthString, RepeatString, ReplaceChars, Reverse, RNull
+    '               SaveTo, Split, SplitBy, StringReplace, StripBlank
+    '               Strips, TextEquals, TokenCountIgnoreCase, ToTruncateInt32, ToTruncateInt64
+    '               WildcardsLocated
     ' 
     '     Sub: Parts
     ' 
@@ -60,7 +60,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -75,26 +74,6 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' </summary>
 <Package("StringHelpers", Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
 Public Module StringHelpers
-
-    ''' <summary>
-    ''' Appends a copy of the specified string followed by the default line terminator
-    ''' to the end of the current <see cref="StringBuilder"/> object.
-    ''' </summary>
-    ''' <param name="sb"></param>
-    ''' <param name="html">The html string to append.</param>
-    ''' <returns></returns>
-    ''' <remarks>
-    ''' A reference to this instance after the append operation has completed.
-    ''' </remarks>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Public Function AppendLine(sb As StringBuilder, html As XElement, ParamArray args As Object()) As StringBuilder
-        If args.IsNullOrEmpty Then
-            Return sb.AppendLine(html.ToString)
-        Else
-            Return sb.AppendLine(sprintf(html.ToString, args))
-        End If
-    End Function
 
     ''' <summary>
     ''' Get the first char of the target <see cref="StringBuilder"/> 

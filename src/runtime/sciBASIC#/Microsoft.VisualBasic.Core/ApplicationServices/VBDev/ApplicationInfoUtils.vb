@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c86877284f35c6abb24f6f12e8753a3, Microsoft.VisualBasic.Core\ApplicationServices\Tools\ApplicationDetails.vb"
+﻿#Region "Microsoft.VisualBasic::eb9f26853f695f1d762ce15a04e28cca, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\ApplicationInfoUtils.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,10 @@
 
     ' Summaries:
 
-    '     Class ApplicationDetails
+    '     Module ApplicationInfoUtils
     ' 
-    '         Properties: Assembly, CompanyName, CopyRightsDetail, ProductDescription, ProductName
-    '                     ProductTitle, ProductVersion
-    ' 
-    '         Function: CurrentExe, FromTypeModule, GetCompanyName, GetCopyRightsDetail, GetProductDescription
-    '                   GetProductName, GetProductTitle, GetProductVersion, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
+    '         Function: CurrentExe, FromAssembly, FromTypeModule, GetCompanyName, GetCopyRightsDetail
+    '                   GetProductDescription, GetProductName, GetProductTitle, GetProductVersion, VBCore
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,9 +42,9 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports System.Runtime.CompilerServices
 
-Namespace ApplicationServices
+Namespace ApplicationServices.Development
 
     ''' <summary>
     ''' Parsing product assembly meta data
@@ -57,34 +52,36 @@ Namespace ApplicationServices
     ''' <remarks>
     ''' http://www.c-sharpcorner.com/uploadfile/ravesoft/access-assemblyinfo-file-and-get-product-informations/
     ''' </remarks>
-    Public Class ApplicationDetails
+    Public Module ApplicationInfoUtils
 
-        Public ReadOnly Property Assembly As Assembly
-
-        Sub New(assm As Assembly)
-            Assembly = assm
-            CompanyName = GetCompanyName(assm)
-            ProductVersion = GetProductVersion(assm)
-            ProductName = GetProductName(assm)
-            CopyRightsDetail = GetCopyRightsDetail(assm)
-            ProductTitle = GetProductTitle(assm)
-            ProductDescription = GetProductDescription(assm)
-        End Sub
+        <Extension>
+        Public Function FromAssembly(assm As Assembly) As AssemblyInfo
+            Return New AssemblyInfo With {
+                .AssemblyCompany = GetCompanyName(assm),
+                .AssemblyFileVersion = GetProductVersion(assm),
+                .AssemblyProduct = GetProductName(assm),
+                .AssemblyCopyright = GetCopyRightsDetail(assm),
+                .AssemblyTitle = GetProductTitle(assm),
+                .AssemblyDescription = GetProductDescription(assm)
+            }
+        End Function
 
         ''' <summary>
-        ''' 获取当前的应用程序的描述信息
+        ''' 获取对当前运行时环境的描述
         ''' </summary>
-        Sub New()
-            Call Me.New(GetType(ApplicationDetails).Assembly)
-        End Sub
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function VBCore() As AssemblyInfo
+            Return GetType(ApplicationInfoUtils).Assembly.FromAssembly
+        End Function
 
         ''' <summary>
         ''' 获取当前进程的exe文件的程序描述信息，直接使用New申明得到的只是运行时核心模块dll文件的信息
         ''' </summary>
         ''' <returns></returns>
-        Public Shared Function CurrentExe() As ApplicationDetails
+        Public Function CurrentExe() As AssemblyInfo
             Try
-                Return New ApplicationDetails(Assembly.LoadFile(App.ExecutablePath))
+                Return Assembly.LoadFile(App.ExecutablePath).FromAssembly
             Catch ex As Exception
                 ex = New Exception(App.ExecutablePath, ex)
                 Call App.LogException(ex)
@@ -92,11 +89,18 @@ Namespace ApplicationServices
             End Try
         End Function
 
-        Public Shared Function FromTypeModule(type As Type) As ApplicationDetails
-            Return New ApplicationDetails(type.Assembly)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function FromTypeModule(type As Type) As AssemblyInfo
+            Return type.Assembly.FromAssembly
         End Function
 
-        Public Shared Function GetCompanyName(assm As Assembly) As String
+        ''' <summary>
+        ''' Get the name of the system provider name from the assembly
+        ''' </summary>
+        ''' <param name="assm"></param>
+        ''' <returns></returns>
+        Public Function GetCompanyName(assm As Assembly) As String
             If assm IsNot Nothing Then
                 Dim companyName As String = ""
                 Dim customAttributes As Object() = assm.GetCustomAttributes(GetType(AssemblyCompanyAttribute), False)
@@ -114,12 +118,11 @@ Namespace ApplicationServices
         End Function
 
         ''' <summary>
-        ''' Get the name of the system provider name from the assembly
+        ''' Get System version from the assembly
         ''' </summary>
+        ''' <param name="assembly"></param>
         ''' <returns></returns>
-        Public ReadOnly Property CompanyName() As String
-
-        Public Shared Function GetProductVersion(assembly As Assembly) As String
+        Public Function GetProductVersion(assembly As Assembly) As String
             If assembly IsNot Nothing Then
                 Dim productVersion As String = ""
                 Dim customAttributes As Object() = assembly.GetCustomAttributes(GetType(AssemblyVersionAttribute), False)
@@ -136,12 +139,11 @@ Namespace ApplicationServices
         End Function
 
         ''' <summary>
-        ''' Get System version from the assembly
+        ''' Get the name of the System from the assembly
         ''' </summary>
+        ''' <param name="assembly"></param>
         ''' <returns></returns>
-        Public ReadOnly Property ProductVersion() As String
-
-        Public Shared Function GetProductName(assembly As Assembly) As String
+        Public Function GetProductName(assembly As Assembly) As String
             If assembly IsNot Nothing Then
                 Dim productName As String = ""
                 Dim customAttributes As Object() = assembly.GetCustomAttributes(GetType(AssemblyProductAttribute), False)
@@ -158,12 +160,11 @@ Namespace ApplicationServices
         End Function
 
         ''' <summary>
-        ''' Get the name of the System from the assembly
+        ''' Get the copyRights details from the assembly
         ''' </summary>
+        ''' <param name="assembly"></param>
         ''' <returns></returns>
-        Public ReadOnly Property ProductName() As String
-
-        Public Shared Function GetCopyRightsDetail(assembly As Assembly) As String
+        Public Function GetCopyRightsDetail(assembly As Assembly) As String
             If assembly IsNot Nothing Then
                 Dim copyrightsDetail As String = ""
                 Dim customAttributes As Object() = assembly.GetCustomAttributes(GetType(AssemblyCopyrightAttribute), False)
@@ -180,12 +181,11 @@ Namespace ApplicationServices
         End Function
 
         ''' <summary>
-        ''' Get the copyRights details from the assembly
+        ''' Get the Product tile from the assembly
         ''' </summary>
+        ''' <param name="assembly"></param>
         ''' <returns></returns>
-        Public ReadOnly Property CopyRightsDetail() As String
-
-        Public Shared Function GetProductTitle(assembly As Assembly) As String
+        Public Function GetProductTitle(assembly As Assembly) As String
             If assembly IsNot Nothing Then
                 Dim productTitle As String = ""
                 Dim customAttributes As Object() = assembly.GetCustomAttributes(GetType(AssemblyTitleAttribute), False)
@@ -202,12 +202,11 @@ Namespace ApplicationServices
         End Function
 
         ''' <summary>
-        ''' Get the Product tile from the assembly
+        ''' Get the description of the product from the assembly
         ''' </summary>
+        ''' <param name="assembly"></param>
         ''' <returns></returns>
-        Public ReadOnly Property ProductTitle() As String
-
-        Public Shared Function GetProductDescription(assembly As Assembly) As String
+        Public Function GetProductDescription(assembly As Assembly) As String
             If assembly IsNot Nothing Then
                 Dim productDescription As String = ""
                 Dim customAttributes As Object() = assembly.GetCustomAttributes(GetType(AssemblyDescriptionAttribute), False)
@@ -222,15 +221,5 @@ Namespace ApplicationServices
                 Return ""
             End If
         End Function
-
-        ''' <summary>
-        ''' Get the description of the product from the assembly
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property ProductDescription() As String
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
+    End Module
 End Namespace
