@@ -94,11 +94,12 @@ Public Module Protocol
 
         For Each s As HSP In seeds
             ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
-            Dim score = RunNeedlemanWunsch.RunAlign(
+            Dim score# = 0
+
+            Call RunNeedlemanWunsch.RunAlign(
                 New FastaSeq With {.SequenceData = q.Query},
                 New FastaSeq With {.SequenceData = s.Query},
-                [single]:=True,
-                echo:=False
+                score
             )
 
             row(++j) = score

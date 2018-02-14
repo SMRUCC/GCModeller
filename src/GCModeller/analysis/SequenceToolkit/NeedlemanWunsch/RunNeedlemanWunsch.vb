@@ -107,6 +107,8 @@ Public Module RunNeedlemanWunsch
                                  End Function) _
                          .CharString)
             Next
+
+            Call .Flush()
         End With
     End Sub
 End Module
