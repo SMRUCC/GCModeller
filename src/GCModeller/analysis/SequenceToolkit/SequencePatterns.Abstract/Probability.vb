@@ -48,7 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
-Public Structure Probability
+Public Class Probability
 
     Public Property region As Residue()
     Public Property pvalue As Double
@@ -82,5 +82,5 @@ Public Structure Probability
             End With
         End Function
     End Structure
-End Structure
+End Class
 

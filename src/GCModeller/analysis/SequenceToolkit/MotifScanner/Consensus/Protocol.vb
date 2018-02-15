@@ -111,7 +111,7 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Probability)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
         Dim regions As FastaSeq() = inputs.ToArray
 
         param = param Or Parameter.DefaultParameter
@@ -168,7 +168,7 @@ Public Module Protocol
                             }
                         End Function) _
                 .MultipleAlignment(Nothing)
-            Dim motif As Probability = MSA.MSA.PWM(members:=regions, param:=param)
+            Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
 
             If motif.score > 0 Then
                 Yield motif
@@ -179,13 +179,14 @@ Public Module Protocol
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="MSA$">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
+    ''' <param name="alignment">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(MSA$(), members As FastaSeq(), param As Parameter) As Probability
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As Parameter) As Motif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
+        Dim MSA = alignment.MSA
 
         For i As Integer = 0 To MSA(Scan0).Length - 1
             Dim index% = i
@@ -221,10 +222,11 @@ Public Module Protocol
             .AsVector
         Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
 
-        Return New Probability With {
+        Return New Motif With {
             .region = residues,
             .pvalue = pvalue,
-            .score = scores.Sum
+            .score = scores.Sum,
+            .seeds = alignment
         }
     End Function
 
@@ -255,3 +257,6 @@ Public Module Protocol
     End Function
 End Module
 
+Public Class Motif : Inherits Probability
+    Public Property seeds As MSAOutput
+End Class
