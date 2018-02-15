@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Class Parameter
 
     Public Property minW As Integer
+    Public Property maxW As Integer
     Public Property seedingCutoff As Double
     Public Property ScanMinW As Integer
     Public Property ScanCutoff As Double
@@ -63,7 +64,8 @@ Public Class Parameter
     Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
         Return New Parameter With {
             .minW = 10,
-            .seedingCutoff = 0.85,
+            .maxW = 30,
+            .seedingCutoff = 0.35,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
         }
@@ -87,9 +89,9 @@ Public Module Protocol
     <Extension>
     Private Function matrixRow(q As HSP, i%, seeds As IEnumerable(Of HSP)) As DataSet
         Dim row As New DataSet With {
-                .ID = i,
-                .Properties = New Dictionary(Of String, Double)
-            }
+            .ID = i,
+            .Properties = New Dictionary(Of String, Double)
+        }
         Dim j As int = 1
 
         For Each s As HSP In seeds
@@ -114,6 +116,8 @@ Public Module Protocol
 
         param = param Or Parameter.DefaultParameter
 
+        Call "seeding...".__DEBUG_ECHO
+
         ' 先进行两两局部最优比对，得到最基本的种子
         Dim seeds As List(Of HSP) = regions _
             .AsParallel _
@@ -121,13 +125,16 @@ Public Module Protocol
             .IteratesALL _
             .AsList
 
-        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        Dim i As int = 1
-        Dim repSeq As New Dictionary(Of String, String)
+        Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
-        For Each q As HSP In seeds
-            repSeq(CStr(++i)) = q.Consensus
-        Next
+        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
+        Dim repSeq As Dictionary(Of String, String) = seeds _
+            .SeqIterator _
+            .AsParallel _
+            .ToDictionary(Function(i) CStr(i.i),
+                          Function(q) q.value.Consensus)
+
+        Call "Build global distance matrix for the seeds...".__DEBUG_ECHO
 
         Dim matrix As DataSet() = seeds _
             .SeqIterator _
@@ -139,6 +146,8 @@ Public Module Protocol
                     End Function) _
             .ToArray
 
+        Call "Kmeans...".__DEBUG_ECHO
+
         ' 进行聚类分簇
         Dim clusters = matrix _
             .ToKMeansModels _
@@ -146,6 +155,8 @@ Public Module Protocol
         Dim motifs = clusters _
             .GroupBy(Function(c) c.Cluster) _
             .ToArray
+
+        Call "Populate motifs...".__DEBUG_ECHO
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each group As IGrouping(Of String, EntityClusterModel) In motifs
@@ -188,7 +199,8 @@ Public Module Protocol
                 Function(base) P.TryGetValue(base))
 
             residues += New Probability.Residue With {
-                .frequency = Pi
+                .frequency = Pi,
+                .index = i
             }
         Next
 
@@ -219,7 +231,7 @@ Public Module Protocol
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
         Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData)
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
-        Return result.HSP
+        Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 
     <Extension>

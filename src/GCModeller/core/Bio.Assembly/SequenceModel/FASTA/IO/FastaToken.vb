@@ -90,6 +90,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property HaveGaps As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return InStr(SequenceData, "-") > 0 OrElse InStr(SequenceData, ".") > 0
             End Get
@@ -108,6 +109,7 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <remarks></remarks>
         Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, I_FastaProvider.Headers
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return innerList.ToArray
             End Get
@@ -122,6 +124,7 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <remarks></remarks>
         Public Overrides Property SequenceData As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return MyBase.SequenceData
             End Get
@@ -137,6 +140,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(Me.SequenceData)
             End Get
@@ -149,6 +153,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title, I_FastaProvider.Title
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToString
             End Get
