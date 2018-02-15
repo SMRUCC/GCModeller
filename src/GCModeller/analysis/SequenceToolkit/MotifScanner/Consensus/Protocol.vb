@@ -41,13 +41,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -224,8 +224,22 @@ Public Module Protocol
 
     <Extension>
     Public Function Consensus(pairwise As HSP) As String
-        Dim globalAlign = LevenshteinDistance.ComputeDistance(pairwise.Query, pairwise.Subject)
-        Return globalAlign.Matches
+        Dim query As New FastaSeq With {.SequenceData = pairwise.Query, .Headers = {"query"}}
+        Dim subject As New FastaSeq With {.SequenceData = pairwise.Subject, .Headers = {"subject"}}
+        Dim globalAlign As GlobalAlign(Of Char) = RunNeedlemanWunsch.RunAlign(query, subject, 0).First
+        Return globalAlign.Consensus
+    End Function
+
+    <Extension>
+    Public Function Consensus(ga As GlobalAlign(Of Char)) As String
+        Dim c1 = ga.query.Where(Function(c) c = "-"c).Count
+        Dim c2 = ga.subject.Where(Function(c) c = "-"c).Count
+
+        If c1 > c2 Then
+            Return New String(ga.query)
+        Else
+            Return New String(ga.subject)
+        End If
     End Function
 End Module
 
