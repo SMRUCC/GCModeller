@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.ContextModel.Promoter
@@ -73,10 +74,10 @@ ATGAAT-"
     End Sub
 
     Sub seeding()
-        Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406.fasta")
+        Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406_small.fasta")
         Dim result = test.PopulateMotifs.ToArray
 
-        Call result.GetXml.SaveTo("./motifs.xml")
+        Call result.GetJson(indent:=True).SaveTo("./motifs.json")
 
         Pause()
     End Sub

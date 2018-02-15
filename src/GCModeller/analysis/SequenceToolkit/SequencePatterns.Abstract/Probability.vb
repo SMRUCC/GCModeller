@@ -48,11 +48,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
-Public Structure Probability
+Public Class Probability
 
-    Dim region As Residue()
-    Dim pvalue#
-    Dim score#
+    Public Property region As Residue()
+    Public Property pvalue As Double
+    Public Property score As Double
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
@@ -63,7 +63,8 @@ Public Structure Probability
 
     Public Structure Residue
 
-        Dim frequency As Dictionary(Of Char, Double)
+        Public Property frequency As Dictionary(Of Char, Double)
+        Public Property index As Integer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
@@ -81,5 +82,5 @@ Public Structure Probability
             End With
         End Function
     End Structure
-End Structure
+End Class
 

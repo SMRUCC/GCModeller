@@ -41,13 +41,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Class Parameter
 
     Public Property minW As Integer
+    Public Property maxW As Integer
     Public Property seedingCutoff As Double
     Public Property ScanMinW As Integer
     Public Property ScanCutoff As Double
@@ -63,7 +64,8 @@ Public Class Parameter
     Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
         Return New Parameter With {
             .minW = 10,
-            .seedingCutoff = 0.85,
+            .maxW = 30,
+            .seedingCutoff = 0.35,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
         }
@@ -87,9 +89,9 @@ Public Module Protocol
     <Extension>
     Private Function matrixRow(q As HSP, i%, seeds As IEnumerable(Of HSP)) As DataSet
         Dim row As New DataSet With {
-                .ID = i,
-                .Properties = New Dictionary(Of String, Double)
-            }
+            .ID = i,
+            .Properties = New Dictionary(Of String, Double)
+        }
         Dim j As int = 1
 
         For Each s As HSP In seeds
@@ -109,10 +111,12 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Probability)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
         Dim regions As FastaSeq() = inputs.ToArray
 
         param = param Or Parameter.DefaultParameter
+
+        Call "seeding...".__DEBUG_ECHO
 
         ' 先进行两两局部最优比对，得到最基本的种子
         Dim seeds As List(Of HSP) = regions _
@@ -121,13 +125,16 @@ Public Module Protocol
             .IteratesALL _
             .AsList
 
-        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        Dim i As int = 1
-        Dim repSeq As New Dictionary(Of String, String)
+        Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
-        For Each q As HSP In seeds
-            repSeq(CStr(++i)) = q.Consensus
-        Next
+        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
+        Dim repSeq As Dictionary(Of String, String) = seeds _
+            .SeqIterator _
+            .AsParallel _
+            .ToDictionary(Function(i) CStr(i.i),
+                          Function(q) q.value.Consensus)
+
+        Call "Build global distance matrix for the seeds...".__DEBUG_ECHO
 
         Dim matrix As DataSet() = seeds _
             .SeqIterator _
@@ -139,6 +146,8 @@ Public Module Protocol
                     End Function) _
             .ToArray
 
+        Call "Kmeans...".__DEBUG_ECHO
+
         ' 进行聚类分簇
         Dim clusters = matrix _
             .ToKMeansModels _
@@ -146,6 +155,8 @@ Public Module Protocol
         Dim motifs = clusters _
             .GroupBy(Function(c) c.Cluster) _
             .ToArray
+
+        Call "Populate motifs...".__DEBUG_ECHO
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each group As IGrouping(Of String, EntityClusterModel) In motifs
@@ -157,7 +168,7 @@ Public Module Protocol
                             }
                         End Function) _
                 .MultipleAlignment(Nothing)
-            Dim motif As Probability = MSA.MSA.PWM(members:=regions, param:=param)
+            Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
 
             If motif.score > 0 Then
                 Yield motif
@@ -168,13 +179,14 @@ Public Module Protocol
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="MSA$">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
+    ''' <param name="alignment">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(MSA$(), members As FastaSeq(), param As Parameter) As Probability
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As Parameter) As Motif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
+        Dim MSA = alignment.MSA
 
         For i As Integer = 0 To MSA(Scan0).Length - 1
             Dim index% = i
@@ -188,7 +200,8 @@ Public Module Protocol
                 Function(base) P.TryGetValue(base))
 
             residues += New Probability.Residue With {
-                .frequency = Pi
+                .frequency = Pi,
+                .index = i
             }
         Next
 
@@ -209,23 +222,41 @@ Public Module Protocol
             .AsVector
         Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
 
-        Return New Probability With {
+        Return New Motif With {
             .region = residues,
             .pvalue = pvalue,
-            .score = scores.Sum
+            .score = scores.Sum,
+            .seeds = alignment
         }
     End Function
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
         Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData)
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
-        Return result.HSP
+        Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 
     <Extension>
     Public Function Consensus(pairwise As HSP) As String
-        Dim globalAlign = LevenshteinDistance.ComputeDistance(pairwise.Query, pairwise.Subject)
-        Return globalAlign.Matches
+        Dim query As New FastaSeq With {.SequenceData = pairwise.Query, .Headers = {"query"}}
+        Dim subject As New FastaSeq With {.SequenceData = pairwise.Subject, .Headers = {"subject"}}
+        Dim globalAlign As GlobalAlign(Of Char) = RunNeedlemanWunsch.RunAlign(query, subject, 0).First
+        Return globalAlign.Consensus
+    End Function
+
+    <Extension>
+    Public Function Consensus(ga As GlobalAlign(Of Char)) As String
+        Dim c1 = ga.query.Where(Function(c) c = "-"c).Count
+        Dim c2 = ga.subject.Where(Function(c) c = "-"c).Count
+
+        If c1 > c2 Then
+            Return New String(ga.query)
+        Else
+            Return New String(ga.subject)
+        End If
     End Function
 End Module
 
+Public Class Motif : Inherits Probability
+    Public Property seeds As MSAOutput
+End Class
