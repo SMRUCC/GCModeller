@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::899e3efb1ad05e8e5a9b633430fe4c81, RDotNET\Graphics\IGraphicsDevice.vb"
+﻿#Region "Microsoft.VisualBasic::e55962be440bb5d406de635740008a15, RDotNET\Graphics\IGraphicsDevice.vb"
 
     ' Author:
     ' 

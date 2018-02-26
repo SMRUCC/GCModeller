@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29fd11b019a57179f9441d0474d7f243, RDotNET\Graphics\Rectangle.vb"
+﻿#Region "Microsoft.VisualBasic::822010e7e3aa9c6e158a52f5147b2c65, RDotNET\Graphics\Rectangle.vb"
 
     ' Author:
     ' 

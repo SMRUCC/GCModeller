@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f60e284ce4e7dce6cc05d075e3e5213, RDotNET\R.NET\Devices\ICharacterDevice.vb"
+﻿#Region "Microsoft.VisualBasic::88cc96885fde9fcdb7249c4467277159, RDotNET\R.NET\Devices\ICharacterDevice.vb"
 
     ' Author:
     ' 

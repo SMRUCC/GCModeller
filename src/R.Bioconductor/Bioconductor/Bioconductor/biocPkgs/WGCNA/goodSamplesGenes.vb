@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::395857c3462361747787deaf4ced6d06, Bioconductor\Bioconductor\biocPkgs\WGCNA\goodSamplesGenes.vb"
+﻿#Region "Microsoft.VisualBasic::c41ec0604ee77cf60810729570f6b1ea, Bioconductor\Bioconductor\biocPkgs\WGCNA\goodSamplesGenes.vb"
 
     ' Author:
     ' 

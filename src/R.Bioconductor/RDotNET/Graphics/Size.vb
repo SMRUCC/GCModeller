@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c52ae682755fe050e0c75999e78dc13, RDotNET\Graphics\Size.vb"
+﻿#Region "Microsoft.VisualBasic::c3cc4c78f586f57e50e9b4306c531a1c, RDotNET\Graphics\Size.vb"
 
     ' Author:
     ' 

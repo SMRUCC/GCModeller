@@ -90,6 +90,9 @@ Partial Module CLI
         With args <= "/custom"
             If .FileExists(True) Then
                 KEGG_PATH = PathwayMapping.CustomPathwayTable(ko00001:= .ByRef)
+            Else
+                ' using system internal
+                KEGG_PATH = PathwayMapping.DefaultKOTable
             End If
         End With
 

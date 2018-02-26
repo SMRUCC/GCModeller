@@ -195,7 +195,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /cluster.title <names.csv> /out <out.png>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /arrow.factor <default=1,2> /cluster.title <names.csv> /out <out.png>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
@@ -236,6 +236,7 @@ Partial Module CLI
         }
         Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+        Dim arrowFactor$ = args("/arrow.factor") Or "1,2"
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityClusterModel In clusterData
@@ -244,7 +245,7 @@ Partial Module CLI
         End If
 
         Return clusterData _
-            .Scatter3D(category, camera, size, schema:=schema) _
+            .Scatter3D(category, camera, size, schema:=schema, arrowFactor:=arrowFactor) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(path:=out) _

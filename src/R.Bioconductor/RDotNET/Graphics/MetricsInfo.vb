@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::166ce0917d015a56ea24c9269bb0442a, RDotNET\Graphics\MetricsInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c152df491f4ed1912aeae326d2011977, RDotNET\Graphics\MetricsInfo.vb"
 
     ' Author:
     ' 
