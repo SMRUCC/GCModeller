@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5dc465d04b6bbc9f48a813c73ab455d, RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::652cc1e21e19f8ac187d9eb12bcade47, RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
 
     ' Author:
     ' 

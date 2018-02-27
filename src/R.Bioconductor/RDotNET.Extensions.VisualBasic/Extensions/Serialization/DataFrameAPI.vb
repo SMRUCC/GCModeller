@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5da10561ee14841eaf3e607fd5cb98fd, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c212bc024fd7703a340f01b778522304, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
 
     ' Author:
     ' 

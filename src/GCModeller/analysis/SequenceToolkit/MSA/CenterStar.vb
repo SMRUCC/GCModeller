@@ -90,18 +90,26 @@ Public Class CenterStar
     ''' </summary>
     ''' <param name="matrix">得分矩阵</param>
     ''' <returns></returns>
-    Public Function Compute(matrix As Char()()) As MSAOutput
+    Public Function Compute(Optional matrix As ScoreMatrix = Nothing) As MSAOutput
         Dim n = sequence.Length
+        Dim totalCost#
 
-        findStarIndex()
-        centerString = sequence(starIndex)
-        multipleAlign = New String(n - 1) {}
-        multipleAlignmentImpl()
+        If sequence.All(Function(s) s = sequence(Scan0)) Then
+            ' 所输入的序列全部都是一样的？？
+            multipleAlign = sequence.ToArray
+            totalCost = 0
+        Else
+            findStarIndex()
+            centerString = sequence(starIndex)
+            multipleAlign = New String(n - 1) {}
+            multipleAlignmentImpl()
+            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+        End If
 
         Return New MSAOutput With {
             .names = names.ToArray,
             .MSA = multipleAlign.ToArray,
-            .cost = calculateTotalCost(matrix, n)
+            .cost = totalCost
         }
     End Function
 
@@ -109,6 +117,7 @@ Public Class CenterStar
     ''' this Function calculate() the total cost
     ''' </summary>
     ''' <returns></returns>
+    ''' 
     Private Function calculateTotalCost(matrix As Char()(), n%) As Double
         Dim length = multipleAlign(0).Length
 
@@ -125,6 +134,7 @@ Public Class CenterStar
                 End If
             Next
         Next
+
         Return totalScore
     End Function
 
@@ -145,8 +155,8 @@ Public Class CenterStar
             multipleAlign(i) = globalAlign(1)
 
             If (globalAlign(0).Length > centerString2.Length) Then
-
                 Dim j2 = 0
+
                 For j1 As Integer = 0 To globalAlign(0).Length - 1
                     If (centerString2(j2) <> globalAlign(0)(j1)) Then
                         Dim a As StringBuilder
@@ -218,16 +228,18 @@ Public Class CenterStar
     ''' <param name="seq2$"></param>
     ''' <returns></returns>
     Public Function calculateEditDistance(seq1$, seq2$) As Integer
+        Dim l1 = seq1.Length
+        Dim l2 = seq2.Length
+        Dim match = 0
+
         If (seq1 = seq2) Then
             Return 0
         End If
 
-        Dim l1 = seq1.Length
-        Dim l2 = seq2.Length
-        Dim match = 0
         Dim i, j, k As Integer
         Dim score()() = MAT(Of Integer)(l1 + 1, l2 + 1)
         Dim trace()() = MAT(Of Integer)(l1 + 1, l2 + 1)
+
         score(0)(0) = 0
         trace(0)(0) = 0
 
@@ -239,6 +251,7 @@ Public Class CenterStar
             score(j)(0) = j
             trace(j)(0) = 2
         Next
+
         ' Filling the remaining cells in the matrix
         For i = 1 To l1 - 1
             For j = 1 To l2 - 1
@@ -256,6 +269,7 @@ Public Class CenterStar
         i = l1
         j = l2
         k = 0
+
         Dim pairAlignment As Char()() = MAT(Of Char)(2, l1 + l2)
 
         Do While i <> 0 OrElse j <> 0
@@ -282,7 +296,9 @@ Public Class CenterStar
 
         Dim input$
         Dim stringReverse = MAT(Of Char)(2, k)
+
         i = 0
+
         Do While (k > 0)
             stringReverse(0)(i) = pairAlignment(0)(k - 1)
             stringReverse(1)(i) = pairAlignment(1)(k - 1)
@@ -307,6 +323,7 @@ Public Class CenterStar
     ''' <returns></returns>
     Public Function calculateMinimum(diagonal%, left%, up%) As Integer
         Dim temp = diagonal
+
         direction = 0
 
         If (temp > left) Then

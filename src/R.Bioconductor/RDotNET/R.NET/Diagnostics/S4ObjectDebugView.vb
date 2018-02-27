@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad0192aefd5d6bab0ee4db0493fb2dd6, RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
+﻿#Region "Microsoft.VisualBasic::881096576c63a8eb2f87d4924bce0938, RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
 
     ' Author:
     ' 

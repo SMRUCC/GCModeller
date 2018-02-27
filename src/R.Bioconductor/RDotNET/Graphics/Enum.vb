@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::231e24e88e6f31f25595e6237cf1aff3, RDotNET\Graphics\Enum.vb"
+﻿#Region "Microsoft.VisualBasic::959d1154b3aa525e9944a7d7886c6a4d, RDotNET\Graphics\Enum.vb"
 
     ' Author:
     ' 

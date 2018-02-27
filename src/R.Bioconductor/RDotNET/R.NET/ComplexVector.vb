@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1495f5c3f50f378bea3926ad852f312, RDotNET\R.NET\ComplexVector.vb"
+﻿#Region "Microsoft.VisualBasic::7580352a0ce85f3388d310d479f84983, RDotNET\R.NET\ComplexVector.vb"
 
     ' Author:
     ' 

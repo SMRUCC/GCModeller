@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0d5abf78d0b030e8c1219b1f458a5eb, Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::ee195b74a28dcb160af735f26a4debfe, Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
 
     ' Author:
     ' 
@@ -101,7 +101,11 @@ Public Module PrimitiveParser
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ParseDouble(s As String) As Double
-        Return ParseNumeric(s)
+        If s Is Nothing Then
+            Return 0
+        Else
+            Return ParseNumeric(s)
+        End If
     End Function
 
     ''' <summary>

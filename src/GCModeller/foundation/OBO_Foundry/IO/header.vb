@@ -40,7 +40,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 ''' <summary>
 ''' 
@@ -55,8 +54,9 @@ Public Class header
     <Field("subsetdef")> Public Property SubsetDef As String()
     <Field("synonymtypedef")> Public Property SynonymTypeDef As String()
     <Field("default-namespace")> Public Property DefaultNamespace As String
-    <Field("remark")> Public Property Remark As String
+    <Field("remark")> Public Property Remark As String()
     <Field("ontology")> Public Property Ontology As String
+    <Field("property_value")> Public Property property_value As String
 
     Public Overrides Function ToString() As String
         Return Me.GetJson

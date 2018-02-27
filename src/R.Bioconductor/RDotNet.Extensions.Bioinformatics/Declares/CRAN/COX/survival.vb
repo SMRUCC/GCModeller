@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df7ab2ad12aa784f32b91a4d299c47c0, RDotNet.Extensions.Bioinformatics\Declares\CRAN\COX\survival.vb"
+﻿#Region "Microsoft.VisualBasic::bf934645ee5272a72378c1a1e9057d8f, RDotNet.Extensions.Bioinformatics\Declares\CRAN\COX\survival.vb"
 
     ' Author:
     ' 

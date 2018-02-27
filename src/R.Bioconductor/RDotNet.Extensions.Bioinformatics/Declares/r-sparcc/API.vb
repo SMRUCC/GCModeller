@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::889ecf8e3cdddfe34085a6a928ebfe75, RDotNet.Extensions.Bioinformatics\Declares\r-sparcc\API.vb"
+﻿#Region "Microsoft.VisualBasic::8e2f82c60a32aadd1d0f5a0c0adb6904, RDotNet.Extensions.Bioinformatics\Declares\r-sparcc\API.vb"
 
     ' Author:
     ' 

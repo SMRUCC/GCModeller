@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e88310fab02bbae798a2005da426b050, RDotNET.Extensions.VisualBasic\API\stats\chisq.test.vb"
+﻿#Region "Microsoft.VisualBasic::cf94ecf142e14dd8c6348dd5e9d0df41, RDotNET.Extensions.VisualBasic\API\stats\chisq.test.vb"
 
     ' Author:
     ' 

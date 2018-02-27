@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbdbf35e574f0e577b7c98f768e8a1af, Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
+﻿#Region "Microsoft.VisualBasic::19688132400c6b33780d7bdd949e9230, Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
 
     ' Author:
     ' 
