@@ -1,162 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::d0b4cd386e9c36f00bb76ae26ecb839d, RDotNET.Extensions.VisualBasic\Extensions\System.vb"
+﻿#Region "Microsoft.VisualBasic::d2df1b9fc733ead078b975735aaab867, RDotNET.Extensions.VisualBasic\Extensions\System.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class ExtendedEngine
-    ' 
-    '     Properties: [call]
-    ' 
-    '     Function: __init, Evaluate, hasSlot
-    ' 
-    '     Sub: __cleanHook, (+2 Overloads) New
-    ' 
-    ' Module RSystem
-    ' 
-    '     Properties: R, RColors
-    ' 
-    '     Function: ColorMaps, getwd, Library, packageVersion, params
-    '               setwd, source
-    ' 
-    '     Sub: New, (+2 Overloads) TryInit
-    ' 
-    ' /********************************************************************************/
+' Class ExtendedEngine
+' 
+'     Properties: [call]
+' 
+'     Function: __init, Evaluate, hasSlot
+' 
+'     Sub: __cleanHook, (+2 Overloads) New
+' 
+' Module RSystem
+' 
+'     Properties: R, RColors
+' 
+'     Function: ColorMaps, getwd, Library, packageVersion, params
+'               setwd, source
+' 
+'     Sub: New, (+2 Overloads) TryInit
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
-Public Class ExtendedEngine : Inherits REngine
-
-    ''' <summary>
-    ''' Evaluates a R statement in the given string.
-    ''' (由于这个函数并不返回数据，所以只推荐无返回值的方法调用或者变量初始化的时候是用本只写属性)
-    ''' </summary>
-    Public WriteOnly Property [call] As String
-        Set(value As String)
-            Call __logs.WriteLine(value)
-            Call __logs.Flush()
-            Call Evaluate(statement:=value)
-        End Set
-    End Property
-
-    ''' <summary>
-    ''' 返回一个逻辑值类型的变量指针
-    ''' </summary>
-    ''' <param name="object$">An object from a formally defined class.</param>
-    ''' <param name="name$">
-    ''' The name of the slot. The operator takes a fixed name, which can be unquoted if it is syntactically a name in the language. 
-    ''' A slot name can be any non-empty string, but if the name is not made up of letters, numbers, and ., it needs to be quoted 
-    ''' (by backticks or single or double quotes).
-    ''' In the case of the slot function, name can be any expression that evaluates to a valid slot in the class definition. 
-    ''' Generally, the only reason to use the functional form rather than the simpler operator Is because the slot name has 
-    ''' to be computed.</param>
-    ''' <returns></returns>
-    Public Function hasSlot(object$, name$) As String
-        Dim var$ = App.NextTempName
-
-        SyncLock Me
-            With Me
-                .call = $"{var} <- .hasSlot({object$}, {name});"
-            End With
-        End SyncLock
-
-        Return var
-    End Function
-
-    Sub New(id As String, dll As String)
-        MyBase.New(id, dll)
-        Call App.AddExitCleanHook(hook:=AddressOf __cleanHook)
-    End Sub
-
-    Public Overrides Function Evaluate(statement As String) As SymbolicExpression
-        Try
-            Return MyBase.Evaluate(statement)
-        Catch ex As Exception
-            ex = New Exception(vbCrLf & vbCrLf &
-                               statement &
-                               vbCrLf & vbCrLf, ex)
-            Call App.LogException(ex)
-
-            Throw ex
-        End Try
-    End Function
-
-    Friend ReadOnly __logs As StreamWriter = (App.GetProductSharedTemp & $"/.logs/{Now.ToNormalizedPathString} {App.PID}_logs.R").OpenWriter(Encodings.UTF8)
-
-    Private Sub __cleanHook()
-        Call __logs.WriteLine()
-        Call __logs.WriteLine()
-        Call __logs.WriteLine("# Show warnings():")
-        Call __logs.WriteLine()
-        Call __logs.WriteLine(Evaluate("str(warnings())").ToStrings.Select(Function(s) "# " & s).JoinBy(ASCII.LF))
-
-        Call __logs.WriteLine()
-        Call __logs.WriteLine($"#### =================={App.PID} {App.CommandLine.ToString}=======================================")
-        Call __logs.Flush()
-        Call __logs.Close()
-        Call __logs.Dispose()
-
-        Call "Execute R server logs clean job done!".__INFO_ECHO
-    End Sub
-
-    Shared Sub New()
-    End Sub
-
-    Friend Shared Function __init(id As String, Optional dll As String = Nothing) As ExtendedEngine
-        If id Is Nothing Then
-            Throw New ArgumentNullException("id", "Empty ID is not allowed.")
-        End If
-        If id = String.Empty Then
-            Throw New ArgumentException("Empty ID is not allowed.", "id")
-        End If
-        'if (instances.ContainsKey(id))
-        '{
-        '   throw new ArgumentException();
-        '}
-        dll = ProcessRDllFileName(dll)
-        Dim engine As New ExtendedEngine(id, dll)
-        'instances.Add(id, engine);
-        Return engine
-    End Function
-End Class
-
 ''' <summary>
-''' R Engine extensions.(似乎对于RDotNet而言，在一个应用程序的实例进程之中仅允许一个REngine的实例存在，所以在这里就统一的使用一个公共的REngine的实例对象)
+''' R Engine extensions.
+''' (似乎对于RDotNet而言，在一个应用程序的实例进程之中仅允许一个REngine的实例存在，所以在这里就统一的使用一个公共的REngine的实例对象)
 ''' </summary>
 Public Module RSystem
 
@@ -248,7 +152,7 @@ Public Module RSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Library() As String
-        Dim result As String = R.WriteLine("library()").JoinBy(vbCrLf)
+        Dim result$ = R.WriteLine("library()").JoinBy(vbCrLf)
         Dim sBuilder As New StringBuilder(result, 5 * 1024)
 
         sBuilder.Remove(0, 2)
@@ -256,13 +160,17 @@ Public Module RSystem
 
         Dim array$() = Regex.Split(sBuilder.ToString, SPLIT_REGX_EXPRESSION)
         Dim width As Integer = array.Length / 3
+        Dim s$
 
         sBuilder.Clear()
+
         For i As Integer = 0 To width - 1
-            Dim s = String.Format("{1}  {0}  {2}", array(i), array(i + width), array(i + width * 2))
+            s = String.Format("{1}  {0}  {2}", array(i), array(i + width), array(i + width * 2))
             sBuilder.AppendLine(s)
         Next
+
         sBuilder.Replace("""", "")
+
         Call Console.WriteLine(sBuilder.ToString)
 
         Return sBuilder.ToString
@@ -416,15 +324,15 @@ Public Module RSystem
         "yellow", "yellow1", "yellow2", "yellow3", "yellow4", "yellowgreen"
     }
 
+    ''' <summary>
+    ''' Maps color to each object in the <paramref name="source"/> sequence.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
     Public Function ColorMaps(Of T)(source As IEnumerable(Of T)) As Dictionary(Of T, String)
-        Dim uniques As T() = source.Distinct.ToArray
-        Dim colors As String() = RColors.Shuffles
-        Dim dict As Dictionary(Of T, String) = (From idx As SeqValue(Of T)
-                                                In uniques.SeqIterator
-                                                Select id = idx.value,
-                                                    cl = colors(idx.i)) _
-                                                   .ToDictionary(Function(obj) obj.id,
-                                                                 Function(obj) obj.cl)
-        Return dict
+        With RColors.Shuffles.AsLoop
+            Return source.ToDictionary(Function(x) x, Function() .Next)
+        End With
     End Function
 End Module

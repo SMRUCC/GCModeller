@@ -303,11 +303,12 @@
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
     <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
+    <Compile Include="Server\ExtendedEngine.vb" />
     <Compile Include="userFunctions\Tools.vb" />
-    <Compile Include="var.vb" />
+    <Compile Include="Extensions\var.vb" />
     <Compile Include="Extensions\out.vb" />
     <Compile Include="Extensions\Serialization\DataFrameAPI.vb" />
-    <Compile Include="Extensions\RInit.vb" />
+    <Compile Include="Server\RInit.vb" />
     <Compile Include="Extensions\RScriptInvoke.vb" />
     <Compile Include="ScriptBuilder\Abstract\IRToken.vb" />
     <Compile Include="ScriptBuilder\RPackage\base\as.dataFrame.vb" />
@@ -347,10 +348,10 @@
     <Compile Include="API\graphics\PieChart.vb" />
     <Compile Include="ScriptBuilder\Extensions.vb" />
     <Compile Include="ScriptBuilder\Abstract\IRScript.vb" />
-    <Compile Include="Extensions\REngine.vb" />
+    <Compile Include="Server\REngine.vb" />
     <Compile Include="ScriptBuilder\BuilderAPI.vb" />
     <Compile Include="Extensions\Serialization\Serialization.vb" />
-    <Compile Include="Extensions\System.vb" />
+    <Compile Include="RSystem.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

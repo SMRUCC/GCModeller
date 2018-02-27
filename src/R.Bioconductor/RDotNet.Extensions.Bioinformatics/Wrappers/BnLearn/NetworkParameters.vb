@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bcc00163781fedc3083177c5f099f1d, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NetworkParameters.vb"
+﻿#Region "Microsoft.VisualBasic::64f75cb3e736052469e6a37ec9a9d7df, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NetworkParameters.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cca3f9ddc438e5568aa614e91b01299e, Bioconductor\Bioconductor\Web\pkgInfo\Details\Archives.vb"
+﻿#Region "Microsoft.VisualBasic::609472f366dd00061a331845b909a1a9, Bioconductor\Bioconductor\Web\pkgInfo\Details\Archives.vb"
 
     ' Author:
     ' 

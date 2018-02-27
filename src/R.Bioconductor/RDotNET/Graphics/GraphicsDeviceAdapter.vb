@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95053d35a53e344d0fb8f87797e76251, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::d4c558fff38bb4d7a0227a4a432a497c, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
 
     ' Author:
     ' 

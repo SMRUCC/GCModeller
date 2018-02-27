@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::67796ba8dee8569da97f616b5a83aad9, visualize\Cytoscape\CLI_tool\CLI\Cli.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '  
-    ' 
-    '     Function: cyjsAsGraph, DrawingInvoke, getNetworkParser, getStyleParser
-    ' 
-    ' /********************************************************************************/
+'  
+' 
+'     Function: cyjsAsGraph, DrawingInvoke, getNetworkParser, getStyleParser
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
+Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -105,7 +106,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
 
     Private Function getStyleParser(name As String) As Func(Of String, VizMap)
         If String.Equals(name, "vizmap", StringComparison.OrdinalIgnoreCase) Then
-            Return Function(path As String) path.LoadXml(Of Visualization.VizMap)(ThrowEx:=False)
+            Return Function(path As String) path.LoadXml(Of Visualization.VizMap)(throwEx:=False)
         ElseIf String.Equals(name, "json", StringComparison.OrdinalIgnoreCase) Then
         Else
             Call $"Network style file parser ""{name}"" was not recognized!".__DEBUG_ECHO

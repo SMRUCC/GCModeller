@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59fafe923c6d2ba6dd3f2a0d5a70b790, RDotNET\R.NET\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::e18fa18b71af3ae2ef7c9a8d3b6d8497, RDotNET\R.NET\DataFrameRow.vb"
 
     ' Author:
     ' 

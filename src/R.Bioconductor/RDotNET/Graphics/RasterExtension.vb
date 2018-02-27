@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd1b09c55cd3fc4723bdeb6bda0cd978, RDotNET\Graphics\RasterExtension.vb"
+﻿#Region "Microsoft.VisualBasic::24392768ce391b113f2fba288358ade1, RDotNET\Graphics\RasterExtension.vb"
 
     ' Author:
     ' 

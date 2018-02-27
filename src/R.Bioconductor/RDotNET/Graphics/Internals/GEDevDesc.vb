@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc4c0d7348098fcea53ad00ab70a279f, RDotNET\Graphics\Internals\GEDevDesc.vb"
+﻿#Region "Microsoft.VisualBasic::54fbac9559f991b5eb01d1c7dbf99710, RDotNET\Graphics\Internals\GEDevDesc.vb"
 
     ' Author:
     ' 

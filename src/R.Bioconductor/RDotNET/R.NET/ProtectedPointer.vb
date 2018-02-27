@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b5fe798eca5244dc35bf1af646eccef, RDotNET\R.NET\ProtectedPointer.vb"
+﻿#Region "Microsoft.VisualBasic::6e5ed1a1654ae04b26b26da4b022bb5c, RDotNET\R.NET\ProtectedPointer.vb"
 
     ' Author:
     ' 
