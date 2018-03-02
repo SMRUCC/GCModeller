@@ -218,13 +218,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\CoreDump.vb" />
+    <Compile Include="CoreDump.vb" />
     <Compile Include="Extension\Extensions.vb" />
     <Compile Include="Extension\Output.vb" />
     <Compile Include="Extension\HSP.vb" />
     <Compile Include="SmithWaterman.vb" />
-    <Compile Include="Core\GSW.vb" />
-    <Compile Include="Match.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Properties\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -248,6 +246,10 @@
     <None Include="Resources\BLOSUM62.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
+      <Project>{a903b744-c08d-4869-bc35-3dd25e36aa16}</Project>
+      <Name>DynamicProgramming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>

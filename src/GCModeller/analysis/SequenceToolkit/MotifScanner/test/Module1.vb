@@ -74,7 +74,7 @@ ATGAAT-"
     End Sub
 
     Sub seeding()
-        Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406_small.fasta")
+        Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406.fasta")
         Dim result = test.PopulateMotifs.ToArray
 
         Call result.GetJson(indent:=True).SaveTo("./motifs.json")

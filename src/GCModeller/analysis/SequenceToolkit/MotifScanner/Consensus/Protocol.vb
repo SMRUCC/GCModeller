@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -55,17 +56,33 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Public Class Parameter
 
+    ''' <summary>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property minW As Integer
+    ''' <summary>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property maxW As Integer
+    ''' <summary>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property seedingCutoff As Double
     Public Property ScanMinW As Integer
     Public Property ScanCutoff As Double
 
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+
     Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
         Return New Parameter With {
-            .minW = 10,
-            .maxW = 30,
-            .seedingCutoff = 0.35,
+            .minW = 5,
+            .maxW = 20,
+            .seedingCutoff = 0.85,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
         }
@@ -119,12 +136,14 @@ Public Module Protocol
         Call "seeding...".__DEBUG_ECHO
 
         ' 先进行两两局部最优比对，得到最基本的种子
+        ' 2018-3-2 在这里应该选取的是短的高相似度的序列
         Dim seeds As List(Of HSP) = regions _
             .AsParallel _
             .Select(Function(q) regions.seeding(q, param)) _
             .IteratesALL _
             .AsList
 
+        Call $"Generate {seeds.Count} seeds...".__DEBUG_ECHO
         Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
         ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
