@@ -71,9 +71,15 @@ Module Module1
     Sub plotTest()
 
         Dim motifs = "E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406_small.json".ReadAllText.LoadObject(Of scanerMotif())
-        Dim test = motifs(0).CreateDrawingModel
 
-        Call test.InvokeDrawing(True).SaveAs("./test.png")
+        For i As Integer = 0 To motifs.Length - 1
+            Dim test = motifs(i).CreateDrawingModel
+
+            Call test.InvokeDrawing(True).SaveAs($"./test__{i}.png")
+        Next
+
+
+
 
         Pause()
     End Sub
