@@ -246,8 +246,10 @@ Namespace KMeans
                 ElseIf hits > 25 Then
                     hits = 0
 
+                    Return clusters
+
                     ' 随机混淆若干个稳定的cluster
-                    clusters = clusters.CrossOver
+                    ' clusters = clusters.CrossOver
                 Else
                     If debug Then
                         Call $"[{iterationCount}/{[stop]}] stableClustersCount <> clusters.NumOfCluster => {stableClustersCount} <> {clusters.NumOfCluster} = {stableClustersCount <> clusters.NumOfCluster}".__DEBUG_ECHO
@@ -269,16 +271,24 @@ Namespace KMeans
             Dim random As New Random
 
             For null As Integer = 1 To 3
-                Dim i = random.NextInteger(stableClusters.NumOfCluster)
-                Dim j = random.NextInteger(stableClusters.NumOfCluster)
+                Dim i% = random.NextInteger(stableClusters.NumOfCluster)
+                Dim j% = random.NextInteger(stableClusters.NumOfCluster)
+
+                If i < 0 OrElse j < 0 Then
+                    Continue For
+                End If
 
                 If i <> j Then
-                    Dim x = stableClusters(i)
-                    Dim y = stableClusters(j)
+                    Dim x = stableClusters._innerList(i)
+                    Dim y = stableClusters._innerList(j)
 
                     For r As Integer = 0 To 3
                         i = random.NextInteger(x.NumOfEntity)
                         j = random.NextInteger(y.NumOfEntity)
+
+                        If i < 0 OrElse j < 0 Then
+                            Continue For
+                        End If
 
                         Call x._innerList(i).SwapWith(y._innerList(j))
                     Next

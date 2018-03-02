@@ -239,7 +239,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motifs/"
 
         Call motifs.GetJson.SaveTo(out & "/data.json")
-        Call motifs.GetXml.SaveTo(out & "/data.xml")
+        ' Call motifs.GetXml.SaveTo(out & "/data.xml")
 
         Dim i As int = 0
 

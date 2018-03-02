@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::d3ffba32f16c86846fc415185c2fc8c6, analysis\SequenceToolkit\MSA\CenterStar.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class CenterStar
-    ' 
-    '     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
-    ' 
-    '     Sub: findStarIndex, multipleAlignmentImpl, (+2 Overloads) New
-    ' 
-    ' /********************************************************************************/
+' Class CenterStar
+' 
+'     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
+' 
+'     Sub: findStarIndex, multipleAlignmentImpl, (+2 Overloads) New
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -158,7 +158,7 @@ Public Class CenterStar
                 Dim j2 = 0
 
                 For j1 As Integer = 0 To globalAlign(0).Length - 1
-                    If (centerString2(j2) <> globalAlign(0)(j1)) Then
+                    If (centerString2.CharAtOrDefault(j2, "-"c) <> globalAlign(0)(j1)) Then
                         Dim a As StringBuilder
 
                         For k As Integer = 0 To i - 1
