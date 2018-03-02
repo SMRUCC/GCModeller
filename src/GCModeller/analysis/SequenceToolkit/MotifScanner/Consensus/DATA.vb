@@ -42,4 +42,5 @@ End Class
 
 Public Class Motif : Inherits Probability
     Public Property seeds As MSAOutput
+    Public Property length As Integer
 End Class
