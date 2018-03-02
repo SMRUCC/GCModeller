@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
@@ -103,7 +104,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim outCsv As String = out & "/" & BaseName(inXml) & ".Csv"
+            Dim outCsv As String = out & "/" & inXml.BaseName() & ".Csv"
             Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
             Dim hits = blastOut.ExportOverview.GetExcelData
             Call hits.SaveTo(outCsv)
@@ -117,6 +118,9 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
         Return 0
     End Function
+
+    ReadOnly best As New __bbhParser(AddressOf ParsebbhBesthit)
+    ReadOnly allhits As New DefaultValue(Of __bbhParser)(AddressOf ParseAllbbhhits)
 
     ''' <summary>
     '''
@@ -135,12 +139,14 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
                                  identities As Double,
                                  singleQuery As String,
                                  outDIR As String) As Integer
-        Dim Parser As __bbhParser = [If](Of __bbhParser)(isAll, AddressOf ParseAllbbhhits, AddressOf ParsebbhBesthit)  ' 导出方法
+
+        ' 设置导出方法
+        Dim parser As __bbhParser = best Or allhits.When(isAll)
         Dim ParsingTask = (From entry As Entry
                            In entries
                            Let fileEntry As KeyValuePair(Of String, String) = __orderEntry(entry, singleQuery)
                            Select entry,
-                               bbh = Parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray
+                               bbh = parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray
 
         For Each xBBH In ParsingTask
             Dim path As String = $"{outDIR}/{xBBH.entry.Key.QueryName}_vs.{xBBH.entry.Key.HitName}.bbh.csv"

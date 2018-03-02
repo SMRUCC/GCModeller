@@ -250,6 +250,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                 .SaveAs($"{out}/motif_{++i}.png")
         Next
 
+        Call param.GetJson.SaveTo(out & "/args.json")
+
         Return 0
     End Function
 
