@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Matrix
 
@@ -184,7 +185,16 @@ Namespace LinearAlgebra
                     Return .RowVectors.ToArray
                 Else
                     ' top n
+                    Dim rows As Vector() = .RowVectors.ToArray
+                    Dim out As New List(Of Vector)
 
+                    ordinal = Which.Top(ExplainedVariance, n:=nPC)
+
+                    For Each i As Integer In ordinal
+                        out.Add(rows.Select(Function(r) r(i)).AsVector)
+                    Next
+
+                    Return out.ToArray
                 End If
             End With
         End Function

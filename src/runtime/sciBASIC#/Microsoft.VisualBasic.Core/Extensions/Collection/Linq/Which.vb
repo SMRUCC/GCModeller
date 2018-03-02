@@ -172,6 +172,10 @@ Namespace Linq
             Return Which.IsFalse([operator]())
         End Function
 
+        Public Shared Function Top(Of T As IComparable(Of T))(seq As IEnumerable(Of T), n As Integer) As Integer()
+
+        End Function
+
         ''' <summary>
         ''' 查找出列表之中符合条件的所有的索引编号
         ''' </summary>
