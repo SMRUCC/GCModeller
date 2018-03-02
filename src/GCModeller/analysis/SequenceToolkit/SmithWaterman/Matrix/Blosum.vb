@@ -1,51 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::237ebf5e64f90d75712ce56d50443de2, analysis\SequenceToolkit\SmithWaterman\Blosum.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Blosum
-    ' 
-    '     Properties: Matrix
-    ' 
-    '     Function: __toVector, FromInnerBlosum62, getDistance, GetDistance, getIndex
-    '               LoadFromStream, LoadMatrix
-    ' 
-    ' /********************************************************************************/
+' Class Blosum
+' 
+'     Properties: Matrix
+' 
+'     Function: __toVector, FromInnerBlosum62, getDistance, GetDistance, getIndex
+'               LoadFromStream, LoadMatrix
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Linq
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 
 ''' <summary>
 ''' Blosum-62 substitution matrix
@@ -77,51 +74,7 @@ Public Class Blosum
     ''' Default Blosum-62 substitution matrix from inner resource
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Matrix As Integer()()
-
-    ''' <summary>
-    ''' Load Blosum matrix from the text file, and this Blosum matrix file which is available downloads from NCBI FTP site.
-    ''' </summary>
-    ''' <param name="path"></param>
-    ''' <returns></returns>
-    Public Shared Function LoadMatrix(path As String) As Blosum
-        Return LoadFromStream(FileIO.FileSystem.ReadAllText(path))
-    End Function
-
-    ''' <summary>
-    ''' Load Blosum matrix from the text file, and this Blosum matrix file which is available downloads from NCBI FTP site.
-    ''' </summary>
-    ''' <param name="doc"></param>
-    ''' <returns></returns>
-    Public Shared Function LoadFromStream(doc As String) As Blosum
-        Dim tokens$() = doc.lTokens
-        Dim i%
-
-        Do While tokens.Read(i).First = "#"c
-        Loop
-
-        Dim matrix%()() = LinqAPI.Exec(Of Integer()) _
- _
-            () <= From line As String
-                  In tokens.Skip(i)
-                  Where Not String.IsNullOrWhiteSpace(line)
-                  Select __toVector(line)
-
-        Return New Blosum() With {
-            ._Matrix = matrix
-        }
-    End Function
-
-    Private Shared Function __toVector(line As String) As Integer()
-        Dim array%() = LinqAPI.Exec(Of Integer) _
- _
-            () <= From x As String
-                  In line.Split.Skip(1)
-                  Where Not String.IsNullOrWhiteSpace(x)
-                  Select CInt(Val(x))
-
-        Return array
-    End Function
+    Public Property Matrix As Integer()()
 
     '''<summary>
     '''  Looks up a localized string similar to #  Matrix made by matblas from blosum62.iij
@@ -137,14 +90,14 @@ Public Class Blosum
     '''</summary>
     Public Shared Function FromInnerBlosum62() As Blosum
         SyncLock My.Resources.BLOSUM62
-            Return LoadFromStream(My.Resources.BLOSUM62)
+            Return BlosumParser.LoadFromStream(My.Resources.BLOSUM62)
         End SyncLock
     End Function
 
     ' quick and dirty equivalent of typesafe enum pattern, can also use HashMap
     ' or even better, EnumMap in Java 5. 
     ' This code is for Java 1.4.2, so we will stick to the simple implementation
-    Private Function getIndex(a As Char) As Integer
+    Protected Overridable Function getIndex(a As Char) As Integer
         ' check for upper and lowercase characters
         Select Case Char.ToUpper(a)
             Case "A"c

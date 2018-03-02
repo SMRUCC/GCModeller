@@ -218,10 +218,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Matrix\DNAMatrix.vb" />
     <Compile Include="CoreDump.vb" />
     <Compile Include="Extension\Extensions.vb" />
     <Compile Include="Extension\Output.vb" />
     <Compile Include="Extension\HSP.vb" />
+    <Compile Include="Matrix\BlosumParser.vb" />
     <Compile Include="SmithWaterman.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Properties\Resources.Designer.vb">
@@ -229,7 +231,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Blosum.vb" />
+    <Compile Include="Matrix\Blosum.vb" />
     <Compile Include="SimpleChaining.vb" />
   </ItemGroup>
   <ItemGroup>
