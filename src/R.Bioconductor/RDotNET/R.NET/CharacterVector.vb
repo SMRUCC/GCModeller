@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd2f5f72d989efdb3af935ed407eb470, RDotNET\R.NET\CharacterVector.vb"
+﻿#Region "Microsoft.VisualBasic::c7e9d249344bd21f4ea885a535888cca, RDotNET\R.NET\CharacterVector.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78b71daabb7c728e4525f8c10f471537, Bioconductor\Bioconductor\biocPkgs\WGCNA\App\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::75c4f647378d2fc7e8185c397895d5fa, Bioconductor\Bioconductor\biocPkgs\WGCNA\App\WGCNA.vb"
 
     ' Author:
     ' 

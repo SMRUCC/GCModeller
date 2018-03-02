@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31f2ca36a391850e56b9509057d951fb, RDotNET\Graphics\DeviceDescription.vb"
+﻿#Region "Microsoft.VisualBasic::b08fe6f477addd86a200676d1cf2fefd, RDotNET\Graphics\DeviceDescription.vb"
 
     ' Author:
     ' 

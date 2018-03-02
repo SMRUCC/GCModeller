@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d5907210264b79949b3aafd45847761, RDotNET.Extensions.VisualBasic\API\methods.vb"
+﻿#Region "Microsoft.VisualBasic::696d3449377523383afc175488a0567c, RDotNET.Extensions.VisualBasic\API\methods.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adf9d72c6671857ec30de2e5bd752dc7, RDotNET.Extensions.VisualBasic\API\graphics\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::c7d1ee0a98f204dae963483ae97f948f, RDotNET.Extensions.VisualBasic\API\graphics\PieChart.vb"
 
     ' Author:
     ' 

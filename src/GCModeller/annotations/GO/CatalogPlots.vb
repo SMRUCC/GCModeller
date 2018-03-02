@@ -317,7 +317,8 @@ Public Module CatalogPlots
                 .Select(Function(x) New NamedValue(Of Double) With {
                     .Name = x.Term,
                     .Value = -Math.Log10(x.PValue)
-                })
+                }) _
+                .ToArray
         Next
 
         Return profile.ProfilesPlot(

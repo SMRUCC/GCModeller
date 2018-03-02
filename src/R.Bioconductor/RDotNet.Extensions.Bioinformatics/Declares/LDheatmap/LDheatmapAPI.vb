@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::194abcacc8e6a9b34ed7592712aad9f8, RDotNet.Extensions.Bioinformatics\Declares\LDheatmap\LDheatmapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2b029d0e38457229b72556c0cbbaa613, RDotNet.Extensions.Bioinformatics\Declares\LDheatmap\LDheatmapAPI.vb"
 
     ' Author:
     ' 

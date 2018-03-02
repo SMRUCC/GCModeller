@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85c8c844340a337d760fd350eea63e37, Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::df024c0d78ced001446a37c237e31dff, Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
 
     ' Author:
     ' 

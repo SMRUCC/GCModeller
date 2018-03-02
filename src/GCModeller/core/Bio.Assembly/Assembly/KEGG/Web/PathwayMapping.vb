@@ -244,27 +244,27 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), KO_htext As Dictionary(Of String, BriteHText)) As NamedValue(Of Dictionary(Of String, String))()
-            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
+            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) _
  _
-                From x As NamedValue(Of String)
-                In KO_maps
-                Where KO_htext.ContainsKey(x.Value)
-                Let path = KO_htext(x.Value)
-                Let subcate = path.Parent
-                Let cate = subcate.Parent
-                Let cls = cate.Parent
-                Let catalog As Dictionary(Of String, String) =
-                    New Dictionary(Of String, String) From {
-                        {"KO", x.Value},
-                        {"Category", cate.Description},
-                        {"Class", cls.Description},
-                        {"SubCatalog", subcate.Description},
-                        {"Function", path.Description}
-                }
-                Select New NamedValue(Of Dictionary(Of String, String)) With {
-                    .Name = x.Name,
-                    .Value = catalog
-                }
+                () <= From x As NamedValue(Of String)
+                      In KO_maps
+                      Where KO_htext.ContainsKey(x.Value)
+                      Let path = KO_htext(x.Value)
+                      Let subcate = path.Parent
+                      Let cate = subcate.Parent
+                      Let cls = cate.Parent
+                      Let catalog As Dictionary(Of String, String) =
+                          New Dictionary(Of String, String) From {
+                              {"KO", x.Value},
+                              {"Category", cate.Description},
+                              {"Class", cls.Description},
+                              {"SubCatalog", subcate.Description},
+                              {"Function", path.Description}
+                      }
+                      Select New NamedValue(Of Dictionary(Of String, String)) With {
+                          .Name = x.Name,
+                          .Value = catalog
+                      }
 
             Return pathways
         End Function
@@ -296,7 +296,9 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+        ''' You can replace the %s mark Using kegg organism code In url example As: 
+        ''' http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&amp;format=htext&amp;filedir= for download the custom KO classification set.
         ''' </summary>
         ''' <param name="KO_maps"></param>
         ''' <param name="ko00001$">User custom classification database</param>

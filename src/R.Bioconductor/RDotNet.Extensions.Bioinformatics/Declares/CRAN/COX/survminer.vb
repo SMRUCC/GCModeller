@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abd53c442fa4e94490a36be9f3430146, RDotNet.Extensions.Bioinformatics\Declares\CRAN\COX\survminer.vb"
+﻿#Region "Microsoft.VisualBasic::ea80832c3aca45541acd2b9987527209, RDotNet.Extensions.Bioinformatics\Declares\CRAN\COX\survminer.vb"
 
     ' Author:
     ' 

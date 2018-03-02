@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a30b2f0b40ccfb8e501f59c50cd76bf9, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\grDevice.vb"
+﻿#Region "Microsoft.VisualBasic::bf5220682ff9105891881b6540bd0321, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\grDevice.vb"
 
     ' Author:
     ' 
