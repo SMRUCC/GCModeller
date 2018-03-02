@@ -50,9 +50,12 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
@@ -216,6 +219,38 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim fa As New FastaFile([in])
         Dim logo As Image = SequencePatterns.SequenceLogo.DrawFrequency(fa, title)
         Return logo.SaveAs(out, ImageFormats.Png)
+    End Function
+
+    <ExportAPI("/motifs")>
+    <Usage("/motifs /in <data.fasta> [/min.w <default=6> /max.w <default=20> /n.motifs <default=25> /out <out.directory>]")>
+    Public Function FindMotifs(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim param As New PopulatorParameter With {
+            .maxW = args("/max.w") Or 20,
+            .minW = args("/min.w") Or 6,
+            .seedingCutoff = 0.9,
+            .ScanMinW = 6,
+            .ScanCutoff = 0.8
+        }
+        Dim nmotifs% = args("/n.motifs") Or 25
+        Dim motifs = FastaFile.LoadNucleotideData([in]) _
+            .PopulateMotifs(expectedMotifs:=nmotifs, param:=param) _
+            .ToArray
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motifs/"
+
+        Call motifs.GetJson.SaveTo(out & "/data.json")
+        Call motifs.GetXml.SaveTo(out & "/data.xml")
+
+        Dim i As int = 0
+
+        For Each motif As Motif In motifs
+            Call motif _
+                .CreateDrawingModel _
+                .InvokeDrawing(True) _
+                .SaveAs($"{out}/motif_{++i}.png")
+        Next
+
+        Return 0
     End Function
 
     <ExportAPI("--Drawing.ClustalW",

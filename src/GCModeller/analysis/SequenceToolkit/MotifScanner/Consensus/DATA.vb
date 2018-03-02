@@ -4,20 +4,20 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Class Parameter
+Public Class PopulatorParameter
 
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property minW As Integer
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property maxW As Integer
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
+    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property seedingCutoff As Double
@@ -28,8 +28,8 @@ Public Class Parameter
         Return Me.GetJson
     End Function
 
-    Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
-        Return New Parameter With {
+    Public Shared Function DefaultParameter() As DefaultValue(Of PopulatorParameter)
+        Return New PopulatorParameter With {
             .minW = 6,
             .maxW = 20,
             .seedingCutoff = 0.9,

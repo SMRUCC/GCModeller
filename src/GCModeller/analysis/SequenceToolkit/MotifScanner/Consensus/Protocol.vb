@@ -55,7 +55,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Module Protocol
 
     <Extension>
-    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
+    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim seeds As New List(Of HSP)
 
         For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
@@ -90,10 +90,10 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
         Dim regions As FastaSeq() = inputs.ToArray
 
-        param = param Or Parameter.DefaultParameter
+        param = param Or PopulatorParameter.DefaultParameter
 
         Call "seeding...".__DEBUG_ECHO
 
@@ -164,7 +164,7 @@ Public Module Protocol
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As Parameter) As Motif
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As Motif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
         Dim MSA = alignment.MSA
@@ -212,7 +212,7 @@ Public Module Protocol
         }
     End Function
 
-    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
+    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)

@@ -160,9 +160,10 @@ Public Class CenterStar
                 For j1 As Integer = 0 To globalAlign(0).Length - 1
                     If (centerString2(j2) <> globalAlign(0)(j1)) Then
                         Dim a As StringBuilder
+
                         For k As Integer = 0 To i - 1
                             a = New StringBuilder(multipleAlign(k))
-                            a.Insert(j1, "-")
+                            a.Insert(j1, "-"c)
                             multipleAlign(k) = a.ToString
                         Next
 
@@ -171,14 +172,13 @@ Public Class CenterStar
                     End If
                 Next
                 centerString2 = globalAlign(0)
-            End If
-            If (globalAlign(0).Length < centerString2.Length) Then
+            ElseIf (globalAlign(0).Length < centerString2.Length) Then
                 Dim j2 = 0
 
                 For j1 As Integer = 0 To centerString2.Length - 1
                     If (centerString2(j1) <> globalAlign(0)(j2)) Then
                         Dim a As New StringBuilder(multipleAlign(i))
-                        a.Insert(j1, "-")
+                        a.Insert(j1, "-"c)
                         multipleAlign(i) = a.ToString()
                     Else
                         j2 += 1
