@@ -108,7 +108,7 @@ Public Class ReadsCount : Inherits RawStream
     Public Overrides Function Serialize() As Byte()
         Dim buffer As Byte() = New Byte(__BUFFER_LENGTH - 1) {}
         Dim temp As Byte()
-        Dim p As int
+        Dim p As int = 0
 
         temp = BitConverter.GetBytes(AscW(NT)) : Call Array.ConstrainedCopy(temp, Scan0, buffer, p + (temp.Length), temp.Length)
         temp = BitConverter.GetBytes(ReadsPlus) : Call Array.ConstrainedCopy(temp, Scan0, buffer, p + (temp.Length), temp.Length)
