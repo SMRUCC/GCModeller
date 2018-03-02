@@ -125,7 +125,7 @@ Public Module MothurContigsOTU
         ' contigs.filter
         ' contigs.unique.filter.fasta
 
-        Call "contigs.unique.filter.fasta".CopyTo(contigs)
+        Call contigs.SetValue("contigs.unique.filter.fasta")
         ' contigs.fasta
         Call mothur.Unique_seqs(contigs)
         ' contigs.names
