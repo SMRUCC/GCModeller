@@ -120,7 +120,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject) & ".xml")
         Dim queryFa As New FASTA.FastaSeq(query)
         Dim subjectFa As New FASTA.FastaSeq(subject)
-        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
+        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, BlosumParser.LoadMatrix(blosum))
         Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
         Call output.__DEBUG_ECHO

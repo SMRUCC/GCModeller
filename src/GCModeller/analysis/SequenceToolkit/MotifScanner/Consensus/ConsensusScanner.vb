@@ -106,7 +106,7 @@ Public Class ConsensusScanner
         End With
     End Sub
 
-    Public Iterator Function PopulateMotifs(Optional expected% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(Optional expected% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
         For Each KO As String In Me.KO.Keys
             For Each motif As Motif In PopulateMotifs(KO, expected, param)
                 Yield motif
@@ -120,7 +120,7 @@ Public Class ConsensusScanner
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function PopulateMotifs(KO$, Optional expected% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
+    Public Function PopulateMotifs(KO$, Optional expected% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
         Return KOUpstream(KO).PopulateMotifs(expected, param)
     End Function
 End Class

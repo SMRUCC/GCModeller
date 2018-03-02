@@ -147,7 +147,7 @@ Partial Module CLI
         Dim matrix As Blosum = Blosum.FromInnerBlosum62
         Dim LQuery = From b As FastaSeq
                      In source
-                     Let sw As SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman = SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman.Align(query, b, matrix)
+                     Let sw As SmithWaterman = SmithWaterman.Align(query, b, matrix)
                      Let out As HSP = sw.GetOutput(cutoff, minW).Best
                      Select b.Title,
                          score = If(out Is Nothing, -100.0R, out.Score)

@@ -1,0 +1,3143 @@
+[
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.3125
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0.375,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0.6875,
+          "T": 0,
+          "G": 0,
+          "C": 0.3125
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0.3125,
+          "T": 0.3125,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.3125,
+          "T": 0,
+          "G": 0,
+          "C": 0.3125
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0.4375,
+          "G": 0.3125,
+          "C": 0
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.625,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 10
+      }
+    ],
+    "score": 792,
+    "length": 11,
+    "seeds": {
+      "MSA": [ "-TTCAATCATT", "-TTCCATCAAT", "-TTCCATCAAT", "-TTC-A-C-TC", "-TTC-A-C-TC", "CTTCACACCGT", "CTTCACACCGT", "CTTCACACCGT", "CTTCACACCGT", "-TTCCATCAAT", "-TTCCATCAAT", "CTTCACACCGT", "-TTC-A-C-TC", "-TTC-A-C-TC", "-TTC-A-C-TC", "-TTC-A-C-TC" ],
+      "cost": 742,
+      "names": [ "25", "96", "82", "168", "331", "1", "10", "16", "307", "172", "158", "322", "78", "316", "92", "154" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0.3611111111111111,
+          "T": 0.27777777777777779,
+          "G": 0,
+          "C": 0.3611111111111111
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.47222222222222221,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0.27777777777777779,
+          "T": 0,
+          "G": 0.72222222222222221,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0.1388888888888889,
+          "T": 0.27777777777777779,
+          "G": 0,
+          "C": 0.58333333333333337
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.1388888888888889,
+          "G": 0.52777777777777779,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0.47222222222222221
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0.33333333333333331,
+          "C": 0.41666666666666669
+        },
+        "index": 6
+      }
+    ],
+    "score": 430,
+    "length": 7,
+    "seeds": {
+      "MSA": [ "C-GCGCT", "CTGC-CG", "TCATG-C", "ACGCGCT", "CTGC-CG", "CTGC-CG", "CTGC-CG", "CTGC-CG", "CTGC-CG", "TCATG-C", "ACGCGCT", "ATGATTC", "ATGATTC", "ACGCGTT", "TCATG-C", "CTGC-CG", "CTGC-CG", "TCATG-C", "TCATG-C", "ACGCGCT", "ATGATTC", "TCATG-C", "TCATG-C", "TCATG-C", "CTGC-CG", "ACGCGCT", "ATGATTC", "TCATG-C", "ACGCGTT", "ACGCGTT", "TCATG-C", "ATGATTC", "CTGC-CG", "CTGC-CG", "ACGCGTT", "CTGC-CG" ],
+      "cost": 3197,
+      "names": [ "39", "53", "69", "70", "184", "220", "262", "292", "64", "33", "84", "85", "190", "214", "145", "176", "248", "42", "134", "146", "147", "202", "234", "30", "129", "160", "161", "193", "228", "256", "58", "71", "140", "199", "242", "300" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.9375
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0.0625,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.625,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.0625,
+          "G": 0,
+          "C": 0.9375
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0.9375,
+          "T": 0,
+          "G": 0,
+          "C": 0.0625
+        },
+        "index": 10
+      }
+    ],
+    "score": 776,
+    "length": 11,
+    "seeds": {
+      "MSA": [ "----TTCAATC", "CGGCTTC-GCA", "CGGCTTC-GCA", "CGGCTTC-GCA", "C---TTC-ACA", "C---TTC-ACA", "C---TTC-ACA", "C---TTC-ACA", "CGGCTTC-GCA", "C---TTC-ACA", "C---TTC-ACA", "CGGCTTC-GCA", "CGGCTTC-GCA", "C---TTC-ACA", "C---TTC-ACA", "C---TTC-ACA" ],
+      "cost": 510,
+      "names": [ "139", "7", "328", "52", "216", "244", "306", "0", "313", "15", "321", "22", "128", "230", "258", "63" ]
+    }
+  },
+  {
+    "pvalue": 4.6629367034256575E-15,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.8
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.5,
+          "T": 0,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0.2,
+          "T": 0.5,
+          "G": 0.3,
+          "C": 0
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.8
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0.3,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.55,
+          "G": 0,
+          "C": 0
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0.35,
+          "T": 0.2,
+          "G": 0.45,
+          "C": 0
+        },
+        "index": 14
+      }
+    ],
+    "score": 1224,
+    "length": 15,
+    "seeds": {
+      "MSA": [ "CTTCACACCGTC--A", "CTTCACACATTC--G", "CTTCACACATTCGTA", "CTTCACACCGTCATG", "CTTCACA-CAT---T", "CTTCACACATTC--G", "CTTCACACATTCGTA", "CTTCACA-CAT---T", "CTTCACACATTC--G", "CTTCACACATTCGTA", "CTTCACACATTCGTA", "CTTCACACCGTCATG", "CTTCACACATTC--G", "CTTCACACATTCGTA", "CTTCACACATTCGTA", "CTTCACACCGTCATG", "CTTCACACCGTCATG", "CTTCACA-CAT---T", "CTTCACA-CAT---T", "CTTCACACCGTCATG" ],
+      "cost": 1033,
+      "names": [ "2", "260", "261", "324", "217", "218", "219", "245", "246", "247", "323", "3", "232", "233", "308", "309", "17", "231", "259", "18" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.5,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0.5,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.75
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0.75,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0.5625,
+          "T": 0.4375,
+          "G": 0,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.3125,
+          "T": 0.25,
+          "G": 0,
+          "C": 0.4375
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.5,
+          "C": 0.25
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0.5,
+          "T": 0.25,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.9375
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.3125,
+          "C": 0.25
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.3125,
+          "C": 0.6875
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0.5,
+          "T": 0,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0.4375,
+          "T": 0,
+          "G": 0.25,
+          "C": 0.3125
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0.75
+        },
+        "index": 19
+      }
+    ],
+    "score": 1224,
+    "length": 20,
+    "seeds": {
+      "MSA": [ "GCCGCTAAAGA-TGTGACCC", "GCCGCTATCGACT-TCACAC", "GCCGCTATCGACT-TCACAC", "GCCGCTATCGACT-TCACAC", "-----TCAA-TCGCTGCCCC", "GCCGCTATCGACT-TCACAC", "GCCGCTATCGACT-TCACAC", "---TC-AATCGCTGCCCCGA", "-----TCAA-TCGCTGCCCC", "---TC-AATCGCTGCCCCGA", "-----TCAA-TCGCTGCCCC", "-----TCAA-TCGCTGCCCC", "---TC-AATCGCTGCCCCGA", "---TC-AATCGCTGCCCCGA", "GCCGCTATCGACT-TCACAC", "GCCGCTATCGACT-TCACAC" ],
+      "cost": 1628,
+      "names": [ "14", "29", "38", "47", "34", "207", "320", "35", "203", "204", "43", "194", "195", "44", "198", "335" ]
+    }
+  },
+  {
+    "pvalue": 1.3322676295501878E-15,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 12
+      }
+    ],
+    "score": 1272,
+    "length": 13,
+    "seeds": {
+      "MSA": [ "GTGGTGATCGTCG", "GTGGTGATCGTCG", "GTGGTGATCGTCG", "GTGGTGATCGTCG" ],
+      "cost": 0,
+      "names": [ "284", "105", "118", "271" ]
+    }
+  },
+  {
+    "pvalue": 1.7763568394002505E-15,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 9
+      }
+    ],
+    "score": 1012,
+    "length": 10,
+    "seeds": {
+      "MSA": [ "CGCACTCACG", "CGCACTCACG", "CGCACTCATG", "CGCACTCATG", "CGCACTCATG", "CGCACTCATG", "CGCACTCATG", "CGCACTCATG" ],
+      "cost": 12,
+      "names": [ "125", "136", "279", "49", "113", "266", "60", "100" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.4375
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.125,
+          "G": 0.71875,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.125,
+          "C": 0.34375
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0.28125,
+          "T": 0,
+          "G": 0.40625,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.875
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.4375
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.125,
+          "G": 0.15625,
+          "C": 0.4375
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0.15625,
+          "T": 0.28125,
+          "G": 0,
+          "C": 0.4375
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0.5625,
+          "T": 0.15625,
+          "G": 0.15625,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0.15625,
+          "T": 0.25,
+          "G": 0.46875,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.15625,
+          "G": 0,
+          "C": 0.84375
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.15625,
+          "G": 0.71875,
+          "C": 0
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0.625,
+          "C": 0.125
+        },
+        "index": 15
+      }
+    ],
+    "score": 870,
+    "length": 16,
+    "seeds": {
+      "MSA": [ "CGCACTCGCCA-GCGG", "-G-GC-CGCTA-TCGA", "-GC-CT-G-CT-GTTG", "----CT-GCTG-GCGG", "-G-GC-CGC-ACTCGC", "----CT-GCTG-GCGG", "----CT-GCTG-GCGG", "CGCGCTCGGAA-ACGG", "CG-ACT--TCA--C-A", "CTGA-T---C--GCGG", "-G-GC-CGCTA-TCGA", "CG-ACT--TCA--C-A", "CTGA-T---C--GCGG", "CTGA-T---C--GCGG", "CGCGCTCGGAA-ACGG", "-GC-CT-G-CT-GTTG", "CG-ACT--TCA--C-A", "CTGA-T---C--GCGG", "-G-GC-CGC-ACTCGC", "----CT-GCTG-GCGG", "-G-GC-CGC-ACTCGC", "-GC-CT-G-CT-GTTG", "CG-ACT--TCA--C-A", "----CT-GCTG-GCGG", "-G-GC-CGC-ACTCGC", "-GC-CT-G-CT-GTTG", "-GC-CT-G-CT-GTTG", "-G-GC-CGCTA-TCGA", "CGCGCTCGGAA-ACGG", "-G-GC-CGCTA-TCGA", "CGCGCTCGGAA-ACGG", "CGCGCTCGGAA-ACGG" ],
+      "cost": 6356,
+      "names": [ "32", "109", "138", "325", "327", "19", "41", "110", "272", "273", "275", "106", "107", "120", "276", "62", "285", "286", "312", "4", "21", "127", "119", "310", "6", "51", "192", "288", "289", "122", "123", "201" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.91666666666666663,
+          "G": 0,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0.083333333333333329,
+          "T": 0,
+          "G": 0.91666666666666663,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.91666666666666663,
+          "G": 0.083333333333333329,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.91666666666666663,
+          "G": 0,
+          "C": 0.083333333333333329
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 6
+      }
+    ],
+    "score": 724,
+    "length": 7,
+    "seeds": {
+      "MSA": [ "A-ACGCC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC", "ATGCTTC" ],
+      "cost": 55,
+      "names": [ "180", "211", "239", "296", "304", "27", "225", "253", "188", "12", "318", "333" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0.0625,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.4375,
+          "G": 0.25,
+          "C": 0.0625
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0.75
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.3125,
+          "T": 0,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.6875,
+          "G": 0.25,
+          "C": 0.0625
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0.25
+        },
+        "index": 10
+      }
+    ],
+    "score": 792,
+    "length": 11,
+    "seeds": {
+      "MSA": [ "GCCTGCCGACG", "GCCT-TCG-TG", "GCCT-TCG-TG", "GCCT-TCG-TG", "GCCT-TCG-TG", "GCCT-TCG-TG", "-CCTTGC-AGC", "GCCT--TGGTG", "GCCT--TGGTG", "GCCT--TGGTG", "GCCT-TCG-TG", "-CCTTGC-AGC", "GCCT-TCG-TG", "-CCTTGC-AGC", "-CCTTGC-AGC", "GCCT--TGGTG" ],
+      "cost": 742,
+      "names": [ "80", "97", "156", "170", "83", "94", "149", "36", "45", "196", "173", "73", "159", "87", "163", "205" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0.875,
+          "T": 0.125,
+          "G": 0,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.875,
+          "C": 0.125
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 11
+      }
+    ],
+    "score": 1222,
+    "length": 12,
+    "seeds": {
+      "MSA": [ "CGCTCCCCACCC", "CGCACCGCACTC", "CGCACCGCACTC", "CGCACCGCACTC", "CGCACCGCACTC", "CGCACCGCACTC", "CGCACCGCACTC", "CGCACCGCACTC" ],
+      "cost": 21,
+      "names": [ "124", "210", "238", "224", "252", "48", "135", "59" ]
+    }
+  },
+  {
+    "pvalue": 8.8817841970012523E-15,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 7
+      }
+    ],
+    "score": 844,
+    "length": 8,
+    "seeds": {
+      "MSA": [ "CGCTAAAG", "CGCTAAAG", "CGCTAAAG", "CGCTAAAG", "CGCTAAAG", "CGCTAAAG", "CGCTAAAG", "CGCTAAAG" ],
+      "cost": 0,
+      "names": [ "46", "181", "297", "197", "305", "189", "206", "37" ]
+    }
+  },
+  {
+    "pvalue": 2.7755575615628914E-14,
+    "region": [
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0.25
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0.75,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 1,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 9
+      }
+    ],
+    "score": 932,
+    "length": 10,
+    "seeds": {
+      "MSA": [ "ACCCACACCA", "ACCCACACCA", "ACCCAGAACA", "ACCCAGAACA", "ACCCAGAACA", "ACCCAGAACA", "ACCCAGAACA", "ACCCAGAACA" ],
+      "cost": 24,
+      "names": [ "221", "263", "191", "40", "249", "235", "31", "200" ]
+    }
+  },
+  {
+    "pvalue": 3.0987885124567072E-07,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.875,
+          "C": 0
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0.125,
+          "C": 0
+        },
+        "index": 20
+      }
+    ],
+    "score": 1380,
+    "length": 21,
+    "seeds": {
+      "MSA": [ "TGCCGGT-TGTGGTGGT-G-G", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT", "TGCCGGT-TGTGGTGGTGGTT" ],
+      "cost": 35,
+      "names": [ "166", "167", "152", "153", "90", "91", "76", "77" ]
+    }
+  },
+  {
+    "pvalue": 4.8363646421023532E-09,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0.75
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.55,
+          "G": 0,
+          "C": 0.45
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0.45,
+          "T": 0,
+          "G": 0,
+          "C": 0.55
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0.3,
+          "T": 0.25,
+          "G": 0.45,
+          "C": 0
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0.75
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.55,
+          "C": 0.2
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.15
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.4
+        },
+        "index": 20
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 21
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.6
+        },
+        "index": 22
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 23
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0.35
+        },
+        "index": 24
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 25
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 26
+      }
+    ],
+    "score": 1104,
+    "length": 27,
+    "seeds": {
+      "MSA": [ "-TGCTG-G-CC-GCACTCG---C-C--", "-TGCTG-G-CC-GCACTCG--CCAG--", "-TGCCG-G-AC-GCGCTCC---C-C--", "CGGGTGCG-CCTGCTGTTG-C------", "CGGGTGCG-CCTGCTGTTG-C------", "-TGCTG-G-CC-GCACTCG--CCAG--", "-TGCCG-G-AC-GCGCTCCCC------", "-TGCCG-G-AC-GCGCT----CCCCAC", "-TGCCG-G-AC-GCGCTCCCC------", "-TGCCG-G-AC-GCGCT----CCCCAC", "CGGGTGCG-CCTGCTGTTG-C------", "CGGGTGCG-CCTGCTGTTG-C------", "-TGCCG-G-AC-GCGCT----CCCCAC", "-TGCCG-G-AC-GCGCT----CCCCAC", "-TGCTG-G-CC-GCACTCG--CCAG--", "-TGCTG-G-CC-GCACTCG--CCAG--", "-TGCTG-G-CC-GCACTCG--CCAG--", "-TGCCG-G-AC-GCGCTCCCC------", "-TGCCG-G-AC-GCGCT----CCCCAC", "CGGGTGCG-CCTGCTGTTG-C------" ],
+      "cost": 2834,
+      "names": [ "222", "223", "111", "212", "236", "237", "277", "278", "98", "99", "226", "254", "112", "208", "209", "250", "251", "264", "265", "240" ]
+    }
+  },
+  {
+    "pvalue": 6.2497713670950361E-09,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.22727272727272727,
+          "C": 0.18181818181818182
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.90909090909090906,
+          "C": 0.090909090909090912
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.20454545454545456,
+          "G": 0,
+          "C": 0.22727272727272727
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.38636363636363635,
+          "C": 0.61363636363636365
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.22727272727272727,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.090909090909090912,
+          "G": 0,
+          "C": 0.90909090909090906
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.5,
+          "G": 0.18181818181818182,
+          "C": 0.18181818181818182
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0.22727272727272727,
+          "T": 0,
+          "G": 0.090909090909090912,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0.18181818181818182,
+          "T": 0,
+          "G": 0.59090909090909094,
+          "C": 0.13636363636363635
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0.090909090909090912,
+          "T": 0.40909090909090912,
+          "G": 0.20454545454545456,
+          "C": 0.20454545454545456
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0.18181818181818182,
+          "T": 0.20454545454545456,
+          "G": 0,
+          "C": 0.52272727272727271
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.090909090909090912,
+          "G": 0,
+          "C": 0
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.090909090909090912,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.090909090909090912
+        },
+        "index": 13
+      }
+    ],
+    "score": 450,
+    "length": 14,
+    "seeds": {
+      "MSA": [ "-G-C-CT-GCT---", "GGCCGCTA-TC---", "CG-G-CC-GCT---", "CG-G-CC-GCT---", "GGCCGC-ACTC---", "GGCCGC-ACTC---", "GGCCGC-ACTC---", "-G-C-CT-GCC---", "-C-C-TTGG--TGC", "GGCCGCTA-TC---", "-G-C-CG-ATA---", "-GTG-CT-GGC---", "GGCCGCTA-TC---", "-GTG-CT-GGC---", "GGCCGC-ACTC---", "-GTG-CT-GGC---", "-G-C-CG-ATA---", "-C-C-TTGG--TGC", "-C-C-TTGG--TGC", "GGCCGCTA-TC---", "CG-G-CC-GAT---", "-GTG-CT-GGC---", "-GTG-CT-GGC---", "-GTG-CT-GGC---", "-G-C-CT-GCC---", "-GTG-CT-GGC---", "CG-G-CC-GCT---", "GGCCGC-ACTC---", "-G-C-CG-ATA---", "-G-C-CG-ATA---", "-G-C-CG-ATA---", "-G-C-CG-ATA---", "CG-G-CC-GAT---", "GGCCGC-ACTC---", "CG-G-CC-GAT---", "-G-C-CT-GCC---", "-G-C-CT-GCC---", "-GTG-CT-GGC---", "-G-C-CG-ATA---", "-C-C-TTGG--TGC", "-G-C-CG-ATA---", "-GTG-CT-GGC---", "CG-G-CC-GCT---", "CG-G-CC-GAT---" ],
+      "cost": 8611,
+      "names": [ "61", "108", "186", "294", "326", "50", "137", "169", "213", "274", "298", "88", "121", "150", "20", "117", "215", "227", "255", "287", "11", "74", "126", "283", "79", "104", "178", "311", "174", "229", "257", "290", "317", "5", "26", "93", "155", "164", "182", "241", "243", "270", "302", "332" ]
+    }
+  },
+  {
+    "pvalue": 0.00031091914626935058,
+    "region": [
+      {
+        "frequency": {
+          "A": 0.625,
+          "T": 0.1875,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.8125,
+          "G": 0,
+          "C": 0.1875
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.1875,
+          "C": 0.8125
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0.1875,
+          "T": 0,
+          "G": 0.8125,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0.1875,
+          "T": 0.1875,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.1875,
+          "G": 0,
+          "C": 0.1875
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.1875,
+          "C": 0.8125
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.1875,
+          "G": 0.8125,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.1875,
+          "G": 0.1875,
+          "C": 0.375
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0.1875,
+          "T": 0,
+          "G": 0.5625,
+          "C": 0.25
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0.1875,
+          "T": 0.375,
+          "G": 0.1875,
+          "C": 0.25
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0.375,
+          "T": 0,
+          "G": 0.4375,
+          "C": 0.1875
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.375,
+          "G": 0,
+          "C": 0.5
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0.1875,
+          "C": 0.125
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.125,
+          "C": 0
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 20
+      }
+    ],
+    "score": 504,
+    "length": 21,
+    "seeds": {
+      "MSA": [ "-TCGATCGG-TG-AGC--C--", "ATCG--CGG--C-CGC-TA--", "TCGATCGGT-GA-GCC-GC--", "TCGATCGGT-GA-GCC-GC--", "TCGATCGGT-GA-GCC-GC--", "ATCG--CGG--C-CGC-TA--", "ATCG--CGGCCGCTATC----", "ATCG--CGGCCGCTATC----", "-TCGATCGG-TG-AG--CCGC", "ATCG--CGGCCGCTATC----", "-TCGATCGG-TG-AG--CCGC", "ATCG--CGG--C-CGC-TA--", "ATCG--CGGCCGCTATC----", "ATCG--CGGCCGCTATC----", "ATCG--CGGCCGCTATC----", "ATCG--CGG--C-CGC-TA--" ],
+      "cost": 1823,
+      "names": [ "56", "65", "57", "67", "68", "130", "131", "132", "133", "55", "144", "54", "66", "142", "143", "141" ]
+    }
+  },
+  {
+    "pvalue": 2.6645352591003757E-15,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.66666666666666663,
+          "G": 0,
+          "C": 0.33333333333333331
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.33333333333333331,
+          "G": 0,
+          "C": 0.66666666666666663
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.66666666666666663
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.66666666666666663,
+          "G": 0.33333333333333331,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.33333333333333331
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.66666666666666663,
+          "G": 0,
+          "C": 0
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.66666666666666663,
+          "C": 0.33333333333333331
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.083333333333333329,
+          "C": 0
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.66666666666666663,
+          "C": 0
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.41666666666666669,
+          "G": 0,
+          "C": 0
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.33333333333333331,
+          "C": 0
+        },
+        "index": 20
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.91666666666666663,
+          "C": 0.083333333333333329
+        },
+        "index": 21
+      }
+    ],
+    "score": 1524,
+    "length": 22,
+    "seeds": {
+      "MSA": [ "TGCTGGCCT-TGGTGCTGGT-C", "TGCCGGT-GCTGG-CCT--TGG", "TGCTGGCCT-TGGTGCT-G--G", "TGCTGGCCT-TGGTGCT-G--G", "TGCCGGT-GCTGG-CCT--TGG", "TGCCGGT-GCTGG-CCT--TGG", "TGCCGGT-GCTGG-CCT--TGG", "TGCTGGCCT-TGGTGCT-G--G", "TGCTGGCCT-TGGTGCT-G--G", "TGCTGGCCT-TGGTGCT-G--G", "TGCTGGCCT-TGGTGCT-G--G", "TGCTGGCCT-TGGTGCT-G--G" ],
+      "cost": 551,
+      "names": [ "116", "280", "281", "282", "267", "101", "114", "115", "102", "103", "268", "269" ]
+    }
+  },
+  {
+    "pvalue": 0,
+    "region": [
+      {
+        "frequency": {
+          "A": 0.58333333333333337,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.58333333333333337,
+          "G": 0.083333333333333329,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0.33333333333333331,
+          "T": 0,
+          "G": 0.083333333333333329,
+          "C": 0.58333333333333337
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.33333333333333331,
+          "G": 0.66666666666666663,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0.083333333333333329,
+          "T": 0.58333333333333337,
+          "G": 0.33333333333333331,
+          "C": 0
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0.083333333333333329,
+          "T": 0,
+          "G": 0.58333333333333337,
+          "C": 0.33333333333333331
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.33333333333333331,
+          "G": 0.083333333333333329,
+          "C": 0.58333333333333337
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.41666666666666669,
+          "C": 0.58333333333333337
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.083333333333333329,
+          "G": 0,
+          "C": 0.91666666666666663
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.66666666666666663,
+          "C": 0.33333333333333331
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0.66666666666666663,
+          "T": 0,
+          "G": 0,
+          "C": 0.33333333333333331
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.58333333333333337,
+          "G": 0.41666666666666669,
+          "C": 0
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0.41666666666666669,
+          "T": 0,
+          "G": 0.58333333333333337,
+          "C": 0
+        },
+        "index": 14
+      }
+    ],
+    "score": 1078,
+    "length": 15,
+    "seeds": {
+      "MSA": [ "-GGGCAAGGTCGAGA", "ATCGCTGCCCCGATG", "--ATCGCTGCCCCGA", "--ATCGCTGCCCCGA", "--ATCGCTGCCCCGA", "ATCGCTGCCCCGATG", "--ATCGCTGCCCCGA", "ATCGCTGCCCCGATG", "ATCGCTGCCCCGATG", "ATCGCTGCCCCGATG", "ATCGCTGCCCCGATG", "ATCGCTGCCCCGATG" ],
+      "cost": 509,
+      "names": [ "187", "295", "8", "23", "329", "330", "314", "315", "24", "179", "9", "303" ]
+    }
+  },
+  {
+    "pvalue": 1.4432899320127035E-14,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.125,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0.125,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 1
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.875,
+          "C": 0.125
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.875,
+          "C": 0
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.875,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 1,
+          "C": 0
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0.125,
+          "T": 0,
+          "G": 0.875,
+          "C": 0
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 1,
+          "G": 0,
+          "C": 0
+        },
+        "index": 20
+      },
+      {
+        "frequency": {
+          "A": 0.125,
+          "T": 0,
+          "G": 0.875,
+          "C": 0
+        },
+        "index": 21
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.875,
+          "C": 0.125
+        },
+        "index": 22
+      }
+    ],
+    "score": 1456,
+    "length": 23,
+    "seeds": {
+      "MSA": [ "CGGGCCCG--GCC-G-CCGATAC", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG", "--TGCCGGTTG-TGG--TGGTGG" ],
+      "cost": 147,
+      "names": [ "148", "89", "151", "75", "86", "162", "72", "165" ]
+    }
+  },
+  {
+    "pvalue": 1.6096226795880852E-08,
+    "region": [
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.125,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 0
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 1
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 2
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0
+        },
+        "index": 3
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0
+        },
+        "index": 4
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 5
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.625,
+          "C": 0
+        },
+        "index": 6
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.75,
+          "C": 0
+        },
+        "index": 7
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0,
+          "C": 0.375
+        },
+        "index": 8
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.125,
+          "G": 0,
+          "C": 0.25
+        },
+        "index": 9
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 10
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0.125,
+          "C": 0
+        },
+        "index": 11
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.75,
+          "G": 0,
+          "C": 0
+        },
+        "index": 12
+      },
+      {
+        "frequency": {
+          "A": 0.25,
+          "T": 0,
+          "G": 0,
+          "C": 0.125
+        },
+        "index": 13
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.625,
+          "C": 0
+        },
+        "index": 14
+      },
+      {
+        "frequency": {
+          "A": 0.0625,
+          "T": 0.25,
+          "G": 0,
+          "C": 0.3125
+        },
+        "index": 15
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.375,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 16
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.5625,
+          "C": 0.0625
+        },
+        "index": 17
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0.375,
+          "C": 0
+        },
+        "index": 18
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.375,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 19
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0.375
+        },
+        "index": 20
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0
+        },
+        "index": 21
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 22
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 23
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0
+        },
+        "index": 24
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0.25,
+          "G": 0,
+          "C": 0
+        },
+        "index": 25
+      },
+      {
+        "frequency": {
+          "A": 0,
+          "T": 0,
+          "G": 0.25,
+          "C": 0
+        },
+        "index": 26
+      }
+    ],
+    "score": 662,
+    "length": 27,
+    "seeds": {
+      "MSA": [ "---T--GG----T-GATCGTC------", "TGGT---GCTGGTC-------------", "TGGT---GCTGGTC-------------", "---T--GG----T-GCTGGTC------", "---T--GG----T-GCTGGTC------", "---T--GG----T-GCTGGTC------", "--------------GTGGTGGTGGTTG", "GGGTACGGCCGATA-------------", "---T--GG----T-GCTGGTC------", "GGGTACGGCCGATA-------------", "--------------GTGGTGGTGGTTG", "--------------GTGGTGGTGGTTG", "GGGTACGGCCGATA-------------", "--------------GTGGTGGTGGTTG", "---T--GG----T-GCTGGTC------", "GGGTACGGCCGATA-------------" ],
+      "cost": 3142,
+      "names": [ "81", "157", "171", "185", "293", "95", "299", "28", "177", "13", "175", "291", "319", "183", "301", "334" ]
+    }
+  }
+]

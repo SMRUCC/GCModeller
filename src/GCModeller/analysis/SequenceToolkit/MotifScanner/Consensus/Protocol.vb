@@ -44,56 +44,18 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Public Class Parameter
-
-    ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property minW As Integer
-    ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property maxW As Integer
-    ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, Parameter)"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property seedingCutoff As Double
-    Public Property ScanMinW As Integer
-    Public Property ScanCutoff As Double
-
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-
-    Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
-        Return New Parameter With {
-            .minW = 6,
-            .maxW = 20,
-            .seedingCutoff = 0.8,
-            .ScanCutoff = 0.6,
-            .ScanMinW = 6
-        }
-    End Function
-
-End Class
-
 Public Module Protocol
 
     <Extension>
-    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
+    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim seeds As New List(Of HSP)
 
         For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
@@ -128,10 +90,10 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
         Dim regions As FastaSeq() = inputs.ToArray
 
-        param = param Or Parameter.DefaultParameter
+        param = param Or PopulatorParameter.DefaultParameter
 
         Call "seeding...".__DEBUG_ECHO
 
@@ -170,7 +132,7 @@ Public Module Protocol
         ' 进行聚类分簇
         Dim clusters = matrix _
             .ToKMeansModels _
-            .Kmeans(expected:=expectedMotifs, debug:=False)
+            .Kmeans(expected:=expectedMotifs, debug:=True)
         Dim motifs = clusters _
             .GroupBy(Function(c) c.Cluster) _
             .ToArray
@@ -202,7 +164,7 @@ Public Module Protocol
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As Parameter) As Motif
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As Motif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
         Dim MSA = alignment.MSA
@@ -245,11 +207,12 @@ Public Module Protocol
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,
-            .seeds = alignment
+            .seeds = alignment,
+            .length = MSA(Scan0).Length
         }
     End Function
 
-    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
+    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
@@ -275,7 +238,3 @@ Public Module Protocol
         End If
     End Function
 End Module
-
-Public Class Motif : Inherits Probability
-    Public Property seeds As MSAOutput
-End Class
