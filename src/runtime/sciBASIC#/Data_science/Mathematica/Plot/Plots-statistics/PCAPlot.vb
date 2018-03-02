@@ -43,7 +43,6 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports Microsoft.VisualBasic.DataMining.PCA
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -62,7 +61,7 @@ Public Module PCAPlot
                                     Optional size$ = "2000,1800",
                                     Optional colorSchema$ = "Set1:c8") As GraphicsData
 
-        Dim result = input.PrincipalComponentAnalysis(nPC:=2)  ' x,y
+        Dim result = New PCA(input)  ' x, y
         Dim x As Vector = result.ColumnVector(0)
         Dim y As Vector = result.ColumnVector(1)
         Dim getlabel As Func(Of Integer, String)
