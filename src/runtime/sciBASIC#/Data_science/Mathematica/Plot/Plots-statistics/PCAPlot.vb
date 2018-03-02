@@ -62,8 +62,19 @@ Public Module PCAPlot
                                     Optional colorSchema$ = "Set1:c8") As GraphicsData
 
         Dim result = New PCA(input)  ' x, y
-        Dim x As Vector = result.ColumnVector(0)
-        Dim y As Vector = result.ColumnVector(1)
+        Dim x As Vector
+        Dim y As Vector
+        Dim ordinals%() = Nothing
+
+        With result.Project(
+            input.RowVectors.ToArray,
+            nPC:=2,
+            ordinal:=ordinals)
+
+            x = .ByRef(0)
+            y = .ByRef(1)
+        End With
+
         Dim getlabel As Func(Of Integer, String)
 
         If labels.IsNullOrEmpty Then
@@ -76,9 +87,13 @@ Public Module PCAPlot
             .SeqIterator _
             .Select(Function(pt)
                         Dim point As PointF = pt.value
+
                         Return New Entity With {
                             .uid = getlabel(pt.i),
-                            .Properties = {point.X, point.Y}
+                            .Properties = {
+                                point.X,
+                                point.Y
+                            }
                         }
                     End Function) _
             .ToArray
