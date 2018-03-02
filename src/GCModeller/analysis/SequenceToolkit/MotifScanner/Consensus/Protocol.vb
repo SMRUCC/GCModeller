@@ -80,9 +80,9 @@ Public Class Parameter
 
     Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
         Return New Parameter With {
-            .minW = 5,
+            .minW = 6,
             .maxW = 20,
-            .seedingCutoff = 0.85,
+            .seedingCutoff = 0.8,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
         }
