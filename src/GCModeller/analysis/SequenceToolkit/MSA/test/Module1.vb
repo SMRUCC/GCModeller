@@ -45,6 +45,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Module Module1
 
     Sub Main()
+
+        Call exceptionTest()
+
         Dim seq$() = "GATGTGGGGCCG
 AAGTCCGAG
 GATGTGCAG
@@ -52,16 +55,70 @@ CCGTCTAGCAGT
 CCTGCTGCAG
 CCTGTAGGAACAG".lTokens
         Dim matrix = "D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\MSA\Matrix.txt".ReadAllLines.Select(Function(l) l.Replace(" "c, "").ToArray).ToArray
-        Dim msa = seq.MultipleAlignment(matrix)
+        Dim msa = seq.MultipleAlignment(New ScoreMatrix With {.Matrix = matrix})
 
         Call msa.ToFasta.Save("./msa.txt")
         Call Console.WriteLine(msa)
 
         Console.WriteLine(vbCrLf)
 
-        msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment(matrix)
+        msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment(New ScoreMatrix With {.Matrix = matrix})
 
         Call msa.Print(15)
+
+        Pause()
+    End Sub
+
+    Sub exceptionTest()
+
+        Dim seq$() = "CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+CCCCGTTG
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGC
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCCTTGCAG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG
+ACCCCGTTGG".lTokens
+        Dim msa = seq.MultipleAlignment(ScoreMatrix.DefaultMatrix)
+
+        Call msa.ToFasta.Save("./msa.txt")
+        Call Console.WriteLine(msa)
 
         Pause()
     End Sub
