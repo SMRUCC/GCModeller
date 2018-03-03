@@ -30,8 +30,8 @@ Public Class PopulatorParameter
 
     Public Shared Function DefaultParameter() As DefaultValue(Of PopulatorParameter)
         Return New PopulatorParameter With {
-            .minW = 6,
-            .maxW = 20,
+            .minW = 8,
+            .maxW = 14,
             .seedingCutoff = 0.9,
             .ScanCutoff = 0.6,
             .ScanMinW = 6
@@ -41,6 +41,7 @@ Public Class PopulatorParameter
 End Class
 
 Public Class Motif : Inherits Probability
+
     Public Property seeds As MSAOutput
     Public Property length As Integer
 
