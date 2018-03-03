@@ -129,6 +129,35 @@ Public Module Protocol
             .GroupBy(Function(q) q.value.Query) _
             .ToArray
 
+        If param.seedOccurances > 0 Then
+            Dim n% = param.seedOccurances * regions.Length
+
+            Call $"Seeds should be found at least on {n} source sequence.".__DEBUG_ECHO
+
+            ' 种子至少要在n条序列上出现才会被使用，否则会被丢弃掉以减少数据集
+            queryGroup = queryGroup _
+                .AsParallel _
+                .Where(Function(seed)
+                           Dim swMatrix As New DNAMatrix
+                           Dim test = regions _
+                               .Select(Function(subject)
+                                           Dim smithWaterman As New SmithWaterman(
+                                               seed.Key,
+                                               subject.SequenceData,
+                                               swMatrix
+                                           )
+                                           Dim result = smithWaterman.GetOutput(0.6, 6)
+
+                                           Return result.Best
+                                       End Function) _
+                               .Where(Function(hit) Not hit Is Nothing) _
+                               .Count
+
+                           Return test >= n
+                       End Function) _
+                .ToArray
+        End If
+
         Call $"query group for matrix: {queryGroup.Length}".__DEBUG_ECHO
 
         Dim matrix As DataSet() = queryGroup _
