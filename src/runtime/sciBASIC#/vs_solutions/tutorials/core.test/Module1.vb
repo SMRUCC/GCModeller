@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36255e280f7c86337a8103ba52bbd665, vs_solutions\tutorials\core.test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::37ee0a4777dc7422ac349594460589d4, vs_solutions\tutorials\core.test\Module1.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Module Module1
     ' 
-    '     Sub: Main, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Main, matchTest
     '     Structure Foo
     ' 
     '         Operators: (+2 Overloads) Like
@@ -50,75 +51,76 @@
 
 #Region "Microsoft.VisualBasic::61a7d586cdb61bfcb962e1aae4ec475f, core.test"
 
-    ' Author:
-    ' 
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
+' Author:
+' 
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
 
 
-    ' Source file summaries:
+' Source file summaries:
 
-    ' Module Module1
-    ' 
-    '     Sub: Main, New
-    ' 
-    '     Structure Foo
-    ' 
-    '         Operators: (+2 Overloads) Like
-    ' 
-    ' 
-    ' 
-    '     Structure Lazy
-    ' 
-    '         Function: LongLoad
-    ' 
-    ' 
-    ' 
-    ' 
+' Module Module1
+' 
+'     Sub: Main, New
+' 
+'     Structure Foo
+' 
+'         Operators: (+2 Overloads) Like
+' 
+' 
+' 
+'     Structure Lazy
+' 
+'         Function: LongLoad
+' 
+' 
+' 
+' 
 
 #End Region
 
 #Region "Microsoft.VisualBasic::12b87139cec3a6fada99e7fcd6855f3d, core.test"
 
-    ' Author:
-    ' 
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
+' Author:
+' 
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
 
 
-    ' Source file summaries:
+' Source file summaries:
 
-    ' Module Module1
-    ' 
-    '     Sub: Main, New
-    ' 
-    ' 
-    '     Structure Foo
-    ' 
-    '         Operators: (+2 Overloads) Like
-    ' 
-    ' 
-    ' 
-    ' 
-    '     Structure Lazy
-    ' 
-    '         Function: LongLoad
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
+' Module Module1
+' 
+'     Sub: Main, New
+' 
+' 
+'     Structure Foo
+' 
+'         Operators: (+2 Overloads) Like
+' 
+' 
+' 
+' 
+'     Structure Lazy
+' 
+'         Function: LongLoad
+' 
+' 
+' 
+' 
+' 
 
 #End Region
 
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text
 
 Module Module1
@@ -132,8 +134,19 @@ Module Module1
         End Operator
     End Structure
 
+    Sub matchTest()
+        Dim code = "<CLI(""AAAAAAAAA"", 44, TRUE)> Public Class testCLASS"
+        Dim s = Regex.Match(code, "<.+?>\s*", RegexICSng).Value
+
+        s = Regex.Replace(code, "<.+?>", "", RegexICSng)
+
+        Pause()
+
+    End Sub
+
     Sub New()
 
+        Call matchTest()
 
 
         'Dim test As Boolean
