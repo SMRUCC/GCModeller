@@ -100,15 +100,19 @@ Public Class CenterStar
             multipleAlign = sequence.ToArray
             totalCost = 0
         Else
-            ' Try
-            findStarIndex()
-            centerString = sequence(starIndex)
-            multipleAlign = New String(n - 1) {}
-            multipleAlignmentImpl()
-            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
-            'Catch ex As Exception
-            '    Throw New Exception(sequence.JoinBy(vbCrLf), ex)
-            'End Try
+#If Not DEBUG Then
+            Try
+#End If
+                findStarIndex()
+                centerString = sequence(starIndex)
+                multipleAlign = New String(n - 1) {}
+                multipleAlignmentImpl()
+                totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+#If Not DEBUG Then
+            Catch ex As Exception
+                Throw New Exception(sequence.JoinBy(vbCrLf), ex)
+            End Try
+#End If
         End If
 
         Return New MSAOutput With {
@@ -168,7 +172,7 @@ Public Class CenterStar
 
                         For k As Integer = 0 To i - 1
                             With multipleAlign(k)
-                                If (.Length - 1) > j1 Then
+                                If .Length > j1 Then
                                     a = New StringBuilder(multipleAlign(k))
                                     a.Insert(j1, "-"c)
                                     multipleAlign(k) = a.ToString
@@ -190,7 +194,7 @@ Public Class CenterStar
                 For j1 As Integer = 0 To centerString2.Length - 1
                     If (centerString2(j1) <> globalAlign0.CharAtOrDefault(j2)) Then
                         With multipleAlign(i)
-                            If (.Length - 1) > j1 Then
+                            If .Length > j1 Then
                                 Dim a As New StringBuilder(multipleAlign(i))
                                 a.Insert(j1, "-"c)
                                 multipleAlign(i) = a.ToString()
