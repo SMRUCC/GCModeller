@@ -93,7 +93,6 @@ Public Module Protocol
 
     <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
-                                            Optional expectedMotifs% = 10,
                                             Optional leastN% = 5,
                                             Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
 
@@ -145,10 +144,8 @@ Public Module Protocol
 
         Call "Kmeans...".__DEBUG_ECHO
 
-        If matrix.Length / expectedMotifs < leastN Then
-            ' 即每一个motif至少要由n条种子序列构成
-            expectedMotifs = matrix.Length / leastN - 1
-        End If
+        ' 即每一个motif至少要由n条种子序列构成
+        Dim expectedMotifs = matrix.Length / leastN - 1
 
         ' 进行聚类分簇
         Dim clusters = matrix _

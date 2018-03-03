@@ -44,8 +44,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -106,11 +106,18 @@ Public Class ConsensusScanner
         End With
     End Sub
 
-    Public Iterator Function PopulateMotifs(Optional expected% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of NamedCollection(Of Motif))
         For Each KO As String In Me.KO.Keys
-            For Each motif As Motif In PopulateMotifs(KO, expected, param)
-                Yield motif
-            Next
+            Dim motifs = PopulateMotifs(KO, leastN, param) _
+                .OrderByDescending(Function(m)
+                                       Return m.score / m.seeds.MSA.Length
+                                   End Function) _
+                .ToArray
+
+            Yield New NamedCollection(Of Motif) With {
+                .Name = KO,
+                .Value = motifs
+            }
         Next
     End Function
 
@@ -120,8 +127,8 @@ Public Class ConsensusScanner
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function PopulateMotifs(KO$, Optional expected% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
-        Return KOUpstream(KO).PopulateMotifs(expected,, param)
+    Public Function PopulateMotifs(KO$, Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+        Return KOUpstream(KO).PopulateMotifs(leastN, param)
     End Function
 End Class
 
