@@ -242,7 +242,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                 leastN:=leastN,
                 param:=param
             ) _
-            .OrderByDescending(Function(m) m.score / m.length) _
+            .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
             .Take(nmotifs) _
             .ToArray
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motifs/"
