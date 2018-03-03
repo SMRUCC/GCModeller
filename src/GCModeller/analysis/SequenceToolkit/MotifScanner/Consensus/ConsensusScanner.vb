@@ -121,7 +121,7 @@ Public Class ConsensusScanner
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function PopulateMotifs(KO$, Optional expected% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
-        Return KOUpstream(KO).PopulateMotifs(expected, param)
+        Return KOUpstream(KO).PopulateMotifs(expected,, param)
     End Function
 End Class
 

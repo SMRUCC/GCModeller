@@ -99,11 +99,15 @@ Public Class CenterStar
             multipleAlign = sequence.ToArray
             totalCost = 0
         Else
-            findStarIndex()
-            centerString = sequence(starIndex)
-            multipleAlign = New String(n - 1) {}
-            multipleAlignmentImpl()
-            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+            Try
+                findStarIndex()
+                centerString = sequence(starIndex)
+                multipleAlign = New String(n - 1) {}
+                multipleAlignmentImpl()
+                totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+            Catch ex As Exception
+                Throw New Exception(sequence.JoinBy(vbCrLf), ex)
+            End Try
         End If
 
         Return New MSAOutput With {
@@ -174,9 +178,10 @@ Public Class CenterStar
                 centerString2 = globalAlign(0)
             ElseIf (globalAlign(0).Length < centerString2.Length) Then
                 Dim j2 = 0
+                Dim globalAlign0 = globalAlign(Scan0)
 
                 For j1 As Integer = 0 To centerString2.Length - 1
-                    If (centerString2(j1) <> globalAlign(0)(j2)) Then
+                    If (centerString2(j1) <> globalAlign0.CharAtOrDefault(j2)) Then
                         Dim a As New StringBuilder(multipleAlign(i))
                         a.Insert(j1, "-"c)
                         multipleAlign(i) = a.ToString()

@@ -66,22 +66,24 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function matrixRow(q As HSP, i%, seeds As IEnumerable(Of HSP)) As DataSet
+    Private Function matrixRow(q As HSP, i%, seeds As IGrouping(Of String, SeqValue(Of HSP))()) As DataSet
         Dim row As New DataSet With {
             .ID = i,
             .Properties = New Dictionary(Of String, Double)
         }
         Dim j As int = 1
+        Dim query As New FastaSeq With {
+            .SequenceData = q.Query
+        }
 
-        For Each s As HSP In seeds
+        For Each s As IGrouping(Of String, SeqValue(Of HSP)) In seeds
             ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
             Dim score# = 0
+            Dim subject As New FastaSeq With {
+                .SequenceData = s.Key
+            }
 
-            Call RunNeedlemanWunsch.RunAlign(
-                New FastaSeq With {.SequenceData = q.Query},
-                New FastaSeq With {.SequenceData = s.Query},
-                score
-            )
+            RunNeedlemanWunsch.RunAlign(query, subject, score)
 
             row(++j) = score
         Next
@@ -90,7 +92,11 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
+                                            Optional expectedMotifs% = 10,
+                                            Optional leastN% = 5,
+                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+
         Dim regions As FastaSeq() = inputs.ToArray
 
         param = param Or PopulatorParameter.DefaultParameter
@@ -108,26 +114,41 @@ Public Module Protocol
         Call $"Generate {seeds.Count} seeds...".__DEBUG_ECHO
         Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
-        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        Dim repSeq As Dictionary(Of String, String) = seeds _
-            .SeqIterator _
-            .AsParallel _
-            .ToDictionary(Function(i) CStr(i.i),
-                          Function(q) q.value.Consensus)
+        '' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
+        'Dim repSeq As Dictionary(Of String, String) = seeds _
+        '    .SeqIterator _
+        '    .AsParallel _
+        '    .ToDictionary(Function(i) CStr(i.i),
+        '                  Function(q) q.value.Consensus)
 
         Call "Build global distance matrix for the seeds...".__DEBUG_ECHO
 
-        Dim matrix As DataSet() = seeds _
+        ' 先做一次group操作，这样子可以将重复的序列减少
+        ' 做出矩阵之后直接复制就可
+        Dim queryGroup = seeds _
+            .SeqIterator _
+            .GroupBy(Function(q) q.value.Query) _
+            .ToArray
+
+        Call $"query group for matrix: {queryGroup.Length}".__DEBUG_ECHO
+
+        Dim matrix As DataSet() = queryGroup _
             .SeqIterator _
             .AsParallel _
             .Select(Function(seed)
-                        Dim q = seed.value
-                        Dim row = q.matrixRow(seed.i, seeds)
+                        Dim q As HSP = seed.value.First.value
+                        ' 在这里的i是针对前面的queryGroup的
+                        Dim row = q.matrixRow(seed.i, queryGroup)
                         Return row
                     End Function) _
             .ToArray
 
         Call "Kmeans...".__DEBUG_ECHO
+
+        If matrix.Length / expectedMotifs < leastN Then
+            ' 即每一个motif至少要由n条种子序列构成
+            expectedMotifs = matrix.Length / leastN - 1
+        End If
 
         ' 进行聚类分簇
         Dim clusters = matrix _
@@ -143,11 +164,19 @@ Public Module Protocol
         For Each group As IGrouping(Of String, EntityClusterModel) In motifs
             Dim MSA = group _
                 .Select(Function(seq)
-                            Return New FastaSeq With {
-                                .SequenceData = repSeq(seq.ID),
-                                .Headers = {seq.ID}
-                            }
+                            ' ID -> queryGroup -> repSeq
+                            Dim groupID% = Val(seq.ID)
+                            Dim groupHSP = queryGroup(groupID)
+
+                            Return groupHSP _
+                                .Select(Function(member)
+                                            Return New FastaSeq With {
+                                                .SequenceData = member.value.Query,
+                                                .Headers = {member.i}
+                                            }
+                                        End Function)
                         End Function) _
+                .IteratesALL _
                 .MultipleAlignment(Nothing)
             Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
 

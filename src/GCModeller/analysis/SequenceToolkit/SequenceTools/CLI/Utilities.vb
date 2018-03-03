@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
@@ -222,23 +223,33 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
     End Function
 
     <ExportAPI("/motifs")>
-    <Usage("/motifs /in <data.fasta> [/min.w <default=6> /max.w <default=20> /n.motifs <default=25> /out <out.directory>]")>
+    <Description("Populate possible motifs from a give nt fasta sequence dataset.")>
+    <Usage("/motifs /in <data.fasta> [/min.w <default=6> /max.w <default=20> /n.motifs <default=25> /n.occurs <default=6> /out <out.directory>]")>
     Public Function FindMotifs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim param As New PopulatorParameter With {
             .maxW = args("/max.w") Or 20,
             .minW = args("/min.w") Or 6,
-            .seedingCutoff = 0.9,
+            .seedingCutoff = 0.95,
             .ScanMinW = 6,
             .ScanCutoff = 0.8
         }
+        Dim leastN% = args("/n.occurs") Or 6
         Dim nmotifs% = args("/n.motifs") Or 25
         Dim motifs = FastaFile.LoadNucleotideData([in]) _
-            .PopulateMotifs(expectedMotifs:=nmotifs, param:=param) _
+            .PopulateMotifs(
+                expectedMotifs:=nmotifs * 5,
+                leastN:=leastN,
+                param:=param
+            ) _
+            .OrderByDescending(Function(m) m.score / m.length) _
+            .Take(nmotifs) _
             .ToArray
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motifs/"
 
-        Call motifs.GetJson.SaveTo(out & "/data.json")
+        Call motifs _
+            .GetJson(indent:=True) _
+            .SaveTo(out & "/data.json")
         ' Call motifs.GetXml.SaveTo(out & "/data.xml")
 
         Dim i As int = 0
