@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d944ce16ce4d711f5bdb02578c94f09, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\VBCodeSignature.vb"
+﻿#Region "Microsoft.VisualBasic::8b06d95a593437f525ad5ead2dcd00ed, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\VBCodeSignature.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module VBCodeSignature
     ' 
-    '         Function: SummaryInternal, typeSummary
+    '         Function: memberList, RemoveAttributes, SummaryInternal, SummaryModules, typeSummary
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Text
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace ApplicationServices.Development
 
@@ -61,17 +62,28 @@ Namespace ApplicationServices.Development
         Const ClosePatterns$ = "^\s+End\s((Sub)|(Function)|(Class)|(Structure)|(Enum)|(Interface)|(Operator)|(Module))"
         Const CloseTypePatterns$ = "^\s*End\s((Class)|(Structure)|(Enum)|(Interface)|(Module))"
         Const IndentsPattern$ = "^\s+"
+        Const AttributePattern$ = "<.+?>\s*"
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function RemoveAttributes(line As String) As String
+            Return r.Replace(line, AttributePattern, "", RegexICSng)
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function SummaryModules(vb As String) As String
-            Dim vblines As Pointer(Of String) = vb.lTokens
-            Dim summary As New StringBuilder
+            Dim vblines As Pointer(Of String) = vb _
+                .lTokens _
+                .Select(AddressOf RemoveAttributes) _
+                .ToArray
 
-            Do While Not vblines.EndRead
-                summary.AppendLine(vblines.SummaryInternal(vb))
-            Loop
+            With New StringBuilder
+                Do While Not vblines.EndRead
+                    Call .AppendLine(vblines.SummaryInternal(vb))
+                Loop
 
-            Return summary.ToString
+                Return .ToString
+            End With
         End Function
 
         <Extension>
@@ -208,10 +220,22 @@ Namespace ApplicationServices.Development
                 End If
             End If
             If Not methods.IsNullOrEmpty Then
+                Dim constructors = methods _
+                    .Where(Function(s) s.Name = "New") _
+                    .ToArray
                 Dim types = methods _
+                    .Where(Function(s) s.Name <> "New") _
                     .GroupBy(Function(m) m.Value) _
                     .ToDictionary(Function(t) t.Key,
                                   Function(l) l.Keys.memberList)
+
+                If constructors.Length > 0 Then
+                    members += container.Description & $"    Constructor: (+{constructors.Count} Overloads) Sub New"
+
+                    If types.Count > 1 Then
+                        members += ""
+                    End If
+                End If
 
                 If types.ContainsKey("Function") Then
                     prefix = container.Description & $"    Function: "

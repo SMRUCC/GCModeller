@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18509104ee1713cd85c7eca88b14e6d1, Microsoft.VisualBasic.Core\Text\TextEncodings.vb"
+﻿#Region "Microsoft.VisualBasic::caeef8ca99eff2603deb580812df661b, Microsoft.VisualBasic.Core\Text\TextEncodings.vb"
 
     ' Author:
     ' 
@@ -44,9 +44,9 @@
     ' 
     '         Properties: DefaultEncoding, TextEncodings, UTF8, UTF8WithoutBOM
     ' 
-    '         Function: __gbk2312_encoding, CodeArray, GetEncodings, TransEncoding
-    ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: __gbk2312_encoding, CodeArray, (+2 Overloads) CodePage, GetEncodings, ParseEncodingsName
+    '                   TransEncoding
     ' 
     ' 
     ' /********************************************************************************/
@@ -249,6 +249,12 @@ Namespace Text
             Next
 
             Return onFailure
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function CodePage(encodingName$, Optional [default] As Encodings = Encodings.Default) As Encoding
+            Return encodingName.ParseEncodingsName(onFailure:=[default]).CodePage
         End Function
 
         Public Function GetEncodings(value As Encoding) As Encodings
