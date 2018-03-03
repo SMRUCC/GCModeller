@@ -52,7 +52,7 @@ Public Class ScoreMatrix
             .ToArray
     End Sub
 
-    Private Sub New()
+    Sub New()
     End Sub
 
     Public Shared Function DefaultMatrix() As DefaultValue(Of ScoreMatrix)

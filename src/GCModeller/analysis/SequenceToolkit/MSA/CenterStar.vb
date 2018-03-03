@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -99,11 +100,19 @@ Public Class CenterStar
             multipleAlign = sequence.ToArray
             totalCost = 0
         Else
-            findStarIndex()
-            centerString = sequence(starIndex)
-            multipleAlign = New String(n - 1) {}
-            multipleAlignmentImpl()
-            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+#If Not DEBUG Then
+            Try
+#End If
+                findStarIndex()
+                centerString = sequence(starIndex)
+                multipleAlign = New String(n - 1) {}
+                multipleAlignmentImpl()
+                totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+#If Not DEBUG Then
+            Catch ex As Exception
+                Throw New Exception(sequence.JoinBy(vbCrLf), ex)
+            End Try
+#End If
         End If
 
         Return New MSAOutput With {
@@ -162,9 +171,15 @@ Public Class CenterStar
                         Dim a As StringBuilder
 
                         For k As Integer = 0 To i - 1
-                            a = New StringBuilder(multipleAlign(k))
-                            a.Insert(j1, "-"c)
-                            multipleAlign(k) = a.ToString
+                            With multipleAlign(k)
+                                If .Length > j1 Then
+                                    a = New StringBuilder(multipleAlign(k))
+                                    a.Insert(j1, "-"c)
+                                    multipleAlign(k) = a.ToString
+                                Else
+                                    multipleAlign(k) = .ByRef & New String("-"c, j1 - .Length)
+                                End If
+                            End With
                         Next
 
                     Else
@@ -174,12 +189,19 @@ Public Class CenterStar
                 centerString2 = globalAlign(0)
             ElseIf (globalAlign(0).Length < centerString2.Length) Then
                 Dim j2 = 0
+                Dim globalAlign0 = globalAlign(Scan0)
 
                 For j1 As Integer = 0 To centerString2.Length - 1
-                    If (centerString2(j1) <> globalAlign(0)(j2)) Then
-                        Dim a As New StringBuilder(multipleAlign(i))
-                        a.Insert(j1, "-"c)
-                        multipleAlign(i) = a.ToString()
+                    If (centerString2(j1) <> globalAlign0.CharAtOrDefault(j2)) Then
+                        With multipleAlign(i)
+                            If .Length > j1 Then
+                                Dim a As New StringBuilder(multipleAlign(i))
+                                a.Insert(j1, "-"c)
+                                multipleAlign(i) = a.ToString()
+                            Else
+                                multipleAlign(i) = .ByRef & New String("-"c, j1 - .Length)
+                            End If
+                        End With
                     Else
                         j2 += 1
                     End If
@@ -281,14 +303,14 @@ Public Class CenterStar
                 k += 1
 
             ElseIf (trace(i)(j) = 1) Then
-                pairAlignment(0)(k) = "-"
+                pairAlignment(0)(k) = "-"c
                 pairAlignment(1)(k) = seq2(j - 1)
                 j -= 1
                 k += 1
 
             Else
                 pairAlignment(0)(k) = seq1(i - 1)
-                pairAlignment(1)(k) = "-"
+                pairAlignment(1)(k) = "-"c
                 i -= 1
                 k += 1
             End If

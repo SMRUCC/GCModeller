@@ -357,6 +357,10 @@
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
       <Name>MotifScanner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MSA\MSA.vbproj">
+      <Project>{099D156F-13A1-4A1F-868E-5E67F9B99D54}</Project>
+      <Name>MSA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.vbproj">
       <Project>{7d48b4ef-34d4-488c-8fc4-2cbc0b92bd9c}</Project>
       <Name>NeedlemanWunsch</Name>
