@@ -238,7 +238,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim nmotifs% = args("/n.motifs") Or 25
         Dim motifs = FastaFile.LoadNucleotideData([in]) _
             .PopulateMotifs(
-                expectedMotifs:=nmotifs * 5,
                 leastN:=leastN,
                 param:=param
             ) _
