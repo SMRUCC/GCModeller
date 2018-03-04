@@ -106,6 +106,7 @@ Public Module RunNeedlemanWunsch
                                      End If
                                  End Function) _
                          .CharString)
+                Call .WriteLine("score=" & alignment.Score)
             Next
 
             Call .Flush()

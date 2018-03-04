@@ -48,12 +48,12 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Module Module1
 
     Sub Main()
-
+        Call scanerTest()
         '  Call msaTest2()
 
         Call seeding()
 
-        Call scanerTest()
+
 
         Call loadTest()
     End Sub
@@ -75,7 +75,7 @@ ATGAAT-"
 
     Sub seeding()
         Dim test As FastaFile = FastaFile.LoadNucleotideData("E:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\K03406_small.fasta")
-        Dim result = test.PopulateMotifs.ToArray
+        Dim result = test.PopulateMotifs(20).OrderByDescending(Function(m) m.score).ToArray
 
         Call result.GetJson(indent:=True).SaveTo("./motifs.json")
 
@@ -88,9 +88,10 @@ ATGAAT-"
         Dim models = ModelLoader.LoadGenomic("P:\XCC\assembly", "P:\XCC\models").ToArray
 
         Dim scaner As New ConsensusScanner(models)
-        '  Dim result = scaner.PopulateMotifs("K03406").ToArray
+        Dim result = scaner.PopulateMotifs("K03406").OrderByDescending(Function(m) m.AverageScore).ToArray
 
         Call scaner.DumpSequence("K03406", "./K03406.fasta")
+        Call result.GetJson(indent:=True).SaveTo("./K03406_motifs.json")
 
         Pause()
     End Sub

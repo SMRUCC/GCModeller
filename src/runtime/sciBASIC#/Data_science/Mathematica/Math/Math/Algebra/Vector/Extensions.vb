@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5b5bb82198316f4354c9afca8f1b583, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1ad7c039929c177c2c50ec9ffba595b8, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Module Extensions
     ' 
-    '         Function: AsVector, Point2D, Points, (+2 Overloads) rand, Take
+    '         Function: AsVector, Point2D, (+2 Overloads) Points, (+2 Overloads) rand, Take
+    '                   Top
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,10 +52,22 @@ Namespace LinearAlgebra
 
     Public Module Extensions
 
+        ''' <summary>
+        ''' Populate points from two <see cref="Vector"/>.
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
         Public Iterator Function Points(x As Vector, y As Vector) As IEnumerable(Of PointF)
             For i As Integer = 0 To x.Length - 1
                 Yield New PointF(x(i), y(i))
             Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Points(point As (x As Vector, y As Vector)) As IEnumerable(Of PointF)
+            Return Points(point.x, point.y)
         End Function
 
         <Extension>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01764da28ded2cf418cbcfae0f7a65d1, Microsoft.VisualBasic.Core\Text\SearchEngine\TextIndexing\TextIndexing.vb"
+﻿#Region "Microsoft.VisualBasic::ca3d0e340bd2f56ece58e491d6b679e9, Microsoft.VisualBasic.Core\Text\SearchEngine\TextIndexing\TextIndexing.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,9 @@
     ' 
     '         Properties: cache
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __cache, __indexing, __workParts, (+2 Overloads) Found, (+2 Overloads) FuzzyIndex
     '                   IsMatch, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/
@@ -201,9 +200,8 @@ Namespace Text.Search
         End Function
 
         Private Shared Function __indexing(part As TextSegment(), keyword$, cutoff#, parallel As Boolean) As Map(Of TextSegment, DistResult)()
-            Dim source As IEnumerable(Of TextSegment) = [If](Of IEnumerable(Of TextSegment))(parallel, part.AsParallel, part)
             Dim LQuery = From index As TextSegment
-                         In source
+                         In part.Populate(parallel)
                          Let levenshtein As DistResult = index Like keyword
                          Where Not levenshtein Is Nothing AndAlso
                              levenshtein.Score >= cutoff
@@ -211,6 +209,7 @@ Namespace Text.Search
                              .Key = index,
                              .Maps = levenshtein
                          }
+
             Dim out As Map(Of TextSegment, DistResult)() = LQuery.ToArray
             Return out
         End Function

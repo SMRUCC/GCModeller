@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96ca113d21c0daee41d27d8b13fbccea, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
+﻿#Region "Microsoft.VisualBasic::8d4e1fb426e663ef1274d278cb5d3a98, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
 
     ' Author:
     ' 
@@ -79,7 +79,7 @@ Namespace LinearAlgebra.Solvers
                     Exit For
                 End If
 
-                Call x.CopyTo(x1)
+                x1 = x
             Next
 
             Return x

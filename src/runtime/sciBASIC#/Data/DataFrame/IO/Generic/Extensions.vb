@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9596757001635b90df160347913d7a2f, Data\DataFrame\IO\Generic\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::28a924dec6309908a209a63adf2ab715, Data\DataFrame\IO\Generic\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     '     Module Extensions
     ' 
     '         Function: asCharacter, AsCharacter, (+2 Overloads) AsDataSet, CreateObject, DataFrame
-    '                   EuclideanDistance, GroupBy, Matrix, NamedMatrix, Project
-    '                   (+2 Overloads) PropertyNames, Transpose, Values, Vector
+    '                   EuclideanDistance, GroupBy, NamedMatrix, Project, (+2 Overloads) PropertyNames
+    '                   Transpose, Values, Vector
     ' 
     ' 
     ' /********************************************************************************/
@@ -56,17 +56,6 @@ Namespace IO
     ''' Data extension for <see cref="DataSet"/> and <see cref="EntityObject"/>
     ''' </summary>
     Public Module Extensions
-
-        <Extension>
-        Public Iterator Function Matrix(data As IEnumerable(Of DataSet)) As IEnumerable(Of Double())
-            With data.ToArray
-                Dim allKeys = .Keys(distinct:=True)
-
-                For Each x As DataSet In .ByRef
-                    Yield x.ItemValue(allKeys)
-                Next
-            End With
-        End Function
 
         <Extension>
         Public Function EuclideanDistance(a As DataSet, b As DataSet, names$()) As Double

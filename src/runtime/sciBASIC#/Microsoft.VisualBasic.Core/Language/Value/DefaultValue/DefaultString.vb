@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b69808a010112cbd26c87ce20c2fb224, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
+﻿#Region "Microsoft.VisualBasic::3986b76b491913c601839409f61c0a78, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,9 @@
     ' 
     '         Properties: DefaultValue, IsEmpty
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: assertIsNothing, LoadJson, LoadXml, ToString
-    ' 
-    '         Sub: New
-    ' 
-    '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue, (+2 Overloads) Or
+    '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue, (+4 Overloads) Or
     ' 
     ' 
     ' /********************************************************************************/
@@ -160,6 +158,14 @@ Namespace Language.Default
                 Return [default]
             Else
                 Return value.DefaultValue
+            End If
+        End Operator
+
+        Public Shared Operator Or(value As DefaultString, x%) As Integer
+            If assertIsNothing(value.DefaultValue) Then
+                Return x
+            Else
+                Return CInt(value.DefaultValue)
             End If
         End Operator
 

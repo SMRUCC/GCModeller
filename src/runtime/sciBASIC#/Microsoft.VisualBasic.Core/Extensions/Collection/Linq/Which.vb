@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0f8587ac8df06b006961cdb55ac4352, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Which.vb"
+﻿#Region "Microsoft.VisualBasic::cd80a83a889167997409dd3ad543e4ef, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Which.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,9 @@
 
     '     Class Which
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: [True], GetMinIndex, Index, (+2 Overloads) IsFalse, (+2 Overloads) IsGreaterThan
-    '                   (+3 Overloads) IsTrue, Max, Min
-    ' 
-    '         Sub: New
+    '                   (+3 Overloads) IsTrue, Max, Min, Top
     ' 
     ' 
     ' /********************************************************************************/
@@ -170,6 +169,14 @@ Namespace Linq
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function IsFalse([operator] As Func(Of Boolean())) As Integer()
             Return Which.IsFalse([operator]())
+        End Function
+
+        Public Shared Function Top(Of T As IComparable(Of T))(seq As IEnumerable(Of T), n As Integer) As Integer()
+            Return seq.SeqIterator _
+                .OrderByDescending(Function(x) x.value) _
+                .Take(n) _
+                .Ordinals _
+                .ToArray
         End Function
 
         ''' <summary>

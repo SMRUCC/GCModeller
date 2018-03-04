@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71c92b8b60e8518345f9d0cb949f6090, Microsoft.VisualBasic.Core\Serialization\BinaryDumping\Buffer.vb"
+﻿#Region "Microsoft.VisualBasic::9360e36192cb0edd2e56d81eaabfaa19, Microsoft.VisualBasic.Core\Serialization\BinaryDumping\Buffer.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '         Properties: TotalBytes
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Serialize, ToString
-    ' 
-    '         Sub: New
     ' 
     '     Delegate Function
     ' 
@@ -57,6 +56,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Protocols
 
@@ -114,15 +114,15 @@ Namespace Serialization.BinaryDumping
         Public Iterator Function GetBuffer(Of T)(raw As Byte(), getObj As IGetObject(Of T)) As IEnumerable(Of T)
             Dim length As Byte() = New Byte(RawStream.INT64 - 1) {}
             Dim l As Long
-            Dim i As Long
+            Dim i As int = 0
             Dim temp As Byte()
             Dim x As T
 
             Do While True
-                Call Array.ConstrainedCopy(raw, i.Move(RawStream.INT64), length, Scan0, RawStream.INT64)
+                Call Array.ConstrainedCopy(raw, i + RawStream.INT64, length, Scan0, RawStream.INT64)
                 l = BitConverter.ToInt64(length, Scan0)
                 temp = New Byte(l - 1) {}
-                Call Array.ConstrainedCopy(raw, i.Move(l), temp, Scan0, l)
+                Call Array.ConstrainedCopy(raw, i + l, temp, Scan0, l)
                 x = getObj(temp)
                 Yield x
 

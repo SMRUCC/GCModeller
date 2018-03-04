@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f5c7b58bc13a7d84284d8c8778a0ea0, Data_science\Mathematica\Plot\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::b4925344c1edc5b8af856e490440707e, Data_science\Mathematica\Plot\test\Module1.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics

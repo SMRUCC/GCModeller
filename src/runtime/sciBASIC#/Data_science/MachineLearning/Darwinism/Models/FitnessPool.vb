@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4135dc8e62a3b7837559f051b0884a9, Data_science\MachineLearning\Darwinism\Models\FitnessPool.vb"
+﻿#Region "Microsoft.VisualBasic::96dbd90f8e16809fa949a179af621bc5, Data_science\MachineLearning\Darwinism\Models\FitnessPool.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     '     Class FitnessPool
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Fitness
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,12 +43,12 @@
 
 Namespace Darwinism.Models
 
-    Public Class FitnessPool(Of Individual, T As IComparable(Of T))
+    Public Class FitnessPool(Of Individual)
 
-        Protected Friend ReadOnly cache As New Dictionary(Of String, T)
-        Protected caclFitness As Func(Of Individual, T)
+        Protected Friend ReadOnly cache As New Dictionary(Of String, Double)
+        Protected caclFitness As Func(Of Individual, Double)
 
-        Sub New(cacl As Func(Of Individual, T))
+        Sub New(cacl As Func(Of Individual, Double))
             caclFitness = cacl
         End Sub
 
@@ -61,9 +60,9 @@ Namespace Darwinism.Models
         ''' </summary>
         ''' <param name="[in]"></param>
         ''' <returns></returns>
-        Public Function Fitness([in] As Individual) As T
+        Public Function Fitness([in] As Individual) As Double
             Dim key$ = [in].ToString
-            Dim fit As T
+            Dim fit As Double
 
             SyncLock cache
                 If cache.ContainsKey(key$) Then

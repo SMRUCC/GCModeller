@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23ffcde17117b0a595d56129e5df025b, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\KMeans\CompleteLinkage\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::ea79ca648b6573b0be66aa19322c68fe, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\KMeans\CompleteLinkage\Cluster.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class Cluster
     ' 
-    '         Sub: Add, (+3 Overloads) New
+    '         Constructor: (+3 Overloads) Sub New
+    '         Sub: Add
     ' 
     '     Module ClusterAPI
     ' 
@@ -44,8 +45,6 @@
 
 #End Region
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 

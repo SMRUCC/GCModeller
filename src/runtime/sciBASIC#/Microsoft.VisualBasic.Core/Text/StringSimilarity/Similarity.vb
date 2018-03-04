@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96c9e3bdafa5ba3c65b024b2fc32ec45, Microsoft.VisualBasic.Core\Text\StringSimilarity\Similarity.vb"
+﻿#Region "Microsoft.VisualBasic::1cd50f12a89b734474066be79f74e21a, Microsoft.VisualBasic.Core\Text\StringSimilarity\Similarity.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text.Levenshtein
 
 Namespace Text.Similarity
@@ -63,6 +64,8 @@ Namespace Text.Similarity
 
     Public Module Evaluations
 
+        ReadOnly ignoreCase As New DefaultValue(Of Equals(Of String))(AddressOf tokenEqualsIgnoreCase)
+
         ''' <summary>
         ''' 两个字符串之间是通过单词的排布的相似度来比较相似度的
         ''' </summary>
@@ -72,8 +75,7 @@ Namespace Text.Similarity
         ''' <param name="cost#"></param>
         ''' <param name="dist"></param>
         ''' <returns></returns>
-        Public Function Evaluate(s1 As String,
-                                 s2 As String,
+        Public Function Evaluate(s1$, s2$,
                                  Optional ignoreCase As Boolean = True,
                                  Optional cost# = 0.7,
                                  Optional ByRef dist As DistResult = Nothing) As Double
@@ -82,11 +84,7 @@ Namespace Text.Similarity
                 Return 1
             End If
 
-            Dim tokenEquals As Equals(Of String) =
-                [If](Of Equals(Of String))(
-                ignoreCase,
-                AddressOf tokenEqualsIgnoreCase,
-                AddressOf Evaluations.tokenEquals)
+            Dim tokenEquals As Equals(Of String) = New Equals(Of String)(AddressOf Evaluations.tokenEquals) Or Evaluations.ignoreCase.When(ignoreCase)
 
             dist = LevenshteinDistance.ComputeDistance(
                 s1.Split,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::156f7241766307b5e965b6826c723c38, Data_science\MachineLearning\Darwinism\DifferentialEvolution.vb"
+﻿#Region "Microsoft.VisualBasic::ca17baca4b13632a78557523e185a5f4, Data_science\MachineLearning\Darwinism\DifferentialEvolution.vb"
 
     ' Author:
     ' 
@@ -163,8 +163,7 @@ Namespace Darwinism
             ' linked list that has our population inside
 
             Dim bestFit# = Integer.MaxValue
-            Dim fitnessFunction As Func(Of Individual, Double) =
-                AddressOf New FitnessPool(Of Individual, Double)(target).Fitness
+            Dim fitnessFunction As Func(Of Individual, Double) = AddressOf New FitnessPool(Of Individual)(target).Fitness
             Dim i As int = Scan0
 
             If randomGenerator Is Nothing Then
@@ -319,7 +318,8 @@ Namespace Darwinism
                     Dim mutate# = individual1.Yield(R) + F * (individual2.Yield(R) - individual3.Yield(R))
                     mutate *= random.NextDouble
                     Call candidate.Put(R, mutate)
-                End If ' else isn't needed because we cloned original to candidate
+                End If
+                ' else isn't needed because we cloned original to candidate
 
                 ' see if Is better than original, if so replace
                 Dim originalFitness# = fitnessFunction(original)

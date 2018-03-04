@@ -44,7 +44,6 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
@@ -53,30 +52,10 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Public Class Parameter
-
-    Public Property minW As Integer
-    Public Property maxW As Integer
-    Public Property seedingCutoff As Double
-    Public Property ScanMinW As Integer
-    Public Property ScanCutoff As Double
-
-    Public Shared Function DefaultParameter() As DefaultValue(Of Parameter)
-        Return New Parameter With {
-            .minW = 10,
-            .maxW = 30,
-            .seedingCutoff = 0.35,
-            .ScanCutoff = 0.6,
-            .ScanMinW = 6
-        }
-    End Function
-
-End Class
-
 Public Module Protocol
 
     <Extension>
-    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
+    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim seeds As New List(Of HSP)
 
         For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
@@ -87,22 +66,24 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function matrixRow(q As HSP, i%, seeds As IEnumerable(Of HSP)) As DataSet
+    Private Function matrixRow(q As HSP, i%, seeds As IGrouping(Of String, SeqValue(Of HSP))()) As DataSet
         Dim row As New DataSet With {
             .ID = i,
             .Properties = New Dictionary(Of String, Double)
         }
         Dim j As int = 1
+        Dim query As New FastaSeq With {
+            .SequenceData = q.Query
+        }
 
-        For Each s As HSP In seeds
+        For Each s As IGrouping(Of String, SeqValue(Of HSP)) In seeds
             ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
             Dim score# = 0
+            Dim subject As New FastaSeq With {
+                .SequenceData = s.Key
+            }
 
-            Call RunNeedlemanWunsch.RunAlign(
-                New FastaSeq With {.SequenceData = q.Query},
-                New FastaSeq With {.SequenceData = s.Query},
-                score
-            )
+            RunNeedlemanWunsch.RunAlign(query, subject, score)
 
             row(++j) = score
         Next
@@ -111,47 +92,94 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), Optional expectedMotifs% = 10, Optional param As Parameter = Nothing) As IEnumerable(Of Motif)
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
+                                            Optional leastN% = 5,
+                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+
         Dim regions As FastaSeq() = inputs.ToArray
 
-        param = param Or Parameter.DefaultParameter
+        param = param Or PopulatorParameter.DefaultParameter
 
         Call "seeding...".__DEBUG_ECHO
 
         ' 先进行两两局部最优比对，得到最基本的种子
+        ' 2018-3-2 在这里应该选取的是短的高相似度的序列
         Dim seeds As List(Of HSP) = regions _
             .AsParallel _
             .Select(Function(q) regions.seeding(q, param)) _
             .IteratesALL _
             .AsList
 
+        Call $"Generate {seeds.Count} seeds...".__DEBUG_ECHO
         Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
-        ' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        Dim repSeq As Dictionary(Of String, String) = seeds _
-            .SeqIterator _
-            .AsParallel _
-            .ToDictionary(Function(i) CStr(i.i),
-                          Function(q) q.value.Consensus)
+        '' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
+        'Dim repSeq As Dictionary(Of String, String) = seeds _
+        '    .SeqIterator _
+        '    .AsParallel _
+        '    .ToDictionary(Function(i) CStr(i.i),
+        '                  Function(q) q.value.Consensus)
 
         Call "Build global distance matrix for the seeds...".__DEBUG_ECHO
 
-        Dim matrix As DataSet() = seeds _
+        ' 先做一次group操作，这样子可以将重复的序列减少
+        ' 做出矩阵之后直接复制就可
+        Dim queryGroup = seeds _
+            .SeqIterator _
+            .GroupBy(Function(q) q.value.Query) _
+            .ToArray
+
+        If param.seedOccurances > 0 Then
+            Dim n% = param.seedOccurances * regions.Length
+
+            Call $"Seeds should be found at least on {n} source sequence.".__DEBUG_ECHO
+
+            ' 种子至少要在n条序列上出现才会被使用，否则会被丢弃掉以减少数据集
+            queryGroup = queryGroup _
+                .AsParallel _
+                .Where(Function(seed)
+                           Dim swMatrix As New DNAMatrix
+                           Dim test = regions _
+                               .Select(Function(subject)
+                                           Dim smithWaterman As New SmithWaterman(
+                                               seed.Key,
+                                               subject.SequenceData,
+                                               swMatrix
+                                           )
+                                           Dim result = smithWaterman.GetOutput(0.6, 6)
+
+                                           Return result.Best
+                                       End Function) _
+                               .Where(Function(hit) Not hit Is Nothing) _
+                               .Count
+
+                           Return test >= n
+                       End Function) _
+                .ToArray
+        End If
+
+        Call $"query group for matrix: {queryGroup.Length}".__DEBUG_ECHO
+
+        Dim matrix As DataSet() = queryGroup _
             .SeqIterator _
             .AsParallel _
             .Select(Function(seed)
-                        Dim q = seed.value
-                        Dim row = q.matrixRow(seed.i, seeds)
+                        Dim q As HSP = seed.value.First.value
+                        ' 在这里的i是针对前面的queryGroup的
+                        Dim row = q.matrixRow(seed.i, queryGroup)
                         Return row
                     End Function) _
             .ToArray
 
         Call "Kmeans...".__DEBUG_ECHO
 
+        ' 即每一个motif至少要由n条种子序列构成
+        Dim expectedMotifs = matrix.Length / leastN - 1
+
         ' 进行聚类分簇
         Dim clusters = matrix _
             .ToKMeansModels _
-            .Kmeans(expected:=expectedMotifs, debug:=False)
+            .Kmeans(expected:=expectedMotifs, debug:=True)
         Dim motifs = clusters _
             .GroupBy(Function(c) c.Cluster) _
             .ToArray
@@ -162,11 +190,19 @@ Public Module Protocol
         For Each group As IGrouping(Of String, EntityClusterModel) In motifs
             Dim MSA = group _
                 .Select(Function(seq)
-                            Return New FastaSeq With {
-                                .SequenceData = repSeq(seq.ID),
-                                .Headers = {seq.ID}
-                            }
+                            ' ID -> queryGroup -> repSeq
+                            Dim groupID% = Val(seq.ID)
+                            Dim groupHSP = queryGroup(groupID)
+
+                            Return groupHSP _
+                                .Select(Function(member)
+                                            Return New FastaSeq With {
+                                                .SequenceData = member.value.Query,
+                                                .Headers = {member.i}
+                                            }
+                                        End Function)
                         End Function) _
+                .IteratesALL _
                 .MultipleAlignment(Nothing)
             Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
 
@@ -183,7 +219,7 @@ Public Module Protocol
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As Parameter) As Motif
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As Motif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
         Dim MSA = alignment.MSA
@@ -226,12 +262,13 @@ Public Module Protocol
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,
-            .seeds = alignment
+            .seeds = alignment,
+            .length = MSA(Scan0).Length
         }
     End Function
 
-    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As Parameter) As IEnumerable(Of HSP)
-        Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData)
+    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
+        Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
@@ -256,7 +293,3 @@ Public Module Protocol
         End If
     End Function
 End Module
-
-Public Class Motif : Inherits Probability
-    Public Property seeds As MSAOutput
-End Class

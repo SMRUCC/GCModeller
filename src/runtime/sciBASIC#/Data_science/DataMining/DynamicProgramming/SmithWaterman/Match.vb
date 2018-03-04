@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d10c795ea3b252cb9ba78a718a9bf54, Data_science\DataMining\DynamicProgramming\SmithWaterman\Match.vb"
+﻿#Region "Microsoft.VisualBasic::c4149b48c007a4b0627ae2bb8827feb0, Data_science\DataMining\DynamicProgramming\SmithWaterman\Match.vb"
 
     ' Author:
     ' 
@@ -33,16 +33,15 @@
 
     '     Class Match
     ' 
-    '         Properties: FROMA_COMPARATOR
+    '         Properties: FromA, FROMA_COMPARATOR, FromB, Score, ToA
+    '                     ToB
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: isChainable, notOverlap, ToString
+    '         Class ComparatorHelper
     ' 
-    '         Sub: (+2 Overloads) New
-    '         Class ComparatorAnonymousInnerClassHelper
-    ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: Compare
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 
@@ -51,8 +50,7 @@
 
 #End Region
 
-Imports System.Collections.Generic
-Imports System.Text
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 
 Namespace SmithWaterman
@@ -105,23 +103,24 @@ Namespace SmithWaterman
         ''' </summary>
         ''' <param name="m"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function notOverlap(m As Match) As Boolean
             Return (m.FromA > _ToA OrElse _FromA > m.ToA) AndAlso (m.FromB > _ToB OrElse _FromB > m.ToB)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function isChainable(m As Match) As Boolean
             Return (m.FromA > _ToA AndAlso m.FromB > _ToB)
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"[query: {FromA}  ===> {ToA}] <---> [subject: {FromB}  ===> {ToB}], score:={Score}"
+            Return $"[query: {{{FromA}, {ToA}}}, ref: {{{FromB}, {ToB}}}], score:={Score}"
         End Function
 
-        Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) =
-            New ComparatorAnonymousInnerClassHelper()
+        Public Shared ReadOnly Property FROMA_COMPARATOR As IComparer(Of Match) = New ComparatorHelper()
 
-        Private Class ComparatorAnonymousInnerClassHelper
-            Implements IComparer(Of Match)
+        Private Class ComparatorHelper : Implements IComparer(Of Match)
 
             Public Sub New()
             End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb86d3776b528c6757f21a3f437bef75, Data_science\Mathematica\Math\Math\Algebra\LP\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::76dde6fed113768765f05d6dc4bb4750, Data_science\Mathematica\Math\Math\Algebra\LP\Extensions.vb"
 
     ' Author:
     ' 
@@ -66,9 +66,9 @@ Namespace Algebra.LinearProgramming
         <Extension>
         Friend Function ParseType(type As String) As OptimizationType
             Select Case LCase(type)
-                Case "max", "Maximize"
+                Case "max", "maximize"
                     Return OptimizationType.MAX
-                Case "min", "Minimize"
+                Case "min", "minimize"
                     Return OptimizationType.MIN
                 Case Else
                     Throw New NotImplementedException(type)

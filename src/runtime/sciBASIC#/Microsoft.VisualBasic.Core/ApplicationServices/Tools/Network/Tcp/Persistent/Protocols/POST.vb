@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf3f9fd815b4dc6e4d1c97ab5b908ec5, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Network\Tcp\Persistent\Protocols\POST.vb"
+﻿#Region "Microsoft.VisualBasic::d6a74d5e370e7cb0567941c2cf5600f7, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Network\Tcp\Persistent\Protocols\POST.vb"
 
     ' Author:
     ' 
@@ -33,19 +33,21 @@
 
     '     Class LogonPOST
     ' 
+    '         Properties: Socket, USER_ID
     ' 
+    '     Class SendMessagePost
     ' 
-    '  
+    '         Properties: [FROM], Message, USER_ID
     ' 
-    '     Function: Serialize
-    ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Serialize
     ' 
     '     Class BroadcastPOST
     ' 
-    '         Function: Serialize
+    '         Properties: Message, USER_ID
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Serialize
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,6 +55,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Protocols
 
 Namespace Net.Persistent.Application.Protocols
@@ -74,11 +77,11 @@ Namespace Net.Persistent.Application.Protocols
 
         Sub New(rawStream As Byte())
             Dim pTemp As Byte() = New Byte(INT64 - 1) {}
-            Dim p As Integer
+            Dim p As int = 0
 
-            Call Array.ConstrainedCopy(rawStream, p.Move(INT64), pTemp, Scan0, pTemp.Length)
+            Call Array.ConstrainedCopy(rawStream, p + INT64, pTemp, Scan0, pTemp.Length)
             FROM = BitConverter.ToInt64(pTemp, Scan0)
-            Call Array.ConstrainedCopy(rawStream, p.Move(INT64), pTemp, Scan0, pTemp.Length)
+            Call Array.ConstrainedCopy(rawStream, p + INT64, pTemp, Scan0, pTemp.Length)
             USER_ID = BitConverter.ToInt64(pTemp, Scan0)
 
             pTemp = New Byte(rawStream.Length - INT64 - INT64 - 1) {}
@@ -92,9 +95,10 @@ Namespace Net.Persistent.Application.Protocols
         Public Overrides Function Serialize() As Byte()
             Dim RequestStream As Byte() = Message.Serialize
             Dim ChunkBuffer As Byte() = New Byte(INT64 + INT64 + RequestStream.Length - 1) {}
-            Dim p As Integer = 0
-            Call Array.ConstrainedCopy(BitConverter.GetBytes(FROM), Scan0, ChunkBuffer, p.Move(INT64), INT64)
-            Call Array.ConstrainedCopy(BitConverter.GetBytes(USER_ID), Scan0, ChunkBuffer, p.Move(INT64), INT64)
+            Dim p As int = 0
+
+            Call Array.ConstrainedCopy(BitConverter.GetBytes(FROM), Scan0, ChunkBuffer, p + INT64, INT64)
+            Call Array.ConstrainedCopy(BitConverter.GetBytes(USER_ID), Scan0, ChunkBuffer, p + INT64, INT64)
             Call Array.ConstrainedCopy(RequestStream, Scan0, ChunkBuffer, p, RequestStream.Length)
             Return ChunkBuffer
         End Function

@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::d3ffba32f16c86846fc415185c2fc8c6, analysis\SequenceToolkit\MSA\CenterStar.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class CenterStar
-    ' 
-    '     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
-    ' 
-    '     Sub: findStarIndex, multipleAlignmentImpl, (+2 Overloads) New
-    ' 
-    ' /********************************************************************************/
+' Class CenterStar
+' 
+'     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
+' 
+'     Sub: findStarIndex, multipleAlignmentImpl, (+2 Overloads) New
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -99,11 +100,19 @@ Public Class CenterStar
             multipleAlign = sequence.ToArray
             totalCost = 0
         Else
-            findStarIndex()
-            centerString = sequence(starIndex)
-            multipleAlign = New String(n - 1) {}
-            multipleAlignmentImpl()
-            totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+#If Not DEBUG Then
+            Try
+#End If
+                findStarIndex()
+                centerString = sequence(starIndex)
+                multipleAlign = New String(n - 1) {}
+                multipleAlignmentImpl()
+                totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+#If Not DEBUG Then
+            Catch ex As Exception
+                Throw New Exception(sequence.JoinBy(vbCrLf), ex)
+            End Try
+#End If
         End If
 
         Return New MSAOutput With {
@@ -158,12 +167,19 @@ Public Class CenterStar
                 Dim j2 = 0
 
                 For j1 As Integer = 0 To globalAlign(0).Length - 1
-                    If (centerString2(j2) <> globalAlign(0)(j1)) Then
+                    If (centerString2.CharAtOrDefault(j2, "-"c) <> globalAlign(0)(j1)) Then
                         Dim a As StringBuilder
+
                         For k As Integer = 0 To i - 1
-                            a = New StringBuilder(multipleAlign(k))
-                            a.Insert(j1, "-")
-                            multipleAlign(k) = a.ToString
+                            With multipleAlign(k)
+                                If .Length > j1 Then
+                                    a = New StringBuilder(multipleAlign(k))
+                                    a.Insert(j1, "-"c)
+                                    multipleAlign(k) = a.ToString
+                                Else
+                                    multipleAlign(k) = .ByRef & New String("-"c, j1 - .Length)
+                                End If
+                            End With
                         Next
 
                     Else
@@ -171,15 +187,21 @@ Public Class CenterStar
                     End If
                 Next
                 centerString2 = globalAlign(0)
-            End If
-            If (globalAlign(0).Length < centerString2.Length) Then
+            ElseIf (globalAlign(0).Length < centerString2.Length) Then
                 Dim j2 = 0
+                Dim globalAlign0 = globalAlign(Scan0)
 
                 For j1 As Integer = 0 To centerString2.Length - 1
-                    If (centerString2(j1) <> globalAlign(0)(j2)) Then
-                        Dim a As New StringBuilder(multipleAlign(i))
-                        a.Insert(j1, "-")
-                        multipleAlign(i) = a.ToString()
+                    If (centerString2(j1) <> globalAlign0.CharAtOrDefault(j2)) Then
+                        With multipleAlign(i)
+                            If .Length > j1 Then
+                                Dim a As New StringBuilder(multipleAlign(i))
+                                a.Insert(j1, "-"c)
+                                multipleAlign(i) = a.ToString()
+                            Else
+                                multipleAlign(i) = .ByRef & New String("-"c, j1 - .Length)
+                            End If
+                        End With
                     Else
                         j2 += 1
                     End If
@@ -281,14 +303,14 @@ Public Class CenterStar
                 k += 1
 
             ElseIf (trace(i)(j) = 1) Then
-                pairAlignment(0)(k) = "-"
+                pairAlignment(0)(k) = "-"c
                 pairAlignment(1)(k) = seq2(j - 1)
                 j -= 1
                 k += 1
 
             Else
                 pairAlignment(0)(k) = seq1(i - 1)
-                pairAlignment(1)(k) = "-"
+                pairAlignment(1)(k) = "-"c
                 i -= 1
                 k += 1
             End If

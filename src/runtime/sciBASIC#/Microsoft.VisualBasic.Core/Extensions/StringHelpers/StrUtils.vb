@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd0847410227a7cbc5dc74bedf664f05, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StrUtils.vb"
+﻿#Region "Microsoft.VisualBasic::23ed94bf8957d47f0eb3fdfd6c50d5be, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StrUtils.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' 
     '     Properties: InvariantCulture
     ' 
-    '     Function: AddWithDelim, CharCode, CharCodes, (+6 Overloads) ContactWithDelim, ContactWithDelimSkipEmpty
-    '               ContactWithDelimSkipNull, ContactWithDelimSkipSome, CountWordFrequency, (+2 Overloads) EndsWith, EscapeQuotesAndBackslashes
-    '               GetCompareType, GetHeader, GetLastSubStringBetween, GetString, GetSubStringBetween
-    '               GetWords, LowerCaseFirstChar, RandomASCIIString, Remove, SplitIntoLines
-    '               SplitRemoveEmptyEntries, SplitWithSeparator, SplitWithSeparatorFromRight, SplitWithSpaces, (+2 Overloads) StartsWith
-    '               StartWithUpperCase, UpperCaseFirstChar
+    '     Function: AddWithDelim, CharCode, CharCodes, CharString, (+6 Overloads) ContactWithDelim
+    '               ContactWithDelimSkipEmpty, ContactWithDelimSkipNull, ContactWithDelimSkipSome, CountWordFrequency, (+2 Overloads) EndsWith
+    '               EscapeQuotesAndBackslashes, GetCompareType, GetHeader, GetLastSubStringBetween, GetString
+    '               GetSubStringBetween, GetWords, LongestTag, LowerCaseFirstChar, RandomASCIIString
+    '               RandomCharString, Remove, SplitIntoLines, SplitRemoveEmptyEntries, SplitWithSeparator
+    '               SplitWithSeparatorFromRight, SplitWithSpaces, (+2 Overloads) StartsWith, StartWithUpperCase, UpperCaseFirstChar
     ' 
     ' /********************************************************************************/
 
@@ -185,14 +185,25 @@ Public Module StrUtils
     ''' <param name="len%"></param>
     ''' <returns></returns>
     Public Function RandomASCIIString(len%) As String
-        Dim rnd As New Random(BitConverter.ToInt32(New BigInteger(Now.ToBinary).ToByteArray, Scan0))
+        With New Random
+            Return CharString(len, Function() Chr(.Next(32, 127)))
+        End With
+    End Function
+
+    <Extension>
+    Public Function RandomCharString(chars As IEnumerable(Of Char), len%) As String
+        With New Random
+            Dim buffer = chars.ToArray
+            Return CharString(len, Function() .Next(buffer))
+        End With
+    End Function
+
+    Public Function CharString(len%, getChar As Func(Of Char)) As String
         Dim s As New List(Of Char)
 
-        For i As Integer = 0 To len
-            s.Add(Chr(rnd.Next(32, 127)))
+        For i As Integer = 0 To len - 1
+            s.Add(getChar())
         Next
-
-        Call Randomize()
 
         Return New String(s.ToArray)
     End Function

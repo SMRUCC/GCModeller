@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::d12160728576e4fec9469cc5e2111b6b, visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class PlasmidAnnotation
-    ' 
-    '     Properties: Gene_name, GO_discription, GO_name, Identity, Location
-    '                 ORF_ID, product, Protein, Protein_len, SP
-    '                 ST, Strand, subject_length
-    ' 
-    '     Function: ExportAnnotations, ExportProteinFasta, READ_PlasmidData
-    ' 
-    ' /********************************************************************************/
+' Class PlasmidAnnotation
+' 
+'     Properties: Gene_name, GO_discription, GO_name, Identity, Location
+'                 ORF_ID, product, Protein, Protein_len, SP
+'                 ST, Strand, subject_length
+' 
+'     Function: ExportAnnotations, ExportProteinFasta, READ_PlasmidData
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
-Imports System.Text
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Oracle.Java.IO.Properties.Reflector
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 <[Namespace]("PlasmidAnnotations")>
@@ -117,11 +118,11 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
     <Column("E-value")> Public Property Evalue As String
     Public Property Protein_len As String
 
-    Public Property Location As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation Implements IGeneBrief.Location
+    Public Property Location As NucleotideLocation Implements IGeneBrief.Location
         Get
-            Return New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(ST, SP, Strand)
+            Return New NucleotideLocation(ST, SP, Strand)
         End Get
-        Set(value As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)
+        Set(value As NucleotideLocation)
             If Not value Is Nothing Then
                 ST = value.Left
                 SP = value.Right
@@ -129,54 +130,56 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
         End Set
     End Property
 
+    Shared ReadOnly fullAnnotation As New DefaultValue(Of Func(Of PlasmidAnnotation, String()))(Function(gene As PlasmidAnnotation) New String() {gene.ORF_ID, gene.Gene_name, gene.product})
+    Shared ReadOnly ORFidAnnotation As New Func(Of PlasmidAnnotation, String())(Function(gene As PlasmidAnnotation) {gene.ORF_ID})
+
     ''' <summary>
     ''' 导出蛋白质的序列信息
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    ''' 
     <ExportAPI("Export.Orf")>
-    Public Shared Function ExportProteinFasta(data As IEnumerable(Of PlasmidAnnotation),
-                                              <Parameter("Id.Only")>
-                                              Optional JustId As Boolean = False) As SequenceModel.FASTA.FastaFile
-        Dim GetTitle As Func(Of PlasmidAnnotation, String()) = JustId.[If](
-            Function(Gene As PlasmidAnnotation) {Gene.ORF_ID},
-            Function(Gene As PlasmidAnnotation) New String() {Gene.ORF_ID, Gene.Gene_name, Gene.product})
+    Public Shared Function ExportProteinFasta(data As IEnumerable(Of PlasmidAnnotation), Optional justId As Boolean = False) As FastaFile
+        Dim getTitle As Func(Of PlasmidAnnotation, String()) = ORFidAnnotation Or fullAnnotation.When(Not justId)
+        Dim LQuery = LinqAPI.Exec(Of FastaSeq) _
+ _
+            () <= From PlasmidGene As PlasmidAnnotation
+                  In data
+                  Where Not String.IsNullOrEmpty(PlasmidGene.Protein)
+                  Select New FastaSeq With {
+                      .Headers = getTitle(PlasmidGene),
+                      .SequenceData = PlasmidGene.Protein
+                  }
 
-        Dim LQuery = (From PlasmidGene As PlasmidAnnotation
-                      In data
-                      Where Not String.IsNullOrEmpty(PlasmidGene.Protein)
-                      Select New SequenceModel.FASTA.FastaSeq With {
-                          .Headers = GetTitle(PlasmidGene),
-                          .SequenceData = PlasmidGene.Protein}).ToArray
-        Return CType(LQuery, SequenceModel.FASTA.FastaFile)
+        Return New FastaFile(LQuery)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("read.csv.plasmid_data")>
     Public Shared Function READ_PlasmidData(path As String) As PlasmidAnnotation()
         Return path.LoadCsv(Of PlasmidAnnotation)(False).ToArray
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("export.as_ncbi_annotation")>
-    Public Shared Function ExportAnnotations(data As Generic.IEnumerable(Of PlasmidAnnotation), Optional saveto As String = "") As GeneDumpInfo()
-        Dim LQuery = (From item As PlasmidAnnotation In data
-                      Where Not String.IsNullOrEmpty(item.Protein)
-                      Let gc As Double = GC_Content(New NucleicAcid(item.GeneNA).ToArray)
-                      Select New GeneDumpInfo With {
-                          .CDS = item.GeneNA,
-                          .GC_Content = gc,
-                          .COG = item.COG_NO,
-                          .Strand = item.Strand,
-                          .CommonName = item.product,
-                          .GeneName = item.Gene_name,
-                          .LocusID = item.ORF_ID,
-                          .Translation = item.Protein,
-                          .Left = item.Location.Left,
-                          .Right = item.Location.Right}).ToArray
-        If Not String.IsNullOrEmpty(saveto) Then
-            Call LQuery.SaveTo(saveto, False)
-        End If
-
-        Return LQuery
+    Public Shared Function ExportAnnotations(data As IEnumerable(Of PlasmidAnnotation)) As GeneDumpInfo()
+        Return LinqAPI.Exec(Of GeneDumpInfo) _
+ _
+            () <= From item As PlasmidAnnotation
+                  In data
+                  Where Not String.IsNullOrEmpty(item.Protein)
+                  Let gc As Double = GC_Content(New NucleicAcid(item.GeneNA).ToArray)
+                  Select New GeneDumpInfo With {
+                      .CDS = item.GeneNA,
+                      .GC_Content = gc,
+                      .COG = item.COG_NO,
+                      .Strand = item.Strand,
+                      .CommonName = item.product,
+                      .GeneName = item.Gene_name,
+                      .LocusID = item.ORF_ID,
+                      .Translation = item.Protein,
+                      .Left = item.Location.Left,
+                      .Right = item.Location.Right
+                  }
     End Function
 End Class

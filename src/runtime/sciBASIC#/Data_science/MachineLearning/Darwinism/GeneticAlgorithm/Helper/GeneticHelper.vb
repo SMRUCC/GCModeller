@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ac84b7ab58db6510e0334835e1258d5, Data_science\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
+﻿#Region "Microsoft.VisualBasic::97b1c26eec49971a07da58b777f3bb42, Data_science\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Function: InitialPopulation
     ' 
-    '         Sub: Crossover
+    '         Sub: Crossover, (+2 Overloads) Mutate
     ' 
     ' 
     ' /********************************************************************************/
@@ -106,7 +106,7 @@ Namespace Darwinism.GAF.Helper
         ''' in real life it could be more complex
         ''' </summary>
         <Extension>
-        Public Function InitialPopulation(Of T As Chromosome(Of T))(base As T, populationSize As Integer, Optional parallel As ParallelComputing(Of T) = Nothing) As Population(Of T)
+        Public Function InitialPopulation(Of T As Chromosome(Of T))(base As T, populationSize%, Optional parallel As ParallelComputing(Of T) = Nothing) As Population(Of T)
             Dim population As New Population(Of T)(parallel) With {
                 .Parallel = True
             }

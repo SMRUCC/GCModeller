@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c909c73c74d378572733d4daf29c6c0, Data_science\MachineLearning\Darwinism\GeneticAlgorithm\Helper\ListenerHelper.vb"
+﻿#Region "Microsoft.VisualBasic::e88b18f5bee10863c1dec6900b86c9d6, Data_science\MachineLearning\Darwinism\GeneticAlgorithm\Helper\ListenerHelper.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '             Function: ToString
     ' 
-    '         Structure IterartionListenerAnonymousInnerClassHelper
+    '         Structure listenerHelper
     ' 
     '             Sub: Update
     ' 
@@ -51,7 +51,6 @@
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 
@@ -90,7 +89,7 @@ Namespace Darwinism.GAF.Helper
 
             ' Lets add listener, which prints best chromosome after each iteration
             ga.addIterationListener(
-                New IterartionListenerAnonymousInnerClassHelper(Of T) With {
+                New listenerHelper(Of T) With {
                     .print = print,
                     .threshold = threshold
                 })
@@ -98,7 +97,7 @@ Namespace Darwinism.GAF.Helper
 
         Const DefaultThreshold# = 0.00001
 
-        Private Structure IterartionListenerAnonymousInnerClassHelper(Of T As Chromosome(Of T))
+        Private Structure listenerHelper(Of T As Chromosome(Of T))
             Implements IterartionListener(Of T)
 
             Public threshold As Double

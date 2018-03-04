@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee56ff3e54be3a2c20e67c88b69e0de6, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\KMeans\Parallel\StreamAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2a1c1959b7a366caf94f8d97b7328bce, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\KMeans\Parallel\StreamAPI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module StreamAPI
     ' 
-    '         Function: GetObjects, GetRaw
+    '         Function: GetObject, GetObjects, (+2 Overloads) GetRaw
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,8 +42,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace KMeans.Parallel
@@ -64,14 +65,14 @@ Namespace KMeans.Parallel
             Dim name As Byte() = Encoding.Unicode.GetBytes(x.uid)
             Dim buffer As Byte() =
                 New Byte(name.Length + RawStream.INT32 + (x.Properties.Length * RawStream.DblFloat) - 1) {}
-            Dim i As Integer
+            Dim i As int = 0
             Dim nameLen As Byte() = BitConverter.GetBytes(name.Length)
 
-            Call Array.ConstrainedCopy(nameLen, Scan0, buffer, i.Move(nameLen.Length), nameLen.Length)
-            Call Array.ConstrainedCopy(name, Scan0, buffer, i.Move(name.Length), name.Length)
+            Call Array.ConstrainedCopy(nameLen, Scan0, buffer, i + nameLen.Length, nameLen.Length)
+            Call Array.ConstrainedCopy(name, Scan0, buffer, i + name.Length, name.Length)
 
             For Each d As Double In x.Properties
-                Call Array.ConstrainedCopy(BitConverter.GetBytes(d), Scan0, buffer, i.Move(RawStream.DblFloat), RawStream.DblFloat)
+                Call Array.ConstrainedCopy(BitConverter.GetBytes(d), Scan0, buffer, i + RawStream.DblFloat, RawStream.DblFloat)
             Next
 
             Return buffer
@@ -79,11 +80,11 @@ Namespace KMeans.Parallel
 
         <Extension> Public Function GetObject(buffer As Byte()) As Entity
             Dim nameLen As Byte() = New Byte(RawStream.INT32 - 1) {}
-            Dim p As Integer
-            Call Array.ConstrainedCopy(buffer, p.Move(nameLen.Length), nameLen, Scan0, nameLen.Length)
+            Dim p As int = 0
+            Call Array.ConstrainedCopy(buffer, p + nameLen.Length, nameLen, Scan0, nameLen.Length)
 
             Dim name As Byte() = New Byte(BitConverter.ToInt32(nameLen, Scan0) - 1) {}
-            Call Array.ConstrainedCopy(buffer, p.Move(name.Length), name, Scan0, name.Length)
+            Call Array.ConstrainedCopy(buffer, p + name.Length, name, Scan0, name.Length)
 
             Dim props As Double() =
                 buffer.Skip(nameLen.Length + name.Length).Split(RawStream.DblFloat) _
