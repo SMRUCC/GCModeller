@@ -1,45 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::5a15c6b74397eeb514d438f273674a4d, Shared\InternalApps_CLI\Apps\MEME.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class MEME
-    ' 
-    '     Sub: New
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -1846,16 +1804,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' --CExpr.WGCNA /mods &lt;CytoscapeNodes.txt> /genome &lt;genome.DIR|*.PTT;*.fna> /out &lt;DIR.out>
+''' --CExpr.WGCNA /mods &lt;CytoscapeNodes.txt> /genome &lt;genome.DIR|*.PTT;*.fna> [/out &lt;DIR.out>]
 ''' ```
 ''' </summary>
 '''
-Public Function WGCNAModsCExpr(mods As String, genome As String, out As String) As Integer
+Public Function WGCNAModsCExpr(mods As String, genome As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--CExpr.WGCNA")
     Call CLI.Append(" ")
     Call CLI.Append("/mods " & """" & mods & """ ")
     Call CLI.Append("/genome " & """" & genome & """ ")
-    Call CLI.Append("/out " & """" & out & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
