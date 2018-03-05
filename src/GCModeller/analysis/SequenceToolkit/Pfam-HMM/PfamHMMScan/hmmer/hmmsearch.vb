@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2ff02a3009bd5c862744243ba3054240, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmsearch.vb"
+﻿#Region "Microsoft.VisualBasic::2ff02a3009bd5c862744243ba3054240, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmsearch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class hmmsearch
+    ' 
+    '     Properties: HMM, Queries, source, version
+    ' 
+    '     Function: GetProfiles, ToString
+    ' 
+    ' Class PfamQuery
+    ' 
+    '     Properties: Accession, alignments, describ, hits, MLen
+    '                 Query, uncertain
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class Score
+    ' 
+    '     Properties: Best, describ, exp, Full, locus
+    '                 N
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class AlignmentHit
+    ' 
+    '     Properties: hits, IsMatched, locus, QueryTag
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

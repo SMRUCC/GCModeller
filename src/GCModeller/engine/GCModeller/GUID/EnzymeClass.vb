@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dc5dfd1040c68e8b1691e67f652ab92f, ..\GCModeller\engine\GCModeller\GUID\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::dc5dfd1040c68e8b1691e67f652ab92f, engine\GCModeller\GUID\EnzymeClass.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,39 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure EnzymeClass
+    ' 
+    '         Properties: ECNumber, Handle
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Interface IMappingEdge
+    ' 
+    '         Properties: MappingHandler
+    ' 
+    '         Sub: set_Nodes
+    ' 
+    '     Interface IPoolHandle
+    ' 
+    '         Properties: locusId
+    ' 
+    '     Structure MotifClass
+    ' 
+    '         Properties: Handle, MotifId
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

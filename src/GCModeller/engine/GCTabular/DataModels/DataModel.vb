@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c98fba97eeb4268adbfb8ccf266c59a6, ..\GCModeller\engine\GCTabular\DataModels\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::c98fba97eeb4268adbfb8ccf266c59a6, engine\GCTabular\DataModels\DataModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FluxObject
+    ' 
+    '         Properties: AssociatedRegulationGenes, Identifier, K1, K2, LeftSides
+    '                     Lower_Bound, Reversible, RightSide, Substrates, Upper_Bound
+    ' 
+    '         Function: GetCoefficient
+    ' 
+    '     Class AssociatedGene
+    ' 
+    '         Properties: Effectors, Identifier, RPKM
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

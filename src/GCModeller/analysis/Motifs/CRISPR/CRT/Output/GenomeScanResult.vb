@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fcb2777bdb1a198545ef322d70413d76, ..\GCModeller\analysis\Motifs\CRISPR\CRT\Output\GenomeScanResult.vb"
+﻿#Region "Microsoft.VisualBasic::8ee330cc0de2a9902e25d540799861ce, analysis\Motifs\CRISPR\CRT\Output\GenomeScanResult.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GenomeScanResult
+    ' 
+    '         Properties: KMerProfile, Length, Sites, Tag, title
+    ' 
+    '         Function: CreateObject, ExportFasta, ExportSpacerFasta
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

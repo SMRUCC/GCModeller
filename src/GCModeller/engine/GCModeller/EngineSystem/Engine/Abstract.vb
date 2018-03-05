@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5adba1d4ec81a9f6698d69bc2fbae4ac, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::5adba1d4ec81a9f6698d69bc2fbae4ac, engine\GCModeller\EngineSystem\Engine\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface IContainerSystemRuntimeEnvironment
+    ' 
+    '         Properties: ConfigurationData, RuntimeTicks, SystemLogging, SystemVariable
+    ' 
+    '         Function: GetArguments
+    ' 
+    '         Sub: MemoryDump
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

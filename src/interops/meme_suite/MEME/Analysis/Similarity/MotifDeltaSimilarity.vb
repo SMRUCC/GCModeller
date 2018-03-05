@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3c06a63378fdda05820c749c9bbd2c69, ..\interops\meme_suite\MEME\Analysis\Similarity\MotifDeltaSimilarity.vb"
+﻿#Region "Microsoft.VisualBasic::3c06a63378fdda05820c749c9bbd2c69, meme_suite\MEME\Analysis\Similarity\MotifDeltaSimilarity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module MotifDeltaSimilarity
+    ' 
+    '         Function: __BIAS, (+2 Overloads) __counts, __createObject, DinucleotideBIAS, (+2 Overloads) MergeSubsamples
+    '                   (+3 Overloads) PWM, SaveCompareResult, (+2 Overloads) Sigma
+    '         Class MotifCompares
+    ' 
+    '             Properties: Delta, Motif1, Motif2
+    ' 
+    '             Function: GetMotif
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

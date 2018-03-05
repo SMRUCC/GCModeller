@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9d565d2b73ae5267a625f7f3156a23ef, ..\GCModeller\data\Xfam\Rfam\Rfam.vb"
+﻿#Region "Microsoft.VisualBasic::9d565d2b73ae5267a625f7f3156a23ef, data\Xfam\Rfam\Rfam.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Rfamily
+    ' 
+    '     Properties: Evalue, Hit, Identities, Left, Length
+    '                 Location, LocusId, Name, Relates, Rfam
+    '                 Right, rLociStrand, SequenceData, Strand
+    ' 
+    '     Function: __copyTo, __getMappingLoci, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3c882c457df6db36e68261b6d818d367, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\MotifScanner.vb"
+﻿#Region "Microsoft.VisualBasic::1ec10c3c994cde583c3169e46ef1256b, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
 ' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
 '       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
 ' 
 ' Copyright (c) 2018 GPL3 Licensed
 ' 
 ' 
 ' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
 ' 
 ' This program is free software: you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -24,16 +25,32 @@
 ' You should have received a copy of the GNU General Public License
 ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+' Class PatternScanner
+' 
+'     Function: Equals, GetOutput, (+2 Overloads) Scan, ToChar
+' 
+'     Sub: New
+' 
+' /********************************************************************************/
+
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
 Public Class PatternScanner : Inherits IScanner
 

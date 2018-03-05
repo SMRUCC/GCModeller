@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9173913efc6bbd5dd6fda7452acf0d7b, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\Scripting.vb"
+﻿#Region "Microsoft.VisualBasic::9173913efc6bbd5dd6fda7452acf0d7b, WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\Scripting.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ScriptingAttribute
+    ' 
+    '         Properties: FileTypes
+    '         Delegate Function
+    ' 
+    '             Function: ToString
+    ' 
+    '             Sub: New
+    ' 
+    '     Module ScriptingExtensions
+    ' 
+    '         Function: LoadHandlers, ReadHTML
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

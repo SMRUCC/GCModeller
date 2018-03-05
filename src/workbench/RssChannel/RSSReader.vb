@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f8ed8df7a1a10bc35fad2f9338edb11d, ..\workbench\RssChannel\RSSReader.vb"
+﻿#Region "Microsoft.VisualBasic::f8ed8df7a1a10bc35fad2f9338edb11d, RssChannel\RSSReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class RSSReader
+    ' 
+    '     Properties: channel, version
+    ' 
+    ' Class Channel
+    ' 
+    '     Properties: description, image, language, lastBuildDate, link
+    '                 title
+    ' 
+    ' Class Image
+    ' 
+    '     Properties: height, link, title, url, width
+    ' 
+    ' Class Guid
+    ' 
+    ' 
+    ' 
+    ' Class Item
+    ' 
+    '     Properties: comments, content, dc_creator, description, guid
+    '                 link, pubDate, slash_comments, title, wfw_commentRss
+    ' 
+    ' Class Category
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

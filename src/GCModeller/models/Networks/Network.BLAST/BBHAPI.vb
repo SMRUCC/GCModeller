@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dda55d11a0d08659f47087fc32b5bdcd, ..\GCModeller\models\Networks\Network.BLAST\BBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::dda55d11a0d08659f47087fc32b5bdcd, models\Networks\Network.BLAST\BBHAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,37 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module BBHAPI
+    ' 
+    ' 
+    '     Enum BHTypes
+    ' 
+    '         BBH, SBH
+    ' 
+    ' 
+    ' 
+    '     Class BBH
+    ' 
+    '         Properties: Direction
+    ' 
+    '     Class ___bbhThread
+    ' 
+    '         Function: __partionThreadsBBH, InvokeGet
+    ' 
+    '         Sub: New
+    ' 
+    '  
+    ' 
+    '     Function: BBHHits
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

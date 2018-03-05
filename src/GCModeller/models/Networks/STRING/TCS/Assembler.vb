@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, ..\GCModeller\models\Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, models\Networks\STRING\TCS\Assembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Assembler
+    ' 
+    '     Function: (+2 Overloads) Assembly, (+2 Overloads) CompileAssembly, GetEdge, GetEffectors, GetInteractions
+    '               GetProteins, IsChemotaxis, IsHHK, IsHK, IsHRR
+    '               IsOneComponent, IsRR, ToString
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

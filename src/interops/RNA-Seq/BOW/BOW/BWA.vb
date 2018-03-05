@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3caaf0d11c52f13f579a940ff900698b, ..\interops\RNA-Seq\BOW\BOW\BWA.vb"
+﻿#Region "Microsoft.VisualBasic::3caaf0d11c52f13f579a940ff900698b, RNA-Seq\BOW\BOW\BWA.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module BWA
+    ' 
+    '     Function: Aln, Bwasw, Bwt2sa, Bwtupdate, Fa2pac
+    '               Fastmap, Index, Pac2bwt, Pac2bwtgen, Pac2cspac
+    '               PaireEndMapping, Sampe, Samse, SingleEndMapping, Stdsw
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

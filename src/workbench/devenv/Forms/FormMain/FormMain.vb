@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9ac42b2fd4aa26f38c290dd57d90383f, ..\workbench\devenv\Forms\FormMain\FormMain.vb"
+﻿#Region "Microsoft.VisualBasic::9ac42b2fd4aa26f38c290dd57d90383f, devenv\Forms\FormMain\FormMain.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class FormMain
+    ' 
+    '     Properties: IDEInstance, TabpageProxy
+    ' 
+    '     Sub: BuildFASTADBToolStripMenuItem1_Click, CommandLineToolStripMenuItem_Click, CreateFromMetaCycToolStripMenuItem_Click, ExitIDE, FormMain_Load
+    '          FormMain_SizeChanged, GenomeincodeProjectToolStripMenuItem_Click, IDEExit, InitializeHandlers, InitializeMenuColor
+    '          InstallNewDatabaseToolStripMenuItem_Click, New, PlugInsManagerToolStripMenuItem_Click, ReconstructeToolStripMenuItem_Click, ReengineeringWizardToolStripMenuItem_Click
+    '          ShoalShellLanguageProjectToolStripMenuItem_Click
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7dc001618bef545bc4329a5c05891744, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::ef9d6ead8af3e933ff554bee65d95696, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class NucleicAcid
+    ' 
+    '         Properties: GC, Length, SequenceData, Tm, UserTag
+    ' 
+    '         Function: (+2 Overloads) Complement, CopyNT, Counts, CreateObject, GetSegment
+    '                   IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment, RemoveInvalids
+    '                   Replace, Reverse, Split, ToArray, (+3 Overloads) ToString
+    ' 
+    '         Sub: __convertSequence, (+6 Overloads) New
+    '         Structure __cacheHelper
+    ' 
+    '             Function: __getList
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

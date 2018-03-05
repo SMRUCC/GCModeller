@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d6838e67556f218ddc6f4bf2aeade2b3, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\DataAcquisitionService.vb"
+﻿#Region "Microsoft.VisualBasic::d6838e67556f218ddc6f4bf2aeade2b3, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\DataAcquisitionService.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataAcquisitionService
+    ' 
+    '         Properties: TableName
+    ' 
+    '         Function: Close, Connect, GetDataChunk, GetDefinitions, Initialize
+    '                   Tick, ToString
+    ' 
+    '         Sub: GenerateDefinition, New, SetUpCommitInterval
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

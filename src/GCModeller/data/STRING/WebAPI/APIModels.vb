@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::14bc9a06d8415e9078c3c738d1a4ae65, ..\GCModeller\data\STRING\WebAPI\APIModels.vb"
+﻿#Region "Microsoft.VisualBasic::14bc9a06d8415e9078c3c738d1a4ae65, data\STRING\WebAPI\APIModels.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,81 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class APIToken
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Database
+    ' 
+    '         Function: GetToken
+    ' 
+    '     Class Format
+    ' 
+    '         Properties: Requests
+    ' 
+    '         Function: GetToken
+    ' 
+    '     Class Request
+    ' 
+    '         Function: GetToken
+    ' 
+    '         Sub: New
+    '         Class Parameter
+    ' 
+    '             Function: GetToken
+    '             Class identifier
+    ' 
+    '                 Properties: Name
+    ' 
+    '                 Sub: New
+    ' 
+    '             Class identifiers
+    ' 
+    '                 Properties: Name
+    ' 
+    '                 Sub: New
+    ' 
+    '             Class format
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class species
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class limit
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class required_score
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class additional_network_nodes
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class network_flavor
+    ' 
+    '                 Properties: Name
+    ' 
+    '             Class caller_identity
+    ' 
+    '                 Properties: Name
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

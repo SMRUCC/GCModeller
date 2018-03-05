@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::42e27019cb5037ffce7ef02d524546c5, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
+﻿#Region "Microsoft.VisualBasic::ddd91b65373ae7c612d42b8ad6a2cb60, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PathwayMappingTool
+    ' 
+    '         Function: DownloadFromUniprot, ToString
+    ' 
+    '         Sub: Initlaize, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

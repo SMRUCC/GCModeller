@@ -1,28 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::79c8401b7e7a66fc3f2e7a22a75d6525, ..\interops\localblast\CLI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::76de5abba84db270b2885016e0303d7e, localblast\CLI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Delegate Function
+' 
+'         Function: __assignAddition, __exportBBH, __orderEntry, BashShell, Copys
+'                   ExportBBH, ExportProt, ParseAllbbhhits, ParsebbhBesthit, SelfBlast
+'                   XmlToExcel, XmlToExcelBatch
+' 
+'         Sub: New
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -30,9 +47,11 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
+Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
@@ -85,7 +104,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim outCsv As String = out & "/" & BaseName(inXml) & ".Csv"
+            Dim outCsv As String = out & "/" & inXml.BaseName() & ".Csv"
             Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
             Dim hits = blastOut.ExportOverview.GetExcelData
             Call hits.SaveTo(outCsv)
@@ -99,6 +118,9 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
         Return 0
     End Function
+
+    ReadOnly best As New __bbhParser(AddressOf ParsebbhBesthit)
+    ReadOnly allhits As New DefaultValue(Of __bbhParser)(AddressOf ParseAllbbhhits)
 
     ''' <summary>
     '''
@@ -117,12 +139,14 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
                                  identities As Double,
                                  singleQuery As String,
                                  outDIR As String) As Integer
-        Dim Parser As __bbhParser = [If](Of __bbhParser)(isAll, AddressOf ParseAllbbhhits, AddressOf ParsebbhBesthit)  ' 导出方法
+
+        ' 设置导出方法
+        Dim parser As __bbhParser = best Or allhits.When(isAll)
         Dim ParsingTask = (From entry As Entry
                            In entries
                            Let fileEntry As KeyValuePair(Of String, String) = __orderEntry(entry, singleQuery)
                            Select entry,
-                               bbh = Parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray
+                               bbh = parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray
 
         For Each xBBH In ParsingTask
             Dim path As String = $"{outDIR}/{xBBH.entry.Key.QueryName}_vs.{xBBH.entry.Key.HitName}.bbh.csv"

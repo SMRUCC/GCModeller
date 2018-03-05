@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d3d08f8d072c6b1fe6ce59e158cdcf39, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
+﻿#Region "Microsoft.VisualBasic::d3d08f8d072c6b1fe6ce59e158cdcf39, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,47 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class InterestRegions
+    ' 
+    '         Function: __lineParser, Parser
+    ' 
+    '     Class lstORF
+    ' 
+    '         Function: __lineParser, Parser
+    ' 
+    '     Class Region
+    ' 
+    ' 
+    ' 
+    '     Class ORF
+    ' 
+    ' 
+    ' 
+    '     Class FrameShift
+    ' 
+    ' 
+    ' 
+    '     Class FrameShifts
+    ' 
+    '         Function: __lineParser, Parser
+    ' 
+    '     Class lstGenes
+    ' 
+    '         Function: __getLoci, __lineParser, Parser
+    ' 
+    '     Class PredictedGene
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

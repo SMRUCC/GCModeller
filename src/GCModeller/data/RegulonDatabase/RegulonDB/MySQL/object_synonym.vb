@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::180234f38c7024549a2ace7f656028ce, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::180234f38c7024549a2ace7f656028ce, data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class object_synonym
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

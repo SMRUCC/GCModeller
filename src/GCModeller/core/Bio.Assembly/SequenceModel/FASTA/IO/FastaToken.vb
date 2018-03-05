@@ -1,28 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::9cba4508f103ab2717123a23bc240d15, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::83cbae634f7be88241b1f2173cb40903, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FastaSeq
+    ' 
+    '         Properties: HaveGaps, Headers, Length, SequenceData, Title
+    ' 
+    '         Function: Clone, Complement, (+2 Overloads) Copy, Equals, GenerateDocument
+    '                   GenerateDocumentText, GrepTitle, Load, LoadNucleotideData, ParseFromStream
+    '                   Reverse, Save, SaveAsOneLine, (+2 Overloads) SaveTo, SequenceLineBreak
+    '                   ToLower, ToString, ToUpper, TryParse
+    ' 
+    '         Sub: AddAttribute, CopyTo, InsertAttribute, (+7 Overloads) New, RemoveAttribute
+    '              SequenceLineBreak, SetAttribute
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -68,6 +90,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property HaveGaps As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return InStr(SequenceData, "-") > 0 OrElse InStr(SequenceData, ".") > 0
             End Get
@@ -86,6 +109,7 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <remarks></remarks>
         Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, I_FastaProvider.Headers
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return innerList.ToArray
             End Get
@@ -100,6 +124,7 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         ''' <remarks></remarks>
         Public Overrides Property SequenceData As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return MyBase.SequenceData
             End Get
@@ -115,6 +140,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(Me.SequenceData)
             End Get
@@ -127,6 +153,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title, I_FastaProvider.Title
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToString
             End Get

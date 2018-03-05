@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0961655b26faccd6fb97f07d8769932b, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\COG.vb"
+﻿#Region "Microsoft.VisualBasic::0961655b26faccd6fb97f07d8769932b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\COG.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MGACOG
+    ' 
+    '         Properties: [class], classDescrib, description, Hit, Length
+    '                     Score
+    ' 
+    '         Function: LoadDoc, (+2 Overloads) ToMyvaCOG
+    ' 
+    '     Class MyvaCOG
+    ' 
+    '         Properties: Data, Evalue, Identities, Length, LengthQuery
+    '                     QueryLength, QueryName
+    ' 
+    '         Function: CreateObject, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

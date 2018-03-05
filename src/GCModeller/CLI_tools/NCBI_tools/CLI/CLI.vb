@@ -1,28 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::cba4b1b51759569567f636366aed308e, ..\GCModeller\CLI_tools\NCBI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::49aa2246667eacc788a126205c57a038, CLI_tools\NCBI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Class Taxono
+' 
+'         Properties: Tag
+' 
+'         Function: AssignTaxonomy, AssignTaxonomy2, AssignTaxonomyFromRef, Associates, AssociateTaxonomy
+'                   Build_gi2taxi, ExportGI, Load, NtTaxonomy, Parser_gi
+'                   Save, ToString
+' 
+'     Class TaxiSummary
+' 
+'         Properties: gi, Name, sequence, title
+' 
+'         Function: ToString
+' 
+'         Sub: (+2 Overloads) New
+' 
+'     Class ITaxon
+' 
+'         Properties: [class], family, genus, order, phylum
+'                     species, superkingdom, taxid, Taxonomy
+' 
+'         Function: ToString
+' 
+'         Sub: (+2 Overloads) New
+' 
+'  
+' 
+'     Function: accidMatch, giMatch, giMatchs
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -33,6 +71,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
+Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

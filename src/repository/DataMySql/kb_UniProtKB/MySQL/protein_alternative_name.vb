@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bdf2c832fc4b5a0b9a44fbedf368835f, ..\repository\DataMySql\kb_UniProtKB\MySQL\protein_alternative_name.vb"
+﻿#Region "Microsoft.VisualBasic::555864ac585d108b0cc2f97b4b9f69f9, DataMySql\kb_UniProtKB\MySQL\protein_alternative_name.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class protein_alternative_name
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -152,4 +166,3 @@ End Class
 
 
 End Namespace
-

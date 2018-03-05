@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::77a7d95af5b37e8b9ed70b90d14b0a0d, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::77a7d95af5b37e8b9ed70b90d14b0a0d, core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Relationship
+    ' 
+    '         Properties: Gene, locus_tag, Relation
+    ' 
+    '         Function: ATGDist, ToString
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

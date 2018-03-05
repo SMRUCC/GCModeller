@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7667f5f5c7cd47a1581116c4ad196a8c, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_obj_side_types.vb"
+﻿#Region "Microsoft.VisualBasic::7667f5f5c7cd47a1581116c4ad196a8c, data\RegulonDatabase\Regtransbase\MySQL\h_dict_obj_side_types.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class h_dict_obj_side_types
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

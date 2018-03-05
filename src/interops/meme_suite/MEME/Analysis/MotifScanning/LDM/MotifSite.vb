@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::158b1063dfefe9288d4738159e5fbf21, ..\interops\meme_suite\MEME\Analysis\MotifScanning\LDM\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::158b1063dfefe9288d4738159e5fbf21, meme_suite\MEME\Analysis\MotifScanning\LDM\MotifSite.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,13 +25,43 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MotifSiteHit
+    ' 
+    '         Function: Copy, ToString
+    ' 
+    '         Sub: New
+    ' 
+    '     Class MatchResult
+    ' 
+    '         Function: ToFootprints
+    ' 
+    '     Class MotifHits
+    ' 
+    '         Properties: MAST, MEME
+    ' 
+    '         Function: __toFootprints, GetFootprints
+    ' 
+    '     Class FootprintTrace
+    ' 
+    '         Properties: Footprints
+    ' 
+    '         Function: ToFootprints
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Data.Regprecise

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ffd42dbbd0c53166a69a3f806b65d724, ..\GCModeller\analysis\SyntenySignature\blastKO\DPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::a6ff720d4a3f91e552efcc6c0d4e0483, analysis\SyntenySignature\blastKO\DPAlignment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,6 +25,18 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DPAlignment
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 ''' <summary>
@@ -32,4 +45,3 @@
 Public Module DPAlignment
 
 End Module
-

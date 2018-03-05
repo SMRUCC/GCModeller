@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f7643f705a5031ea3b4f9c9515a6fcfb, ..\interops\RNA-Seq\Rockhopper\Java\FileOps.vb"
+﻿#Region "Microsoft.VisualBasic::f7643f705a5031ea3b4f9c9515a6fcfb, RNA-Seq\Rockhopper\Java\FileOps.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FileOps
+    ' 
+    '         Properties: ambiguousReads, avgLengthReads, coordinates_minus, coordinates_plus, exactMappedReads
+    '                     inexactMappedReads, invalidQualityReads, lowQualityReads, mappedMoreThanOnceReads, mappedOnceReads
+    '                     readFileName, totalReads, transcripts, valid
+    ' 
+    '         Function: byteToDoubleList, byteToIntArray, byteToLong2Darray, byteToLongList, doubleArrayToByteArray
+    '                   getInt, (+2 Overloads) getLine, getStopIndex, InlineAssignHelper, intArrayToByteArray
+    '                   isGZIP, longArrayToByteArray, readCompressedFile, readCompressedFile_DeNovo
+    ' 
+    '         Sub: Main, (+3 Overloads) New, (+2 Overloads) writeCompressedFile
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

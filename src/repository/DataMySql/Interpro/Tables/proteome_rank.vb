@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c0f5f3bed594fe92ade4f0495d86a2e8, ..\repository\DataMySql\Interpro\Tables\proteome_rank.vb"
+﻿#Region "Microsoft.VisualBasic::c0f5f3bed594fe92ade4f0495d86a2e8, DataMySql\Interpro\Tables\proteome_rank.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class proteome_rank
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

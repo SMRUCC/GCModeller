@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a15a61ca620f35bcf450ed637602bfcd, ..\interops\localblast\LocalBLAST\Analysis\Models\Besthit.vb"
+﻿#Region "Microsoft.VisualBasic::a15a61ca620f35bcf450ed637602bfcd, localblast\LocalBLAST\Analysis\Models\Besthit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class BestHit
+    ' 
+    '         Properties: GetTopHits
+    ' 
+    '         Function: ExportCsv, GetConservedRegions, GetTotalIdentities, GetUnConservedRegions, IndexOf
+    '                   InternalSort, SelectSourceFromHits, Take, ToString, TrimEmpty
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

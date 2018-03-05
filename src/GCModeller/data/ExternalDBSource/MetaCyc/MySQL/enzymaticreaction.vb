@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ccaeafb4ab7cd0106b5dc5d69e57659e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
+﻿#Region "Microsoft.VisualBasic::ccaeafb4ab7cd0106b5dc5d69e57659e, data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class enzymaticreaction
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

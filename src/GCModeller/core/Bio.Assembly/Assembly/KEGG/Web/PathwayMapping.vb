@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::96a4ed1ccc7acd8426bdcfd34de92a83, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::3f3b40001497289b6221bb5fb347a115, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module PathwayMapping
+    ' 
+    '         Function: CustomPathwayTable, DefaultKOTable, GetKOlist, (+3 Overloads) KOCatalog, ShowEnrichmentPathway
+    ' 
+    '         Sub: ColorPathway, (+2 Overloads) Reconstruct
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -228,27 +244,27 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), KO_htext As Dictionary(Of String, BriteHText)) As NamedValue(Of Dictionary(Of String, String))()
-            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
+            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) _
  _
-                From x As NamedValue(Of String)
-                In KO_maps
-                Where KO_htext.ContainsKey(x.Value)
-                Let path = KO_htext(x.Value)
-                Let subcate = path.Parent
-                Let cate = subcate.Parent
-                Let cls = cate.Parent
-                Let catalog As Dictionary(Of String, String) =
-                    New Dictionary(Of String, String) From {
-                        {"KO", x.Value},
-                        {"Category", cate.Description},
-                        {"Class", cls.Description},
-                        {"SubCatalog", subcate.Description},
-                        {"Function", path.Description}
-                }
-                Select New NamedValue(Of Dictionary(Of String, String)) With {
-                    .Name = x.Name,
-                    .Value = catalog
-                }
+                () <= From x As NamedValue(Of String)
+                      In KO_maps
+                      Where KO_htext.ContainsKey(x.Value)
+                      Let path = KO_htext(x.Value)
+                      Let subcate = path.Parent
+                      Let cate = subcate.Parent
+                      Let cls = cate.Parent
+                      Let catalog As Dictionary(Of String, String) =
+                          New Dictionary(Of String, String) From {
+                              {"KO", x.Value},
+                              {"Category", cate.Description},
+                              {"Class", cls.Description},
+                              {"SubCatalog", subcate.Description},
+                              {"Function", path.Description}
+                      }
+                      Select New NamedValue(Of Dictionary(Of String, String)) With {
+                          .Name = x.Name,
+                          .Value = catalog
+                      }
 
             Return pathways
         End Function
@@ -280,7 +296,9 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+        ''' You can replace the %s mark Using kegg organism code In url example As: 
+        ''' http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&amp;format=htext&amp;filedir= for download the custom KO classification set.
         ''' </summary>
         ''' <param name="KO_maps"></param>
         ''' <param name="ko00001$">User custom classification database</param>

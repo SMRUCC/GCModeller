@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ef7324464776298047417f40d28877f6, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::3a3133b15e6f8f09769112681c97330a, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module BIOMTaxonomy
+    ' 
+    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+    '         Delegate Function
+    ' 
+    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, TaxonomyParser, TaxonomyParserAlt
+    '                       TaxonomyString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

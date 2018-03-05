@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9bf5fb78aa5b51bc55f2071e13b073b6, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locus2string.vb"
+﻿#Region "Microsoft.VisualBasic::9bf5fb78aa5b51bc55f2071e13b073b6, data\MicrobesOnline\MySQL\genomics\locus2string.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class locus2string
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

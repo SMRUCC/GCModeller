@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::70946429f5a68beb1c78f9a88e8043a8, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1e121197f39bf669226087de5264e098, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RegpreciseBidirectionalBh_Methods
+    ' 
+    '         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
+    '                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
+    '                   SelectPfamSource, WriteData
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

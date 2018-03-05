@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::381bfa005cfd25e2d13fe14c9d247b43, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
+﻿#Region "Microsoft.VisualBasic::54be3e03f6bb94fe8b774ea8a9bfe7ac, data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class ProtInDb
+    ' 
+    '     Function: ExportDatabase, ExtractInteractions, Load
+    ' 
+    '     Sub: ExportInteractions
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, ..\GCModeller\models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,183 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class structureFormat
+    ' 
+    ' 
+    ' 
+    '     Class structureData
+    ' 
+    ' 
+    ' 
+    '     Class molecularWeight
+    ' 
+    ' 
+    ' 
+    '     Class standardName
+    ' 
+    ' 
+    ' 
+    '     Class component
+    ' 
+    ' 
+    ' 
+    '     Class displayName
+    ' 
+    ' 
+    ' 
+    '     Class name
+    ' 
+    ' 
+    ' 
+    '     Class cellularLocation
+    ' 
+    ' 
+    ' 
+    '     Class entityReference
+    ' 
+    ' 
+    ' 
+    '     Class xref
+    ' 
+    ' 
+    ' 
+    '     Class dataSource
+    ' 
+    ' 
+    ' 
+    '     Class [date]
+    ' 
+    ' 
+    ' 
+    '     Class term
+    ' 
+    ' 
+    ' 
+    '     Class relationshipType
+    ' 
+    ' 
+    ' 
+    '     Class year
+    ' 
+    ' 
+    ' 
+    '     Class memberPhysicalEntity
+    ' 
+    ' 
+    ' 
+    '     Class title
+    ' 
+    ' 
+    ' 
+    '     Class author
+    ' 
+    ' 
+    ' 
+    '     Class source
+    ' 
+    ' 
+    ' 
+    '     Class conversionDirection
+    ' 
+    ' 
+    ' 
+    '     Class participantStoichiometry
+    ' 
+    ' 
+    ' 
+    '     Class left
+    ' 
+    ' 
+    ' 
+    '     Class right
+    ' 
+    ' 
+    ' 
+    '     Class eCNumber
+    ' 
+    ' 
+    ' 
+    '     Class db
+    ' 
+    ' 
+    ' 
+    '     Class id
+    ' 
+    ' 
+    ' 
+    '     Class idVersion
+    ' 
+    ' 
+    ' 
+    '     Class stoichiometricCoefficient
+    ' 
+    ' 
+    ' 
+    '     Class physicalEntity
+    ' 
+    ' 
+    ' 
+    '     Class componentStoichiometry
+    ' 
+    ' 
+    ' 
+    '     Class organism
+    ' 
+    ' 
+    ' 
+    '     Class featureLocation
+    ' 
+    ' 
+    ' 
+    '     Class SequenceInterval
+    ' 
+    ' 
+    ' 
+    '     Class sequenceIntervalBegin
+    ' 
+    ' 
+    ' 
+    '     Class sequenceIntervalEnd
+    ' 
+    ' 
+    ' 
+    '     Class SequenceSite
+    ' 
+    ' 
+    ' 
+    '     Class sequencePosition
+    ' 
+    ' 
+    ' 
+    '     Class positionStatus
+    ' 
+    ' 
+    ' 
+    '     Class controller
+    ' 
+    ' 
+    ' 
+    '     Class controlled
+    ' 
+    ' 
+    ' 
+    '     Class controlType
+    ' 
+    ' 
+    ' 
+    '     Class feature
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

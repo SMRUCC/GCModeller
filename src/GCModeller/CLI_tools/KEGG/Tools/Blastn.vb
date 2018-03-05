@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a290174c903952d01cf818de9c3a4250, ..\GCModeller\CLI_tools\KEGG\Tools\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::61adb8ecae6ddbc32ea401289554e92a, CLI_tools\KEGG\Tools\Blastn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Blastn
+    ' 
+    '     Function: __parser, __submit, PageParser, Parser, (+2 Overloads) Submit
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

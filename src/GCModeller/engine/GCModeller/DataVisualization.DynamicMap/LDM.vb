@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::79d414466d251fc23de4f23929e24bdd, ..\GCModeller\engine\GCModeller\DataVisualization.DynamicMap\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::79d414466d251fc23de4f23929e24bdd, engine\GCModeller\DataVisualization.DynamicMap\LDM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum InteractionTypes
+    ' 
+    '         OperonConsists, ReactionEnzyme, ReactionProducts, ReactionReactants, TranscriptionRegulation
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

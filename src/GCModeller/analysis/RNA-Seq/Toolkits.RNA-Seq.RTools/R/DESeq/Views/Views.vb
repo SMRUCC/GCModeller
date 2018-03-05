@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::652867e97391deab2f226ce80b2625d2, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\Views\Views.vb"
+﻿#Region "Microsoft.VisualBasic::652867e97391deab2f226ce80b2625d2, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\Views\Views.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DESeq2Diff
+    ' 
+    '         Properties: baseMean, lfcSE, locus_tag, log2FoldChange, padj
+    '                     pvalue, stat
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class DESeqCOGs
+    ' 
+    '         Properties: Category, COG, NumbersOfDiffDown, NumbersOfDiffUp, NumbersOfGenes
+    '                     NumbersOfIdenticalHigh, NumbersOfIdenticalLow
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

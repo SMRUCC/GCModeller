@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9ad21c7a4e0556987688b722158da9cb, ..\GCModeller\analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
+﻿#Region "Microsoft.VisualBasic::9ad21c7a4e0556987688b722158da9cb, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class EnrichmentTerm
+    ' 
+    '         Properties: Database, ID, Input, link, ORF
+    '                     Term
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

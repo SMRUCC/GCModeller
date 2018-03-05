@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3c681fe678cc37c1e6e921d0aa8bc257, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb"
+﻿#Region "Microsoft.VisualBasic::3c681fe678cc37c1e6e921d0aa8bc257, core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,56 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class CompoundOrigin
+    ' 
+    '         Properties: componentAccession, componentText, SourceAccession, SourceType, speciesAccession
+    '                     speciesText
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class OntologyParents
+    ' 
+    '         Properties: chebiId, chebiName, cyclicRelationship, status, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class DatabaseLinks
+    ' 
+    '         Properties: data, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ChemicalStructures
+    ' 
+    '         Properties: [structure], defaultStructure, dimension, type
+    ' 
+    '     Class Synonyms
+    ' 
+    '         Properties: data, source, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class RegistryNumbers
+    ' 
+    '         Properties: data, source, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Formulae
+    ' 
+    '         Properties: data, source
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

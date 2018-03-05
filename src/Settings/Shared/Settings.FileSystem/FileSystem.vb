@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9123b4300c67f321417613e605a3fc0c, ..\Settings\Shared\Settings.FileSystem\FileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::9123b4300c67f321417613e605a3fc0c, Shared\Settings.FileSystem\FileSystem.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module FileSystem
+    ' 
+    ' 
+    '     Module FileSystem
+    ' 
+    '         Properties: CDD, COGs, Correlations, GO, InterproXml
+    '                     IsNullOrEmpty, KEGGFamilies, MotifLDM, RegpreciseBBH, RegPreciseRegulatorFasta
+    '                     RegpreciseRoot, Regulations, RepositoryRoot
+    ' 
+    '         Function: GetLocalblast, (+2 Overloads) GetMotifLDM, GetPfamDb, GetR_HOME, GetRegpreciseBBH
+    '                   GetRegpreciseRoot, GetRegulations, GetRepositoryRoot, IsRepositoryNullOrEmpty, TryGetSource
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

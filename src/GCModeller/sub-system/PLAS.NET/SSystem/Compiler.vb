@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::015860e377e66b4dae1705bd3909ba95, ..\GCModeller\sub-system\PLAS.NET\SSystem\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::015860e377e66b4dae1705bd3909ba95, sub-system\PLAS.NET\SSystem\Compiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Compiler
+    ' 
+    ' 
+    '     Delegate Function
+    ' 
+    '         Properties: Compilers
+    ' 
+    '         Function: SBMLCompiler, ScriptCompiler
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

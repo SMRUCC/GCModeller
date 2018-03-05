@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::572414cfb771b420083867ee5c0e948d, ..\GCModeller\models\Networks\Microbiome\PathwayProfile.vb"
+﻿#Region "Microsoft.VisualBasic::acd0843543540dd6887cd3d206ac59af, models\Networks\Microbiome\PathwayProfile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module PathwayProfile
+    ' 
+    '     Function: (+2 Overloads) CreateProfile, EnrichmentTestInternal, MicrobiomePathwayNetwork, PathwayProfile, (+3 Overloads) PathwayProfiles
+    '               ProfileEnrichment
+    '     Class Profile
+    ' 
+    '         Properties: pct, Profile, RankGroup, Taxonomy
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    '     Class EnrichmentProfiles
+    ' 
+    '         Properties: pathway, profile, pvalue, RankGroup
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -43,12 +68,20 @@ Imports Numeric = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 ''' </summary>
 Public Module PathwayProfile
 
+    ''' <summary>
+    ''' 返回每一个代谢途径的计数
+    ''' </summary>
+    ''' <param name="metagenome"></param>
+    ''' <param name="maps"></param>
+    ''' <param name="coverage#"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function PathwayProfile(metagenome As IEnumerable(Of TaxonomyRef), maps As MapRepository, Optional coverage# = 0.3) As Dictionary(Of String, Double)
         Dim profile As New Dictionary(Of String, Counter)
 
         For Each genome As TaxonomyRef In metagenome
             Dim KOlist$() = genome.KOTerms
+
             ' query KEGG map这里是主要的限速步骤
             Dim pathways = maps _
                 .QueryMapsByMembers(KOlist) _
@@ -59,7 +92,7 @@ Public Module PathwayProfile
                        End Function) _
                 .ToArray
 
-            For Each map In pathways
+            For Each map As MapIndex In pathways
                 If Not profile.ContainsKey(map.MapID) Then
                     Call profile.Add(map.MapID, New Counter)
                 End If
@@ -71,12 +104,27 @@ Public Module PathwayProfile
         Return profile.AsNumeric
     End Function
 
+    ''' <summary>
+    ''' 将给定的物种分类下的所有的物种基因组的KEGG代谢途径覆盖度信息提取出来
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="ref"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function PathwayProfiles(taxonomy As Taxonomy, uniprot As TaxonomyRepository, ref As MapRepository) As Dictionary(Of String, Double)
         Return uniprot.PopulateModels({taxonomy}, distinct:=True).PathwayProfile(ref)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="taxonomyGroup">物种分类信息以及对应的OTU相对丰度数量</param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="ref"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateProfile(taxonomyGroup As (taxonomy As Taxonomy, counts#)(),
                                   uniprot As TaxonomyRepository,
@@ -90,8 +138,10 @@ Public Module PathwayProfile
                         Dim taxonomy As Taxonomy = tax.taxonomy
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
+                        ' 因为可能是gast.taxonomy，所以在这里需要使用new来进行复制
+                        ' 否则后面的json/XML序列化会出错
                         Return New Profile(
-                            tax:=taxonomy,
+                            tax:=New Taxonomy(taxonomy),
                             profile:=profile,
                             pct:=tax.counts / ALL
                         ) With {
@@ -134,8 +184,21 @@ Public Module PathwayProfile
     End Function
 
     Public Class Profile
+
+        ''' <summary>
+        ''' 物种分类信息
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Taxonomy As Taxonomy
+        ''' <summary>
+        ''' 该分类下的所有的具有覆盖度结果的KEGG编号的列表和相对应的覆盖度值
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Profile As Dictionary(Of String, Double)
+        ''' <summary>
+        ''' 这个物种的相对百分比含量
+        ''' </summary>
+        ''' <returns></returns>
         Public Property pct As Double
         Public Property RankGroup As String
 
@@ -149,6 +212,11 @@ Public Module PathwayProfile
         End Sub
     End Class
 
+    ''' <summary>
+    ''' 进行显著性检验
+    ''' </summary>
+    ''' <param name="profileData"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ProfileEnrichment(profileData As IEnumerable(Of Profile)) As Dictionary(Of String, (profile#, pvalue#))
         ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
@@ -166,6 +234,12 @@ Public Module PathwayProfile
         Return profileTable
     End Function
 
+    ''' <summary>
+    ''' 是按照每一个物种的百分比来和等长的零向量作比较的
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="mapID$"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$) As (profile#, pvalue#)
         Dim vector#() = profiles _
@@ -215,12 +289,17 @@ Public Module PathwayProfile
         Return profileTable
     End Function
 
+    ''' <summary>
+    ''' 将会通过这个函数计算出富集结果的显著性程度
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function PathwayProfiles(profiles As Dictionary(Of String, Profile())) As EnrichmentProfiles()
         Return profiles _
             .Select(Function(group)
-                        Dim tax = group.Key
+                        Dim tax = group.Key ' 物种的分类字符串
                         Dim enrichment = group.Value.ProfileEnrichment
 
                         Return enrichment _

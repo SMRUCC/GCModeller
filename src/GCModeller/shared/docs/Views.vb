@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::02370db28ace42f611d0b45919e2d22d, ..\GCModeller\shared\docs\Views.vb"
+﻿#Region "Microsoft.VisualBasic::847cf657613c5a3ce818fba6cf1cb685, shared\docs\Views.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module TSSsDataViews
+    ' 
+    '         Function: _5UTR, _5UTRLength, TSSs, UpStream
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

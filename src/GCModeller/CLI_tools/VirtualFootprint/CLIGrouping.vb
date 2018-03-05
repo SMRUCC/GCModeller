@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6e4d9ae905f5c0488d06bd2a604597b5, ..\GCModeller\CLI_tools\VirtualFootprint\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::6e4d9ae905f5c0488d06bd2a604597b5, CLI_tools\VirtualFootprint\CLIGrouping.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class CLIGrouping
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

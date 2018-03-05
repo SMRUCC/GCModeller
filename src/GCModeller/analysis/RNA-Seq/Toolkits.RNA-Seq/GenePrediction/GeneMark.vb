@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::145b2b7bfa3329ec54e3969f2c2ecdaf, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::145b2b7bfa3329ec54e3969f2c2ecdaf, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\GeneMark.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GeneMark
+    ' 
+    '         Properties: Author, FramShifts, GCContent, InterestRegions, Length
+    '                     lstORFs, Matrix, MatrixOrder, Model, ModelOrganism
+    '                     PredictedGenes, SeqFileName, Sequence, Threshold, Time
+    '                     Version, WindowLength, WindowStep
+    ' 
+    '         Function: __getParameters, __paramParser, __parser, ParseDoc, Parser
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

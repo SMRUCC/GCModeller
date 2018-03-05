@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::28ca9076e823bc385496acecd084127d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\hardwarewidsoftwarewid.vb"
+﻿#Region "Microsoft.VisualBasic::28ca9076e823bc385496acecd084127d, data\ExternalDBSource\MetaCyc\MySQL\hardwarewidsoftwarewid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class hardwarewidsoftwarewid
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

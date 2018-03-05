@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d8ea2474cc986a048a2dfe4334a670e9, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\EnzymaticFlux.vb"
+﻿#Region "Microsoft.VisualBasic::d8ea2474cc986a048a2dfe4334a670e9, engine\GCModeller\EngineSystem\ObjectModels\Module\EnzymaticFlux.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class EnzymaticFlux
+    ' 
+    '         Properties: CatalystActivities, DataSource, ECNumber, Enzymes, FluxValue
+    '                     KineticsModel, TypeId
+    ' 
+    '         Function: CreateObject, Invoke
+    '         Interface IEnzymaticFlux
+    ' 
+    '             Properties: CatalystActivities, Enzymes, KineticsModel
+    '             Structure EnzymeCatalystActivity
+    ' 
+    '                 Function: ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

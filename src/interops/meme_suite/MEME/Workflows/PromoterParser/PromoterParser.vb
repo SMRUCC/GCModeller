@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::bc055d24b9974de35cc903fe53043c26, ..\interops\meme_suite\MEME\Workflows\PromoterParser\PromoterParser.vb"
+﻿#Region "Microsoft.VisualBasic::d216c84f7a6ae6495a3a5a8c2ee3e0ab, meme_suite\MEME\Workflows\PromoterParser\PromoterParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PromoterParser
+    ' 
+    '         Properties: PrefixLength, Promoter_100, Promoter_150, Promoter_200, Promoter_250
+    '                     Promoter_300, Promoter_350, Promoter_400, Promoter_450, Promoter_500
+    ' 
+    '         Sub: (+2 Overloads) Dispose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

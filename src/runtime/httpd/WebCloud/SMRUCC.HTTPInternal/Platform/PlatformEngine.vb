@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fec7542aa7ce6cae0b9cd08834721473, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
+﻿#Region "Microsoft.VisualBasic::0b44df9cc6b3713a77e16cf4eca839e1, WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PlatformEngine
+    ' 
+    '         Properties: AppManager, EnginePlugins
+    ' 
+    '         Sub: __finally, __handleREST, __init, __runDll, Dispose
+    '              handleOtherMethod, handlePOSTRequest, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

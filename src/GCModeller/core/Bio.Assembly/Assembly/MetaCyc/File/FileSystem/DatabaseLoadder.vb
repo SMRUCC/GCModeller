@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c91c4e9330182cc1142607202ae25c8e, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\DatabaseLoadder.vb"
+﻿#Region "Microsoft.VisualBasic::c91c4e9330182cc1142607202ae25c8e, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\DatabaseLoadder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DatabaseLoadder
+    ' 
+    '         Properties: Database, SBMLMetabolismModel
+    ' 
+    '         Function: (+2 Overloads) CreateInstance, GetBindRxns, GetCompounds, GetDNABindingSites, GetEnzrxns
+    '                   GetGenes, GetPathways, GetPromoters, GetProteinFeature, GetProteins
+    '                   GetProtLigandCplx, GetReactions, GetRegulations, GetTerminators, GetTransUnits
+    '                   ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, New, Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

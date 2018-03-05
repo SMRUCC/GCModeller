@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ad6f12254076404cd5818de030863189, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
+﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module GCOutlier
+    ' 
+    '     Function: GetMethod, OutlierAnalysis
+    '     Class lociX
+    ' 
+    '         Properties: loci, qLevel, right, Title, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

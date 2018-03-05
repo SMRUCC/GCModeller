@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::a34f6cfc92348f28ded305137a12d561, ..\GCModeller\visualize\SyntenyVisual\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a34f6cfc92348f28ded305137a12d561, visualize\SyntenyVisual\ModelAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ModelAPI
+    ' 
+    '     Function: __getName, GetDrawsModel, IsOrtholog
+    '     Structure __colorHelper
+    ' 
+    '         Function: GetColor
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

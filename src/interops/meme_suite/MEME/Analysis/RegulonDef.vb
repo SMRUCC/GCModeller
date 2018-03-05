@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7c7a90203d8e277f1951a626ffa5cedd, ..\interops\meme_suite\MEME\Analysis\RegulonDef.vb"
+﻿#Region "Microsoft.VisualBasic::7c7a90203d8e277f1951a626ffa5cedd, meme_suite\MEME\Analysis\RegulonDef.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,29 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module RegulonDef
+    ' 
+    '         Properties: MAST_LDM
+    ' 
+    '         Function: Export, IsRegulonCorrect, uid
+    ' 
+    '         Sub: New
+    ' 
+    '     Class Regulon
+    ' 
+    '         Properties: BiologicalProcess, Effector, Family, Hit, Mode
+    '                     Motif, Pathway, ref, Regulates, Regulator
+    '                     Trace
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7b2fa05c16f063b8ae801f1e61c1ae0b, ..\repository\DataMySql\CEG\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::253ebfe694456e9f053fd9795e39002f, DataMySql\CEG\Tools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Tools
+    ' 
+    '         Function: DeltaHomogeneity, EssentialGeneClusterExport, ExportClusterNt, ExportEssentialGeneCluster, ImportsProteinSequence
+    '                   InstallDatabase, InternalEssentialGeneCluster, InternalGetEssentialGene, InternalGetPttData, LoadAnnotation
+    '         Class EssentialGeneCluster
+    ' 
+    '             Properties: ClusterID, Headers, Nt, Sp, Species
+    '                         St, Title
+    ' 
+    '             Function: ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

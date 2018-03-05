@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9f7ffd6e6e0e4a4fb8833ebc99476057, ..\httpd\WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
+﻿#Region "Microsoft.VisualBasic::9f7ffd6e6e0e4a4fb8833ebc99476057, WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class QRCodeCreator
+    ' 
+    '     Properties: Description, ErrorCorrection, Type, Version
+    ' 
+    '     Function: [Get], Add, AddErrorCorrection, ChooseParameters, CreateCodeWords
+    '               EncodeCharacterCount, EncodeMode, EvaluateMask, EvaluateMicroMask, EvaluateNormalMask
+    '               GetAlignmentPatternLocations, GetAvailableErrorCorrectionLevels, GetAvailableModes, GetCharacterCountBits, GetMaxCharacters
+    '               GetSymbolDimension, IsFree, Mask, Mul, ToBitmap
+    ' 
+    '     Sub: [Set], AddFormatInformation, AddVersionInformation, Apply, CreateFreeMask
+    '          DrawAlignmentPattern, DrawFinderPattern, DrawHLine, DrawRect, DrawTimingHLine
+    '          DrawTimingVLine, DrawVLine, Fill, FillRect, (+3 Overloads) New
+    '          Render, Reserve, Save
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d50580861295f0352d2ba1f141f556e7, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
+﻿#Region "Microsoft.VisualBasic::d50580861295f0352d2ba1f141f556e7, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ExportToFile
+    ' 
+    '         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
+    '                   __getMap, __mapInterface, __mapNodes, __mapping, (+4 Overloads) Export
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::52e8b165a9e714636ce8def04009e112, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::52e8b165a9e714636ce8def04009e112, sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class BinaryNetwork
+    ' 
+    '         Properties: DynamicsExprs, NonRegulationHandles, RuntimeTicks
+    ' 
+    '         Function: __generateDataChunk, __innerTicks, AllRegulatorInputs, AnalysisMonteCarloTopLevelInput, get_Model
+    '                   get_Regulators, GetEnumerator, GetEnumerator1, GetGeneObjects, GetRegulator
+    '                   Initialize, SaveNetwork, SetConfigs, SetMutationFactor, ToString
+    '                   WriteNodeStates, WriteRegulationValues
+    ' 
+    '         Sub: Reset, Save, SetKernelLoops
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b8011f86a1d7cb1e85eaa268baf6df5e, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\pdb_protein_region_int.vb"
+﻿#Region "Microsoft.VisualBasic::b8011f86a1d7cb1e85eaa268baf6df5e, DataMySql\Xfam\iPfam\LocalMySQL\pdb_protein_region_int.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class pdb_protein_region_int
+    ' 
+    '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

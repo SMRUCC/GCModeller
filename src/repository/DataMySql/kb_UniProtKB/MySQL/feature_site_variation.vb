@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::cc73e81fef25ccc3fc97a47523cdc70f, ..\repository\DataMySql\kb_UniProtKB\MySQL\feature_site_variation.vb"
+﻿#Region "Microsoft.VisualBasic::fd0314f3cad0a81368154006223f0b13, DataMySql\kb_UniProtKB\MySQL\feature_site_variation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class feature_site_variation
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -140,4 +154,3 @@ End Class
 
 
 End Namespace
-

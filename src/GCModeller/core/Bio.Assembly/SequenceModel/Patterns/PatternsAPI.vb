@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ec152b198df79e33cb5920c0e17646b5, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::bc8873bba6b78ed00fe17513d84b62d9, core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module PatternsAPI
+    ' 
+    '         Function: __frequency, __variation, (+2 Overloads) Frequency, (+2 Overloads) NTVariations, Variation
+    ' 
+    '         Sub: Frequency
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

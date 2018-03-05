@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::26f016719507de2532c6c0b6cd5992f5, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANIExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::26f016719507de2532c6c0b6cd5992f5, analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANIExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module gwANIExtensions
+    ' 
+    '         Sub: Evaluate
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

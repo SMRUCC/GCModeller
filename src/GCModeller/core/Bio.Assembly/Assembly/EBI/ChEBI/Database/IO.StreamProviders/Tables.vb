@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::50a0de645eb18e6b2cb6b02615cbf305, ..\GCModeller\core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::50a0de645eb18e6b2cb6b02615cbf305, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,43 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Entity
+    ' 
+    '         Properties: COMPOUND_ID, ID, SOURCE, TYPE
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ChemicalData
+    ' 
+    '         Properties: CHEMICAL_DATA
+    ' 
+    '         Function: ChemicalModel, ppm, ToString
+    ' 
+    '     Class Names
+    ' 
+    '         Properties: ADAPTED, LANGUAGE, NAME
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class InChI
+    ' 
+    '         Properties: CHEBI_ID, InChI
+    ' 
+    '     Class Accession
+    ' 
+    '         Properties: ACCESSION_NUMBER
+    ' 
+    '         Function: Load, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

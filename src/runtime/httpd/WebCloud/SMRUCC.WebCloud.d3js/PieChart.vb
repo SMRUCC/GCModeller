@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7b40c11c81946c90a59c12de9a63e176, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::7b40c11c81946c90a59c12de9a63e176, WebCloud\SMRUCC.WebCloud.d3js\PieChart.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Slice
+    ' 
+    '         Properties: caption, color, Data, label, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

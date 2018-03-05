@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5e60525a21793bc49f5726e43b28e585, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Protein
+    ' 
+    '         Function: CreateQuery, GetEntry
+    ' 
+    '     Class Entry
+    ' 
+    '         Properties: FASTAUrl, GetBacterial, LocusTag
+    ' 
+    '         Function: (+2 Overloads) FetchSeq, GetLocusTag, Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

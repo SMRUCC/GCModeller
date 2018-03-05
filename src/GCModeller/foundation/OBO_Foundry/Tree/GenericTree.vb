@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e39cf7037d47948d02bcf5a033e57b7a, ..\GCModeller\foundation\OBO_Foundry\Tree\GenericTree.vb"
+﻿#Region "Microsoft.VisualBasic::db0f780668c4f35c2b85e83e4ef4465a, foundation\OBO_Foundry\Tree\GenericTree.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class GenericTree
+    ' 
+    '     Properties: data, ID, is_a, name
+    ' 
+    '     Function: BuildTree, IsBaseType, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -103,4 +118,3 @@ Public Class GenericTree
         Return vertex
     End Function
 End Class
-

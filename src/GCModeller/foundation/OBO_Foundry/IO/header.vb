@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4e6c8d5f05d07ff587d4c00381f8af54, ..\GCModeller\foundation\OBO_Foundry\IO\header.vb"
+﻿#Region "Microsoft.VisualBasic::4e6c8d5f05d07ff587d4c00381f8af54, foundation\OBO_Foundry\IO\header.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,10 +25,21 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class header
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 ''' <summary>
 ''' 
@@ -42,8 +54,9 @@ Public Class header
     <Field("subsetdef")> Public Property SubsetDef As String()
     <Field("synonymtypedef")> Public Property SynonymTypeDef As String()
     <Field("default-namespace")> Public Property DefaultNamespace As String
-    <Field("remark")> Public Property Remark As String
+    <Field("remark")> Public Property Remark As String()
     <Field("ontology")> Public Property Ontology As String
+    <Field("property_value")> Public Property property_value As String
 
     Public Overrides Function ToString() As String
         Return Me.GetJson

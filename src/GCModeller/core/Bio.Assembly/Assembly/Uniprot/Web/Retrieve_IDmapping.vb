@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9cd4c50a3a0f9bb70ab017bbca80cbab, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::9cd4c50a3a0f9bb70ab017bbca80cbab, core\Bio.Assembly\Assembly\UniProt\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Retrieve_IDmapping
+    ' 
+    '         Function: GetMappingList, IDTypeParser, MappingsReader, SingleMappings, UniprotIDFilter
+    ' 
+    '         Sub: Mapping
+    ' 
+    '     Enum Formats
+    ' 
+    '         canonical, gff, isoform, list, mappingTable
+    '         rdf, tab, txt, xlsx, xml
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

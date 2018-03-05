@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::11f88f3ff0d00896e957995291056ccb, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::11f88f3ff0d00896e957995291056ccb, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Edge.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Edge
+    ' 
+    '         Properties: __internalUID
+    ' 
+    '         Function: ContainsNode, ContainsOneOfNode, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

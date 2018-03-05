@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::86861e08700b68eb5c753baf72c1984b, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\io\OgSchemaGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::86861e08700b68eb5c753baf72c1984b, data\GO_gene-ontology\obographs\obographs\io\OgSchemaGenerator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class OgSchemaGenerator
+    ' 
+    ' 	    Function: makeSchema
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

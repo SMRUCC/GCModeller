@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6c0df1d1e66acac3e29ef0dfb4c8dafc, ..\GCModeller\data\GO_gene-ontology\obographs\obographs\test\io\OgProtobufGeneratorTest.vb"
+﻿#Region "Microsoft.VisualBasic::6c0df1d1e66acac3e29ef0dfb4c8dafc, data\GO_gene-ontology\obographs\obographs\test\io\OgProtobufGeneratorTest.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 	Class OgProtobufGeneratorTest
+    ' 
+    ' 	    Sub: test, writeSchema
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

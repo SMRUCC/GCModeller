@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::db4357668665fbe5c6a196ce91b007e9, ..\workbench\GenomicsBrowser\GenomeBrowser\BrowserControls\GenomicsBrowserControl.vb"
+﻿#Region "Microsoft.VisualBasic::db4357668665fbe5c6a196ce91b007e9, GenomicsBrowser\GenomeBrowser\BrowserControls\GenomicsBrowserControl.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class GenomicsBrowserControl
+    ' 
+    '     Sub: GenomicsBrowserControl_Load, InternalLoadThread, (+2 Overloads) LoadDocument, New, Toolstip_DrawBackground
+    '          Toolstip_Popup
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

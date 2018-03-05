@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f46abe6b073531cb57ce3650736e1ee3, ..\interops\visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::f46abe6b073531cb57ce3650736e1ee3, visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module GraphExtensions
+    ' 
+    '         Function: __edge, __node, CreateGraph
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

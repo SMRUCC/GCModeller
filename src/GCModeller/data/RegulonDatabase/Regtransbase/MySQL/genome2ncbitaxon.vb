@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::997d55f91ce98d12c229ac51d14d4935, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
+﻿#Region "Microsoft.VisualBasic::997d55f91ce98d12c229ac51d14d4935, data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class genome2ncbitaxon
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

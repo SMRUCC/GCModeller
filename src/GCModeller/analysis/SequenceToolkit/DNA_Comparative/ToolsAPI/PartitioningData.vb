@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::9d545f8244c1f77a454d6e32a3766833, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
+﻿#Region "Microsoft.VisualBasic::3144bbbf9c7886ccecbe5217f651bf9d, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class PartitioningData
+    ' 
+    '     Properties: GC, GenomeID, Headers, Length, ORFList
+    '                 Title
+    ' 
+    '     Function: ToFasta, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

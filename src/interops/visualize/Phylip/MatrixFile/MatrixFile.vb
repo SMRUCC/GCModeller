@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6ef2c13dc912dccd59fd5cbf08361edf, ..\interops\visualize\Phylip\MatrixFile\MatrixFile.vb"
+﻿#Region "Microsoft.VisualBasic::6ef2c13dc912dccd59fd5cbf08361edf, visualize\Phylip\MatrixFile\MatrixFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MatrixFile
+    ' 
+    '         Properties: lstID, MATRaw
+    ' 
+    '         Function: __trimData, CreateObject, GenerateDocument, MAT_ID, RoundNumber
+    ' 
+    '         Sub: __createMatrix
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::efcd1b85f56b17deddb1e25755e308dc, ..\interops\meme_suite\MEME\Workflows\PromoterParser\ParserLocus.vb"
+﻿#Region "Microsoft.VisualBasic::efcd1b85f56b17deddb1e25755e308dc, meme_suite\MEME\Workflows\PromoterParser\ParserLocus.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,35 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Delegate Function
+    ' 
+    ' 
+    '     Enum GetLocusTags
+    ' 
+    '         DOOR_InitX, locus, UniDOOR
+    ' 
+    ' 
+    ' 
+    '     Module ParserLocus
+    ' 
+    '         Function: [GetType], __locusItSelf, CreateMethod
+    '         Class __DOORHelper
+    ' 
+    '             Function: __initX, InitX, UniDOOR
+    ' 
+    '             Sub: New
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8a52fccf54a520602f3727d6faa0d01f, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\SeqDump\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::409a01ee4903095e28ee0a8375123ccc, core\Bio.Assembly\Assembly\NCBI\SeqDump\Protein.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Protein
+    ' 
+    '         Properties: Description, GI
+    ' 
+    '         Function: __createObject, LoadDocument
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

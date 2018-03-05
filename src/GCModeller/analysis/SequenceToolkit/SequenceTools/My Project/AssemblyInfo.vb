@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Sequence search tools and sequence operation tools")> 
-<Assembly: AssemblyDescription("Sequence search tools and sequence operation tools")> 
-<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")>
+<Assembly: AssemblyDescription("Sequence search tools and sequence operation tools")>
+<Assembly: AssemblyCompany("SMRUCC genomics")>
 <Assembly: AssemblyProduct("GCModeller")>
-<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2014")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2018")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e6fcf148decc7c6697e43ca7a2a8129b, ..\GCModeller\models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::e6fcf148decc7c6697e43ca7a2a8129b, models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: body, Properties, Text
+    ' 
+    '     Function: ToString
+    ' 
+    '  
+    ' 
+    '     Function: GetProperties, ToString
+    ' 
+    '     Class [Property]
+    ' 
+    '         Properties: Name, value
+    ' 
+    '         Function: Parser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

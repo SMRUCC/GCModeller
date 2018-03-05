@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::88fdd532bcf643328283a31a69d47f75, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
+﻿#Region "Microsoft.VisualBasic::9791a52e9825fa42b470951418cb1466, core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module NucleicAcidStaticsProperty
+    ' 
+    '         Function: __circular, __contentCommon, __getPercent, __liner, ATPercent
+    '                   Count, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector, Tm
+    '         Delegate Function
+    ' 
+    '             Function: __NAHandle, GCSkew
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

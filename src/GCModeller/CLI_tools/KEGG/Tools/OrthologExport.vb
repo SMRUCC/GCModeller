@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7975b3446612c457b0e31db6d5dd0936, ..\GCModeller\CLI_tools\KEGG\Tools\OrthologExport.vb"
+﻿#Region "Microsoft.VisualBasic::7975b3446612c457b0e31db6d5dd0936, CLI_tools\KEGG\Tools\OrthologExport.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module OrthologExport
+    ' 
+    '     Function: __createRowObject, Export
+    ' 
+    '     Sub: (+5 Overloads) HandleQuery
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

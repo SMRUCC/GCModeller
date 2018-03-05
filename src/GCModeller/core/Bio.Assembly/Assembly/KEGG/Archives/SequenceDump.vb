@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::4fd6c4c738a40bfe28c56d20d6ad8438, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
+﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, core\Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SequenceDump
+    ' 
+    '         Properties: CommonName, Description, LocusId, SpeciesId
+    ' 
+    '         Function: __altParser, __familyParser, __trimBraket, Create, KEGGFamily
+    '                   TitleParser, ToString
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

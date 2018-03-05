@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::f6d66252325e72cd4e673b51729b7842, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::c205cc015eac0f1be244de07fb169370, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Utilities
+    ' 
+    '     Function: CompareFile, Count, GetSegment, GetSegments, Merge
+    '               SelectByLocus, SimpleMerge, Sites2Fasta, SubsetFastaDb, ToFasta
+    '     Delegate Function
+    ' 
+    '         Function: __attrBrief, __attrFull, __fillSegment, Distinct, GetSimpleSegments
+    '                   GffSites, Split, SubSet, Trim
+    ' 
+    ' Class Loci
+    ' 
+    '     Properties: ID, SequenceData, sp, st
+    ' 
+    '     Function: __getMappingLoci, ToFasta, ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -445,34 +471,43 @@ Partial Module Utilities
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")
         Dim Segments = Regions.Select(Function(region) __fillSegment(region, Fasta, Complement, reversed))
-        Dim briefDump As Boolean = args.GetBoolean("/brief-dump")
-        Dim dumpMethod As attrDump = [If](Of attrDump)(briefDump, AddressOf __attrBrief, AddressOf __attrFull)
+        Dim briefDumping As Boolean = args.GetBoolean("/brief-dump")
         Dim input As String = args("/regions").TrimSuffix
+        Dim dumpMethod As attrDump = simpleAttributes Or fullAttributes.When(Not briefDumping)
 
         Segments.SaveTo(input & ".sequenceData.csv")
 
-        Dim SequenceFasta = Segments.Select(
-            Function(segment) New FASTA.FastaSeq With {
-                    .SequenceData = segment.SequenceData,
-                    .Headers = dumpMethod(segment)}).ToArray
-        Dim Complements As FastaSeq() =
-            LinqAPI.Exec(Of FastaSeq) <= From segment As SimpleSegment
-                                           In Segments
-                                           Where segment.MappingLocation.Strand <> Strands.Forward
-                                           Select New FastaSeq With {
-                                               .SequenceData = segment.Complement,
-                                               .Headers = dumpMethod(segment)
-                                           }
+        Dim SequenceFasta = Segments _
+            .Select(Function(segment)
+                        Return New FastaSeq With {
+                            .SequenceData = segment.SequenceData,
+                            .Headers = dumpMethod(segment)
+                        }
+                    End Function) _
+            .ToArray
+        Dim Complements = LinqAPI.Exec(Of FastaSeq) _
+ _
+            () <= From segment As SimpleSegment
+                  In Segments
+                  Where segment.MappingLocation.Strand <> Strands.Forward
+                  Select New FastaSeq With {
+                      .SequenceData = segment.Complement,
+                      .Headers = dumpMethod(segment)
+                  }
+
         Dim PTT As PTT = Segments.CreatePTTObject
         PTT.Title = BaseName(args("/fasta"))
         PTT.Size = Fasta.Length
 
         Call PTT.Save(input & ".ptt")
-        Call CType(SequenceFasta, FASTA.FastaFile).Save(input & ".sequenceData.fasta")
-        Call CType(Complements, FASTA.FastaFile).Save(input & ".complements.fasta")
+        Call CType(SequenceFasta, FastaFile).Save(input & ".sequenceData.fasta")
+        Call CType(Complements, FastaFile).Save(input & ".complements.fasta")
 
         Return 0
     End Function
+
+    ReadOnly simpleAttributes As New attrDump(AddressOf __attrBrief)
+    ReadOnly fullAttributes As New DefaultValue(Of attrDump)(AddressOf __attrFull)
 
     Private Delegate Function attrDump(segment As SimpleSegment) As String()
 

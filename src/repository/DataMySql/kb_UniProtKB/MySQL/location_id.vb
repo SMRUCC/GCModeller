@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b466dc175d238992e8d755d410ad11d7, ..\repository\DataMySql\kb_UniProtKB\MySQL\location_id.vb"
+﻿#Region "Microsoft.VisualBasic::442fc8a79f3b3f09b9b45ac0f76e6bee, DataMySql\kb_UniProtKB\MySQL\location_id.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class location_id
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -127,4 +141,3 @@ End Class
 
 
 End Namespace
-

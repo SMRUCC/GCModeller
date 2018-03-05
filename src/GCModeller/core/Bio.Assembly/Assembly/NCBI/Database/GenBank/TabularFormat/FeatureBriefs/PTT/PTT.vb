@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::dec5fb0a9d75216602be6a82a787562f, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::dec5fb0a9d75216602be6a82a787562f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PTT
+    ' 
+    '         Properties: forwards, GeneIDList, GeneObjects, GetsGeneDatas, NumOfProducts
+    '                     reversed, Size, Title
+    ' 
+    '         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
+    '                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
+    '                   Load, OrderByGeneID, Read, Save, SaveXml
+    '                   ToDictionary, TryGetGeneObjectValue, TryGetGenesId
+    ' 
+    '         Sub: (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

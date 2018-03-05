@@ -1,4 +1,6 @@
-﻿Namespace IO
+﻿Imports Microsoft.VisualBasic.Language
+
+Namespace IO
 
     ''' <summary>
     ''' Reads text from a character-input stream, buffering characters so as to provide for the efficient reading of characters, arrays, and lines.
@@ -26,7 +28,7 @@
         ''' 当前所读取的行指针
         ''' </summary>
         ''' <remarks></remarks>
-        Protected p As Long = 0, idx As Integer = 0
+        Protected p As int = 0, idx As Integer = 0
         Protected _size As Integer
 
         Protected Friend _reader As Reader
@@ -110,7 +112,7 @@
         ''' <remarks></remarks>
         Public Function readLine() As String
             If p < _ChunkBuffer.Count Then
-                Dim strLine As String = Me._ChunkBuffer(p.MoveNext)
+                Dim strLine As String = Me._ChunkBuffer(++p)
                 idx = 0
                 Return strLine
             Else

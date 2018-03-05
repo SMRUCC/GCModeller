@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::79f9472f5b8a858f0784c5e2d27197fb, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::79f9472f5b8a858f0784c5e2d27197fb, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Repeats
+    ' 
+    '         Function: (+2 Overloads) __generateSeeds, __matchLociLocation, (+2 Overloads) InvokeSearch, InvokeSearchReversed, MatchLociLocations
+    '                   (+2 Overloads) SaveRepeatsResult
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

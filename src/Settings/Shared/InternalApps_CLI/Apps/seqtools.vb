@@ -1,31 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::25b75d4792678d8c1cdffd90fad37c14, ..\Settings\Shared\InternalApps_CLI\Apps\seqtools.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -48,6 +20,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Genotype.Statics:                       
 '  /Loci.describ:                           Testing
 '  /logo:                                   * Drawing the sequence logo from the clustal alignment result.
+'  /motifs:                                 Populate possible motifs from a give nt fasta sequence dataset.
 '  /NeedlemanWunsch.NT:                     
 '  /Promoter.Palindrome.Fasta:              
 '  /Promoter.Regions.Palindrome:            
@@ -154,7 +127,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    --Palindrome.From.FASTA:                 
 '    --Palindrome.From.NT:                    This function is just for debugger test, /nt parameter is
 '                                             the nucleotide sequence data as ATGCCCC
-'    --Palindrome.Imperfects:                 
+'    --Palindrome.Imperfects:                 Gets all partly matched palindrome sites.
 '    --PerfectPalindrome.Filtering:           
 '    --ToVector:                              
 ' 
@@ -838,6 +811,38 @@ Public Function TrimNtMirrors([in] As String, Optional out As String = "") As In
     Dim CLI As New StringBuilder("/Mirrors.Nt.Trim")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /motifs /in &lt;data.fasta> [/min.w &lt;default=6> /max.w &lt;default=20> /n.motifs &lt;default=25> /n.occurs &lt;default=6> /out &lt;out.directory>]
+''' ```
+''' Populate possible motifs from a give nt fasta sequence dataset.
+''' </summary>
+'''
+Public Function FindMotifs([in] As String, Optional min_w As String = "6", Optional max_w As String = "20", Optional n_motifs As String = "25", Optional n_occurs As String = "6", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/motifs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not min_w.StringEmpty Then
+            Call CLI.Append("/min.w " & """" & min_w & """ ")
+    End If
+    If Not max_w.StringEmpty Then
+            Call CLI.Append("/max.w " & """" & max_w & """ ")
+    End If
+    If Not n_motifs.StringEmpty Then
+            Call CLI.Append("/n.motifs " & """" & n_motifs & """ ")
+    End If
+    If Not n_occurs.StringEmpty Then
+            Call CLI.Append("/n.occurs " & """" & n_occurs & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -1747,6 +1752,7 @@ End Function
 ''' ```
 ''' --Palindrome.Imperfects /in &lt;in.fasta> [/out &lt;out.csv> /min &lt;3> /max &lt;20> /cutoff &lt;0.6> /max-dist &lt;1000 (bp)> /partitions &lt;-1>]
 ''' ```
+''' Gets all partly matched palindrome sites.
 ''' </summary>
 '''
 Public Function ImperfectPalindrome([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "") As Integer
@@ -2060,4 +2066,3 @@ Public Function Trim([in] As String, Optional [case] As String = "", Optional br
 End Function
 End Class
 End Namespace
-

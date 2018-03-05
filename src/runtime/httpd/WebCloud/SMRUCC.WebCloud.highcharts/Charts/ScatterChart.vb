@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::969b49b2023d723eac28d493915e4d7f, ..\httpd\WebCloud\SMRUCC.WebCloud.highcharts\Charts\ScatterChart.vb"
+﻿#Region "Microsoft.VisualBasic::393d968ae914f7afbf8de3ccae216c0a, WebCloud\SMRUCC.WebCloud.highcharts\Charts\ScatterChart.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,39 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class scatterOptions
+    ' 
+    '         Properties: marker, states, tooltip
+    ' 
+    '     Class marker
+    ' 
+    '         Properties: radius, states
+    ' 
+    '     Class states
+    ' 
+    '         Properties: hover
+    ' 
+    '     Class effect
+    ' 
+    '         Properties: enabled, lineColor, marker
+    ' 
+    '     Class markerOptions
+    ' 
+    '         Properties: enabled
+    ' 
+    '     Class ScatterSerial
+    ' 
+    '         Properties: color, colorByPoint, data, name
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -60,4 +94,3 @@ Namespace ScatterChart
         Public Property data As Double()()
     End Class
 End Namespace
-

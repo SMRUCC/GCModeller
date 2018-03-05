@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::c12a845ad2f2a4742d2267a7546af923, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\Network\Json.vb"
+﻿#Region "Microsoft.VisualBasic::c12a845ad2f2a4742d2267a7546af923, WebCloud\SMRUCC.WebCloud.d3js\Network\Json.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,40 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Regulation
+    ' 
+    '         Properties: MotifFamily, Regulator
+    ' 
+    '         Function: ToString
+    ' 
+    '     Structure out
+    ' 
+    '         Properties: links, nodes
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class node
+    ' 
+    '         Properties: Address, color, group, name, size
+    '                     type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class link
+    ' 
+    '         Properties: source, target, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ef655e02b25bf7c217cc0b0b3c6e2299, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANI.vb"
+﻿#Region "Microsoft.VisualBasic::ce13e4ad5bfb63884c10bc066afdb0dc, analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class gwANI
+    ' 
+    '         Properties: length_of_genome, number_of_samples, sequence_names
+    ' 
+    '         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
+    '              check_input_file_and_calc_dimensions, fast_calculate_gwani, New, print_header
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

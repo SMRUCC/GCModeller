@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::035d4ac62341dd7e2e0d5ffc12a38b8d, ..\GCModeller\CLI_tools\MEME\Cli\MotifSites.vb"
+﻿#Region "Microsoft.VisualBasic::049eb1a4f163c74c50e017eae997b8ce, CLI_tools\MEME\Cli\MotifSites.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __loadSimilarityHits, ExportTestMotifs, LoadSimilarityHits, MotifSites2Fasta, UnionSimilarity
+    ' 
+    '     Sub: __EXPORT
+    '     Class SimilarityHit
+    ' 
+    '         Properties: HitId, IsMatch, MotifId, Site
+    ' 
+    '         Function: GetHitSites, ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

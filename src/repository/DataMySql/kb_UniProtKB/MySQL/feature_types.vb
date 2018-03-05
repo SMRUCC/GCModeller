@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::159e6264b6f2f47d566633f688e47b9c, ..\repository\DataMySql\kb_UniProtKB\MySQL\feature_types.vb"
+﻿#Region "Microsoft.VisualBasic::182652b49e51bfb3d7249b4aebe31b12, DataMySql\kb_UniProtKB\MySQL\feature_types.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class feature_types
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -127,4 +141,3 @@ End Class
 
 
 End Namespace
-

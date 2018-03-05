@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::982d5264f588c175636e10d81cee97cf, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
+﻿#Region "Microsoft.VisualBasic::982d5264f588c175636e10d81cee97cf, engine\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class BacterialModel
+    ' 
+    '     Properties: BacteriaGenome, CultivationMediums, DispositionModels, Height, IFBAC2MetabolismNetwork
+    '                 IFBAC2Metabolites, Metabolism, Polypeptides, ProteinAssemblies, RibosomeAssembly
+    '                 RNAPolymerase, SignalTransductionPathway, SystemVariables, TransmembraneTransportation, Width
+    ' 
+    '     Function: Load, Save, ToString
+    ' 
+    '     Sub: Copy, Visualizing
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::94757d1f02bcc8199d9c347d9d3c0dc5, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::94757d1f02bcc8199d9c347d9d3c0dc5, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RepeatsSearcher
+    ' 
+    '         Properties: CountStatics, MinAppeared, ResultSet
+    ' 
+    '         Sub: DoSearch, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

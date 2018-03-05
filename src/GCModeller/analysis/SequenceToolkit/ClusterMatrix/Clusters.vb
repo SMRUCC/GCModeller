@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ad1df6e2b14e492abfa5b389de5dc3b0, ..\GCModeller\analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
+﻿#Region "Microsoft.VisualBasic::9bcf86449244ecb7486624e704c45850, analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Clusters
+    ' 
+    '     Function: KMeans
+    ' 
+    '     Sub: FirstTokenID
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

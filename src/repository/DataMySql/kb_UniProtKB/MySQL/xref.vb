@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::66f8e522261c53e0bfbf414b243a84b8, ..\repository\DataMySql\kb_UniProtKB\MySQL\xref.vb"
+﻿#Region "Microsoft.VisualBasic::5455916cb1f0ca31679e2d31106c6343, DataMySql\kb_UniProtKB\MySQL\xref.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class xref
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -158,4 +172,3 @@ End Class
 
 
 End Namespace
-

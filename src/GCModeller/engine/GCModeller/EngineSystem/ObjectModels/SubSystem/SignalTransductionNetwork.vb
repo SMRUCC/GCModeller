@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::284954b0937fa53fbfdf85c0b202885b, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::284954b0937fa53fbfdf85c0b202885b, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SignalTransductionNetwork
+    ' 
+    '         Properties: DataSource
+    ' 
+    '         Function: __innerTicks, CreateEnzymes, CreateServiceSerials, get_DataSerializerHandles, Initialize
+    ' 
+    '         Sub: MemoryDump, New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

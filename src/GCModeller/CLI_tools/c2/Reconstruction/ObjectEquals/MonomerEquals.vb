@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::648eeb4e9d25c6120d9a15f04d2d7541, ..\GCModeller\CLI_tools\c2\Reconstruction\ObjectEquals\MonomerEquals.vb"
+﻿#Region "Microsoft.VisualBasic::648eeb4e9d25c6120d9a15f04d2d7541, CLI_tools\c2\Reconstruction\ObjectEquals\MonomerEquals.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MonomerEquals
+    ' 
+    '         Function: GetList, GetPfamIdList, Initialize
+    ' 
+    '         Sub: New
+    '         Structure Protein
+    ' 
+    '             Properties: MolecularWeight, Pfam, UniqueId
+    ' 
+    '             Function: Cast, Equals, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

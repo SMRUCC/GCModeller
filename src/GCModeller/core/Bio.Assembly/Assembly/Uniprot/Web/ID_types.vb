@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\Web\ID_types.vb"
+﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, core\Bio.Assembly\Assembly\UniProt\Web\ID_types.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,42 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Enum ID_types
+    ' 
+    '         ALLERGOME_ID, ARACHNOSERVER_ID, BIOCYC_ID, BIOGRID_ID, BIOMUTA_ID
+    '         CCDS_ID, CGD, CHEMBL_ID, CHITARS_ID, CLEANEX_ID
+    '         COLLECTF_ID, CONOSERVER_ID, DICTYBASE_ID, DIP_ID, DISPROT_ID
+    '         DMDM_ID, DNASU_ID, DRUGBANK_ID, ECHOBASE_ID, ECOGENE_ID
+    '         EGGNOG_ID, EMBL, EMBL_ID, ENSEMBL_ID, ENSEMBL_PRO_ID
+    '         ENSEMBL_TRS_ID, ENSEMBLGENOME_ID, ENSEMBLGENOME_PRO_ID, ENSEMBLGENOME_TRS_ID, ESTHER_ID
+    '         EUHCVDB_ID, EUPATHDB_ID, FLYBASE_ID, GENECARDS_ID, GENEDB_ID
+    '         GENENAME, GENEREVIEWS_ID, GENETREE_ID, GENEWIKI_ID, GENOMERNAI_ID
+    '         GUIDETOPHARMACOLOGY_ID, H_INVDB_ID, HGNC_ID, HOGENOM_ID, HOVERGEN_ID
+    '         HPA_ID, KEGG_ID, KO_ID, LEGIOLIST_ID, LEPROMA_ID
+    '         MAIZEGDB_ID, MEROPS_ID, MGI_ID, MIM_ID, MINT_ID
+    '         MYCOCLAP_ID, NEXTPROT_ID, NF100, NF50, NF90
+    '         OMA_ID, ORPHANET_ID, ORTHODB_ID, P_ENTREZGENEID, P_GI
+    '         P_REFSEQ_AC, PATRIC_ID, PDB_ID, PEROXIBASE_ID, PHARMGKB_ID
+    '         PIR, POMBASE_ID, PSEUDOCAP_ID, REACTOME_ID, REBASE_ID
+    '         REFSEQ_NT_ID, RGD_ID, SGD_ID, STRING_ID, SWISSLIPIDS_ID
+    '         TAIR_ID, TCDB_ID, TREEFAM_ID, TUBERCULIST_ID, UCSC_ID
+    '         UNIGENE_ID, UNIPATHWAY_ID, UPARC, VECTORBASE_ID, WBPARASITE_ID
+    '         WORLD_2DPAGE_ID, WORMBASE_ID, WORMBASE_PRO_ID, WORMBASE_TRS_ID, XENBASE_ID
+    '         ZFIN_ID
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

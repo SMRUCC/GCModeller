@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0f28e2e0e9939fa9246be1670ec2f2d5, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::0f28e2e0e9939fa9246be1670ec2f2d5, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,25 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Compound
+    ' 
+    '         Properties: StoiChiometry
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: Equation, Products, Reactants, Reversible
+    ' 
+    '         Function: [DirectCast], CreateObject
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

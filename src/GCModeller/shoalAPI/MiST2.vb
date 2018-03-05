@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::0a46873fbe6f6b8bc561752978f9ec3f, ..\GCModeller\shoalAPI\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::0a46873fbe6f6b8bc561752978f9ec3f, shoalAPI\MiST2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module MiST2API
+    ' 
+    '     Function: __getFasta, DownloadData, DownloadMisT2Sequence, GetOCSId, ReadMist2
+    '               WriteData
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

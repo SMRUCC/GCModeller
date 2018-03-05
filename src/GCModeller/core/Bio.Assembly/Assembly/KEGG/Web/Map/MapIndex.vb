@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::fca95d9f3e54637e7c901686c5cb812d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+﻿#Region "Microsoft.VisualBasic::fca95d9f3e54637e7c901686c5cb812d, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,26 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class MapIndex
+    ' 
+    '         Properties: KeyVector, Map, MapID, MapTitle
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class MapRepository
+    ' 
+    '         Function: BuildRepository, CreateIndex, Exists, GetAll, GetByKey
+    '                   GetWhere, QueryMapsByMembers
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

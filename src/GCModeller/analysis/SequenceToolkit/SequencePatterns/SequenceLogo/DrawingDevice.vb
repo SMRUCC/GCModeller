@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e6f804f0c25550daea96f9f3c8f5eec6, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::efae0b2fa87ee36c2eb798e84aa25afe, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module DrawingDevice
+    ' 
+    '         Properties: WordSize
+    ' 
+    '         Function: __getColors, DrawFrequency, E, InvokeDrawing
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -95,9 +111,10 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' <param name="title">The sequence logo display title.</param>
         ''' <returns></returns>
         <ExportAPI("Drawing.Frequency")>
-        Public Function DrawFrequency(Fasta As FastaFile, Optional title As String = "", Optional ByRef getModel As MotifPWM = Nothing) As Image
-            Dim PWM As MotifPWM = Motif.PWM.FromMla(Fasta)
-            Dim Model As DrawingModel = New DrawingModel
+        <Extension>
+        Public Function DrawFrequency(fasta As FastaFile, Optional title$ = "", Optional ByRef getModel As MotifPWM = Nothing) As Image
+            Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
+            Dim model As New DrawingModel
 
 #If DEBUG Then
             Dim m As String = New String(PWM.PWM.Select(Function(r) r.AsChar))
@@ -105,17 +122,17 @@ For example, we identified a new domain, likely to have a role downstream of the
 #End If
 
             If String.IsNullOrEmpty(title) Then
-                If Not String.IsNullOrEmpty(Fasta.FilePath) Then
-                    Model.ModelsId = Fasta.FilePath.BaseName
+                If Not String.IsNullOrEmpty(fasta.FilePath) Then
+                    model.ModelsId = fasta.FilePath.BaseName
                 Else
-                    Model.ModelsId = New String(PWM.PWM.Select(Function(r) r.AsChar).ToArray)
+                    model.ModelsId = New String(PWM.PWM.Select(Function(r) r.AsChar).ToArray)
                 End If
             Else
-                Model.ModelsId = title
+                model.ModelsId = title
             End If
 
             getModel = PWM
-            Model.Residues =
+            model.Residues =
                 LinqAPI.Exec(Of ResidueSite, Residue)(PWM.PWM) <=
                     Function(rsd As ResidueSite) New Residue With {
                         .Bits = rsd.Bits,
@@ -127,7 +144,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                                                                       .RelativeFrequency = x.value
                                                                   }  ' alphabets
             }  ' residues
-            Return InvokeDrawing(Model, True)
+            Return InvokeDrawing(model, True)
         End Function
 
         ''' <summary>
@@ -161,8 +178,6 @@ For example, we identified a new domain, likely to have a role downstream of the
         <ExportAPI("Invoke.Drawing", Info:="Drawing a sequence logo from a generated sequence motif model.")>
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
-                                      <Parameter("Order.Frequency",
-                                                 "Does the alphabets in a residue position will be ordered its drawing order based on their relative frequency in the residue site?")>
                                       Optional frequencyOrder As Boolean = True,
                                       Optional margin As Integer = 100,
                                       Optional reverse As Boolean = False) As Image

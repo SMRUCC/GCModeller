@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5c0a1cb016a3086edfbf51533f55aef4, ..\GCModeller\analysis\Metagenome\Metagenome\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::708beb8909e78e19d222727041bd49bc, analysis\Metagenome\Metagenome\OTU.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module OTU
+    ' 
+    '     Function: BuildOTUClusters, LoadOTU_taxa_table
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -57,8 +70,7 @@ Public Module OTU
         OTUs += (ref,
             fullEquals:=RunNeedlemanWunsch.RunAlign(
                 ref, ref,
-                False,
-                output, echo:=False),
+                output),
             cluster:=New NamedValue(Of List(Of String)) With {
                 .Name = "OTU_" & ++n,
                 .Value = New List(Of String) From {
@@ -72,8 +84,7 @@ Public Module OTU
                 In OTUs.AsParallel
                 Let score As Double = RunNeedlemanWunsch.RunAlign(
                     seq, OTU.ref,
-                    False,
-                    output, echo:=False)
+                    output)
                 Let is_matched As Double = 100 * score / OTU.fullEquals
                 Where is_matched >= similarity
                 Select OTU
@@ -83,8 +94,7 @@ Public Module OTU
                 OTUs += (seq,
                     fullEquals:=RunNeedlemanWunsch.RunAlign(
                         seq, seq,
-                        False,
-                        output, echo:=False),
+                        output),
                     cluster:=New NamedValue(Of List(Of String)) With {
                         .Name = "OTU_" & ++n,
                         .Value = New List(Of String) From {

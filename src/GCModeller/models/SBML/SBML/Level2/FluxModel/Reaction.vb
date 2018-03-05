@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d664ad41db0b21e1ceb42553ea949668, ..\GCModeller\models\SBML\SBML\Level2\FluxModel\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::d664ad41db0b21e1ceb42553ea949668, models\SBML\SBML\Level2\FluxModel\Reaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: kineticLaw, LowerBound, ObjectiveCoefficient, UpperBound
+    ' 
+    '     Function: __equals, GetCoEfficient, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

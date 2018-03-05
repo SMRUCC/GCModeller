@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::17a7bce7e836b2daa1b813720ff1becc, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::17a7bce7e836b2daa1b813720ff1becc, RNA-Seq\Rockhopper\Java\DataStructure\Dictionary.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Dictionary
+    ' 
+    '         Properties: averageTranscriptLength, numTranscripts, seed, size
+    ' 
+    '         Function: charToInt, informationContent, intToChar, longToString, (+2 Overloads) stringToLong
+    '                   (+2 Overloads) stringToLong_Reverse
+    ' 
+    '         Sub: add, assembleTranscripts, buildTranscriptsAndClearTable, extendSeedBackward, extendSeedForward
+    '              initializeReadMapping, Main, (+2 Overloads) mapFullLengthRead, New, prepareSeeds
+    ' 
+    '     Class KMer
+    ' 
+    '         Function: IComparable_CompareTo
+    ' 
+    '         Sub: New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

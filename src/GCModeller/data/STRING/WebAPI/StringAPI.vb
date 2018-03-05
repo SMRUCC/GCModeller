@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::58decc9c054717c19f0fe25b00d3ab70, ..\GCModeller\data\STRING\WebAPI\StringAPI.vb"
+﻿#Region "Microsoft.VisualBasic::58decc9c054717c19f0fe25b00d3ab70, data\STRING\WebAPI\StringAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module StringAPI
+    ' 
+    '         Properties: StitchEMBL, StringDb, StringEMBL
+    ' 
+    '         Function: CreateURI, (+2 Overloads) DownloadInteractions
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

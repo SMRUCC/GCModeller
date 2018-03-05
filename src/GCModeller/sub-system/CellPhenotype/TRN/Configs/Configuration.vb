@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e3f23fc8f035bb14191773595a886e09, ..\GCModeller\sub-system\CellPhenotype\TRN\Configs\Configuration.vb"
+﻿#Region "Microsoft.VisualBasic::e3f23fc8f035bb14191773595a886e09, sub-system\CellPhenotype\TRN\Configs\Configuration.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,22 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Configuration
+    ' 
+    '         Properties: BasalThreshold, Enzyme_Decays, OCS_Default_EffectValue, OCS_NONE_Effector, Regulator_Decays
+    '                     SiteSpecificDynamicsRegulations
+    ' 
+    '         Function: DefaultValue, GetConfigures, LoadConfiguration, (+2 Overloads) Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

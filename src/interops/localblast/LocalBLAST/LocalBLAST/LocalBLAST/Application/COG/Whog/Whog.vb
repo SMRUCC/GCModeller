@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6b6c4d038ed1292ef89813a0e70ca7ef, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb"
+﻿#Region "Microsoft.VisualBasic::6b6c4d038ed1292ef89813a0e70ca7ef, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Whog
+    ' 
+    '         Function: [Imports], __assignInvoke, FindByCogId, MatchCogCategory, Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

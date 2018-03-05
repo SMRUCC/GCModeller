@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1e148f03af87d9e9d490228c27286474, ..\GCModeller\foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb"
+﻿#Region "Microsoft.VisualBasic::1e148f03af87d9e9d490228c27286474, foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,45 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '  
+    ' 
+    '     Properties: Synonym
+    ' 
+    '     Function: ToString
+    ' 
+    '     Class __interactorType
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class confidence
+    ' 
+    '         Function: ToString
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

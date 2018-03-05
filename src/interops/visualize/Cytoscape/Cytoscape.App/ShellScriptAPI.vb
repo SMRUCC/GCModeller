@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8deee67fdad7db403ca9107109c2435f, ..\interops\visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8deee67fdad7db403ca9107109c2435f, visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ShellScriptAPI
+    ' 
+    '     Function: CreateMapNetworkData, (+2 Overloads) DrawingMap, ExportMetaCycPathways, LoadNetworkGraphicDocument, RemoveDuplicated
+    ' 
+    '     Sub: ExportPathwayRegulations
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

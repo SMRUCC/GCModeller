@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1f2cfda6f31a03c079036f3af2f07403, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\Patterns\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::5fc19a48bf8ff4259509fd1303a1af74, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Residue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Residue
+    ' 
+    '         Properties: RepeatRanges, Type
+    ' 
+    '         Function: GetComplement, ToString
+    ' 
+    '         Sub: __newChar, (+2 Overloads) New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

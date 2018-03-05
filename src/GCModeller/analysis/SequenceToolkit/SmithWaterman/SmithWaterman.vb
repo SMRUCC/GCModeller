@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::313f6ceae19eb4b9a651f96893bff66f, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::fe13774246dcfafb837b1936ad4d7e3f, analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
 ' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
 '       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
 ' 
 ' Copyright (c) 2018 GPL3 Licensed
 ' 
 ' 
 ' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
 ' 
 ' This program is free software: you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -24,10 +25,25 @@
 ' You should have received a copy of the GNU General Public License
 ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+' Class SmithWaterman
+' 
+'     Function: Align, GetOutput
+' 
+'     Sub: (+2 Overloads) New
+' 
+' /********************************************************************************/
+
 #End Region
 
 Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -40,6 +56,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class SmithWaterman : Inherits GSW(Of Char)
 
+    ''' <summary>
+    ''' 蛋白比对的矩阵
+    ''' </summary>
     Shared ReadOnly blosum62 As DefaultValue(Of Blosum) = Blosum.FromInnerBlosum62
 
     ''' <summary>

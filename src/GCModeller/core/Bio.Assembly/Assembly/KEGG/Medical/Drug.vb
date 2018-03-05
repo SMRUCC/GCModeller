@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5e54d0d6c1fd4f6dfb0b14a7262a8e52, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::5e54d0d6c1fd4f6dfb0b14a7262a8e52, core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,36 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Drug
+    ' 
+    '         Properties: Activity, Atoms, Bounds, Comments, DBLinks
+    '                     Entry, Exact_Mass, Formula, Interaction, Metabolism
+    '                     Mol_Weight, Names, Remarks, Source, Targets
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Bound
+    ' 
+    '         Properties: a, b, Edit, index, N
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Atom
+    ' 
+    '         Properties: Atom, Charge, Edit, Formula, index
+    '                     M
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

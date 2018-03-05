@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6135f81e4bb12e8c8840a9c08165dc24, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\RScript.vb"
+﻿#Region "Microsoft.VisualBasic::6135f81e4bb12e8c8840a9c08165dc24, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\RScript.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,30 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PfsNETScript
+    ' 
+    '         Properties: b, File1, File2, File3, n
+    '                     t1, t2
+    ' 
+    '         Function: __R_script
+    ' 
+    '         Sub: New
+    ' 
+    '     Class PFSNetResultOut
+    ' 
+    '         Properties: STD_OUTPUT
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::8792c53243d93ea9afebd7cc956d969c, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\JSON.vb"
+﻿#Region "Microsoft.VisualBasic::8792c53243d93ea9afebd7cc956d969c, WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\JSON.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,38 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class JSON
+    ' 
+    '         Properties: x
+    ' 
+    '     Class NetGraph
+    ' 
+    '         Properties: links, nodes, options
+    ' 
+    '     Class Options
+    ' 
+    '         Properties: bounded, charge, clickAction, clickTextSize, colourScale
+    '                     fontFamily, fontSize, Group, legend, linkDistance
+    '                     linkWidth, NodeID, nodesize, opacity, opacityNoHover
+    '                     radiusCalculation, zoom
+    ' 
+    '     Class Links
+    ' 
+    '         Properties: colour, source, target
+    ' 
+    '     Class Nodes
+    ' 
+    '         Properties: group, name
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

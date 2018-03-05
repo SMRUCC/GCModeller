@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::2ba4fe96b8e78a1a0994167de42a9f11, ..\GCModeller\CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::7e004ae2997209dffd8c66d0329ac576, CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __getEvaluator, GetMapHitsList, OTU_Taxonomy, OTUAssociated, OTUDiff
+    '               OTUTaxonomyReplace, SearchTaxonomy, SplitByTaxid, SplitByTaxidBatch, TaxidMapHitViews
+    '               TaxonomyTree, TaxonomyTreeData
+    '     Class MapHit
+    ' 
+    '         Properties: Name, Taxonomy, TaxonomyName
+    ' 
+    '         Function: SamplesView, ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

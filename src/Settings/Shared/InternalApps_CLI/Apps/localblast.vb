@@ -1,31 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::23c8dc0a63ea86403d8d32596af9ded9, ..\Settings\Shared\InternalApps_CLI\Apps\localblast.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -56,6 +28,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Paralog:                          
 '  /SBH.tophits:                      Filtering the sbh result with top SBH Score
 '  /to.kobas:                         
+'  /UniProt.bbh.mappings:             
 '  /Whog.XML:                         Converts the whog text file into a XML data file.
 '  --bbh.export:                      Batch export bbh result data from a directory.
 '  --blast.self:                      Query fasta query against itself for paralogs.
@@ -1559,6 +1532,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /UniProt.bbh.mappings /in &lt;bbh.csv> [/reverse /out &lt;mappings.txt>]
+''' ```
+''' </summary>
+'''
+Public Function UniProtBBHMapTable([in] As String, Optional out As String = "", Optional reverse As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/UniProt.bbh.mappings")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If reverse Then
+        Call CLI.Append("/reverse ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /venn.BBH /imports &lt;blastp_out.DIR> [/skip-load /query &lt;queryName> /all /coverage &lt;0.6> /identities &lt;0.3> /out &lt;outDIR>]
 ''' ```
 ''' 2. Build venn table And bbh data from the blastp result out Or sbh data cache.
@@ -1866,4 +1861,3 @@ Public Function XmlToExcelBatch([in] As String, Optional out As String = "", Opt
 End Function
 End Class
 End Namespace
-

@@ -1,31 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::f0a92fa446d725fb26d7fdba9e99e205, ..\Settings\Shared\InternalApps_CLI\Apps\eggHTS.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -38,7 +10,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' SMRUCC genomics GCModeller Programs Profiles Manager
 ' ====================================================
 ' 
-' < eggHTS.CLI >
+' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg.
+' You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir=
+' for download the custom KO classification set.
 ' 
 ' All of the command that available in this program has been list below:
 ' 
@@ -65,6 +39,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
 '                                         and using this ID list for downlaods the uniprot annotation
 '                                         data.
+'  /UniProt.IDs:                          
 '  /Uniprot.Mappings:                     Retrieve the uniprot annotation data by using ID mapping operations.
 '  /UniRef.map.organism:                  
 ' 
@@ -193,12 +168,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 10. iTraq data analysis tool
 ' 
 ' 
+'     /iTraq.Bridge.Matrix:                  
 '     /iTraq.matrix.split:                   Split the raw matrix into different compare group based on
 '                                            the experimental designer information.
 '     /iTraq.RSD-P.Density:                  
 '     /iTraq.Symbol.Replacement:             * Using this CLI tool for processing the tag header of iTraq
 '                                            result at first.
-'     /iTraq.t.test:                         
+'     /iTraq.t.test:                         Implements the screening for different expression proteins
+'                                            by using log2FC threshold and t.test pvalue threshold.
 ' 
 ' 
 ' 11. Repository data tools
@@ -216,7 +193,8 @@ Namespace GCModellerApps
 
 
 ''' <summary>
-''' eggHTS.CLI
+''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg.
+''' You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.
 ''' </summary>
 '''
 Public Class eggHTS : Inherits InteropService
@@ -359,12 +337,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /cluster.title &lt;names.csv> /out &lt;out.png>]
+''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /arrow.factor &lt;default=1,2> /cluster.title &lt;names.csv> /out &lt;out.png>]
 ''' ```
 ''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional cluster_title As String = "", Optional out As String = "") As Integer
+Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -383,6 +361,9 @@ Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional clus
     End If
     If Not view_distance.StringEmpty Then
             Call CLI.Append("/view.distance " & """" & view_distance & """ ")
+    End If
+    If Not arrow_factor.StringEmpty Then
+            Call CLI.Append("/arrow.factor " & """" & arrow_factor & """ ")
     End If
     If Not cluster_title.StringEmpty Then
             Call CLI.Append("/cluster.title " & """" & cluster_title & """ ")
@@ -1164,6 +1145,33 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /iTraq.Bridge.Matrix /A &lt;A_iTraq.csv> /B &lt;B_iTraq.csv> /C &lt;bridge_symbol> [/symbols.A &lt;symbols.csv> /symbols.B &lt;symbols.csv> /out &lt;matrix.csv>]
+''' ```
+''' </summary>
+'''
+Public Function iTraqBridge(A As String, B As String, C As String, Optional symbols_a As String = "", Optional symbols_b As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/iTraq.Bridge.Matrix")
+    Call CLI.Append(" ")
+    Call CLI.Append("/A " & """" & A & """ ")
+    Call CLI.Append("/B " & """" & B & """ ")
+    Call CLI.Append("/C " & """" & C & """ ")
+    If Not symbols_a.StringEmpty Then
+            Call CLI.Append("/symbols.a " & """" & symbols_a & """ ")
+    End If
+    If Not symbols_b.StringEmpty Then
+            Call CLI.Append("/symbols.b " & """" & symbols_b & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /iTraq.matrix.split /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /designer &lt;analysis.design.csv> [/allowed.swap /out &lt;out.Dir>]
 ''' ```
 ''' Split the raw matrix into different compare group based on the experimental designer information.
@@ -1234,6 +1242,7 @@ End Function
 ''' ```
 ''' /iTraq.t.test /in &lt;matrix.csv> [/level &lt;default=1.5> /p.value &lt;default=0.05> /FDR &lt;default=0.05> /skip.significant.test /pairInfo &lt;sampleTuple.csv> /out &lt;out.csv>]
 ''' ```
+''' Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.
 ''' </summary>
 '''
 Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
@@ -1834,7 +1843,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /protein.annotations /uniprot &lt;uniprot.XML> [/accession.ID /iTraq /list &lt;uniprot.id.list.txt/rawtable.csv> /mapping &lt;mappings.tab/tsv> /out &lt;out.csv>]
+''' /protein.annotations /uniprot &lt;uniprot.XML> [/accession.ID /iTraq /list &lt;uniprot.id.list.txt/rawtable.csv/Xlsx> /mapping &lt;mappings.tab/tsv> /out &lt;out.csv>]
 ''' ```
 ''' Total proteins functional annotation by using uniprot database.
 ''' </summary>
@@ -2256,6 +2265,25 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /UniProt.IDs /in &lt;list.csv/txt> [/out &lt;list.txt>]
+''' ```
+''' </summary>
+'''
+Public Function UniProtIDList([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.IDs")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Uniprot.Mappings /in &lt;id.list> [/type &lt;P_REFSEQ_AC> /out &lt;out.DIR>]
 ''' ```
 ''' Retrieve the uniprot annotation data by using ID mapping operations.
@@ -2342,4 +2370,3 @@ Public Function Update2UniprotMappedID([in] As String, mapping As String, Option
 End Function
 End Class
 End Namespace
-

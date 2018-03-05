@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::60906f1ea5c990eeb9f3e934c217bad8, ..\GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb"
+﻿#Region "Microsoft.VisualBasic::60906f1ea5c990eeb9f3e934c217bad8, core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,28 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ChouFasman
+    ' 
+    ' 
+    '         Enum SecondaryStructures
+    ' 
+    '             AlphaHelix, BetaSheet, BetaTurn, Coils
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: __sequenceData, (+2 Overloads) Calculate, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d06191b9582f1e5592f26a19d8142d4b, ..\repository\DataMySql\kb_UniProtKB\MySQL\protein_go.vb"
+﻿#Region "Microsoft.VisualBasic::2b8a2988b0e55e0d709ae5a0bfc98a32, DataMySql\kb_UniProtKB\MySQL\protein_go.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class protein_go
+    ' 
+    '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -147,4 +161,3 @@ End Class
 
 
 End Namespace
-

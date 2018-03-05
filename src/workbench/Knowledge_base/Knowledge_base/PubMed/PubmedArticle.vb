@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::abfaf193b09ea2aa38d44f41c230bf8f, ..\workbench\Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::abfaf193b09ea2aa38d44f41c230bf8f, Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,32 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class PubmedArticle
+    ' 
+    '     Properties: MedlineCitation, PubmedData
+    ' 
+    ' Class MedlineCitation
+    ' 
+    '     Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
+    '                 DateRevised, MedlineJournalInfo, MeshHeadingList, Owner, PMID
+    '                 Status
+    ' 
+    ' Class MeshHeading
+    ' 
+    '     Properties: DescriptorName, QualifierName
+    ' 
+    ' Class PubmedData
+    ' 
+    '     Properties: ArticleIdList, History, PublicationStatus
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

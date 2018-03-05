@@ -1,50 +1,71 @@
-﻿#Region "Microsoft.VisualBasic::9ac59f7c1eabfc651050a1be4d6f0b3b, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
+﻿#Region "Microsoft.VisualBasic::ba8e69c658cd501b28599875bca1c6cb, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+' Module Utilities
+' 
+'     Function: __alignCommon, Align, Align2, AlignSelf, CutMlAlignment
+'               NW, NWNT
+'     Class AlignmentResult
+' 
+'         Properties: Query, Subject
+' 
+'         Function: __getReference, __getSubject, SafeAlign
+' 
+'         Sub: (+3 Overloads) New
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 
     ''' <summary>
-    ''' <see cref="RunNeedlemanWunsch.RunAlign(FASTA.FastaSeq, FASTA.FastaSeq, Boolean, String)"/>
+    ''' <see cref="RunNeedlemanWunsch.RunAlign(FastaSeq, FastaSeq, TextWriter)"/>
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -58,8 +79,12 @@ Partial Module Utilities
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & subject.BaseName & ".txt")
-        Call RunNeedlemanWunsch.RunAlign(New FASTA.FastaSeq(query), New FASTA.FastaSeq(subject), False, out)
+        Dim out$ = args("/out") Or (query.TrimSuffix & "-" & subject.BaseName & ".txt")
+
+        With out.OpenWriter
+            Call RunNeedlemanWunsch.RunAlign(New FastaSeq(query), New FastaSeq(subject), .ByRef)
+        End With
+
         Return 0
     End Function
 
@@ -75,15 +100,17 @@ Partial Module Utilities
             .SequenceData = args <= "/subject"
         }
 
-        Dim score# = RunNeedlemanWunsch.RunAlign(query, target, False, echo:=True)
+        With Console.Out
+            Dim score# = RunNeedlemanWunsch.RunAlign(query, target, .ByRef)
 
-        Call println()
-        Call println("------------------> alignment_score:=" & score)
+            Call println()
+            Call println("------------------> alignment_score:=" & score)
+        End With
 
         Return 0
     End Function
 
-    <ExportAPI("/align.SmithWaterman", 
+    <ExportAPI("/align.SmithWaterman",
                Usage:="/align.SmithWaterman /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
     <Group(CLIGrouping.Aligner)>
     Public Function Align2(args As CommandLine) As Integer
@@ -93,7 +120,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject) & ".xml")
         Dim queryFa As New FASTA.FastaSeq(query)
         Dim subjectFa As New FASTA.FastaSeq(subject)
-        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
+        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, BlosumParser.LoadMatrix(blosum))
         Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
         Call output.__DEBUG_ECHO

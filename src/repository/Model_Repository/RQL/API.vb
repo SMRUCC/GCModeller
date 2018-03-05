@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::d49afe15e35468fbd89842091831543c, ..\repository\Model_Repository\RQL\API.vb"
+﻿#Region "Microsoft.VisualBasic::d49afe15e35468fbd89842091831543c, Model_Repository\RQL\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,24 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module API
+    ' 
+    '     Properties: RepositoryEngine
+    ' 
+    '     Function: CreateGenbankEntryDump, CreateUser, DBInit, GetSecurityTableInfo, ImportsGBK
+    '               (+2 Overloads) QueryGBKByDefinition, (+2 Overloads) QueryGBKByLocusID, SetRepositoryRoot, SQLImports, SQLQuery
+    '               UpdateGenbankTableSchema
+    ' 
+    '     Sub: New
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

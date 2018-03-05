@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::46690d49351967023e5794878dedee07, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::3994274ef3c433b208a6e0737e29e4d5, visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
     ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module BlastVisualize
+    ' 
+    '         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
+    '                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
+    '                   InternalShortID_s, InvokeDrawing, LoadResult, PlotMap, ShortID
+    ' 
+    '         Sub: AssignCogClass
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

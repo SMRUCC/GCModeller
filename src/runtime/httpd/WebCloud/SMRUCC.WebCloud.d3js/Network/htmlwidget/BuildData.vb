@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d76fb7c5e574d9a3c8e2443a562a330e, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\BuildData.vb"
+﻿#Region "Microsoft.VisualBasic::d76fb7c5e574d9a3c8e2443a562a330e, WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\BuildData.vb"
 
 ' Author:
 ' 

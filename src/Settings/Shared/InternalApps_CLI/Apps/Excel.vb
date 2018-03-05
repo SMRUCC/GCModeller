@@ -1,31 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::0bbdc6c9e243ce6c024d2823357c2011, ..\Settings\Shared\InternalApps_CLI\Apps\Excel.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -42,12 +14,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /Cbind:       Join of two table by a unique ID.
-'  /Create:      Create an empty Excel xlsx package file on a specific file path
-'  /Extract:     Open target excel file and get target table and save into a csv file.
-'  /Print:       Print the csv/xlsx file content onto the console screen or text file in table layout.
-'  /push:        Write target csv table its content data as a worksheet into the target Excel package.
-'  /rbind:       Row bind(merge tables directly) of the csv tables
+'  /Association:     
+'  /Cbind:           Join of two table by a unique ID.
+'  /Create:          Create an empty Excel xlsx package file on a specific file path
+'  /Extract:         Open target excel file and get target table and save into a csv file.
+'  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
+'  /push:            Write target csv table its content data as a worksheet into the target Excel package.
+'  /rbind:           Row bind(merge tables directly) of the csv tables
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -68,6 +41,29 @@ Public Class Excel : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+''' <summary>
+''' ```
+''' /Association /a &lt;a.csv> /b &lt;dataset.csv> [/column.A &lt;scan0> /out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function Association(a As String, b As String, Optional column_a As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Association")
+    Call CLI.Append(" ")
+    Call CLI.Append("/a " & """" & a & """ ")
+    Call CLI.Append("/b " & """" & b & """ ")
+    If Not column_a.StringEmpty Then
+            Call CLI.Append("/column.a " & """" & column_a & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
 
 ''' <summary>
 ''' ```
@@ -112,7 +108,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Extract /open &lt;xlsx> /sheetName &lt;name_string> [/out &lt;out.csv>]
+''' /Extract /open &lt;xlsx> /sheetName &lt;name_string> [/out &lt;out.csv/directory>]
 ''' ```
 ''' Open target excel file and get target table and save into a csv file.
 ''' </summary>
@@ -199,4 +195,3 @@ Public Function rbind([in] As String, Optional out As String = "") As Integer
 End Function
 End Class
 End Namespace
-
