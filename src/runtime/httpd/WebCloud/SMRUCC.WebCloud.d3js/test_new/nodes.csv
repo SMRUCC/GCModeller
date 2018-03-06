@@ -1,0 +1,67 @@
+ID,NodeType,x,y
+1-Monohexadecanoylglycerol,<=1E-5,-14.92078,0.7432151
+"2,4,6-Tri-tert.-butylbenzenethiol",<=0.01,-13.99535,5.709185
+4-Aminobutyric acid,<=1E-3,23.20452,-8.581388
+4-hydroxyproline,<=1E-5,10.88355,4.556114
+Adenine,<=0.01,41.03251,22.96061
+Adenosine,<=0.01,7.064303,-1.028503
+Alanine,<=1E-5,-8.12339,-10.79999
+Arabitol,>0.01,66.59824,-53.05379
+Arginine,<=1E-5,16.3956,11.46003
+Asparagine,<=1E-5,-23.00368,5.714238
+Aspartic acid,<=1E-5,-56.93682,7.61009
+Benzoic acid,<=1E-5,13.46782,15.98291
+beta-Alanine,<=1E-5,19.21268,2.012908
+Citric acid,<=1E-5,-36.44575,-17.42097
+Cysteine,<=1E-5,19.39228,23.74374
+Digalactosylglycerol,>0.01,-27.37352,-28.0123
+Dihydroorotic acid,<=1E-4,-21.54483,-20.58216
+Docosanoic acid,<=1E-5,-7.411875,5.989281
+Ethanolamine,<=0.01,46.55682,14.06196
+Fructose,<=1E-5,-22.51404,0.7649222
+Fumaric acid,<=1E-5,-43.79038,-14.15613
+Galactinol,<=1E-5,23.59013,27.48154
+Glucose,<=1E-5,-38.5819,0.1218901
+Glutamic acid,<=1E-4,-13.87689,-8.287312
+Glyceric acid,<=1E-4,-47.95004,11.50723
+Glycerol-3-phosphate,<=1E-5,32.14709,10.6219
+Glycine,<=1E-5,17.20303,7.147582
+Glycolic acid,<=0.01,-87.05712,-6.387161
+Guanine,<=1E-5,27.37884,-3.059695
+Heptadecanoic acid,>0.01,-71.38392,-36.78299
+Hexadecanoic acid,<=1E-5,14.46293,-1.742293
+Histidine,<=1E-5,24.29752,1.545738
+Homoserine,<=1E-5,24.83457,13.48598
+Hypoxanthine,<=1E-5,33.43696,0.002892211
+Isoleucine,<=1E-5,-19.14546,-15.05792
+Leucine,<=1E-5,-25.64407,-4.221747
+Lysine,<=1E-5,8.201956,-4.76502
+Malic acid,<=1E-5,-32.32545,-2.078421
+Methionine,<=0.01,29.97412,16.21861
+myo-Inositol,<=1E-5,37.99717,12.89655
+myo-Inositol-1-phosphate,<=1E-5,34.57318,5.731605
+Nonadecanoic acid,>0.01,-44.86668,45.40094
+Octadecanoic acid,<=1E-5,4.374852,-9.530318
+Ornithine,<=0.01,43.46577,6.96887
+Oxalic acid,<=1E-3,24.60894,19.93694
+Pentadecanoic acid,<=0.01,17.59034,-9.457197
+Phenylalanine,<=1E-5,-7.560338,-2.200774
+Phosphoric acid,<=1E-5,33.02295,24.46625
+Proline,<=1E-5,22.58128,8.450993
+Putrescine,<=1E-5,38.93272,1.040798
+Ribonic acid,<=1E-5,28.43964,6.146635
+Serine,<=1E-5,-24.46781,-13.7605
+Sorbitol,<=1E-5,2.287262,-0.1639451
+Suberyl glycine,<=1E-5,4.073475,5.176013
+Succinic acid,<=1E-4,-13.9609,-3.895369
+Sucrose,<=1E-4,-38.98711,-11.5352
+Tetradecanoic acid,<=1E-3,-45.69524,-21.65836
+Threitol,<=1E-5,-21.44332,-8.80659
+Threonic acid,<=1E-5,-42.37207,-6.116894
+Threonine,<=1E-5,-4.464658,-7.236443
+Tricosanoic acid,<=0.01,36.20086,19.03357
+Tryptophan,<=1E-5,8.678126,9.418134
+Tyrosine,<=1E-5,-13.09506,-14.57714
+Uracil,<=0.01,-51.44461,-7.818229
+Urea,>0.01,114.0034,-12.16233
+Valine,<=1E-5,-29.7825,-9.172869

@@ -63,6 +63,8 @@ Namespace Network.htmlwidget
 
     Public Class JSON
         Public Property x As NetGraph
+        Public Property evals As String()
+        Public Property jsHooks As String()
     End Class
 
     Public Class NetGraph
@@ -84,6 +86,7 @@ Namespace Network.htmlwidget
         Public Property opacity As Double
         Public Property zoom As Boolean
         Public Property legend As Boolean
+        Public Property arrows As Boolean
         Public Property nodesize As Boolean
         Public Property radiusCalculation As String
         Public Property bounded As Boolean
@@ -99,6 +102,6 @@ Namespace Network.htmlwidget
 
     Public Class Nodes
         Public Property name As String()
-        Public Property group As Integer()
+        Public Property group As String()
     End Class
 End Namespace
