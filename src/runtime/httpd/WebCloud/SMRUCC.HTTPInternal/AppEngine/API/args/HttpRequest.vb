@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::826b38ff2746e549ffd2e35f951afbf7, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpRequest
-    ' 
-    '         Properties: HttpHeaders, HTTPMethod, IsWWWRoot, Remote, URL
-    '                     URLParameters, version
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: (+2 Overloads) New
-    ' 
-    '     Class HttpPOSTRequest
-    ' 
-    '         Properties: POSTData
-    ' 
-    '         Sub: New
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpRequest
+' 
+'         Properties: HttpHeaders, HTTPMethod, IsWWWRoot, Remote, URL
+'                     URLParameters, version
+' 
+'         Function: ToString
+' 
+'         Sub: (+2 Overloads) New
+' 
+'     Class HttpPOSTRequest
+' 
+'         Properties: POSTData
+' 
+'         Sub: New
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@ Imports System.Collections.Specialized
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 Imports SMRUCC.WebCloud.HTTPInternal.Core
@@ -96,10 +97,10 @@ Namespace AppEngine.APIMethods.Arguments
             End Get
         End Property
 
-        Default Public Overridable ReadOnly Property Argument(name As String) As String
+        Default Public Overridable ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return URLParameters(name)
+                Return New DefaultString(URLParameters(name))
             End Get
         End Property
 
@@ -125,13 +126,13 @@ Namespace AppEngine.APIMethods.Arguments
 
         Public ReadOnly Property POSTData As PostReader
 
-        Default Public Overrides ReadOnly Property Argument(name As String) As String
+        Default Public Overrides ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If URLParameters.ContainsKey(name) Then
-                    Return URLParameters(name)
+                    Return New DefaultString(URLParameters(name))
                 Else
-                    Return POSTData(name)
+                    Return New DefaultString(POSTData.Form(name))
                 End If
             End Get
         End Property
