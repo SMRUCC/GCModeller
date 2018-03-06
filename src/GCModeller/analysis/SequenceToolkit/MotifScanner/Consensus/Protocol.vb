@@ -40,9 +40,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
-Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -66,32 +67,6 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function matrixRow(q As HSP, i%, seeds As IGrouping(Of String, SeqValue(Of HSP))()) As DataSet
-        Dim row As New DataSet With {
-            .ID = i,
-            .Properties = New Dictionary(Of String, Double)
-        }
-        Dim j As int = 1
-        Dim query As New FastaSeq With {
-            .SequenceData = q.Query
-        }
-
-        For Each s As IGrouping(Of String, SeqValue(Of HSP)) In seeds
-            ' 因为在这里需要构建一个矩阵，所以自己比对自己这个情况也需要放进去了
-            Dim score# = 0
-            Dim subject As New FastaSeq With {
-                .SequenceData = s.Key
-            }
-
-            RunNeedlemanWunsch.RunAlign(query, subject, score)
-
-            row(++j) = score
-        Next
-
-        Return row
-    End Function
-
-    <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
                                             Optional leastN% = 5,
                                             Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
@@ -111,98 +86,28 @@ Public Module Protocol
             .AsList
 
         Call $"Generate {seeds.Count} seeds...".__DEBUG_ECHO
-        Call "Get consensus for the pairwise seeding...".__DEBUG_ECHO
 
-        '' 之后对得到的种子序列进行两两全局比对，得到距离矩阵
-        'Dim repSeq As Dictionary(Of String, String) = seeds _
-        '    .SeqIterator _
-        '    .AsParallel _
-        '    .ToDictionary(Function(i) CStr(i.i),
-        '                  Function(q) q.value.Consensus)
-
-        Call "Build global distance matrix for the seeds...".__DEBUG_ECHO
-
-        ' 先做一次group操作，这样子可以将重复的序列减少
-        ' 做出矩阵之后直接复制就可
-        Dim queryGroup = seeds _
-            .SeqIterator _
-            .GroupBy(Function(q) q.value.Query) _
-            .ToArray
-
-        If param.seedOccurances > 0 Then
-            Dim n% = param.seedOccurances * regions.Length
-
-            Call $"Seeds should be found at least on {n} source sequence.".__DEBUG_ECHO
-
-            ' 种子至少要在n条序列上出现才会被使用，否则会被丢弃掉以减少数据集
-            queryGroup = queryGroup _
-                .AsParallel _
-                .Where(Function(seed)
-                           Dim swMatrix As New DNAMatrix
-                           Dim test = regions _
-                               .Select(Function(subject)
-                                           Dim smithWaterman As New SmithWaterman(
-                                               seed.Key,
-                                               subject.SequenceData,
-                                               swMatrix
-                                           )
-                                           Dim result = smithWaterman.GetOutput(0.6, 6)
-
-                                           Return result.Best
-                                       End Function) _
-                               .Where(Function(hit) Not hit Is Nothing) _
-                               .Count
-
-                           Return test >= n
-                       End Function) _
-                .ToArray
-        End If
-
-        Call $"query group for matrix: {queryGroup.Length}".__DEBUG_ECHO
-
-        Dim matrix As DataSet() = queryGroup _
-            .SeqIterator _
-            .AsParallel _
-            .Select(Function(seed)
-                        Dim q As HSP = seed.value.First.value
-                        ' 在这里的i是针对前面的queryGroup的
-                        Dim row = q.matrixRow(seed.i, queryGroup)
-                        Return row
-                    End Function) _
-            .ToArray
-
-        Call "Kmeans...".__DEBUG_ECHO
-
-        ' 即每一个motif至少要由n条种子序列构成
-        Dim expectedMotifs = matrix.Length / leastN - 1
-
-        ' 进行聚类分簇
-        Dim clusters = matrix _
-            .ToKMeansModels _
-            .Kmeans(expected:=expectedMotifs, debug:=True)
-        Dim motifs = clusters _
-            .GroupBy(Function(c) c.Cluster) _
-            .ToArray
+        ' 构建出二叉树
+        ' 每一个node都是一个cluster
+        ' 可以按照成员的数量至少要满足多少条来取cluster的结果
+        Dim tree = seeds _
+            .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
+            .BuildAVLTreeCluster(0.95)
 
         Call "Populate motifs...".__DEBUG_ECHO
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
-        For Each group As IGrouping(Of String, EntityClusterModel) In motifs
-            Dim MSA = group _
-                .Select(Function(seq)
-                            ' ID -> queryGroup -> repSeq
-                            Dim groupID% = Val(seq.ID)
-                            Dim groupHSP = queryGroup(groupID)
+        For Each group As BinaryTree(Of String, String) In tree.PopulateNodes
+            Dim members As List(Of String) = group!values
 
-                            Return groupHSP _
-                                .Select(Function(member)
-                                            Return New FastaSeq With {
-                                                .SequenceData = member.value.Query,
-                                                .Headers = {member.i}
-                                            }
-                                        End Function)
+            If members.Count < leastN Then
+                Continue For
+            End If
+
+            Dim MSA = members _
+                .Select(Function(seq)
+                            Return New FastaSeq With {.SequenceData = seq, .Headers = {""}}
                         End Function) _
-                .IteratesALL _
                 .MultipleAlignment(Nothing)
             Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
 

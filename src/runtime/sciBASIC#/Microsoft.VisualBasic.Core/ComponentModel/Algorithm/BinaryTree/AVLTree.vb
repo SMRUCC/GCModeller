@@ -81,22 +81,26 @@ Namespace ComponentModel.Algorithm.BinaryTree
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Add(key As K, value As V)
-            _root = Add(key, value, _root)
+        Public Sub Add(key As K, value As V, Optional valueReplace As Boolean = True)
+            _root = Add(key, value, _root, valueReplace)
         End Sub
 
-        Public Function Add(key As K, value As V, tree As BinaryTree(Of K, V)) As BinaryTree(Of K, V)
+        Public Function Add(key As K, value As V, tree As BinaryTree(Of K, V), valueReplace As Boolean) As BinaryTree(Of K, V)
             If tree Is Nothing Then
                 tree = New BinaryTree(Of K, V)(key, value, Nothing, views)
             End If
 
             Select Case compares(key, tree.Key)
-                Case < 0 : Call appendLeft(tree, key, value)
-                Case > 0 : Call appendRight(tree, key, value)
+                Case < 0 : Call appendLeft(tree, key, value, valueReplace)
+                Case > 0 : Call appendRight(tree, key, value, valueReplace)
                 Case = 0
 
                     ' 将value追加到附加值中（也可对应重复元素）
-                    tree.Value = value
+                    If valueReplace Then
+                        tree.Value = value
+                    End If
+
+                    Call DirectCast(tree!values, List(Of V)).Add(value)
 
                 Case Else
                     ' This will never happend!
@@ -108,8 +112,8 @@ Namespace ComponentModel.Algorithm.BinaryTree
             Return tree
         End Function
 
-        Private Sub appendRight(ByRef tree As BinaryTree(Of K, V), key As K, value As V)
-            tree.Right = Add(key, value, tree.Right)
+        Private Sub appendRight(ByRef tree As BinaryTree(Of K, V), key As K, value As V, replace As Boolean)
+            tree.Right = Add(key, value, tree.Right, replace)
 
             If tree.Right.height - tree.Left.height = 2 Then
                 If compares(key, tree.Right.Key) > 0 Then
@@ -120,8 +124,8 @@ Namespace ComponentModel.Algorithm.BinaryTree
             End If
         End Sub
 
-        Private Sub appendLeft(ByRef tree As BinaryTree(Of K, V), key As K, value As V)
-            tree.Left = Add(key, value, tree.Left)
+        Private Sub appendLeft(ByRef tree As BinaryTree(Of K, V), key As K, value As V, replace As Boolean)
+            tree.Left = Add(key, value, tree.Left, replace)
 
             If tree.Left.height - tree.Right.height = 2 Then
                 If compares(key, tree.Left.Key) < 0 Then
