@@ -70,6 +70,11 @@ Namespace ComponentModel.Algorithm.BinaryTree
         ReadOnly compares As Comparison(Of K)
         ReadOnly views As Func(Of K, String)
 
+        ''' <summary>
+        ''' Create an instance of the AVL binary tree.
+        ''' </summary>
+        ''' <param name="compares">Compare between two keys.</param>
+        ''' <param name="views">Display the key as string</param>
         Sub New(compares As Comparison(Of K), Optional views As Func(Of K, String) = Nothing)
             Me.compares = compares
             Me.views = views
