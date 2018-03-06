@@ -92,7 +92,7 @@ Public Module Protocol
         ' 可以按照成员的数量至少要满足多少条来取cluster的结果
         Dim tree = seeds _
             .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
-            .BuildAVLTreeCluster(0.95)
+            .BuildAVLTreeCluster(param.seedingCutoff)
 
         Call "Populate motifs...".__DEBUG_ECHO
 
