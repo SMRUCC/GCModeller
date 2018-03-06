@@ -15,7 +15,7 @@ Public Module SeedCluster
     ''' <param name="compares"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Vector(compares As (q$, s$)) As (q As Vector, s As Vector)
+    Public Function ScoreVector(compares As (q$, s$)) As (q As Vector, s As Vector)
         ' 先进行全局比对，将qs序列都变为等长序列
         Dim query As New FastaSeq With {.SequenceData = compares.q.ToUpper, .Headers = {"query"}}
         Dim subject As New FastaSeq With {.SequenceData = compares.s.ToUpper, .Headers = {"subject"}}
@@ -25,7 +25,7 @@ Public Module SeedCluster
         Dim a As New List(Of Double)
         Dim b As New List(Of Double)
 
-        For Each nt As SeqValue(Of (q As Char, s As Char)) In (q, s).seqtuple
+        For Each nt As SeqValue(Of (q As Char, s As Char)) In (q, s).SeqTuple
             With nt.value.ScoreTuple
                 a.Add(.a)
                 b.Add(.b)
