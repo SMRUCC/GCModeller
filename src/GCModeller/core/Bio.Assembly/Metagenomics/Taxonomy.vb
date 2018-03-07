@@ -123,6 +123,20 @@ Namespace Metagenomics
             )
         End Sub
 
+        Sub New(copy As Taxonomy)
+            With copy
+                Me.scientificName = .scientificName
+
+                Me.class = .class
+                Me.family = .family
+                Me.genus = .genus
+                Me.kingdom = .kingdom
+                Me.order = .order
+                Me.phylum = phylum
+                Me.species = .species
+            End With
+        End Sub
+
         ''' <summary>
         ''' 需要在这里使用无参的构造函数来提供按照属性赋值的初始化形式
         ''' </summary>
