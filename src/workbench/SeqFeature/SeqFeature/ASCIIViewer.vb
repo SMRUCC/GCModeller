@@ -50,9 +50,10 @@ Public Module ASCIIViewer
 
                 If i > 0 Then
                     For j As Integer = i - 1 To 0 Step -1
-                        Dim delta = lefts(j) - left
-                        .Write(New String(" "c, delta - 1) & "|")
-                        left = lefts(j)
+                        Dim delta% = lefts(j) - left
+
+                        Call .Write(New String(" "c, delta - 1) & "|")
+                        Call left.SetValue(lefts(j))
                     Next
                 End If
 
@@ -60,6 +61,8 @@ Public Module ASCIIViewer
             Next
 
             Dim l As New List(Of Char)
+
+            maxOffset = maxOffset - seq.Length + 1
 
             With lefts.Indexing
                 For j As Integer = 1 To seq.Length
@@ -72,9 +75,9 @@ Public Module ASCIIViewer
             End With
 
             Call .WriteLine()
-            Call .WriteLine(New String(" "c, 4) & l.CharString)
-            Call .WriteLine(New String(" "c, 4) & seq)
-            Call .WriteLine($"1   {New String("-"c, seq.Length)}   {seq.Length}")
+            Call .WriteLine(New String(" "c, maxOffset) & l.CharString)
+            Call .WriteLine(New String(" "c, maxOffset) & seq)
+            Call .WriteLine(New String(" "c, maxOffset - 4) & $"1   {New String("-"c, seq.Length)}   {seq.Length}")
 
             Call .Flush()
         End With
@@ -83,7 +86,15 @@ End Module
 
 Public Class Site
 
+    ''' <summary>
+    ''' 位点的名称
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Name As String
+    ''' <summary>
+    ''' 这个位点在序列上面的位置
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Left As Integer
 
     Public Overrides Function ToString() As String
