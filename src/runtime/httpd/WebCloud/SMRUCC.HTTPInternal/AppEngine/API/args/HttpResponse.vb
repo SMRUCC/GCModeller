@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace AppEngine.APIMethods.Arguments
@@ -170,14 +171,15 @@ Namespace AppEngine.APIMethods.Arguments
         ''' <param name="obj"></param>
         Public Sub WriteJSON(Of T)(obj As T)
             Dim json As String = obj.GetJson
-            Dim bytes As Byte() = Encoding.UTF8.GetBytes(json)
+            Dim bytes As Byte() = TextEncodings.UTF8WithoutBOM.GetBytes(json)
 
             If Not __writeData Then
                 __writeData = True
                 Call WriteHeader(MIME.Json, bytes.Length)
             End If
 
-            Call response.WriteLine(json)
+            Call response.BaseStream.Write(bytes, Scan0, bytes.Length)
+            Call response.BaseStream.Flush()
         End Sub
 
         Public Sub WriteXML(Of T)(obj As T)
