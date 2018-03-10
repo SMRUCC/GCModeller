@@ -1,6 +1,10 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
+''' <summary>
+''' 只适合显示短序列上面的Feature
+''' </summary>
 Public Module ASCIIViewer
 
     '                           ProtK 
@@ -16,8 +20,54 @@ Public Module ASCIIViewer
     '                 1   --------   8
 
     <Extension>
-    Public Sub DisplayOn(sites As IEnumerable(Of Site), seq$, Optional dev As TextWriter = Nothing)
+    Public Sub DisplayOn(sites As IEnumerable(Of Site), seq$, Optional dev As TextWriter = Nothing, Optional deli$ = ", ")
+        ' 先按照位点的位置进行分组
+        Dim groups = sites _
+            .GroupBy(Function(site) site.Left) _
+            .OrderBy(Function(g) g.Key) _
+            .ToArray
+        Dim labels = groups _
+            .Select(Function(g)
+                        Return g.Select(Function(site) site.Name) _
+                                .OrderBy(Function(s) s) _
+                                .Distinct _
+                                .JoinBy(deli)
+                    End Function) _
+            .ToArray
+        Dim lens%() = labels.Select(AddressOf Len).ToArray
+        Dim lefts%() = groups.Select(Function(g) g.Key).ToArray
+        Dim maxOffset% = lens.Max
 
+
+
+        With dev Or App.StdOut
+            For i As Integer = 0 To labels.Length - 1
+                Dim labeList$ = labels(i)
+                Dim left% = lefts(i)
+                Dim labelLength = lens(i)
+
+
+            Next
+
+            Dim l As New List(Of Char)
+
+            With lefts.Indexing
+                For j As Integer = 1 To seq.Length
+                    If .IndexOf(j) > -1 Then
+                        l += "|"c
+                    Else
+                        l += " "c
+                    End If
+                Next
+            End With
+
+            Call .WriteLine()
+            Call .WriteLine(l.CharString)
+            Call .WriteLine(seq)
+            Call .WriteLine($"1   {New String("-"c, seq.Length)}   {seq.Length}")
+
+            Call .Flush()
+        End With
     End Sub
 End Module
 
