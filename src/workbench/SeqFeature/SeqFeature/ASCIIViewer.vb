@@ -36,24 +36,27 @@ Public Module ASCIIViewer
             .ToArray
         Dim lens%() = labels.Select(AddressOf Len).ToArray
         Dim lefts%() = groups.Select(Function(g) g.Key).ToArray
-        Dim maxOffset% = lens.Max
+        Dim maxOffset% = lens.Max + seq.Length
 
         With dev Or App.StdOut
             For i As Integer = 0 To labels.Length - 1
                 Dim labeList$ = labels(i)
                 Dim left% = lefts(i)
                 Dim labelLength = lens(i)
-                Dim offset = maxOffset - (1 + labeList.Length)
+                Dim offset = maxOffset - labeList.Length - i
 
-                Call .Write(New String(" "c, offset))
+                Call .Write(New String(" "c, offset + 1))
                 Call .Write(labeList)
-                Call .Write("|"c)
 
-                For j As Integer = i To 0 Step -1
-                    Dim delta = lefts(j) - left
-                    .Write(New String(" "c, delta - 1) & "|")
-                    left = lefts(j)
-                Next
+                If i > 0 Then
+                    For j As Integer = i - 1 To 0 Step -1
+                        Dim delta = lefts(j) - left
+                        .Write(New String(" "c, delta - 1) & "|")
+                        left = lefts(j)
+                    Next
+                End If
+
+                Call .WriteLine()
             Next
 
             Dim l As New List(Of Char)
@@ -69,8 +72,8 @@ Public Module ASCIIViewer
             End With
 
             Call .WriteLine()
-            Call .WriteLine(l.CharString)
-            Call .WriteLine(seq)
+            Call .WriteLine(New String(" "c, 4) & l.CharString)
+            Call .WriteLine(New String(" "c, 4) & seq)
             Call .WriteLine($"1   {New String("-"c, seq.Length)}   {seq.Length}")
 
             Call .Flush()
