@@ -24,7 +24,7 @@ Public Module ASCIIViewer
         ' 先按照位点的位置进行分组
         Dim groups = sites _
             .GroupBy(Function(site) site.Left) _
-            .OrderBy(Function(g) g.Key) _
+            .OrderByDescending(Function(g) g.Key) _
             .ToArray
         Dim labels = groups _
             .Select(Function(g)
@@ -38,15 +38,22 @@ Public Module ASCIIViewer
         Dim lefts%() = groups.Select(Function(g) g.Key).ToArray
         Dim maxOffset% = lens.Max
 
-
-
         With dev Or App.StdOut
             For i As Integer = 0 To labels.Length - 1
                 Dim labeList$ = labels(i)
                 Dim left% = lefts(i)
                 Dim labelLength = lens(i)
+                Dim offset = maxOffset - (1 + labeList.Length)
 
+                Call .Write(New String(" "c, offset))
+                Call .Write(labeList)
+                Call .Write("|"c)
 
+                For j As Integer = i To 0 Step -1
+                    Dim delta = lefts(j) - left
+                    .Write(New String(" "c, delta - 1) & "|")
+                    left = lefts(j)
+                Next
             Next
 
             Dim l As New List(Of Char)
