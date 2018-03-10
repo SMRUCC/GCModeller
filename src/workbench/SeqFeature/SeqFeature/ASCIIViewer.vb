@@ -79,6 +79,11 @@ Public Module ASCIIViewer
 End Module
 
 Public Class Site
+
     Public Property Name As String
     Public Property Left As Integer
+
+    Public Overrides Function ToString() As String
+        Return $"{Name} @ {Left}"
+    End Function
 End Class
