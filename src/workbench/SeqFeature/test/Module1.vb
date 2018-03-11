@@ -1,4 +1,6 @@
-﻿Module Module1
+﻿Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
+
+Module Module1
 
     Sub Main()
         Dim sites As New List(Of Site)
