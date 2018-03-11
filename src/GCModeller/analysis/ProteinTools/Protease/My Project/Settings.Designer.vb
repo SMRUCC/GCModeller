@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.GCModeller.Workbench.SeqFeature.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.SequenceModel.Protease.My.MySettings
             Get
-                Return Global.SMRUCC.genomics.GCModeller.Workbench.SeqFeature.My.MySettings.Default
+                Return Global.SMRUCC.genomics.SequenceModel.Protease.My.MySettings.Default
             End Get
         End Property
     End Module
