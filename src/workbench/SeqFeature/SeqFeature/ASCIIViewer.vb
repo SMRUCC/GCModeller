@@ -66,7 +66,7 @@ Public Module ASCIIViewer
 
             With lefts.Indexing
                 For j As Integer = 1 To seq.Length
-                    If .IndexOf(j) > -1 Then
+                    If .IndexOf(x:=j) > -1 Then
                         l += "|"c
                     Else
                         l += " "c
