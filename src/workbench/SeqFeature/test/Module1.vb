@@ -1,8 +1,16 @@
-﻿Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
+﻿Imports Microsoft.VisualBasic.Data.csv
+Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
+Imports SMRUCC.genomics.SequenceModel.Protease
 
 Module Module1
 
     Sub Main()
+
+        Call {New CleavageRule}.SaveTo("./CleavageRule.csv")
+
+
+        Pause()
+
         Call viewerTest()
     End Sub
 
