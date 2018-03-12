@@ -80,6 +80,9 @@ Public Class TaxonomyRepository : Implements IRepositoryRead(Of String, Taxonomy
                           Function(g) g.ToArray)
     End Function
 
+    ' 2018-3-12
+    ' 在这里应该先构建一个二叉树，在进行查找，查找效率会具有很大的提升空间
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Selects(range As Taxonomy) As IEnumerable(Of TaxonomyRef)
         Return taxonIDtable _
