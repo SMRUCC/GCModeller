@@ -1,0 +1,49 @@
+Name,Protease,P4,P3,P2,P1,P1C,P2C
+Arg-C proteinase,ArgC,-,-,-,R,-,-
+Asp-N endopeptidase,AspN,-,-,-,-,D,-
+BNPS-Skatole,BNPS,-,-,-,W,-,-
+Caspase 1,Cas1,[FWYL],-,[HAT],D,[^PEDQKR],-
+Caspase 2,Cas2,D,V,A,D,[^PEDQKR],-
+Caspase 3,Cas3,D,M,Q,D,[^PEDQKR],-
+Caspase 4,Cas4,L,E,V,D,[^PEDQKR],-
+Caspase 5,Cas5,[LW],E,H,D,-,-
+Caspase 6,Cas6,V,E,[HI],D,[^PEDQKR],-
+Caspase 7,Cas7,D,E,V,D,[^PEDQKR],-
+Caspase 8,Cas8,[IL],E,T,D,[^PEDQKR],-
+Caspase 9,Cas9,L,E,H,D,-,-
+Caspase 10,Cas10,I,E,A,D,-,-
+"Chymotrypsin-high specificity (C-term to [FYW], not before P)",Chy_hi,-,-,-,[FY],[^P],-
+"Chymotrypsin-high specificity (C-term to [FYW], not before P)",Chy_hi,-,-,-,W,[^MP],-
+"Chymotrypsin-low specificity (C-term to [FYWML], not before P)",Chy_low,-,-,-,[FLY],[^P],-
+"Chymotrypsin-low specificity (C-term to [FYWML], not before P)",Chy_low,-,-,-,W,[^MP],-
+"Chymotrypsin-low specificity (C-term to [FYWML], not before P)",Chy_low,-,-,-,M,[^PY],-
+"Chymotrypsin-low specificity (C-term to [FYWML], not before P)",Chy_low,-,-,-,H,[^DMPW],-
+Clostripain (Clostridiopeptidase B),CloB,-,-,-,R,-,-
+CNBr,CNBr,-,-,-,M,-,-
+Enterokinase,Enter,[DE],[DE],[DE],K,-,-
+Factor Xa,Xa,[AFGILTVM],[DE],G,R,-,-
+Formic acid,Formic,-,-,-,D,-,-
+Glutamyl endopeptidase,Glu,-,-,-,E,-,-
+GranzymeB,GranB,I,E,P,D,-,-
+Hydroxylamine,Hydr,-,-,-,N,G,-
+Iodosobenzoic acid,Lodo,-,-,-,W,-,-
+LysC,LysC,-,-,-,K,-,-
+Neutrophil elastase,Neu,-,-,-,[AV],-,-
+NTCB (2-nitro-5-thiocyanobenzoic acid),NTCB,-,-,-,-,C,-
+Pepsin (pH1.3),Pep1.3,-,[^HKR],[^P],[^R],[FL],[^P]
+Pepsin (pH1.3),Pep1.3,-,[^HKR],[^P],[FL],-,[^P]
+Pepsin (pH>2),Pep2,-,[^HKR],[^P],[^R],[FLWY],[^P]
+Pepsin (pH>2),Pep2,-,[^HKR],[^P],[FLWY],-,[^P]
+Proline-endopeptidase,Proli,-,-,[HKR],P,[^P],-
+Proteinase K,ProtK,-,-,-,[AEFILTVWY],-,-
+Staphylococcal peptidase I,Staph,-,-,[^E],E,-,-
+Thermolysin,Therm,-,-,-,[^DE],[AFILMV],-
+Thrombin,Thr,-,-,G,R,G,-
+Thrombin,Thr,[AFGILTVM],[AFGILTVWA],P,R,[^DE],[^DE]
+Trypsin,Tryp,-,-,-,[KR],[^P],-
+Trypsin,Tryp,-,-,W,K,P,-
+Trypsin,Tryp,-,-,M,R,P,-
+Trypsin,Tryp',-,-,[CD],K,D,-
+Trypsin,Tryp',-,-,C,K,[HY],-
+Trypsin,Tryp',-,-,C,R,K,-
+Trypsin,Tryp',-,-,R,R,[HR],-
