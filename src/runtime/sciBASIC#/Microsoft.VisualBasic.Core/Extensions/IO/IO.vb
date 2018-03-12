@@ -57,6 +57,12 @@ Imports Microsoft.VisualBasic.Text
 <Package("IO")>
 Public Module IOExtensions
 
+    ''' <summary>
+    ''' Open text writer interface from a given <see cref="Stream"/> <paramref name="s"/>. 
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <param name="encoding">By default is using <see cref="UTF8"/> text encoding.</param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function OpenTextWriter(s As Stream, Optional encoding As Encoding = Nothing) As StreamWriter
