@@ -36,14 +36,15 @@ Public Module ASCIIViewer
             .ToArray
         Dim lens%() = labels.Select(AddressOf Len).ToArray
         Dim lefts%() = groups.Select(Function(g) g.Key).ToArray
-        Dim maxOffset% = lens.Max + seq.Length
+        Dim seqLen% = seq.Length
+        Dim maxOffset% = lens.Max + seqLen
 
         With dev Or App.StdOut
             For i As Integer = 0 To labels.Length - 1
                 Dim labeList$ = labels(i)
                 Dim left% = lefts(i)
                 Dim labelLength = lens(i)
-                Dim offset = maxOffset - labeList.Length - i
+                Dim offset = maxOffset - labeList.Length - seqLen + left
 
                 Call .Write(New String(" "c, offset + 1))
                 Call .Write(labeList)
@@ -66,7 +67,7 @@ Public Module ASCIIViewer
 
             With lefts.Indexing
                 For j As Integer = 1 To seq.Length
-                    If .IndexOf(j) > -1 Then
+                    If .IndexOf(x:=j) > -1 Then
                         l += "|"c
                     Else
                         l += " "c
