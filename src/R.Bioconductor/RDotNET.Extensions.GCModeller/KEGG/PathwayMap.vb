@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b039c1cd5a411545abf0dfd2146a13d9, RDotNET.Extensions.GCModeller\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::1cd9d032328898a23962383f8d786192, RDotNET.Extensions.GCModeller\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module PathwayMap
     ' 
-    '     Function: buildAssign
+    '     Function: buildAssign, SaveRda
     ' 
     '     Sub: append
     ' 

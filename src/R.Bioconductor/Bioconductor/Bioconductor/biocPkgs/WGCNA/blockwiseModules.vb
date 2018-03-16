@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19688132400c6b33780d7bdd949e9230, Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
+﻿#Region "Microsoft.VisualBasic::bbdbf35e574f0e577b7c98f768e8a1af, Bioconductor\Bioconductor\biocPkgs\WGCNA\blockwiseModules.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,17 @@
 
     ' Summaries:
 
-    '  
+    '     Class blockwiseModules
     ' 
-    '     Properties: blocks, blockSizePenaltyPower, checkMissingData, corType, cosineCorrelation
-    '                 datExpr, deepSplit, detectCutHeight, getTOMs, impute
-    '                 indent, loadTOM, maxAbsCoreScatter, maxBlockSize, maxCoreScatter
-    '                 maxPOutliers, mergeCutHeight, minAbsGap, minAbsSplitHeight, minBranchEigennodeDissim
-    '                 minCoreKME, minCoreKMESize, minGap, minKMEtoStay, minModuleSize
-    '                 minSplitHeight, minStabilityDissim, networkType, nThreads, numericLabels
-    '                 pamRespectsDendro, pamStage, pearsonFallback, power, quickCor
-    '                 randomSeed, reassignThreshold, saveTOMFileBase, saveTOMs, stabilityLabels
-    '                 TOMDenom, TOMType, trapErrors, useBranchEigennodeDissim, verbose
+    '         Properties: blocks, blockSizePenaltyPower, checkMissingData, corType, cosineCorrelation
+    '                     datExpr, deepSplit, detectCutHeight, getTOMs, impute
+    '                     indent, loadTOM, maxAbsCoreScatter, maxBlockSize, maxCoreScatter
+    '                     maxPOutliers, mergeCutHeight, minAbsGap, minAbsSplitHeight, minBranchEigennodeDissim
+    '                     minCoreKME, minCoreKMESize, minGap, minKMEtoStay, minModuleSize
+    '                     minSplitHeight, minStabilityDissim, networkType, nThreads, numericLabels
+    '                     pamRespectsDendro, pamStage, pearsonFallback, power, quickCor
+    '                     randomSeed, reassignThreshold, saveTOMFileBase, saveTOMs, stabilityLabels
+    '                     TOMDenom, TOMType, trapErrors, useBranchEigennodeDissim, verbose
     ' 
     ' 
     ' /********************************************************************************/

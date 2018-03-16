@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ab0dea2f33f69ac3aba79d3e200aede, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\graphics\plot.vb"
+﻿#Region "Microsoft.VisualBasic::d470dafd76fb79e7c969633f9e7c9c4d, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\graphics\plot.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Class plot
     ' 
-    '     Properties: [sub], asp, main, type, x
-    '                 xlab, y, ylab
+    '         Properties: [sub], asp, main, type, x
+    '                     xlab, y, ylab
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a0677257c360efe175100e1ae7201c1, RDotNET\R.NET\Diagnostics\DataFrameColumnDisplay.vb"
+﻿#Region "Microsoft.VisualBasic::ad2f6099f8a464704c9015978f334421, RDotNET\R.NET\Diagnostics\DataFrameColumnDisplay.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: Display, Value
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

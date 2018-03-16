@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7b9c310fd8677e75347e5e08512a6b3, RDotNET\R.NET\DynamicVector.vb"
+﻿#Region "Microsoft.VisualBasic::f72e1f511580c2ce9791ce16423ea651, RDotNET\R.NET\DynamicVector.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,13 @@
     ' 
     '     Properties: DataSize, Item
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast, GetValue, ReadBoolean, ReadByte, ReadComplex
     '               ReadDouble, ReadInt32, ReadString, ReadSymbolicExpression
     ' 
-    '     Sub: New, SetValue, SetVectorDirect, WriteBoolean, WriteByte
-    '          WriteComplex, WriteDouble, WriteInt32, WriteString, WriteSymbolicExpression
+    '     Sub: SetValue, SetVectorDirect, WriteBoolean, WriteByte, WriteComplex
+    '          WriteDouble, WriteInt32, WriteString, WriteSymbolicExpression
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0edb78dcaa82a22d42cee8b475b16ebe, Bioconductor\Bioconductor\biocPkgs\DESeq2\plotCounts.vb"
+﻿#Region "Microsoft.VisualBasic::e7799a4b4a2b34faadf56721b5f94005, Bioconductor\Bioconductor\biocPkgs\DESeq2\plotCounts.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Class plotCounts
     ' 
-    '     Properties: dds, gene, intgroup, main, normalized
-    '                 replaced, returnData, transform, xlab
+    '         Properties: dds, gene, intgroup, main, normalized
+    '                     replaced, returnData, transform, xlab
     ' 
     ' 
     ' /********************************************************************************/

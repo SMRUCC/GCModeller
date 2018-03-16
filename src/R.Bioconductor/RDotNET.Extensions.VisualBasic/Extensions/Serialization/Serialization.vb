@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19e9d50100b428e072c1ee397bcb5aba, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::da4caf7a46f3832e7640b7c3d31cd06b, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Serialization.vb"
 
     ' Author:
     ' 

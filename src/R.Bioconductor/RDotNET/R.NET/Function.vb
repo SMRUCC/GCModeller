@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::906635eca1241ce337db23881d44abf7, RDotNET\R.NET\Function.vb"
+﻿#Region "Microsoft.VisualBasic::f820fd9ed4b2084ad6bab0f7675d4ee7, RDotNET\R.NET\Function.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' Class [Function]
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: evaluateCall, InvokeNamed, InvokeOrderedArguments, InvokeStrArgs, InvokeViaPairlist
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

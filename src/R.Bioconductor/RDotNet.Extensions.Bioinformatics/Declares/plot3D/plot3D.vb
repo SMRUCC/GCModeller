@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::370cf9666bf235106eacf577eeccf260, RDotNet.Extensions.Bioinformatics\Declares\plot3D\plot3D.vb"
+﻿#Region "Microsoft.VisualBasic::c91617812b3c4b735e8371d0f21bf31b, RDotNet.Extensions.Bioinformatics\Declares\plot3D\plot3D.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class plot3D
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

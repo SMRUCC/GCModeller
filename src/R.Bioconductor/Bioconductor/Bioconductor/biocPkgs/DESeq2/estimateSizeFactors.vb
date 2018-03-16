@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff44acde5cfeded82c58d20e52c97968, Bioconductor\Bioconductor\biocPkgs\DESeq2\estimateSizeFactors.vb"
+﻿#Region "Microsoft.VisualBasic::b51dd85ae554cac07fd7686978968612, Bioconductor\Bioconductor\biocPkgs\DESeq2\estimateSizeFactors.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,14 @@
 
     ' Summaries:
 
-    '  
+    '     Class estimateSizeFactors
     ' 
-    '     Properties: [object], controlGenes, geoMeans, locfunc, normMatrix
-    '                 type
+    '         Properties: [object], controlGenes, geoMeans, locfunc, normMatrix
+    '                     type
     ' 
-    '  
+    '     Class estimateSizeFactorsForMatrix
     ' 
-    '     Properties: controlGenes, counts, geoMeans, locfunc
+    '         Properties: controlGenes, counts, geoMeans, locfunc
     ' 
     ' 
     ' /********************************************************************************/

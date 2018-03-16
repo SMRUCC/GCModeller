@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51611df3a847b9f09aec410e1ef20a63, RDotNET\R.NET\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::fa008d2b6b760a7e75094cbe46566ee1, RDotNET\R.NET\Vector.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: DataPointer, Item, Length, Names
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: GetEnumerator, getIndex, GetOffset, IEnumerable_GetEnumerator, ToArray
     ' 
-    '     Sub: CopyTo, (+3 Overloads) New, SetVector
+    '     Sub: CopyTo, SetVector
     ' 
     ' /********************************************************************************/
 

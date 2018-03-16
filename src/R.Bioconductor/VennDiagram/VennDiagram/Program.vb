@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddd97c1fa3a0f787ec78bcf0650b6938, VennDiagram\VennDiagram\Program.vb"
+﻿#Region "Microsoft.VisualBasic::d66067557b9d5264e733a7ed22dff9a1, VennDiagram\VennDiagram\Program.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' Module Program
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Main
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

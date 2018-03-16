@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::878f065b8dc587f2a46bf3bed292ca24, RDotNET\R.NET\REngine.vb"
+﻿#Region "Microsoft.VisualBasic::1e7b40b0c32298de38946b5689a7bc6f, RDotNET\R.NET\REngine.vb"
 
     ' Author:
     ' 
@@ -37,13 +37,14 @@
     '                 EngineName, GlobalEnvironment, ID, IsRunning, LastErrorMessage
     '                 NilValue, UnboundValue
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: BuildRArgv, CreateInstance, (+2 Overloads) Defer, (+2 Overloads) Evaluate, GetDangerousChar
     '               GetDangerousInt32, GetInstance, GetPredefinedSymbol, (+2 Overloads) GetSymbol, Parse
     '               ProcessRDllFileName, Segment
     ' 
-    '     Sub: CheckEngineIsRunning, Dispose, ForceGarbageCollection, Initialize, New
-    '          OnDisposing, SetCommandLineArguments, SetCstackChecking, SetDangerousInt32, SetEnvironmentVariables
-    '          (+2 Overloads) SetSymbol
+    '     Sub: CheckEngineIsRunning, Dispose, ForceGarbageCollection, Initialize, OnDisposing
+    '          SetCommandLineArguments, SetCstackChecking, SetDangerousInt32, SetEnvironmentVariables, (+2 Overloads) SetSymbol
     ' 	Delegate Function
     ' 
     ' 	    Properties: NaString, NaStringPointer

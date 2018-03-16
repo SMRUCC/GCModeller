@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f8d71fe204e0c8b00cbd07ee1bacf6f, RDotNET\Graphics\Utility.vb"
+﻿#Region "Microsoft.VisualBasic::f8f3cc4d32015735200616e3600d81fb, RDotNET\Graphics\Utility.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::839a370ebaa9dd91ff0e9fbf563dc7fa, RDotNET\Graphics\Internals\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b863530d6eaa553de75b8f9b58d10c56, RDotNET\Graphics\Internals\Delegates.vb"
 
     ' Author:
     ' 

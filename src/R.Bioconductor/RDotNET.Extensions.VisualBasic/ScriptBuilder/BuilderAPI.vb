@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33fc96b16e46131508e5cc5eb5fd83ac, RDotNET.Extensions.VisualBasic\ScriptBuilder\BuilderAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6ad9810f676cabad98b2fd93a95630b1, RDotNET.Extensions.VisualBasic\ScriptBuilder\BuilderAPI.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module BuilderAPI
     ' 
     '         Function: __getExpr, __getName, __getScript, __getValue, __isOptional
-    '                   (+2 Overloads) GetScript, list
+    '                   GetAPIName, (+2 Overloads) GetScript, list
     ' 
     ' 
     ' /********************************************************************************/

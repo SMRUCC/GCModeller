@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df334a9e751df556493034ffa91db872, RDotNet.Extensions.Bioinformatics\Declares\bioconductor\clusterProfiler\clusterProfiler.vb"
+﻿#Region "Microsoft.VisualBasic::d6a802cbb640fe96ae2b3855c78f2cc6, RDotNet.Extensions.Bioinformatics\Declares\bioconductor\clusterProfiler\clusterProfiler.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module clusterProfiler
     ' 
-    '         Function: (+2 Overloads) enricher, enricherS4
+    '         Function: (+2 Overloads) enricher, enricherS4, LoadGoBriefTable
     ' 
     '     Class Term2Gene
     ' 

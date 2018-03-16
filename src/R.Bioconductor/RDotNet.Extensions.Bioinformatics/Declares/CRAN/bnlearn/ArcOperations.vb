@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b3f0ae6e4ae1b865ed21bee64a30d06, RDotNet.Extensions.Bioinformatics\Declares\bnlearn\ArcOperations.vb"
+﻿#Region "Microsoft.VisualBasic::0b15f751bc25388067b71e3f4ffe1dd9, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\ArcOperations.vb"
 
     ' Author:
     ' 
@@ -31,25 +31,25 @@
 
     ' Summaries:
 
-    '  
+    '     Class setArc
     ' 
-    '     Properties: [to], debug, from, x
+    '         Properties: [to], checkCycles, debug, from, x
     ' 
-    '  
+    '     Class dropArc
     ' 
-    '     Properties: [to], debug, from, x
+    '         Properties: [to], debug, from, x
     ' 
-    '  
+    '     Class reverseArc
     ' 
-    '     Properties: [to], debug, from, x
+    '         Properties: [to], checkCycles, debug, from, x
     ' 
-    '  
+    '     Class setEdge
     ' 
-    '     Properties: [to], debug, from, x
+    '         Properties: [to], checkCycles, debug, from, x
     ' 
-    '  
+    '     Class dropEdge
     ' 
-    '     Properties: [to], debug, from, x
+    '         Properties: [to], debug, from, x
     ' 
     ' 
     ' /********************************************************************************/
