@@ -33,15 +33,13 @@
 
     '     Class ProteinAssemblies
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Invoke
-    ' 
-    '         Sub: New
     ' 
     '     Class Polypeptides
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Invoke
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

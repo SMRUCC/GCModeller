@@ -33,6 +33,9 @@
 
     ' Class experimentalfactor
     ' 
+    '     Properties: DataSetWID, ExperimentalFactor_Category, ExperimentDesign, Identifier, Name
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

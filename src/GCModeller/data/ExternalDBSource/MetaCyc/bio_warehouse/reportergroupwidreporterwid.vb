@@ -33,6 +33,8 @@
 
     ' Class reportergroupwidreporterwid
     ' 
+    '     Properties: ReporterGroupWID, ReporterWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

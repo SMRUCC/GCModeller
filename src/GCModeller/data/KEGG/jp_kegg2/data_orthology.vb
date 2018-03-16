@@ -33,6 +33,8 @@
 
     ' Class data_orthology
     ' 
+    '     Properties: definition, KEGG, name, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

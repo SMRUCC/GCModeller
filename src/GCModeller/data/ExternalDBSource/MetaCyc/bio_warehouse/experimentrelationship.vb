@@ -33,6 +33,8 @@
 
     ' Class experimentrelationship
     ' 
+    '     Properties: ExperimentWID, RelatedExperimentWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

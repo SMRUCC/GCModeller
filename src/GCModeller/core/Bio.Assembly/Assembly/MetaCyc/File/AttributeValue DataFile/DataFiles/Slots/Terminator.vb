@@ -33,7 +33,7 @@
 
     '     Class Terminator
     ' 
-    '         Properties: DNASeq, Table
+    '         Properties: ComponentsOf, DNASeq, LeftEndPosition, RightEndPosition, Table
     ' 
     ' 
     ' /********************************************************************************/

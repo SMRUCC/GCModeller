@@ -35,9 +35,8 @@
     ' 
     '         Properties: BaseDegenerateEntries, DegenerateBases
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CountWithDegenerateBases, Equals
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

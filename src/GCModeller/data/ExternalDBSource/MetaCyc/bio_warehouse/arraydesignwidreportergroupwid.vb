@@ -33,6 +33,8 @@
 
     ' Class arraydesignwidreportergroupwid
     ' 
+    '     Properties: ArrayDesignWID, ReporterGroupWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class xref_module_reactions
     ' 
+    '     Properties: [module], KEGG, reaction
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

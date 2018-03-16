@@ -33,9 +33,11 @@
 
     '     Class SBML
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Export, GetNetwork, GetSpecies
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

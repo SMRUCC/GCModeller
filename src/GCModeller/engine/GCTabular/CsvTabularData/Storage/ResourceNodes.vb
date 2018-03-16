@@ -41,7 +41,7 @@
     ' 
     '     Class ResourceNode
     ' 
-    '         Properties: InternalHrefLinks, ResourceCategory
+    '         Properties: Comment, InternalHrefLinks, ResourceCategory, TYPE_ID
     ' 
     '         Function: CopyFile, get_Resource, get_ResourceEntry, ToString, (+3 Overloads) WriteResource
     ' 

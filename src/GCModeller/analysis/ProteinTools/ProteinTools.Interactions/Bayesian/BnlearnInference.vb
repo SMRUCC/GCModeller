@@ -33,9 +33,8 @@
 
     ' Class BnlearnInference
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __R_script, CreateEvidence, CreatePartner
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

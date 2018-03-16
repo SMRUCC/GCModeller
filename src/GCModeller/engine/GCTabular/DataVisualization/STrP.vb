@@ -33,9 +33,11 @@
 
     '     Class STrP
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+3 Overloads) CreateNodeAttributes, CreateObjectNetwork, (+2 Overloads) Exists, (+2 Overloads) GenerateNetwork
     ' 
-    '         Sub: CreateObjectNetwork, New
+    '         Sub: CreateObjectNetwork
     ' 
     ' 
     ' /********************************************************************************/

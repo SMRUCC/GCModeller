@@ -35,9 +35,11 @@
     ' 
     '         Properties: Model, Precision, RuntimeTicks, Vars
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __innerTicks, GetValue, (+3 Overloads) Run
     ' 
-    '         Sub: Break, Export, Load, New
+    '         Sub: Break, Export, Load
     ' 
     ' 
     ' /********************************************************************************/

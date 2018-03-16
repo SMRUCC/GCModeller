@@ -33,6 +33,9 @@
 
     ' Class image
     ' 
+    '     Properties: DataSetWID, Identifier, Image_Format, Name, PhysicalBioAssay
+    '                 URI, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

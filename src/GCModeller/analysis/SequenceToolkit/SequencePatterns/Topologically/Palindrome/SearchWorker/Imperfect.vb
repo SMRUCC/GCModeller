@@ -35,9 +35,11 @@
     ' 
     '         Properties: ResultSet
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: createOutput
     ' 
-    '         Sub: DoSearch, New
+    '         Sub: DoSearch
     ' 
     ' 
     ' /********************************************************************************/

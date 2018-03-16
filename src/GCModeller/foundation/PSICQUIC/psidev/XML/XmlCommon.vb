@@ -33,6 +33,8 @@
 
     '     Class DataItem
     ' 
+    '         Properties: id
+    ' 
     '         Function: ToString
     ' 
     '     Class Names
@@ -43,9 +45,14 @@
     ' 
     '     Class Xref
     ' 
+    '         Properties: primaryRef, secondaryRef
+    ' 
     '         Function: ToString
     ' 
     '     Class Reference
+    ' 
+    '         Properties: db, dbAc, id, refType, refTypeAc
+    '                     secondary, version
     ' 
     '         Function: ToString
     ' 

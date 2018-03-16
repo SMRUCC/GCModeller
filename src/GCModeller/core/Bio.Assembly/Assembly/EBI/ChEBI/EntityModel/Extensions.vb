@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: FindChEBI, IDlist, MainID
+    '         Function: FindChEBI, IDlist, MainID, RewriteMass, TheSameAs
     ' 
     ' 
     ' /********************************************************************************/

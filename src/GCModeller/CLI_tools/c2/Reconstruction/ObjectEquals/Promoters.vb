@@ -33,9 +33,8 @@
 
     '     Class Promoters
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Create, Initialize
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

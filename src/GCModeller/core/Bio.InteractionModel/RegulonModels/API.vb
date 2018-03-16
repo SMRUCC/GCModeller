@@ -33,7 +33,7 @@
 
     '     Module RegulationModel
     ' 
-    '         Function: GenerateRegulons
+    '         Function: GenerateRegulons, GetRegulators, SignificantModel, Trim
     '         Structure Regulon
     ' 
     '             Properties: RegulatedGenes, Regulator

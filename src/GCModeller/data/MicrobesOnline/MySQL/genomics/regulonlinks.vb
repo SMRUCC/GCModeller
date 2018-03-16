@@ -33,6 +33,8 @@
 
     ' Class regulonlinks
     ' 
+    '     Properties: cluster1, cluster2, link, score, updated
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

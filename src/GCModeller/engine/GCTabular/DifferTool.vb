@@ -33,9 +33,11 @@
 
     ' Class DifferTool
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: MergeMetaCycCompounds
     ' 
-    '     Sub: Invoke, New
+    '     Sub: Invoke
     ' 
     ' /********************************************************************************/
 

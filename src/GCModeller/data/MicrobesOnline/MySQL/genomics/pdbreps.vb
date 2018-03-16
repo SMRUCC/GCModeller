@@ -33,6 +33,8 @@
 
     ' Class pdbreps
     ' 
+    '     Properties: pdbChain, pdbChainRep, pdbId, pdbIdRep
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,7 +33,7 @@
 
     '     Module Seeds
     ' 
-    '         Function: ExtendSequence, (+2 Overloads) InitializeSeeds, PopulateExistsSeeds
+    '         Function: Combo, ExtendSequence, (+2 Overloads) InitializeSeeds, PopulateExistsSeeds
     ' 
     ' 
     ' /********************************************************************************/

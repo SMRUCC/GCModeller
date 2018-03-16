@@ -35,25 +35,27 @@
     ' 
     '     Properties: [To], Color, From
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ToString
-    ' 
-    '     Sub: New
     ' 
     ' Class StraightLine
     ' 
-    '     Sub: Draw, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Draw
     ' 
     ' Class Polyline
     ' 
     '     Properties: Turnp
     ' 
-    '     Sub: Draw, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Draw
     ' 
     ' Class B
     ' 
     '     Properties: Turnp
     ' 
-    '     Sub: Draw, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Draw
     ' 
     ' Enum LineStyles
     ' 

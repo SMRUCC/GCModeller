@@ -33,6 +33,8 @@
 
     ' Class association_qualifier
     ' 
+    '     Properties: association_id, id, term_id, value
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

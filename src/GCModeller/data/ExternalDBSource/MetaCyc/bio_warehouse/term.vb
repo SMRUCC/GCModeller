@@ -33,6 +33,9 @@
 
     ' Class term
     ' 
+    '     Properties: DataSetWID, Definition, Hierarchical, Name, Obsolete
+    '                 Root, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,11 +33,12 @@
 
     '     Class [Property]
     ' 
-    '         Properties: DBLinks, GUID
+    '         Properties: [CompiledDate], Authors, Comment, DBLinks, Emails
+    '                     GUID, Name, Publications, Reversion, SpecieId
+    '                     Title, URLs
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

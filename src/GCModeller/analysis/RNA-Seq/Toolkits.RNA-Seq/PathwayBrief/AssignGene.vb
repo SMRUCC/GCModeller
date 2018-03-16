@@ -33,9 +33,11 @@
 
     '     Class AssignGene
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: AssignGenes, ConvertId, GetGenes, Performance, Query
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,17 +33,28 @@
 
     '     Class Interaction
     ' 
+    '         Properties: [ME], _3did, DIPD, Domain1, Domain2
+    '                     DomainGA, DPEA, Fusion, GPE, INSITE
+    '                     iPfam, KGIDDI, MetaData, PE, PP
+    '                     PredictionConfidence, Pvalue, RCDP, RDFF, SameGO
+    ' 
     '         Function: GetInteractionDomain, ToString
     ' 
     '     Class Pfam
+    ' 
+    '         Properties: DomainAcc, DomainDesc, DomainId, InterproId
     ' 
     '         Function: ToString
     ' 
     '     Class Go
     ' 
+    '         Properties: GoDesc, GoTerm, Ontology
+    ' 
     '         Function: ToString
     ' 
     '     Class PGMap
+    ' 
+    '         Properties: DomainAcc, GoTerm
     ' 
     '         Function: ToString
     ' 

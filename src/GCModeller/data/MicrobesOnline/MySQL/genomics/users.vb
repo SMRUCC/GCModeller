@@ -33,6 +33,9 @@
 
     ' Class users
     ' 
+    '     Properties: annotationTrust, email, emailDataRelease, emailSiteMaintenance, emailSoftware
+    '                 isSysAdmin, name, org, pwhash, userId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

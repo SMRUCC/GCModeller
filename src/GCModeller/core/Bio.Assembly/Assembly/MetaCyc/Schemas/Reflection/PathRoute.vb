@@ -33,9 +33,11 @@
 
     '     Class PathRoute
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: GetPath, ToString
     ' 
-    '         Sub: InitializeSchema, (+2 Overloads) New
+    '         Sub: InitializeSchema
     ' 
     ' 
     ' /********************************************************************************/

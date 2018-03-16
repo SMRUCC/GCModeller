@@ -33,6 +33,8 @@
 
     ' Class valence
     ' 
+    '     Properties: OtherWID, Valence
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

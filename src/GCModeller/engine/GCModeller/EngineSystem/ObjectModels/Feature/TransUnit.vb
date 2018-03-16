@@ -33,7 +33,8 @@
 
     '     Class TransUnit
     ' 
-    '         Properties: MotifSites, TypeId
+    '         Properties: ExpressionActivity, Identifier, MotifSites, ProductHandlers, Products
+    '                     TypeId
     ' 
     '         Function: CreateObject, ToString
     ' 

@@ -33,7 +33,7 @@
 
     '     Class Regulation
     ' 
-    ' 
+    '         Properties: Family, Regulator, Regulon, Site, Type
     ' 
     '     Class Regulations
     ' 

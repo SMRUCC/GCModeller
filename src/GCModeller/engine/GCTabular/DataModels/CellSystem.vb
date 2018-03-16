@@ -33,11 +33,13 @@
 
     '     Class CellSystem
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __createReference, CreateSignalTransductionNetwork, CreateTranscriptUnits, CreateTransmembraneTransportation, CreateTransportationFlux
     '                   get_Motifs, GetMetabolismNetwork, Internal_Process, InternalCreate_TU_MODEL, LoadAction
     '                   (+2 Overloads) LoadModel, ToString
     ' 
-    '         Sub: CreateTranscripts, (+2 Overloads) Dispose, LoadSystemVariables, (+2 Overloads) New
+    '         Sub: CreateTranscripts, (+2 Overloads) Dispose, LoadSystemVariables
     ' 
     ' 
     ' /********************************************************************************/

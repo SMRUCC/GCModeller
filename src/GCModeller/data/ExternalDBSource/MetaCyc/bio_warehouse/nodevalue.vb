@@ -33,6 +33,9 @@
 
     ' Class nodevalue
     ' 
+    '     Properties: DataSetWID, Name, Node_NodeValue, NodeValue_DataType, NodeValue_Scale
+    '                 NodeValue_Type, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

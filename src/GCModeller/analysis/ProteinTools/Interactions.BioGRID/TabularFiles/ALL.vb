@@ -33,25 +33,40 @@
 
     ' Class ALLmitab
     ' 
+    '     Properties: A, AliasA, AliasB, AltA, AltB
+    '                 Author, B, Confidence, Database, IDM
+    '                 InteractType, Publication, TaxidA, TaxidB, uid
+    ' 
     '     Function: ToString
     ' 
     ' Class ALL
     ' 
-    '     Properties: Author, Modification, Phenotypes, Qualifications, Score
-    '                 Tags, Throughput
+    '     Properties: Author, bgA, bgB, ExprSys, ExprType
+    '                 ezgA, ezgB, Modification, NamedA, NamedB
+    '                 ofSblA, ofSblB, OgsmA, OgsmB, Phenotypes
+    '                 Pubmed, Qualifications, Score, Source, SynoA
+    '                 SynoB, Tags, Throughput, uid
     ' 
     ' Class Chemical
     ' 
-    '     Properties: Action, Author, Organism, Synonyms
+    '     Properties: Action, ATC, Author, bgCheId, bgId
+    '                 bgPubId, Brands, CAS, Curated, ezgId
+    '                 Formula, itrType, Name, ofSbl, OgsmId
+    '                 Organism, Pubmed, Source, SourceId, Syno
+    '                 Synonyms, sysName, Type, uid
     ' 
     '     Class Relationships
     ' 
-    '         Properties: Author, Identity, Relationship, Synonymns
+    '         Properties: Author, bgId, ezgId, Identity, ofSbl
+    '                     OgsmId, OgsmName, Pubmed, Relationship, Source
+    '                     Synonymns, sysName, uid
     ' 
     '     Class PTM
     ' 
-    '         Properties: Author, Notes, Position, Residue, Sequence
-    '                     Synonymns
+    '         Properties: [True], Author, bgId, ezgId, Notes
+    '                     ofSbl, OgsmId, OgsmName, Position, PTM
+    '                     Pubmed, Refseq, Residue, Sequence, Source
+    '                     Synonymns, sysName, uid
     ' 
     ' 
     ' /********************************************************************************/

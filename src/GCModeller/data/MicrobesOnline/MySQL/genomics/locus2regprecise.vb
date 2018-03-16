@@ -33,6 +33,9 @@
 
     ' Class locus2regprecise
     ' 
+    '     Properties: geneInOperonIndex, locusId, regulationMode, regulatorLocusId, regulatorName
+    '                 regulonId, sourceTypeTermId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

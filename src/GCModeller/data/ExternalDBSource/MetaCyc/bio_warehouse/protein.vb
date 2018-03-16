@@ -33,6 +33,10 @@
 
     ' Class protein
     ' 
+    '     Properties: AASequence, Charge, DataSetWID, Fragment, Length
+    '                 LengthApproximate, MolecularWeightCalc, MolecularWeightExp, Name, PICalc
+    '                 PIExp, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

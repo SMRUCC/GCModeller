@@ -33,7 +33,7 @@
 
     '     Class DownloadedData
     ' 
-    '         Properties: KEGGCompounds
+    '         Properties: CommonName, KEGGCompounds, MetaCycId
     ' 
     '     Module DownloadsAPI
     ' 

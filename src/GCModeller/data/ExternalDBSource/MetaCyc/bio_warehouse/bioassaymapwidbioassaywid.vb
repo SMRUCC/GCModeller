@@ -33,6 +33,8 @@
 
     ' Class bioassaymapwidbioassaywid
     ' 
+    '     Properties: BioAssayMapWID, BioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

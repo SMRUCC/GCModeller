@@ -33,7 +33,8 @@
 
     '     Class Area
     ' 
-    '         Properties: IDVector, Names, Rectangle, Type
+    '         Properties: coords, href, IDVector, Names, Rectangle
+    '                     shape, title, Type
     ' 
     '         Function: Parse, ToString
     ' 

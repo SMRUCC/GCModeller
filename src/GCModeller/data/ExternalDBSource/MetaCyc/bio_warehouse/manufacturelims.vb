@@ -33,6 +33,10 @@
 
     ' Class manufacturelims
     ' 
+    '     Properties: ArrayManufacture_FeatureLIMSs, BioMaterial, BioMaterialPlateCol, BioMaterialPlateIdentifier, BioMaterialPlateRow
+    '                 DataSetWID, Feature, MAGEClass, ManufactureLIMS_IdentifierLIMS, Quality
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

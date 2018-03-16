@@ -35,9 +35,8 @@
     ' 
     '         Properties: Location, MappingLocation
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetRelatedGenes, GetRelatedUpstream, GetsATGDist, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,9 @@
 
     ' Class domaininfo
     ' 
+    '     Properties: domainDb, domainId, domainLen, domainName, fileName
+    '                 iprId, iprName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

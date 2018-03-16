@@ -33,10 +33,13 @@
 
     ' Class DataPreparations
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: InferInteraction, (+2 Overloads) SequenceAssemble, Trim
-    ' 
-    '     Sub: New
     '     Class DipRecord
+    ' 
+    '         Properties: ConfidenceValues, IdInteractorA, IdInteractorB, InteractionDetectionMethods, InteractionIdentifiers
+    '                     InteractionTypes, ProcessingStatus, PublicationIdentifiers, SourceDatabases, TaxidInteractorA
+    '                     TaxidInteractorB
     ' 
     '         Function: Convert
     ' 

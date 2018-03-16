@@ -33,7 +33,9 @@
 
     ' Module BioAssemblyExtensions
     ' 
-    '     Function: IsPure, IsUnknown
+    '     Function: [DirectCast], CreatePTTObject, GetBriefCode, GetBriefStrandCode, GetCOGCategory
+    '               GetStrands, Group, IsNullOrEmpty, IsPure, IsReversed
+    '               IsUnknown
     ' 
     ' /********************************************************************************/
 

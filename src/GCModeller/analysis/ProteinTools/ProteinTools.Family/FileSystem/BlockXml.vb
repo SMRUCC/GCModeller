@@ -33,7 +33,8 @@
 
     '     Class FamilyPfam
     ' 
-    '         Properties: Author, Description, Guid, Title
+    '         Properties: Author, Build, Description, Family, Guid
+    '                     Title
     ' 
     '         Function: Classify, IsFamily
     ' 

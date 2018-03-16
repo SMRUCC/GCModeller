@@ -35,9 +35,11 @@
     ' 
     '     Properties: header
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetDatas, ToString
     ' 
-    '     Sub: __parseHeader, (+2 Overloads) Dispose, New
+    '     Sub: __parseHeader, (+2 Overloads) Dispose
     ' 
     ' /********************************************************************************/
 

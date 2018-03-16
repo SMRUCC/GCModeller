@@ -33,6 +33,8 @@
 
     '     Class TwoComponent
     ' 
+    '         Properties: HHK, HisK, HRR, Other, RR
+    ' 
     '         Function: get_HisKinase, GetRR, ToString
     ' 
     ' 

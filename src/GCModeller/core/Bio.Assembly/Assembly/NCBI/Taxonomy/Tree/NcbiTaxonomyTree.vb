@@ -35,12 +35,11 @@
     ' 
     '         Properties: Taxonomy
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
     '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
     '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
     '                   preorderTraversal
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

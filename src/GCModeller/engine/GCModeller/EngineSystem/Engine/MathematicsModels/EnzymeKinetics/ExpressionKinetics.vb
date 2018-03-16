@@ -33,9 +33,8 @@
 
     '     Class ExpressionKinetics
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetFluxValue
-    ' 
-    '         Sub: New
     ' 
     '     Class ExpressionRegulationDynamics
     ' 

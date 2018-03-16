@@ -33,15 +33,13 @@
 
     '     Class IScanner
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __complement, Complement, FindLocation, ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class Scanner
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Scan
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

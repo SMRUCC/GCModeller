@@ -33,6 +33,8 @@
 
     ' Class xref_ko_reactions
     ' 
+    '     Properties: KO, KO_uid, name, rn
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -35,12 +35,14 @@
     ' 
     '         Properties: CodenTable, InitCodons, StopCodons, TranslTable
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
     '                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
     '                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
     '                   (+2 Overloads) Translate
     ' 
-    '         Sub: __initProfiles, (+2 Overloads) New
+    '         Sub: __initProfiles
     ' 
     ' 
     ' /********************************************************************************/

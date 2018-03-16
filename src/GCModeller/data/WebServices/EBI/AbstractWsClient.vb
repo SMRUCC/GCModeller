@@ -33,7 +33,7 @@
 
     '     Class ClientException
     ' 
-    '         Sub: (+4 Overloads) New
+    '         Constructor: (+4 Overloads) Sub New
     ' 
     '     Class AbstractWsClient
     ' 
@@ -41,12 +41,14 @@
     '                     JobTitle, MaxCheckInterval, OutFile, OutFormat, OutputLevel
     '                     ParamName, ServiceEndPoint
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: constuctUserAgentStr, LoadBinData, LoadData, NextIdentifier, NextSequence
     '                   ObjectFieldsToString, ObjectPropertiesToString, ObjectValueToString, ReadFile, ReadTextFile
     ' 
     '         Sub: ClientPoll, CloseIdentifierFile, CloseSequenceFile, (+2 Overloads) Dispose, (+2 Overloads) GetResults
-    '              New, PrintDebugMessage, PrintGenericOptsUsage, PrintParams, PrintProgressMessage
-    '              PrintStatus, SetIdentifierFile, SetSequenceFile, WriteBinaryFile, (+2 Overloads) WriteTextFile
+    '              PrintDebugMessage, PrintGenericOptsUsage, PrintParams, PrintProgressMessage, PrintStatus
+    '              SetIdentifierFile, SetSequenceFile, WriteBinaryFile, (+2 Overloads) WriteTextFile
     ' 
     ' 
     ' /********************************************************************************/

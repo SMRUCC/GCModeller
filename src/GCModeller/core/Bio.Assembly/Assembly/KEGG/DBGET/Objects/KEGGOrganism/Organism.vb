@@ -33,8 +33,9 @@
 
     '     Class OrganismInfo
     ' 
-    '         Properties: Aliases, Comment, Created, DataSource, Definition
-    '                     FullName, Keywords, Lineage, Reference, Sequence
+    '         Properties: Aliases, code, Comment, Created, DataSource
+    '                     Definition, FullName, Keywords, Lineage, Reference
+    '                     Sequence, Taxonomy, TID
     ' 
     '         Function: links, referenceParser, ShowOrganism, ToString
     ' 

@@ -40,7 +40,7 @@
     ' 
     '         Class ObjectiveFunction
     ' 
-    '             Properties: Direction
+    '             Properties: Direction, Factors
     ' 
     '         Class AssociatedGene
     ' 
@@ -50,7 +50,8 @@
     ' 
     '         Class CellSystem
     ' 
-    '             Properties: MetabolismModel, ObjectiveFunctionModel, TranscriptionModel
+    '             Properties: ExpressionRegulation, MetabolismFluxs, MetabolismModel, Metabolites, ObjectiveFunctionModel
+    '                         ObjectiveFunctions, TranscriptionModel
     ' 
     '             Sub: Initialize
     ' 

@@ -33,7 +33,8 @@
 
     '     Class TranscriptUnit
     ' 
-    '         Properties: PromoterGene, RegulatedMotifs
+    '         Properties: BasalLevel, GeneCluster, MaxLevel, Name, PromoterGene
+    '                     RegulatedMotifs
     ' 
     '         Function: _add_Regulator, ContainsGene, CreateObject, get_Regulators, Link
     '                   (+2 Overloads) RemoveRegulator, ToString

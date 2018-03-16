@@ -33,8 +33,8 @@
 
     '     Class BriteHText
     ' 
-    '         Properties: [Class], CategoryItems, CategoryLevel, Description, EntryId
-    '                     Parent
+    '         Properties: [Class], CategoryItems, CategoryLevel, ClassLabel, Degree
+    '                     Description, EntryId, Level, Parent
     ' 
     '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
     '                   (+2 Overloads) Load, Load_ko00001, Load_ko00002, LoadData, NormalizePath

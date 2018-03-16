@@ -47,9 +47,8 @@
     ' 
     '     Properties: Nt, ref, Strict
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: (+3 Overloads) Build, NtVariation, Variation
-    ' 
-    '     Sub: New
     ' 
     ' 
     ' /********************************************************************************/

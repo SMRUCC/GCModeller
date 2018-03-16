@@ -31,19 +31,24 @@
 
     ' Summaries:
 
+    ' Module Wavelets
+    ' 
+    '     Function: AnalysisSignals, DWT, DWT_RInvoke, Initialize, MODWT
+    '               Shift
     '     Class Filter
     ' 
-    '         Function: Initialize
+    '         Properties: [class], g, h, L, level
+    '                     transform, wtclass, wtname
     ' 
     '     Class Waveletmodwt
     ' 
-    '         Properties: nboundary
+    '         Properties: aligned, attrX, boundary, classX, coe
+    '                     filter, Level, nboundary, series, V
+    '                     W
     ' 
     '         Function: Load, ToString
     ' 
-    '  
     ' 
-    '     Function: AnalysisSignals, DWT, DWT_RInvoke, MODWT, Shift
     ' 
     ' /********************************************************************************/
 

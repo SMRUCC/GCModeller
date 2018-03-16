@@ -33,35 +33,45 @@
 
     '     Class InterestRegions
     ' 
+    '         Properties: Regions
+    ' 
     '         Function: __lineParser, Parser
     ' 
     '     Class lstORF
+    ' 
+    '         Properties: ORFs
     ' 
     '         Function: __lineParser, Parser
     ' 
     '     Class Region
     ' 
-    ' 
+    '         Properties: Frame, LEnd, REnd, Strand
     ' 
     '     Class ORF
     ' 
-    ' 
+    '         Properties: AvgProb, CodingFrame, Left, Right, StartProb
+    '                     Strand
     ' 
     '     Class FrameShift
     ' 
-    ' 
+    '         Properties: [To], base, From, OffSet, ShiftDirect
+    '                     Strand
     ' 
     '     Class FrameShifts
+    ' 
+    '         Properties: FrameShifts
     ' 
     '         Function: __lineParser, Parser
     ' 
     '     Class lstGenes
     ' 
+    '         Properties: PredictedGenes
+    ' 
     '         Function: __getLoci, __lineParser, Parser
     ' 
     '     Class PredictedGene
     ' 
-    ' 
+    '         Properties: [Class]
     ' 
     ' 
     ' /********************************************************************************/

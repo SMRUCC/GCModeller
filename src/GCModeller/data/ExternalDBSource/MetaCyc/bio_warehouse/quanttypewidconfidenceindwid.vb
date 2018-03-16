@@ -33,6 +33,8 @@
 
     ' Class quanttypewidconfidenceindwid
     ' 
+    '     Properties: ConfidenceIndicatorWID, QuantitationTypeWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

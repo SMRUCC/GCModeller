@@ -46,7 +46,7 @@
     ' 
     '     Class Gene
     ' 
-    '         Properties: TypeId
+    '         Properties: ExpressionActivity, Identifier, Products, TypeId
     ' 
     ' 
     ' /********************************************************************************/

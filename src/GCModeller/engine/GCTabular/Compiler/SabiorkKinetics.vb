@@ -33,9 +33,11 @@
 
     '     Class SabiorkKinetics
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: BuildEqualsTable, GetUniprotIDlist, SelectKinetics
     ' 
-    '         Sub: InvokeMethod, New
+    '         Sub: InvokeMethod
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,7 @@
 
     '     Class CRISPR
     ' 
-    '         Properties: Right
+    '         Properties: ID, RepeatLocis, Right, SpacerLocis, Start
     ' 
     '         Function: ToString
     ' 

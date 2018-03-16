@@ -33,6 +33,8 @@
 
     ' Class tu
     ' 
+    '     Properties: evidence, name, taxId, tuId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

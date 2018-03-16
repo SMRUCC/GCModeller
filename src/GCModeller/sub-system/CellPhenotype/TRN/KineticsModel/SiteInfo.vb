@@ -33,9 +33,13 @@
 
     '     Class SiteInfo
     ' 
+    '         Properties: Position, Regulators
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: get_RegulatorQuantitySum
     ' 
-    '         Sub: New, set_Regulator
+    '         Sub: set_Regulator
     ' 
     ' 
     ' /********************************************************************************/

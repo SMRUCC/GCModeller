@@ -33,7 +33,8 @@
 
     '     Class Site
     ' 
-    '         Properties: Bacteria, Headers, uid
+    '         Properties: Bacteria, geneLocusTag, geneVIMSSId, Headers, position
+    '                     regulonId, score, SequenceData, uid
     ' 
     '         Function: BacteriaNameFromRegulog, CreateFrom, CreateObject, Load, ToFastaObject
     '                   ToString

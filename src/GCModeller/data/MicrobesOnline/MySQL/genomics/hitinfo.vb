@@ -33,6 +33,8 @@
 
     ' Class hitinfo
     ' 
+    '     Properties: description, hitId, sLength, synId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

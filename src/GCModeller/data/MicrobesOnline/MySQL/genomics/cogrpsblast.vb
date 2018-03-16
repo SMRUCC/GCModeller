@@ -33,6 +33,10 @@
 
     ' Class cogrpsblast
     ' 
+    '     Properties: alignLength, evalue, gap, identity, locusId
+    '                 mismatch, qBegin, qEnd, sBegin, score
+    '                 sEnd, subject, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

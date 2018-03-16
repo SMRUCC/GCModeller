@@ -33,6 +33,11 @@
 
     ' Class biosource
     ' 
+    '     Properties: ATCCId, CellLine, CellType, DataSetWID, DevelopmentStage
+    '                 Disease, Diseased, MAGEClass, Name, Organ
+    '                 Organelle, Sex, Strain, TaxonWID, Tissue
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

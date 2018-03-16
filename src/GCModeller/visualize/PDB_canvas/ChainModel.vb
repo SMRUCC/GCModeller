@@ -35,17 +35,18 @@
     ' 
     '     Properties: Chian
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __draw, GraphToScreen, ToString
     ' 
-    '     Sub: New, Rotate, RotateX, RotateY, UpdateGraph
+    '     Sub: Rotate, RotateX, RotateY, UpdateGraph
     ' 
     ' Class AA
     ' 
     '     Properties: Color, Point
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

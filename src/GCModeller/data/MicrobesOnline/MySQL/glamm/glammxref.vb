@@ -33,6 +33,9 @@
 
     ' Class glammxref
     ' 
+    '     Properties: created, fromGuid, guid, priority, toXrefId
+    '                 version, xrefDbName, xrefUrl
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,10 +33,9 @@
 
     '     Class GenomeContextProvider
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: __delegate, GetAroundRelated, GetInnerAntisense, (+3 Overloads) GetRelatedGenes, GetRelatedUpstream
     '                   GetSource
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

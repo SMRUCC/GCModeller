@@ -35,9 +35,8 @@
     ' 
     '     Properties: RuntimeTicks
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Initialize, Run
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -33,6 +33,9 @@
 
     ' Class zonedefect
     ' 
+    '     Properties: ArrayManufactureDeviation, DataSetWID, WID, Zone, ZoneDefect_DefectType
+    '                 ZoneDefect_PositionDelta
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

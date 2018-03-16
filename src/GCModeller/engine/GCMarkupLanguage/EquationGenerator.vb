@@ -36,17 +36,23 @@
     '     Function: Balance, Generate
     '     Class ChemicalCompound
     ' 
+    '         Properties: Elements
+    ' 
     '         Function: Exists, TryParse
     '         Class Element
     ' 
-    ' 
+    '             Properties: Atom, Count
     ' 
     ' 
     ' 
     '     Class Equation
     ' 
+    '         Properties: Products, Reactants, Reversible
+    ' 
     '         Function: GetAtoms, (+2 Overloads) ToString
     '         Class SpeciesReference
+    ' 
+    '             Properties: Stoichiometry, Stoichiometry2, UniqueID
     ' 
     '             Function: ToString
     ' 

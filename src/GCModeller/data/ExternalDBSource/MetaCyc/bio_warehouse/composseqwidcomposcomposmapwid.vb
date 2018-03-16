@@ -33,6 +33,8 @@
 
     ' Class composseqwidcomposcomposmapwid
     ' 
+    '     Properties: CompositeCompositeMapWID, CompositeSequenceWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

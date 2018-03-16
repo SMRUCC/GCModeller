@@ -35,10 +35,9 @@
     ' 
     '     Properties: MetabolicNetwork
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Enzymetic, Exists, GetAll, GetByKey, GetByKOMatch
     '               GetWhere, ScanModel
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

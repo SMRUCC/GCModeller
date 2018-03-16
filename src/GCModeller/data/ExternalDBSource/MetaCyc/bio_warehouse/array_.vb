@@ -33,6 +33,10 @@
 
     ' Class array_
     ' 
+    '     Properties: ArrayDesign, ArrayGroup, ArrayIdentifier, ArrayXOrigin, ArrayYOrigin
+    '                 DataSetWID, Identifier, Information, Name, OriginRelativeTo
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

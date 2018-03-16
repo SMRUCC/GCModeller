@@ -33,6 +33,8 @@
 
     ' Class operon
     ' 
+    '     Properties: evidence, posId, tuId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

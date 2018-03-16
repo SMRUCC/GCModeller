@@ -36,9 +36,8 @@
     '     Function: __char, Equals
     '     Structure __compareHelper
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

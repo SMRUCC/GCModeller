@@ -33,10 +33,9 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: About, ExportData, FileMerges, InstallMySQL, Intersect
     '               Kmeans, MultipleAlignment, Register
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -33,6 +33,9 @@
 
     ' Class position
     ' 
+    '     Properties: [end], begin, objectId, posId, scaffoldId
+    '                 strand
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

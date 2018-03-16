@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class gene2go
     ' 
-    '     Properties: Category, Evidence, GeneID, GO_ID, GO_term
-    '                 PubMed, Qualifier, tax_id
+    '         Properties: Category, Evidence, GeneID, GO_ID, GO_term
+    '                     PubMed, Qualifier, tax_id
     ' 
-    '     Function: __create, LoadDoc, ToString
+    '         Function: __create, LoadDoc, ToString
     ' 
     ' 
     ' /********************************************************************************/

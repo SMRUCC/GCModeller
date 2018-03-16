@@ -33,7 +33,7 @@
 
     '     Module Builder
     ' 
-    '         Function: (+2 Overloads) BuildTree, xrefParser
+    '         Function: (+2 Overloads) BuildTree, ConstructNode, xrefParser
     ' 
     ' 
     ' /********************************************************************************/

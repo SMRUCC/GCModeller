@@ -33,6 +33,8 @@
 
     ' Class protocolapplwidpersonwid
     ' 
+    '     Properties: PersonWID, ProtocolApplicationWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

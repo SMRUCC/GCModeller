@@ -35,6 +35,8 @@
     ' 
     '         Properties: Directions
     ' 
+    '         Function: ContactLines, GetAttributeList
+    ' 
     ' 
     ' /********************************************************************************/
 

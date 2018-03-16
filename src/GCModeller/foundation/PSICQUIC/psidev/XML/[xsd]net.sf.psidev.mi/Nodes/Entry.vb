@@ -33,6 +33,8 @@
 
     '     Class Entry
     ' 
+    '         Properties: ExperimentList, InteractionList, InteractorList
+    ' 
     '         Function: GetExperiment, GetInteractor, ToString
     ' 
     ' 

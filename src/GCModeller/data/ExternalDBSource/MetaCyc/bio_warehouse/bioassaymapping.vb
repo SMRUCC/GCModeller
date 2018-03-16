@@ -33,6 +33,8 @@
 
     ' Class bioassaymapping
     ' 
+    '     Properties: DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

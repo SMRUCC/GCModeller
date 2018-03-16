@@ -33,6 +33,9 @@
 
     ' Class seq
     ' 
+    '     Properties: description, display_id, id, md5checksum, moltype
+    '                 seq, seq_len, timestamp
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

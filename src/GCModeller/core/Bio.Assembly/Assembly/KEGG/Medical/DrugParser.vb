@@ -33,8 +33,8 @@
 
     '     Module DrugParser
     ' 
-    '         Function: __atoms, __bounds, __classGroup, CreateDrugGroupModel, LoadDrugGroup
-    '                   ParseStream
+    '         Function: __atoms, __bounds, __classGroup, CreateDrugGroupModel, CreateDrugModel
+    '                   LoadDrugGroup, (+2 Overloads) ParseStream
     ' 
     ' 
     ' /********************************************************************************/

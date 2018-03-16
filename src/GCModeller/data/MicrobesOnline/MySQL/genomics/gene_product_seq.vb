@@ -33,6 +33,8 @@
 
     ' Class gene_product_seq
     ' 
+    '     Properties: gene_product_id, is_primary_seq, seq_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

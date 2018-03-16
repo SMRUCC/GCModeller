@@ -36,7 +36,7 @@
     '         Properties: db_xref_GI, db_xref_GO, db_xref_InterPro, db_xref_UniprotKBSwissProt, db_xref_UniprotKBTrEMBL
     '                     DBLinks
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

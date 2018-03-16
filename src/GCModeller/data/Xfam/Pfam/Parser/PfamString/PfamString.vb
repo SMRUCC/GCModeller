@@ -33,7 +33,8 @@
 
     '     Class PfamString
     ' 
-    '         Properties: Domains, PfamString, ProteinId
+    '         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
+    '                     ProteinId
     ' 
     '         Function: get__PfamString, get_ChouFasmanData, get_PlantTextOutput, GetDomainData, IsChouFasmanData
     '                   ToString

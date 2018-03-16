@@ -33,7 +33,9 @@
 
     ' Class iTraqReader
     ' 
-    '     Properties: Coverage, Description, ID, Score
+    '     Properties: AAs, calcPI, Coverage, Description, ID
+    '                 MW, Peptides, Proteins, PSMs, Score
+    '                 UniquePeptides
     ' 
     '     Function: GetSampleGroups, ToString
     '     Structure SampleValue

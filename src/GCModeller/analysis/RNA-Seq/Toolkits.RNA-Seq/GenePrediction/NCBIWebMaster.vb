@@ -36,9 +36,8 @@
     '         Function: GetPredictsData, GetsPredictData, (+2 Overloads) Predicts
     '         Class params
     ' 
+    '             Constructor: (+3 Overloads) Sub New
     '             Function: UploadFasta
-    ' 
-    '             Sub: (+3 Overloads) New
     ' 
     ' 
     ' 

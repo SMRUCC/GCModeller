@@ -36,11 +36,13 @@
     '         Properties: __indexItem, DbProperty, First, Index, IsReadOnly
     '                     Last, NumOfTokens, Values
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: Append, Contains, GetEnumerator, GetEnumerator1, GetTypes
     '                   IDictionary_ContainsKey, IDictionary_TryGetValue, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Remove
     '                   Save, ToString
     ' 
-    '         Sub: (+3 Overloads) Add, AddRange, Clear, CopyTo, (+2 Overloads) New
+    '         Sub: (+3 Overloads) Add, AddRange, Clear, CopyTo
     ' 
     ' 
     ' /********************************************************************************/

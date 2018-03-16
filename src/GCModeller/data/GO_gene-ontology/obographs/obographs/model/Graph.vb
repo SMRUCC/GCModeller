@@ -36,7 +36,7 @@
     ' 	    Properties: Edges, EquivalentNodesSets, Id, Lbl, LogicalDefinitionAxioms
     '                  Meta, Nodes
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, edges, equivalentNodesSet, id, lbl

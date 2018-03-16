@@ -33,6 +33,9 @@
 
     ' Class locus2tree
     ' 
+    '     Properties: [end], aaTree, begin, locusId, nAligned
+    '                 scaffoldId, score, taxonomyId, treeId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

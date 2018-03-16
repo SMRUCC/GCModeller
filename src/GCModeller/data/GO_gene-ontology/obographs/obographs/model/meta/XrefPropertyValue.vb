@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: Lbl
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, lbl, val, xrefs

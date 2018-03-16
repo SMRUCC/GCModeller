@@ -33,7 +33,8 @@
 
     '     Module Retrieve_IDmapping
     ' 
-    '         Function: GetMappingList, IDTypeParser, MappingsReader, SingleMappings, UniprotIDFilter
+    '         Function: GetMappingList, IDTypeParser, MappingReader, MappingsReader, SingleMappings
+    '                   UniprotIDFilter
     ' 
     '         Sub: Mapping
     ' 

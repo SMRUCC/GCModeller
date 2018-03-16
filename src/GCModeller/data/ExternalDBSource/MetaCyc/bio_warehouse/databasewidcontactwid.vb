@@ -33,6 +33,8 @@
 
     ' Class databasewidcontactwid
     ' 
+    '     Properties: ContactWID, DatabaseWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

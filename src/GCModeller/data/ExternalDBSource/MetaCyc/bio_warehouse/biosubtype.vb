@@ -33,6 +33,8 @@
 
     ' Class biosubtype
     ' 
+    '     Properties: DataSetWID, Type, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class rxnplayer
     ' 
+    '     Properties: player, playerId, rxnId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

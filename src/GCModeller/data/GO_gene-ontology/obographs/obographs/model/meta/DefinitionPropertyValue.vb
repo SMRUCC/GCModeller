@@ -33,7 +33,7 @@
 
     ' 	Class DefinitionPropertyValue
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, val, xrefs

@@ -35,9 +35,8 @@
     ' 
     '     Properties: genome, organism
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: CreateModel, EnumerateModules, GetGenbankSource, ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

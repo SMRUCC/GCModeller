@@ -33,15 +33,20 @@
 
     '     Class Enzyme
     ' 
-    '         Properties: Cut, Isoschizomers, Recognition
+    '         Properties: Cut, Enzyme, Isoschizomers, PDB, Recognition
+    '                     Source
     ' 
     '         Function: ToString
     ' 
     '     Class Recognition
     ' 
+    '         Properties: Forwards, Reversed
+    ' 
     '         Function: ToString
     ' 
     '     Class Cut
+    ' 
+    '         Properties: Left, Right
     ' 
     '         Function: __tokenParser, Parser, ToString
     ' 

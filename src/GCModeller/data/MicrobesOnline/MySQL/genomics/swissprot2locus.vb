@@ -33,6 +33,8 @@
 
     ' Class swissprot2locus
     ' 
+    '     Properties: accession, id, identity, locusId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

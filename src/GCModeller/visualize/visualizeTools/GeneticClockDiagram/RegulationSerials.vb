@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '  
+    ' Module RegulationSerials
     ' 
     '     Function: __directDrawing, CalculateOffset, CompareDrawing, Distributions, (+2 Overloads) InvokeDrawing
     '               MeasureMaxSize

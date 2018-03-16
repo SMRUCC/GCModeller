@@ -33,6 +33,9 @@
 
     ' Class glammkeggmap
     ' 
+    '     Properties: created, fromGuid, guid, mapId, priority
+    '                 title, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

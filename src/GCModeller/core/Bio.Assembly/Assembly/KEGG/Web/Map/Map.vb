@@ -33,7 +33,7 @@
 
     '     Class Map
     ' 
-    '         Properties: Areas, Name, PathwayImage
+    '         Properties: Areas, ID, Name, PathwayImage
     ' 
     '         Function: GetEntryInfo, GetImage, GetMembers, ParseHTML, ToString
     ' 

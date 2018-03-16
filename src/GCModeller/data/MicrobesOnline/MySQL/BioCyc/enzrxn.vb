@@ -33,6 +33,8 @@
 
     ' Class enzrxn
     ' 
+    '     Properties: alterSubstrate, direction, enzrxnId, enzymeId, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

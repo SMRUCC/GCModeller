@@ -33,7 +33,8 @@
 
     ' Class DEP_iTraq
     ' 
-    '     Properties: ID
+    '     Properties: FCavg, FDR, ID, isDEP, log2FC
+    '                 pvalue
     ' 
     '     Function: ToString
     ' 

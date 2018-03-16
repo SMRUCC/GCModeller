@@ -33,6 +33,9 @@
 
     ' Class term
     ' 
+    '     Properties: acc, id, is_obsolete, is_root, name
+    '                 term_type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

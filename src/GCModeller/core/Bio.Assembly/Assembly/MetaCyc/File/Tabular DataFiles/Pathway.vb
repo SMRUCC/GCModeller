@@ -33,7 +33,7 @@
 
     '     Class Pathway
     ' 
-    '         Properties: GeneCollection
+    '         Properties: DisplayingName, GeneCollection, UniqueId
     ' 
     '         Function: ToString
     ' 

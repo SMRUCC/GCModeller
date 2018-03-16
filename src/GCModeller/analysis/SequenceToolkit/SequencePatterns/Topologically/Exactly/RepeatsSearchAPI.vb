@@ -35,7 +35,7 @@
     ' 
     '         Function: Density, GenerateRepeats, (+2 Overloads) RepeatsDensity, RevRepeatsDensity, SaveDensity
     '                   (+2 Overloads) SaveDocument, SaveRepeatsViews, SaveRevViews, SearchRepeats, SearchReversedRepeats
-    '                   (+2 Overloads) WriteSearchResult
+    '                   Trim, (+2 Overloads) WriteSearchResult
     ' 
     '         Sub: BatchSearch, BatchTrim, TrimRepeats, TrimRevRepeats
     ' 

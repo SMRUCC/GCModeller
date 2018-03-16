@@ -39,12 +39,14 @@
     ' 
     '     Class CellSystemXmlModel
     ' 
-    '         Properties: ResourceCollection
+    '         Properties: OperonCounts, ResourceCollection, ResourceMapper
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: CreateObject, get_ParentDirectory, Internal_getA_ResourceLinks, LoadXml, Save
     '                   SaveOrCopy
     ' 
-    '         Sub: Copy, Internal_MapA_ResourceLinks, New, WriteREADME
+    '         Sub: Copy, Internal_MapA_ResourceLinks, WriteREADME
     ' 
     ' 
     ' /********************************************************************************/

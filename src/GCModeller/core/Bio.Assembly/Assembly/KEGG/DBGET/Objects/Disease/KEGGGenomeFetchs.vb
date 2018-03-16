@@ -33,7 +33,7 @@
 
     '     Module KEGGgenomeFetch
     ' 
-    '         Function: DownloadHSA, DownloadHumanGenome
+    '         Function: __drugTarget, DownloadHSA, DownloadHumanGenome, DownloadURL, ParseModel
     ' 
     ' 
     ' /********************************************************************************/

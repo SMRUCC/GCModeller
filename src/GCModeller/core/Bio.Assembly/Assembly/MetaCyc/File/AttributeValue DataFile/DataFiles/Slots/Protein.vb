@@ -33,7 +33,11 @@
 
     '     Class Protein
     ' 
-    '         Properties: ComponentOf, IsModifiedProtein, IsPolypeptide, Table
+    '         Properties: Catalyzes, CommonName, ComponentOf, Components, DNAFootprintSize
+    '                     Features, Gene, GoTerms, Identifier, IsModifiedProtein
+    '                     IsPolypeptide, Locations, ModifiedForm, MolecularWeightExp, MolecularWeightKD
+    '                     MolecularWeightSeq, pI, Regulates, Species, Table
+    '                     Types, UnmodifiedForm
     ' 
     '         Function: [New], GetEnumerator, GetEnumerator1
     '         Interface IEnzyme

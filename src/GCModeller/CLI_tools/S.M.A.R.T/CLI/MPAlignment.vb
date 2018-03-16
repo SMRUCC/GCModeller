@@ -33,9 +33,9 @@
 
     ' Module CLI
     ' 
-    '     Function: __alignInst, Align, FamilyAlign, SBHAlignment, SelfAlign
-    ' 
-    '     Sub: New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: __alignInst, __contains, Align, FamilyAlign, SBHAlignment
+    '               SelfAlign
     ' 
     ' /********************************************************************************/
 

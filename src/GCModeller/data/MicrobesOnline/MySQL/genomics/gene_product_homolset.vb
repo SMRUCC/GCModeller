@@ -33,6 +33,8 @@
 
     ' Class gene_product_homolset
     ' 
+    '     Properties: gene_product_id, homolset_id, id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

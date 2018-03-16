@@ -33,7 +33,9 @@
 
     '     Module Extensions
     ' 
-    '         Function: GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps, ToGff
+    '         Function: __lociUid, __protShort, _16SribosomalRNA, ExportProteins, ExportProteins_Short
+    '                   GeneList, GetObjects, GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps
+    '                   ToGff
     ' 
     ' 
     ' /********************************************************************************/

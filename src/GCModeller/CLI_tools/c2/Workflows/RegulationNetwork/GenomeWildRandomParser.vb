@@ -33,9 +33,11 @@
 
     ' Class GenomeWildRandomParser
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetOperonsCutoff, RandomSplit
     ' 
-    '     Sub: New, TryParse
+    '     Sub: TryParse
     ' 
     ' /********************************************************************************/
 

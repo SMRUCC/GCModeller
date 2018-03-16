@@ -33,6 +33,10 @@
 
     '     Class MatchedResult
     ' 
+    '         Properties: Effectors, Family, Mast_evalue, Mast_pvalue, MatchedRegulator
+    '                     Meme_evalue, Meme_pvalue, ObjectId, OperonGenes, OperonId
+    '                     RegpreciseRegulator, tfbsId
+    ' 
     '         Function: ToString
     ' 
     '     Module MEME_Analysis_ACtions

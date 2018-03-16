@@ -35,9 +35,8 @@
     ' 
     '         Properties: CHEBI, IsEmpty, PUBCHEM
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateFromMetaCycFormat, CreateObject, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     '         Class DBLink
     ' 
     '             Properties: AccessionId, attributes, DBName

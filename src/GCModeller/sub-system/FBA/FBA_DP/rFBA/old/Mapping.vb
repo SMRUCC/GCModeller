@@ -33,16 +33,17 @@
 
     ' Class Mapping
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: CreateEnzrxnGeneMap, EffectorMapping, GetEffectors, IsEqually
-    ' 
-    '     Sub: New
     '     Class EnzymeGeneMap
+    ' 
+    '         Properties: CommonName, EnzymeRxn, GeneId
     ' 
     '         Sub: CopyTo
     ' 
     '     Class EffectorMap
     ' 
-    '         Properties: MetaCycId, Synonym
+    '         Properties: CommonName, Effector, MetaCycId, Synonym
     ' 
     ' 
     ' 

@@ -33,6 +33,9 @@
 
     ' Class database_
     ' 
+    '     Properties: DataSetWID, Identifier, Name, URI, Version
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

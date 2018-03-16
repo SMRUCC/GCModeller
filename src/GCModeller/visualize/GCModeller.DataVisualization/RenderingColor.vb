@@ -34,6 +34,7 @@
     ' Module RenderingColor
     ' 
     '     Function: __directlyMapping, __interpolateMapping, CategoryMapsTextures, GenerateColorProfiles, InitCOGColors
+    '               NeutralizeColor
     ' 
     ' /********************************************************************************/
 

@@ -33,9 +33,8 @@
 
     ' Class BnlearnModelling
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __R_script, Convert, createNetwork
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

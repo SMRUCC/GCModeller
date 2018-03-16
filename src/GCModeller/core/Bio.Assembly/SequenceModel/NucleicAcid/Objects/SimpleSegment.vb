@@ -36,9 +36,8 @@
     '         Properties: Complement, Ends, ID, Length, SequenceData
     '                     Start, Strand
     ' 
+    '         Constructor: (+4 Overloads) Sub New
     '         Function: __getMappingLoci, SimpleFasta, ToPTTGene
-    ' 
-    '         Sub: (+4 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,8 @@
 
     '     Class Protein
     ' 
-    '         Properties: Domains, ID, Length, Organism
+    '         Properties: Description, Domains, ID, Length, Organism
+    '                     SequenceData
     ' 
     '         Function: __equals, ContainsAnyDomain, ContainsDomain, EXPORT, InteractionWith
     '                   SimilarTo, ToString

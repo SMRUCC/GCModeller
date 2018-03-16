@@ -33,6 +33,10 @@
 
     ' Class protein
     ' 
+    '     Properties: dnaFootprintSize, geneId, location, modifiedForm, mw
+    '                 mwExp, mwSeq, name, neidhardtSpotNum, PI
+    '                 proteinId, symmetry, taxId, type, unmodifiedForm
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

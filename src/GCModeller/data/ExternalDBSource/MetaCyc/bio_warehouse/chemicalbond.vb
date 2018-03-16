@@ -33,6 +33,8 @@
 
     ' Class chemicalbond
     ' 
+    '     Properties: Atom1Index, Atom2Index, BondStereo, BondType, ChemicalWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

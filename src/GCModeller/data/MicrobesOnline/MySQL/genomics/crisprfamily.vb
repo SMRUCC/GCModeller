@@ -33,6 +33,8 @@
 
     ' Class crisprfamily
     ' 
+    '     Properties: familyId, locusId, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

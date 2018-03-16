@@ -33,7 +33,7 @@
 
     '     Class DNABindSite
     ' 
-    '         Properties: ComponentOf, InvolvedInRegulation, Table
+    '         Properties: AbsCenterPos, ComponentOf, InvolvedInRegulation, SiteLength, Table
     ' 
     ' 
     ' /********************************************************************************/

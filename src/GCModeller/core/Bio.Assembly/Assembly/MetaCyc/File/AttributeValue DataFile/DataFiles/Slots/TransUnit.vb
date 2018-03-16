@@ -33,7 +33,7 @@
 
     '     Class TransUnit
     ' 
-    '         Properties: Table
+    '         Properties: Components, ExtentUnknown, Table
     ' 
     '         Function: GetGeneIds
     ' 

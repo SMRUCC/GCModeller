@@ -39,7 +39,9 @@
     ' 
     '     Class SShit
     ' 
-    '         Properties: Best, Coverage, Entry, EntryUrl, KO
+    '         Properties: Best, Bits, Coverage, Entry, EntryUrl
+    '                     Identity, KO, Length, Margin, Overlap
+    '                     SWScore
     ' 
     '         Function: CreateObject, ToString
     ' 

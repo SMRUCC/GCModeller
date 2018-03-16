@@ -33,7 +33,8 @@
 
     '     Module Loci_API
     ' 
-    '         Function: __assembly, FragmentAssembly, Group, InternalAssembler
+    '         Function: __assembly, FragmentAssembly, Group, Group_p, InternalAssembler
+    '                   Merge
     ' 
     ' 
     ' /********************************************************************************/

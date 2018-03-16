@@ -47,17 +47,15 @@
     ' 
     '         Properties: Value
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class VERSION
     ' 
     '         Properties: AccessionID, GI, IsEmpty, Ver, VersionString
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

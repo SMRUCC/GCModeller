@@ -33,6 +33,8 @@
 
     ' Class gene_product_ancestor
     ' 
+    '     Properties: ancestor_id, gene_product_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

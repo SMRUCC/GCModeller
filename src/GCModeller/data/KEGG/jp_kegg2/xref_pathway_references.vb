@@ -33,6 +33,8 @@
 
     ' Class xref_pathway_references
     ' 
+    '     Properties: pathway, reference, title
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

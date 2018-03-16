@@ -36,9 +36,8 @@
     '         Properties: [StructureType], AminoAcid, Coil, HelixSheetOverlap, HelixTurnOverlap
     '                     SheetTurnOverlap, StructureChar
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

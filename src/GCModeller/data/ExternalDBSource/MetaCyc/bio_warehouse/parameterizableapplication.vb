@@ -33,6 +33,10 @@
 
     ' Class parameterizableapplication
     ' 
+    '     Properties: ActivityDate, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, DataSetWID
+    '                 Hardware, MAGEClass, Protocol, ProtocolApplication, ProtocolApplication2
+    '                 ReleaseDate, SerialNumber, Software, Version, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

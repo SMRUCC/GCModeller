@@ -33,11 +33,14 @@
 
     '     Class SignalTransductionNetwork
     ' 
-    '         Properties: DataSource
+    '         Properties: CheBMethylesterase, CheBPhosphate, ChemotaxisSensing, CheRMethyltransferase, CrossTalk
+    '                     DataSource, HkAutoPhosphorus, OCSSensing, ProteinComplexes, TFActive
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __innerTicks, CreateEnzymes, CreateServiceSerials, get_DataSerializerHandles, Initialize
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

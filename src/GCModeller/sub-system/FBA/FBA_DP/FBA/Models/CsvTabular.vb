@@ -35,9 +35,11 @@
     ' 
     '         Properties: allCompounds, fluxColumns
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __getLowerbound, __getStoichiometry, __getUpbound, getConstraint
     ' 
-    '         Sub: New, SetObjectiveFunc
+    '         Sub: SetObjectiveFunc
     ' 
     ' 
     ' /********************************************************************************/

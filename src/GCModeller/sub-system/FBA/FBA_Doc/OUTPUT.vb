@@ -39,8 +39,8 @@
     ' 
     '     Class ObjectiveFunction
     ' 
-    '         Properties: Associates, Comments, Factors, Info, Name
-    '                     Result
+    '         Properties: Associates, Coefficient, Comments, Factors, Info
+    '                     Name, Result
     ' 
     '         Function: ToString
     ' 

@@ -33,9 +33,11 @@
 
     ' Class PromoterParser
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: TryParse
     ' 
-    '     Sub: (+2 Overloads) Dispose, New
+    '     Sub: (+2 Overloads) Dispose
     ' 
     ' /********************************************************************************/
 

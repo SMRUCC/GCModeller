@@ -40,7 +40,7 @@
     ' 
     '     Class Regulator
     ' 
-    '         Properties: Pcc, ProteinId, RegulatesMotif
+    '         Properties: Effectors, Pcc, ProteinId, RegulatesMotif, TCS_RR
     ' 
     '         Function: get_PCs, get_TargetGeneId, ToString
     ' 

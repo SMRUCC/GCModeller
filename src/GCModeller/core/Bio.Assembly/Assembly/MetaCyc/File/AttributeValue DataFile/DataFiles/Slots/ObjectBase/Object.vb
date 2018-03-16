@@ -33,7 +33,9 @@
 
     '     Class [Object]
     ' 
-    '         Properties: DBLinksMgr, Identifier
+    '         Properties: AbbrevName, Citations, Comment, CommonName, DBLinks
+    '                     DBLinksMgr, Identifier, Names, Synonyms, Table
+    '                     Types
     ' 
     '         Function: GetDBLinks
     '         Enum Tables
@@ -49,9 +51,11 @@
     ' 
     '     Properties: Item
     ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
     '     Function: Exists, StringQuery, ToString
     ' 
-    '     Sub: [TypeCast], CopyTo, (+2 Overloads) New
+    '     Sub: [TypeCast], CopyTo
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,9 +35,11 @@
     ' 
     '         Properties: ALL
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ToString
     ' 
-    '         Sub: Add, New
+    '         Sub: Add
     '         Delegate Function
     ' 
     ' 

@@ -33,6 +33,9 @@
 
     ' Class compound
     ' 
+    '     Properties: charge, compoundId, mw, name, pka1
+    '                 pka2, pka3, sName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

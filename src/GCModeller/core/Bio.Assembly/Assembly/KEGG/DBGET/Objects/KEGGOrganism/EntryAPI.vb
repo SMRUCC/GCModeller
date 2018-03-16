@@ -35,10 +35,9 @@
     ' 
     '         Properties: Resources
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __fillClass, __loadList, FromResource, GetKEGGSpeciesCode, GetOrganismList
     '                   GetOrganismListFromResource, GetValue
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class position
     ' 
+    '     Properties: objectId, posLeft, posRight, strand, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

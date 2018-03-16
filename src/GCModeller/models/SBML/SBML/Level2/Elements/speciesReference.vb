@@ -35,9 +35,8 @@
     ' 
     '         Properties: species, stoichiometry
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CopyData, Equals, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

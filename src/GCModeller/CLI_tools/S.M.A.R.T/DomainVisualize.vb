@@ -33,9 +33,11 @@
 
     ' Class DomainVisualize
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetColorProfiles, GetDomainDescription, Visualize
     ' 
-    '     Sub: CreateMainRule, DrawCite, DrawTitle, New
+    '     Sub: CreateMainRule, DrawCite, DrawTitle
     '     Class ColorSchema
     ' 
     '         Function: ToString

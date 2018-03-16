@@ -33,6 +33,10 @@
 
     ' Class parameterizable
     ' 
+    '     Properties: DataSetWID, Hardware, Hardware_Type, Identifier, MAGEClass
+    '                 Make, Model, Name, Protocol_Type, Software_Type
+    '                 Text, Title, URI, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

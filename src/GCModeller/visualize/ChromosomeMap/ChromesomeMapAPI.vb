@@ -39,9 +39,8 @@
     '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
     '     Class __setRNAColorInvoke
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __setColor, __setColorBrush
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

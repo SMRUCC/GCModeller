@@ -36,9 +36,8 @@
     '         Properties: CHEBI, CommonName, Effector, EffectorAlias, KEGGCompound
     '                     MetaCycId, PUBCHEM, Synonym
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __newMap, GenerateMap, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

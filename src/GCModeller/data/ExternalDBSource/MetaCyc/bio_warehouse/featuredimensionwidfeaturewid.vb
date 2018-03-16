@@ -33,6 +33,8 @@
 
     ' Class featuredimensionwidfeaturewid
     ' 
+    '     Properties: FeatureDimensionWID, FeatureWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

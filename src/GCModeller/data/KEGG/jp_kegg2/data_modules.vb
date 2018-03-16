@@ -33,6 +33,8 @@
 
     ' Class data_modules
     ' 
+    '     Properties: definition, KEGG, map, name, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

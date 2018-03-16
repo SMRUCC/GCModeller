@@ -33,7 +33,7 @@
 
     ' Module Coverage
     ' 
-    '     Function: Length
+    '     Function: Length, QueryLength, SubjectLength
     ' 
     ' /********************************************************************************/
 

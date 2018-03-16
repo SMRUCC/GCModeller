@@ -33,7 +33,7 @@
 
     ' Module RankAbundance
     ' 
-    '     Function: TaxonomyProfile, TaxonomyRankString
+    '     Function: GroupValue, RankAbundance, TaxonomyProfile, TaxonomyRankString
     ' 
     ' /********************************************************************************/
 

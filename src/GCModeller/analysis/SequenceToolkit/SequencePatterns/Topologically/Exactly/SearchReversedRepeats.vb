@@ -35,7 +35,8 @@
     ' 
     '         Properties: MinAppeared, ResultSet
     ' 
-    '         Sub: DoSearch, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: DoSearch
     ' 
     ' 
     ' /********************************************************************************/

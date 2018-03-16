@@ -33,7 +33,7 @@
 
     '     Module URLEncoder
     ' 
-    '         Function: URLParser
+    '         Function: KEGGURLEncode, URLParser, VisualizePathwayMap
     ' 
     ' 
     ' /********************************************************************************/

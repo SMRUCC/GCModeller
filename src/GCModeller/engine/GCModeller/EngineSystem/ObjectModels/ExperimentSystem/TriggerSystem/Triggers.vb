@@ -35,9 +35,8 @@
     ' 
     '         Properties: Handle
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateObject, TriggerTest
-    ' 
-    '         Sub: New
     ' 
     '     Class PeriodicTrigger
     ' 

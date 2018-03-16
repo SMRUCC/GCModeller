@@ -33,6 +33,10 @@
 
     ' Class locus2pdb
     ' 
+    '     Properties: alignLength, evalue, evalueDisp, gap, identity
+    '                 locusId, mismatch, pdbBegin, pdbChain, pdbEnd
+    '                 pdbId, score, seqBegin, seqEnd, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -35,9 +35,11 @@
     ' 
     '         Properties: HomologousProteins, LocalBLAST, Reconstructed, Subject, Workspace
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Performance
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Sub: (+2 Overloads) Dispose
     '         Class ReconstructedList
     ' 
     '             Properties: ListData

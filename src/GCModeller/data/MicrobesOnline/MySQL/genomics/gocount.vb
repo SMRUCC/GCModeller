@@ -33,6 +33,8 @@
 
     ' Class gocount
     ' 
+    '     Properties: goCount, goId, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

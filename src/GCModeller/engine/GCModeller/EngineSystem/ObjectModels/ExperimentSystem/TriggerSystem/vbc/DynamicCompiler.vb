@@ -35,10 +35,12 @@
     ' 
     '         Properties: CompiledCode
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) Compile, CreateTriggerConditionTest, DeclareAssembly, DeclareFunction, GenerateCode
     '                   GetDebugInformation, ImportsNamespace
     ' 
-    '         Sub: AddTestModel, (+2 Overloads) Dispose, New
+    '         Sub: AddTestModel, (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

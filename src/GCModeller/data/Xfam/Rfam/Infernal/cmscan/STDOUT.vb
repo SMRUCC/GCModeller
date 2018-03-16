@@ -41,7 +41,8 @@
     ' 
     '     Class Hit
     ' 
-    '         Properties: Evalue
+    '         Properties: bias, description, Evalue, gc, mdl
+    '                     modelname, rank, score, trunc
     ' 
     '         Function: ToString
     ' 

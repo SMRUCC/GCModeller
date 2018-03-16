@@ -33,6 +33,8 @@
 
     '     Class PfamString
     ' 
+    '         Properties: Domains, Length, LocusTag, PfamString
+    ' 
     '         Function: AsPfamString, CreateObject, ToString
     ' 
     ' 

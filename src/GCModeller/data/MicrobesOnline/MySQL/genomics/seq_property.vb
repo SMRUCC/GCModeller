@@ -33,6 +33,8 @@
 
     ' Class seq_property
     ' 
+    '     Properties: id, property_key, property_val, seq_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

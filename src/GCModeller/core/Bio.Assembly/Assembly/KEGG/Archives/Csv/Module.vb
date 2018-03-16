@@ -34,7 +34,7 @@
     '     Class [Module]
     ' 
     '         Properties: [Class], BriteId, Category, EntryId, Name
-    '                     PathwayGenes, Reactions
+    '                     NumberGenes, PathwayGenes, Reactions, Type
     ' 
     '         Function: [Imports], GenerateObject, GetPathwayGenes
     ' 

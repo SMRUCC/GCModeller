@@ -33,6 +33,8 @@
 
     '     Class LocusDict
     ' 
+    '         Properties: genome, LocusId
+    ' 
     '         Function: CreateDictionary, ToString
     ' 
     ' 

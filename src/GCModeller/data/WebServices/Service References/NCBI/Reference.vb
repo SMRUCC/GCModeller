@@ -184,27 +184,27 @@
     ' 
     '     Class DownloadRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class DownloadResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class GetAssayColumnDescriptionsRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class GetAssayColumnDescriptionsResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class GetAssayDescriptionRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class GetAssayDescriptionResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Enum StatusType
     ' 
@@ -217,11 +217,11 @@
     ' 
     '     Class GetStandardizedStructureBase64Request
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class GetStandardizedStructureBase64Response
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Enum IDOperationType
     ' 
@@ -251,11 +251,11 @@
     ' 
     '     Class IDExchangeRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class IDExchangeResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Enum AssayColumnsType
     ' 
@@ -275,19 +275,19 @@
     ' 
     '     Class InputListStringRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class InputListStringResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class InputStructureBase64Request
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class InputStructureBase64Response
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Enum ScoreTypeType
     ' 
@@ -307,17 +307,19 @@
     ' 
     '     Class StandardizeRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class StandardizeResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Interface PUGSoapChannel
     ' 
     ' 
     ' 
     '     Class PUGSoapClient
+    ' 
+    '         Constructor: (+5 Overloads) Sub New
     ' 
     '         Function: AssayDownload, AssayDownloadAsync, Download, DownloadAsync, GetAssayColumnDescription
     '                   GetAssayColumnDescriptionAsync, GetAssayColumnDescriptions, GetAssayColumnDescriptionsAsync, GetAssayDescription, GetAssayDescriptionAsync
@@ -335,7 +337,7 @@
     '                   SimilaritySearch2DAsync, StandardizeAsync, SubstructureSearch, SubstructureSearchAsync, SuperstructureSearch
     '                   SuperstructureSearchAsync
     ' 
-    '         Sub: (+5 Overloads) New, Standardize
+    '         Sub: Standardize
     ' 
     ' 
     ' /********************************************************************************/

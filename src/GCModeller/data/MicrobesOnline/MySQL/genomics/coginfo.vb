@@ -33,6 +33,9 @@
 
     ' Class coginfo
     ' 
+    '     Properties: cddId, cogInfoId, description, funCode, geneName
+    '                 length
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

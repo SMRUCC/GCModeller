@@ -33,6 +33,8 @@
 
     ' Class arraymanufacturedeviation
     ' 
+    '     Properties: Array_, DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

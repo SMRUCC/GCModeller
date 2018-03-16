@@ -33,10 +33,11 @@
 
     '     Class Config
     ' 
-    '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FlagLength
-    '                     FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant, LegendFont
-    '                     LineHeight, LineLength, LocusTagFont, Margin, NoneCogColor
-    '                     Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont, tRNAColor
+    '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
+    '                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
+    '                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
+    '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
+    '                     tRNAColor
     ' 
     '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
     '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment

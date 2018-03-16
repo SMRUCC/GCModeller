@@ -36,7 +36,7 @@
     ' 	    Properties: BasicPropertyValues, Comments, Definition, Subsets, Synonyms
     '                  Xrefs, XrefsValues
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: addSubset, addSynonym, addXref, basicPropertyValues, build

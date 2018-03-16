@@ -33,11 +33,13 @@
 
     '     Class Residue
     ' 
-    '         Properties: RepeatRanges, Type
+    '         Properties: Raw, Regex, RepeatRanges, Type
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: GetComplement, ToString
     ' 
-    '         Sub: __newChar, (+2 Overloads) New
+    '         Sub: __newChar
     ' 
     ' 
     ' /********************************************************************************/

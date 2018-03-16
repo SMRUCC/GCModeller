@@ -36,9 +36,8 @@
     '     Function: __getName, GetDrawsModel, IsOrtholog
     '     Structure __colorHelper
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetColor
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

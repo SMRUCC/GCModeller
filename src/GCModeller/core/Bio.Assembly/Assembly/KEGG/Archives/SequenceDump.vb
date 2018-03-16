@@ -35,10 +35,9 @@
     ' 
     '         Properties: CommonName, Description, LocusId, SpeciesId
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __altParser, __familyParser, __trimBraket, Create, KEGGFamily
     '                   TitleParser, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

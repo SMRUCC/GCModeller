@@ -33,6 +33,8 @@
 
     ' Class tu_component
     ' 
+    '     Properties: [cType], cId, tuId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class transcriptionunitcomponent
     ' 
+    '     Properties: OtherWID, TranscriptionUnitWID, Type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

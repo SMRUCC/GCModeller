@@ -33,6 +33,9 @@
 
     ' Class glammenzyme
     ' 
+    '     Properties: created, ecNum, guid, name, priority
+    '                 reactionGuid, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

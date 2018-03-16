@@ -33,6 +33,8 @@
 
     ' Class seq_dbxref
     ' 
+    '     Properties: dbxref_id, seq_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

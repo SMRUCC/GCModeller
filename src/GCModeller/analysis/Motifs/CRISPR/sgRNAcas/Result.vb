@@ -33,7 +33,8 @@
 
     ' Class SingleStrandResult
     ' 
-    '     Properties: [End], sgRID, Start
+    '     Properties: [End], CRISPR_target_sequence, GC, Length, sgRID
+    '                 Start
     ' 
     '     Function: LoadDocument, ToString
     ' 

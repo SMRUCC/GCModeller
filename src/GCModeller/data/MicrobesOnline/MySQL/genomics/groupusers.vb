@@ -33,6 +33,8 @@
 
     ' Class groupusers
     ' 
+    '     Properties: active, groupId, time, userId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

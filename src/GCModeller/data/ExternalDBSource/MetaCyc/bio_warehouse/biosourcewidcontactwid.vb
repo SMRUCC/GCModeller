@@ -33,6 +33,8 @@
 
     ' Class biosourcewidcontactwid
     ' 
+    '     Properties: BioSourceWID, ContactWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

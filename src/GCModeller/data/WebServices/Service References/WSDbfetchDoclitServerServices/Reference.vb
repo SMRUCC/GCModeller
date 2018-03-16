@@ -92,51 +92,51 @@
     ' 
     '     Class getSupportedDBsRequest
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class getSupportedDBsResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getSupportedFormatsRequest
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class getSupportedFormatsResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getSupportedStylesRequest
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class getSupportedStylesResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getDatabaseInfoListRequest
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class getDatabaseInfoListResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getDbFormatsRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getDbFormatsResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getFormatStylesRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class getFormatStylesResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Interface WSDBFetchServerChannel
     ' 
@@ -144,6 +144,7 @@
     ' 
     '     Class WSDBFetchServerClient
     ' 
+    '         Constructor: (+5 Overloads) Sub New
     '         Function: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDatabaseInfo
     '                   getDatabaseInfoAsync, getDatabaseInfoList, getDatabaseInfoListAsync, getDbFormats, getDbFormatsAsync
     '                   getFormatInfo, getFormatInfoAsync, getFormatStyles, getFormatStylesAsync, getStyleInfo
@@ -151,8 +152,6 @@
     '                   getSupportedStyles, getSupportedStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoList, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoListAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormats
     '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBs, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBsAsync
     '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormats, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStylesAsync
-    ' 
-    '         Sub: (+5 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,9 +35,11 @@
     ' 
     '     Properties: Lines, TokenWidth
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __average, __trimData
     ' 
-    '     Sub: Draw, New
+    '     Sub: Draw
     ' 
     ' /********************************************************************************/
 

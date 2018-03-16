@@ -33,27 +33,37 @@
 
     '     Class RegulatoryElement
     ' 
-    '         Properties: Description
+    '         Properties: ArticleGuid, Descript, Description, GenomeGuid, IsRealName
+    '                     LastUpdate, Name, PackageGuid
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class Effector
     ' 
     '         Properties: Guid
     ' 
-    '  
+    '     Class Regulator
     ' 
-    '     Function: ExportFasta, GetSequenceData, ToString, TryAssignSequence
+    '         Properties: Consensus, Family, flag_prot_rna, GeneGuid, Guid
+    '                     Name, RefBank1, RefBank2, RefBank3, RefBank4
+    '                     RegulatorTypeGuid
     ' 
-    '  
+    '         Function: ExportFasta, GetSequenceData, ToString, TryAssignSequence
     ' 
-    '     Function: ExportFasta, FixSequenceError
+    '     Class Sites
+    ' 
+    '         Properties: fl_dna_rna, FuncSiteTypeGuid, Guid, PfoSideGuid, PfoTypeId
+    '                     PositionFrom, PositionFromGuid, PositionTo, PositionToGuid, PtoSideGuid
+    '                     PtoTypeId, RegulatorGuid, Sequence, Signature, SiteLen
+    '                     StructureSiteTypeGuid
+    ' 
+    '         Function: ExportFasta, FixSequenceError
     ' 
     '     Class Gene
     ' 
-    ' 
+    '         Properties: ferment_num, gene_function, Guid, location, metabol_path
+    '                     ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature
     ' 
     '     Class Transcript
     ' 

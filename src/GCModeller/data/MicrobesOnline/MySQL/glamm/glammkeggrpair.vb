@@ -33,6 +33,9 @@
 
     ' Class glammkeggrpair
     ' 
+    '     Properties: compound0Guid, compound0KeggId, compound1Guid, compound1KeggId, created
+    '                 guid, priority, reactionGuid, rpairRole, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

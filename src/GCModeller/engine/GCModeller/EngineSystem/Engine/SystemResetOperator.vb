@@ -36,7 +36,8 @@
     '         Sub: Reset
     '         Class SystemResetOperator
     ' 
-    '             Sub: Internal_InvokeResetOperation, InternalResetDataService, New
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: Internal_InvokeResetOperation, InternalResetDataService
     ' 
     ' 
     ' 

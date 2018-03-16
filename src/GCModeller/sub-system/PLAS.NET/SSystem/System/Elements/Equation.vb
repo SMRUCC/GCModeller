@@ -33,11 +33,13 @@
 
     '     Class Equation
     ' 
-    '         Properties: Model, Value
+    '         Properties: Expression, Model, Value
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: Elapsed, Evaluate, get_ObjectHandle, ToString
     ' 
-    '         Sub: [Set], (+2 Overloads) New
+    '         Sub: [Set]
     ' 
     ' 
     ' /********************************************************************************/

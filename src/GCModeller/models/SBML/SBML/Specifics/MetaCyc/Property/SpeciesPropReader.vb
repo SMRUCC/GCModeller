@@ -37,7 +37,7 @@
     '                     DRUGBANK, FORMULA, HMDB, INCHI, KEGG
     '                     METABOLIGHTS, PUBCHEM
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

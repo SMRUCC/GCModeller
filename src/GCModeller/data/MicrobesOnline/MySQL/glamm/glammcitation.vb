@@ -33,6 +33,9 @@
 
     ' Class glammcitation
     ' 
+    '     Properties: citation, created, dataSourceGuid, guid, priority
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

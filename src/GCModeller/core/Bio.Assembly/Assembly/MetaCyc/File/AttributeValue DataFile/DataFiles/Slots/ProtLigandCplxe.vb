@@ -33,7 +33,8 @@
 
     '     Class ProtLigandCplxe
     ' 
-    '         Properties: Catalyzes, ComponentOf, Components, Regulates, Table
+    '         Properties: Catalyzes, CommonName, ComponentOf, Components, ConsensusSequence
+    '                     DNAFootprintSize, Identifier, Regulates, Table, Types
     ' 
     ' 
     ' /********************************************************************************/

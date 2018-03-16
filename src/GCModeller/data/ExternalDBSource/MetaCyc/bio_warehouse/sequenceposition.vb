@@ -33,6 +33,9 @@
 
     ' Class sequenceposition
     ' 
+    '     Properties: [End], Composite, CompositeCompositeMap, DataSetWID, MAGEClass
+    '                 Reporter, ReporterCompositeMap, Start_, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

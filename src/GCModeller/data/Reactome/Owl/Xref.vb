@@ -41,7 +41,7 @@
     ' 
     '     Class PublicationXref
     ' 
-    '         Properties: source, title, year
+    '         Properties: author, source, title, year
     ' 
     '     Class RelationshipXref
     ' 

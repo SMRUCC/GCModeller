@@ -33,7 +33,9 @@
 
     '     Class Gene
     ' 
-    '         Properties: Table
+    '         Properties: Accession1, Accession2, CentisomePosition, ComponentOf, InParalogousGeneGroup
+    '                     Interrupted, LastUpdate, LeftEndPosition, Product, ProductString
+    '                     RightEndPosition, Table, TranscriptionDirection
     ' 
     '         Function: ToString
     ' 

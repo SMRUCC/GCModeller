@@ -33,14 +33,12 @@
 
     '     Class NucleotideLocation
     ' 
-    '         Properties: Ends, IsValid, Start
+    '         Properties: Ends, IsValid, Start, Strand, UserTag
     ' 
+    '         Constructor: (+12 Overloads) Sub New
     '         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship
     '                   (+2 Overloads) GetUpStreamLoci, LociIsContact, MoveFrame, Normalization, Parse
     '                   ToString
-    ' 
-    '         Sub: (+12 Overloads) New
-    ' 
     '         Operators: -, +
     ' 
     ' 

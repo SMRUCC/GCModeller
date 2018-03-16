@@ -33,9 +33,8 @@
 
     '     Class Reactions
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: AllCompoundsExists, Exists, Initialize
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

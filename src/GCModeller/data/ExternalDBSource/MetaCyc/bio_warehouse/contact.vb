@@ -33,6 +33,11 @@
 
     ' Class contact
     ' 
+    '     Properties: Address, Affiliation, DataSetWID, Email, Fax
+    '                 FirstName, Identifier, LastName, MAGEClass, MidInitials
+    '                 Name, Parent, Phone, TollFreePhone, URI
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

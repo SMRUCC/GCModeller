@@ -35,10 +35,12 @@
     ' 
     '         Properties: Conservation, Frequency
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
     '                   Save
     ' 
-    '         Sub: __initCommon, (+3 Overloads) New
+    '         Sub: __initCommon
     ' 
     ' 
     ' /********************************************************************************/

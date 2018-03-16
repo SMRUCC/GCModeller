@@ -33,7 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: proteinGroupsVenn, RelativeAmount
+    '     Function: GetExperimentGroupLabels, proteinGroupsVenn, RelativeAmount
     ' 
     ' /********************************************************************************/
 

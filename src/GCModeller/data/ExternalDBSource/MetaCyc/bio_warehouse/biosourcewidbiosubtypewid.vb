@@ -33,6 +33,8 @@
 
     ' Class biosourcewidbiosubtypewid
     ' 
+    '     Properties: BioSourceWID, BioSubtypeWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

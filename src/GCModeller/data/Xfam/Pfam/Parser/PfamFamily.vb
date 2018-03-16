@@ -33,25 +33,34 @@
 
     '     Class PfamFamily
     ' 
-    ' 
+    '         Properties: Entries, EntryCount, Release, ReleaseDate
     ' 
     '     Class PfamObject
+    ' 
+    '         Properties: Description, Name
     ' 
     '         Function: ToString
     ' 
     '     Class Entry
     ' 
-    ' 
+    '         Properties: AccID, AdditionalFields, Authors, Dates, ID
+    '                     Xrefs
     ' 
     '     Class [Date]
+    ' 
+    '         Properties: Type, value
     ' 
     '         Function: ToString
     ' 
     '     Class Field
     ' 
+    '         Properties: Name, value
+    ' 
     '         Function: ToString
     ' 
     '     Class CrossRef
+    ' 
+    '         Properties: DbKey, DbName
     ' 
     '         Function: ToString
     ' 

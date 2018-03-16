@@ -33,6 +33,8 @@
 
     ' Class locus2seed
     ' 
+    '     Properties: isIdentical, locusId, seedId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

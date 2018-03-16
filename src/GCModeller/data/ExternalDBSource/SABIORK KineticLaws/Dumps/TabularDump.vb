@@ -39,7 +39,7 @@
     ' 
     '     Class CompoundSpecie
     ' 
-    '         Properties: CommonNames, DBLinks, ICompoundObjectCHEBI_values, PUBCHEM
+    '         Properties: CommonNames, DBLinks, ICompoundObjectCHEBI_values, KEGG_Compound, PUBCHEM
     ' 
     '         Function: CreateDBLinksData, CreateObjects, GetDBLinkManager, ToString
     ' 

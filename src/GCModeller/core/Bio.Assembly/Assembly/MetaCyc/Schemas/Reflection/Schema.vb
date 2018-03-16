@@ -35,9 +35,8 @@
     ' 
     '         Properties: LinkInKeys, LinkOutKeys, Table, UnknownKeys
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetExternalLink, ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class Path
     ' 

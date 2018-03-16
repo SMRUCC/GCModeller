@@ -42,16 +42,14 @@
     ' 
     '         Properties: CheckThrought, Left, Right
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Copy, Generate, GetDomains, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     '         Class Refx
     ' 
     '             Properties: DomainModify, IsDomain, Stochem, UniqueId
     ' 
+    '             Constructor: (+2 Overloads) Sub New
     '             Function: CopyData, ToString
-    ' 
-    '             Sub: (+2 Overloads) New
     ' 
     ' 
     ' 

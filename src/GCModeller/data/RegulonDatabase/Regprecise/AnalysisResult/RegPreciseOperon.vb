@@ -36,9 +36,8 @@
     '         Properties: bbh, bbhUID, BiologicalProcess, Effector, Operon
     '                     Pathway, Regulators, source, Strand, TF_trace
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

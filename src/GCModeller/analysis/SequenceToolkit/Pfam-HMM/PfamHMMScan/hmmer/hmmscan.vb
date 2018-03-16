@@ -45,11 +45,12 @@
     ' 
     '     Class ScanTable
     ' 
-    '         Properties: describ, exp, len, model, name
+    '         Properties: BestBias, BestEvalue, BestScore, describ, exp
+    '                     FullBias, FullEvalue, FullScore, len, model
+    '                     name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetPfamToken, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class Hit
     ' 
@@ -60,11 +61,10 @@
     ' 
     '     Structure Score
     ' 
-    '         Properties: bias, score
+    '         Properties: bias, Evalue, score
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class Alignment
     ' 
@@ -74,12 +74,12 @@
     ' 
     '     Class Align
     ' 
-    '         Properties: acc, alifrom, bias, envfrom, hmmfrom
-    '                     IsMatched, score
+    '         Properties: acc, alifrom, aliTo, bias, cEvalue
+    '                     envfrom, envTo, hmmfrom, hmmTo, iEvalue
+    '                     IsMatched, rank, score
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetPfamToken, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

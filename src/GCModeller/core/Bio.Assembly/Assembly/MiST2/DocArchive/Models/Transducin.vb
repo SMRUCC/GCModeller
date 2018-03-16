@@ -33,6 +33,8 @@
 
     '     Class Transducin
     ' 
+    '         Properties: [Class], GeneName, ImageUrl, Inputs, Outputs
+    ' 
     '         Function: __convert, GetDomainArchitecture, ToString
     ' 
     ' 

@@ -33,11 +33,13 @@
 
     '     Class RepeatsLoci
     ' 
-    '         Properties: RepeatLoci
+    '         Properties: LociLeft, RepeatLoci
     ' 
     '         Function: __hash
     ' 
     '     Class RevRepeatsLoci
+    ' 
+    '         Properties: RevLociLeft, RevRepeats
     ' 
     '         Function: __hash
     ' 

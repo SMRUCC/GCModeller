@@ -33,19 +33,30 @@
 
     ' Class MatchedInformation
     ' 
+    '     Properties: [Objects]
+    ' 
     '     Function: CogStatics, Generate, Get_TFBS, GetObject, Load
     ' 
     '     Sub: Generate2, (+4 Overloads) Match, MatchCOG
     '     Class [Object]
     ' 
+    '         Properties: Id, Operons
+    ' 
     '         Function: Get_Matched, GetMotifs, ToString
     '         Class Operon
+    ' 
+    '             Properties: Id, Motifs
     ' 
     '             Function: Get_Matched, ToString
     '             Class Motif
     ' 
+    '                 Properties: Id, PValue, TFBSs
+    ' 
     '                 Function: ToString
     '                 Class TFBS
+    ' 
+    '                     Properties: BiologicalProcess, Effector, EValue, Family, Id
+    '                                 LocusId, Matched, PValue, Regulation, Regulog
     ' 
     '                     Function: ToString
     ' 
@@ -59,10 +70,15 @@
     ' 
     ' Class Regulators
     ' 
+    '     Properties: Regulators
+    ' 
     '     Function: Load
     ' 
     '     Sub: (+2 Overloads) Match
     '     Class Regulator
+    ' 
+    '         Properties: AccessionId, BiologicalProcess, Description, Effector, Matched
+    '                     Regulation, Regulog, TFBSs
     ' 
     '         Function: ToString
     ' 

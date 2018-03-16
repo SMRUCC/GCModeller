@@ -33,6 +33,8 @@
 
     ' Class xref_pathway_modules
     ' 
+    '     Properties: [module], KO, name, pathway
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

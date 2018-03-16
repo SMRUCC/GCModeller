@@ -31,11 +31,13 @@
 
     ' Summaries:
 
-    '  
+    '     Structure MathInfo
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
     '     Class parameter
+    ' 
+    '         Properties: id, units, value
     ' 
     '         Function: ToString
     ' 

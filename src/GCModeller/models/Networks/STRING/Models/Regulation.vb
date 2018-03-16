@@ -33,7 +33,7 @@
 
     '     Class TFRegulation
     ' 
-    '         Properties: PromoterGene, TFPcc
+    '         Properties: OperonGenes, OperonId, PromoterGene, Regulator, TFPcc
     ' 
     '         Function: ToString
     ' 

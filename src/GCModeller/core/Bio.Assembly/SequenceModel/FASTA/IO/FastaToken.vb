@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83cbae634f7be88241b1f2173cb40903, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::e293f10d35d2817109d2b9b92c83b5f4, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -35,13 +35,15 @@
     ' 
     '         Properties: HaveGaps, Headers, Length, SequenceData, Title
     ' 
+    '         Constructor: (+7 Overloads) Sub New
+    ' 
     '         Function: Clone, Complement, (+2 Overloads) Copy, Equals, GenerateDocument
     '                   GenerateDocumentText, GrepTitle, Load, LoadNucleotideData, ParseFromStream
     '                   Reverse, Save, SaveAsOneLine, (+2 Overloads) SaveTo, SequenceLineBreak
     '                   ToLower, ToString, ToUpper, TryParse
     ' 
-    '         Sub: AddAttribute, CopyTo, InsertAttribute, (+7 Overloads) New, RemoveAttribute
-    '              SequenceLineBreak, SetAttribute
+    '         Sub: AddAttribute, CopyTo, InsertAttribute, RemoveAttribute, SequenceLineBreak
+    '              SetAttribute
     ' 
     ' 
     ' /********************************************************************************/

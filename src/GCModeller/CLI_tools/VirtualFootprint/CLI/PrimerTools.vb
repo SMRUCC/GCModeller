@@ -39,6 +39,8 @@
     ' 
     ' Class SSRPrimers
     ' 
+    '     Properties: ForwardPrimer, name, ReversePrimer
+    ' 
     '     Function: ToString
     ' 
     ' /********************************************************************************/

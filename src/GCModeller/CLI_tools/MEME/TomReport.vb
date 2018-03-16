@@ -33,7 +33,7 @@
 
     ' Module TomReport
     ' 
-    '     Function: WriteHTML
+    '     Function: __printHSP, WriteHTML
     ' 
     '     Sub: __printHSP
     ' 

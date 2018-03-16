@@ -33,6 +33,8 @@
 
     ' Class locus2rtb
     ' 
+    '     Properties: locusId, rtb_characterized, rtb_seqfeature_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

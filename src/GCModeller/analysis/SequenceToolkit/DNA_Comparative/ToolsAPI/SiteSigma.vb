@@ -33,7 +33,7 @@
 
     ' Class SiteSigma
     ' 
-    '     Properties: Similarity
+    '     Properties: Sigma, Similarity, Site
     ' 
     ' /********************************************************************************/
 

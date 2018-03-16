@@ -33,7 +33,7 @@
 
     '     Module GbkParser
     ' 
-    '         Function: __loadData, __originReadThread, Internal_readBlock
+    '         Function: __loadData, __originReadThread, Internal_readBlock, Read
     ' 
     '         Sub: __readOrigin
     ' 

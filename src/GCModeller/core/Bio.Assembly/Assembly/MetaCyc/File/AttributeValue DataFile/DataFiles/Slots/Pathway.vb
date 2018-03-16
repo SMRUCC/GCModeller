@@ -33,7 +33,10 @@
 
     '     Class Pathway
     ' 
-    '         Properties: HypotheticalReactions, ReactionList, Table
+    '         Properties: AssumeUniqueEnzymes, ClassInstanceLinks, DisableDisplay, EnzymesNotUsed, EnzymeUse
+    '                     HypotheticalReactions, InPathway, LayoutAdvice, PathwayInteractions, PathwayLinks
+    '                     PolymerizationLinks, Predecessors, Primaries, ReactionList, Species
+    '                     SubPathways, SuperPathways, Table
     ' 
     '         Function: ToString
     ' 

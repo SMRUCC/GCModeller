@@ -33,6 +33,9 @@
 
     ' Class acl
     ' 
+    '     Properties: admin, read, requesterId, requesterType, resourceId
+    '                 resourceType, write
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

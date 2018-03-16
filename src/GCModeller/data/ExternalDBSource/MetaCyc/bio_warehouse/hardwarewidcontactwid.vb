@@ -33,6 +33,8 @@
 
     ' Class hardwarewidcontactwid
     ' 
+    '     Properties: ContactWID, HardwareWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

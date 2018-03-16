@@ -33,6 +33,8 @@
 
     ' Class reaction
     ' 
+    '     Properties: name, rxnId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

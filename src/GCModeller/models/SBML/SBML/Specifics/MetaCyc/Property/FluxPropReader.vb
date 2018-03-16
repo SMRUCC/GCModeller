@@ -35,7 +35,7 @@
     ' 
     '         Properties: BIOCYC, ConfidenceLevel, ECNumber, GENE_ASSOCIATION, SUBSYSTEM
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

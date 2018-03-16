@@ -33,6 +33,9 @@
 
     ' Class glammreactionparticipant
     ' 
+    '     Properties: coefficient, compoundGuid, created, guid, priority
+    '                 pType, reactionGuid, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

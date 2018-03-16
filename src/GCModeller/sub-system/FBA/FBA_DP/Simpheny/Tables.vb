@@ -49,15 +49,21 @@
     ' 
     '     Class HeadProperty
     ' 
+    '         Properties: DatabaseName, ModelVersion, ProgramName, ProjectName, SimulationName
+    '                     SimulationNumber, SimulationType, StudyName, StudyOwner
+    ' 
     '         Function: LoadData, ToString
     ' 
     '     Class RXN
     ' 
-    '         Properties: Enzyme
+    '         Properties: Abbreviation, Enzyme, LOWER_BOUND, Objective, OfficialName
+    '                     ReactionId, Reversible, UPPER_BOUND
     ' 
     '         Function: LoadData
     ' 
     '     Class Met
+    ' 
+    '         Properties: Compartment, Metabolite, MetaboliteNumber, Molecule, ShadowPrice
     ' 
     '         Function: LoadData
     ' 

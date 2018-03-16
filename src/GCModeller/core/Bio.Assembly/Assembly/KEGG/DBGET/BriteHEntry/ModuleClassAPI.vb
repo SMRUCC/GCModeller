@@ -35,11 +35,13 @@
     ' 
     '         Properties: [GetXType], Genehash, GetXCategory, GetXClass, Modules
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __geneHash, __getFiles, __getModuleName, __getPathwayName, FromModules
     '                   FromPathway, GetA, GetB, GetBriteInfo, GetC
     '                   GetModule, GetName
     ' 
-    '         Sub: GetBriteInfo, (+2 Overloads) New
+    '         Sub: GetBriteInfo
     ' 
     ' 
     ' /********************************************************************************/

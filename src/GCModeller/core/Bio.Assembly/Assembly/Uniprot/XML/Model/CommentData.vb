@@ -33,9 +33,12 @@
 
     '     Class comment
     ' 
-    '         Properties: [event], isoforms, subcellularLocations, text
+    '         Properties: [event], evidence, isoforms, subcellularLocations, text
+    '                     type
     ' 
     '     Class subcellularLocation
+    ' 
+    '         Properties: locations, topology
     ' 
     '         Function: ToString
     ' 

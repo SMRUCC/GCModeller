@@ -33,6 +33,8 @@
 
     ' Class ProteinChain
     ' 
+    '     Properties: ChainId, InterfaceOnSurface, PdbId, SequenceData, Surface
+    ' 
     '     Function: Save, ToFASTA, ToString, TryParse
     ' 
     ' /********************************************************************************/

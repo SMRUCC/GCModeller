@@ -33,6 +33,8 @@
 
     '     Class Catalog
     ' 
+    '         Properties: [Class], Description, SubClasses
+    ' 
     '         Function: GetDescription, ToArray, ToString
     ' 
     ' 

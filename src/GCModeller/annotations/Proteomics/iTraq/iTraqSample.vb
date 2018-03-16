@@ -33,7 +33,7 @@
 
     ' Module iTraqSample
     ' 
-    '     Function: (+3 Overloads) BridgeCombine, bridgeKeys, MatrixSplit, TagWith
+    '     Function: (+3 Overloads) BridgeCombine, bridgeKeys, MatrixSplit, subsetValues, TagWith
     '     Delegate Function
     ' 
     '         Function: BridgeFormula, replaceNew

@@ -33,12 +33,10 @@
 
     '     Class CompoundSpecieReference
     ' 
-    '         Properties: EntityCompound
+    '         Properties: EntityCompound, Identifier, Stoichiometry
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ConstraintTest, (+2 Overloads) CreateObject, Flowing, ToString
-    ' 
-    '         Sub: New
-    ' 
     '         Operators: /
     ' 
     ' 

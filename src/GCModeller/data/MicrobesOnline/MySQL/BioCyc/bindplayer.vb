@@ -33,6 +33,8 @@
 
     ' Class bindplayer
     ' 
+    '     Properties: bindrxnId, player, playerId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,10 +33,9 @@
 
     '     Class DynamicMapBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: BuildCentralDogmaRegulations, BuildEnzymaticFluxModel, BuildMetabolismFluxModel, ExportDynamicsCellNetwork, ExportExpressionRegulationNetwork
     '                   ExportMetabolismNetwork, Expressing, GetRegulators
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

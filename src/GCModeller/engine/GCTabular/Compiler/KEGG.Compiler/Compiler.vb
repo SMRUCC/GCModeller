@@ -33,11 +33,13 @@
 
     '     Class Compiler
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __pathway, CheckRequiredParameter, (+2 Overloads) Compile, CompilePathwayInformations, get_LogsData
     '                   GetModelStream, Link, LoadReactionModel, MappingKEGGCompoundsRegprecise, NewSession
     '                   (+2 Overloads) PreCompile, (+2 Overloads) SaveModel
     ' 
-    '         Sub: CompileGenome, New, RemoveNotUsedCompounds, RemoveReactionDuplications
+    '         Sub: CompileGenome, RemoveNotUsedCompounds, RemoveReactionDuplications
     ' 
     ' 
     ' /********************************************************************************/

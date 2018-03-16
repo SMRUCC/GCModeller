@@ -33,6 +33,8 @@
 
     ' Class positiondelta
     ' 
+    '     Properties: DataSetWID, DeltaX, DeltaY, PositionDelta_DistanceUnit, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

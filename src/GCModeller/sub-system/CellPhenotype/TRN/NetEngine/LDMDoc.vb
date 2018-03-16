@@ -33,7 +33,7 @@
 
     '     Class NetworkModel
     ' 
-    ' 
+    '         Properties: GeneObjects
     ' 
     '     Class NetworkInput
     ' 

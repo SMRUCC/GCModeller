@@ -33,7 +33,8 @@
 
     '     Module ExtProperty
     ' 
-    ' 
+    '         Function: AssignTSSsId, BoundaryOverlaps, IsPossibleRNA, IsRNA, PredictedsiRNA
+    '                   TSSsOverlapsATG, TTSsOverlapsTGA
     ' 
     ' 
     ' /********************************************************************************/

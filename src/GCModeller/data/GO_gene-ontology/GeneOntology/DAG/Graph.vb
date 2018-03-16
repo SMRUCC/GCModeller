@@ -35,16 +35,14 @@
     ' 
     '         Properties: header
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Family, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     '         Structure InheritsChain
     ' 
     '             Properties: [Namespace], Family, Top
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: Level, Strip, ToString
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

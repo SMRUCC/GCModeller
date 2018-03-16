@@ -33,9 +33,8 @@
 
     ' Module Program
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ExecuteFile, Main
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

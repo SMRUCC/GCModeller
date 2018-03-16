@@ -34,8 +34,8 @@
     '     Class MPCsvArchive
     ' 
     '         Properties: Description, Distance, FullScore, LengthDelta, LevMatch
-    '                     LevScore, MatchDomains, QueryLength, Score, Similarity
-    '                     StructMatched
+    '                     LevScore, MatchDomains, QueryLength, QueryPfamString, Score
+    '                     Similarity, StructMatched, SubjectPfamString
     ' 
     '         Function: (+2 Overloads) CreateObject, ToString
     ' 

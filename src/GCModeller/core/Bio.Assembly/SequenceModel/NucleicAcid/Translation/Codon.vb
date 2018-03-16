@@ -33,11 +33,11 @@
 
     '     Class Codon
     ' 
-    '         Properties: CodonValue, IsInitCodon, IsStopCodon, TranslHash
+    '         Properties: CodonValue, IsInitCodon, IsStopCodon, TranslHash, X
+    '                     Y, Z
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CalTranslHash, CreateHashTable, Equals, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

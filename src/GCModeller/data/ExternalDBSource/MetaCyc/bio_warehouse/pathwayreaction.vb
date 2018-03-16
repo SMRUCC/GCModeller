@@ -33,6 +33,8 @@
 
     ' Class pathwayreaction
     ' 
+    '     Properties: Hypothetical, PathwayWID, PriorReactionWID, ReactionWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

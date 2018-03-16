@@ -33,6 +33,8 @@
 
     ' Class locus2string
     ' 
+    '     Properties: locusId, stringId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

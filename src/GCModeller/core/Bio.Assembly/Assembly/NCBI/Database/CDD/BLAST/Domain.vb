@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Structure Domain
     ' 
-    '     Function: ToString
-    '     Operators: <, >
+    '         Function: ToString
+    '         Operators: <, >
     ' 
     ' 
     ' /********************************************************************************/

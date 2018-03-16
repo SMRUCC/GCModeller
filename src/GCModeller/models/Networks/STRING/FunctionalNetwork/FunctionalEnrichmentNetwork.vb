@@ -33,7 +33,7 @@
 
     ' Module FunctionalEnrichmentNetwork
     ' 
-    '     Function: BuildModel, RenderDEGsColor, RenderDEGsColorSchema
+    '     Function: BuildModel, RenderDEGsColor, RenderDEGsColorSchema, StringUniprot
     ' 
     ' /********************************************************************************/
 

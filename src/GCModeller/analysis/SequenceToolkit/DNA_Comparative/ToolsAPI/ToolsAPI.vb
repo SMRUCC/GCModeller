@@ -33,15 +33,15 @@
 
     ' Module ToolsAPI
     ' 
-    '     Function: __calculate, __colorRender, __compile, __compileCAI, __compileCAIBIASCalculationThread
-    '               __compileSigma, __createTable, __echo, __genomeSigmaDiff, __getSequence
-    '               __group, __mergeDelta, (+2 Overloads) __process, __query, __readSeq
-    '               __readSequence, __regionMetaParser, __sigmaCompareWith, BatchCalculation, BatchCalculation2
-    '               CAI, Compile, CompileCABIAS, CompileCAIBIASCalculationThread, CompileCAIBIASCalculationThread_p
-    '               CreateChromesomePartitioningData, CreateSimplePartition, GenerateDeltaDiffReport, GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity
-    '               MergeDelta, PartionDataCreates, PartitioningDataFromFasta, PartitioningSigmaCompareWith, PartitionSimilarity
-    '               ReadPartitionalData, ReadPartitioningData, SaveCAI, SigmaCompareWith, SiteDataLoad
-    '               WritePartionalData
+    '     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
+    '               __compileCAIBIASCalculationThread, __compileSigma, __createTable, __echo, __genomeSigmaDiff
+    '               __getSequence, __group, __mergeDelta, (+2 Overloads) __process, __query
+    '               __readSeq, __readSequence, __regionMetaParser, __samples, __sigmaCompareWith
+    '               BatchCalculation, BatchCalculation2, CAI, Compile, CompileCABIAS
+    '               CompileCAIBIASCalculationThread, CompileCAIBIASCalculationThread_p, CreateChromesomePartitioningData, CreateSimplePartition, GenerateDeltaDiffReport
+    '               GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity, MergeDelta, PartionDataCreates, PartitioningDataFromFasta
+    '               PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData, ReadPartitioningData, SaveCAI
+    '               SigmaCompareWith, SiteDataLoad, WritePartionalData
     '     Structure Cache
     ' 
     ' 

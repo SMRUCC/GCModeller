@@ -33,10 +33,9 @@
 
     '     Class PQDijkstraProvider
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __getIndex, __getNearbyNodeId, Compute, ComputePath, CreateSession
     '                   getInternodeTraversalCost, GetNearbyNodes, PrintRoutes, SavePathRoutes
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

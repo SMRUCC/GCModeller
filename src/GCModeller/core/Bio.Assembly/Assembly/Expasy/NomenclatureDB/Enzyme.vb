@@ -33,8 +33,8 @@
 
     '     Class Enzyme
     ' 
-    '         Properties: AlternateName, CatalyticActivity, Cofactor, Comments, Identification
-    '                     PROSITE, SwissProt
+    '         Properties: AlternateName, CatalyticActivity, Cofactor, Comments, Description
+    '                     Identification, PROSITE, SwissProt
     ' 
     '         Function: __cLines, __createObjectFromText, CreateCatalystActivity, CreateCofactors, CreateProSiteReference
     '                   CreateSwissProtEntries, ToString, TryParse

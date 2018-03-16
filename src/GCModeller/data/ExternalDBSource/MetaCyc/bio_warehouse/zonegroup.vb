@@ -33,6 +33,9 @@
 
     ' Class zonegroup
     ' 
+    '     Properties: DataSetWID, PhysicalArrayDesign_ZoneGroups, SpacingsBetweenZonesX, SpacingsBetweenZonesY, WID
+    '                 ZoneGroup_DistanceUnit, ZoneGroup_ZoneLayout, ZonesPerX, ZonesPerY
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -35,10 +35,12 @@
     ' 
     '         Properties: allCompounds, fluxColumns
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __countsMapping, __getLowerbound, __getStoichiometry, __getUpbound, getConstraint
     '                   GetEquation, GetName
     ' 
-    '         Sub: New, SetGeneObjectives, SetObjectiveFunc
+    '         Sub: SetGeneObjectives, SetObjectiveFunc
     ' 
     ' 
     ' /********************************************************************************/

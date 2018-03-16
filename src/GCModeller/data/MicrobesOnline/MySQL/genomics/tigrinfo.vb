@@ -33,6 +33,9 @@
 
     ' Class tigrinfo
     ' 
+    '     Properties: definition, ec, geneSymbol, id, roleId
+    '                 tigrId, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

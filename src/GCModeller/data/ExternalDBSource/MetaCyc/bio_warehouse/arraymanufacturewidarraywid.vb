@@ -33,6 +33,8 @@
 
     ' Class arraymanufacturewidarraywid
     ' 
+    '     Properties: ArrayManufactureWID, ArrayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
