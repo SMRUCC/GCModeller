@@ -33,7 +33,7 @@
 
     ' Class SampleTuple
     ' 
-    '     Properties: Label
+    '     Properties: Label, Sample1, Sample2
     ' 
     '     Function: ToString
     ' 

@@ -46,7 +46,7 @@
     ' 
     ' Class PublicationTypeList
     ' 
-    ' 
+    '     Properties: PublicationType
     ' 
     ' Class AuthorList
     ' 
@@ -72,7 +72,7 @@
     ' 
     ' Class ELocationID
     ' 
-    '     Properties: Value
+    '     Properties: EIdType, ValidYN, Value
     ' 
     '     Function: ToString
     ' 

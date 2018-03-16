@@ -33,8 +33,8 @@
 
     ' Class GenomicsBrowserControl
     ' 
-    '     Sub: GenomicsBrowserControl_Load, InternalLoadThread, (+2 Overloads) LoadDocument, New, Toolstip_DrawBackground
-    '          Toolstip_Popup
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: GenomicsBrowserControl_Load, InternalLoadThread, (+2 Overloads) LoadDocument, Toolstip_DrawBackground, Toolstip_Popup
     ' 
     ' /********************************************************************************/
 

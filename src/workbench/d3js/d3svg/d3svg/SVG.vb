@@ -33,7 +33,7 @@
 
     ' Class SVG
     ' 
-    '     Properties: CSS, Height, SVGContent, Width
+    '     Properties: CSS, Height, Size, SVGContent, Width
     ' 
     ' Module SVGBuilder
     ' 

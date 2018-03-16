@@ -35,10 +35,10 @@
     ' 
     '     Properties: IDEInstance, TabpageProxy
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Sub: BuildFASTADBToolStripMenuItem1_Click, CommandLineToolStripMenuItem_Click, CreateFromMetaCycToolStripMenuItem_Click, ExitIDE, FormMain_Load
     '          FormMain_SizeChanged, GenomeincodeProjectToolStripMenuItem_Click, IDEExit, InitializeHandlers, InitializeMenuColor
-    '          InstallNewDatabaseToolStripMenuItem_Click, New, PlugInsManagerToolStripMenuItem_Click, ReconstructeToolStripMenuItem_Click, ReengineeringWizardToolStripMenuItem_Click
-    '          ShoalShellLanguageProjectToolStripMenuItem_Click
+    '          InstallNewDatabaseToolStripMenuItem_Click, PlugInsManagerToolStripMenuItem_Click, ReconstructeToolStripMenuItem_Click, ReengineeringWizardToolStripMenuItem_Click, ShoalShellLanguageProjectToolStripMenuItem_Click
     ' 
     ' /********************************************************************************/
 
