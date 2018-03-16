@@ -33,9 +33,11 @@
 
     '     Class File
     ' 
-    '         Properties: BlastBin, BlastDb, COG2003_2014, DefaultXmlFile, Java
-    '                     Mothur, Perl, Phylip, Python, R_HOME
-    '                     RepositoryRoot, Rockhopper, ShoalShell
+    '         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
+    '                     Dev2, Gcc, GCHOST, Java, Mothur
+    '                     MPAlignment, MySQL, Perl, Phylip, Python
+    '                     R_HOME, RepositoryRoot, Rockhopper, RSS, ShoalShell
+    '                     SMART, STAMP
     ' 
     '         Function: GetMplParam, Save
     ' 
