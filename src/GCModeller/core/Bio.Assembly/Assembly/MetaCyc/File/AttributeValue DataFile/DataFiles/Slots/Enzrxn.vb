@@ -33,7 +33,9 @@
 
     '     Class Enzrxn
     ' 
-    '         Properties: IsPhysiologicallyRelevant, Table
+    '         Properties: AlternativeCofactors, AlternativeSubstrates, Cofactors, Enzyme, IsPhysiologicallyRelevant
+    '                     Km, PhysiologicallyRelevant, ProstheticGroups, Reaction, ReactionDirection
+    '                     RegulatedBy, RequiredProteinComplex, Table
     ' 
     ' 
     ' /********************************************************************************/

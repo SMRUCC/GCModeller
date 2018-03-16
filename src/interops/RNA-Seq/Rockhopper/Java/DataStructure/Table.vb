@@ -35,10 +35,12 @@
     ' 
     '         Properties: loadFactor
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: [get], containsKey, exceedsLoadFactor, getKeyAtIndex, getValueAtIndex
     '                   hash, size
     ' 
-    '         Sub: (+2 Overloads) add, Main, New, remove
+    '         Sub: (+2 Overloads) add, Main, remove
     ' 
     ' 
     ' /********************************************************************************/

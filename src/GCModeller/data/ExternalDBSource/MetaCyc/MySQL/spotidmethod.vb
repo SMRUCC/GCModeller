@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95d42c614f21406226936e857007a104, data\ExternalDBSource\MetaCyc\MySQL\spotidmethod.vb"
+﻿#Region "Microsoft.VisualBasic::60904acf2fa2fcb8606a9da24be0518b, data\ExternalDBSource\MetaCyc\MySQL\spotidmethod.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class spotidmethod
     ' 
+    '     Properties: DatasetWID, MethodAbbrev, MethodDesc, MethodName, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `spotidmethod` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class spotidmethod: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("MethodName"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MethodName As String
-    <DatabaseField("MethodDesc"), DataType(MySqlDbType.VarChar, "500")> Public Property MethodDesc As String
-    <DatabaseField("MethodAbbrev"), DataType(MySqlDbType.VarChar, "10")> Public Property MethodAbbrev As String
-    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DatasetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("MethodName"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MethodName")> Public Property MethodName As String
+    <DatabaseField("MethodDesc"), DataType(MySqlDbType.VarChar, "500"), Column(Name:="MethodDesc")> Public Property MethodDesc As String
+    <DatabaseField("MethodAbbrev"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="MethodAbbrev")> Public Property MethodAbbrev As String
+    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DatasetWID")> Public Property DatasetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class spotidmethod: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, MethodName, MethodDesc, MethodAbbrev, DatasetWID, WID)
     End Function
 #End Region
+Public Function Clone() As spotidmethod
+                  Return DirectCast(MyClass.MemberwiseClone, spotidmethod)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0429b8db8789798b5c7ee818db4fad2, data\ExternalDBSource\MetaCyc\MySQL\dbid.vb"
+﻿#Region "Microsoft.VisualBasic::3ddded5a655705badac3d41a715d5c7a, data\ExternalDBSource\MetaCyc\MySQL\dbid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class dbid
     ' 
+    '     Properties: OtherWID, Type, Version, XID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `dbid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class dbid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("XID"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "150")> Public Property XID As String
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "20")> Public Property Type As String
-    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "10")> Public Property Version As String
+    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID"), XmlAttribute> Public Property OtherWID As Long
+    <DatabaseField("XID"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "150"), Column(Name:="XID"), XmlAttribute> Public Property XID As String
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="Version")> Public Property Version As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class dbid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, OtherWID, XID, Type, Version, XID, OtherWID)
     End Function
 #End Region
+Public Function Clone() As dbid
+                  Return DirectCast(MyClass.MemberwiseClone, dbid)
+              End Function
 End Class
 
 
 End Namespace
+

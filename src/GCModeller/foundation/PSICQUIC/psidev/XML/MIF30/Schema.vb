@@ -38,7 +38,8 @@
     ' 
     '     Class source
     ' 
-    '         Properties: attributeList, bibref, names, xref
+    '         Properties: attributeList, bibref, names, release, releaseDate
+    '                     xref
     ' 
     ' 
     ' /********************************************************************************/

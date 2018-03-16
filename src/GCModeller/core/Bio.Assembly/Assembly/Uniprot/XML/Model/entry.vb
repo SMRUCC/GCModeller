@@ -33,9 +33,10 @@
 
     '     Class entry
     ' 
-    '         Properties: accession, accessions, CommentList, features, gene
-    '                     name, organism, protein, proteinExistence, sequence
-    '                     Xrefs
+    '         Properties: accession, accessions, CommentList, comments, created
+    '                     dataset, dbReferences, features, gene, keywords
+    '                     modified, name, organism, protein, proteinExistence
+    '                     references, sequence, version, Xrefs
     ' 
     '         Function: ShadowCopy, ToString
     ' 

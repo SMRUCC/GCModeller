@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6935ad1d2b20782197391e8bc997b48e, data\Reactome\LocalMySQL\gk_current\datamodel.vb"
+﻿#Region "Microsoft.VisualBasic::465f3b12efea7c7c1e920d3c6af07d0c, data\Reactome\LocalMySQL\gk_current\datamodel.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class datamodel
     ' 
+    '     Properties: property_name, property_value, property_value_rank, property_value_type, thing
+    '                 thing_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +76,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,12 +90,12 @@ CREATE TABLE `datamodel` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class datamodel: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("thing"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property thing As String
-    <DatabaseField("thing_class"), DataType(MySqlDbType.String)> Public Property thing_class As String
-    <DatabaseField("property_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property property_name As String
-    <DatabaseField("property_value"), DataType(MySqlDbType.Text)> Public Property property_value As String
-    <DatabaseField("property_value_type"), DataType(MySqlDbType.String)> Public Property property_value_type As String
-    <DatabaseField("property_value_rank"), DataType(MySqlDbType.Int64, "10")> Public Property property_value_rank As Long
+    <DatabaseField("thing"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="thing")> Public Property thing As String
+    <DatabaseField("thing_class"), DataType(MySqlDbType.String), Column(Name:="thing_class")> Public Property thing_class As String
+    <DatabaseField("property_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="property_name")> Public Property property_name As String
+    <DatabaseField("property_value"), DataType(MySqlDbType.Text), Column(Name:="property_value")> Public Property property_value As String
+    <DatabaseField("property_value_type"), DataType(MySqlDbType.String), Column(Name:="property_value_type")> Public Property property_value_type As String
+    <DatabaseField("property_value_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="property_value_rank")> Public Property property_value_rank As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +146,11 @@ Public Class datamodel: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As datamodel
+                  Return DirectCast(MyClass.MemberwiseClone, datamodel)
+              End Function
 End Class
 
 
 End Namespace
+

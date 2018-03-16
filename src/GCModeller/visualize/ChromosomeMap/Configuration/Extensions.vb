@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: FromConfig, Load
+    '         Function: FromConfig, GetFlagHeight, GetLineHeight, Load
     ' 
     ' 
     ' /********************************************************************************/

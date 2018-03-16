@@ -35,9 +35,8 @@
     ' 
     '         Properties: Size
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) Generate
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

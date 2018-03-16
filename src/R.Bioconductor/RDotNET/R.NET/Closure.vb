@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9749304fd05a8ccfa800dd527a306279, RDotNET\R.NET\Closure.vb"
+﻿#Region "Microsoft.VisualBasic::0326c40b7f30ee62d48c87aa6ff08b68, RDotNET\R.NET\Closure.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '     Properties: Arguments, Body, Environment
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetArgumentNames, (+2 Overloads) Invoke
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

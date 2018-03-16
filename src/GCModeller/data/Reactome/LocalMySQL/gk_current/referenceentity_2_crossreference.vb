@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9acda656df9b50a7d16c85306b5eef8a, data\Reactome\LocalMySQL\gk_current\referenceentity_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::86139646a491db6c096821798f828639, data\Reactome\LocalMySQL\gk_current\referenceentity_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referenceentity_2_crossreference
     ' 
+    '     Properties: crossReference, crossReference_class, crossReference_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `referenceentity_2_crossreference` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referenceentity_2_crossreference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("crossReference_rank"), DataType(MySqlDbType.Int64, "10")> Public Property crossReference_rank As Long
-    <DatabaseField("crossReference"), DataType(MySqlDbType.Int64, "10")> Public Property crossReference As Long
-    <DatabaseField("crossReference_class"), DataType(MySqlDbType.VarChar, "64")> Public Property crossReference_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("crossReference_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="crossReference_rank")> Public Property crossReference_rank As Long
+    <DatabaseField("crossReference"), DataType(MySqlDbType.Int64, "10"), Column(Name:="crossReference")> Public Property crossReference As Long
+    <DatabaseField("crossReference_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="crossReference_class")> Public Property crossReference_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class referenceentity_2_crossreference: Inherits Oracle.LinuxCompatibilit
         Return String.Format(UPDATE_SQL, DB_ID, crossReference_rank, crossReference, crossReference_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referenceentity_2_crossreference
+                  Return DirectCast(MyClass.MemberwiseClone, referenceentity_2_crossreference)
+              End Function
 End Class
 
 
 End Namespace
+

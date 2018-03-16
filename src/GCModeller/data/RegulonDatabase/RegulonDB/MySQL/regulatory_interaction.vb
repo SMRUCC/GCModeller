@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c6d240207e4788db73082adb7b84042, data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::b529aeee56811c61f4279e1a4fd468fe, data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class regulatory_interaction
     ' 
+    '     Properties: affinity_exp, center_position, conformation_id, key_id_org, promoter_id
+    '                 regulatory_interaction_id, regulatory_interaction_note, ri_dist_first_gene, ri_first_gene_id, ri_function
+    '                 ri_internal_comment, ri_orientation, ri_sequence, ri_sequence_orientation, site_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -79,7 +86,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,21 +109,21 @@ CREATE TABLE `regulatory_interaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class regulatory_interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("regulatory_interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property regulatory_interaction_id As String
-    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property conformation_id As String
-    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12")> Public Property promoter_id As String
-    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property site_id As String
-    <DatabaseField("ri_function"), DataType(MySqlDbType.VarChar, "9")> Public Property ri_function As String
-    <DatabaseField("center_position"), DataType(MySqlDbType.Decimal)> Public Property center_position As Decimal
-    <DatabaseField("ri_dist_first_gene"), DataType(MySqlDbType.Decimal)> Public Property ri_dist_first_gene As Decimal
-    <DatabaseField("ri_first_gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property ri_first_gene_id As String
-    <DatabaseField("affinity_exp"), DataType(MySqlDbType.Decimal)> Public Property affinity_exp As Decimal
-    <DatabaseField("regulatory_interaction_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property regulatory_interaction_note As String
-    <DatabaseField("ri_internal_comment"), DataType(MySqlDbType.Text)> Public Property ri_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
-    <DatabaseField("ri_sequence"), DataType(MySqlDbType.VarChar, "100")> Public Property ri_sequence As String
-    <DatabaseField("ri_orientation"), DataType(MySqlDbType.VarChar, "35")> Public Property ri_orientation As String
-    <DatabaseField("ri_sequence_orientation"), DataType(MySqlDbType.VarChar, "100")> Public Property ri_sequence_orientation As String
+    <DatabaseField("regulatory_interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="regulatory_interaction_id")> Public Property regulatory_interaction_id As String
+    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="conformation_id")> Public Property conformation_id As String
+    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="promoter_id")> Public Property promoter_id As String
+    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="site_id")> Public Property site_id As String
+    <DatabaseField("ri_function"), DataType(MySqlDbType.VarChar, "9"), Column(Name:="ri_function")> Public Property ri_function As String
+    <DatabaseField("center_position"), DataType(MySqlDbType.Decimal), Column(Name:="center_position")> Public Property center_position As Decimal
+    <DatabaseField("ri_dist_first_gene"), DataType(MySqlDbType.Decimal), Column(Name:="ri_dist_first_gene")> Public Property ri_dist_first_gene As Decimal
+    <DatabaseField("ri_first_gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="ri_first_gene_id")> Public Property ri_first_gene_id As String
+    <DatabaseField("affinity_exp"), DataType(MySqlDbType.Decimal), Column(Name:="affinity_exp")> Public Property affinity_exp As Decimal
+    <DatabaseField("regulatory_interaction_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="regulatory_interaction_note")> Public Property regulatory_interaction_note As String
+    <DatabaseField("ri_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="ri_internal_comment")> Public Property ri_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
+    <DatabaseField("ri_sequence"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="ri_sequence")> Public Property ri_sequence As String
+    <DatabaseField("ri_orientation"), DataType(MySqlDbType.VarChar, "35"), Column(Name:="ri_orientation")> Public Property ri_orientation As String
+    <DatabaseField("ri_sequence_orientation"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="ri_sequence_orientation")> Public Property ri_sequence_orientation As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -168,7 +174,11 @@ Public Class regulatory_interaction: Inherits Oracle.LinuxCompatibility.MySQL.My
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As regulatory_interaction
+                  Return DirectCast(MyClass.MemberwiseClone, regulatory_interaction)
+              End Function
 End Class
 
 
 End Namespace
+

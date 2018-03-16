@@ -33,6 +33,9 @@
 
     ' Class chemicalatom
     ' 
+    '     Properties: Atom, AtomIndex, Charge, ChemicalWID, StereoParity
+    '                 X, Y, Z
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

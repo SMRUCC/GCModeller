@@ -33,6 +33,9 @@
 
     ' Class taxonomy
     ' 
+    '     Properties: created, name, ncbiProjectId, placement, PMID
+    '                 Publication, shortName, taxDispGroupId, taxonomyId, Uniprot
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,9 +33,10 @@
 
     '     Class ValueBase
     ' 
-    '         Function: ToString
+    '         Properties: value
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     '         Class RemoveCorrelated
     ' 
     ' 
@@ -56,59 +57,75 @@
     ' 
     '     Class Model
     ' 
-    '         Properties: adj_hit_pvalue, remove_correlated, strand_handling, translate_dna
+    '         Properties: [When], adj_hit_pvalue, max_correlation, max_hit_pvalue, max_seq_evalue
+    '                     max_weak_pvalue, remove_correlated, strand_handling, translate_dna
     ' 
     '     Class Motif
     ' 
-    '         Properties: BriefName, Directory, memePWM
+    '         Properties: BriefName, Correlations, Directory, last_mod_date, memePWM
+    '                     Motifs, name, source
     ' 
     '         Function: ToString
     ' 
     '     Class MotifSite
     ' 
+    '         Properties: bad, best_f, best_r, id, name
+    '                     num, width
+    ' 
     '         Function: ToString
     ' 
     '     Class Correlation
     ' 
+    '         Properties: motif_a, motif_b, value
     ' 
+    '     Class DbProperty
     ' 
-    '  
+    '         Properties: id, last_mod_date, name, num, residue_count
+    '                     seq_count, source, type
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
-    '  
+    '     Class SequenceList
     ' 
-    '     Properties: ListCount
+    '         Properties: Databases, ListCount, SequenceList
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
     '     Class SequenceDescript
     ' 
-    '         Properties: title
+    '         Properties: comment, db, id, length, name
+    '                     num, Score, Segments, title
     ' 
     '         Function: ToString
     ' 
-    '  
+    '     Class Score
     ' 
+    '         Properties: combined_pvalue, evalue, strand
     ' 
+    '     Class Segment
     ' 
-    '  
+    '         Properties: Hits, SegmentData, SequenceData, start
     ' 
-    '     Properties: SequenceData
+    '         Function: ToString
     ' 
-    '     Function: ToString
+    '     Class HitResult
     ' 
-    '  
+    '         Properties: gap, idx, match, motif, pos
+    '                     pvalue, rc, strand
     ' 
-    '     Function: GetId, GetStrand, ToString
+    '         Function: GetId, GetStrand, ToString
     ' 
     '     Class RuntimeEnvironment
     ' 
+    '         Properties: cycles, seconds
+    ' 
     '         Function: ToString
     ' 
-    '  
+    '     Class MAST
     ' 
-    '     Function: Convert, ExportMotifs, ToString
+    '         Properties: Model, Motifs, Runtime, Sequences
+    ' 
+    '         Function: Convert, ExportMotifs, ToString
     ' 
     ' 
     ' /********************************************************************************/

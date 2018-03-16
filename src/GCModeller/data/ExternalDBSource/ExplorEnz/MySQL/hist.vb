@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48c9fd0baf8d4aab5e35bf2c81a8b33f, data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
+﻿#Region "Microsoft.VisualBasic::ac4073839bd1daa7b759ed1043a44fe2, data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class hist
     ' 
+    '     Properties: [class], action, ec_num, history, last_change
+    '                 note, serial, status, subclass, subsubclass
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:50 PM
+REM  Dump @3/16/2018 10:40:16 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ExplorEnz.MySQL
 
@@ -76,7 +82,6 @@ Namespace ExplorEnz.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,16 +102,16 @@ CREATE TABLE `hist` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class hist: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ec_num"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property ec_num As String
-    <DatabaseField("action"), NotNull, DataType(MySqlDbType.VarChar, "11")> Public Property action As String
-    <DatabaseField("note"), DataType(MySqlDbType.Text)> Public Property note As String
-    <DatabaseField("history"), DataType(MySqlDbType.Text)> Public Property history As String
-    <DatabaseField("class"), DataType(MySqlDbType.Int64, "1")> Public Property [class] As Long
-    <DatabaseField("subclass"), DataType(MySqlDbType.Int64, "1")> Public Property subclass As Long
-    <DatabaseField("subsubclass"), DataType(MySqlDbType.Int64, "1")> Public Property subsubclass As Long
-    <DatabaseField("serial"), DataType(MySqlDbType.Int64, "1")> Public Property serial As Long
-    <DatabaseField("status"), DataType(MySqlDbType.VarChar, "3")> Public Property status As String
-    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_change As Date
+    <DatabaseField("ec_num"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="ec_num"), XmlAttribute> Public Property ec_num As String
+    <DatabaseField("action"), NotNull, DataType(MySqlDbType.VarChar, "11"), Column(Name:="action")> Public Property action As String
+    <DatabaseField("note"), DataType(MySqlDbType.Text), Column(Name:="note")> Public Property note As String
+    <DatabaseField("history"), DataType(MySqlDbType.Text), Column(Name:="history")> Public Property history As String
+    <DatabaseField("class"), DataType(MySqlDbType.Int64, "1"), Column(Name:="class")> Public Property [class] As Long
+    <DatabaseField("subclass"), DataType(MySqlDbType.Int64, "1"), Column(Name:="subclass")> Public Property subclass As Long
+    <DatabaseField("subsubclass"), DataType(MySqlDbType.Int64, "1"), Column(Name:="subsubclass")> Public Property subsubclass As Long
+    <DatabaseField("serial"), DataType(MySqlDbType.Int64, "1"), Column(Name:="serial")> Public Property serial As Long
+    <DatabaseField("status"), DataType(MySqlDbType.VarChar, "3"), Column(Name:="status")> Public Property status As String
+    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_change")> Public Property last_change As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +134,7 @@ Public Class hist: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(INSERT_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 
 ''' <summary>
@@ -146,7 +151,7 @@ Public Class hist: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(REPLACE_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -154,10 +159,14 @@ Public Class hist: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, DataType.ToMySqlDateTimeString(last_change), ec_num)
+        Return String.Format(UPDATE_SQL, ec_num, action, note, history, [class], subclass, subsubclass, serial, status, MySqlScript.ToMySqlDateTimeString(last_change), ec_num)
     End Function
 #End Region
+Public Function Clone() As hist
+                  Return DirectCast(MyClass.MemberwiseClone, hist)
+              End Function
 End Class
 
 
 End Namespace
+

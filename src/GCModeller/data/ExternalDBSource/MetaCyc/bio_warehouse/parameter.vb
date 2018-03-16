@@ -33,6 +33,9 @@
 
     ' Class parameter
     ' 
+    '     Properties: DataSetWID, Identifier, Name, Parameter_DataType, Parameter_DefaultValue
+    '                 Parameterizable_ParameterTypes, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

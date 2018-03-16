@@ -33,6 +33,8 @@
 
     ' Class measbassaywidmeasbassaydatawid
     ' 
+    '     Properties: MeasuredBioAssayDataWID, MeasuredBioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

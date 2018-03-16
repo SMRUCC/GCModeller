@@ -33,6 +33,9 @@
 
     '     Class Instance
     ' 
+    '         Properties: alt_id, comment, consider, instance_of, is_anonymous
+    '                     is_obsolete, property_value, replaced_by, synonym, xref
+    ' 
     '         Function: ToString
     ' 
     ' 

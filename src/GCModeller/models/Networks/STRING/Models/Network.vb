@@ -33,6 +33,8 @@
 
     '     Class Network
     ' 
+    '         Properties: Pathway
+    ' 
     '         Function: (+2 Overloads) Save
     ' 
     ' 

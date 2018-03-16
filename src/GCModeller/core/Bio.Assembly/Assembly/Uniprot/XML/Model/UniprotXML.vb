@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class UniProtXML
     ' 
-    '     Properties: copyright, entries, version
+    '         Properties: copyright, entries, version
     ' 
-    '     Function: CreateTable, EnumerateEntries, Load, LoadDictionary, ToIndexTable
-    '               ToString
+    '         Function: CreateTable, EnumerateEntries, Load, LoadDictionary, ToIndexTable
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

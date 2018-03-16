@@ -33,6 +33,9 @@
 
     ' Class visitor_stat
     ' 
+    '     Properties: ip, method, success, time, ua
+    '                 uid, url
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' /********************************************************************************/

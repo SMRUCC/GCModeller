@@ -37,7 +37,7 @@
     ' 
     '     Class visualNode
     ' 
-    ' 
+    '         Properties: dependency, visualPropertys
     ' 
     ' 
     ' /********************************************************************************/

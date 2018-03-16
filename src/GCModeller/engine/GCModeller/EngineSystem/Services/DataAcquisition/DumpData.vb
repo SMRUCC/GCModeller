@@ -38,9 +38,11 @@
     ' 
     '             Properties: Invalid
     ' 
+    '             Constructor: (+1 Overloads) Sub New
+    ' 
     '             Function: GetTrigger, Invoke
     ' 
-    '             Sub: InitializeTrigger, New, WriteDumpData
+    '             Sub: InitializeTrigger, WriteDumpData
     ' 
     ' 
     ' 
@@ -48,9 +50,11 @@
     ' 
     '         Properties: EventId, SystemLogging
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Initialize, Tick
     ' 
-    '         Sub: MemoryDump, New, PendingTrigger
+    '         Sub: MemoryDump, PendingTrigger
     '         Class Trigger
     ' 
     '             Function: Check, ToString

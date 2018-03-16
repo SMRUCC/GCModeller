@@ -35,7 +35,8 @@
     ' 
     '     Properties: ModelLoader
     ' 
-    '     Sub: FullFillModel_Kegg, FullFillModel_Sabiork, New, WriteData
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: FullFillModel_Kegg, FullFillModel_Sabiork, WriteData
     ' 
     ' /********************************************************************************/
 

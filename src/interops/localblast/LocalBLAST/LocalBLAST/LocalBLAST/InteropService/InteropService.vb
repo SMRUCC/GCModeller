@@ -54,9 +54,8 @@
     ' 
     '             Properties: LastBLASTOutputFilePath
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: TryInvoke
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class geneexpressiondata
     ' 
+    '     Properties: B, BioAssayValuesWID, D, Q, Value
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

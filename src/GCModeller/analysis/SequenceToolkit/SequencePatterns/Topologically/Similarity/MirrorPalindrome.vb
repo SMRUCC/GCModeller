@@ -33,11 +33,12 @@
 
     '     Module MirrorPalindrome
     ' 
-    '         Function: CreateMirrors
+    '         Function: __haveMirror, CreateMirrors
     ' 
     '     Class FuzzyMirrors
     ' 
-    '         Sub: DoSearch, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: DoSearch
     ' 
     ' 
     ' /********************************************************************************/

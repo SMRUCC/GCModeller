@@ -33,6 +33,8 @@
 
     ' Class keggmap
     ' 
+    '     Properties: mapId, title
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

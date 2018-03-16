@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e11aae58f9dad452bf3053b5420be127, data\ExternalDBSource\MetaCyc\MySQL\chemical.vb"
+﻿#Region "Microsoft.VisualBasic::f43a4c9ad1ec3fca098d388010ccf42e, data\ExternalDBSource\MetaCyc\MySQL\chemical.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class chemical
     ' 
+    '     Properties: [Class], BeilsteinName, CAS, Charge, DataSetWID
+    '                 EmpiricalFormula, MolecularWeightCalc, MolecularWeightExp, Name, OctH2OPartitionCoeff
+    '                 PKA1, PKA2, PKA3, Smiles, SystematicName
+    '                 WaterSolubility, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -85,7 +93,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -115,23 +122,23 @@ CREATE TABLE `chemical` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class chemical: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "1")> Public Property [Class] As String
-    <DatabaseField("BeilsteinName"), DataType(MySqlDbType.VarChar, "50")> Public Property BeilsteinName As String
-    <DatabaseField("SystematicName"), DataType(MySqlDbType.VarChar, "255")> Public Property SystematicName As String
-    <DatabaseField("CAS"), DataType(MySqlDbType.VarChar, "50")> Public Property CAS As String
-    <DatabaseField("Charge"), DataType(MySqlDbType.Int64, "6")> Public Property Charge As Long
-    <DatabaseField("EmpiricalFormula"), DataType(MySqlDbType.VarChar, "50")> Public Property EmpiricalFormula As String
-    <DatabaseField("MolecularWeightCalc"), DataType(MySqlDbType.Double)> Public Property MolecularWeightCalc As Double
-    <DatabaseField("MolecularWeightExp"), DataType(MySqlDbType.Double)> Public Property MolecularWeightExp As Double
-    <DatabaseField("OctH2OPartitionCoeff"), DataType(MySqlDbType.VarChar, "50")> Public Property OctH2OPartitionCoeff As String
-    <DatabaseField("PKA1"), DataType(MySqlDbType.Double)> Public Property PKA1 As Double
-    <DatabaseField("PKA2"), DataType(MySqlDbType.Double)> Public Property PKA2 As Double
-    <DatabaseField("PKA3"), DataType(MySqlDbType.Double)> Public Property PKA3 As Double
-    <DatabaseField("WaterSolubility"), DataType(MySqlDbType.VarChar, "1")> Public Property WaterSolubility As String
-    <DatabaseField("Smiles"), DataType(MySqlDbType.VarChar, "255")> Public Property Smiles As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Class")> Public Property [Class] As String
+    <DatabaseField("BeilsteinName"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="BeilsteinName")> Public Property BeilsteinName As String
+    <DatabaseField("SystematicName"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="SystematicName")> Public Property SystematicName As String
+    <DatabaseField("CAS"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="CAS")> Public Property CAS As String
+    <DatabaseField("Charge"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Charge")> Public Property Charge As Long
+    <DatabaseField("EmpiricalFormula"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="EmpiricalFormula")> Public Property EmpiricalFormula As String
+    <DatabaseField("MolecularWeightCalc"), DataType(MySqlDbType.Double), Column(Name:="MolecularWeightCalc")> Public Property MolecularWeightCalc As Double
+    <DatabaseField("MolecularWeightExp"), DataType(MySqlDbType.Double), Column(Name:="MolecularWeightExp")> Public Property MolecularWeightExp As Double
+    <DatabaseField("OctH2OPartitionCoeff"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="OctH2OPartitionCoeff")> Public Property OctH2OPartitionCoeff As String
+    <DatabaseField("PKA1"), DataType(MySqlDbType.Double), Column(Name:="PKA1")> Public Property PKA1 As Double
+    <DatabaseField("PKA2"), DataType(MySqlDbType.Double), Column(Name:="PKA2")> Public Property PKA2 As Double
+    <DatabaseField("PKA3"), DataType(MySqlDbType.Double), Column(Name:="PKA3")> Public Property PKA3 As Double
+    <DatabaseField("WaterSolubility"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="WaterSolubility")> Public Property WaterSolubility As String
+    <DatabaseField("Smiles"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Smiles")> Public Property Smiles As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -182,7 +189,11 @@ Public Class chemical: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, [Class], BeilsteinName, SystematicName, CAS, Charge, EmpiricalFormula, MolecularWeightCalc, MolecularWeightExp, OctH2OPartitionCoeff, PKA1, PKA2, PKA3, WaterSolubility, Smiles, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As chemical
+                  Return DirectCast(MyClass.MemberwiseClone, chemical)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -36,9 +36,8 @@
     '         Properties: COG_number, GI, Length, Location, OperonID
     '                     Product, Synonym
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString, TryParse
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

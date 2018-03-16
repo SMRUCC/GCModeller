@@ -33,11 +33,14 @@
 
     '     Class GeneObject
     ' 
-    '         Properties: ProteinProduct, TranscriptProduct
+    '         Properties: AccessionId, CommonName, ProteinProduct, TranscriptionDirection, TranscriptProduct
     ' 
-    '  
+    '         Function: CastTo, ToString
+    '         Class Protein
     ' 
-    '     Function: CastTo, ToString
+    '             Properties: Domains, Identifier
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/

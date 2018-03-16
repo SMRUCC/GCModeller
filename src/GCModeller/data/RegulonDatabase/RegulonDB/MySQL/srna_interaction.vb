@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4c86228d1c0bea46021218d923e049e, data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::5b905e49329c7cea53e99669222d1f3e, data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class srna_interaction
     ' 
+    '     Properties: srna_function, srna_gene_id, srna_gene_regulated_id, srna_id, srna_mechanis
+    '                 srna_note, srna_posleft, srna_posright, srna_regulation_type, srna_sequence
+    '                 srna_tu_regulated_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -75,7 +82,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,17 +101,17 @@ CREATE TABLE `srna_interaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class srna_interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("srna_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property srna_id As String
-    <DatabaseField("srna_gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property srna_gene_id As String
-    <DatabaseField("srna_gene_regulated_id"), DataType(MySqlDbType.VarChar, "12")> Public Property srna_gene_regulated_id As String
-    <DatabaseField("srna_tu_regulated_id"), DataType(MySqlDbType.VarChar, "12")> Public Property srna_tu_regulated_id As String
-    <DatabaseField("srna_function"), DataType(MySqlDbType.VarChar, "2000")> Public Property srna_function As String
-    <DatabaseField("srna_posleft"), DataType(MySqlDbType.Decimal)> Public Property srna_posleft As Decimal
-    <DatabaseField("srna_posright"), DataType(MySqlDbType.Decimal)> Public Property srna_posright As Decimal
-    <DatabaseField("srna_sequence"), DataType(MySqlDbType.VarChar, "2000")> Public Property srna_sequence As String
-    <DatabaseField("srna_regulation_type"), DataType(MySqlDbType.VarChar, "2000")> Public Property srna_regulation_type As String
-    <DatabaseField("srna_mechanis"), DataType(MySqlDbType.VarChar, "1000")> Public Property srna_mechanis As String
-    <DatabaseField("srna_note"), DataType(MySqlDbType.VarChar, "1000")> Public Property srna_note As String
+    <DatabaseField("srna_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="srna_id")> Public Property srna_id As String
+    <DatabaseField("srna_gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="srna_gene_id")> Public Property srna_gene_id As String
+    <DatabaseField("srna_gene_regulated_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="srna_gene_regulated_id")> Public Property srna_gene_regulated_id As String
+    <DatabaseField("srna_tu_regulated_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="srna_tu_regulated_id")> Public Property srna_tu_regulated_id As String
+    <DatabaseField("srna_function"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="srna_function")> Public Property srna_function As String
+    <DatabaseField("srna_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="srna_posleft")> Public Property srna_posleft As Decimal
+    <DatabaseField("srna_posright"), DataType(MySqlDbType.Decimal), Column(Name:="srna_posright")> Public Property srna_posright As Decimal
+    <DatabaseField("srna_sequence"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="srna_sequence")> Public Property srna_sequence As String
+    <DatabaseField("srna_regulation_type"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="srna_regulation_type")> Public Property srna_regulation_type As String
+    <DatabaseField("srna_mechanis"), DataType(MySqlDbType.VarChar, "1000"), Column(Name:="srna_mechanis")> Public Property srna_mechanis As String
+    <DatabaseField("srna_note"), DataType(MySqlDbType.VarChar, "1000"), Column(Name:="srna_note")> Public Property srna_note As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -156,7 +162,11 @@ Public Class srna_interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As srna_interaction
+                  Return DirectCast(MyClass.MemberwiseClone, srna_interaction)
+              End Function
 End Class
 
 
 End Namespace
+

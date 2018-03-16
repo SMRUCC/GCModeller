@@ -33,7 +33,8 @@
 
     '     Class AlignmentOutput
     ' 
-    '         Properties: AlignmentResult, ProteinQuery, ProteinSbjct, Similarity
+    '         Properties: AlignmentResult, DeltaScore, FullScore, LengthDelta, ProteinQuery
+    '                     ProteinSbjct, Score, Similarity
     ' 
     '         Function: FormatAlignmentDomains, ToString
     ' 

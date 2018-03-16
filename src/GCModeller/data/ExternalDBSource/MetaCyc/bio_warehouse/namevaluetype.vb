@@ -33,6 +33,9 @@
 
     ' Class namevaluetype
     ' 
+    '     Properties: DataSetWID, Name, NameValueType_PropertySets, OtherWID, Type_
+    '                 Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

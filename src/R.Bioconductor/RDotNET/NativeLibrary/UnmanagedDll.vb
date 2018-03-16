@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fc20f021e907e64552902116877d758, RDotNET\NativeLibrary\UnmanagedDll.vb"
+﻿#Region "Microsoft.VisualBasic::185c95d2b9b4bde7795a6b2647300d04, RDotNET\NativeLibrary\UnmanagedDll.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' 
     '         Properties: DllFilename, IsInvalid, IsUnix
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: createLdLibPathMsg, DangerousGetHandle, FindFullPath, FreeLibrary, (+2 Overloads) GetFunction
     '                   GetFunctionAddress, ReleaseHandle
     ' 
-    '         Sub: Dispose, New, ReportLoadLibError, throwEntryPointNotFound, ThrowFailedLibraryLoad
+    '         Sub: Dispose, ReportLoadLibError, throwEntryPointNotFound, ThrowFailedLibraryLoad
     ' 
     ' 
     ' /********************************************************************************/

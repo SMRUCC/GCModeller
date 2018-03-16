@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e11c259c608bf071775d7601ac6905d5, data\ExternalDBSource\MetaCyc\MySQL\contact.vb"
+﻿#Region "Microsoft.VisualBasic::7e0c606f4575a96a85e5c8e688080f5a, data\ExternalDBSource\MetaCyc\MySQL\contact.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class contact
     ' 
+    '     Properties: Address, Affiliation, DataSetWID, Email, Fax
+    '                 FirstName, Identifier, LastName, MAGEClass, MidInitials
+    '                 Name, Parent, Phone, TollFreePhone, URI
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -87,7 +95,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -119,22 +126,22 @@ CREATE TABLE `contact` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class contact: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255")> Public Property URI As String
-    <DatabaseField("Address"), DataType(MySqlDbType.VarChar, "255")> Public Property Address As String
-    <DatabaseField("Phone"), DataType(MySqlDbType.VarChar, "255")> Public Property Phone As String
-    <DatabaseField("TollFreePhone"), DataType(MySqlDbType.VarChar, "255")> Public Property TollFreePhone As String
-    <DatabaseField("Email"), DataType(MySqlDbType.VarChar, "255")> Public Property Email As String
-    <DatabaseField("Fax"), DataType(MySqlDbType.VarChar, "255")> Public Property Fax As String
-    <DatabaseField("Parent"), DataType(MySqlDbType.Int64, "20")> Public Property Parent As Long
-    <DatabaseField("LastName"), DataType(MySqlDbType.VarChar, "255")> Public Property LastName As String
-    <DatabaseField("FirstName"), DataType(MySqlDbType.VarChar, "255")> Public Property FirstName As String
-    <DatabaseField("MidInitials"), DataType(MySqlDbType.VarChar, "255")> Public Property MidInitials As String
-    <DatabaseField("Affiliation"), DataType(MySqlDbType.Int64, "20")> Public Property Affiliation As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="URI")> Public Property URI As String
+    <DatabaseField("Address"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Address")> Public Property Address As String
+    <DatabaseField("Phone"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Phone")> Public Property Phone As String
+    <DatabaseField("TollFreePhone"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="TollFreePhone")> Public Property TollFreePhone As String
+    <DatabaseField("Email"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Email")> Public Property Email As String
+    <DatabaseField("Fax"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Fax")> Public Property Fax As String
+    <DatabaseField("Parent"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Parent")> Public Property Parent As Long
+    <DatabaseField("LastName"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="LastName")> Public Property LastName As String
+    <DatabaseField("FirstName"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="FirstName")> Public Property FirstName As String
+    <DatabaseField("MidInitials"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="MidInitials")> Public Property MidInitials As String
+    <DatabaseField("Affiliation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Affiliation")> Public Property Affiliation As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -185,7 +192,11 @@ Public Class contact: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, URI, Address, Phone, TollFreePhone, Email, Fax, Parent, LastName, FirstName, MidInitials, Affiliation, WID)
     End Function
 #End Region
+Public Function Clone() As contact
+                  Return DirectCast(MyClass.MemberwiseClone, contact)
+              End Function
 End Class
 
 
 End Namespace
+

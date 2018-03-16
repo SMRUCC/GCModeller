@@ -33,6 +33,9 @@
 
     '     Class Site
     ' 
+    '         Properties: Name, Pvalue, Right, Site, Size
+    '                     Start
+    ' 
     '         Function: GetSequenceData, InternalParser, ToFasta, ToString
     ' 
     ' 

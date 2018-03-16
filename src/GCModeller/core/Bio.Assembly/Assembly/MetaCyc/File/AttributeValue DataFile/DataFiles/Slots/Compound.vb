@@ -33,8 +33,10 @@
 
     '     Class Compound
     ' 
-    '         Properties: __cheBI, __pubChem, CHEBI, ComponentOf, Components
-    '                     Identifier, KEGGCompound, PUBCHEM, Table, Types
+    '         Properties: __cheBI, __pubChem, CHEBI, CommonName, ComponentOf
+    '                     Components, DBLinks, Identifier, KEGGCompound, MolecularWeight
+    '                     MonoisotopicMW, Names, PUBCHEM, Regulates, Table
+    '                     Types
     ' 
     '         Function: GetDBLinkManager, GetMolecularWeight, Trim, TrimHTML
     ' 

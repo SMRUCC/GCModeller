@@ -33,6 +33,8 @@
 
     ' Class genewidnucleicacidwid
     ' 
+    '     Properties: GeneWID, NucleicAcidWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

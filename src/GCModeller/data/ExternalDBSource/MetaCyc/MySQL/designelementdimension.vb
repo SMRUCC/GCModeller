@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::325f781dbfdb5d0d43fd21343389e7c2, data\ExternalDBSource\MetaCyc\MySQL\designelementdimension.vb"
+﻿#Region "Microsoft.VisualBasic::28739eb76472c79b6a7b738a9accf70b, data\ExternalDBSource\MetaCyc\MySQL\designelementdimension.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class designelementdimension
     ' 
+    '     Properties: DataSetWID, Identifier, MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `designelementdimension` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class designelementdimension: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class designelementdimension: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, WID)
     End Function
 #End Region
+Public Function Clone() As designelementdimension
+                  Return DirectCast(MyClass.MemberwiseClone, designelementdimension)
+              End Function
 End Class
 
 
 End Namespace
+

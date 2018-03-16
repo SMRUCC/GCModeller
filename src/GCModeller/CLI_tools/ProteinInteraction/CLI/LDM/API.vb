@@ -33,7 +33,7 @@
 
     ' Module API
     ' 
-    '     Function: __AsDomain
+    '     Function: __AsDomain, GetPfamString, ToPfamString, ToSignature
     ' 
     ' /********************************************************************************/
 

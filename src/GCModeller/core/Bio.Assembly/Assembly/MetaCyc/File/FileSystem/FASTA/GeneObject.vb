@@ -35,7 +35,8 @@
     ' 
     '         Properties: AccessionId, Location, ProductUniqueId, Species, UniqueId
     ' 
-    '         Sub: (+2 Overloads) New, Save
+    '         Constructor: (+2 Overloads) Sub New
+    '         Sub: Save
     ' 
     ' 
     ' /********************************************************************************/

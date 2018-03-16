@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94fc511888afd5dc2461dc83d51763af, data\ExternalDBSource\MetaCyc\MySQL\lightsource.vb"
+﻿#Region "Microsoft.VisualBasic::e28cf42eee22451a83146361818dcd1f, data\ExternalDBSource\MetaCyc\MySQL\lightsource.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class lightsource
     ' 
+    '     Properties: DataSetWID, InstrumentWID, Type, Wavelength, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `lightsource` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class lightsource: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Wavelength"), DataType(MySqlDbType.Double)> Public Property Wavelength As Double
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "100")> Public Property Type As String
-    <DatabaseField("InstrumentWID"), DataType(MySqlDbType.Int64, "20")> Public Property InstrumentWID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Wavelength"), DataType(MySqlDbType.Double), Column(Name:="Wavelength")> Public Property Wavelength As Double
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("InstrumentWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="InstrumentWID")> Public Property InstrumentWID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class lightsource: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Wavelength, Type, InstrumentWID, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As lightsource
+                  Return DirectCast(MyClass.MemberwiseClone, lightsource)
+              End Function
 End Class
 
 
 End Namespace
+

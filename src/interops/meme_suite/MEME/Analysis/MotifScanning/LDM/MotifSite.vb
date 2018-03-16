@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::158b1063dfefe9288d4738159e5fbf21, meme_suite\MEME\Analysis\MotifScanning\LDM\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::80210916aef085cfd69f5209c7d058a2, meme_suite\MEME\Analysis\MotifScanning\LDM\MotifSite.vb"
 
     ' Author:
     ' 
@@ -33,17 +33,21 @@
 
     '     Class MotifSiteHit
     ' 
+    '         Properties: Family, gStart, gStop, Length, Pvalue
+    '                     RegPrecise, Regulators, SequenceData, source, Trace
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Copy, ToString
     ' 
-    '         Sub: New
-    ' 
     '     Class MatchResult
+    ' 
+    '         Properties: Matches, MEME
     ' 
     '         Function: ToFootprints
     ' 
     '     Class MotifHits
     ' 
-    '         Properties: MAST, MEME
+    '         Properties: Evalue, MAST, MEME, Trace
     ' 
     '         Function: __toFootprints, GetFootprints
     ' 

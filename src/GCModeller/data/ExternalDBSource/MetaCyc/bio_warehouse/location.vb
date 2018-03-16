@@ -33,6 +33,8 @@
 
     ' Class location
     ' 
+    '     Properties: Location, ProteinWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

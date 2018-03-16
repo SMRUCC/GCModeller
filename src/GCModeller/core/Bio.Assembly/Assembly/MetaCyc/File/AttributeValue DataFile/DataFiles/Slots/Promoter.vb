@@ -33,7 +33,8 @@
 
     '     Class Promoter
     ' 
-    '         Properties: Direction, Table
+    '         Properties: AbsolutePlus1Pos, BindsSigmaFactor, ComponentOf, Direction, Minus10Left
+    '                     Minus10Right, Minus35Left, Minus35Right, Table
     ' 
     ' 
     ' /********************************************************************************/

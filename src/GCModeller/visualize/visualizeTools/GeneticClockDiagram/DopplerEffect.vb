@@ -33,9 +33,8 @@
 
     '     Class DopplerEffect
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CalculateDopplerEffect
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

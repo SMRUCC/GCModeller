@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3109faac476fc0c4ec7cd00323df4a3d, data\ExternalDBSource\MetaCyc\MySQL\unit.vb"
+﻿#Region "Microsoft.VisualBasic::23ffcc0879697b2ff1e5269490c2c8cd, data\ExternalDBSource\MetaCyc\MySQL\unit.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class unit
     ' 
+    '     Properties: DataSetWID, MAGEClass, UnitName, UnitNameCV, UnitNameCV2
+    '                 UnitNameCV3, UnitNameCV4, UnitNameCV5, UnitNameCV6, UnitNameCV7
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -78,7 +85,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -101,17 +107,17 @@ CREATE TABLE `unit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class unit: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("UnitName"), DataType(MySqlDbType.VarChar, "255")> Public Property UnitName As String
-    <DatabaseField("UnitNameCV"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV As String
-    <DatabaseField("UnitNameCV2"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV2 As String
-    <DatabaseField("UnitNameCV3"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV3 As String
-    <DatabaseField("UnitNameCV4"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV4 As String
-    <DatabaseField("UnitNameCV5"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV5 As String
-    <DatabaseField("UnitNameCV6"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV6 As String
-    <DatabaseField("UnitNameCV7"), DataType(MySqlDbType.VarChar, "25")> Public Property UnitNameCV7 As String
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("UnitName"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="UnitName")> Public Property UnitName As String
+    <DatabaseField("UnitNameCV"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV")> Public Property UnitNameCV As String
+    <DatabaseField("UnitNameCV2"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV2")> Public Property UnitNameCV2 As String
+    <DatabaseField("UnitNameCV3"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV3")> Public Property UnitNameCV3 As String
+    <DatabaseField("UnitNameCV4"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV4")> Public Property UnitNameCV4 As String
+    <DatabaseField("UnitNameCV5"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV5")> Public Property UnitNameCV5 As String
+    <DatabaseField("UnitNameCV6"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV6")> Public Property UnitNameCV6 As String
+    <DatabaseField("UnitNameCV7"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="UnitNameCV7")> Public Property UnitNameCV7 As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +168,11 @@ Public Class unit: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, UnitName, UnitNameCV, UnitNameCV2, UnitNameCV3, UnitNameCV4, UnitNameCV5, UnitNameCV6, UnitNameCV7, WID)
     End Function
 #End Region
+Public Function Clone() As unit
+                  Return DirectCast(MyClass.MemberwiseClone, unit)
+              End Function
 End Class
 
 
 End Namespace
+

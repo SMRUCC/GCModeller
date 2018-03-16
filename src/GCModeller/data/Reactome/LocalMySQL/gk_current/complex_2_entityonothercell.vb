@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69a38d61724fd832f58f3d3cf461d951, data\Reactome\LocalMySQL\gk_current\complex_2_entityonothercell.vb"
+﻿#Region "Microsoft.VisualBasic::d5fab5bd92f70658f21f700a2f71e270, data\Reactome\LocalMySQL\gk_current\complex_2_entityonothercell.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class complex_2_entityonothercell
     ' 
+    '     Properties: DB_ID, entityOnOtherCell, entityOnOtherCell_class, entityOnOtherCell_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `complex_2_entityonothercell` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class complex_2_entityonothercell: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("entityOnOtherCell_rank"), DataType(MySqlDbType.Int64, "10")> Public Property entityOnOtherCell_rank As Long
-    <DatabaseField("entityOnOtherCell"), DataType(MySqlDbType.Int64, "10")> Public Property entityOnOtherCell As Long
-    <DatabaseField("entityOnOtherCell_class"), DataType(MySqlDbType.VarChar, "64")> Public Property entityOnOtherCell_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("entityOnOtherCell_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="entityOnOtherCell_rank")> Public Property entityOnOtherCell_rank As Long
+    <DatabaseField("entityOnOtherCell"), DataType(MySqlDbType.Int64, "10"), Column(Name:="entityOnOtherCell")> Public Property entityOnOtherCell As Long
+    <DatabaseField("entityOnOtherCell_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="entityOnOtherCell_class")> Public Property entityOnOtherCell_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class complex_2_entityonothercell: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, DB_ID, entityOnOtherCell_rank, entityOnOtherCell, entityOnOtherCell_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As complex_2_entityonothercell
+                  Return DirectCast(MyClass.MemberwiseClone, complex_2_entityonothercell)
+              End Function
 End Class
 
 
 End Namespace
+

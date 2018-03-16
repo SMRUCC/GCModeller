@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class Pathway
     ' 
-    '     Properties: AssociatedGenes, ContiansSubPathway, Identifier, MetaCycBaseType, ReactionList
-    '                 SuperPathway
+    '         Properties: AssociatedGenes, ContiansSubPathway, Identifier, MetaCycBaseType, ReactionList
+    '                     SuperPathway
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
     '     Class PathwayBrief
     ' 

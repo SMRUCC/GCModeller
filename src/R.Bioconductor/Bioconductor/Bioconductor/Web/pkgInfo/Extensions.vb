@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78122014108b0c917ebf013100b4bbe2, Bioconductor\Bioconductor\Web\pkgInfo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b1291ca9d010b5af046aad69272a9e66, Bioconductor\Bioconductor\Web\pkgInfo\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,9 @@
 
     '     Module Extensions
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __buildHash, ArchivesParser, DescriptionParser, DetailsParser, (+2 Overloads) GetDetails
     '                   GetURL
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

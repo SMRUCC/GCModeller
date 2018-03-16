@@ -35,9 +35,8 @@
     ' 
     '         Properties: Tag, TagValue, TAGValues
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GenerateDocumentLine, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

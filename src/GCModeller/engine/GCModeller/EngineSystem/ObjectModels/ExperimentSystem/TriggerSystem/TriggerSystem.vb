@@ -35,9 +35,11 @@
     ' 
     '         Properties: EventId
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Initialize, ParseExpression, Tick, TriggerInvokes, TrimExpression
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

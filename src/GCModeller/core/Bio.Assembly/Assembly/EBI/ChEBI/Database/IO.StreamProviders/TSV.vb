@@ -35,12 +35,11 @@
     ' 
     '         Properties: FileName, TsvFiles
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __lazyLoadData, GetChemicalData, GetDatabaseAccessions, GetInChI, GetNames
-    ' 
-    '         Sub: New
     '         Structure FileNames
     ' 
-    '             Sub: New
+    '             Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' 

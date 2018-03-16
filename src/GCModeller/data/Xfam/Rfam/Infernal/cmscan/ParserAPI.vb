@@ -33,7 +33,7 @@
 
     '     Module ParserAPI
     ' 
-    '         Function: __querys, LoadCmScan
+    '         Function: __hitParser, __querys, LoadCmScan
     ' 
     ' 
     ' /********************************************************************************/

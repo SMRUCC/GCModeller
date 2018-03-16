@@ -35,6 +35,8 @@
     ' 
     '     Function: DrawCatalogProfiling
     ' 
+    '     Sub: DrawingCOGColors
+    ' 
     ' /********************************************************************************/
 
 #End Region

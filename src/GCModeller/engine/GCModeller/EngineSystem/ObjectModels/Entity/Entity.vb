@@ -35,7 +35,7 @@
     ' 
     '     Properties: Compartment, Guid, Quantity, uid
     ' 
-    '     Sub: New
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

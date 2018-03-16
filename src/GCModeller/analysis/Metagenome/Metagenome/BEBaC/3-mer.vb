@@ -55,9 +55,8 @@
     ' 
     '         Properties: I3Mersx
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Count, GetVector, Transform
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

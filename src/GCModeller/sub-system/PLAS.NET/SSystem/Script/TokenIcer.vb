@@ -35,7 +35,7 @@
     ' 
     '         Properties: Tokens
     ' 
-    '         Function: TryParse
+    '         Function: __tokenParser, TryParse
     ' 
     ' 
     ' /********************************************************************************/

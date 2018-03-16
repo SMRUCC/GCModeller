@@ -33,6 +33,8 @@
 
     ' Class specialwidtable
     ' 
+    '     Properties: PreviousWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

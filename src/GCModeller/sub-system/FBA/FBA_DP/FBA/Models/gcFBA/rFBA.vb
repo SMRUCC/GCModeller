@@ -35,10 +35,12 @@
     ' 
     '         Properties: GeneFactors
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) __calFactor, __getBounds, __getBoundValue, __getLowerbound, __getUpbound
     '                   __lowBound, __regImpact, __upBound, getConstraint
     ' 
-    '         Sub: New, ResetStat, SetObjectiveGenes, SetRPKM
+    '         Sub: ResetStat, SetObjectiveGenes, SetRPKM
     ' 
     ' 
     ' /********************************************************************************/

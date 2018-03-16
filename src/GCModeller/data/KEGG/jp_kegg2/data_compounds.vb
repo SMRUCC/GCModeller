@@ -33,6 +33,9 @@
 
     ' Class data_compounds
     ' 
+    '     Properties: formula, KEGG, mass, mol_weight, names
+    '                 uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

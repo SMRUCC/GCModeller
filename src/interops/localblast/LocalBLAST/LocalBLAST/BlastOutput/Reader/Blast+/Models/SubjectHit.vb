@@ -33,7 +33,8 @@
 
     '     Class SubjectHit
     ' 
-    '         Properties: Hsp, LengthHit, LengthQuery, QueryLocation, SubjectLocation
+    '         Properties: Hsp, Length, LengthHit, LengthQuery, Name
+    '                     QueryLocation, Score, SubjectLocation
     ' 
     '         Function: GetItems, ParseHitSegments, ToString, TryParse
     ' 

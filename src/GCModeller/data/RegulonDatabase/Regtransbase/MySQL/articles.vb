@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96d8c527962114e4b387354dd4398637, data\RegulonDatabase\Regtransbase\MySQL\articles.vb"
+﻿#Region "Microsoft.VisualBasic::f21149aca0d6a8427f13779ec4490672, data\RegulonDatabase\Regtransbase\MySQL\articles.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class articles
     ' 
+    '     Properties: art_abstruct, art_guid, art_issue, art_journal, art_month
+    '                 art_pages, art_state, art_volume, art_year, author
+    '                 exp_num, last_update, pkg_guid, pmid, title
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -83,7 +90,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -111,21 +117,21 @@ CREATE TABLE `articles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class articles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("art_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("title"), DataType(MySqlDbType.VarChar, "255")> Public Property title As String
-    <DatabaseField("author"), DataType(MySqlDbType.VarChar, "255")> Public Property author As String
-    <DatabaseField("pmid"), DataType(MySqlDbType.VarChar, "20")> Public Property pmid As String
-    <DatabaseField("art_journal"), DataType(MySqlDbType.VarChar, "50")> Public Property art_journal As String
-    <DatabaseField("art_year"), DataType(MySqlDbType.VarChar, "10")> Public Property art_year As String
-    <DatabaseField("art_month"), DataType(MySqlDbType.VarChar, "10")> Public Property art_month As String
-    <DatabaseField("art_volume"), DataType(MySqlDbType.VarChar, "10")> Public Property art_volume As String
-    <DatabaseField("art_issue"), DataType(MySqlDbType.VarChar, "10")> Public Property art_issue As String
-    <DatabaseField("art_pages"), DataType(MySqlDbType.VarChar, "20")> Public Property art_pages As String
-    <DatabaseField("art_abstruct"), DataType(MySqlDbType.Blob)> Public Property art_abstruct As Byte()
-    <DatabaseField("exp_num"), DataType(MySqlDbType.Int64, "11")> Public Property exp_num As Long
-    <DatabaseField("art_state"), DataType(MySqlDbType.Int64, "11")> Public Property art_state As Long
-    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_update As Date
+    <DatabaseField("art_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid"), XmlAttribute> Public Property art_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("title"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="title")> Public Property title As String
+    <DatabaseField("author"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="author")> Public Property author As String
+    <DatabaseField("pmid"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="pmid")> Public Property pmid As String
+    <DatabaseField("art_journal"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="art_journal")> Public Property art_journal As String
+    <DatabaseField("art_year"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="art_year")> Public Property art_year As String
+    <DatabaseField("art_month"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="art_month")> Public Property art_month As String
+    <DatabaseField("art_volume"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="art_volume")> Public Property art_volume As String
+    <DatabaseField("art_issue"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="art_issue")> Public Property art_issue As String
+    <DatabaseField("art_pages"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="art_pages")> Public Property art_pages As String
+    <DatabaseField("art_abstruct"), DataType(MySqlDbType.Blob), Column(Name:="art_abstruct")> Public Property art_abstruct As Byte()
+    <DatabaseField("exp_num"), DataType(MySqlDbType.Int64, "11"), Column(Name:="exp_num")> Public Property exp_num As Long
+    <DatabaseField("art_state"), DataType(MySqlDbType.Int64, "11"), Column(Name:="art_state")> Public Property art_state As Long
+    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_update")> Public Property last_update As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -148,7 +154,7 @@ Public Class articles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(INSERT_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 
 ''' <summary>
@@ -165,7 +171,7 @@ Public Class articles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(REPLACE_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -173,10 +179,14 @@ Public Class articles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, DataType.ToMySqlDateTimeString(last_update), art_guid)
+        Return String.Format(UPDATE_SQL, art_guid, pkg_guid, title, author, pmid, art_journal, art_year, art_month, art_volume, art_issue, art_pages, art_abstruct, exp_num, art_state, MySqlScript.ToMySqlDateTimeString(last_update), art_guid)
     End Function
 #End Region
+Public Function Clone() As articles
+                  Return DirectCast(MyClass.MemberwiseClone, articles)
+              End Function
 End Class
 
 
 End Namespace
+

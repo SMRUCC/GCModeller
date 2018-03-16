@@ -33,6 +33,8 @@
 
     ' Class subunit
     ' 
+    '     Properties: Coefficient, ComplexWID, SubunitWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class vimss
     ' 
+    '     Properties: objectId, vimss
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

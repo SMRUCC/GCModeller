@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df535be2594b92b953aa4f2e3655f12, data\ExternalDBSource\MetaCyc\MySQL\protocolwidhardwarewid.vb"
+﻿#Region "Microsoft.VisualBasic::e942b5cfaa44f2ae6fcbe0f3cd9ca9dd, data\ExternalDBSource\MetaCyc\MySQL\protocolwidhardwarewid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class protocolwidhardwarewid
     ' 
+    '     Properties: HardwareWID, ProtocolWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `protocolwidhardwarewid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class protocolwidhardwarewid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ProtocolWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ProtocolWID As Long
-    <DatabaseField("HardwareWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property HardwareWID As Long
+    <DatabaseField("ProtocolWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ProtocolWID"), XmlAttribute> Public Property ProtocolWID As Long
+    <DatabaseField("HardwareWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="HardwareWID")> Public Property HardwareWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class protocolwidhardwarewid: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, ProtocolWID, HardwareWID, ProtocolWID)
     End Function
 #End Region
+Public Function Clone() As protocolwidhardwarewid
+                  Return DirectCast(MyClass.MemberwiseClone, protocolwidhardwarewid)
+              End Function
 End Class
 
 
 End Namespace
+

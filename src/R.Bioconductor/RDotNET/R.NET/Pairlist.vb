@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d976bfa7880350c36bbf0c9986c8086f, RDotNET\R.NET\Pairlist.vb"
+﻿#Region "Microsoft.VisualBasic::6c192d4db665a2f346871c99f51eea81, RDotNET\R.NET\Pairlist.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '     Properties: Count
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetEnumerator, IEnumerable_GetEnumerator
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

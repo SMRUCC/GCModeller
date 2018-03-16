@@ -33,6 +33,9 @@
 
     ' Class mogcomponent
     ' 
+    '     Properties: metric, mogId, nMembers, nMembersBest, ogId
+    '                 treeId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

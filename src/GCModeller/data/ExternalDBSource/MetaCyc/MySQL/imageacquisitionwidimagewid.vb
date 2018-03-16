@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98978ff023aaa2eaa066873f22b82e02, data\ExternalDBSource\MetaCyc\MySQL\imageacquisitionwidimagewid.vb"
+﻿#Region "Microsoft.VisualBasic::f2b51316728fc909a4fd8cc62f918dc0, data\ExternalDBSource\MetaCyc\MySQL\imageacquisitionwidimagewid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class imageacquisitionwidimagewid
     ' 
+    '     Properties: ImageAcquisitionWID, ImageWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `imageacquisitionwidimagewid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class imageacquisitionwidimagewid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ImageAcquisitionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ImageAcquisitionWID As Long
-    <DatabaseField("ImageWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ImageWID As Long
+    <DatabaseField("ImageAcquisitionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ImageAcquisitionWID"), XmlAttribute> Public Property ImageAcquisitionWID As Long
+    <DatabaseField("ImageWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ImageWID")> Public Property ImageWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class imageacquisitionwidimagewid: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, ImageAcquisitionWID, ImageWID, ImageAcquisitionWID)
     End Function
 #End Region
+Public Function Clone() As imageacquisitionwidimagewid
+                  Return DirectCast(MyClass.MemberwiseClone, imageacquisitionwidimagewid)
+              End Function
 End Class
 
 
 End Namespace
+

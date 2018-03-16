@@ -33,7 +33,8 @@
 
     '     Class Regulator
     ' 
-    '         Properties: DataSource, RegulatesTarget, SerialsHandle, TypeId
+    '         Properties: DataSource, Identifier, Quantity, RegulatesTarget, RegulateValue
+    '                     SerialsHandle, TypeId, Weight
     ' 
     '         Function: CreateObject, get_RegulatorValue, ToString
     ' 

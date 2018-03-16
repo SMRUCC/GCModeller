@@ -33,6 +33,8 @@
 
     ' Class bioassaywidfactorvaluewid
     ' 
+    '     Properties: BioAssayWID, FactorValueWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c66086a36ee9a05235201e5b360985d1, data\RegulonDatabase\RegulonDB\MySQL\repeat.vb"
+﻿#Region "Microsoft.VisualBasic::ee307307353131538efcb3ee00c6cc7f, data\RegulonDatabase\RegulonDB\MySQL\repeat.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class repeat
     ' 
+    '     Properties: key_id_org, repeat_family, repeat_id, repeat_internal_comment, repeat_note
+    '                 repeat_posleft, repeat_posright
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `repeat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class repeat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("repeat_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property repeat_id As String
-    <DatabaseField("repeat_posleft"), NotNull, DataType(MySqlDbType.Decimal)> Public Property repeat_posleft As Decimal
-    <DatabaseField("repeat_posright"), NotNull, DataType(MySqlDbType.Decimal)> Public Property repeat_posright As Decimal
-    <DatabaseField("repeat_family"), DataType(MySqlDbType.VarChar, "255")> Public Property repeat_family As String
-    <DatabaseField("repeat_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property repeat_note As String
-    <DatabaseField("repeat_internal_comment"), DataType(MySqlDbType.Text)> Public Property repeat_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("repeat_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="repeat_id")> Public Property repeat_id As String
+    <DatabaseField("repeat_posleft"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="repeat_posleft")> Public Property repeat_posleft As Decimal
+    <DatabaseField("repeat_posright"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="repeat_posright")> Public Property repeat_posright As Decimal
+    <DatabaseField("repeat_family"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="repeat_family")> Public Property repeat_family As String
+    <DatabaseField("repeat_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="repeat_note")> Public Property repeat_note As String
+    <DatabaseField("repeat_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="repeat_internal_comment")> Public Property repeat_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class repeat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As repeat
+                  Return DirectCast(MyClass.MemberwiseClone, repeat)
+              End Function
 End Class
 
 
 End Namespace
+

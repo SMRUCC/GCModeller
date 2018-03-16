@@ -38,7 +38,7 @@
     '     Sub: ExportNetwork
     '     Class Interaction
     ' 
-    '         Properties: InteractionWith
+    '         Properties: InteractionWith, Protein
     ' 
     '         Function: ToString
     ' 

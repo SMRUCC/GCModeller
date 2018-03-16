@@ -33,9 +33,10 @@
 
     ' Class TranscriptView
     ' 
-    '     Properties: Category, COG, Coverage, gpStart, gpStop
-    '                 gStrand, Product, pStart, pStop, Replicon
-    '                 Strand, TSS_id
+    '     Properties: ATGDistance, Category, COG, Coverage, First
+    '                 GeneId, gpStart, gpStop, gStrand, Product
+    '                 pStart, pStop, Replicon, Strand, Subcategory
+    '                 Target, TSS_id, Type
     ' 
     ' /********************************************************************************/
 

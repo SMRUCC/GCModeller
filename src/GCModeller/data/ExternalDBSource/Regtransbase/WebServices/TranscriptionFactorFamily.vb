@@ -33,26 +33,29 @@
 
     '     Class RegPreciseTFFamily
     ' 
+    '         Properties: Family
+    ' 
     '         Function: Download, Export, FindAtRegulog, ToString
     ' 
     '         Sub: Export
     ' 
     '     Class TranscriptionFactorFamily
     ' 
-    '         Properties: Regulogs, Url
+    '         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
+    '                     Url
     ' 
     '         Function: Parse, ToString
     ' 
     '     Class Regulogs
     ' 
-    '         Properties: Description
+    '         Properties: Counts, Description, Logs
     ' 
     '         Function: Export, GetDescription, GetUniqueIds, TrimText
     ' 
     '         Sub: Parse
     '         Class Item
     ' 
-    '             Properties: Regulog, TFBSs
+    '             Properties: Phylum, Regulog, TFBSs, TFRegulons
     ' 
     '             Function: Parse, ParseLog, ToString
     ' 
@@ -60,14 +63,16 @@
     ' 
     '     Class Regulator
     ' 
-    '         Properties: BiologicalProcess, Effector, Regulog, TFBSs
+    '         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
+    '                     TFBSs
     ' 
     '         Function: [Select], ExportMotifs, GetUniqueId, Parse, ParseLog
     '                   SequenceTrimming
     ' 
     '     Class FastaObject
     ' 
-    '         Properties: Bacteria, SequenceData
+    '         Properties: Bacteria, LocusTag, Name, Position, Score
+    '                     SequenceData
     ' 
     '         Function: [New], Parse, ToString
     ' 

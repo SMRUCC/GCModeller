@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac4ebefa90ebfec0d5d2cd3efed36bb7, data\RegulonDatabase\RegulonDB\MySQL\conformation.vb"
+﻿#Region "Microsoft.VisualBasic::9d6ace27102bc006a70032946cc636c8, data\RegulonDatabase\RegulonDB\MySQL\conformation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class conformation
     ' 
+    '     Properties: apo_holo_conformation, conformation_id, conformation_internal_comment, conformation_note, conformation_type
+    '                 final_state, interaction_type, key_id_org, transcription_factor_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `conformation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class conformation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property conformation_id As String
-    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property transcription_factor_id As String
-    <DatabaseField("final_state"), DataType(MySqlDbType.VarChar, "2000")> Public Property final_state As String
-    <DatabaseField("conformation_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property conformation_note As String
-    <DatabaseField("interaction_type"), DataType(MySqlDbType.VarChar, "250")> Public Property interaction_type As String
-    <DatabaseField("conformation_internal_comment"), DataType(MySqlDbType.Text)> Public Property conformation_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
-    <DatabaseField("conformation_type"), DataType(MySqlDbType.VarChar, "20")> Public Property conformation_type As String
-    <DatabaseField("apo_holo_conformation"), DataType(MySqlDbType.VarChar, "10")> Public Property apo_holo_conformation As String
+    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="conformation_id")> Public Property conformation_id As String
+    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="transcription_factor_id")> Public Property transcription_factor_id As String
+    <DatabaseField("final_state"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="final_state")> Public Property final_state As String
+    <DatabaseField("conformation_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="conformation_note")> Public Property conformation_note As String
+    <DatabaseField("interaction_type"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="interaction_type")> Public Property interaction_type As String
+    <DatabaseField("conformation_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="conformation_internal_comment")> Public Property conformation_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
+    <DatabaseField("conformation_type"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="conformation_type")> Public Property conformation_type As String
+    <DatabaseField("apo_holo_conformation"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="apo_holo_conformation")> Public Property apo_holo_conformation As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class conformation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As conformation
+                  Return DirectCast(MyClass.MemberwiseClone, conformation)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,9 +33,8 @@
 
     '     Class QueryHandler
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __startQuery, DownloadCurrentPage
-    ' 
-    '         Sub: New
     '         Class Entry
     ' 
     '             Properties: AccessionId, Description, GI

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38efb3abefb47c4797447a6ecbd23f5c, data\Reactome\LocalMySQL\gk_current\event_2_revised.vb"
+﻿#Region "Microsoft.VisualBasic::a99cdae79dfb9c1a48579bc1090c2305, data\Reactome\LocalMySQL\gk_current\event_2_revised.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class event_2_revised
     ' 
+    '     Properties: DB_ID, revised, revised_class, revised_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `event_2_revised` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class event_2_revised: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("revised_rank"), DataType(MySqlDbType.Int64, "10")> Public Property revised_rank As Long
-    <DatabaseField("revised"), DataType(MySqlDbType.Int64, "10")> Public Property revised As Long
-    <DatabaseField("revised_class"), DataType(MySqlDbType.VarChar, "64")> Public Property revised_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("revised_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="revised_rank")> Public Property revised_rank As Long
+    <DatabaseField("revised"), DataType(MySqlDbType.Int64, "10"), Column(Name:="revised")> Public Property revised As Long
+    <DatabaseField("revised_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="revised_class")> Public Property revised_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class event_2_revised: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, DB_ID, revised_rank, revised, revised_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As event_2_revised
+                  Return DirectCast(MyClass.MemberwiseClone, event_2_revised)
+              End Function
 End Class
 
 
 End Namespace
+

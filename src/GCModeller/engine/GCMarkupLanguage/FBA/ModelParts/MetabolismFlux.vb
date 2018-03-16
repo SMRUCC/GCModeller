@@ -33,8 +33,9 @@
 
     '     Class MetabolismFlux
     ' 
-    '         Properties: Get_LOWER, Get_UPPER, GetObjCoefficient, Name, Products
-    '                     Reactants, Reversible
+    '         Properties: Get_LOWER, Get_UPPER, GetObjCoefficient, Identifier, LOWER_BOUND
+    '                     Name, ObjectiveCoefficient, Products, Reactants, Reversible
+    '                     UPPER_BOUND
     ' 
     '         Function: Convert, GetStoichiometry, ToString
     ' 

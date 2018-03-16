@@ -33,9 +33,11 @@
 
     ' Module ClustalVisual
     ' 
-    '     Function: InvokeDrawing
+    '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Sub: New, SetDotSize
+    '     Function: (+2 Overloads) InvokeDrawing
+    ' 
+    '     Sub: SetDotSize
     ' 
     ' /********************************************************************************/
 

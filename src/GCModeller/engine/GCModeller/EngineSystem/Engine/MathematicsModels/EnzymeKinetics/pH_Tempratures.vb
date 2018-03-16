@@ -33,17 +33,15 @@
 
     '     Class pH_Tempratures
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Get_currentPH
-    ' 
-    '         Sub: New
     ' 
     '     Class EnzymeCatalystKineticLaw
     ' 
     '         Properties: pH_Saturated, Temperature_Saturated
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: [New]
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

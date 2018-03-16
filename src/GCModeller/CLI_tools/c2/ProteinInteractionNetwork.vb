@@ -33,9 +33,8 @@
 
     ' Class ProteinInteractionNetwork
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: InvokeAction
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

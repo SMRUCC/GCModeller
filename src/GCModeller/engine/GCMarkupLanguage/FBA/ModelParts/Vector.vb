@@ -33,7 +33,7 @@
 
     '     Class Vector
     ' 
-    '         Properties: InitializeAmount
+    '         Properties: Identifier, InitializeAmount
     ' 
     '         Function: ToString
     ' 

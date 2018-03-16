@@ -33,6 +33,10 @@
 
     ' Class designelement
     ' 
+    '     Properties: DataSetWID, DesignElement_ControlType, Feature_FeatureLocation, Feature_Position, FeatureGroup
+    '                 FeatureGroup_Features, Identifier, MAGEClass, Name, Reporter_WarningType
+    '                 WID, Zone
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

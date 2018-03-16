@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c2e4af387c4357dab3240eae995e02d, data\RegulonDatabase\RegulonDB\MySQL\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::f977cf59a4eeb4fde215532df2bce58a, data\RegulonDatabase\RegulonDB\MySQL\reaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reaction
     ' 
+    '     Properties: note, reaction_description, reaction_id, reaction_name, reaction_type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -69,7 +74,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,11 +87,11 @@ CREATE TABLE `reaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reaction_id As String
-    <DatabaseField("reaction_name"), NotNull, DataType(MySqlDbType.VarChar, "1000")> Public Property reaction_name As String
-    <DatabaseField("reaction_description"), DataType(MySqlDbType.VarChar, "2000")> Public Property reaction_description As String
-    <DatabaseField("reaction_type"), NotNull, DataType(MySqlDbType.VarChar, "250")> Public Property reaction_type As String
-    <DatabaseField("note"), DataType(MySqlDbType.Text)> Public Property note As String
+    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reaction_id")> Public Property reaction_id As String
+    <DatabaseField("reaction_name"), NotNull, DataType(MySqlDbType.VarChar, "1000"), Column(Name:="reaction_name")> Public Property reaction_name As String
+    <DatabaseField("reaction_description"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="reaction_description")> Public Property reaction_description As String
+    <DatabaseField("reaction_type"), NotNull, DataType(MySqlDbType.VarChar, "250"), Column(Name:="reaction_type")> Public Property reaction_type As String
+    <DatabaseField("note"), DataType(MySqlDbType.Text), Column(Name:="note")> Public Property note As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -138,7 +142,11 @@ Public Class reaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As reaction
+                  Return DirectCast(MyClass.MemberwiseClone, reaction)
+              End Function
 End Class
 
 
 End Namespace
+

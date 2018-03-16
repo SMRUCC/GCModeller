@@ -33,6 +33,8 @@
 
     ' Class dbid
     ' 
+    '     Properties: OtherWID, Type, Version, XID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebd477bcbb7c12b1049bf6941fce5c58, data\ExternalDBSource\MetaCyc\MySQL\bioassaytuple.vb"
+﻿#Region "Microsoft.VisualBasic::8fa2fd2e1fce75c832f1173158e23c39, data\ExternalDBSource\MetaCyc\MySQL\bioassaytuple.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class bioassaytuple
     ' 
+    '     Properties: BioAssay, BioDataTuples_BioAssayTuples, DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,10 +99,10 @@ CREATE TABLE `bioassaytuple` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bioassaytuple: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("BioAssay"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssay As Long
-    <DatabaseField("BioDataTuples_BioAssayTuples"), DataType(MySqlDbType.Int64, "20")> Public Property BioDataTuples_BioAssayTuples As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("BioAssay"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssay")> Public Property BioAssay As Long
+    <DatabaseField("BioDataTuples_BioAssayTuples"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioDataTuples_BioAssayTuples")> Public Property BioDataTuples_BioAssayTuples As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -149,7 +153,11 @@ Public Class bioassaytuple: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, BioAssay, BioDataTuples_BioAssayTuples, WID)
     End Function
 #End Region
+Public Function Clone() As bioassaytuple
+                  Return DirectCast(MyClass.MemberwiseClone, bioassaytuple)
+              End Function
 End Class
 
 
 End Namespace
+

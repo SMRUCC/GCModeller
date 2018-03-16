@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5815bba9994901644d5b2f703e996269, data\RegulonDatabase\RegulonDB\MySQL\intermediate.vb"
+﻿#Region "Microsoft.VisualBasic::ec16b0c835a44d07cbd8c8fa01e41d64, data\RegulonDatabase\RegulonDB\MySQL\intermediate.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class intermediate
     ' 
+    '     Properties: intermediate_id, intermediate_name, intermediate_note
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `intermediate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class intermediate: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("intermediate_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property intermediate_id As String
-    <DatabaseField("intermediate_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property intermediate_name As String
-    <DatabaseField("intermediate_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property intermediate_note As String
+    <DatabaseField("intermediate_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="intermediate_id")> Public Property intermediate_id As String
+    <DatabaseField("intermediate_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="intermediate_name")> Public Property intermediate_name As String
+    <DatabaseField("intermediate_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="intermediate_note")> Public Property intermediate_note As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class intermediate: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As intermediate
+                  Return DirectCast(MyClass.MemberwiseClone, intermediate)
+              End Function
 End Class
 
 
 End Namespace
+

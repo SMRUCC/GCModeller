@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::052d3f3d235381237b8bdfb6c2b4967f, data\ExternalDBSource\MetaCyc\MySQL\bioassaydata.vb"
+﻿#Region "Microsoft.VisualBasic::aee62370b1143fa7dce3d5e880635ebd, data\ExternalDBSource\MetaCyc\MySQL\bioassaydata.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class bioassaydata
     ' 
+    '     Properties: BioAssayData_BioDataValues, BioAssayDimension, DataSetWID, DesignElementDimension, Identifier
+    '                 MAGEClass, Name, ProducerTransformation, QuantitationTypeDimension, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -87,7 +93,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -119,16 +124,16 @@ CREATE TABLE `bioassaydata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bioassaydata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("BioAssayDimension"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayDimension As Long
-    <DatabaseField("DesignElementDimension"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElementDimension As Long
-    <DatabaseField("QuantitationTypeDimension"), DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeDimension As Long
-    <DatabaseField("BioAssayData_BioDataValues"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayData_BioDataValues As Long
-    <DatabaseField("ProducerTransformation"), DataType(MySqlDbType.Int64, "20")> Public Property ProducerTransformation As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("BioAssayDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayDimension")> Public Property BioAssayDimension As Long
+    <DatabaseField("DesignElementDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementDimension")> Public Property DesignElementDimension As Long
+    <DatabaseField("QuantitationTypeDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeDimension")> Public Property QuantitationTypeDimension As Long
+    <DatabaseField("BioAssayData_BioDataValues"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayData_BioDataValues")> Public Property BioAssayData_BioDataValues As Long
+    <DatabaseField("ProducerTransformation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ProducerTransformation")> Public Property ProducerTransformation As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -179,7 +184,11 @@ Public Class bioassaydata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, BioAssayDimension, DesignElementDimension, QuantitationTypeDimension, BioAssayData_BioDataValues, ProducerTransformation, WID)
     End Function
 #End Region
+Public Function Clone() As bioassaydata
+                  Return DirectCast(MyClass.MemberwiseClone, bioassaydata)
+              End Function
 End Class
 
 
 End Namespace
+

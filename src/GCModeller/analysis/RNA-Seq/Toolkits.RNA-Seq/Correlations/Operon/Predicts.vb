@@ -33,7 +33,7 @@
 
     '     Module Predicts
     ' 
-    '         Function: ConvertToCsvModel, Predicts, SaveOperonData, SaveToDoor
+    '         Function: __getStrands, ConvertToCsvModel, Predicts, SaveOperonData, SaveToDoor
     ' 
     ' 
     ' /********************************************************************************/

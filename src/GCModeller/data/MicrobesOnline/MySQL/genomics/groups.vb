@@ -33,6 +33,8 @@
 
     ' Class groups
     ' 
+    '     Properties: adminUserId, description, groupId, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

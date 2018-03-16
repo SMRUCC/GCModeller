@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b1f57c3cf8ecc1dc35bbc7d543dc197, data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
+﻿#Region "Microsoft.VisualBasic::aa7dc7f5b232522b2e3ae3457f13e69a, data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class enzreactioninhibitoractivator
     ' 
+    '     Properties: CompoundWID, EnzymaticReactionWID, InhibitOrActivate, Mechanism, PhysioRelevant
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,11 +91,11 @@ CREATE TABLE `enzreactioninhibitoractivator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class enzreactioninhibitoractivator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("EnzymaticReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property EnzymaticReactionWID As Long
-    <DatabaseField("CompoundWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property CompoundWID As Long
-    <DatabaseField("InhibitOrActivate"), DataType(MySqlDbType.VarChar, "1")> Public Property InhibitOrActivate As String
-    <DatabaseField("Mechanism"), DataType(MySqlDbType.VarChar, "1")> Public Property Mechanism As String
-    <DatabaseField("PhysioRelevant"), DataType(MySqlDbType.VarChar, "1")> Public Property PhysioRelevant As String
+    <DatabaseField("EnzymaticReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="EnzymaticReactionWID"), XmlAttribute> Public Property EnzymaticReactionWID As Long
+    <DatabaseField("CompoundWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="CompoundWID")> Public Property CompoundWID As Long
+    <DatabaseField("InhibitOrActivate"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="InhibitOrActivate")> Public Property InhibitOrActivate As String
+    <DatabaseField("Mechanism"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Mechanism")> Public Property Mechanism As String
+    <DatabaseField("PhysioRelevant"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="PhysioRelevant")> Public Property PhysioRelevant As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -142,7 +146,11 @@ Public Class enzreactioninhibitoractivator: Inherits Oracle.LinuxCompatibility.M
         Return String.Format(UPDATE_SQL, EnzymaticReactionWID, CompoundWID, InhibitOrActivate, Mechanism, PhysioRelevant, EnzymaticReactionWID)
     End Function
 #End Region
+Public Function Clone() As enzreactioninhibitoractivator
+                  Return DirectCast(MyClass.MemberwiseClone, enzreactioninhibitoractivator)
+              End Function
 End Class
 
 
 End Namespace
+

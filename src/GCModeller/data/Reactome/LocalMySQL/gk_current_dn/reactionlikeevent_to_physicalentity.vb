@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::010a1cc45991253e742ad841dcba1007, data\Reactome\LocalMySQL\gk_current_dn\reactionlikeevent_to_physicalentity.vb"
+﻿#Region "Microsoft.VisualBasic::708ba97849258748e77fc3293990b7f5, data\Reactome\LocalMySQL\gk_current_dn\reactionlikeevent_to_physicalentity.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactionlikeevent_to_physicalentity
     ' 
+    '     Properties: physicalEntityId, reactionLikeEventId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -87,7 +92,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 ''' 
 ''' -- Dump completed on 2017-03-29 21:34:53
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -102,8 +106,8 @@ CREATE TABLE `reactionlikeevent_to_physicalentity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class reactionlikeevent_to_physicalentity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("reactionLikeEventId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property reactionLikeEventId As Long
-    <DatabaseField("physicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property physicalEntityId As Long
+    <DatabaseField("reactionLikeEventId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="reactionLikeEventId"), XmlAttribute> Public Property reactionLikeEventId As Long
+    <DatabaseField("physicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="physicalEntityId"), XmlAttribute> Public Property physicalEntityId As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -154,7 +158,11 @@ Public Class reactionlikeevent_to_physicalentity: Inherits Oracle.LinuxCompatibi
         Return String.Format(UPDATE_SQL, reactionLikeEventId, physicalEntityId, reactionLikeEventId, physicalEntityId)
     End Function
 #End Region
+Public Function Clone() As reactionlikeevent_to_physicalentity
+                  Return DirectCast(MyClass.MemberwiseClone, reactionlikeevent_to_physicalentity)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,11 +33,12 @@
 
     '     Class MASTHtml
     ' 
-    ' 
+    '         Properties: MatchedSites
     ' 
     '     Class MatchedSite
     ' 
-    '         Properties: Headers, SequenceData
+    '         Properties: Ends, EValue, Headers, MotifId, PValue
+    '                     SequenceData, SequenceId, Starts, Strand
     ' 
     '         Function: ToString, TryParse
     ' 

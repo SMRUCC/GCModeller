@@ -33,6 +33,9 @@
 
     ' Class experimentdesign
     ' 
+    '     Properties: DataSetWID, Experiment_ExperimentDesigns, NormalizationDescription, QualityControlDescription, ReplicateDescription
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

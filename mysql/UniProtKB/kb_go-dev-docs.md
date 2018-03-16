@@ -1,16 +1,32 @@
-﻿# MySQL development docs
-Mysql database field attributes notes:
+# MySql Development Docs #
 
-> AI: Auto Increment; B: Binary; NN: Not Null; PK: Primary Key; UQ: Unique; UN: Unsigned; ZF: Zero Fill
+MySql database field attributes notes in this development document:
+
+> + **AI**: Auto Increment;
+> + **B**:  Binary;
+> + **G**:  Generated
+> + **NN**: Not Null;
+> + **PK**: Primary Key;
+> + **UQ**: Unique;
+> + **UN**: Unsigned;
+> + **ZF**: Zero Fill
+
+Generate time: 3/16/2018 10:37:29 PM<br />
+By: ``mysqli.vb`` reflector tool ([https://github.com/xieguigang/mysqli.vb](https://github.com/xieguigang/mysqli.vb))
+
+<div style="page-break-after: always;"></div>
+
+***
 
 ## alt_id
+
 GO_term的主编号和次级编号之间的关系
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``NN``||
-|alt_id|Int64 (10)|``NN``||
-|name|Text||The name field in the go_term|
+|id|Int64 (10)|``NN``, ``PK``||
+|alt_id|Int64 (10)|``NN``, ``PK``||
+|name|Text ()||The name field in the go_term|
 
 ```SQL
 CREATE TABLE `alt_id` (
@@ -22,16 +38,20 @@ CREATE TABLE `alt_id` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## dag_relationship
+
 由GO_term之间的相互关系所构成的有向无环图Directed Acyclic Graph（DAG）
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``NN``|当前的term编号|
+|id|Int64 (10)|``NN``, ``PK``|当前的term编号|
 |relationship|VarChar (45)|||
-|relationship_id|Int64 (10)|``NN``|二者之间的关系编号，由于可能会存在多种互做类型，所以只使用id+term_id的结构来做主键会出现重复entry的问题，在这里将作用的类型也加入进来|
-|term_id|Int64 (10)|``NN``|与当前的term发生互做关系的另外的一个partner term的编号|
+|relationship_id|Int64 (10)|``NN``, ``PK``|二者之间的关系编号，由于可能会存在多种互做类型，所以只使用id+term_id的结构来做主键会出现重复entry的问题，在这里将作用的类型也加入进来|
+|term_id|Int64 (10)|``NN``, ``PK``|与当前的term发生互做关系的另外的一个partner term的编号|
 |name|VarChar (45)||发生关系的term的名字|
 
 ```SQL
@@ -46,20 +66,24 @@ CREATE TABLE `dag_relationship` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## go_terms
+
 GO_term的具体的定义内容
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``NN``|其实就是将term编号之中的``GO:``前缀给删除了而得到的一个数字|
+|id|Int64 (10)|``NN``, ``PK``|其实就是将term编号之中的``GO:``前缀给删除了而得到的一个数字|
 |term|VarChar (16)|``NN``|GO id|
 |name|VarChar (45)|||
 |namespace_id|Int64 (10)|``NN``||
 |namespace|VarChar (45)|``NN``||
-|def|Text|``NN``||
-|is_obsolete|Int64 (4)|``NN``|0 为 False, 1 为 True|
-|comment|Text|||
+|def|Text ()|``NN``||
+|is_obsolete|Int32 (4)|``NN``|0 为 False, 1 为 True|
+|comment|Text ()|||
 
 ```SQL
 CREATE TABLE `go_terms` (
@@ -77,14 +101,18 @@ CREATE TABLE `go_terms` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## relation_names
+
 枚举所有的关系的名称
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``AI``, ``NN``||
-|name|Text|``NN``||
+|id|Int64 (10)|``AI``, ``NN``, ``PK``||
+|name|Text ()|``NN``||
 
 ```SQL
 CREATE TABLE `relation_names` (
@@ -96,14 +124,18 @@ CREATE TABLE `relation_names` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## term_namespace
+
 枚举三个命名空间
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``NN``||
-|namespace|Text|``NN``|这个表里面只有三个值|
+|id|Int64 (10)|``NN``, ``PK``||
+|namespace|Text ()|``NN``|这个表里面只有三个值|
 
 ```SQL
 CREATE TABLE `term_namespace` (
@@ -115,15 +147,19 @@ CREATE TABLE `term_namespace` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## term_synonym
+
 GO_term的同义词表
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|id|Int64 (10)|``AI``, ``NN``|自增编号|
+|id|Int64 (10)|``AI``, ``NN``, ``PK``|自增编号|
 |term_id|Int64 (10)|``NN``|当前的Go term的编号|
-|synonym|Text|``NN``|同义名称|
+|synonym|Text ()|``NN``|同义名称|
 |type|VarChar (45)||EXACT []  表示完全一样<br />RELATED [EC:3.1.27.3] 表示和xxxx有关联，其中EC编号为本表之中的object字段 |
 |object|VarChar (45)||type所指向的类型，可以会为空|
 
@@ -140,16 +176,20 @@ CREATE TABLE `term_synonym` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## xref
+
 GO_term与外部数据库之间的相互关联
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|go_id|Int64 (10)|``NN``||
+|go_id|Int64 (10)|``NN``, ``PK``||
 |xref|VarChar (45)|``NN``|外部数据库名称|
-|external_id|VarChar (45)|``NN``|外部数据库编号|
-|comment|Text|||
+|external_id|VarChar (45)|``NN``, ``PK``|外部数据库编号|
+|comment|Text ()|||
 
 ```SQL
 CREATE TABLE `xref` (
@@ -160,6 +200,10 @@ CREATE TABLE `xref` (
   PRIMARY KEY (`go_id`,`external_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term与外部数据库之间的相互关联';
 ```
+
+
+<div style="page-break-after: always;"></div>
+
 
 
 

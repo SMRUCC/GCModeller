@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6851543d5fb3774700ffbacaa0fe7f22, data\ExternalDBSource\MetaCyc\MySQL\quanttypedimenswidquanttypewid.vb"
+﻿#Region "Microsoft.VisualBasic::11b260d22373290afb7942c4e3c639be, data\ExternalDBSource\MetaCyc\MySQL\quanttypedimenswidquanttypewid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class quanttypedimenswidquanttypewid
     ' 
+    '     Properties: QuantitationTypeDimensionWID, QuantitationTypeWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `quanttypedimenswidquanttypewid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class quanttypedimenswidquanttypewid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("QuantitationTypeDimensionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeDimensionWID As Long
-    <DatabaseField("QuantitationTypeWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeWID As Long
+    <DatabaseField("QuantitationTypeDimensionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeDimensionWID"), XmlAttribute> Public Property QuantitationTypeDimensionWID As Long
+    <DatabaseField("QuantitationTypeWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeWID")> Public Property QuantitationTypeWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class quanttypedimenswidquanttypewid: Inherits Oracle.LinuxCompatibility.
         Return String.Format(UPDATE_SQL, QuantitationTypeDimensionWID, QuantitationTypeWID, QuantitationTypeDimensionWID)
     End Function
 #End Region
+Public Function Clone() As quanttypedimenswidquanttypewid
+                  Return DirectCast(MyClass.MemberwiseClone, quanttypedimenswidquanttypewid)
+              End Function
 End Class
 
 
 End Namespace
+

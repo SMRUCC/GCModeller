@@ -33,8 +33,8 @@
 
     ' Class Summary
     ' 
-    '     Properties: chrId, gAnnotated, Genus, gIdentified, Length
-    '                 Species, Strain, Topology
+    '     Properties: chrId, gAnnotated, Genus, gIdentified, GramStain
+    '                 Length, Species, Strain, Topology
     ' 
     '     Function: IndexParser, ToString
     ' 

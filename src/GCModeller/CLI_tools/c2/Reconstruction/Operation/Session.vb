@@ -36,7 +36,8 @@
     '             Properties: HomologousProteins, LocalBLAST, MYSQL, ReconstructedMetaCyc, Subject
     '                         WorkDir
     ' 
-    '             Sub: Intialize, New
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: Intialize
     '             Class HomologousProteinsF
     ' 
     '                 Properties: Proteins

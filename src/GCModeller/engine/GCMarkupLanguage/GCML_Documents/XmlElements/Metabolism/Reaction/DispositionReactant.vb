@@ -33,7 +33,7 @@
 
     '     Class DispositionReactant
     ' 
-    '         Properties: GeneralType, UPPER_BOUND
+    '         Properties: Enzymes, GeneralType, UPPER_BOUND
     ' 
     '         Function: ToString
     ' 

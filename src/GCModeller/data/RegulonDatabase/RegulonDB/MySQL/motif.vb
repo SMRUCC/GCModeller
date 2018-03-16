@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8eb613b293731e89804be32560a9b356, data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
+﻿#Region "Microsoft.VisualBasic::bed61fc00597fd49d2ad5d6da4acf658, data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class motif
     ' 
+    '     Properties: key_id_org, motif_description, motif_id, motif_internal_comment, motif_note
+    '                 motif_posleft, motif_posright, motif_sequence, motif_type, product_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -74,7 +80,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,16 +98,16 @@ CREATE TABLE `motif` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class motif: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("motif_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property motif_id As String
-    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property product_id As String
-    <DatabaseField("motif_posleft"), NotNull, DataType(MySqlDbType.Decimal)> Public Property motif_posleft As Decimal
-    <DatabaseField("motif_posright"), NotNull, DataType(MySqlDbType.Decimal)> Public Property motif_posright As Decimal
-    <DatabaseField("motif_sequence"), DataType(MySqlDbType.VarChar, "3000")> Public Property motif_sequence As String
-    <DatabaseField("motif_description"), DataType(MySqlDbType.VarChar, "4000")> Public Property motif_description As String
-    <DatabaseField("motif_type"), DataType(MySqlDbType.VarChar, "255")> Public Property motif_type As String
-    <DatabaseField("motif_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property motif_note As String
-    <DatabaseField("motif_internal_comment"), DataType(MySqlDbType.Text)> Public Property motif_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("motif_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="motif_id")> Public Property motif_id As String
+    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="product_id")> Public Property product_id As String
+    <DatabaseField("motif_posleft"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="motif_posleft")> Public Property motif_posleft As Decimal
+    <DatabaseField("motif_posright"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="motif_posright")> Public Property motif_posright As Decimal
+    <DatabaseField("motif_sequence"), DataType(MySqlDbType.VarChar, "3000"), Column(Name:="motif_sequence")> Public Property motif_sequence As String
+    <DatabaseField("motif_description"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="motif_description")> Public Property motif_description As String
+    <DatabaseField("motif_type"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="motif_type")> Public Property motif_type As String
+    <DatabaseField("motif_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="motif_note")> Public Property motif_note As String
+    <DatabaseField("motif_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="motif_internal_comment")> Public Property motif_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -153,7 +158,11 @@ Public Class motif: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As motif
+                  Return DirectCast(MyClass.MemberwiseClone, motif)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -46,9 +46,8 @@
     ' 
     '     Class ___bbhThread
     ' 
-    '         Function: __partionThreadsBBH, InvokeGet
-    ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: __partionThreadsBBH, __toSBH, InvokeGet
     ' 
     '  
     ' 

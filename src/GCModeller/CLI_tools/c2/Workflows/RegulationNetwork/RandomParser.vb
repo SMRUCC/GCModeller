@@ -33,7 +33,8 @@
 
     ' Class RandomParser
     ' 
-    '     Sub: Generate, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Generate
     ' 
     ' /********************************************************************************/
 

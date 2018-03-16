@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b00bbb0cc097090e051145815dd46ad3, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\app.vb"
+﻿#Region "Microsoft.VisualBasic::2ab0b8a6558d4369810d0cabba3e8ccf, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\app.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class app
     ' 
+    '     Properties: catagory, description, name, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +46,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -160,3 +163,4 @@ End Class
 
 
 End Namespace
+

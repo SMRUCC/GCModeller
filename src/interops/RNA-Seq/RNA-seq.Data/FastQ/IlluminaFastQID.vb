@@ -33,7 +33,9 @@
 
     '     Class IlluminaFastQID
     ' 
-    '         Properties: IsEmpty
+    '         Properties: ControlBits, Filtered, FlowCellID, FlowCellLane, IndexSequence
+    '                     instrument_name, IsEmpty, PairMember, RunID, Tiles
+    '                     X, Y
     ' 
     '         Function: IDParser, ToString
     ' 

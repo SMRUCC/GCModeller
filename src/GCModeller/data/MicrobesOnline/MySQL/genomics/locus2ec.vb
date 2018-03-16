@@ -33,6 +33,8 @@
 
     ' Class locus2ec
     ' 
+    '     Properties: ecNum, evidence, locusId, scaffoldId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -39,9 +39,8 @@
     '                     Model_MetabolismSystem, PathHash, RootDIR, ScriptMountPoint, SuppressErrorMessage
     '                     SuppressPeriodicMessage, SuppressWarnMessage, TrimMetabolism
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetPath, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

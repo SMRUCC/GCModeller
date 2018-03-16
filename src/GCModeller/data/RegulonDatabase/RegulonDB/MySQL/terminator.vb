@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7258ad2a58223a626dce254255fedd1b, data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
+﻿#Region "Microsoft.VisualBasic::207abb050a77bb09d68ac99aadf8b1ee, data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class terminator
     ' 
+    '     Properties: key_id_org, terminator_class, terminator_dist_gene, terminator_id, terminator_internal_comment
+    '                 terminator_note, terminator_posleft, terminator_posright, terminator_sequence
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `terminator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class terminator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("terminator_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property terminator_id As String
-    <DatabaseField("terminator_dist_gene"), DataType(MySqlDbType.Decimal)> Public Property terminator_dist_gene As Decimal
-    <DatabaseField("terminator_posleft"), DataType(MySqlDbType.Decimal)> Public Property terminator_posleft As Decimal
-    <DatabaseField("terminator_posright"), DataType(MySqlDbType.Decimal)> Public Property terminator_posright As Decimal
-    <DatabaseField("terminator_class"), DataType(MySqlDbType.VarChar, "30")> Public Property terminator_class As String
-    <DatabaseField("terminator_sequence"), DataType(MySqlDbType.VarChar, "200")> Public Property terminator_sequence As String
-    <DatabaseField("terminator_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property terminator_note As String
-    <DatabaseField("terminator_internal_comment"), DataType(MySqlDbType.Text)> Public Property terminator_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("terminator_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="terminator_id")> Public Property terminator_id As String
+    <DatabaseField("terminator_dist_gene"), DataType(MySqlDbType.Decimal), Column(Name:="terminator_dist_gene")> Public Property terminator_dist_gene As Decimal
+    <DatabaseField("terminator_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="terminator_posleft")> Public Property terminator_posleft As Decimal
+    <DatabaseField("terminator_posright"), DataType(MySqlDbType.Decimal), Column(Name:="terminator_posright")> Public Property terminator_posright As Decimal
+    <DatabaseField("terminator_class"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="terminator_class")> Public Property terminator_class As String
+    <DatabaseField("terminator_sequence"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="terminator_sequence")> Public Property terminator_sequence As String
+    <DatabaseField("terminator_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="terminator_note")> Public Property terminator_note As String
+    <DatabaseField("terminator_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="terminator_internal_comment")> Public Property terminator_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class terminator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As terminator
+                  Return DirectCast(MyClass.MemberwiseClone, terminator)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,7 @@
 
     ' Module vbhtml
     ' 
-    '     Function: GetIncludesPath, ParseVariables, TemplateInterplot
+    '     Function: GetIncludesPath, LoadStrings, ParseVariables, ReadHTML, TemplateInterplot
     ' 
     '     Sub: (+2 Overloads) ApplyStrings
     ' 

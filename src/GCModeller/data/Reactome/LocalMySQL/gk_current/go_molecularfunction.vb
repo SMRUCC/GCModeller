@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14db5e4a23886e522b45fa2ffed0900e, data\Reactome\LocalMySQL\gk_current\go_molecularfunction.vb"
+﻿#Region "Microsoft.VisualBasic::42dbac6af10e357121cb20f70c1b8943, data\Reactome\LocalMySQL\gk_current\go_molecularfunction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class go_molecularfunction
     ' 
+    '     Properties: accession, DB_ID, definition, referenceDatabase, referenceDatabase_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -73,7 +78,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,11 +95,11 @@ CREATE TABLE `go_molecularfunction` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class go_molecularfunction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("accession"), DataType(MySqlDbType.Text)> Public Property accession As String
-    <DatabaseField("definition"), DataType(MySqlDbType.Text)> Public Property definition As String
-    <DatabaseField("referenceDatabase"), DataType(MySqlDbType.Int64, "10")> Public Property referenceDatabase As Long
-    <DatabaseField("referenceDatabase_class"), DataType(MySqlDbType.VarChar, "64")> Public Property referenceDatabase_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("accession"), DataType(MySqlDbType.Text), Column(Name:="accession")> Public Property accession As String
+    <DatabaseField("definition"), DataType(MySqlDbType.Text), Column(Name:="definition")> Public Property definition As String
+    <DatabaseField("referenceDatabase"), DataType(MySqlDbType.Int64, "10"), Column(Name:="referenceDatabase")> Public Property referenceDatabase As Long
+    <DatabaseField("referenceDatabase_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="referenceDatabase_class")> Public Property referenceDatabase_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -146,7 +150,11 @@ Public Class go_molecularfunction: Inherits Oracle.LinuxCompatibility.MySQL.MySQ
         Return String.Format(UPDATE_SQL, DB_ID, accession, definition, referenceDatabase, referenceDatabase_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As go_molecularfunction
+                  Return DirectCast(MyClass.MemberwiseClone, go_molecularfunction)
+              End Function
 End Class
 
 
 End Namespace
+

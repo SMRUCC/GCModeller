@@ -33,6 +33,9 @@
 
     ' Class gene
     ' 
+    '     Properties: evidence, geneId, name, paralog, product
+    '                 productInfo, productType, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

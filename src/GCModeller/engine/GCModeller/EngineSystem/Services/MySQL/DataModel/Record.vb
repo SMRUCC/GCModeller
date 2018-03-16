@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class DataModelRecord
     ' 
-    '     Properties: DataModel, DeleteSQL, GUID, InsertSQL, RegistryNumber
-    '                 UpdateSQL
+    '         Properties: DataModel, DeleteSQL, GUID, InsertSQL, RegistryNumber
+    '                     UpdateSQL
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

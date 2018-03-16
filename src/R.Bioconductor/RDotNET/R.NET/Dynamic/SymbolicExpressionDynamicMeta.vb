@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa4be8a5ef5725f59617b70e2ad80161, RDotNET\R.NET\Dynamic\SymbolicExpressionDynamicMeta.vb"
+﻿#Region "Microsoft.VisualBasic::7e11bca18e557ad2e226b9df9a099bc7, RDotNET\R.NET\Dynamic\SymbolicExpressionDynamicMeta.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,11 @@
 
     ' 	Class SymbolicExpressionDynamicMeta
     ' 
+    ' 	    Constructor: (+1 Overloads) Sub New
+    ' 
     ' 	    Function: (+2 Overloads) BindGetMember, CreateDynamicMetaObject, GetAttributeNames, GetDynamicMemberNames
     ' 
-    ' 	    Sub: BuildInstanceAndName, New
+    ' 	    Sub: BuildInstanceAndName
     ' 
     ' 
     ' /********************************************************************************/

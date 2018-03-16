@@ -33,8 +33,9 @@
 
     '     Class Metabolite
     ' 
-    '         Properties: ChEBI, Formula, InitialAmount, KEGGCompound, MetaboliteType
-    '                     MetaCycId, MolWeight, n_FluxAssociated, PUBCHEM
+    '         Properties: ChEBI, CommonNames, Formula, Identifier, InitialAmount
+    '                     KEGGCompound, MetaboliteType, MetaCycId, MolWeight, n_FluxAssociated
+    '                     PUBCHEM
     ' 
     '         Function: (+3 Overloads) CreateObject, ToString, TrimSBMLMetaboliteName
     '         Class MappingComponentModel

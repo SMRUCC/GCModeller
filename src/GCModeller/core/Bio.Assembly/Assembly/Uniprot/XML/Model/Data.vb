@@ -33,21 +33,25 @@
 
     '     Class sequence
     ' 
+    '         Properties: checksum, length, mass, modified, sequence
+    '                     version
+    ' 
     '         Function: ToString
     ' 
     '     Class gene
     ' 
-    '         Properties: ORF, Primary
+    '         Properties: names, ORF, Primary
     ' 
     '         Function: HaveKey, ToString
     ' 
     '     Class organism
     ' 
-    '         Properties: commonName, dbReference, lineage, namesData, scientificName
+    '         Properties: commonName, dbReference, evidence, lineage, names
+    '                     namesData, scientificName
     ' 
     '     Class lineage
     ' 
-    ' 
+    '         Properties: taxonlist
     ' 
     '     Class protein
     ' 
@@ -55,7 +59,8 @@
     ' 
     '     Class feature
     ' 
-    '         Properties: location, original, variation
+    '         Properties: description, evidence, location, original, type
+    '                     value, variation
     ' 
     '         Function: ToString
     ' 
@@ -77,11 +82,13 @@
     ' 
     '     Class value
     ' 
+    '         Properties: description, evidence, id, type, value
+    ' 
     '         Function: ToString
     ' 
     '     Class dbReference
     ' 
-    '         Properties: molecule, properties
+    '         Properties: id, molecule, properties, type
     ' 
     '         Function: ToString
     ' 
@@ -92,6 +99,8 @@
     '         Function: ToString
     ' 
     '     Class [property]
+    ' 
+    '         Properties: type, value
     ' 
     '         Function: ToString
     ' 

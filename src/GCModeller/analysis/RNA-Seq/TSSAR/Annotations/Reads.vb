@@ -45,8 +45,8 @@
     ' 
     '     Class GeneAssociationView
     ' 
-    '         Properties: AssociatedGene, CIGAR, FLAG, MAPQ, NumberOfReads
-    '                     PNEXT, POS, Position
+    '         Properties: AssociatedGene, CIGAR, FLAG, getPosition, MAPQ
+    '                     NumberOfReads, PNEXT, POS, Position
     ' 
     '         Function: ToString
     ' 

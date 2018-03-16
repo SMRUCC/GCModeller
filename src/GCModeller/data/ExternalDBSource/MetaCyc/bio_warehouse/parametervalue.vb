@@ -33,6 +33,8 @@
 
     ' Class parametervalue
     ' 
+    '     Properties: DataSetWID, ParameterizableApplication, ParameterType, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

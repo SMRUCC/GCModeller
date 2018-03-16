@@ -33,6 +33,8 @@
 
     ' Class termrelationship
     ' 
+    '     Properties: RelatedTermWID, Relationship, TermWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

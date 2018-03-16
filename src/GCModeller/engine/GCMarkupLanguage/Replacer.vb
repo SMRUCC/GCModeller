@@ -33,9 +33,8 @@
 
     ' Class Replacer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ApplyReplacements, ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

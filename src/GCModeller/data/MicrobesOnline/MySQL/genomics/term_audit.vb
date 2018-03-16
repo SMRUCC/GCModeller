@@ -33,6 +33,8 @@
 
     ' Class term_audit
     ' 
+    '     Properties: term_id, term_loadtime
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

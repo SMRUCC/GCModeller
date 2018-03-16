@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5b8f586a0c0c5ecf161fa3dd6e47e42, data\ExternalDBSource\MetaCyc\MySQL\featurelocation.vb"
+﻿#Region "Microsoft.VisualBasic::142983ac1f0a9ff1cdb37668be4a7991, data\ExternalDBSource\MetaCyc\MySQL\featurelocation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class featurelocation
     ' 
+    '     Properties: Column_, DataSetWID, Row_, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,10 +91,10 @@ CREATE TABLE `featurelocation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class featurelocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Row_"), DataType(MySqlDbType.Int64, "6")> Public Property Row_ As Long
-    <DatabaseField("Column_"), DataType(MySqlDbType.Int64, "6")> Public Property Column_ As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Row_"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Row_")> Public Property Row_ As Long
+    <DatabaseField("Column_"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Column_")> Public Property Column_ As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +145,11 @@ Public Class featurelocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Row_, Column_, WID)
     End Function
 #End Region
+Public Function Clone() As featurelocation
+                  Return DirectCast(MyClass.MemberwiseClone, featurelocation)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::024a7a26c2ddf9d4a5c4ad1c3f4c2b33, data\Reactome\LocalMySQL\gk_current\concurrenteventset.vb"
+﻿#Region "Microsoft.VisualBasic::52bfb4dc8378f53d5b420d6ea0389711, data\Reactome\LocalMySQL\gk_current\concurrenteventset.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class concurrenteventset
     ' 
+    '     Properties: DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -66,7 +71,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,7 +81,7 @@ CREATE TABLE `concurrenteventset` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class concurrenteventset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -128,7 +132,11 @@ Public Class concurrenteventset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, DB_ID, DB_ID)
     End Function
 #End Region
+Public Function Clone() As concurrenteventset
+                  Return DirectCast(MyClass.MemberwiseClone, concurrenteventset)
+              End Function
 End Class
 
 
 End Namespace
+

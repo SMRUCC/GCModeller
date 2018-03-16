@@ -33,6 +33,8 @@
 
     '     Class var
     ' 
+    '         Properties: Comment, Title, Value
+    ' 
     '         Function: ToString, TryParse
     ' 
     ' 

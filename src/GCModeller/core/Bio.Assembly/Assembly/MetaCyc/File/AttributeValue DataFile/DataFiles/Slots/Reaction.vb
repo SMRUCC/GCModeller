@@ -33,7 +33,9 @@
 
     '     Class Reaction
     ' 
-    '         Properties: Reversible, Substrates, Table
+    '         Properties: DeltaG0, ECNumber, EnzymaticReaction, EnzymesNotused, Left
+    '                     ReactionDirection, RegulatedBy, Reversible, Right, RxnLocations
+    '                     Species, Spontaneous, Substrates, Table
     ' 
     '         Function: CreateSchemaItem, GetCoefficient, IsTransportReaction
     ' 

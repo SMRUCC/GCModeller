@@ -33,7 +33,7 @@
 
     '     Module APIName
     ' 
-    '         Function: (+2 Overloads) GetAPIName
+    '         Function: (+3 Overloads) GetAPIName
     ' 
     ' 
     ' /********************************************************************************/

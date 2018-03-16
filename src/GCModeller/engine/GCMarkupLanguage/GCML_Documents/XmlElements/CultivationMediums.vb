@@ -39,6 +39,8 @@
     ' 
     ' Class CultivationMediums
     ' 
+    '     Properties: Uptake_Substrates
+    ' 
     '     Function: MetaCycDefault
     ' 
     ' /********************************************************************************/

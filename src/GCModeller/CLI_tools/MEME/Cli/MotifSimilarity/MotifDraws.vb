@@ -35,9 +35,8 @@
     ' 
     '     Properties: FamilyMotifs
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: (+2 Overloads) CreateViews
-    ' 
-    '     Sub: New
     ' 
     ' Class MotifSWTViews
     ' 

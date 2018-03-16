@@ -33,15 +33,13 @@
 
     '     Structure Relationship
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Structure is_a
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,10 +35,12 @@
     ' 
     '     Properties: Height, RuleFont, Width
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: __chrMapDrawerProcessor, __filteringSiteData, __getRuleText, __invokeDrawing, ExportColorProfiles
     '               InvokeDrawing
     ' 
-    '     Sub: __drawChromosomeSites, __drawRuleLine, __initialization, (+3 Overloads) New
+    '     Sub: __drawChromosomeSites, __drawRuleLine, __initialization
     '     Class __args
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1df867a501c18dfc1d29d3239a4d643c, data\ExternalDBSource\MetaCyc\MySQL\namevaluetype.vb"
+﻿#Region "Microsoft.VisualBasic::003965cf45a260ee1dba56f3728a8e24, data\ExternalDBSource\MetaCyc\MySQL\namevaluetype.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class namevaluetype
     ' 
+    '     Properties: DataSetWID, Name, NameValueType_PropertySets, OtherWID, Type_
+    '                 Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -76,7 +82,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,13 +102,13 @@ CREATE TABLE `namevaluetype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class namevaluetype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("Value"), DataType(MySqlDbType.VarChar, "255")> Public Property Value As String
-    <DatabaseField("Type_"), DataType(MySqlDbType.VarChar, "255")> Public Property Type_ As String
-    <DatabaseField("NameValueType_PropertySets"), DataType(MySqlDbType.Int64, "20")> Public Property NameValueType_PropertySets As Long
-    <DatabaseField("OtherWID"), DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Value"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Value")> Public Property Value As String
+    <DatabaseField("Type_"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Type_")> Public Property Type_ As String
+    <DatabaseField("NameValueType_PropertySets"), DataType(MySqlDbType.Int64, "20"), Column(Name:="NameValueType_PropertySets")> Public Property NameValueType_PropertySets As Long
+    <DatabaseField("OtherWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -154,7 +159,11 @@ Public Class namevaluetype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Name, Value, Type_, NameValueType_PropertySets, OtherWID, WID)
     End Function
 #End Region
+Public Function Clone() As namevaluetype
+                  Return DirectCast(MyClass.MemberwiseClone, namevaluetype)
+              End Function
 End Class
 
 
 End Namespace
+

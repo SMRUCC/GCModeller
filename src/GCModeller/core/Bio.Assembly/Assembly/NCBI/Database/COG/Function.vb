@@ -33,13 +33,12 @@
 
     '     Class [Function]
     ' 
-    '         Properties: NotAssigned
+    '         Properties: Catalogs, NotAssigned
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: [Default], __getCategory, __trimCOGs, CanbeCategoryAs, Category
     '                   ClassCategory, GetCatalog, (+2 Overloads) GetCategories, GetCategory, IndexOf
     '                   Statistics
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

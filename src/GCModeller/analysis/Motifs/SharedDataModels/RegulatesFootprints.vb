@@ -33,8 +33,9 @@
 
     '     Class RegulatesFootprints
     ' 
-    '         Properties: [Class], Category, DoorId, InteractionType, MotifFamily
-    '                     Pcc, Regulator, sPcc, tag, Type
+    '         Properties: [Class], Category, DoorId, InitX, InteractionType
+    '                     MotifFamily, MotifTrace, ORF, Pcc, Regulator
+    '                     RegulatorTrace, sPcc, StructGenes, tag, Type
     '                     WGCNA
     ' 
     '         Function: __posUid, __posUidNonStrict, Equals, ToString, TraceUid

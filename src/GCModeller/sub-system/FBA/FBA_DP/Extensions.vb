@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '  
+    ' Module Extensions
     ' 
-    ' 
+    '     Function: GenerateLine, PToken, Width
     ' 
     ' /********************************************************************************/
 

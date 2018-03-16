@@ -35,9 +35,11 @@
     ' 
     '     Properties: pseudocount
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: binarySearch, getSmoothedValue, ToString
     ' 
-    '     Sub: generateHistogram, Main, (+3 Overloads) New, normalize, smoothData
+    '     Sub: generateHistogram, Main, normalize, smoothData
     ' 
     ' /********************************************************************************/
 

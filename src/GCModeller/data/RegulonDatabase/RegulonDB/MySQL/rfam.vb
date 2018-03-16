@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7b5438abe6302584560b1bfdea2d7ae, data\RegulonDatabase\RegulonDB\MySQL\rfam.vb"
+﻿#Region "Microsoft.VisualBasic::67bfb00da173591afdf03856cf8767e6, data\RegulonDatabase\RegulonDB\MySQL\rfam.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class rfam
     ' 
+    '     Properties: gene_id, rfam_description, rfam_id, rfam_posleft, rfam_posright
+    '                 rfam_score, rfam_sequence, rfam_strand, rfam_type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `rfam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class rfam: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("rfam_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property rfam_id As String
-    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("rfam_type"), DataType(MySqlDbType.VarChar, "100")> Public Property rfam_type As String
-    <DatabaseField("rfam_description"), DataType(MySqlDbType.VarChar, "2000")> Public Property rfam_description As String
-    <DatabaseField("rfam_score"), DataType(MySqlDbType.Decimal)> Public Property rfam_score As Decimal
-    <DatabaseField("rfam_strand"), DataType(MySqlDbType.VarChar, "12")> Public Property rfam_strand As String
-    <DatabaseField("rfam_posleft"), DataType(MySqlDbType.Decimal)> Public Property rfam_posleft As Decimal
-    <DatabaseField("rfam_posright"), DataType(MySqlDbType.Decimal)> Public Property rfam_posright As Decimal
-    <DatabaseField("rfam_sequence"), DataType(MySqlDbType.VarChar, "1000")> Public Property rfam_sequence As String
+    <DatabaseField("rfam_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="rfam_id")> Public Property rfam_id As String
+    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("rfam_type"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="rfam_type")> Public Property rfam_type As String
+    <DatabaseField("rfam_description"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="rfam_description")> Public Property rfam_description As String
+    <DatabaseField("rfam_score"), DataType(MySqlDbType.Decimal), Column(Name:="rfam_score")> Public Property rfam_score As Decimal
+    <DatabaseField("rfam_strand"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="rfam_strand")> Public Property rfam_strand As String
+    <DatabaseField("rfam_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="rfam_posleft")> Public Property rfam_posleft As Decimal
+    <DatabaseField("rfam_posright"), DataType(MySqlDbType.Decimal), Column(Name:="rfam_posright")> Public Property rfam_posright As Decimal
+    <DatabaseField("rfam_sequence"), DataType(MySqlDbType.VarChar, "1000"), Column(Name:="rfam_sequence")> Public Property rfam_sequence As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class rfam: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As rfam
+                  Return DirectCast(MyClass.MemberwiseClone, rfam)
+              End Function
 End Class
 
 
 End Namespace
+

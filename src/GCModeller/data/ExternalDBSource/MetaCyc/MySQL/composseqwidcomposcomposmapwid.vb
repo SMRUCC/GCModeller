@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e7ff180af247e18baa1590024eb304d, data\ExternalDBSource\MetaCyc\MySQL\composseqwidcomposcomposmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::24377ff51bc93878e7c9efd570c4529a, data\ExternalDBSource\MetaCyc\MySQL\composseqwidcomposcomposmapwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class composseqwidcomposcomposmapwid
     ' 
+    '     Properties: CompositeCompositeMapWID, CompositeSequenceWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `composseqwidcomposcomposmapwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class composseqwidcomposcomposmapwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("CompositeSequenceWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property CompositeSequenceWID As Long
-    <DatabaseField("CompositeCompositeMapWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property CompositeCompositeMapWID As Long
+    <DatabaseField("CompositeSequenceWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="CompositeSequenceWID"), XmlAttribute> Public Property CompositeSequenceWID As Long
+    <DatabaseField("CompositeCompositeMapWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="CompositeCompositeMapWID")> Public Property CompositeCompositeMapWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class composseqwidcomposcomposmapwid: Inherits Oracle.LinuxCompatibility.
         Return String.Format(UPDATE_SQL, CompositeSequenceWID, CompositeCompositeMapWID, CompositeSequenceWID)
     End Function
 #End Region
+Public Function Clone() As composseqwidcomposcomposmapwid
+                  Return DirectCast(MyClass.MemberwiseClone, composseqwidcomposcomposmapwid)
+              End Function
 End Class
 
 
 End Namespace
+

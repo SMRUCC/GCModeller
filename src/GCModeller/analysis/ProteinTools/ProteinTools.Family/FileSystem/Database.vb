@@ -35,9 +35,8 @@
     ' 
     '         Properties: lstDb, Repository
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __init, (+2 Overloads) Add, EntireDb, GetDatabase, ManualAdd
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

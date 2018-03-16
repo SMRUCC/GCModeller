@@ -33,6 +33,8 @@
 
     ' Class pathway
     ' 
+    '     Properties: id, mapId, title
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

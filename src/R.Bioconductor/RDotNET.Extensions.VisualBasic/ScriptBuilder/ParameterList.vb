@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce955e554288c56645c69ac457ffa4de, RDotNET.Extensions.VisualBasic\ScriptBuilder\ParameterList.vb"
+﻿#Region "Microsoft.VisualBasic::1e31073336e21442948e94460740bd52, RDotNET.Extensions.VisualBasic\ScriptBuilder\ParameterList.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '         Properties: parameters
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

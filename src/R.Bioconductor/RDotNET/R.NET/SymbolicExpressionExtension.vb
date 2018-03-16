@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2a80aee7862cc90d34d1d38b7b0819d, RDotNET\R.NET\SymbolicExpressionExtension.vb"
+﻿#Region "Microsoft.VisualBasic::af2f53e7848ef70d631c544ffe8a0b12, RDotNET\R.NET\SymbolicExpressionExtension.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,11 @@
     ' 
     '     Function: AsCharacter, AsCharacterMatrix, AsComplex, AsComplexMatrix, AsDataFrame
     '               AsEnvironment, AsExpression, AsFactor, AsFunction, AsInteger
-    '               AsIntegerMatrix, AsLanguage, AsLogical, AsLogicalMatrix, AsNumeric
-    '               AsNumericMatrix, AsRaw, AsRawMatrix, AsS4, AsSymbol
-    '               AsVector, IsDataFrame, IsEnvironment, IsExpression, IsFactor
-    '               IsFunction, IsLanguage, IsList, IsMatrix, IsS4
-    '               IsSymbol, IsVector
+    '               AsIntegerMatrix, AsLanguage, AsList, AsLogical, AsLogicalMatrix
+    '               AsNumeric, AsNumericMatrix, AsRaw, AsRawMatrix, AsS4
+    '               AsSymbol, AsVector, IsDataFrame, IsEnvironment, IsExpression
+    '               IsFactor, IsFunction, IsLanguage, IsList, IsMatrix
+    '               IsS4, IsSymbol, IsVector
     ' 
     ' /********************************************************************************/
 

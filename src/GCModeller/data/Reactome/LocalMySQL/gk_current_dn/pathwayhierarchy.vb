@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::510dd3c27c0caf0d1dfce4340b6efba8, data\Reactome\LocalMySQL\gk_current_dn\pathwayhierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::3335b24de26ed278d49f8163d10380b1, data\Reactome\LocalMySQL\gk_current_dn\pathwayhierarchy.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwayhierarchy
     ' 
+    '     Properties: childPathwayId, pathwayId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -68,7 +73,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,8 +85,8 @@ CREATE TABLE `pathwayhierarchy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class pathwayhierarchy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("pathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property pathwayId As Long
-    <DatabaseField("childPathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property childPathwayId As Long
+    <DatabaseField("pathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="pathwayId"), XmlAttribute> Public Property pathwayId As Long
+    <DatabaseField("childPathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="childPathwayId"), XmlAttribute> Public Property childPathwayId As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -133,7 +137,11 @@ Public Class pathwayhierarchy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, pathwayId, childPathwayId, pathwayId, childPathwayId)
     End Function
 #End Region
+Public Function Clone() As pathwayhierarchy
+                  Return DirectCast(MyClass.MemberwiseClone, pathwayhierarchy)
+              End Function
 End Class
 
 
 End Namespace
+

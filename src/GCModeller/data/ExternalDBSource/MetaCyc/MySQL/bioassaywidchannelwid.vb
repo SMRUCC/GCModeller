@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b08e9cc94ab29dff1e9c354836669c20, data\ExternalDBSource\MetaCyc\MySQL\bioassaywidchannelwid.vb"
+﻿#Region "Microsoft.VisualBasic::6aaea34c77ca966811958531e70cea6d, data\ExternalDBSource\MetaCyc\MySQL\bioassaywidchannelwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class bioassaywidchannelwid
     ' 
+    '     Properties: BioAssayWID, ChannelWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `bioassaywidchannelwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bioassaywidchannelwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("BioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioAssayWID As Long
-    <DatabaseField("ChannelWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ChannelWID As Long
+    <DatabaseField("BioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayWID"), XmlAttribute> Public Property BioAssayWID As Long
+    <DatabaseField("ChannelWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ChannelWID")> Public Property ChannelWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class bioassaywidchannelwid: Inherits Oracle.LinuxCompatibility.MySQL.MyS
         Return String.Format(UPDATE_SQL, BioAssayWID, ChannelWID, BioAssayWID)
     End Function
 #End Region
+Public Function Clone() As bioassaywidchannelwid
+                  Return DirectCast(MyClass.MemberwiseClone, bioassaywidchannelwid)
+              End Function
 End Class
 
 
 End Namespace
+

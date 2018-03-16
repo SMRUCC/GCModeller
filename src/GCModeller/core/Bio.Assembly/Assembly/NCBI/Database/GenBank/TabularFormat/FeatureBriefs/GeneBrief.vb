@@ -33,12 +33,13 @@
 
     '     Class GeneBrief
     ' 
-    '         Properties: ATG, IsBlankSegment, Location, TGA
+    '         Properties: ATG, Code, COG, Gene, IsBlankSegment
+    '                     IsORF, Length, Location, PID, Product
+    '                     Synonym, TGA
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Clone, (+2 Overloads) CreateObject, (+2 Overloads) DocumentParser, getCOGEntry, Strand
     '                   ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

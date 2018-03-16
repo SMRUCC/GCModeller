@@ -33,6 +33,8 @@
 
     ' Class arraygroupwidarraywid
     ' 
+    '     Properties: ArrayGroupWID, ArrayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

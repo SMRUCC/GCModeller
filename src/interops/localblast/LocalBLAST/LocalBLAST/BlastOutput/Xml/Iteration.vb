@@ -33,6 +33,9 @@
 
     '     Class Iteration
     ' 
+    '         Properties: Hits, IterNum, QueryDef, QueryId, QueryLen
+    '                     Stat
+    ' 
     '         Function: BestHit, GrepHits, GrepQuery, ToString
     ' 
     ' 

@@ -33,15 +33,16 @@
 
     '     Class MEMEXmlBase
     ' 
-    '         Sub: New
+    '         Properties: Release, Version
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class ModelBase
     ' 
     '         Properties: CommandLine, Host
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

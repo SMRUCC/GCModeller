@@ -35,9 +35,8 @@
     ' 
     '         Properties: Composition, Mass, Orthology
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __parseOrthology, Download, DownloadFrom, ToCompound
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

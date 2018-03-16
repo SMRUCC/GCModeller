@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::217d5d200a2c23b91d9f2545635e02d7, data\ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
+﻿#Region "Microsoft.VisualBasic::30653159543545138f10854543d9bd94, data\ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class derivbioawidderivbioadatawid
     ' 
+    '     Properties: DerivedBioAssayDataWID, DerivedBioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `derivbioawidderivbioadatawid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class derivbioawidderivbioadatawid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DerivedBioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DerivedBioAssayWID As Long
-    <DatabaseField("DerivedBioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DerivedBioAssayDataWID As Long
+    <DatabaseField("DerivedBioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DerivedBioAssayWID"), XmlAttribute> Public Property DerivedBioAssayWID As Long
+    <DatabaseField("DerivedBioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DerivedBioAssayDataWID")> Public Property DerivedBioAssayDataWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class derivbioawidderivbioadatawid: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, DerivedBioAssayWID, DerivedBioAssayDataWID, DerivedBioAssayWID)
     End Function
 #End Region
+Public Function Clone() As derivbioawidderivbioadatawid
+                  Return DirectCast(MyClass.MemberwiseClone, derivbioawidderivbioadatawid)
+              End Function
 End Class
 
 
 End Namespace
+

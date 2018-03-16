@@ -35,9 +35,8 @@
     ' 
     '         Properties: CodonFrequencyStatics
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __staticsOfMaxFrequencyCodon, CAI, ToString, W
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

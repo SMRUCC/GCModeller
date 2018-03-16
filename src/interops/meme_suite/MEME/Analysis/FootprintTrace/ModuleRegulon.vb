@@ -33,7 +33,8 @@
 
     '     Module ModuleRegulon
     ' 
-    '         Function: __creates, FillSites, GetRegulons, ToFootprints, (+2 Overloads) ToRegulons
+    '         Function: __creates, FillSites, GetMapHash, GetRegulons, ToFootprints
+    '                   (+2 Overloads) ToRegulons
     ' 
     ' 
     ' /********************************************************************************/

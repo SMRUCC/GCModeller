@@ -33,11 +33,14 @@
 
     '     Class MapIndex
     ' 
-    '         Properties: KeyVector, Map, MapID, MapTitle
+    '         Properties: CompoundIndex, Index, KeyVector, KOIndex, Map
+    '                     MapID, MapTitle
     ' 
     '         Function: ToString
     ' 
     '     Class MapRepository
+    ' 
+    '         Properties: Maps
     ' 
     '         Function: BuildRepository, CreateIndex, Exists, GetAll, GetByKey
     '                   GetWhere, QueryMapsByMembers

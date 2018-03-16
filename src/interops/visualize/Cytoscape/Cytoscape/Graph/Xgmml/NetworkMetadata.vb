@@ -33,9 +33,14 @@
 
     '     Class InnerRDF
     ' 
+    '         Properties: meta
+    ' 
     '         Function: ToString
     ' 
     '     Class NetworkMetadata
+    ' 
+    '         Properties: [Date], Description, Format, Identifer, InteractionType
+    '                     Source, Title
     ' 
     '         Function: ToString
     ' 

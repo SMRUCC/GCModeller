@@ -33,8 +33,8 @@
 
     '     Class Feature
     ' 
-    '         Properties: Count, IsReadOnly, Keys, PairedValues, SequenceData
-    '                     Values
+    '         Properties: Count, IsReadOnly, KeyName, Keys, Location
+    '                     PairedValues, SequenceData, Values
     ' 
     '         Function: __parser, Contains, ContainsKey, GetEnumerator, GetEnumerator1
     '                   (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove, SetValue

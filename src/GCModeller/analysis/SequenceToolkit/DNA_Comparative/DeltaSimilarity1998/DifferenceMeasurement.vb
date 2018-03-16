@@ -33,7 +33,7 @@
 
     '     Module DifferenceMeasurement
     ' 
-    '         Function: __bias, InternalBIAS, (+5 Overloads) Sigma
+    '         Function: __bias, InternalBIAS, (+5 Overloads) Sigma, SimilarDescription
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a739adece55af958daa5a9a18cc8e892, data\ExternalDBSource\MetaCyc\MySQL\reactant.vb"
+﻿#Region "Microsoft.VisualBasic::e44a7a03578d763ea9b2e30212318eda, data\ExternalDBSource\MetaCyc\MySQL\reactant.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactant
     ' 
+    '     Properties: Coefficient, OtherWID, ReactionWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -69,7 +74,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `reactant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reactant: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ReactionWID As Long
-    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("Coefficient"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Coefficient As Long
+    <DatabaseField("ReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ReactionWID"), XmlAttribute> Public Property ReactionWID As Long
+    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
+    <DatabaseField("Coefficient"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Coefficient")> Public Property Coefficient As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class reactant: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, ReactionWID, OtherWID, Coefficient, ReactionWID)
     End Function
 #End Region
+Public Function Clone() As reactant
+                  Return DirectCast(MyClass.MemberwiseClone, reactant)
+              End Function
 End Class
 
 
 End Namespace
+

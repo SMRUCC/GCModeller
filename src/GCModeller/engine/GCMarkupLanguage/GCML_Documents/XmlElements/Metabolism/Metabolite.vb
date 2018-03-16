@@ -33,7 +33,8 @@
 
     '     Class Metabolite
     ' 
-    '         Properties: CommonName, InitialAmount, MetaboliteType, MolWeight, NumOfFluxAssociated
+    '         Properties: BoundaryCondition, CommonName, Compartment, Identifier, InitialAmount
+    '                     MetaboliteType, MolWeight, NumOfFluxAssociated
     '         Enum MetaboliteTypes
     ' 
     '             Compound, Polypeptide, ProteinComplexes, Transcript

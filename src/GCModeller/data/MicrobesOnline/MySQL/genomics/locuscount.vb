@@ -33,6 +33,8 @@
 
     ' Class locuscount
     ' 
+    '     Properties: nGenes, scaffoldId, taxonomyId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

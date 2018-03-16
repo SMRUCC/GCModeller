@@ -33,11 +33,11 @@
 
     '     Class Reference
     ' 
-    '         Properties: Authors, PMID, Title
+    '         Properties: Authors, DOI, Journal, PMID, Reference
+    '                     Title
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ReferenceParserHTML, References, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

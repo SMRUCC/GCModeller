@@ -36,9 +36,8 @@
     '         Properties: b, File1, File2, File3, n
     '                     t1, t2
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __R_script
-    ' 
-    '         Sub: New
     ' 
     '     Class PFSNetResultOut
     ' 

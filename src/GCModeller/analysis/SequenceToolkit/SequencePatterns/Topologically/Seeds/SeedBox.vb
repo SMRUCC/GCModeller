@@ -33,9 +33,8 @@
 
     '     Class SeedBox
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: PopulateSeeds, PopulateSeedsFromSeedsFile, PopulateSeedsFromSequence, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

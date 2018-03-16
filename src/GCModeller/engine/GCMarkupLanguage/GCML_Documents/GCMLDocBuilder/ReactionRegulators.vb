@@ -33,9 +33,8 @@
 
     '     Class ReactionRegulators
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateRegulator, Invoke
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

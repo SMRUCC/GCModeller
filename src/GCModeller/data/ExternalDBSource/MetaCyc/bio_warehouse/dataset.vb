@@ -33,6 +33,10 @@
 
     ' Class dataset
     ' 
+    '     Properties: Application, ApplicationVersion, ChangeDate, HomeURL, LoadDate
+    '                 LoadedBy, Name, QueryURL, ReleaseDate, Version
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

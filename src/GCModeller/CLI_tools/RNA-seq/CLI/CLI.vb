@@ -33,14 +33,13 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: DEGs, DEGsUpDown, DESeq2, Df, DOORCorrects
     '               HTSeqCount, PCC, RPKM, SamplingStats, sIdMapping
     '               SPCC
-    ' 
-    '     Sub: New
     '     Class SampleValue
     ' 
-    '         Properties: Description, Name
+    '         Properties: Description, Name, value
     ' 
     '         Function: ToString
     ' 

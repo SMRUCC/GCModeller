@@ -35,9 +35,11 @@
     ' 
     '         Properties: CanRead, CanSeek, CanWrite, Length, Position
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Read, ReadByte, Seek
     ' 
-    '         Sub: Flush, New, SetLength, Write
+    '         Sub: Flush, SetLength, Write
     ' 
     ' 
     ' /********************************************************************************/

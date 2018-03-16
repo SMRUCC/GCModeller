@@ -36,7 +36,7 @@
     '     Function: __creates, __generate, __getEffectors, (+2 Overloads) CreateObject
     '     Class Regulation
     ' 
-    '         Properties: GeneId
+    '         Properties: Effectors, GeneId, Regulator
     ' 
     ' 
     ' 

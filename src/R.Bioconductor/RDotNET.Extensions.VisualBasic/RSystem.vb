@@ -1,54 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::d2df1b9fc733ead078b975735aaab867, RDotNET.Extensions.VisualBasic\Extensions\System.vb"
+﻿#Region "Microsoft.VisualBasic::7607a0a3a84fbbc7eb08e8ac51d419c8, RDotNET.Extensions.VisualBasic\RSystem.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class ExtendedEngine
-' 
-'     Properties: [call]
-' 
-'     Function: __init, Evaluate, hasSlot
-' 
-'     Sub: __cleanHook, (+2 Overloads) New
-' 
-' Module RSystem
-' 
-'     Properties: R, RColors
-' 
-'     Function: ColorMaps, getwd, Library, packageVersion, params
-'               setwd, source
-' 
-'     Sub: New, (+2 Overloads) TryInit
-' 
-' /********************************************************************************/
+    ' Module RSystem
+    ' 
+    '     Properties: R, RColors
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: ColorMaps, getwd, Library, packageVersion, params
+    '               setwd, source
+    ' 
+    '     Sub: (+2 Overloads) TryInit
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -33,6 +33,9 @@
 
     ' Class description
     ' 
+    '     Properties: created, description, descriptionId, locusId, source
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

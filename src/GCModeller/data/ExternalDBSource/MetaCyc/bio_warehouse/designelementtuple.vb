@@ -33,6 +33,8 @@
 
     ' Class designelementtuple
     ' 
+    '     Properties: BioAssayTuple, DataSetWID, DesignElement, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

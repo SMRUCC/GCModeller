@@ -33,7 +33,7 @@
 
     '     Module KEGG_API
     ' 
-    '         Function: (+2 Overloads) __export, Export, EXPORT
+    '         Function: (+2 Overloads) __export, (+2 Overloads) Export, EXPORT
     ' 
     ' 
     ' /********************************************************************************/

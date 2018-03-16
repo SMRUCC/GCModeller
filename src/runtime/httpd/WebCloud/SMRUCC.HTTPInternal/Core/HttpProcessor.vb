@@ -36,11 +36,13 @@
     '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
     '                     IsWWWRoot, Out
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __streamReadLine, parseRequest, ToString
     ' 
     '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-    '              HandlePOSTRequest, New, Process, readHeaders, WriteData
-    '              writeFailure, WriteLine, (+2 Overloads) writeSuccess
+    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+    '              WriteLine, (+2 Overloads) writeSuccess
     ' 
     ' 
     ' /********************************************************************************/

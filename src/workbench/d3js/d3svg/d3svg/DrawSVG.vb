@@ -35,9 +35,11 @@
     ' 
     '     Properties: GIMP
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: ReadsvgPixbufFromFileWithSize, SaveGdkPixbuf, SetDllDirectory, ToString
     ' 
-    '     Sub: GraphicsTypeInit, New, RasterizeSvg
+    '     Sub: GraphicsTypeInit, RasterizeSvg
     ' 
     ' /********************************************************************************/
 

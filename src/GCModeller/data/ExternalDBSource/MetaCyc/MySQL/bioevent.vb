@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87fcfe64139783564abe301601d3cd1a, data\ExternalDBSource\MetaCyc\MySQL\bioevent.vb"
+﻿#Region "Microsoft.VisualBasic::cc9057de6454a584332fa45313fa5ce8, data\ExternalDBSource\MetaCyc\MySQL\bioevent.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,12 @@
 
     ' Class bioevent
     ' 
+    '     Properties: Array_, BioAssayMapTarget, BioMaterial_Treatments, CompositeSequence, CompositeSequence2
+    '                 DataSetWID, DerivedBioAssayDataTarget, DesignElementMapping, Identifier, MAGEClass
+    '                 MeasuredBioAssayTarget, Name, Order_, PhysicalBioAssay, PhysicalBioAssay2
+    '                 PhysicalBioAssaySource, PhysicalBioAssayTarget, QuantitationTypeMapping, Reporter, Target
+    '                 TargetQuantitationType, Transformation_BioAssayMapping, Treatment_Action, Treatment_ActionMeasurement, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +48,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -130,7 +139,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -205,31 +213,31 @@ CREATE TABLE `bioevent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bioevent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("CompositeSequence"), DataType(MySqlDbType.Int64, "20")> Public Property CompositeSequence As Long
-    <DatabaseField("Reporter"), DataType(MySqlDbType.Int64, "20")> Public Property Reporter As Long
-    <DatabaseField("CompositeSequence2"), DataType(MySqlDbType.Int64, "20")> Public Property CompositeSequence2 As Long
-    <DatabaseField("BioAssayMapTarget"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayMapTarget As Long
-    <DatabaseField("TargetQuantitationType"), DataType(MySqlDbType.Int64, "20")> Public Property TargetQuantitationType As Long
-    <DatabaseField("DerivedBioAssayDataTarget"), DataType(MySqlDbType.Int64, "20")> Public Property DerivedBioAssayDataTarget As Long
-    <DatabaseField("QuantitationTypeMapping"), DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeMapping As Long
-    <DatabaseField("DesignElementMapping"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElementMapping As Long
-    <DatabaseField("Transformation_BioAssayMapping"), DataType(MySqlDbType.Int64, "20")> Public Property Transformation_BioAssayMapping As Long
-    <DatabaseField("BioMaterial_Treatments"), DataType(MySqlDbType.Int64, "20")> Public Property BioMaterial_Treatments As Long
-    <DatabaseField("Order_"), DataType(MySqlDbType.Int64, "6")> Public Property Order_ As Long
-    <DatabaseField("Treatment_Action"), DataType(MySqlDbType.Int64, "20")> Public Property Treatment_Action As Long
-    <DatabaseField("Treatment_ActionMeasurement"), DataType(MySqlDbType.Int64, "20")> Public Property Treatment_ActionMeasurement As Long
-    <DatabaseField("Array_"), DataType(MySqlDbType.Int64, "20")> Public Property Array_ As Long
-    <DatabaseField("PhysicalBioAssayTarget"), DataType(MySqlDbType.Int64, "20")> Public Property PhysicalBioAssayTarget As Long
-    <DatabaseField("PhysicalBioAssay"), DataType(MySqlDbType.Int64, "20")> Public Property PhysicalBioAssay As Long
-    <DatabaseField("Target"), DataType(MySqlDbType.Int64, "20")> Public Property Target As Long
-    <DatabaseField("PhysicalBioAssaySource"), DataType(MySqlDbType.Int64, "20")> Public Property PhysicalBioAssaySource As Long
-    <DatabaseField("MeasuredBioAssayTarget"), DataType(MySqlDbType.Int64, "20")> Public Property MeasuredBioAssayTarget As Long
-    <DatabaseField("PhysicalBioAssay2"), DataType(MySqlDbType.Int64, "20")> Public Property PhysicalBioAssay2 As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("CompositeSequence"), DataType(MySqlDbType.Int64, "20"), Column(Name:="CompositeSequence")> Public Property CompositeSequence As Long
+    <DatabaseField("Reporter"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Reporter")> Public Property Reporter As Long
+    <DatabaseField("CompositeSequence2"), DataType(MySqlDbType.Int64, "20"), Column(Name:="CompositeSequence2")> Public Property CompositeSequence2 As Long
+    <DatabaseField("BioAssayMapTarget"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayMapTarget")> Public Property BioAssayMapTarget As Long
+    <DatabaseField("TargetQuantitationType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="TargetQuantitationType")> Public Property TargetQuantitationType As Long
+    <DatabaseField("DerivedBioAssayDataTarget"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DerivedBioAssayDataTarget")> Public Property DerivedBioAssayDataTarget As Long
+    <DatabaseField("QuantitationTypeMapping"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeMapping")> Public Property QuantitationTypeMapping As Long
+    <DatabaseField("DesignElementMapping"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementMapping")> Public Property DesignElementMapping As Long
+    <DatabaseField("Transformation_BioAssayMapping"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Transformation_BioAssayMapping")> Public Property Transformation_BioAssayMapping As Long
+    <DatabaseField("BioMaterial_Treatments"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioMaterial_Treatments")> Public Property BioMaterial_Treatments As Long
+    <DatabaseField("Order_"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Order_")> Public Property Order_ As Long
+    <DatabaseField("Treatment_Action"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Treatment_Action")> Public Property Treatment_Action As Long
+    <DatabaseField("Treatment_ActionMeasurement"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Treatment_ActionMeasurement")> Public Property Treatment_ActionMeasurement As Long
+    <DatabaseField("Array_"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Array_")> Public Property Array_ As Long
+    <DatabaseField("PhysicalBioAssayTarget"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PhysicalBioAssayTarget")> Public Property PhysicalBioAssayTarget As Long
+    <DatabaseField("PhysicalBioAssay"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PhysicalBioAssay")> Public Property PhysicalBioAssay As Long
+    <DatabaseField("Target"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Target")> Public Property Target As Long
+    <DatabaseField("PhysicalBioAssaySource"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PhysicalBioAssaySource")> Public Property PhysicalBioAssaySource As Long
+    <DatabaseField("MeasuredBioAssayTarget"), DataType(MySqlDbType.Int64, "20"), Column(Name:="MeasuredBioAssayTarget")> Public Property MeasuredBioAssayTarget As Long
+    <DatabaseField("PhysicalBioAssay2"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PhysicalBioAssay2")> Public Property PhysicalBioAssay2 As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -280,7 +288,11 @@ Public Class bioevent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, CompositeSequence, Reporter, CompositeSequence2, BioAssayMapTarget, TargetQuantitationType, DerivedBioAssayDataTarget, QuantitationTypeMapping, DesignElementMapping, Transformation_BioAssayMapping, BioMaterial_Treatments, Order_, Treatment_Action, Treatment_ActionMeasurement, Array_, PhysicalBioAssayTarget, PhysicalBioAssay, Target, PhysicalBioAssaySource, MeasuredBioAssayTarget, PhysicalBioAssay2, WID)
     End Function
 #End Region
+Public Function Clone() As bioevent
+                  Return DirectCast(MyClass.MemberwiseClone, bioevent)
+              End Function
 End Class
 
 
 End Namespace
+

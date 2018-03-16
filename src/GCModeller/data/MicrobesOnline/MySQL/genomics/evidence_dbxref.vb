@@ -33,6 +33,8 @@
 
     ' Class evidence_dbxref
     ' 
+    '     Properties: dbxref_id, evidence_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

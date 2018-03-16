@@ -33,6 +33,8 @@
 
     ' Class enzreactioninhibitoractivator
     ' 
+    '     Properties: CompoundWID, EnzymaticReactionWID, InhibitOrActivate, Mechanism, PhysioRelevant
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,10 +33,9 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: BuildCOG, BuildFamily, BuildKO, BuildOrthologDb, BuildPPIDb
     '               BuildSignature, InstallCDD, KEGGFamilys, ManualBuild
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

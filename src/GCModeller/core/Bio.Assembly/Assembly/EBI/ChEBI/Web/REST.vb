@@ -33,6 +33,8 @@
 
     '     Structure REST
     ' 
+    '         Properties: [return]
+    ' 
     '         Function: ParsingRESTData
     ' 
     ' 

@@ -47,9 +47,8 @@
     ' 
     '     Properties: ID, MAL
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8ec6371f5d247844bdbbdfda534cdb9, data\RegulonDatabase\RegulonDB\MySQL\condition.vb"
+﻿#Region "Microsoft.VisualBasic::189c93080f3d162c732284eeba5ee9b1, data\RegulonDatabase\RegulonDB\MySQL\condition.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class condition
     ' 
+    '     Properties: condition_global, condition_id, condition_notes, control_condition, control_details
+    '                 exp_condition, exp_details
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `condition` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class condition: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("condition_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property condition_id As String
-    <DatabaseField("control_condition"), NotNull, DataType(MySqlDbType.VarChar, "2000")> Public Property control_condition As String
-    <DatabaseField("control_details"), DataType(MySqlDbType.VarChar, "2000")> Public Property control_details As String
-    <DatabaseField("exp_condition"), NotNull, DataType(MySqlDbType.VarChar, "2000")> Public Property exp_condition As String
-    <DatabaseField("exp_details"), DataType(MySqlDbType.VarChar, "2000")> Public Property exp_details As String
-    <DatabaseField("condition_global"), DataType(MySqlDbType.VarChar, "2000")> Public Property condition_global As String
-    <DatabaseField("condition_notes"), DataType(MySqlDbType.VarChar, "2000")> Public Property condition_notes As String
+    <DatabaseField("condition_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_id")> Public Property condition_id As String
+    <DatabaseField("control_condition"), NotNull, DataType(MySqlDbType.VarChar, "2000"), Column(Name:="control_condition")> Public Property control_condition As String
+    <DatabaseField("control_details"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="control_details")> Public Property control_details As String
+    <DatabaseField("exp_condition"), NotNull, DataType(MySqlDbType.VarChar, "2000"), Column(Name:="exp_condition")> Public Property exp_condition As String
+    <DatabaseField("exp_details"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="exp_details")> Public Property exp_details As String
+    <DatabaseField("condition_global"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="condition_global")> Public Property condition_global As String
+    <DatabaseField("condition_notes"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="condition_notes")> Public Property condition_notes As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class condition: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As condition
+                  Return DirectCast(MyClass.MemberwiseClone, condition)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,10 +33,9 @@
 
     '     Class HttpMultipart
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CompareBytes, GetContentDispositionAttribute, GetContentDispositionAttributeWithEncoding, MoveToNextBoundary, ReadBoundary
     '                   ReadHeaders, ReadLine, ReadNextElement, StripPath
-    ' 
-    '         Sub: New
     '         Class Element
     ' 
     '             Function: ToString

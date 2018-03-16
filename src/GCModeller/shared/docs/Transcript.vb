@@ -33,14 +33,14 @@
 
     '     Class Transcript
     ' 
-    '         Properties: ATG, Left, Length, Operon, Position
-    '                     Raw, Right, Strand, Support, Synonym
-    '                     TGA, TSS_ID, TSSs, TSSsShared, TTSs
+    '         Properties: _5UTR, ATG, Left, Length, Operon
+    '                     Position, Raw, Right, Strand, Support
+    '                     Synonym, TGA, TSS_ID, TSSs, TSSsShared
+    '                     TTSs
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __getMappingLoci, __merge, (+5 Overloads) Copy, (+2 Overloads) CreateObject, MergeJason
     '                   ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

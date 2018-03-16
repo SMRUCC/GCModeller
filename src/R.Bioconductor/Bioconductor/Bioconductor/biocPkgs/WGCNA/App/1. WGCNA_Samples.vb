@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a91d8f3d37ce68dac5656d88c3497a01, Bioconductor\Bioconductor\biocPkgs\WGCNA\App\1. WGCNA_Samples.vb"
+﻿#Region "Microsoft.VisualBasic::84a8d91652de6da059092a6bb72a8549, Bioconductor\Bioconductor\biocPkgs\WGCNA\App\1. WGCNA_Samples.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,8 @@
     '         Properties: dist, goodSamplesGenes, hclust, imageOut, LocusMap
     '                     plot, readData, save, saveGoodGenes, saveGoodSamples
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __R_script
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class regulon
     ' 
+    '     Properties: name, proteinId, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

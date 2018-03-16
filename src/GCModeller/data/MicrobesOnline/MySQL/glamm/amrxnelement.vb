@@ -33,6 +33,8 @@
 
     ' Class amrxnelement
     ' 
+    '     Properties: amRxn_id, id, type, xrefId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

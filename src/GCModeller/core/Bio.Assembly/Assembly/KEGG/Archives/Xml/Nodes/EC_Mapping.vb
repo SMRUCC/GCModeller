@@ -33,7 +33,7 @@
 
     '     Class ReactionMaps
     ' 
-    '         Properties: Reactions
+    '         Properties: EC, Reactions
     ' 
     '         Function: ToString
     ' 

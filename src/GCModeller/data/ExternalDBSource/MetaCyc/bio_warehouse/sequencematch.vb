@@ -33,6 +33,10 @@
 
     ' Class sequencematch
     ' 
+    '     Properties: ComputationWID, EValue, Length, MatchEnd, MatchStart
+    '                 MatchWID, PercentIdentical, PercentSimilar, PValue, QueryEnd
+    '                 QueryStart, QueryWID, Rank
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

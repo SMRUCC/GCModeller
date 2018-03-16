@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a797095603220962fc3de9366a5329db, data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
+﻿#Region "Microsoft.VisualBasic::f3dfe6cf6b0bd0379c96a593c05fd38b, data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class condition_object
     ' 
+    '     Properties: cond_effect_link_id, object_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -66,7 +71,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `condition_object` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class condition_object: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("cond_effect_link_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property cond_effect_link_id As String
-    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property object_id As String
+    <DatabaseField("cond_effect_link_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="cond_effect_link_id")> Public Property cond_effect_link_id As String
+    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="object_id")> Public Property object_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class condition_object: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As condition_object
+                  Return DirectCast(MyClass.MemberwiseClone, condition_object)
+              End Function
 End Class
 
 
 End Namespace
+

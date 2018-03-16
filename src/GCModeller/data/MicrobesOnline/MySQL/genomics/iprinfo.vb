@@ -33,6 +33,8 @@
 
     ' Class iprinfo
     ' 
+    '     Properties: iprId, iprName, proteinCount, shortName, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

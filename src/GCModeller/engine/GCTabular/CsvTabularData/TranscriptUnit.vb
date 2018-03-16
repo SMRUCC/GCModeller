@@ -33,7 +33,8 @@
 
     '     Class TranscriptUnit
     ' 
-    '         Properties: PromoterGene, RegulatorK, TFPcc, TU_GUID
+    '         Properties: BasalValue, Motifs, OperonGenes, OperonId, PccValues
+    '                     PromoterGene, RegulatorK, TFPcc, TU_GUID
     ' 
     '         Function: Clone, (+3 Overloads) CreateObject, ToString
     ' 

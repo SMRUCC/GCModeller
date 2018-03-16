@@ -33,6 +33,8 @@
 
     '     Class OrthologREST
     ' 
+    '         Properties: Definition, KEGG_ID, Orthologs, Sequence
+    ' 
     '         Function: Download, ToString
     ' 
     ' 

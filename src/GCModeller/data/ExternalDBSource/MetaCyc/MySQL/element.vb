@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b09073d9bcc74a2c060db64012c6201, data\ExternalDBSource\MetaCyc\MySQL\element.vb"
+﻿#Region "Microsoft.VisualBasic::27d5ad3ef9f87367116f674d5ba66fae, data\ExternalDBSource\MetaCyc\MySQL\element.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class element
     ' 
+    '     Properties: AtomicNumber, AtomicWeight, ElementSymbol, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,11 +89,11 @@ CREATE TABLE `element` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class element: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "15")> Public Property Name As String
-    <DatabaseField("ElementSymbol"), NotNull, DataType(MySqlDbType.VarChar, "2")> Public Property ElementSymbol As String
-    <DatabaseField("AtomicWeight"), NotNull, DataType(MySqlDbType.Double)> Public Property AtomicWeight As Double
-    <DatabaseField("AtomicNumber"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property AtomicNumber As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "15"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("ElementSymbol"), NotNull, DataType(MySqlDbType.VarChar, "2"), Column(Name:="ElementSymbol")> Public Property ElementSymbol As String
+    <DatabaseField("AtomicWeight"), NotNull, DataType(MySqlDbType.Double), Column(Name:="AtomicWeight")> Public Property AtomicWeight As Double
+    <DatabaseField("AtomicNumber"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="AtomicNumber")> Public Property AtomicNumber As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -140,7 +144,11 @@ Public Class element: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, ElementSymbol, AtomicWeight, AtomicNumber, WID)
     End Function
 #End Region
+Public Function Clone() As element
+                  Return DirectCast(MyClass.MemberwiseClone, element)
+              End Function
 End Class
 
 
 End Namespace
+

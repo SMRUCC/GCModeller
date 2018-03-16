@@ -35,9 +35,8 @@
     ' 
     '         Properties: ColorBrain, ColorFontsPatterns, HouseKeeping, Image, Section
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Build
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,9 @@
 
     ' Class fiducial
     ' 
+    '     Properties: ArrayGroup_Fiducials, DataSetWID, Fiducial_DistanceUnit, Fiducial_FiducialType, Fiducial_Position
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

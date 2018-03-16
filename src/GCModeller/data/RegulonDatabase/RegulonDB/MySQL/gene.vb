@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcd94aee08bcbaf3c4edcf9ed0f44df9, data\RegulonDatabase\RegulonDB\MySQL\gene.vb"
+﻿#Region "Microsoft.VisualBasic::7f016bf4798fdfcf185b3255532ecf6a, data\RegulonDatabase\RegulonDB\MySQL\gene.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class gene
     ' 
+    '     Properties: cri_score, gc_content, gene_id, gene_internal_comment, gene_name
+    '                 gene_note, gene_posleft, gene_posright, gene_sequence, gene_strand
+    '                 gene_type, key_id_org
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -76,7 +83,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,18 +103,18 @@ CREATE TABLE `gene` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gene: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("gene_name"), DataType(MySqlDbType.VarChar, "255")> Public Property gene_name As String
-    <DatabaseField("gene_posleft"), DataType(MySqlDbType.Decimal)> Public Property gene_posleft As Decimal
-    <DatabaseField("gene_posright"), DataType(MySqlDbType.Decimal)> Public Property gene_posright As Decimal
-    <DatabaseField("gene_strand"), DataType(MySqlDbType.VarChar, "10")> Public Property gene_strand As String
-    <DatabaseField("gene_sequence"), DataType(MySqlDbType.Text)> Public Property gene_sequence As String
-    <DatabaseField("gc_content"), DataType(MySqlDbType.Decimal)> Public Property gc_content As Decimal
-    <DatabaseField("cri_score"), DataType(MySqlDbType.Decimal)> Public Property cri_score As Decimal
-    <DatabaseField("gene_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property gene_note As String
-    <DatabaseField("gene_internal_comment"), DataType(MySqlDbType.Text)> Public Property gene_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
-    <DatabaseField("gene_type"), DataType(MySqlDbType.VarChar, "100")> Public Property gene_type As String
+    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("gene_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="gene_name")> Public Property gene_name As String
+    <DatabaseField("gene_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="gene_posleft")> Public Property gene_posleft As Decimal
+    <DatabaseField("gene_posright"), DataType(MySqlDbType.Decimal), Column(Name:="gene_posright")> Public Property gene_posright As Decimal
+    <DatabaseField("gene_strand"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="gene_strand")> Public Property gene_strand As String
+    <DatabaseField("gene_sequence"), DataType(MySqlDbType.Text), Column(Name:="gene_sequence")> Public Property gene_sequence As String
+    <DatabaseField("gc_content"), DataType(MySqlDbType.Decimal), Column(Name:="gc_content")> Public Property gc_content As Decimal
+    <DatabaseField("cri_score"), DataType(MySqlDbType.Decimal), Column(Name:="cri_score")> Public Property cri_score As Decimal
+    <DatabaseField("gene_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="gene_note")> Public Property gene_note As String
+    <DatabaseField("gene_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="gene_internal_comment")> Public Property gene_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
+    <DatabaseField("gene_type"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="gene_type")> Public Property gene_type As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -159,7 +165,11 @@ Public Class gene: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As gene
+                  Return DirectCast(MyClass.MemberwiseClone, gene)
+              End Function
 End Class
 
 
 End Namespace
+

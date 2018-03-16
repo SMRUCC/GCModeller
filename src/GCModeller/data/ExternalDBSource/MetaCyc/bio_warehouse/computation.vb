@@ -33,6 +33,8 @@
 
     ' Class computation
     ' 
+    '     Properties: DataSetWID, Description, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

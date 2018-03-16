@@ -35,9 +35,11 @@
     ' 
     '         Properties: Childs, hits, Lineage, Parent, TreeRoot
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: BuildTree, ToString
     ' 
-    '         Sub: (+3 Overloads) New, Split
+    '         Sub: Split
     ' 
     ' 
     ' /********************************************************************************/

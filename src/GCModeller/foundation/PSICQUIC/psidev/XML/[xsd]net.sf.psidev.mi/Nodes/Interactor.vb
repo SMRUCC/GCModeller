@@ -31,35 +31,38 @@
 
     ' Summaries:
 
-    '  
+    '     Class Interactor
     ' 
-    '     Properties: Synonym
-    ' 
-    '     Function: ToString
-    ' 
-    '     Class __interactorType
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class confidence
+    '         Properties: InteractorType, Names, Synonym, Xref
     ' 
     '         Function: ToString
     ' 
-    '  
+    '     Class __interactorType
+    ' 
+    '         Properties: Names, Xref
+    ' 
+    '     Class Interaction
+    ' 
+    '         Properties: ConfidenceList, ExperimentList, ParticipantList
+    '         Class ExperimentRef
+    ' 
+    '             Properties: value
     ' 
     ' 
+    ' 
+    '     Class Participant
+    ' 
+    '         Properties: ID, InteractorRef
+    ' 
+    '     Class confidence
+    ' 
+    '         Properties: Unit, value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class __unit
+    ' 
+    '         Properties: Names
     ' 
     ' 
     ' /********************************************************************************/

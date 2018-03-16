@@ -37,6 +37,8 @@
     '               CopyPTT, ExportBlastX, ExportGenesFasta, EXPORTgpff, EXPORTgpffs
     '               ExportPTTDb, HitsIDList, MergeFaa, Print
     ' 
+    '     Sub: __exportTo
+    ' 
     ' Class NameAnno
     ' 
     '     Properties: Maximum, Minimum, Name

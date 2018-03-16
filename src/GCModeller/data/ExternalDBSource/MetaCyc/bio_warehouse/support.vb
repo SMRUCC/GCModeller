@@ -33,6 +33,9 @@
 
     ' Class support
     ' 
+    '     Properties: Confidence, DataSetWID, EvidenceType, OtherWID, Type
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

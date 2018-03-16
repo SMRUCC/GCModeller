@@ -33,9 +33,13 @@
 
     '     Class Overview
     ' 
+    '         Properties: Queries
+    ' 
     '         Function: ExportAllBestHist, ExportBestHit, ExportParalogs, GetExcelData, LoadExcel
     ' 
     '     Structure Query
+    ' 
+    '         Properties: Hits, Id
     ' 
     '         Function: ToString
     ' 

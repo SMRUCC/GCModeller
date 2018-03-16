@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d077ec53a37cd679fbb729eeea127dd3, RDotNET\R.NET\Diagnostics\VectorDebugView.vb"
+﻿#Region "Microsoft.VisualBasic::32599588353d107482699292d14fb5ef, RDotNET\R.NET\Diagnostics\VectorDebugView.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: Value
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

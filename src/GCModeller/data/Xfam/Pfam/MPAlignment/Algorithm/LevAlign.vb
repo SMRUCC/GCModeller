@@ -36,9 +36,8 @@
     '         Properties: Codes, DomainCodes, LengthDelta, Query, QueryPfam
     '                     StructMatched, Subject, SubjectPfam
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __asChar, __getReference, __getSubject, __innerInsert, ToRow
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

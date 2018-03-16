@@ -31,13 +31,13 @@
 
     ' Summaries:
 
-    '  
+    '     Class Hsa_gene
     ' 
-    '     Properties: AA, Definition, Disease, DrugTarget, Entry
-    '                 GeneName, Modules, MyNames, MyPositions, NT
-    '                 OtherDBs, Pathway, Position
+    '         Properties: AA, Definition, Disease, DrugTarget, Entry
+    '                     GeneName, Modules, MyNames, MyPositions, NT
+    '                     OtherDBs, Pathway, Position
     ' 
-    '     Function: Match, MatchAnyName, MatchAnyPosition, ToString
+    '         Function: Match, MatchAnyName, MatchAnyPosition, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -37,7 +37,7 @@
     ' 
     '     Class ExpressionProcedureEvent
     ' 
-    '         Properties: RegulationValue
+    '         Properties: CompositionVector, Product, RegulationValue, Template
     ' 
     '         Function: CreateInstance
     '         Interface I_EventProcess

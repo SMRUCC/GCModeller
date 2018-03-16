@@ -33,9 +33,8 @@
 
     '     Class ComponentFactory
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateObject
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

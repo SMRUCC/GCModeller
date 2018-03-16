@@ -35,9 +35,8 @@
     ' 
     '         Properties: CompoundMapping
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) Equals, SideEquals, SideEqualsExplicit, SideEqualsNOTExplicit
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

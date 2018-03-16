@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::189001a801ecf4e5a67c57e49f53923a, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\paste.vb"
+﻿#Region "Microsoft.VisualBasic::e8d02ff3a8661d318fba33407b4ad937, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\paste.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,15 @@
 
     ' Summaries:
 
-    '  
+    '     Class paste0
     ' 
-    '     Properties: collapse, x
+    '         Properties: collapse, x
     ' 
-    '     Function: Func
+    '         Function: Func
     ' 
-    '  
+    '     Class paste
     ' 
-    '     Properties: sep
+    '         Properties: sep
     ' 
     ' 
     ' /********************************************************************************/

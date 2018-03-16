@@ -33,6 +33,8 @@
 
     '     Class KSeq
     ' 
+    '         Properties: Seq
+    ' 
     '         Function: GetSequenceData, ToString
     ' 
     ' 

@@ -35,10 +35,9 @@
     ' 
     '         Properties: depth, strain
     ' 
+    '         Constructor: (+5 Overloads) Sub New
     '         Function: __data, consensus, GetDepth, GetTree, TaxonomyString
     '                   ToString
-    ' 
-    '         Sub: (+5 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

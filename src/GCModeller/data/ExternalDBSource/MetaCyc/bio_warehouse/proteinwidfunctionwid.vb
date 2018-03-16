@@ -33,6 +33,8 @@
 
     ' Class proteinwidfunctionwid
     ' 
+    '     Properties: FunctionWID, ProteinWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

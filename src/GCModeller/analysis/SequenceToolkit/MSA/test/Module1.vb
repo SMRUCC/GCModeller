@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61eedf8fdd3745e824f65c92d0a94db9, analysis\SequenceToolkit\MSA\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::d2c3b7e5a9261601d7c270efb83bc095, analysis\SequenceToolkit\MSA\test\Module1.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Module1
     ' 
-    '     Sub: Main
+    '     Sub: exceptionTest, Main
     ' 
     ' /********************************************************************************/
 
@@ -219,4 +219,3 @@ CCGACGCACCGCA".lTokens
         Pause()
     End Sub
 End Module
-

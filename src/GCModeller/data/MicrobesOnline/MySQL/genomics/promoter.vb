@@ -33,6 +33,8 @@
 
     ' Class promoter
     ' 
+    '     Properties: evidence, name, promoterId, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,13 +33,12 @@
 
     ' Module API
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __getSavePath, __trim, (+2 Overloads) FamilyAlign, (+2 Overloads) FamilyDomains, FamilyStat
     '               SaveDb, SaveRepository
-    ' 
-    '     Sub: New
     '     Class AnnotationOut
     ' 
-    '         Properties: Family, LocusId
+    '         Properties: Family, LocusId, PfamString
     ' 
     '         Function: ToString
     ' 

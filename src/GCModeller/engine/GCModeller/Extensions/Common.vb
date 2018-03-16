@@ -33,7 +33,7 @@
 
     ' Module ExtensionCommons
     ' 
-    ' 
+    '     Function: Description, GetMd5Hash
     ' 
     ' /********************************************************************************/
 

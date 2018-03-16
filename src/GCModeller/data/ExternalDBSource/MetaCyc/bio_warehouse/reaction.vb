@@ -33,6 +33,9 @@
 
     ' Class reaction
     ' 
+    '     Properties: DataSetWID, DeltaG, ECNumber, ECNumberProposed, Name
+    '                 Spontaneous, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

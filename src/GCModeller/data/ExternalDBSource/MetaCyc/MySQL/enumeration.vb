@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9496760e4f3fd292b777044d178c5e7, data\ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
+﻿#Region "Microsoft.VisualBasic::6b988f26dbf984e43ea9c0de91b7eb39, data\ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class enumeration
     ' 
+    '     Properties: ColumnName, Meaning, TableName, Value
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -68,7 +73,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `enumeration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class enumeration: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("TableName"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property TableName As String
-    <DatabaseField("ColumnName"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property ColumnName As String
-    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property Value As String
-    <DatabaseField("Meaning"), DataType(MySqlDbType.Text)> Public Property Meaning As String
+    <DatabaseField("TableName"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="TableName")> Public Property TableName As String
+    <DatabaseField("ColumnName"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="ColumnName")> Public Property ColumnName As String
+    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="Value")> Public Property Value As String
+    <DatabaseField("Meaning"), DataType(MySqlDbType.Text), Column(Name:="Meaning")> Public Property Meaning As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class enumeration: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As enumeration
+                  Return DirectCast(MyClass.MemberwiseClone, enumeration)
+              End Function
 End Class
 
 
 End Namespace
+

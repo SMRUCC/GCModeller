@@ -33,7 +33,7 @@
 
     '     Module ModelExport
     ' 
-    ' 
+    '         Function: ExportModel, GetAssociatedGenes
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bdba7af4e97ac2248213c4567189dc1, data\ExternalDBSource\MetaCyc\MySQL\featureinformation.vb"
+﻿#Region "Microsoft.VisualBasic::306660b67134733985f743a5de4bda98, data\ExternalDBSource\MetaCyc\MySQL\featureinformation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class featureinformation
     ' 
+    '     Properties: DataSetWID, Feature, FeatureReporterMap, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,10 +99,10 @@ CREATE TABLE `featureinformation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class featureinformation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20")> Public Property Feature As Long
-    <DatabaseField("FeatureReporterMap"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureReporterMap As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Feature")> Public Property Feature As Long
+    <DatabaseField("FeatureReporterMap"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureReporterMap")> Public Property FeatureReporterMap As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -149,7 +153,11 @@ Public Class featureinformation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Feature, FeatureReporterMap, WID)
     End Function
 #End Region
+Public Function Clone() As featureinformation
+                  Return DirectCast(MyClass.MemberwiseClone, featureinformation)
+              End Function
 End Class
 
 
 End Namespace
+

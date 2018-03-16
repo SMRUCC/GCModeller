@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6485cf1c907963babb399a801de44757, RDotNET\Graphics\GraphicsContext.vb"
+﻿#Region "Microsoft.VisualBasic::1f2b16552a7f2fab9287f5b637642bff, RDotNET\Graphics\GraphicsContext.vb"
 
     ' Author:
     ' 
@@ -37,9 +37,8 @@
     '                     Foreground, Gamma, IsInvalid, LineEnd, LineHeight
     '                     LineJoin, LineMitre, LineType, LineWidth
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetContext, ReleaseHandle
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

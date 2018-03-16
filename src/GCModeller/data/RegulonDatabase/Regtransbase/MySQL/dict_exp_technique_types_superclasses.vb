@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::344d0eca03e59c38c0f5fbca6897f611, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::a2c793006c85a1824198c73ff9634572, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class dict_exp_technique_types_superclasses
     ' 
+    '     Properties: exp_technique_type_superclass_guid, name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -67,7 +72,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `dict_exp_technique_types_superclasses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class dict_exp_technique_types_superclasses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("exp_technique_type_superclass_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property exp_technique_type_superclass_guid As Long
-    <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property name As String
+    <DatabaseField("exp_technique_type_superclass_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="exp_technique_type_superclass_guid"), XmlAttribute> Public Property exp_technique_type_superclass_guid As Long
+    <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="name")> Public Property name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class dict_exp_technique_types_superclasses: Inherits Oracle.LinuxCompati
         Return String.Format(UPDATE_SQL, exp_technique_type_superclass_guid, name, exp_technique_type_superclass_guid)
     End Function
 #End Region
+Public Function Clone() As dict_exp_technique_types_superclasses
+                  Return DirectCast(MyClass.MemberwiseClone, dict_exp_technique_types_superclasses)
+              End Function
 End Class
 
 
 End Namespace
+

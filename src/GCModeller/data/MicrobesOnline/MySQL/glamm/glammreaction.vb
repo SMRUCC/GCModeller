@@ -33,6 +33,9 @@
 
     ' Class glammreaction
     ' 
+    '     Properties: created, definition, deltaG, equation, guid
+    '                 normalizedEquation, priority, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

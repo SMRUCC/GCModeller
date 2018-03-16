@@ -33,7 +33,7 @@
 
     '     Module Base
     ' 
-    '         Function: cbind, Quantile, rep, (+2 Overloads) Sample
+    '         Function: (+2 Overloads) [Select], cbind, Quantile, rep, (+2 Overloads) Sample
     ' 
     '     Module Data
     ' 

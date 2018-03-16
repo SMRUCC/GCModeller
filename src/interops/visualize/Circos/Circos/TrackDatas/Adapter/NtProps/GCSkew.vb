@@ -33,9 +33,8 @@
 
     '     Class GCSkew
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: __avgData, __sourceGC, CreateLineData
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

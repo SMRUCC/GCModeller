@@ -33,8 +33,8 @@
 
     '     Class VirtualFootprints
     ' 
-    '         Properties: Ends, Length, MotifId, Sequence, Signature
-    '                     Starts, Strand
+    '         Properties: Distance, Ends, Length, MotifId, ORF
+    '                     ORFDirection, Sequence, Signature, Starts, Strand
     ' 
     '         Function: GetLociDescrib, ToString
     ' 

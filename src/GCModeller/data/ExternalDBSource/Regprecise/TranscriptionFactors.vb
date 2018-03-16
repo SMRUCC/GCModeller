@@ -33,15 +33,21 @@
 
     '     Class TranscriptionFactors
     ' 
-    '         Properties: DownloadTime
+    '         Properties: BacteriaGenomes, DownloadTime
     ' 
     '         Function: Download, DownloadRegulatorSequence, ExportTFBSInfo, GetId, GetRegulatorId
     '                   Load, Regulators, Save
     ' 
     '     Class BacteriaGenome
     ' 
+    '         Properties: BacteriaGenome, Regulons
+    ' 
     '         Function: Download, ToString
     '         Class Regulon
+    ' 
+    '             Properties: BiologicalProcess, Effector, Family, LocusTag, Pathway
+    '                         RegulationMode, Regulator, Regulators, RegulatorySites, Regulog
+    '                         Type
     ' 
     '             Function: CreateObject, ExportMotifs, GetExportData, GetMotifSite, GetTagValue
     '                       GetTagValue_td, More, ToString

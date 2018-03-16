@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81c5f444b7e2bf6417a38a361ea019c7, data\ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
+﻿#Region "Microsoft.VisualBasic::47d408d5b5b4c7e10513e293c8b15bfa, data\ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class subsequence
     ' 
+    '     Properties: DataSetWID, FullSequence, Length, LengthApproximate, NucleicAcidWID
+    '                 PercentGC, Sequence, Version, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -78,7 +84,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -101,15 +106,15 @@ CREATE TABLE `subsequence` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class subsequence: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("NucleicAcidWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property NucleicAcidWID As Long
-    <DatabaseField("FullSequence"), DataType(MySqlDbType.VarChar, "1")> Public Property FullSequence As String
-    <DatabaseField("Sequence"), DataType(MySqlDbType.Text)> Public Property Sequence As String
-    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11")> Public Property Length As Long
-    <DatabaseField("LengthApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property LengthApproximate As String
-    <DatabaseField("PercentGC"), DataType(MySqlDbType.Double)> Public Property PercentGC As Double
-    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "30")> Public Property Version As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("NucleicAcidWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="NucleicAcidWID")> Public Property NucleicAcidWID As Long
+    <DatabaseField("FullSequence"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="FullSequence")> Public Property FullSequence As String
+    <DatabaseField("Sequence"), DataType(MySqlDbType.Text), Column(Name:="Sequence")> Public Property Sequence As String
+    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11"), Column(Name:="Length")> Public Property Length As Long
+    <DatabaseField("LengthApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="LengthApproximate")> Public Property LengthApproximate As String
+    <DatabaseField("PercentGC"), DataType(MySqlDbType.Double), Column(Name:="PercentGC")> Public Property PercentGC As Double
+    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="Version")> Public Property Version As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -160,7 +165,11 @@ Public Class subsequence: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, NucleicAcidWID, FullSequence, Sequence, Length, LengthApproximate, PercentGC, Version, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As subsequence
+                  Return DirectCast(MyClass.MemberwiseClone, subsequence)
+              End Function
 End Class
 
 
 End Namespace
+

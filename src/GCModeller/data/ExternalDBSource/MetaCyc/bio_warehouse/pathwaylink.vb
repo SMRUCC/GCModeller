@@ -33,6 +33,8 @@
 
     ' Class pathwaylink
     ' 
+    '     Properties: ChemicalWID, Pathway1WID, Pathway2WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

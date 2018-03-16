@@ -35,21 +35,20 @@
     ' 
     '         Properties: Motifs
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ED, GetFamilyMotifs, KLD, PCC, SW
-    ' 
-    '         Sub: New
     '         Delegate Function
     ' 
-    '             Function: (+2 Overloads) Compare, (+2 Overloads) CompareBest, CreateResult, GetMethod
+    '             Function: (+2 Overloads) Compare, (+2 Overloads) CompareBest, CreateResult, GetMethod, ToChar
     '         Class __equals
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: BitsEquals, Equals
-    ' 
-    '             Sub: New
     ' 
     '         Class CompareResult
     ' 
-    ' 
+    '             Properties: Consensus, Distance, Edits, Gaps, HitMotif
+    '                         HitsLength, QueryLength, QueryMotif, Score, Similarity
     ' 
     ' 
     ' 

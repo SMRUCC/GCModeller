@@ -1,16 +1,32 @@
-﻿# MySQL development docs
-Mysql database field attributes notes:
+# MySql Development Docs #
 
-> AI: Auto Increment; B: Binary; NN: Not Null; PK: Primary Key; UQ: Unique; UN: Unsigned; ZF: Zero Fill
+MySql database field attributes notes in this development document:
+
+> + **AI**: Auto Increment;
+> + **B**:  Binary;
+> + **G**:  Generated
+> + **NN**: Not Null;
+> + **PK**: Primary Key;
+> + **UQ**: Unique;
+> + **UN**: Unsigned;
+> + **ZF**: Zero Fill
+
+Generate time: 3/16/2018 10:32:32 PM<br />
+By: ``mysqli.vb`` reflector tool ([https://github.com/xieguigang/mysqli.vb](https://github.com/xieguigang/mysqli.vb))
+
+<div style="page-break-after: always;"></div>
+
+***
 
 ## app
+
 The analysis application that running the task
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (11)|``NN``||
+|uid|Int64 (11)|``NN``, ``PK``||
 |name|VarChar (128)|``NN``||
-|description|Text||功能的详细描述|
+|description|Text ()||功能的详细描述|
 |catagory|VarChar (45)||功能分类|
 
 ```SQL
@@ -25,18 +41,22 @@ CREATE TABLE `app` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## subscription
+
 向订阅了网站更新的用户发送产品的更新信息
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
 |uid|Int64 (11)|``AI``, ``NN``||
-|email|VarChar (128)|``NN``||
+|email|VarChar (128)|``NN``, ``PK``||
 |hash|VarChar (64)|``NN``||
 |app|Int64 (11)|``NN``||
 |active|Int64 (11)|``NN``|1(active) OR 0(inactive)|
-|add_time|DateTime|``NN``||
+|add_time|DateTime ()|``NN``||
 
 ```SQL
 CREATE TABLE `subscription` (
@@ -54,15 +74,19 @@ CREATE TABLE `subscription` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## sys_config
+
 系统设置
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|variable|VarChar (128)|``NN``||
+|variable|VarChar (128)|``NN``, ``PK``||
 |value|VarChar (128)|||
-|set_time|DateTime|``NN``||
+|set_time|DateTime ()|``NN``||
 |set_by|VarChar (128)|||
 
 ```SQL
@@ -76,16 +100,20 @@ CREATE TABLE `sys_config` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## sys_updates
+
 网站更新记录
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (11)|``AI``, ``NN``||
-|date|DateTime|``NN``||
+|uid|Int64 (11)|``AI``, ``NN``, ``PK``||
+|date|DateTime ()|``NN``||
 |title|VarChar (45)|``NN``||
-|details|Text|``NN``||
+|details|Text ()|``NN``||
 |app|Int64 (11)|``NN``|如果这个字段不为-1，则表示更新的内容为某一个app的内容更新|
 
 ```SQL
@@ -101,16 +129,20 @@ CREATE TABLE `sys_updates` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## task_errors
+
 Task executing errors log
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (11)|``NN``||
-|app|Int64 (11)|``NN``|The task app name|
+|uid|Int64 (11)|``NN``, ``PK``||
+|app|Int64 (11)|``NN``, ``PK``|The task app name|
 |task|Int64 (11)|``NN``|The task uid|
-|exception|Text|``NN``|The exception message|
+|exception|Text ()|``NN``|The exception message|
 |type|VarChar (45)|``NN``|GetType.ToString|
 |stack-trace|VarChar (45)|``NN``||
 |solved|Int64 (11)|``NN``|这个bug是否已经解决了？ 默认是0未解决，1为已经解决了|
@@ -132,24 +164,28 @@ CREATE TABLE `task_errors` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## task_pool
+
 这个数据表之中只存放已经完成的用户任务信息
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (11)|``AI``, ``NN``||
+|uid|Int64 (11)|``AI``, ``NN``, ``PK``||
 |md5|VarChar (32)|``NN``|用户查询任务状态结果所使用的唯一标识符字符串|
-|workspace|Text||保存临时上传数据以及结果报告文件的工作区文件夹|
-|time_create|DateTime||这个用户任务所创建的时间|
-|time_complete|DateTime||这个用户任务所完成的时间，只有用户的任务完成了之后（无论是否出现错误），这个属性才会被赋值。这个属性值也是计算工作区的临时数据的清除时间锁需要的，一般是24小时之后任务才会过期，工作区的临时数据才会被自动清除|
-|result_url|Text||结果页面的url|
+|workspace|Text ()||保存临时上传数据以及结果报告文件的工作区文件夹|
+|time_create|DateTime ()||这个用户任务所创建的时间|
+|time_complete|DateTime ()||这个用户任务所完成的时间，只有用户的任务完成了之后（无论是否出现错误），这个属性才会被赋值。这个属性值也是计算工作区的临时数据的清除时间锁需要的，一般是24小时之后任务才会过期，工作区的临时数据才会被自动清除|
+|result_url|Text ()||结果页面的url|
 |email|VarChar (45)||任务完成之后通知的目标对象的e-mail,如果不存在，则不发送email|
 |title|VarChar (128)||任务的标题（可选）|
-|description|Text||任务的描述(可选)|
+|description|Text ()||任务的描述(可选)|
 |status|Int64 (11)||任务的结果状态<br /><br />-100 任务执行失败<br />1 任务成功执行完毕<br />0 任务未执行或者执行中未完毕|
 |app|Int64 (11)|``NN``|The task app id|
-|parameters|Text|``NN``|使用json保存着当前的这个任务对象的所有的构造函数所需要的参数信息|
+|parameters|Text ()|``NN``|使用json保存着当前的这个任务对象的所有的构造函数所需要的参数信息|
 
 ```SQL
 CREATE TABLE `task_pool` (
@@ -174,22 +210,26 @@ CREATE TABLE `task_pool` (
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## visitor_stat
+
 
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
 |uid|Int64 (11)|``AI``, ``NN``||
-|time|DateTime|``NN``||
-|ip|VarChar (45)|``NN``||
-|url|Text|``NN``|Url that going to visit this web site|
+|time|DateTime ()|``NN``, ``PK``||
+|ip|VarChar (45)|``NN``, ``PK``||
+|url|Text ()|``NN``|Url that going to visit this web site|
 |success|Int64 (11)|``NN``||
 |method|VarChar (45)||GET/POST/PUT.....|
 |ua|VarChar (1024)||User agent|
-|ref|Text||reference url, Referer|
-|data|Text||additional data notes|
-|app|Int64 (11)|``NN``|用户所访问的url所属的app的编号|
+|ref|Text ()||reference url, Referer|
+|data|Text ()||additional data notes|
+|app|Int64 (11)|``NN``, ``PK``|用户所访问的url所属的app的编号|
 
 ```SQL
 CREATE TABLE `visitor_stat` (
@@ -204,5 +244,15 @@ CREATE TABLE `visitor_stat` (
   `data` mediumtext COMMENT 'additional data notes',
   `app` int(11) NOT NULL COMMENT '用户所访问的url所属的app的编号',
   PRIMARY KEY (`ip`,`time`,`app`),
-  UNIQUE KEY `uid_UNIQUE` (`u
+  UNIQUE KEY `uid_UNIQUE` (`uid`),
+  KEY `fk_visitor_stat_app1_idx` (`app`),
+  CONSTRAINT `fk_visitor_stat_app1` FOREIGN KEY (`app`) REFERENCES `app` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+<div style="page-break-after: always;"></div>
+
+
+
 

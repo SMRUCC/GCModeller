@@ -39,6 +39,8 @@
     ' 
     '     Class SW_HSP
     ' 
+    '         Properties: FromQ, FromS, Score, ToQ, ToS
+    ' 
     '         Function: ToString
     ' 
     ' 

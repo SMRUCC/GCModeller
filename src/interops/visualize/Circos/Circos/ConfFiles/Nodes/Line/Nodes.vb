@@ -33,9 +33,13 @@
 
     '     Class Axis
     ' 
+    '         Properties: color, spacing, thickness
+    ' 
     '         Function: Build
     ' 
     '     Class Background
+    ' 
+    '         Properties: color, y0, y1
     ' 
     '         Function: Build
     ' 

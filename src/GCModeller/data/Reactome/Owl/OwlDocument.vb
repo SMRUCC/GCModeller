@@ -33,6 +33,11 @@
 
     '     Class DocumentFile
     ' 
+    '         Properties: BiochemicalReactions, BioSource, Catalysis, CellularLocationVocabulary, Complex
+    '                     FragmentFeature, PhysicalEntity, Protein, ProteinReference, Provenance
+    '                     PublicationXref, RelationshipTypeVocabulary, RelationshipXref, ResourceCollection, SequenceInterval
+    '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
+    ' 
     '         Function: __trim, Load, Save, ToString
     ' 
     '         Sub: __initDoc

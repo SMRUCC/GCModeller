@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::114d9b50b1e0fd92202598b442496bc6, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\utils\readTable.vb"
+﻿#Region "Microsoft.VisualBasic::df8d861296b01a2523739242f0943ebe, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\utils\readTable.vb"
 
     ' Author:
     ' 
@@ -37,31 +37,32 @@
     ' 
     '     Class readTable
     ' 
-    '         Properties: allowEscapes, colClasses, dec, encoding, fileEncoding
-    '                     fill, flush, nrows, numerals, quote
-    '                     sep, skip, skipNul, stringsAsFactors, text
+    '         Properties: allowEscapes, asIs, blankLinesSkip, checkNames, colClasses
+    '                     colNames, commentChar, dec, encoding, fileEncoding
+    '                     fill, flush, naStrings, nrows, numerals
+    '                     quote, rowNames, sep, skip, skipNul
+    '                     stringsAsFactors, stripWhite, text
     ' 
     '     Class readcsv
     ' 
-    '         Properties: dec, fill, quote, sep
+    '         Properties: commentChar, dec, fill, quote, sep
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ReadCsv
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class readcsv2
     ' 
-    '         Properties: dec, fill, quote, sep
+    '         Properties: commentChar, dec, fill, quote, sep
     ' 
     '         Function: ReadCsv
     ' 
     '     Class readdelim
     ' 
-    '         Properties: dec, fill, quote, sep
+    '         Properties: commentChar, dec, fill, quote, sep
     ' 
     '     Class readdelim2
     ' 
-    '         Properties: dec, fill, quote, sep
+    '         Properties: commentChar, dec, fill, quote, sep
     ' 
     ' 
     ' /********************************************************************************/

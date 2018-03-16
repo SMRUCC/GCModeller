@@ -33,6 +33,8 @@
 
     ' Class interactionparticipant
     ' 
+    '     Properties: Coefficient, InteractionWID, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

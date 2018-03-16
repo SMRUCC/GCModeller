@@ -35,9 +35,8 @@
     ' 
     '         Properties: Size
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GenerateDocument
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

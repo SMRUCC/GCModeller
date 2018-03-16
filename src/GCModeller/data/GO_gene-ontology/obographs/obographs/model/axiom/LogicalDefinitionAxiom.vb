@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: DefinedClassId, GenusIds, Restrictions
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, definedClassId, genusIds, restrictions

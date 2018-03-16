@@ -33,15 +33,14 @@
 
     '     Module FastaExportMethods
     ' 
-    '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaTrimCorrupt, Load
-    '                   LoadFastaToken, (+3 Overloads) Merge, Reverse
+    '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
+    '                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
     '         Class SchemaCache
     ' 
     '             Properties: attributes, TitleFormat
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: GetTitleFormat
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

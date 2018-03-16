@@ -33,6 +33,8 @@
 
     ' Class bioassaytuple
     ' 
+    '     Properties: BioAssay, BioDataTuples_BioAssayTuples, DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

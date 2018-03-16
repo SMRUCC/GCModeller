@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e78725a39e7aa6f61c018f3d31564836, RDotNet.Extensions.Bioinformatics\Declares\igraph\igraph.vb"
+﻿#Region "Microsoft.VisualBasic::92986a13169faae1ba7255bb92beed11, RDotNet.Extensions.Bioinformatics\Declares\igraph\igraph.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class igraph
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

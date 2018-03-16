@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b3d8ce2ce39988e8665679525f6fcb7, RDotNET\Graphics\GraphicsDeviceEventArgs.vb"
+﻿#Region "Microsoft.VisualBasic::0f101c5c4eaf2fbf8191340782b6745f, RDotNET\Graphics\GraphicsDeviceEventArgs.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Context, Description
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

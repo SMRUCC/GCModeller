@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b17dd105173096c8e87acd1957e7a6e8, data\ExternalDBSource\MetaCyc\MySQL\parameterizableapplication.vb"
+﻿#Region "Microsoft.VisualBasic::4a9c7e9eade91a1b80b0dd2f316a4685, data\ExternalDBSource\MetaCyc\MySQL\parameterizableapplication.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class parameterizableapplication
     ' 
+    '     Properties: ActivityDate, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, DataSetWID
+    '                 Hardware, MAGEClass, Protocol, ProtocolApplication, ProtocolApplication2
+    '                 ReleaseDate, SerialNumber, Software, Version, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -98,7 +105,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -141,21 +147,21 @@ CREATE TABLE `parameterizableapplication` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class parameterizableapplication: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("ArrayDesign"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayDesign As Long
-    <DatabaseField("ArrayManufacture"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayManufacture As Long
-    <DatabaseField("BioEvent_ProtocolApplications"), DataType(MySqlDbType.Int64, "20")> Public Property BioEvent_ProtocolApplications As Long
-    <DatabaseField("SerialNumber"), DataType(MySqlDbType.VarChar, "255")> Public Property SerialNumber As String
-    <DatabaseField("Hardware"), DataType(MySqlDbType.Int64, "20")> Public Property Hardware As Long
-    <DatabaseField("ActivityDate"), DataType(MySqlDbType.VarChar, "255")> Public Property ActivityDate As String
-    <DatabaseField("ProtocolApplication"), DataType(MySqlDbType.Int64, "20")> Public Property ProtocolApplication As Long
-    <DatabaseField("ProtocolApplication2"), DataType(MySqlDbType.Int64, "20")> Public Property ProtocolApplication2 As Long
-    <DatabaseField("Protocol"), DataType(MySqlDbType.Int64, "20")> Public Property Protocol As Long
-    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "255")> Public Property Version As String
-    <DatabaseField("ReleaseDate"), DataType(MySqlDbType.DateTime)> Public Property ReleaseDate As Date
-    <DatabaseField("Software"), DataType(MySqlDbType.Int64, "20")> Public Property Software As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("ArrayDesign"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayDesign")> Public Property ArrayDesign As Long
+    <DatabaseField("ArrayManufacture"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayManufacture")> Public Property ArrayManufacture As Long
+    <DatabaseField("BioEvent_ProtocolApplications"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioEvent_ProtocolApplications")> Public Property BioEvent_ProtocolApplications As Long
+    <DatabaseField("SerialNumber"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="SerialNumber")> Public Property SerialNumber As String
+    <DatabaseField("Hardware"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Hardware")> Public Property Hardware As Long
+    <DatabaseField("ActivityDate"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ActivityDate")> Public Property ActivityDate As String
+    <DatabaseField("ProtocolApplication"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ProtocolApplication")> Public Property ProtocolApplication As Long
+    <DatabaseField("ProtocolApplication2"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ProtocolApplication2")> Public Property ProtocolApplication2 As Long
+    <DatabaseField("Protocol"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Protocol")> Public Property Protocol As Long
+    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Version")> Public Property Version As String
+    <DatabaseField("ReleaseDate"), DataType(MySqlDbType.DateTime), Column(Name:="ReleaseDate")> Public Property ReleaseDate As Date
+    <DatabaseField("Software"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Software")> Public Property Software As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -178,7 +184,7 @@ Public Class parameterizableapplication: Inherits Oracle.LinuxCompatibility.MySQ
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, DataType.ToMySqlDateTimeString(ReleaseDate), Software)
+        Return String.Format(INSERT_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), Software)
     End Function
 
 ''' <summary>
@@ -195,7 +201,7 @@ Public Class parameterizableapplication: Inherits Oracle.LinuxCompatibility.MySQ
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, DataType.ToMySqlDateTimeString(ReleaseDate), Software)
+        Return String.Format(REPLACE_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), Software)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -203,10 +209,14 @@ Public Class parameterizableapplication: Inherits Oracle.LinuxCompatibility.MySQ
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, DataType.ToMySqlDateTimeString(ReleaseDate), Software, WID)
+        Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, ArrayDesign, ArrayManufacture, BioEvent_ProtocolApplications, SerialNumber, Hardware, ActivityDate, ProtocolApplication, ProtocolApplication2, Protocol, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), Software, WID)
     End Function
 #End Region
+Public Function Clone() As parameterizableapplication
+                  Return DirectCast(MyClass.MemberwiseClone, parameterizableapplication)
+              End Function
 End Class
 
 
 End Namespace
+

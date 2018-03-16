@@ -33,6 +33,9 @@
 
     ' Class glammdatasource
     ' 
+    '     Properties: created, dbName, dbVersion, description, guid
+    '                 organization, priority, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

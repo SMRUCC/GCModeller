@@ -33,10 +33,12 @@
 
     '     Class CytoscapeGenerator
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: CreateNetworkFile, (+4 Overloads) CreateNodeAttributes, (+4 Overloads) CreateNodeInteractions, InternalCreateNodeAttribute, InternalCreateNodeAttributes
     '                   TrimNodeAttributes
     ' 
-    '         Sub: AddStringInteractions, (+2 Overloads) New
+    '         Sub: AddStringInteractions
     ' 
     ' 
     ' /********************************************************************************/

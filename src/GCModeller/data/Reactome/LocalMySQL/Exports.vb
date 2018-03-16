@@ -35,9 +35,8 @@
     ' 
     '         Properties: Ping
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ExportReactionInformation
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

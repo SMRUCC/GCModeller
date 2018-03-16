@@ -33,9 +33,8 @@
 
     '     Class NucleicAcid
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: __createSigma, GetValue
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

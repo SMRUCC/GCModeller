@@ -33,7 +33,7 @@
 
     '     Class ModelBaseType
     ' 
-    '         Properties: ModelProperty
+    '         Properties: IteractionLoops, ModelProperty
     ' 
     '         Function: Save, ToString
     ' 

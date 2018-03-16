@@ -33,7 +33,8 @@
 
     '     Class Enzyme
     ' 
-    '         Properties: AlternateName, Cofactor, Comments, Description, PROSITE
+    '         Properties: AlternateName, Cofactor, Comments, Description, Identification
+    '                     PROSITE
     ' 
     '         Function: CreateObject, ToString
     ' 

@@ -33,7 +33,8 @@
 
     '     Module LociAPI
     ' 
-    '         Function: __tryParse, (+2 Overloads) Equals, MergeJoins, TryParse
+    '         Function: __tryParse, (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins
+    '                   NCBIstyle, TryParse
     ' 
     ' 
     ' /********************************************************************************/

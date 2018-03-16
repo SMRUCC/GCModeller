@@ -33,6 +33,8 @@
 
     ' Class taxonomy2tree
     ' 
+    '     Properties: taxonomyId, treeId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

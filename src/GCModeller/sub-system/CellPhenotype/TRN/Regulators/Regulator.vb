@@ -33,7 +33,8 @@
 
     '     Class RegulationExpression
     ' 
-    '         Properties: Quantity, RegulationFunctional, UniqueId, Value, Weight
+    '         Properties: Quantity, RegulationFunctional, Regulator, Repression, SitePosition
+    '                     UniqueId, Value, Weight
     ' 
     '         Function: CopyTo, set__Regulator, set_TargetSite, SetConfigs
     ' 

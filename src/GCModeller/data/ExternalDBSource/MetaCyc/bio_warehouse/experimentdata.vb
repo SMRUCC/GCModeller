@@ -33,6 +33,9 @@
 
     ' Class experimentdata
     ' 
+    '     Properties: Data, DataSetWID, DateProduced, ExperimentWID, Kind
+    '                 MageData, OtherWID, Role, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

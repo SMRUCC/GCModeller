@@ -38,7 +38,7 @@
     '               SWTomQuery, SWTomQueryBatch
     '     Class __batchTask
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' 

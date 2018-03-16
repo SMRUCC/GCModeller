@@ -33,11 +33,15 @@
 
     '     Class CellSystem
     ' 
-    '         Properties: CellDeathDetection, DataModel, EventId, SystemLogging
+    '         Properties: CellDeathDetection, DataModel, EventId, ExpressionRegulationNetwork, get_MetabolismActivity
+    '                     get_SignalTransductionActivity, get_TranscriptionActivity, get_TranslationActivity, Metabolism, SignalTransductionNetwork
+    '                     SystemLogging
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: CreateServiceSerials, Initialize, Tick, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, InitializeGeneObjectMutation, MemoryDump, New, set_CultivationMedium
+    '         Sub: (+2 Overloads) Dispose, InitializeGeneObjectMutation, MemoryDump, set_CultivationMedium
     ' 
     ' 
     ' /********************************************************************************/

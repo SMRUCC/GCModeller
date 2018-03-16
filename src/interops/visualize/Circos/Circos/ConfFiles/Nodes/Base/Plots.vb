@@ -33,21 +33,27 @@
 
     '     Class HeatMap
     ' 
-    '         Function: GetProperties
+    '         Properties: color, scale_log_base, type
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetProperties
     ' 
     '     Class Histogram
     ' 
-    '         Function: GetProperties
+    '         Properties: extend_bin, fill_color, type
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: GetProperties
     ' 
     '     Class TextLabel
     ' 
-    '         Function: GetProperties
+    '         Properties: color, label_font, label_size, label_snuggle, link_color
+    '                     link_dims, link_thickness, max_snuggle_distance, padding, rpadding
+    '                     show_links, snuggle_link_overlap_test, snuggle_link_overlap_tolerance, snuggle_refine, snuggle_sampling
+    '                     snuggle_tolerance, type
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetProperties
     ' 
     ' 
     ' /********************************************************************************/

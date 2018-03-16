@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16a4be74960e42d61e10c714517d8e88, data\Reactome\LocalMySQL\gk_current\databaseobject_2_modified.vb"
+﻿#Region "Microsoft.VisualBasic::43ca9d3bf5bd4704c9c5a1b704985eba, data\Reactome\LocalMySQL\gk_current\databaseobject_2_modified.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class databaseobject_2_modified
     ' 
+    '     Properties: DB_ID, modified, modified_class, modified_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `databaseobject_2_modified` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class databaseobject_2_modified: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("modified_rank"), DataType(MySqlDbType.Int64, "10")> Public Property modified_rank As Long
-    <DatabaseField("modified"), DataType(MySqlDbType.Int64, "10")> Public Property modified As Long
-    <DatabaseField("modified_class"), DataType(MySqlDbType.VarChar, "64")> Public Property modified_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("modified_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="modified_rank")> Public Property modified_rank As Long
+    <DatabaseField("modified"), DataType(MySqlDbType.Int64, "10"), Column(Name:="modified")> Public Property modified As Long
+    <DatabaseField("modified_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="modified_class")> Public Property modified_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class databaseobject_2_modified: Inherits Oracle.LinuxCompatibility.MySQL
         Return String.Format(UPDATE_SQL, DB_ID, modified_rank, modified, modified_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As databaseobject_2_modified
+                  Return DirectCast(MyClass.MemberwiseClone, databaseobject_2_modified)
+              End Function
 End Class
 
 
 End Namespace
+

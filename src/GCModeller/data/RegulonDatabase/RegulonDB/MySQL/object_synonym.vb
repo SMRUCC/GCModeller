@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::180234f38c7024549a2ace7f656028ce, data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::24e88485d94577423b1fc5121d34a6fa, data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class object_synonym
     ' 
+    '     Properties: key_id_org, object_id, object_synonym_name, os_internal_comment
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `object_synonym` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class object_synonym: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property object_id As String
-    <DatabaseField("object_synonym_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property object_synonym_name As String
-    <DatabaseField("os_internal_comment"), DataType(MySqlDbType.Text)> Public Property os_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="object_id")> Public Property object_id As String
+    <DatabaseField("object_synonym_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="object_synonym_name")> Public Property object_synonym_name As String
+    <DatabaseField("os_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="os_internal_comment")> Public Property os_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class object_synonym: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As object_synonym
+                  Return DirectCast(MyClass.MemberwiseClone, object_synonym)
+              End Function
 End Class
 
 
 End Namespace
+

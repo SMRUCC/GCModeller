@@ -33,19 +33,18 @@
 
     '     Module MotifFootPrintsGenerates
     ' 
-    '         Function: __checkMoitfCoRegulations, __getEffect, __reGenerate, CreateMotifInformations, DataFilteringByPathwayCoExpression
-    '                   Diff, Effect2Pcc, ExpandRegulatorRegulations, ExportRegulators, FilteringEmptyData
-    '                   FootPrintMatches, FootprintMatchesTEXT, GenerateDocument, GenerateNetwork, GetSiteTag
-    '                   GroupMotifs, LoadMotifDatabase, Matches, (+2 Overloads) MatchRegulator, MergeFootprints
-    '                   PathwayFunctionAssociation, PccAssumption, ReadRegulations, ReadVirtualFootprints, SaveRegulations
-    '                   StructurePcc, WriteMotifDatabase, WriteVirtualFootprints
+    '         Function: __checkMoitfCoRegulations, __getEffect, __reGenerate, CreateEntryDictionary, CreateMotifInformations
+    '                   DataFilteringByPathwayCoExpression, Diff, Effect2Pcc, ExpandRegulatorRegulations, ExportRegulators
+    '                   FilteringEmptyData, FootPrintMatches, FootprintMatchesTEXT, GenerateDocument, GenerateNetwork
+    '                   GetSiteTag, GroupMotifs, LoadMotifDatabase, Matches, (+2 Overloads) MatchRegulator
+    '                   MergeFootprints, PathwayFunctionAssociation, PccAssumption, ReadRegulations, ReadVirtualFootprints
+    '                   SaveRegulations, StructurePcc, WriteMotifDatabase, WriteVirtualFootprints
     ' 
     '         Sub: __pathwaysInfo
     '         Class GetPccValue
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: EmptyReader, GetPcc, InternalGetMixedMATValue, InternalGetPccMATValue
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

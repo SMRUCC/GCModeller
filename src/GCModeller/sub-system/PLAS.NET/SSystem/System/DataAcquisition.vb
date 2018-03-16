@@ -33,9 +33,11 @@
 
     '     Class DataAcquisition
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __tag
     ' 
-    '         Sub: New, Save, Tick
+    '         Sub: Save, Tick
     ' 
     ' 
     ' /********************************************************************************/

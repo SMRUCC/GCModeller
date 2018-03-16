@@ -35,9 +35,11 @@
     ' 
     '         Properties: InteractionData
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ConvertId, CreateNetwork, Expend, PrepareData
     ' 
-    '         Sub: Generate, New, Save, TrimNetwork
+    '         Sub: Generate, Save, TrimNetwork
     ' 
     ' 
     ' /********************************************************************************/

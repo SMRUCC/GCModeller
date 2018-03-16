@@ -33,6 +33,10 @@
 
     ' Class ogmember
     ' 
+    '     Properties: [end], aaLength, begin, locusId, nAligned
+    '                 nMemberThisGenome, ogId, score, taxonomyId, treeId
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

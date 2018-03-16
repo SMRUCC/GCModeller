@@ -36,15 +36,13 @@
     '         Properties: FileTypes
     '         Delegate Function
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: ToString
-    ' 
-    '             Sub: New
     ' 
     '     Module ScriptingExtensions
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: LoadHandlers, ReadHTML
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

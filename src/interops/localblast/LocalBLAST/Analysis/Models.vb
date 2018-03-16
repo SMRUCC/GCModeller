@@ -37,6 +37,8 @@
     ' 
     '     Class QueryPair
     ' 
+    '         Properties: Query, Target
+    ' 
     '         Function: ToString
     ' 
     ' 

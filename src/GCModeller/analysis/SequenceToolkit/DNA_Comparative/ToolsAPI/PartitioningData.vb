@@ -33,8 +33,8 @@
 
     ' Class PartitioningData
     ' 
-    '     Properties: GC, GenomeID, Headers, Length, ORFList
-    '                 Title
+    '     Properties: GC, GenomeID, Headers, Length, LociLeft
+    '                 LociRight, ORFList, PartitioningTag, SequenceData, Title
     ' 
     '     Function: ToFasta, ToString
     ' 

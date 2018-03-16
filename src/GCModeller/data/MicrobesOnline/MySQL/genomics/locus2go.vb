@@ -33,6 +33,8 @@
 
     ' Class locus2go
     ' 
+    '     Properties: evidence, goId, locusId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,9 @@
 
     ' Class source_audit
     ' 
+    '     Properties: source_fullpath, source_id, source_md5, source_mtime, source_parsetime
+    '                 source_path, source_type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

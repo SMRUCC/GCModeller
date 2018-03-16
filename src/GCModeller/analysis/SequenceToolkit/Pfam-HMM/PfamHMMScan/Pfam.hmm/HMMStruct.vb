@@ -38,7 +38,7 @@
     '                 ModelDescription, ModelLength, Name, NullEmission, NullX
     '                 PfamAccessionNumber
     ' 
-    '     Sub: (+2 Overloads) New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

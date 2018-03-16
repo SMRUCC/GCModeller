@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e77a219b8af46bd03b3a3221c0ea4675, data\ExternalDBSource\MetaCyc\MySQL\chemicalatom.vb"
+﻿#Region "Microsoft.VisualBasic::a8aa6b0238ff7e06a49e905d7bf3bba8, data\ExternalDBSource\MetaCyc\MySQL\chemicalatom.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class chemicalatom
     ' 
+    '     Properties: Atom, AtomIndex, Charge, ChemicalWID, StereoParity
+    '                 X, Y, Z
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -74,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,14 +98,14 @@ CREATE TABLE `chemicalatom` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class chemicalatom: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ChemicalWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ChemicalWID As Long
-    <DatabaseField("AtomIndex"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "6")> Public Property AtomIndex As Long
-    <DatabaseField("Atom"), NotNull, DataType(MySqlDbType.VarChar, "2")> Public Property Atom As String
-    <DatabaseField("Charge"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Charge As Long
-    <DatabaseField("X"), DataType(MySqlDbType.Decimal)> Public Property X As Decimal
-    <DatabaseField("Y"), DataType(MySqlDbType.Decimal)> Public Property Y As Decimal
-    <DatabaseField("Z"), DataType(MySqlDbType.Decimal)> Public Property Z As Decimal
-    <DatabaseField("StereoParity"), DataType(MySqlDbType.Decimal)> Public Property StereoParity As Decimal
+    <DatabaseField("ChemicalWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ChemicalWID"), XmlAttribute> Public Property ChemicalWID As Long
+    <DatabaseField("AtomIndex"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="AtomIndex"), XmlAttribute> Public Property AtomIndex As Long
+    <DatabaseField("Atom"), NotNull, DataType(MySqlDbType.VarChar, "2"), Column(Name:="Atom")> Public Property Atom As String
+    <DatabaseField("Charge"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Charge")> Public Property Charge As Long
+    <DatabaseField("X"), DataType(MySqlDbType.Decimal), Column(Name:="X")> Public Property X As Decimal
+    <DatabaseField("Y"), DataType(MySqlDbType.Decimal), Column(Name:="Y")> Public Property Y As Decimal
+    <DatabaseField("Z"), DataType(MySqlDbType.Decimal), Column(Name:="Z")> Public Property Z As Decimal
+    <DatabaseField("StereoParity"), DataType(MySqlDbType.Decimal), Column(Name:="StereoParity")> Public Property StereoParity As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -151,7 +156,11 @@ Public Class chemicalatom: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, ChemicalWID, AtomIndex, Atom, Charge, X, Y, Z, StereoParity, ChemicalWID, AtomIndex)
     End Function
 #End Region
+Public Function Clone() As chemicalatom
+                  Return DirectCast(MyClass.MemberwiseClone, chemicalatom)
+              End Function
 End Class
 
 
 End Namespace
+

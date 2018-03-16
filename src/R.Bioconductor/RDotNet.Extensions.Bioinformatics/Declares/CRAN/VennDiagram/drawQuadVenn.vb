@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33355a886378ca57b3be34627883e9e2, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\drawQuadVenn.vb"
+﻿#Region "Microsoft.VisualBasic::15e706821c3fb58a76b84127c0ed2df5, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\drawQuadVenn.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,16 @@
 
     ' Summaries:
 
-    '  
+    '     Class drawQuadVenn
     ' 
-    '     Properties: alpha, area1, area2, area3, area4
-    '                 category, cex, col, fill, fontface
-    '                 fontfamily, ind, lty, lwd, n12
-    '                 n123, n1234, n124, n13, n134
-    '                 n14, n23, n234, n24, n34
-    '                 sigdigs
+    '         Properties: alpha, area1, area2, area3, area4
+    '                     areaVector, catCex, catCol, catDist, category
+    '                     catFontface, catFontfamily, catJust, catPos, cex
+    '                     cexProp, col, directArea, fill, fontface
+    '                     fontfamily, ind, labelCol, lty, lwd
+    '                     n12, n123, n1234, n124, n13
+    '                     n134, n14, n23, n234, n24
+    '                     n34, printMode, rotationCentre, rotationDegree, sigdigs
     ' 
     ' 
     ' /********************************************************************************/

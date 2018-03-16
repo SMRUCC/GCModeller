@@ -33,9 +33,11 @@
 
     '     Class RibosomeAssembly
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: AssemblyLSU, AssemblySSU
     ' 
-    '         Sub: __Internal____addFlag, AssembleRNAPolymerase, Invoke, New
+    '         Sub: __Internal____addFlag, AssembleRNAPolymerase, Invoke
     ' 
     ' 
     ' /********************************************************************************/

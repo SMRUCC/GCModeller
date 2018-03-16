@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4c558fff38bb4d7a0227a4a432a497c, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::95053d35a53e344d0fb8f87797e76251, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
 
     ' Author:
     ' 
@@ -35,14 +35,16 @@
     ' 
     '         Properties: Engine
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Capture, ConfirmNewFrame, GetEvent, GetFunction, GetInterruptsPending
     '                   GetInterruptsSuspended, GetLocation, (+2 Overloads) GetPoints, MeasureWidth
     ' 
     '         Sub: Activate, Alloc, ChangeMode, Clip, Close
     '              Deactivate, (+2 Overloads) Dispose, DrawCircle, DrawLine, DrawPath
     '              DrawPolygon, DrawPolyline, DrawRaster, DrawRectangle, DrawText
-    '              EventHelper, FreeAll, GetMetricInfo, Kill, New
-    '              NewPage, Resize, SetEngine, SetInterruptsSuspended, SetMethod
+    '              EventHelper, FreeAll, GetMetricInfo, Kill, NewPage
+    '              Resize, SetEngine, SetInterruptsSuspended, SetMethod
     ' 
     ' 
     ' /********************************************************************************/

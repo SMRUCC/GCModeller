@@ -33,6 +33,8 @@
 
     ' Class experimwidbioassaydataclustwid
     ' 
+    '     Properties: BioAssayDataClusterWID, ExperimentWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

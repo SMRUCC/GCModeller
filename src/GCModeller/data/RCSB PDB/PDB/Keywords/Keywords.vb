@@ -33,9 +33,8 @@
 
     '     Class Keyword
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetData, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

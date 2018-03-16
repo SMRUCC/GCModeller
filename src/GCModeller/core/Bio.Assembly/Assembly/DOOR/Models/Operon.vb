@@ -36,10 +36,9 @@
     '         Properties: Genes, InitialX, Key, LastGene, lstLocus
     '                     NumOfGenes, OperonID, Strand, TestGuid, Value
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ConvertToCsvData, GetEnumerator, GetEnumerator1, GetLast, HaveGene
     '                   IndexOf, ToString, TryGetValue
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

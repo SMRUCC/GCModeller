@@ -33,6 +33,8 @@
 
     ' Class class_ko00001_pathway
     ' 
+    '     Properties: KEGG, level_A, level_B, name, pathway
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

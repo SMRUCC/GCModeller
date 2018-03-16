@@ -33,7 +33,8 @@
 
     '     Module DOOR_API
     ' 
-    '         Function: CreateOperonView, GetOprFirst, LoadDocument, Reload, SaveFile
+    '         Function: CreateOperonView, GetOprFirst, Load, LoadDocument, PTT2DOOR
+    '                   Reload, SaveFile
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class dbxref
     ' 
+    '     Properties: id, xref_dbname, xref_desc, xref_key, xref_keytype
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5db3821e639f98a42a31aabb0ae4a324, data\Reactome\LocalMySQL\gk_stable_ids\name.vb"
+﻿#Region "Microsoft.VisualBasic::930a0392d0afeb33ef378867d621b5ec, data\Reactome\LocalMySQL\gk_stable_ids\name.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class name
     ' 
+    '     Properties: DB_ID, name, ST_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:31 PM
+REM  Dump @3/16/2018 10:40:24 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_stable_ids
 
@@ -68,7 +73,6 @@ Namespace LocalMySQL.Tables.gk_stable_ids
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,14 +85,14 @@ CREATE TABLE `name` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1639545 DEFAULT CHARSET=latin1;")>
 Public Class name: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12")> Public Property DB_ID As Long
-    <DatabaseField("ST_ID"), NotNull, DataType(MySqlDbType.Int64, "12")> Public Property ST_ID As Long
-    <DatabaseField("name"), NotNull, DataType(MySqlDbType.Text)> Public Property name As String
+    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("ST_ID"), NotNull, DataType(MySqlDbType.Int64, "12"), Column(Name:="ST_ID")> Public Property ST_ID As Long
+    <DatabaseField("name"), NotNull, DataType(MySqlDbType.Text), Column(Name:="name")> Public Property name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}', '{2}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}', '{2}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `name` WHERE `DB_ID` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `name` SET `DB_ID`='{0}', `ST_ID`='{1}', `name`='{2}' WHERE `DB_ID` = '{3}';</SQL>
 #End Region
@@ -102,7 +106,7 @@ Public Class name: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}', '{2}');
+''' INSERT INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
@@ -113,13 +117,13 @@ Public Class name: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{ST_ID}', '{name}', '{2}')"
+        Return $"('{ST_ID}', '{name}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}', '{2}');
+''' REPLACE INTO `name` (`ST_ID`, `name`) VALUES ('{0}', '{1}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
@@ -134,7 +138,11 @@ Public Class name: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, ST_ID, name, DB_ID)
     End Function
 #End Region
+Public Function Clone() As name
+                  Return DirectCast(MyClass.MemberwiseClone, name)
+              End Function
 End Class
 
 
 End Namespace
+

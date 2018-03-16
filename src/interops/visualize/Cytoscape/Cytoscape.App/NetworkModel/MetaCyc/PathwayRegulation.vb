@@ -33,9 +33,11 @@
 
     '     Class PathwayRegulation
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Exists, Regulates
     ' 
-    '         Sub: AnalysisMetaPathwayRegulations, New
+    '         Sub: AnalysisMetaPathwayRegulations
     '         Class PathwayRegulator
     ' 
     ' 

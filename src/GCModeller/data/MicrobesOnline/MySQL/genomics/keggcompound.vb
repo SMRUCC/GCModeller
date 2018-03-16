@@ -33,6 +33,8 @@
 
     ' Class keggcompound
     ' 
+    '     Properties: compound, formula, mass, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

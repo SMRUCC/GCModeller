@@ -33,9 +33,8 @@
 
     '     Module Pathways
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: AllEntries, Downloads, URLProvider
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

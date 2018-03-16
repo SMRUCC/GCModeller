@@ -35,10 +35,12 @@
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Close, Connect, GetDataChunk, GetDefinitions, Initialize
     '                   Tick, ToString
     ' 
-    '         Sub: GenerateDefinition, New, SetUpCommitInterval
+    '         Sub: GenerateDefinition, SetUpCommitInterval
     ' 
     ' 
     ' /********************************************************************************/

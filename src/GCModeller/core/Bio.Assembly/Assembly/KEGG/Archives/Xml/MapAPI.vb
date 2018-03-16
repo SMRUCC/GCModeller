@@ -33,7 +33,7 @@
 
     '     Module MapAPI
     ' 
-    '         Function: (+2 Overloads) GetReactions
+    '         Function: EcParser, (+2 Overloads) GetReactions, IsThisReaction
     ' 
     ' 
     ' /********************************************************************************/

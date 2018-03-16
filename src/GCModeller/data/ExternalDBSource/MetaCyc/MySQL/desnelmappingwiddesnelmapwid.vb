@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7edc0969d83ee9d192426cafa08ed01a, data\ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::d2a6600930a7006e3c072919a40c12b4, data\ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class desnelmappingwiddesnelmapwid
     ' 
+    '     Properties: DesignElementMappingWID, DesignElementMapWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `desnelmappingwiddesnelmapwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class desnelmappingwiddesnelmapwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DesignElementMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DesignElementMappingWID As Long
-    <DatabaseField("DesignElementMapWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DesignElementMapWID As Long
+    <DatabaseField("DesignElementMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementMappingWID"), XmlAttribute> Public Property DesignElementMappingWID As Long
+    <DatabaseField("DesignElementMapWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementMapWID")> Public Property DesignElementMapWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class desnelmappingwiddesnelmapwid: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, DesignElementMappingWID, DesignElementMapWID, DesignElementMappingWID)
     End Function
 #End Region
+Public Function Clone() As desnelmappingwiddesnelmapwid
+                  Return DirectCast(MyClass.MemberwiseClone, desnelmappingwiddesnelmapwid)
+              End Function
 End Class
 
 
 End Namespace
+

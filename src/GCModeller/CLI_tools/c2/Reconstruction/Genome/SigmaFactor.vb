@@ -33,9 +33,8 @@
 
     '     Class SigmaFactor
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Performance
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

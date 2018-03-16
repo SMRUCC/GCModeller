@@ -38,9 +38,11 @@
     '               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
     '     Class __writeIO
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __creates
     ' 
-    '         Sub: (+2 Overloads) Dispose, InvokeWrite, New
+    '         Sub: (+2 Overloads) Dispose, InvokeWrite
     ' 
     ' 
     ' 

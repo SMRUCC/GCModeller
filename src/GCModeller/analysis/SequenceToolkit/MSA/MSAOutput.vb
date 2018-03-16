@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::872e1e07a1f26e6e4ab4fcf584035fb3, analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::a3360df84bf00115d17e2b6626182e2c, analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -102,4 +102,3 @@ Public Structure MSAOutput
         out.Flush()
     End Sub
 End Structure
-

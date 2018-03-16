@@ -33,6 +33,8 @@
 
     ' Class glammlastguid
     ' 
+    '     Properties: lastGuid
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

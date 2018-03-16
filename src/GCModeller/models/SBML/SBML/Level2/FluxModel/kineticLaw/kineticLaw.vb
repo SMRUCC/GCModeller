@@ -33,7 +33,7 @@
 
     '     Class kineticLaw
     ' 
-    '         Properties: listOfParameters, math
+    '         Properties: listOfParameters, math, ObjectiveCoefficient
     ' 
     '         Function: GetParameter, ToString
     ' 

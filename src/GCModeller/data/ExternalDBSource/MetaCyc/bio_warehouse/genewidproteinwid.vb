@@ -33,6 +33,8 @@
 
     ' Class genewidproteinwid
     ' 
+    '     Properties: GeneWID, ProteinWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -35,9 +35,8 @@
     ' 
     '         Properties: Expression, x
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetModel, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

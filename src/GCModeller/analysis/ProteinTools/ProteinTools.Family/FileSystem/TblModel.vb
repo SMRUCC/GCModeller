@@ -33,7 +33,8 @@
 
     '     Class Family
     ' 
-    '         Properties: Descriptions, Domains, FamilyLike, Trace
+    '         Properties: Descriptions, Domains, Family, FamilyLike, PfamString
+    '                     Trace
     ' 
     '         Function: __trace, GetTrace, IsThisFamily, ToString
     '         Enum MatchStates

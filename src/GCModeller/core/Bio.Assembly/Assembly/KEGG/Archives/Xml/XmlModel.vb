@@ -33,7 +33,7 @@
 
     '     Class XmlModel
     ' 
-    '         Properties: EC_Mappings, Metabolome, Modules, Pathways
+    '         Properties: EC_Mappings, Metabolome, Modules, Pathways, spCode
     ' 
     '         Function: GetAllPathways, GetMaps, GetReaction, (+2 Overloads) Save
     ' 

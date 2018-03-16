@@ -33,7 +33,7 @@
 
     '     Class CrossTalks
     ' 
-    '         Properties: InteractionType
+    '         Properties: InteractionType, Kinase, Probability, Regulator
     ' 
     '         Function: ToString, Trim, TrimedKinaseId, TrimedRegulatorId
     ' 

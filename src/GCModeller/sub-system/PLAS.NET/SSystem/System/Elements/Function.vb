@@ -33,6 +33,8 @@
 
     '     Structure [Function]
     ' 
+    '         Properties: Declaration, Name
+    ' 
     '         Function: ToString
     ' 
     ' 

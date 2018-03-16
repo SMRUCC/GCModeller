@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff40f843d8de606152075c0a67bf51bc, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml.vb"
+﻿#Region "Microsoft.VisualBasic::7947f00ab28bdf02f64138d7c6a5c9c3, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Class node
     ' 
     '         Properties: [class], attributes, fill, id, stroke
-    '                     style, zIndex
+    '                     style, XmlComment, zIndex
     ' 
     '         Function: ToString
     ' 
@@ -57,6 +57,7 @@
     '     Class polyline
     ' 
     '         Properties: points
+    '         Operators: +
     ' 
     '     Class rect
     ' 
@@ -95,6 +96,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -134,6 +136,20 @@ Namespace SVG.XML
         ''' </remarks>
         <XmlIgnore>
         Public Property attributes As Dictionary(Of String, String)
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAnyElement("gComment")>
+        Public Property XmlComment As XmlComment
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+
+            End Get
+            Set
+            End Set
+        End Property
 
         Public Overrides Function ToString() As String
             Return MyClass.GetJson

@@ -39,15 +39,14 @@
     ' 
     '         Properties: Format, Index, Precursor
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class FastaObject
     ' 
     '         Properties: Format
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

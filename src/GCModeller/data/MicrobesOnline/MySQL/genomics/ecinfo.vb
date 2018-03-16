@@ -33,6 +33,8 @@
 
     ' Class ecinfo
     ' 
+    '     Properties: ecNum, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

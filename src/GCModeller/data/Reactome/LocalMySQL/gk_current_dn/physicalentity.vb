@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62dd72c217c6770be7ec95a329310dd5, data\Reactome\LocalMySQL\gk_current_dn\physicalentity.vb"
+﻿#Region "Microsoft.VisualBasic::cc34055833294e1eb6ff4c891a139745, data\Reactome\LocalMySQL\gk_current_dn\physicalentity.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class physicalentity
     ' 
+    '     Properties: [class], displayName, id, species, stableId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -71,7 +76,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,11 +91,11 @@ CREATE TABLE `physicalentity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class physicalentity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property id As Long
-    <DatabaseField("displayName"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property displayName As String
-    <DatabaseField("species"), DataType(MySqlDbType.VarChar, "255")> Public Property species As String
-    <DatabaseField("class"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property [class] As String
-    <DatabaseField("stableId"), DataType(MySqlDbType.VarChar, "32")> Public Property stableId As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("displayName"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="displayName")> Public Property displayName As String
+    <DatabaseField("species"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="species")> Public Property species As String
+    <DatabaseField("class"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="class")> Public Property [class] As String
+    <DatabaseField("stableId"), DataType(MySqlDbType.VarChar, "32"), Column(Name:="stableId")> Public Property stableId As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -142,7 +146,11 @@ Public Class physicalentity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, displayName, species, [class], stableId, id)
     End Function
 #End Region
+Public Function Clone() As physicalentity
+                  Return DirectCast(MyClass.MemberwiseClone, physicalentity)
+              End Function
 End Class
 
 
 End Namespace
+

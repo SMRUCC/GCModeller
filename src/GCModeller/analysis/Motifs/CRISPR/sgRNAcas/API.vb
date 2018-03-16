@@ -33,10 +33,9 @@
 
     ' Module API
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: check_sgRNA_seq, extract_targetSeq, Initialize, LoadSingleStrandResult, sgRNAcas
     '               sgRPrimer
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

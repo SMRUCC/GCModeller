@@ -42,11 +42,12 @@
     ' 
     '     Class nodeName
     ' 
-    '         Properties: Entered, ID2, Name
+    '         Properties: Entered, GeneID, HumanSymbol, ID2, Name
     ' 
     '     Class __node
     ' 
-    '         Properties: Entry, Length, Organism
+    '         Properties: Entry, EntryName, GeneNames, Length, Organism
+    '                     ProteinNames
     ' 
     ' 
     ' 

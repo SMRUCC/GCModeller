@@ -33,6 +33,8 @@
 
     '     Class visualStyle
     ' 
+    '         Properties: Edge, Name, Network, Node
+    ' 
     '         Function: ToString
     ' 
     ' 

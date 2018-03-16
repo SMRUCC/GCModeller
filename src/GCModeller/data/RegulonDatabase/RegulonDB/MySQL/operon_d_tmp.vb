@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efde81ce0c5f32f69b7bba6e51ffa1b5, data\RegulonDatabase\RegulonDB\MySQL\operon_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::145b359081f0dee70fb3941eaafb840d, data\RegulonDatabase\RegulonDB\MySQL\operon_d_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class operon_d_tmp
     ' 
+    '     Properties: op_id, operon_gene_group, operon_id, operon_name, operon_promoter_group
+    '                 operon_sf_group, operon_site_group, operon_terminator_group, operon_tf_group, operon_tu_group
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -74,7 +80,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,16 +98,16 @@ CREATE TABLE `operon_d_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class operon_d_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("op_id"), NotNull, DataType(MySqlDbType.Decimal)> Public Property op_id As Decimal
-    <DatabaseField("operon_id"), DataType(MySqlDbType.VarChar, "12")> Public Property operon_id As String
-    <DatabaseField("operon_name"), DataType(MySqlDbType.VarChar, "255")> Public Property operon_name As String
-    <DatabaseField("operon_tu_group"), DataType(MySqlDbType.Decimal)> Public Property operon_tu_group As Decimal
-    <DatabaseField("operon_gene_group"), DataType(MySqlDbType.Decimal)> Public Property operon_gene_group As Decimal
-    <DatabaseField("operon_sf_group"), DataType(MySqlDbType.Decimal)> Public Property operon_sf_group As Decimal
-    <DatabaseField("operon_site_group"), DataType(MySqlDbType.Decimal)> Public Property operon_site_group As Decimal
-    <DatabaseField("operon_promoter_group"), DataType(MySqlDbType.Decimal)> Public Property operon_promoter_group As Decimal
-    <DatabaseField("operon_tf_group"), DataType(MySqlDbType.Decimal)> Public Property operon_tf_group As Decimal
-    <DatabaseField("operon_terminator_group"), DataType(MySqlDbType.Decimal)> Public Property operon_terminator_group As Decimal
+    <DatabaseField("op_id"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="op_id")> Public Property op_id As Decimal
+    <DatabaseField("operon_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="operon_id")> Public Property operon_id As String
+    <DatabaseField("operon_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="operon_name")> Public Property operon_name As String
+    <DatabaseField("operon_tu_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_tu_group")> Public Property operon_tu_group As Decimal
+    <DatabaseField("operon_gene_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_gene_group")> Public Property operon_gene_group As Decimal
+    <DatabaseField("operon_sf_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_sf_group")> Public Property operon_sf_group As Decimal
+    <DatabaseField("operon_site_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_site_group")> Public Property operon_site_group As Decimal
+    <DatabaseField("operon_promoter_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_promoter_group")> Public Property operon_promoter_group As Decimal
+    <DatabaseField("operon_tf_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_tf_group")> Public Property operon_tf_group As Decimal
+    <DatabaseField("operon_terminator_group"), DataType(MySqlDbType.Decimal), Column(Name:="operon_terminator_group")> Public Property operon_terminator_group As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -153,7 +158,11 @@ Public Class operon_d_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As operon_d_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, operon_d_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

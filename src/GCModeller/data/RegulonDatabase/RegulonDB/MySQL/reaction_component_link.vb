@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cca97e8e04a16a9bd4f03f6d1b3d857, data\RegulonDatabase\RegulonDB\MySQL\reaction_component_link.vb"
+﻿#Region "Microsoft.VisualBasic::0cf95c908f0d0aa3f7b4c38e2c2dfd75, data\RegulonDatabase\RegulonDB\MySQL\reaction_component_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reaction_component_link
     ' 
+    '     Properties: component_id, reaction_component_id, reaction_id, role
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `reaction_component_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reaction_component_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("reaction_component_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reaction_component_id As String
-    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reaction_id As String
-    <DatabaseField("component_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property component_id As String
-    <DatabaseField("role"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property role As String
+    <DatabaseField("reaction_component_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reaction_component_id")> Public Property reaction_component_id As String
+    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reaction_id")> Public Property reaction_id As String
+    <DatabaseField("component_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="component_id")> Public Property component_id As String
+    <DatabaseField("role"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="role")> Public Property role As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class reaction_component_link: Inherits Oracle.LinuxCompatibility.MySQL.M
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As reaction_component_link
+                  Return DirectCast(MyClass.MemberwiseClone, reaction_component_link)
+              End Function
 End Class
 
 
 End Namespace
+

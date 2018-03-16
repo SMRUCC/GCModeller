@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7dd8b1c790e407928808556a306e341, data\ExternalDBSource\MetaCyc\MySQL\biosource.vb"
+﻿#Region "Microsoft.VisualBasic::9d5fdc50106f0e373e56e5defb2af2dd, data\ExternalDBSource\MetaCyc\MySQL\biosource.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class biosource
     ' 
+    '     Properties: ATCCId, CellLine, CellType, DataSetWID, DevelopmentStage
+    '                 Disease, Diseased, MAGEClass, Name, Organ
+    '                 Organelle, Sex, Strain, TaxonWID, Tissue
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -85,7 +93,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -115,22 +122,22 @@ CREATE TABLE `biosource` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class biosource: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("MAGEClass"), DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("TaxonWID"), DataType(MySqlDbType.Int64, "20")> Public Property TaxonWID As Long
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "200")> Public Property Name As String
-    <DatabaseField("Strain"), DataType(MySqlDbType.VarChar, "220")> Public Property Strain As String
-    <DatabaseField("Organ"), DataType(MySqlDbType.VarChar, "50")> Public Property Organ As String
-    <DatabaseField("Organelle"), DataType(MySqlDbType.VarChar, "50")> Public Property Organelle As String
-    <DatabaseField("Tissue"), DataType(MySqlDbType.VarChar, "100")> Public Property Tissue As String
-    <DatabaseField("CellType"), DataType(MySqlDbType.VarChar, "50")> Public Property CellType As String
-    <DatabaseField("CellLine"), DataType(MySqlDbType.VarChar, "50")> Public Property CellLine As String
-    <DatabaseField("ATCCId"), DataType(MySqlDbType.VarChar, "50")> Public Property ATCCId As String
-    <DatabaseField("Diseased"), DataType(MySqlDbType.VarChar, "1")> Public Property Diseased As String
-    <DatabaseField("Disease"), DataType(MySqlDbType.VarChar, "250")> Public Property Disease As String
-    <DatabaseField("DevelopmentStage"), DataType(MySqlDbType.VarChar, "50")> Public Property DevelopmentStage As String
-    <DatabaseField("Sex"), DataType(MySqlDbType.VarChar, "15")> Public Property Sex As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("MAGEClass"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("TaxonWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="TaxonWID")> Public Property TaxonWID As Long
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Strain"), DataType(MySqlDbType.VarChar, "220"), Column(Name:="Strain")> Public Property Strain As String
+    <DatabaseField("Organ"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Organ")> Public Property Organ As String
+    <DatabaseField("Organelle"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Organelle")> Public Property Organelle As String
+    <DatabaseField("Tissue"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="Tissue")> Public Property Tissue As String
+    <DatabaseField("CellType"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="CellType")> Public Property CellType As String
+    <DatabaseField("CellLine"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="CellLine")> Public Property CellLine As String
+    <DatabaseField("ATCCId"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="ATCCId")> Public Property ATCCId As String
+    <DatabaseField("Diseased"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Diseased")> Public Property Diseased As String
+    <DatabaseField("Disease"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="Disease")> Public Property Disease As String
+    <DatabaseField("DevelopmentStage"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="DevelopmentStage")> Public Property DevelopmentStage As String
+    <DatabaseField("Sex"), DataType(MySqlDbType.VarChar, "15"), Column(Name:="Sex")> Public Property Sex As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -181,7 +188,11 @@ Public Class biosource: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, MAGEClass, TaxonWID, Name, Strain, Organ, Organelle, Tissue, CellType, CellLine, ATCCId, Diseased, Disease, DevelopmentStage, Sex, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As biosource
+                  Return DirectCast(MyClass.MemberwiseClone, biosource)
+              End Function
 End Class
 
 
 End Namespace
+

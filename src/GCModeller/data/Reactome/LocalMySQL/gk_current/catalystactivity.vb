@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a16f5739a1458a1ab7c24826a1f406d5, data\Reactome\LocalMySQL\gk_current\catalystactivity.vb"
+﻿#Region "Microsoft.VisualBasic::6f9a80a8edf081621f32b11f632332a1, data\Reactome\LocalMySQL\gk_current\catalystactivity.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class catalystactivity
     ' 
+    '     Properties: activity, activity_class, DB_ID, physicalEntity, physicalEntity_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -72,7 +77,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `catalystactivity` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class catalystactivity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("activity"), DataType(MySqlDbType.Int64, "10")> Public Property activity As Long
-    <DatabaseField("activity_class"), DataType(MySqlDbType.VarChar, "64")> Public Property activity_class As String
-    <DatabaseField("physicalEntity"), DataType(MySqlDbType.Int64, "10")> Public Property physicalEntity As Long
-    <DatabaseField("physicalEntity_class"), DataType(MySqlDbType.VarChar, "64")> Public Property physicalEntity_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("activity"), DataType(MySqlDbType.Int64, "10"), Column(Name:="activity")> Public Property activity As Long
+    <DatabaseField("activity_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="activity_class")> Public Property activity_class As String
+    <DatabaseField("physicalEntity"), DataType(MySqlDbType.Int64, "10"), Column(Name:="physicalEntity")> Public Property physicalEntity As Long
+    <DatabaseField("physicalEntity_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="physicalEntity_class")> Public Property physicalEntity_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class catalystactivity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, DB_ID, activity, activity_class, physicalEntity, physicalEntity_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As catalystactivity
+                  Return DirectCast(MyClass.MemberwiseClone, catalystactivity)
+              End Function
 End Class
 
 
 End Namespace
+

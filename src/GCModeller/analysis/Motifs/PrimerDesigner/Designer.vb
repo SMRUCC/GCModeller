@@ -46,7 +46,7 @@
     '                 Gamma, GCDifference, Product, Reversed, ReversedSequence
     '                 SenseRestrictedSite, TmDifference
     ' 
-    '     Sub: New
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

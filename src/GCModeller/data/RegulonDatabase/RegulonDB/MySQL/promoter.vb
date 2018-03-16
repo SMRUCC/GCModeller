@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb3a817798c8a75369bf308d830e82af, data\RegulonDatabase\RegulonDB\MySQL\promoter.vb"
+﻿#Region "Microsoft.VisualBasic::7fdd7903ff00d683c7ce6a7ff02cb27a, data\RegulonDatabase\RegulonDB\MySQL\promoter.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class promoter
     ' 
+    '     Properties: basal_trans_val, equilibrium_const, key_id_org, kinetic_const, pos_1
+    '                 promoter_id, promoter_internal_comment, promoter_name, promoter_note, promoter_sequence
+    '                 promoter_strand, sigma_factor, strength_seq
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -77,7 +84,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -99,19 +105,19 @@ CREATE TABLE `promoter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class promoter: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("promoter_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property promoter_id As String
-    <DatabaseField("promoter_name"), DataType(MySqlDbType.VarChar, "255")> Public Property promoter_name As String
-    <DatabaseField("promoter_strand"), DataType(MySqlDbType.VarChar, "10")> Public Property promoter_strand As String
-    <DatabaseField("pos_1"), DataType(MySqlDbType.Decimal)> Public Property pos_1 As Decimal
-    <DatabaseField("sigma_factor"), DataType(MySqlDbType.VarChar, "80")> Public Property sigma_factor As String
-    <DatabaseField("basal_trans_val"), DataType(MySqlDbType.Decimal)> Public Property basal_trans_val As Decimal
-    <DatabaseField("equilibrium_const"), DataType(MySqlDbType.Decimal)> Public Property equilibrium_const As Decimal
-    <DatabaseField("kinetic_const"), DataType(MySqlDbType.Decimal)> Public Property kinetic_const As Decimal
-    <DatabaseField("strength_seq"), DataType(MySqlDbType.Decimal)> Public Property strength_seq As Decimal
-    <DatabaseField("promoter_sequence"), DataType(MySqlDbType.VarChar, "200")> Public Property promoter_sequence As String
-    <DatabaseField("promoter_note"), DataType(MySqlDbType.VarChar, "4000")> Public Property promoter_note As String
-    <DatabaseField("promoter_internal_comment"), DataType(MySqlDbType.Text)> Public Property promoter_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("promoter_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="promoter_id")> Public Property promoter_id As String
+    <DatabaseField("promoter_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="promoter_name")> Public Property promoter_name As String
+    <DatabaseField("promoter_strand"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="promoter_strand")> Public Property promoter_strand As String
+    <DatabaseField("pos_1"), DataType(MySqlDbType.Decimal), Column(Name:="pos_1")> Public Property pos_1 As Decimal
+    <DatabaseField("sigma_factor"), DataType(MySqlDbType.VarChar, "80"), Column(Name:="sigma_factor")> Public Property sigma_factor As String
+    <DatabaseField("basal_trans_val"), DataType(MySqlDbType.Decimal), Column(Name:="basal_trans_val")> Public Property basal_trans_val As Decimal
+    <DatabaseField("equilibrium_const"), DataType(MySqlDbType.Decimal), Column(Name:="equilibrium_const")> Public Property equilibrium_const As Decimal
+    <DatabaseField("kinetic_const"), DataType(MySqlDbType.Decimal), Column(Name:="kinetic_const")> Public Property kinetic_const As Decimal
+    <DatabaseField("strength_seq"), DataType(MySqlDbType.Decimal), Column(Name:="strength_seq")> Public Property strength_seq As Decimal
+    <DatabaseField("promoter_sequence"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="promoter_sequence")> Public Property promoter_sequence As String
+    <DatabaseField("promoter_note"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="promoter_note")> Public Property promoter_note As String
+    <DatabaseField("promoter_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="promoter_internal_comment")> Public Property promoter_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +168,11 @@ Public Class promoter: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As promoter
+                  Return DirectCast(MyClass.MemberwiseClone, promoter)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc6c986f39019ca7b232adf98f47bf6e, data\ExternalDBSource\MetaCyc\MySQL\designelementgroup.vb"
+﻿#Region "Microsoft.VisualBasic::e38a462db34624d579ecaa57064ad6fc, data\ExternalDBSource\MetaCyc\MySQL\designelementgroup.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class designelementgroup
     ' 
+    '     Properties: ArrayDesign_FeatureGroups, DataSetWID, DesignElementGroup_Species, FeatureGroup_DistanceUnit, FeatureGroup_FeatureShape
+    '                 FeatureGroup_TechnologyType, FeatureHeight, FeatureLength, FeatureWidth, Identifier
+    '                 MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -90,7 +97,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -125,19 +131,19 @@ CREATE TABLE `designelementgroup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class designelementgroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("ArrayDesign_FeatureGroups"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayDesign_FeatureGroups As Long
-    <DatabaseField("DesignElementGroup_Species"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElementGroup_Species As Long
-    <DatabaseField("FeatureWidth"), DataType(MySqlDbType.Double)> Public Property FeatureWidth As Double
-    <DatabaseField("FeatureLength"), DataType(MySqlDbType.Double)> Public Property FeatureLength As Double
-    <DatabaseField("FeatureHeight"), DataType(MySqlDbType.Double)> Public Property FeatureHeight As Double
-    <DatabaseField("FeatureGroup_TechnologyType"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureGroup_TechnologyType As Long
-    <DatabaseField("FeatureGroup_FeatureShape"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureGroup_FeatureShape As Long
-    <DatabaseField("FeatureGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureGroup_DistanceUnit As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("ArrayDesign_FeatureGroups"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayDesign_FeatureGroups")> Public Property ArrayDesign_FeatureGroups As Long
+    <DatabaseField("DesignElementGroup_Species"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementGroup_Species")> Public Property DesignElementGroup_Species As Long
+    <DatabaseField("FeatureWidth"), DataType(MySqlDbType.Double), Column(Name:="FeatureWidth")> Public Property FeatureWidth As Double
+    <DatabaseField("FeatureLength"), DataType(MySqlDbType.Double), Column(Name:="FeatureLength")> Public Property FeatureLength As Double
+    <DatabaseField("FeatureHeight"), DataType(MySqlDbType.Double), Column(Name:="FeatureHeight")> Public Property FeatureHeight As Double
+    <DatabaseField("FeatureGroup_TechnologyType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureGroup_TechnologyType")> Public Property FeatureGroup_TechnologyType As Long
+    <DatabaseField("FeatureGroup_FeatureShape"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureGroup_FeatureShape")> Public Property FeatureGroup_FeatureShape As Long
+    <DatabaseField("FeatureGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureGroup_DistanceUnit")> Public Property FeatureGroup_DistanceUnit As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -188,7 +194,11 @@ Public Class designelementgroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, ArrayDesign_FeatureGroups, DesignElementGroup_Species, FeatureWidth, FeatureLength, FeatureHeight, FeatureGroup_TechnologyType, FeatureGroup_FeatureShape, FeatureGroup_DistanceUnit, WID)
     End Function
 #End Region
+Public Function Clone() As designelementgroup
+                  Return DirectCast(MyClass.MemberwiseClone, designelementgroup)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,8 @@
 
     ' Class comment
     ' 
+    '     Properties: comment, objectId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

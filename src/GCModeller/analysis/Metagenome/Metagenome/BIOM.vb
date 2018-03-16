@@ -33,7 +33,7 @@
 
     ' Module BIOM
     ' 
-    '     Function: [Imports], BIOMTaxonomyString, EXPORT, TaxonomyString
+    '     Function: [Imports], BIOMTaxonomyString, EXPORT, (+2 Overloads) TaxonomyString
     ' 
     ' /********************************************************************************/
 

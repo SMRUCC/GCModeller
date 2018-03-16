@@ -39,18 +39,19 @@
     ' 
     '     Properties: DIR
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __entryQuery, __query, AddNew, Exists, GetAll
     '               GetByKey, GetWhere, (+3 Overloads) Query
     ' 
-    '     Sub: AddOrUpdate, Delete, New
+    '     Sub: AddOrUpdate, Delete
     ' 
     ' Class GeneInfo
     ' 
     '     Properties: [function], accId, locus_tag, name
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: NameEquals, ToString
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' Class GenbankIndex
     ' 

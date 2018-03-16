@@ -33,18 +33,19 @@
 
     '     Interface ITrackPlot
     ' 
-    '         Properties: fill_color, orientation, stroke_color, stroke_thickness, thickness
-    '                     TracksData
+    '         Properties: file, fill_color, orientation, r0, r1
+    '                     stroke_color, stroke_thickness, thickness, TracksData, type
     ' 
     '         Function: Save
     ' 
     '     Class TracksPlot
     ' 
-    '         Properties: Rules, TracksData
+    '         Properties: file, fill_color, max, min, orientation
+    '                     r0, r1, Rules, stroke_color, stroke_thickness
+    '                     thickness, TracksData
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Build, GeneratePlotsElementListChunk, (+2 Overloads) Save, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

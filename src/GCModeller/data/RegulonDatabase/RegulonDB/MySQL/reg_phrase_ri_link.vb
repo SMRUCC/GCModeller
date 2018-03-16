@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b629e5922227a82a168df2506e3b7952, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
+﻿#Region "Microsoft.VisualBasic::b17c7b57cfd687a18efd3f0db2662118, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reg_phrase_ri_link
     ' 
+    '     Properties: reg_phrase_id, regulatory_interaction_id, type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `reg_phrase_ri_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reg_phrase_ri_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("reg_phrase_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reg_phrase_id As String
-    <DatabaseField("regulatory_interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property regulatory_interaction_id As String
-    <DatabaseField("type"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property type As String
+    <DatabaseField("reg_phrase_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reg_phrase_id")> Public Property reg_phrase_id As String
+    <DatabaseField("regulatory_interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="regulatory_interaction_id")> Public Property regulatory_interaction_id As String
+    <DatabaseField("type"), NotNull, DataType(MySqlDbType.VarChar, "20"), Column(Name:="type")> Public Property type As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class reg_phrase_ri_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As reg_phrase_ri_link
+                  Return DirectCast(MyClass.MemberwiseClone, reg_phrase_ri_link)
+              End Function
 End Class
 
 
 End Namespace
+

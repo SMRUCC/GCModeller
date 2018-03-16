@@ -35,27 +35,26 @@
     ' 
     '     Properties: DataOverviews, ForwardsReadsBuffer, ReversedReadsBuffer, Transcripts
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __Assembler, Assembling
     ' 
-    '     Sub: __Assembler, New
+    '     Sub: __Assembler
     '     Class DirectionalAssembler
     ' 
     '         Properties: readsBufferChunk, resultBuffer
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Assemble, ToString
-    ' 
-    '         Sub: New
     '         Class ForwardsAssembler
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __initReadsBufferChunk
-    ' 
-    '             Sub: New
     ' 
     '         Class ReversedAssembler
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __initReadsBufferChunk
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

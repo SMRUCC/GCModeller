@@ -33,6 +33,8 @@
 
     ' Class enzplayer
     ' 
+    '     Properties: enzrxnId, player, playerId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

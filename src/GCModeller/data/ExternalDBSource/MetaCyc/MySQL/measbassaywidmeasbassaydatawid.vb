@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad944d0b6b67982744c191652de8f205, data\ExternalDBSource\MetaCyc\MySQL\measbassaywidmeasbassaydatawid.vb"
+﻿#Region "Microsoft.VisualBasic::e13b2bbe80810cdbe9aeceb5e8669c32, data\ExternalDBSource\MetaCyc\MySQL\measbassaywidmeasbassaydatawid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class measbassaywidmeasbassaydatawid
     ' 
+    '     Properties: MeasuredBioAssayDataWID, MeasuredBioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `measbassaywidmeasbassaydatawid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class measbassaywidmeasbassaydatawid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("MeasuredBioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property MeasuredBioAssayWID As Long
-    <DatabaseField("MeasuredBioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property MeasuredBioAssayDataWID As Long
+    <DatabaseField("MeasuredBioAssayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="MeasuredBioAssayWID"), XmlAttribute> Public Property MeasuredBioAssayWID As Long
+    <DatabaseField("MeasuredBioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="MeasuredBioAssayDataWID")> Public Property MeasuredBioAssayDataWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class measbassaywidmeasbassaydatawid: Inherits Oracle.LinuxCompatibility.
         Return String.Format(UPDATE_SQL, MeasuredBioAssayWID, MeasuredBioAssayDataWID, MeasuredBioAssayWID)
     End Function
 #End Region
+Public Function Clone() As measbassaywidmeasbassaydatawid
+                  Return DirectCast(MyClass.MemberwiseClone, measbassaywidmeasbassaydatawid)
+              End Function
 End Class
 
 
 End Namespace
+

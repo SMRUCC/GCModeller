@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1828f88d618d7a5e271581c7118b4a5e, data\ExternalDBSource\MetaCyc\MySQL\nodecontents.vb"
+﻿#Region "Microsoft.VisualBasic::20606770a63ca5b85dda2a387c9e843a, data\ExternalDBSource\MetaCyc\MySQL\nodecontents.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class nodecontents
     ' 
+    '     Properties: BioAssayDimension, DataSetWID, DesignElementDimension, Node_NodeContents, QuantitationDimension
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,12 +112,12 @@ CREATE TABLE `nodecontents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class nodecontents: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Node_NodeContents"), DataType(MySqlDbType.Int64, "20")> Public Property Node_NodeContents As Long
-    <DatabaseField("BioAssayDimension"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayDimension As Long
-    <DatabaseField("DesignElementDimension"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElementDimension As Long
-    <DatabaseField("QuantitationDimension"), DataType(MySqlDbType.Int64, "20")> Public Property QuantitationDimension As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Node_NodeContents"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Node_NodeContents")> Public Property Node_NodeContents As Long
+    <DatabaseField("BioAssayDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayDimension")> Public Property BioAssayDimension As Long
+    <DatabaseField("DesignElementDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElementDimension")> Public Property DesignElementDimension As Long
+    <DatabaseField("QuantitationDimension"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationDimension")> Public Property QuantitationDimension As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -163,7 +168,11 @@ Public Class nodecontents: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Node_NodeContents, BioAssayDimension, DesignElementDimension, QuantitationDimension, WID)
     End Function
 #End Region
+Public Function Clone() As nodecontents
+                  Return DirectCast(MyClass.MemberwiseClone, nodecontents)
+              End Function
 End Class
 
 
 End Namespace
+

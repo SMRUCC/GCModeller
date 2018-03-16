@@ -33,7 +33,7 @@
 
     '     Class DisposableCompound
     ' 
-    '         Properties: DataSource, FluxValue
+    '         Properties: DataSource, DisposalSubstrate, FluxValue, Lambda, PretendedSubstrate
     ' 
     '         Function: CreatePeptideDisposalObject, CreateTranscriptDisposalObject, GetModelBase, Initialize, InternalCreateObjects
     '                   InternalCreateReferences, Invoke, ToString

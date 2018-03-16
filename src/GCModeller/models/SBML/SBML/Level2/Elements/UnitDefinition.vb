@@ -33,7 +33,7 @@
 
     '     Class unitDefinition
     ' 
-    '         Properties: listOfUnits
+    '         Properties: id, listOfUnits
     ' 
     '         Function: ToString
     ' 

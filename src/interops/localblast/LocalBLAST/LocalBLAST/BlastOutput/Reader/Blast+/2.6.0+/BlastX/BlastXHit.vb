@@ -35,9 +35,8 @@
     ' 
     '         Properties: Frame
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateObjects, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

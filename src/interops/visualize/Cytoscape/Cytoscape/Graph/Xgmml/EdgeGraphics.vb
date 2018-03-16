@@ -33,7 +33,8 @@
 
     '     Class EdgeGraphics
     ' 
-    '         Properties: EdgeLabel, FontColor, LabelSize, LineColor
+    '         Properties: EdgeLabel, Fill, FontColor, LabelSize, LineColor
+    '                     Width
     ' 
     '         Function: GetLabelFont
     ' 

@@ -37,12 +37,11 @@
     ' 
     ' Class RfamRegulon
     ' 
-    '     Properties: bbh, BiologicalProcess, Effector, Operon, Pathway
-    '                 source
+    '     Properties: bbh, BiologicalProcess, Effector, Operon, OPR_Strand
+    '                 Pathway, source
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

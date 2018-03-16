@@ -33,7 +33,7 @@
 
     '     Class ConstraintMetaboliteMap
     ' 
-    '         Properties: ModelId
+    '         Properties: ConstraintId, ModelId
     ' 
     '         Function: CreateEmptyObjects, CreateObjectsWithMetaCyc, ToString
     ' 

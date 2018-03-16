@@ -47,7 +47,7 @@
     ' 
     '     Class entrez_gene_id_vs_string
     ' 
-    '         Properties: STRING_Locus_ID
+    '         Properties: Entrez_Gene_ID, STRING_Locus_ID
     ' 
     '         Function: BuildMaps, BuildMapsFromFile, ToString
     ' 

@@ -35,10 +35,9 @@
     ' 
     '         Properties: BlastnOptionalArguments, BlastpOptionalArguments, MolTypeNucleotide, MolTypeProtein, Version
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Blastn, Blastp, FormatDb, GetHelp, GetLastLogFile
     '                   GetManual
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bad69891bcaf749b9a7e0e2c2517cbe5, data\Reactome\LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::a06e5281a786b375bbc1858c1df7ea2e, data\Reactome\LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class entityfunctionalstatus_2_functionalstatus
     ' 
+    '     Properties: DB_ID, functionalStatus, functionalStatus_class, functionalStatus_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `entityfunctionalstatus_2_functionalstatus` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class entityfunctionalstatus_2_functionalstatus: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("functionalStatus_rank"), DataType(MySqlDbType.Int64, "10")> Public Property functionalStatus_rank As Long
-    <DatabaseField("functionalStatus"), DataType(MySqlDbType.Int64, "10")> Public Property functionalStatus As Long
-    <DatabaseField("functionalStatus_class"), DataType(MySqlDbType.VarChar, "64")> Public Property functionalStatus_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("functionalStatus_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="functionalStatus_rank")> Public Property functionalStatus_rank As Long
+    <DatabaseField("functionalStatus"), DataType(MySqlDbType.Int64, "10"), Column(Name:="functionalStatus")> Public Property functionalStatus As Long
+    <DatabaseField("functionalStatus_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="functionalStatus_class")> Public Property functionalStatus_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class entityfunctionalstatus_2_functionalstatus: Inherits Oracle.LinuxCom
         Return String.Format(UPDATE_SQL, DB_ID, functionalStatus_rank, functionalStatus, functionalStatus_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As entityfunctionalstatus_2_functionalstatus
+                  Return DirectCast(MyClass.MemberwiseClone, entityfunctionalstatus_2_functionalstatus)
+              End Function
 End Class
 
 
 End Namespace
+

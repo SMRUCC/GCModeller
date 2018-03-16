@@ -33,6 +33,8 @@
 
     ' Class association_species_qualifier
     ' 
+    '     Properties: association_id, id, species_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

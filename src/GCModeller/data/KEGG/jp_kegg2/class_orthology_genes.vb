@@ -33,6 +33,8 @@
 
     ' Class class_orthology_genes
     ' 
+    '     Properties: geneName, locus_tag, organism, orthology, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

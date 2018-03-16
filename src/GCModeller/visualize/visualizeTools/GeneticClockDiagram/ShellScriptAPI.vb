@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Module ShellScriptAPI
     ' 
-    '     Function: [Select], CalculateDopplerEffect, CreateDopplerEffectsAnalyser, DrawDiagram, FilteringPeriodData
-    '               (+2 Overloads) Interpolate, LoadExperimentData, SaveImageBitmap
+    '         Function: [Select], CalculateDopplerEffect, CreateDopplerEffectsAnalyser, DrawDiagram, FilteringPeriodData
+    '                   (+2 Overloads) Interpolate, LoadExperimentData, SaveImageBitmap
     ' 
     ' 
     ' /********************************************************************************/

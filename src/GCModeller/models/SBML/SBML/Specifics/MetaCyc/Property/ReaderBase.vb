@@ -33,9 +33,8 @@
 
     '     Class ReaderBase
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __getValue, GetEnumerator, IEnumerable_GetEnumerator
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

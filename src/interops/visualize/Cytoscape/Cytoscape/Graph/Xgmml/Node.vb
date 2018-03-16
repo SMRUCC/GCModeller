@@ -33,7 +33,7 @@
 
     '     Class Node
     ' 
-    '         Properties: Location
+    '         Properties: Graphics, id, label, Location
     ' 
     '         Function: ToString
     ' 

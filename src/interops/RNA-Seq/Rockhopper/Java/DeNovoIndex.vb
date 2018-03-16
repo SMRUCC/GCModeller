@@ -35,12 +35,14 @@
     ' 
     '         Properties: avgLengthOfReads, numMappingReads, numReads, totalReads, transform
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) exactMatch, getC, getNumMappingReads, getNumReads, getOcc
     '                   getRotations, getStringInRotationsMatrix, lessThanOrEqualTo, partition, rotations
     '                   stepLeft, unpermute
     ' 
     '         Sub: combinePairedEndHits, (+2 Overloads) exactMatch_fullRead, halveReads, initializeReadMapping, Main
-    '              New, precomputeCharacterInfo, quicksort, swap
+    '              precomputeCharacterInfo, quicksort, swap
     ' 
     ' 
     ' /********************************************************************************/

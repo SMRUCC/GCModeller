@@ -33,6 +33,11 @@
 
     '     Class Term
     ' 
+    '         Properties: alt_id, comment, consider, created_by, creation_date
+    '                     def, disjoint_from, equivalent_to, intersection_of, is_a
+    '                     is_obsolete, property_value, relationship, replaced_by, subset
+    '                     synonym, xref
+    ' 
     '         Function: ToString
     ' 
     ' 

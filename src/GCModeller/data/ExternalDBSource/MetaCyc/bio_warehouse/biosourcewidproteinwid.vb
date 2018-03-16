@@ -33,6 +33,8 @@
 
     ' Class biosourcewidproteinwid
     ' 
+    '     Properties: BioSourceWID, ProteinWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

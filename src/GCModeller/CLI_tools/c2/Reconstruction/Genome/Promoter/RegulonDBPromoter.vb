@@ -33,9 +33,8 @@
 
     '         Class RegulonDBPromoter
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __exportFasta, GetSigmaFactors, Performance
-    ' 
-    '             Sub: New
     ' 
     '  
     ' 

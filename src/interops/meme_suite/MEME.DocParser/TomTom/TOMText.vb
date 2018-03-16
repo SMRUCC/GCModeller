@@ -33,7 +33,8 @@
 
     '     Class TOMText
     ' 
-    '         Properties: Orientation, Overlap
+    '         Properties: evalue, OptimalOffset, Orientation, Overlap, pvalue
+    '                     Query, QueryConsensus, qvalue, Target, TargetConsensus
     ' 
     '         Function: LoadDoc, ToString
     ' 

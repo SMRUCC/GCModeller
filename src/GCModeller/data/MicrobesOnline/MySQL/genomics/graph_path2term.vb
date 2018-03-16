@@ -33,6 +33,8 @@
 
     ' Class graph_path2term
     ' 
+    '     Properties: graph_path_id, rank, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

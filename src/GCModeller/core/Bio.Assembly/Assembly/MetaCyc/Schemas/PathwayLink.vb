@@ -35,7 +35,7 @@
     ' 
     '         Properties: Id, LinkedPathways, LinkType, Substrate
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     '         Class PathwaysLink
     ' 
     ' 
@@ -49,9 +49,8 @@
     ' 
     '  
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetTokens
-    ' 
-    '     Sub: New
     ' 
     ' 
     ' /********************************************************************************/

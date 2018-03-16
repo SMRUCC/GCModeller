@@ -33,9 +33,8 @@
 
     '     Class MonomerEquals
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetList, GetPfamIdList, Initialize
-    ' 
-    '         Sub: New
     '         Structure Protein
     ' 
     '             Properties: MolecularWeight, Pfam, UniqueId

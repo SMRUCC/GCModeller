@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1348df242d0f2a64813d9319554fa47, RDotNET\R.NET\DataFrameColumnAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::00d3f15106d816953fd14994a5da7593, RDotNET\R.NET\DataFrameColumnAttribute.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '     Properties: Index, Name
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: GetIndex
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' /********************************************************************************/
 

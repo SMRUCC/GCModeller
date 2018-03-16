@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdafb9fef9c5f47664e70714a4e42b85, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
+﻿#Region "Microsoft.VisualBasic::162388d73acf0631890283c8455d8ec6, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class sys_updates
     ' 
+    '     Properties: [date], app, details, title, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +46,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -122,7 +125,7 @@ Public Class sys_updates: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, uid, DataType.ToMySqlDateTimeString([date]), title, details, app)
+        Return String.Format(INSERT_SQL, uid, MySqlScript.ToMySqlDateTimeString([date]), title, details, app)
     End Function
 
 ''' <summary>
@@ -139,7 +142,7 @@ Public Class sys_updates: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, uid, DataType.ToMySqlDateTimeString([date]), title, details, app)
+        Return String.Format(REPLACE_SQL, uid, MySqlScript.ToMySqlDateTimeString([date]), title, details, app)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -147,7 +150,7 @@ Public Class sys_updates: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, uid, DataType.ToMySqlDateTimeString([date]), title, details, app, uid)
+        Return String.Format(UPDATE_SQL, uid, MySqlScript.ToMySqlDateTimeString([date]), title, details, app, uid)
     End Function
 #End Region
 Public Function Clone() As sys_updates
@@ -157,3 +160,4 @@ End Class
 
 
 End Namespace
+

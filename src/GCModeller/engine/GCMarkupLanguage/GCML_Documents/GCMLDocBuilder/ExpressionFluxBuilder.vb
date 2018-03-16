@@ -33,10 +33,9 @@
 
     '     Class ExpressionFluxBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateGenes, CreateTranscripts, CreateTransUnits, GetAllUnmodifiedProduct, Invoke
     '                   Link, TakesMetabolites
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

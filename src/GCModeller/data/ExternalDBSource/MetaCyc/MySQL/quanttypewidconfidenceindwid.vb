@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b86fa0c924835c3624ed7137c1e5b3c4, data\ExternalDBSource\MetaCyc\MySQL\quanttypewidconfidenceindwid.vb"
+﻿#Region "Microsoft.VisualBasic::3b2928b0f4b8b891921973101dc79ebd, data\ExternalDBSource\MetaCyc\MySQL\quanttypewidconfidenceindwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class quanttypewidconfidenceindwid
     ' 
+    '     Properties: ConfidenceIndicatorWID, QuantitationTypeWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `quanttypewidconfidenceindwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class quanttypewidconfidenceindwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("QuantitationTypeWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeWID As Long
-    <DatabaseField("ConfidenceIndicatorWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ConfidenceIndicatorWID As Long
+    <DatabaseField("QuantitationTypeWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeWID"), XmlAttribute> Public Property QuantitationTypeWID As Long
+    <DatabaseField("ConfidenceIndicatorWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ConfidenceIndicatorWID")> Public Property ConfidenceIndicatorWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class quanttypewidconfidenceindwid: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, QuantitationTypeWID, ConfidenceIndicatorWID, QuantitationTypeWID)
     End Function
 #End Region
+Public Function Clone() As quanttypewidconfidenceindwid
+                  Return DirectCast(MyClass.MemberwiseClone, quanttypewidconfidenceindwid)
+              End Function
 End Class
 
 
 End Namespace
+

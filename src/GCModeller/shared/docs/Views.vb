@@ -33,7 +33,8 @@
 
     '     Module TSSsDataViews
     ' 
-    '         Function: _5UTR, _5UTRLength, TSSs, UpStream
+    '         Function: __5UTRRegion, __TSSsRegion, __upStreamRegion, _5UTR, _5UTRLength
+    '                   TSSs, UpStream
     ' 
     ' 
     ' /********************************************************************************/

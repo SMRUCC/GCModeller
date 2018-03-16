@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b94e6e33576261c7a4027e80b334c7d, data\ExternalDBSource\ExplorEnz\MySQL\cite.vb"
+﻿#Region "Microsoft.VisualBasic::38d2a71b65936127384d1d90db427c8a, data\ExternalDBSource\ExplorEnz\MySQL\cite.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class cite
     ' 
+    '     Properties: acc_no, cite_key, ec_num, last_change, ref_num
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:50 PM
+REM  Dump @3/16/2018 10:40:16 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ExplorEnz.MySQL
 
@@ -70,7 +75,6 @@ Namespace ExplorEnz.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,16 +89,16 @@ CREATE TABLE `cite` (
 ) ENGINE=MyISAM AUTO_INCREMENT=47359 DEFAULT CHARSET=latin1;")>
 Public Class cite: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("cite_key"), NotNull, DataType(MySqlDbType.VarChar, "48")> Public Property cite_key As String
-    <DatabaseField("ec_num"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property ec_num As String
-    <DatabaseField("ref_num"), DataType(MySqlDbType.Int64, "11")> Public Property ref_num As Long
-    <DatabaseField("acc_no"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property acc_no As Long
-    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_change As Date
+    <DatabaseField("cite_key"), NotNull, DataType(MySqlDbType.VarChar, "48"), Column(Name:="cite_key")> Public Property cite_key As String
+    <DatabaseField("ec_num"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="ec_num")> Public Property ec_num As String
+    <DatabaseField("ref_num"), DataType(MySqlDbType.Int64, "11"), Column(Name:="ref_num")> Public Property ref_num As Long
+    <DatabaseField("acc_no"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="acc_no"), XmlAttribute> Public Property acc_no As Long
+    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_change")> Public Property last_change As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `cite` WHERE `acc_no` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `cite` SET `cite_key`='{0}', `ec_num`='{1}', `ref_num`='{2}', `acc_no`='{3}', `last_change`='{4}' WHERE `acc_no` = '{5}';</SQL>
 #End Region
@@ -108,28 +112,28 @@ Public Class cite: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+''' INSERT INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, cite_key, ec_num, ref_num, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(INSERT_SQL, cite_key, ec_num, ref_num, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 
 ''' <summary>
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{cite_key}', '{ec_num}', '{ref_num}', '{last_change}', '{4}')"
+        Return $"('{cite_key}', '{ec_num}', '{ref_num}', '{last_change}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+''' REPLACE INTO `cite` (`cite_key`, `ec_num`, `ref_num`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, cite_key, ec_num, ref_num, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(REPLACE_SQL, cite_key, ec_num, ref_num, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -137,10 +141,14 @@ Public Class cite: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, cite_key, ec_num, ref_num, acc_no, DataType.ToMySqlDateTimeString(last_change), acc_no)
+        Return String.Format(UPDATE_SQL, cite_key, ec_num, ref_num, acc_no, MySqlScript.ToMySqlDateTimeString(last_change), acc_no)
     End Function
 #End Region
+Public Function Clone() As cite
+                  Return DirectCast(MyClass.MemberwiseClone, cite)
+              End Function
 End Class
 
 
 End Namespace
+

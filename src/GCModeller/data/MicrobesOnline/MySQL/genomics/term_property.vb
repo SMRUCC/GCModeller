@@ -33,6 +33,8 @@
 
     ' Class term_property
     ' 
+    '     Properties: property_key, property_val, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

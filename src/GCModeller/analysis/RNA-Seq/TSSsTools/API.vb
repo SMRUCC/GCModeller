@@ -36,7 +36,8 @@
     '     Function: Count, CreateDb
     '     Class ___readsCount
     ' 
-    '         Sub: ForEachBuild, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: ForEachBuild
     ' 
     ' 
     ' 

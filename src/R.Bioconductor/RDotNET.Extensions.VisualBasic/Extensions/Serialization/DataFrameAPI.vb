@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c212bc024fd7703a340f01b778522304, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5da10561ee14841eaf3e607fd5cb98fd, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Module DataFrameAPI
     ' 
-    '     Function: dataframe, GetDataFrame, PushAsDataFrame, PushAsTable, WriteDataFrame
+    '     Function: AsDataFrame, dataframe, GetDataFrame, PushAsDataFrame, PushAsTable
+    '               WriteDataFrame
     ' 
     '     Sub: (+2 Overloads) PushAsDataFrame, PushAsTable
     ' 

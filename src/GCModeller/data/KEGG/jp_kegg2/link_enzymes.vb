@@ -33,6 +33,8 @@
 
     ' Class link_enzymes
     ' 
+    '     Properties: database, EC, enzyme, ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

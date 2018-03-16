@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a3f7ea16564abb5b085046e7c8d2b84, data\RegulonDatabase\Regtransbase\MySQL\genes.vb"
+﻿#Region "Microsoft.VisualBasic::8611b89641d1ab8cfd03800c1532ad96, data\RegulonDatabase\Regtransbase\MySQL\genes.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class genes
     ' 
+    '     Properties: art_guid, descript, ferment_num, fl_real_name, gene_function
+    '                 gene_guid, genome_guid, last_update, location, metabol_path
+    '                 name, pkg_guid, ref_bank1, ref_bank2, ref_bank3
+    '                 ref_bank4, signature
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -88,7 +96,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -121,23 +128,23 @@ CREATE TABLE `genes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class genes: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gene_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property gene_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
-    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11")> Public Property genome_guid As Long
-    <DatabaseField("location"), DataType(MySqlDbType.VarChar, "50")> Public Property location As String
-    <DatabaseField("ref_bank1"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank1 As String
-    <DatabaseField("ref_bank2"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank2 As String
-    <DatabaseField("ref_bank3"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank3 As String
-    <DatabaseField("ref_bank4"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank4 As String
-    <DatabaseField("signature"), DataType(MySqlDbType.Text)> Public Property signature As String
-    <DatabaseField("metabol_path"), DataType(MySqlDbType.VarChar, "100")> Public Property metabol_path As String
-    <DatabaseField("ferment_num"), DataType(MySqlDbType.VarChar, "20")> Public Property ferment_num As String
-    <DatabaseField("gene_function"), DataType(MySqlDbType.VarChar, "100")> Public Property gene_function As String
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
-    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_update As Date
+    <DatabaseField("gene_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="gene_guid"), XmlAttribute> Public Property gene_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
+    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="genome_guid")> Public Property genome_guid As Long
+    <DatabaseField("location"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="location")> Public Property location As String
+    <DatabaseField("ref_bank1"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank1")> Public Property ref_bank1 As String
+    <DatabaseField("ref_bank2"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank2")> Public Property ref_bank2 As String
+    <DatabaseField("ref_bank3"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank3")> Public Property ref_bank3 As String
+    <DatabaseField("ref_bank4"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank4")> Public Property ref_bank4 As String
+    <DatabaseField("signature"), DataType(MySqlDbType.Text), Column(Name:="signature")> Public Property signature As String
+    <DatabaseField("metabol_path"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="metabol_path")> Public Property metabol_path As String
+    <DatabaseField("ferment_num"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="ferment_num")> Public Property ferment_num As String
+    <DatabaseField("gene_function"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="gene_function")> Public Property gene_function As String
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
+    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_update")> Public Property last_update As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -160,7 +167,7 @@ Public Class genes: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(INSERT_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 
 ''' <summary>
@@ -177,7 +184,7 @@ Public Class genes: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(REPLACE_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -185,10 +192,14 @@ Public Class genes: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, DataType.ToMySqlDateTimeString(last_update), gene_guid)
+        Return String.Format(UPDATE_SQL, gene_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, ref_bank1, ref_bank2, ref_bank3, ref_bank4, signature, metabol_path, ferment_num, gene_function, descript, MySqlScript.ToMySqlDateTimeString(last_update), gene_guid)
     End Function
 #End Region
+Public Function Clone() As genes
+                  Return DirectCast(MyClass.MemberwiseClone, genes)
+              End Function
 End Class
 
 
 End Namespace
+

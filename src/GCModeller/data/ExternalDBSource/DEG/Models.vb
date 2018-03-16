@@ -33,6 +33,9 @@
 
     '     Class Annotations
     ' 
+    '         Properties: [Class], [Function], COG, Condition, DEG_AC
+    '                     Gene_Ref, GeneName, Organism, Refseq
+    ' 
     '         Function: GetSpeciesId, (+2 Overloads) Load, ToString
     ' 
     '     Class DEG_AminoAcidSequence

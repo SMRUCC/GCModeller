@@ -35,9 +35,11 @@
     ' 
     '         Properties: LocalBLASTServices, WorkDir
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Paralogs, Peformance
     ' 
-    '         Sub: New, Trim
+    '         Sub: Trim
     ' 
     ' 
     ' /********************************************************************************/

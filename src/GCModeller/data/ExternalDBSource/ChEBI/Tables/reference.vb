@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::021e23dd6976635787db5730bd0a8996, data\ExternalDBSource\ChEBI\Tables\reference.vb"
+﻿#Region "Microsoft.VisualBasic::0e52bcd9ab96da2a3fa3ea73431c5828, data\ExternalDBSource\ChEBI\Tables\reference.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class reference
     ' 
+    '     Properties: compound_id, id, location_in_ref, reference_db_name, reference_id
+    '                 reference_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -73,7 +79,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,12 +96,12 @@ CREATE TABLE `reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("reference_id"), NotNull, DataType(MySqlDbType.VarChar, "60")> Public Property reference_id As String
-    <DatabaseField("reference_db_name"), NotNull, DataType(MySqlDbType.VarChar, "60")> Public Property reference_db_name As String
-    <DatabaseField("location_in_ref"), DataType(MySqlDbType.VarChar, "90")> Public Property location_in_ref As String
-    <DatabaseField("reference_name"), DataType(MySqlDbType.VarChar, "512")> Public Property reference_name As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("reference_id"), NotNull, DataType(MySqlDbType.VarChar, "60"), Column(Name:="reference_id")> Public Property reference_id As String
+    <DatabaseField("reference_db_name"), NotNull, DataType(MySqlDbType.VarChar, "60"), Column(Name:="reference_db_name")> Public Property reference_db_name As String
+    <DatabaseField("location_in_ref"), DataType(MySqlDbType.VarChar, "90"), Column(Name:="location_in_ref")> Public Property location_in_ref As String
+    <DatabaseField("reference_name"), DataType(MySqlDbType.VarChar, "512"), Column(Name:="reference_name")> Public Property reference_name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -147,7 +152,11 @@ Public Class reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, compound_id, reference_id, reference_db_name, location_in_ref, reference_name, id)
     End Function
 #End Region
+Public Function Clone() As reference
+                  Return DirectCast(MyClass.MemberwiseClone, reference)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,9 @@
 
     ' Class pdbentries
     ' 
+    '     Properties: ascessionDate, authorList, compound, dbSource, experimentType
+    '                 header, pdbId, resolution, source
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

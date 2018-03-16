@@ -33,6 +33,8 @@
 
     ' Module PhenotypeRegulations
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
     '               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
     '               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
@@ -41,7 +43,7 @@
     '               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
     '               WriteRegulationState
     ' 
-    '     Sub: CommandLineTools, New
+    '     Sub: CommandLineTools
     '     Class CrossTalk
     ' 
     ' 

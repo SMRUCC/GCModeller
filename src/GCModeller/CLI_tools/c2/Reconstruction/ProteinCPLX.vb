@@ -35,9 +35,8 @@
     ' 
     '         Properties: ReconstructList
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Performance, QueryComponents, Reconstruct
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

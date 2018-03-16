@@ -33,6 +33,8 @@
 
     ' Class pathway
     ' 
+    '     Properties: BioSourceWID, DataSetWID, Name, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f70bb819c4ee45dfb7c257bcab8c1ea, data\Reactome\LocalMySQL\gk_current_dn\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::6af704aeba0931d53c938f181fbc4797, data\Reactome\LocalMySQL\gk_current_dn\pathway.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathway
     ' 
+    '     Properties: displayName, id, species, stableId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `pathway` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class pathway: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property id As Long
-    <DatabaseField("displayName"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property displayName As String
-    <DatabaseField("species"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property species As String
-    <DatabaseField("stableId"), DataType(MySqlDbType.VarChar, "32")> Public Property stableId As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("displayName"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="displayName")> Public Property displayName As String
+    <DatabaseField("species"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="species")> Public Property species As String
+    <DatabaseField("stableId"), DataType(MySqlDbType.VarChar, "32"), Column(Name:="stableId")> Public Property stableId As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class pathway: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, displayName, species, stableId, id)
     End Function
 #End Region
+Public Function Clone() As pathway
+                  Return DirectCast(MyClass.MemberwiseClone, pathway)
+              End Function
 End Class
 
 
 End Namespace
+

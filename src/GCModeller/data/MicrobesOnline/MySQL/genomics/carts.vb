@@ -33,6 +33,9 @@
 
     ' Class carts
     ' 
+    '     Properties: active, cartId, name, seqCount, seqData
+    '                 time, userId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

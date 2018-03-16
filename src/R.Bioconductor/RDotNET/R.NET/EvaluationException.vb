@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25cd0fd7f6efdbd1c199fa490b383c3d, RDotNET\R.NET\EvaluationException.vb"
+﻿#Region "Microsoft.VisualBasic::f761dbb155854f1360c17857a3ca1966, RDotNET\R.NET\EvaluationException.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Class EvaluationException
     ' 
-    '     Sub: (+2 Overloads) New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

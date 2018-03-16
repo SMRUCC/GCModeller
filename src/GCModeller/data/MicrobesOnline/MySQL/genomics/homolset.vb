@@ -33,6 +33,9 @@
 
     ' Class homolset
     ' 
+    '     Properties: dbxref_id, description, id, symbol, target_gene_product_id
+    '                 taxon_id, type_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

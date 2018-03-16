@@ -33,11 +33,12 @@
 
     ' Class CompileDomains
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Compile, CreateProteinDescription, ExportDb, GetLastProcessData, Performance
     ' 
-    '     Sub: New
-    ' 
     ' Class SMARTDB
+    ' 
+    '     Properties: Proteins
     ' 
     '     Function: Export, Generate, Takes
     ' 

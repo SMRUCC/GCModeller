@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e87fc2e25f819311935f7108af65dac, data\ExternalDBSource\MetaCyc\MySQL\experimentdata.vb"
+﻿#Region "Microsoft.VisualBasic::b60e53238bc77e584292463c18d28e74, data\ExternalDBSource\MetaCyc\MySQL\experimentdata.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class experimentdata
     ' 
+    '     Properties: Data, DataSetWID, DateProduced, ExperimentWID, Kind
+    '                 MageData, OtherWID, Role, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -80,7 +86,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -105,15 +110,15 @@ CREATE TABLE `experimentdata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class experimentdata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("ExperimentWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ExperimentWID As Long
-    <DatabaseField("Data"), DataType(MySqlDbType.Text)> Public Property Data As String
-    <DatabaseField("MageData"), DataType(MySqlDbType.Int64, "20")> Public Property MageData As Long
-    <DatabaseField("Role"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property Role As String
-    <DatabaseField("Kind"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property Kind As String
-    <DatabaseField("DateProduced"), DataType(MySqlDbType.DateTime)> Public Property DateProduced As Date
-    <DatabaseField("OtherWID"), DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("ExperimentWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ExperimentWID")> Public Property ExperimentWID As Long
+    <DatabaseField("Data"), DataType(MySqlDbType.Text), Column(Name:="Data")> Public Property Data As String
+    <DatabaseField("MageData"), DataType(MySqlDbType.Int64, "20"), Column(Name:="MageData")> Public Property MageData As Long
+    <DatabaseField("Role"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="Role")> Public Property Role As String
+    <DatabaseField("Kind"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="Kind")> Public Property Kind As String
+    <DatabaseField("DateProduced"), DataType(MySqlDbType.DateTime), Column(Name:="DateProduced")> Public Property DateProduced As Date
+    <DatabaseField("OtherWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +141,7 @@ Public Class experimentdata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, DataType.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID)
+        Return String.Format(INSERT_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, MySqlScript.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID)
     End Function
 
 ''' <summary>
@@ -153,7 +158,7 @@ Public Class experimentdata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, DataType.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID)
+        Return String.Format(REPLACE_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, MySqlScript.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -161,10 +166,14 @@ Public Class experimentdata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, DataType.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID, WID)
+        Return String.Format(UPDATE_SQL, WID, ExperimentWID, Data, MageData, Role, Kind, MySqlScript.ToMySqlDateTimeString(DateProduced), OtherWID, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As experimentdata
+                  Return DirectCast(MyClass.MemberwiseClone, experimentdata)
+              End Function
 End Class
 
 
 End Namespace
+

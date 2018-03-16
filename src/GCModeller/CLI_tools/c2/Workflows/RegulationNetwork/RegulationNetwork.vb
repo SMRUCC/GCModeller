@@ -36,10 +36,11 @@
     '         Properties: DoorOperonView, Operons_150, Operons_200, Operons_250, Operons_300
     '                     Operons_350, Operons_400, Operons_450, Operons_500
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ExtractPromoterRegion_KEGGModules, ExtractPromoterRegion_Pathway
     ' 
-    '         Sub: (+2 Overloads) Dispose, ExportCoExpressionOperons, ExportOperonsPromoterRegions, InitalizeOperons, New
-    '              WholeGenomeRandomizeParsed
+    '         Sub: (+2 Overloads) Dispose, ExportCoExpressionOperons, ExportOperonsPromoterRegions, InitalizeOperons, WholeGenomeRandomizeParsed
     '         Class PossibleRegulation
     ' 
     '             Properties: GeneId, Regulator, Weight

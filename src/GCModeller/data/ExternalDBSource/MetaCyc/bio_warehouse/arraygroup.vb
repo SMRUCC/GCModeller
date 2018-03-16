@@ -33,6 +33,10 @@
 
     ' Class arraygroup
     ' 
+    '     Properties: ArrayGroup_DistanceUnit, ArrayGroup_SubstrateType, ArraySpacingX, ArraySpacingY, Barcode
+    '                 DataSetWID, Identifier, Length, Name, NumArrays
+    '                 OrientationMark, OrientationMarkPosition, WID, Width
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class featureinformation
     ' 
+    '     Properties: DataSetWID, Feature, FeatureReporterMap, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -38,9 +38,8 @@
     ' 
     '         Properties: SearchBy_GI
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: _SearchBy_GI, Search, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

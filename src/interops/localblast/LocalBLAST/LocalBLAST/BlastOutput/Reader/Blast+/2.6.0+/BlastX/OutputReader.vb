@@ -33,8 +33,8 @@
 
     '     Module OutputReader
     ' 
-    '         Function: __hitFragments, __hspParser, __parser, (+2 Overloads) __queryParser, subjectInfo
-    '                   TryParseOutput
+    '         Function: __hitFragments, __hspParser, __parser, (+2 Overloads) __queryParser, parseFragment
+    '                   QueryBlockIterator, queryInfo, subjectInfo, subjectParser, TryParseOutput
     ' 
     ' 
     ' /********************************************************************************/

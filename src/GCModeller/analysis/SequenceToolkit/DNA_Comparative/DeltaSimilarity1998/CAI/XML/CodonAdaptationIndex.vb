@@ -33,11 +33,10 @@
 
     '     Class CodonAdaptationIndex
     ' 
-    '         Properties: Table
+    '         Properties: CAI, Name, Table
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetCodonBiasList
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

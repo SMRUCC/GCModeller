@@ -33,7 +33,9 @@
 
     '     Class BestHit
     ' 
-    '         Properties: coverage, description, SBHScore
+    '         Properties: coverage, description, evalue, hit_length, identities
+    '                     length_hit, length_hsp, length_query, Positive, query_length
+    '                     SBHScore, Score
     ' 
     '         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
     ' 

@@ -33,6 +33,8 @@
 
     ' Class amrxn
     ' 
+    '     Properties: am_id, id, reversible
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,11 +33,13 @@
 
     '     Class FromOwl
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: generateGraph, generateGraphDocument, (+2 Overloads) getAnnotations, getClassId, getEdge
     '                   getNodeId, (+2 Overloads) getPropertyId, getRestriction, isDefinitionProperty, isHasSynonymTypeProperty
     '                   isHasXrefProperty, isInSubsetProperty, put
     ' 
-    '         Sub: New, setNodeType
+    '         Sub: setNodeType
     ' 
     ' 
     ' /********************************************************************************/

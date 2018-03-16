@@ -33,9 +33,8 @@
 
     ' Class Clustal
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: (+2 Overloads) Align, AlignmentTask, CreateSession, Help, MultipleAlignment
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

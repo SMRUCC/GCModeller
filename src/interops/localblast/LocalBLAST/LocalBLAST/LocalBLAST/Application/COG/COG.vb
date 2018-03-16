@@ -33,15 +33,17 @@
 
     '     Class MGACOG
     ' 
-    '         Properties: [class], classDescrib, description, Hit, Length
-    '                     Score
+    '         Properties: [class], classDescrib, description, Evalue, Hit
+    '                     HitEnd, HitLen, HitStart, identities, Length
+    '                     QueryEnd, QueryName, QueryStart, Score
     ' 
     '         Function: LoadDoc, (+2 Overloads) ToMyvaCOG
     ' 
     '     Class MyvaCOG
     ' 
-    '         Properties: Data, Evalue, Identities, Length, LengthQuery
-    '                     QueryLength, QueryName
+    '         Properties: Category, COG, Data, Description, Evalue
+    '                     Identities, Length, LengthQuery, MyvaCOG, QueryLength
+    '                     QueryName
     ' 
     '         Function: CreateObject, ToString
     ' 

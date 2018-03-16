@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b6c9d2e39791443432487ba68075626, RDotNET\R.NET\ComplexMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::f80b069fe1bbba27c57bd6ddfce4d6c1, RDotNET\R.NET\ComplexMatrix.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: DataSize, Item
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast
     ' 
-    '     Sub: InitMatrixFastDirect, (+3 Overloads) New
+    '     Sub: InitMatrixFastDirect
     ' 
     ' /********************************************************************************/
 

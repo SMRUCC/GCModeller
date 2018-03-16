@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::501bf85c14331e195953cdce25934c4d, data\ExternalDBSource\MetaCyc\MySQL\biosourcewidbiosubtypewid.vb"
+﻿#Region "Microsoft.VisualBasic::e7bdf0f0d5370697637f90474cea533a, data\ExternalDBSource\MetaCyc\MySQL\biosourcewidbiosubtypewid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class biosourcewidbiosubtypewid
     ' 
+    '     Properties: BioSourceWID, BioSubtypeWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `biosourcewidbiosubtypewid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class biosourcewidbiosubtypewid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("BioSourceWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioSourceWID As Long
-    <DatabaseField("BioSubtypeWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioSubtypeWID As Long
+    <DatabaseField("BioSourceWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioSourceWID"), XmlAttribute> Public Property BioSourceWID As Long
+    <DatabaseField("BioSubtypeWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioSubtypeWID")> Public Property BioSubtypeWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class biosourcewidbiosubtypewid: Inherits Oracle.LinuxCompatibility.MySQL
         Return String.Format(UPDATE_SQL, BioSourceWID, BioSubtypeWID, BioSourceWID)
     End Function
 #End Region
+Public Function Clone() As biosourcewidbiosubtypewid
+                  Return DirectCast(MyClass.MemberwiseClone, biosourcewidbiosubtypewid)
+              End Function
 End Class
 
 
 End Namespace
+

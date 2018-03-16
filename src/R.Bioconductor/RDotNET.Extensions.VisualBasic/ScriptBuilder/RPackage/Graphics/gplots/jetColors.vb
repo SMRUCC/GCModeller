@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f523bfa38247d9c3101ba77ca80bae9, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\jetColors.vb"
+﻿#Region "Microsoft.VisualBasic::1ab3805921cb3392f7c058ffd061b8e1, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\jetColors.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '         Properties: [Call], BI_colors
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __R_script
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

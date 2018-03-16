@@ -33,9 +33,8 @@
 
     '     Class StaticMapBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __refToNode, BuildEnzymaticFluxModel, BuildMetabolismFluxModel, BuildMetabolismNetwork, BuildThread
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

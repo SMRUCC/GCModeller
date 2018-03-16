@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adbe443e16295eeb68a72495c3ae7544, WebCloud\SMRUCC.WebCloud.highcharts\Charts\AreaChart.vb"
+﻿#Region "Microsoft.VisualBasic::b97900adbbe9cbc2282253e4e12f8615, WebCloud\SMRUCC.WebCloud.highcharts\Charts\AreaChart.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Namespace AreaChart
         Public Property fillOpacity As Double?
     End Class
 End Namespace
-

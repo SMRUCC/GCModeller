@@ -33,6 +33,8 @@
 
     '     Class SR
     ' 
+    '         Properties: Block, Frq, Index, Residue
+    ' 
     '         Function: (+2 Overloads) __allocBlock, __createSafly, __getSite, FromAlign, ToString
     ' 
     ' 

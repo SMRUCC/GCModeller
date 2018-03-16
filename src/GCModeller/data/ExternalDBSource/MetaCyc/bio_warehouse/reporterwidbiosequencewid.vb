@@ -33,6 +33,8 @@
 
     ' Class reporterwidbiosequencewid
     ' 
+    '     Properties: BioSequenceWID, ReporterWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

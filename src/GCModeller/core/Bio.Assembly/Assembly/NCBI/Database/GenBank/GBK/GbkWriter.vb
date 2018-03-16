@@ -33,7 +33,7 @@
 
     '     Module GbkWriter
     ' 
-    '         Function: __qualifierFormats, (+12 Overloads) ToString, (+2 Overloads) WriteGenbank
+    '         Function: __qualifierFormats, CreateDoc, (+12 Overloads) ToString, (+2 Overloads) WriteGenbank
     ' 
     ' 
     ' /********************************************************************************/

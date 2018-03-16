@@ -33,6 +33,8 @@
 
     ' Class term_subset
     ' 
+    '     Properties: subset_id, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

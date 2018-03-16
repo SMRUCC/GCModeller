@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b539d3175cac9f34479fa9db60dcff52, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_chain.vb"
+﻿#Region "Microsoft.VisualBasic::581578f4a0286570a55b8cb4f9cb3a53, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_chain.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencegeneproduct_2_chain
     ' 
+    '     Properties: chain, chain_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referencegeneproduct_2_chain` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencegeneproduct_2_chain: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("chain_rank"), DataType(MySqlDbType.Int64, "10")> Public Property chain_rank As Long
-    <DatabaseField("chain"), DataType(MySqlDbType.Text)> Public Property chain As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("chain_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="chain_rank")> Public Property chain_rank As Long
+    <DatabaseField("chain"), DataType(MySqlDbType.Text), Column(Name:="chain")> Public Property chain As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referencegeneproduct_2_chain: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, DB_ID, chain_rank, chain, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencegeneproduct_2_chain
+                  Return DirectCast(MyClass.MemberwiseClone, referencegeneproduct_2_chain)
+              End Function
 End Class
 
 
 End Namespace
+

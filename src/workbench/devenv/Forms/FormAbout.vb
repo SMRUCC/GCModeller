@@ -33,7 +33,8 @@
 
     ' Class FormAbout
     ' 
-    '     Sub: FormAbout_Load, FormAbout_LostFocus, InitializeComponent, Label4_Click, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: FormAbout_Load, FormAbout_LostFocus, InitializeComponent, Label4_Click
     ' 
     ' /********************************************************************************/
 

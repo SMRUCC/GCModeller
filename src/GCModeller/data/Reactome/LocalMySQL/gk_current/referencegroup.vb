@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba26da69c599bfeffc5fa6bd6b5caf81, data\Reactome\LocalMySQL\gk_current\referencegroup.vb"
+﻿#Region "Microsoft.VisualBasic::cbc66f33b68f976942bcb781e41ddd15, data\Reactome\LocalMySQL\gk_current\referencegroup.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencegroup
     ' 
+    '     Properties: atomicConnectivity, DB_ID, formula
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,9 +89,9 @@ CREATE TABLE `referencegroup` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencegroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("atomicConnectivity"), DataType(MySqlDbType.Text)> Public Property atomicConnectivity As String
-    <DatabaseField("formula"), DataType(MySqlDbType.Text)> Public Property formula As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("atomicConnectivity"), DataType(MySqlDbType.Text), Column(Name:="atomicConnectivity")> Public Property atomicConnectivity As String
+    <DatabaseField("formula"), DataType(MySqlDbType.Text), Column(Name:="formula")> Public Property formula As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -138,7 +142,11 @@ Public Class referencegroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, atomicConnectivity, formula, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencegroup
+                  Return DirectCast(MyClass.MemberwiseClone, referencegroup)
+              End Function
 End Class
 
 
 End Namespace
+

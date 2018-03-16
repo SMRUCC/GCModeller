@@ -41,7 +41,7 @@
     ' 
     '     Class NASegment_GC
     ' 
-    '         Properties: length
+    '         Properties: AT, GC_AT, length, value
     ' 
     ' 
     ' /********************************************************************************/

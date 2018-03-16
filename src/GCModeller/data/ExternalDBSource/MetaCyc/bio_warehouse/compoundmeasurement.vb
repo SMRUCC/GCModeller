@@ -33,6 +33,9 @@
 
     ' Class compoundmeasurement
     ' 
+    '     Properties: Compound, Compound_ComponentCompounds, DataSetWID, Measurement, Treatment_CompoundMeasurements
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

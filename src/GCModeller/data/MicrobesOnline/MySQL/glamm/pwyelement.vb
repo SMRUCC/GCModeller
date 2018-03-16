@@ -33,6 +33,8 @@
 
     ' Class pwyelement
     ' 
+    '     Properties: id, pathway_id, type, xrefId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
