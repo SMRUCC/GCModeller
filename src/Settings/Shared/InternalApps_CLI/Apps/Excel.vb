@@ -21,6 +21,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
 '  /push:            Write target csv table its content data as a worksheet into the target Excel package.
 '  /rbind:           Row bind(merge tables directly) of the csv tables
+'  /rbind.group:     
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -108,16 +109,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Extract /open &lt;xlsx> /sheetName &lt;name_string> [/out &lt;out.csv/directory>]
+''' /Extract /open &lt;xlsx> [/sheetName &lt;name_string, default=*> /out &lt;out.csv/directory>]
 ''' ```
 ''' Open target excel file and get target table and save into a csv file.
 ''' </summary>
 '''
-Public Function Extract(open As String, sheetName As String, Optional out As String = "") As Integer
+Public Function Extract(open As String, Optional sheetname As String = "*", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Extract")
     Call CLI.Append(" ")
     Call CLI.Append("/open " & """" & open & """ ")
-    Call CLI.Append("/sheetName " & """" & sheetName & """ ")
+    If Not sheetname.StringEmpty Then
+            Call CLI.Append("/sheetname " & """" & sheetname & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -183,6 +186,25 @@ End Function
 '''
 Public Function rbind([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/rbind")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /rbind.group /in &lt;*.csv.DIR> [/out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function rbindGroup([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/rbind.group")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
