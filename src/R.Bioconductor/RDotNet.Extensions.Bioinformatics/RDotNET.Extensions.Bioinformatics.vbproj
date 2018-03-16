@@ -286,14 +286,15 @@
   <ItemGroup>
     <Compile Include="Declares\adegenet\API.vb" />
     <Compile Include="Declares\adegenet\genind.vb" />
-    <Compile Include="Declares\bnlearn\bnlearnBase.vb" />
-    <Compile Include="Declares\bnlearn\ArcOperations.vb" />
-    <Compile Include="Declares\bnlearn\bnFit.vb" />
-    <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
+    <Compile Include="Declares\CRAN\bnlearn\bnlearnBase.vb" />
+    <Compile Include="Declares\CRAN\bnlearn\ArcOperations.vb" />
+    <Compile Include="Declares\CRAN\bnlearn\bnFit.vb" />
+    <Compile Include="Declares\CRAN\bnlearn\bnFitPlots.vb" />
     <Compile Include="Declares\bioconductor\clusterProfiler\Enricher.vb" />
     <Compile Include="Declares\bioconductor\clusterProfiler\clusterProfiler.vb" />
     <Compile Include="Declares\CRAN\COX\survminer.vb" />
     <Compile Include="Declares\CRAN\COX\survival.vb" />
+    <Compile Include="Declares\CRAN\lpSolve\API.vb" />
     <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\deSolve\integrator.vb" />
     <Compile Include="Declares\forecast\Class1.vb" />
@@ -339,7 +340,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Declares\bnlearn\alarm.vb" />
+    <Compile Include="Declares\CRAN\bnlearn\alarm.vb" />
     <Compile Include="Declares\CRAN\VennDiagram\makeTruthTable.vb" />
     <Compile Include="Declares\CRAN\VennDiagram\getVennPartitions.vb" />
     <Compile Include="Declares\CRAN\VennDiagram\vennBase.vb" />
@@ -364,7 +365,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="Declares\bnlearn\bnlearn.pdf" />
+    <None Include="Declares\CRAN\bnlearn\bnlearn.pdf" />
     <Content Include="Resources\sparcc.txt" />
   </ItemGroup>
   <ItemGroup>
