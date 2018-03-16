@@ -33,6 +33,8 @@
 
     ' Class synonym
     ' 
+    '     Properties: objectId, synonym
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

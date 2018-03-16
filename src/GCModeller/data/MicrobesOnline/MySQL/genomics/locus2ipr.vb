@@ -33,6 +33,8 @@
 
     ' Class locus2ipr
     ' 
+    '     Properties: iprId, locusId, taxonomyId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

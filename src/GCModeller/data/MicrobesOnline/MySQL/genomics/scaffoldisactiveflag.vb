@@ -33,6 +33,8 @@
 
     ' Class scaffoldisactiveflag
     ' 
+    '     Properties: description, isActive
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

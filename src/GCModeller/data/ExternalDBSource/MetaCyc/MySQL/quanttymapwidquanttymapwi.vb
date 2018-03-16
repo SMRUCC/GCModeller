@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ab44da2abe22824dc8ebbbc8150efda, data\ExternalDBSource\MetaCyc\MySQL\quanttymapwidquanttymapwi.vb"
+﻿#Region "Microsoft.VisualBasic::72eec6f0e0096824679d170592b5aa53, data\ExternalDBSource\MetaCyc\MySQL\quanttymapwidquanttymapwi.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class quanttymapwidquanttymapwi
     ' 
+    '     Properties: QuantitationTypeMappingWID, QuantitationTypeMapWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `quanttymapwidquanttymapwi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class quanttymapwidquanttymapwi: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("QuantitationTypeMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeMappingWID As Long
-    <DatabaseField("QuantitationTypeMapWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QuantitationTypeMapWID As Long
+    <DatabaseField("QuantitationTypeMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeMappingWID"), XmlAttribute> Public Property QuantitationTypeMappingWID As Long
+    <DatabaseField("QuantitationTypeMapWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationTypeMapWID")> Public Property QuantitationTypeMapWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class quanttymapwidquanttymapwi: Inherits Oracle.LinuxCompatibility.MySQL
         Return String.Format(UPDATE_SQL, QuantitationTypeMappingWID, QuantitationTypeMapWID, QuantitationTypeMappingWID)
     End Function
 #End Region
+Public Function Clone() As quanttymapwidquanttymapwi
+                  Return DirectCast(MyClass.MemberwiseClone, quanttymapwidquanttymapwi)
+              End Function
 End Class
 
 
 End Namespace
+

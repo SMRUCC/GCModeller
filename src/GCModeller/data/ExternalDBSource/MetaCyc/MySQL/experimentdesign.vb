@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27edff55b33a7a16f1daa8f1a6542e00, data\ExternalDBSource\MetaCyc\MySQL\experimentdesign.vb"
+﻿#Region "Microsoft.VisualBasic::d20260f111dddffda646a1b5b78d7304, data\ExternalDBSource\MetaCyc\MySQL\experimentdesign.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class experimentdesign
     ' 
+    '     Properties: DataSetWID, Experiment_ExperimentDesigns, NormalizationDescription, QualityControlDescription, ReplicateDescription
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +81,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,12 +100,12 @@ CREATE TABLE `experimentdesign` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class experimentdesign: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Experiment_ExperimentDesigns"), DataType(MySqlDbType.Int64, "20")> Public Property Experiment_ExperimentDesigns As Long
-    <DatabaseField("QualityControlDescription"), DataType(MySqlDbType.Int64, "20")> Public Property QualityControlDescription As Long
-    <DatabaseField("NormalizationDescription"), DataType(MySqlDbType.Int64, "20")> Public Property NormalizationDescription As Long
-    <DatabaseField("ReplicateDescription"), DataType(MySqlDbType.Int64, "20")> Public Property ReplicateDescription As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Experiment_ExperimentDesigns"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Experiment_ExperimentDesigns")> Public Property Experiment_ExperimentDesigns As Long
+    <DatabaseField("QualityControlDescription"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QualityControlDescription")> Public Property QualityControlDescription As Long
+    <DatabaseField("NormalizationDescription"), DataType(MySqlDbType.Int64, "20"), Column(Name:="NormalizationDescription")> Public Property NormalizationDescription As Long
+    <DatabaseField("ReplicateDescription"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ReplicateDescription")> Public Property ReplicateDescription As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -151,7 +156,11 @@ Public Class experimentdesign: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Experiment_ExperimentDesigns, QualityControlDescription, NormalizationDescription, ReplicateDescription, WID)
     End Function
 #End Region
+Public Function Clone() As experimentdesign
+                  Return DirectCast(MyClass.MemberwiseClone, experimentdesign)
+              End Function
 End Class
 
 
 End Namespace
+

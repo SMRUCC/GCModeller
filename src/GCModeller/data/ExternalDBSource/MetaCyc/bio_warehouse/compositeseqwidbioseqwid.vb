@@ -33,6 +33,8 @@
 
     ' Class compositeseqwidbioseqwid
     ' 
+    '     Properties: BioSequenceWID, CompositeSequenceWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

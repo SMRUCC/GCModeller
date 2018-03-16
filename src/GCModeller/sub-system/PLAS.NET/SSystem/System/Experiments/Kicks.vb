@@ -33,9 +33,11 @@
 
     '     Class Kicks
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __getExpireds, __getPendings
     ' 
-    '         Sub: (+2 Overloads) New, Tick
+    '         Sub: Tick
     ' 
     ' 
     ' /********************************************************************************/

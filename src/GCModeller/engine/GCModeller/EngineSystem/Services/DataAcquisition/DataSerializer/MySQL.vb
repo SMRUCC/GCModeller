@@ -33,9 +33,11 @@
 
     '     Class MySQL
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CommitData, PlusId
     ' 
-    '         Sub: Close, CreateHandle, Initialize, New
+    '         Sub: Close, CreateHandle, Initialize
     ' 
     ' 
     ' /********************************************************************************/

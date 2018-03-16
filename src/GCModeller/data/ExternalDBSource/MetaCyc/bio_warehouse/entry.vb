@@ -33,6 +33,9 @@
 
     ' Class entry
     ' 
+    '     Properties: CreationDate, DatasetWID, ErrorMessage, InsertDate, LineNumber
+    '                 LoadError, ModifiedDate, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

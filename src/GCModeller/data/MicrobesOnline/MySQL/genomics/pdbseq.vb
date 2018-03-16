@@ -33,6 +33,8 @@
 
     ' Class pdbseq
     ' 
+    '     Properties: pdbChain, pdbId, sequence, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class fasthmmfamily2hmm
     ' 
+    '     Properties: domainDb, domainId, domainLen, hmmName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -31,13 +31,16 @@
 
     ' Summaries:
 
+    '     Class Database
+    ' 
+    '         Properties: Countries
+    ' 
+    '         Function: __country, __findCity, __geographicLocation, FindLocation, LoadFromCsv
     '         Class __cityGeo
     ' 
     '             Function: ToString
     ' 
-    '  
     ' 
-    '     Function: __country, __findCity, __geographicLocation, FindLocation, LoadFromCsv
     ' 
     ' 
     ' /********************************************************************************/

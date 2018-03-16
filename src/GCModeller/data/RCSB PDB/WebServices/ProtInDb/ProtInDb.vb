@@ -33,6 +33,8 @@
 
     ' Class ProtInDb
     ' 
+    '     Properties: ProteinChainsInfo
+    ' 
     '     Function: ExportDatabase, ExtractInteractions, Load
     ' 
     '     Sub: ExportInteractions

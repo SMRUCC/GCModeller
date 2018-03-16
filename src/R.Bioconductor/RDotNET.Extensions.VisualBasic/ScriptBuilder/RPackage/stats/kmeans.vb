@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5419ed5a84829f50159b437375823fa2, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\kmeans.vb"
+﻿#Region "Microsoft.VisualBasic::cca3d5341c81d3ab5f44e443e3560002, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\kmeans.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Class kmeans
     ' 
-    '     Properties: algorithm, centers, nstart, trace, x
+    '         Properties: algorithm, centers, iterMax, nstart, trace
+    '                     x
     ' 
     ' 
     ' /********************************************************************************/

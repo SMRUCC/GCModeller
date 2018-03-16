@@ -33,9 +33,8 @@
 
     '     Class RegulonDB
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ExportSites
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

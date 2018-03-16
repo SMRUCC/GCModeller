@@ -33,6 +33,8 @@
 
     ' Class pathway
     ' 
+    '     Properties: name, pathwayId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

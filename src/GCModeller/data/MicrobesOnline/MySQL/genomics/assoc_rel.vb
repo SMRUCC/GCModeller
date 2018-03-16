@@ -33,6 +33,8 @@
 
     ' Class assoc_rel
     ' 
+    '     Properties: from_id, id, relationship_type_id, to_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

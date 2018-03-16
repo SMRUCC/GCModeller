@@ -33,11 +33,18 @@
 
     '     Class Circos
     ' 
-    '         Properties: colors, NumberOfTracks, Plots, Size, SkeletonKaryotype
+    '         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
+    '                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
+    '                     genome, karyotype, NumberOfTracks, Plots, show_heatmap
+    '                     show_heatmaps, show_highlight, show_highlights, show_histogram, show_line
+    '                     show_links, show_scatter, show_text, show_tile, Size
+    '                     SkeletonKaryotype, track_start, track_step, track_width, use_rules
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: Build, CreateObject, GetEnumerator, IEnumerable_GetEnumerator, Save
     ' 
-    '         Sub: AddTrack, (+2 Overloads) ForceAutoLayout, New
+    '         Sub: AddTrack, (+2 Overloads) ForceAutoLayout
     ' 
     '         Operators: +
     ' 

@@ -35,9 +35,11 @@
     ' 
     '         Properties: ContentLength, ContentType, FileName, InputStream
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Summary
     ' 
-    '         Sub: New, SaveAs
+    '         Sub: SaveAs
     ' 
     ' 
     ' /********************************************************************************/

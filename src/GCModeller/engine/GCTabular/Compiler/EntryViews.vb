@@ -33,10 +33,12 @@
 
     '     Class EntryViews
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateCheBIEntryView, CreateKEGGCompoundsEntryView, CreatePubChemEntryView, Exists, GetByCheBIEntry
     '                   GetByKeggEntry, GetByPubChemEntry, GetByUnique, GetItem
     ' 
-    '         Sub: (+3 Overloads) AddEntry, New, (+3 Overloads) Update
+    '         Sub: (+3 Overloads) AddEntry, (+3 Overloads) Update
     ' 
     ' 
     ' /********************************************************************************/

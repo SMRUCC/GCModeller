@@ -33,6 +33,8 @@
 
     '     Class PwyBriteFunc
     ' 
+    '         Properties: [Class], Category, Pathways
+    ' 
     '         Function: ToString
     ' 
     ' 

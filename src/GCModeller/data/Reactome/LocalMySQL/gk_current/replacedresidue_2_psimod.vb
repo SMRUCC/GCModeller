@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b5bda212ccc038ef823acd0c972e484, data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
+﻿#Region "Microsoft.VisualBasic::582254d9daba15bb42a8f76afc552080, data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class replacedresidue_2_psimod
     ' 
+    '     Properties: DB_ID, psiMod, psiMod_class, psiMod_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `replacedresidue_2_psimod` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class replacedresidue_2_psimod: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("psiMod_rank"), DataType(MySqlDbType.Int64, "10")> Public Property psiMod_rank As Long
-    <DatabaseField("psiMod"), DataType(MySqlDbType.Int64, "10")> Public Property psiMod As Long
-    <DatabaseField("psiMod_class"), DataType(MySqlDbType.VarChar, "64")> Public Property psiMod_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("psiMod_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="psiMod_rank")> Public Property psiMod_rank As Long
+    <DatabaseField("psiMod"), DataType(MySqlDbType.Int64, "10"), Column(Name:="psiMod")> Public Property psiMod As Long
+    <DatabaseField("psiMod_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="psiMod_class")> Public Property psiMod_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class replacedresidue_2_psimod: Inherits Oracle.LinuxCompatibility.MySQL.
         Return String.Format(UPDATE_SQL, DB_ID, psiMod_rank, psiMod, psiMod_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As replacedresidue_2_psimod
+                  Return DirectCast(MyClass.MemberwiseClone, replacedresidue_2_psimod)
+              End Function
 End Class
 
 
 End Namespace
+

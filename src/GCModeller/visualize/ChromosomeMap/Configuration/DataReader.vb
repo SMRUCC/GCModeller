@@ -42,10 +42,10 @@
     ' 
     '  
     ' 
-    '     Properties: AddLegend, DefaultRNAColor, DeletionMutation, FlagLength, FunctionAlignment
-    '                 FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant, LegendFont, LineLength
-    '                 LocusTagFont, Margin, NoneCogColor, Resolution, ribosomalRNAColor
-    '                 SavedFormat, SecondaryRuleFont, tRNAColor
+    '     Properties: AddLegend, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT, FlagLength
+    '                 FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant, LegendFont
+    '                 LineHeight, LineLength, LocusTagFont, Margin, NoneCogColor
+    '                 Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont, tRNAColor
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,9 @@
 
     '     Class Transcript
     ' 
+    '         Properties: CompositionVector, Identifier, Lamda, PolypeptideCompositionVector, Product
+    '                     Template, TranscriptType
+    ' 
     '         Function: CreateMetabolite, CreateObject, ToString
     '         Enum TranscriptTypes
     ' 

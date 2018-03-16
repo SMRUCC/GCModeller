@@ -33,6 +33,9 @@
 
     ' Class class_ko00001_orthology
     ' 
+    '     Properties: [function], KEGG, level_A, level_B, level_C
+    '                 name, Orthology
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

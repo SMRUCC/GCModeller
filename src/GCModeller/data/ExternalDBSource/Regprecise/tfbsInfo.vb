@@ -33,9 +33,14 @@
 
     '     Class Tfbs_Info
     ' 
+    '         Properties: Motif, Regulator, Regulog, siteId, tfbsId
+    ' 
     '         Function: CreateObject, ToString
     ' 
     '     Class BidrBhRegulator
+    ' 
+    '         Properties: BiologicalProcess, Cog, description, Effectors, Family
+    '                     Length, Matched, Pfam, Regulator, TfbsIds
     ' 
     '         Function: Convert, GetRegpreciseRegulator, (+3 Overloads) Match, ToString
     ' 

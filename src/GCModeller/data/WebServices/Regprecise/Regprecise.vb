@@ -33,12 +33,14 @@
 
     '     Module Regprecise
     ' 
-    '         Function: __getRequest, __getResponse, genes, genomes, genomeStats
-    '                   regulators, regulog, regulogCollections, regulogCollectionStats, regulogs
-    '                   regulon, regulons, release, Retrieves, searchExtRegulons
-    '                   searchRegulons, sites, (+3 Overloads) wGetDownload
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Sub: New, wGetDownload
+    '         Function: [As], __getRequest, __getResponse, genes, genomes
+    '                   genomeStats, regulators, regulog, regulogCollections, regulogCollectionStats
+    '                   regulogs, regulon, regulons, release, Retrieves
+    '                   searchExtRegulons, searchRegulons, sites, (+3 Overloads) wGetDownload
+    ' 
+    '         Sub: wGetDownload
     ' 
     ' 
     ' /********************************************************************************/

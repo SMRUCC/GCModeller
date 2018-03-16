@@ -33,6 +33,8 @@
 
     ' Class locustype
     ' 
+    '     Properties: description, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

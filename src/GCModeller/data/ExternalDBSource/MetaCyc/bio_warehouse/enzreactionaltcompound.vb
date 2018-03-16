@@ -33,6 +33,8 @@
 
     ' Class enzreactionaltcompound
     ' 
+    '     Properties: AlternativeWID, Cofactor, EnzymaticReactionWID, PrimaryWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

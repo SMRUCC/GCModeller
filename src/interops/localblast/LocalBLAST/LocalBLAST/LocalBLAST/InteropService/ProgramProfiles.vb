@@ -33,11 +33,14 @@
 
     '     Class ProgramProfiles
     ' 
-    '         Properties: BLASTPlus, ExecutableCommands, LocalBLAST, RpsBLAST
+    '         Properties: BLASTPlus, ExecutableCommands, LocalBLAST, MoltypeNucleotide, MolTypeProtein
+    '                     Name, RpsBLAST
     ' 
     '         Function: GetCommand, Load, ToString
     ' 
     '     Class Executable
+    ' 
+    '         Properties: AssemblyCommand, Name, Parameters
     ' 
     '         Function: GetValue, ToString
     '         Class Executable_BLAST

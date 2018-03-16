@@ -33,6 +33,10 @@
 
     ' Class interpro
     ' 
+    '     Properties: [date], checksum, domainDb, domainDesc, domainEnd
+    '                 domainId, domainStart, evalue, geneOntology, iprId
+    '                 iprName, length, locusId, status, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

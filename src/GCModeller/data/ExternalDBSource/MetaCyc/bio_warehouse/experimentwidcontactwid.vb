@@ -33,6 +33,8 @@
 
     ' Class experimentwidcontactwid
     ' 
+    '     Properties: ContactWID, ExperimentWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,9 +33,8 @@
 
     '     Module TomTOM
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+3 Overloads) __copy, (+2 Overloads) BuildSimilarity, LoadSource, LoadsSimilarity
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

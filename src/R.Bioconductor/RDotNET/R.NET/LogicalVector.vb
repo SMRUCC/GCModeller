@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa74447b8ce1a06473ba33d38b626a10, RDotNET\R.NET\LogicalVector.vb"
+﻿#Region "Microsoft.VisualBasic::1d55f4740d12b8455e1f4633a98e0845, RDotNET\R.NET\LogicalVector.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: DataSize, Item
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast
     ' 
-    '     Sub: (+3 Overloads) New, SetVectorDirect
+    '     Sub: SetVectorDirect
     ' 
     ' /********************************************************************************/
 

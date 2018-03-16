@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2142e6729ee0793fe4ed8fb436c1f8a5, data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::25b3642b5bc4825d412e930d7b20979a, data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class shine_dalgarno
     ' 
+    '     Properties: gene_id, key_id_org, sd_internal_comment, shine_dalgarno_dist_gene, shine_dalgarno_id
+    '                 shine_dalgarno_note, shine_dalgarno_posleft, shine_dalgarno_posright, shine_dalgarno_sequence
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `shine_dalgarno` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class shine_dalgarno: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("shine_dalgarno_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property shine_dalgarno_id As String
-    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("shine_dalgarno_dist_gene"), NotNull, DataType(MySqlDbType.Decimal)> Public Property shine_dalgarno_dist_gene As Decimal
-    <DatabaseField("shine_dalgarno_posleft"), DataType(MySqlDbType.Decimal)> Public Property shine_dalgarno_posleft As Decimal
-    <DatabaseField("shine_dalgarno_posright"), DataType(MySqlDbType.Decimal)> Public Property shine_dalgarno_posright As Decimal
-    <DatabaseField("shine_dalgarno_sequence"), DataType(MySqlDbType.VarChar, "500")> Public Property shine_dalgarno_sequence As String
-    <DatabaseField("shine_dalgarno_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property shine_dalgarno_note As String
-    <DatabaseField("sd_internal_comment"), DataType(MySqlDbType.Text)> Public Property sd_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("shine_dalgarno_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="shine_dalgarno_id")> Public Property shine_dalgarno_id As String
+    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("shine_dalgarno_dist_gene"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="shine_dalgarno_dist_gene")> Public Property shine_dalgarno_dist_gene As Decimal
+    <DatabaseField("shine_dalgarno_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="shine_dalgarno_posleft")> Public Property shine_dalgarno_posleft As Decimal
+    <DatabaseField("shine_dalgarno_posright"), DataType(MySqlDbType.Decimal), Column(Name:="shine_dalgarno_posright")> Public Property shine_dalgarno_posright As Decimal
+    <DatabaseField("shine_dalgarno_sequence"), DataType(MySqlDbType.VarChar, "500"), Column(Name:="shine_dalgarno_sequence")> Public Property shine_dalgarno_sequence As String
+    <DatabaseField("shine_dalgarno_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="shine_dalgarno_note")> Public Property shine_dalgarno_note As String
+    <DatabaseField("sd_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="sd_internal_comment")> Public Property sd_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class shine_dalgarno: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As shine_dalgarno
+                  Return DirectCast(MyClass.MemberwiseClone, shine_dalgarno)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -36,7 +36,8 @@
     '         Properties: _3DMET, CHEBI, HMDB, IsEmpty, KNApSAcK
     '                     MASSBANK, NIKKAJI, PDB_CCD, PUBCHEM
     ' 
-    '         Sub: Initialize, LoadData, (+3 Overloads) New
+    '         Constructor: (+3 Overloads) Sub New
+    '         Sub: Initialize, LoadData
     ' 
     ' 
     ' /********************************************************************************/

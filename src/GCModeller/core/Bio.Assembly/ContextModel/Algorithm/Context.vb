@@ -33,9 +33,8 @@
 
     '     Structure Context
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: __getRel, __relStranede, __relUnstrand, GetRelation, ToString
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0258f2ccf4796032bf34cef041237061, data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
+﻿#Region "Microsoft.VisualBasic::cde3a15265a9404e32c027d68508a183, data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class db_user_roles
     ' 
+    '     Properties: id, role_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -67,7 +72,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,13 +83,13 @@ CREATE TABLE `db_user_roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;")>
 Public Class db_user_roles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("role_name"), DataType(MySqlDbType.VarChar, "50")> Public Property role_name As String
+    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("role_name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="role_name")> Public Property role_name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `db_user_roles` (`role_name`) VALUES ('{0}', '{1}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `db_user_roles` (`role_name`) VALUES ('{0}', '{1}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `db_user_roles` (`role_name`) VALUES ('{0}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `db_user_roles` (`role_name`) VALUES ('{0}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `db_user_roles` WHERE `id` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `db_user_roles` SET `id`='{0}', `role_name`='{1}' WHERE `id` = '{2}';</SQL>
 #End Region
@@ -99,7 +103,7 @@ Public Class db_user_roles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `db_user_roles` (`role_name`) VALUES ('{0}', '{1}');
+''' INSERT INTO `db_user_roles` (`role_name`) VALUES ('{0}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
@@ -110,13 +114,13 @@ Public Class db_user_roles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{role_name}', '{1}')"
+        Return $"('{role_name}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `db_user_roles` (`role_name`) VALUES ('{0}', '{1}');
+''' REPLACE INTO `db_user_roles` (`role_name`) VALUES ('{0}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
@@ -131,7 +135,11 @@ Public Class db_user_roles: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, role_name, id)
     End Function
 #End Region
+Public Function Clone() As db_user_roles
+                  Return DirectCast(MyClass.MemberwiseClone, db_user_roles)
+              End Function
 End Class
 
 
 End Namespace
+

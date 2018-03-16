@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3335a484d55f04366e9b1e502f2a8aa, data\Reactome\LocalMySQL\gk_current\_attributevaluebeforechange_2_previousvalue.vb"
+﻿#Region "Microsoft.VisualBasic::663e901976ab0df5e2b2c18978e8bc11, data\Reactome\LocalMySQL\gk_current\_attributevaluebeforechange_2_previousvalue.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class _attributevaluebeforechange_2_previousvalue
     ' 
+    '     Properties: DB_ID, previousValue, previousValue_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `_attributevaluebeforechange_2_previousvalue` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class _attributevaluebeforechange_2_previousvalue: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("previousValue_rank"), DataType(MySqlDbType.Int64, "10")> Public Property previousValue_rank As Long
-    <DatabaseField("previousValue"), DataType(MySqlDbType.Text)> Public Property previousValue As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("previousValue_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="previousValue_rank")> Public Property previousValue_rank As Long
+    <DatabaseField("previousValue"), DataType(MySqlDbType.Text), Column(Name:="previousValue")> Public Property previousValue As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class _attributevaluebeforechange_2_previousvalue: Inherits Oracle.LinuxC
         Return String.Format(UPDATE_SQL, DB_ID, previousValue_rank, previousValue, DB_ID)
     End Function
 #End Region
+Public Function Clone() As _attributevaluebeforechange_2_previousvalue
+                  Return DirectCast(MyClass.MemberwiseClone, _attributevaluebeforechange_2_previousvalue)
+              End Function
 End Class
 
 
 End Namespace
+

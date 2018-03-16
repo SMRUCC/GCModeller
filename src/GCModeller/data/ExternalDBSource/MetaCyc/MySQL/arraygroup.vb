@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::084ca3864483f492a579e7d6181c4290, data\ExternalDBSource\MetaCyc\MySQL\arraygroup.vb"
+﻿#Region "Microsoft.VisualBasic::dad6ddb6f28848192f95a9512bdd06dc, data\ExternalDBSource\MetaCyc\MySQL\arraygroup.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class arraygroup
     ' 
+    '     Properties: ArrayGroup_DistanceUnit, ArrayGroup_SubstrateType, ArraySpacingX, ArraySpacingY, Barcode
+    '                 DataSetWID, Identifier, Length, Name, NumArrays
+    '                 OrientationMark, OrientationMarkPosition, WID, Width
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -85,7 +92,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -115,20 +121,20 @@ CREATE TABLE `arraygroup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraygroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("Barcode"), DataType(MySqlDbType.VarChar, "255")> Public Property Barcode As String
-    <DatabaseField("ArraySpacingX"), DataType(MySqlDbType.Double)> Public Property ArraySpacingX As Double
-    <DatabaseField("ArraySpacingY"), DataType(MySqlDbType.Double)> Public Property ArraySpacingY As Double
-    <DatabaseField("NumArrays"), DataType(MySqlDbType.Int64, "6")> Public Property NumArrays As Long
-    <DatabaseField("OrientationMark"), DataType(MySqlDbType.VarChar, "255")> Public Property OrientationMark As String
-    <DatabaseField("OrientationMarkPosition"), DataType(MySqlDbType.VarChar, "25")> Public Property OrientationMarkPosition As String
-    <DatabaseField("Width"), DataType(MySqlDbType.Double)> Public Property Width As Double
-    <DatabaseField("Length"), DataType(MySqlDbType.Double)> Public Property Length As Double
-    <DatabaseField("ArrayGroup_SubstrateType"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayGroup_SubstrateType As Long
-    <DatabaseField("ArrayGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayGroup_DistanceUnit As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Barcode"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Barcode")> Public Property Barcode As String
+    <DatabaseField("ArraySpacingX"), DataType(MySqlDbType.Double), Column(Name:="ArraySpacingX")> Public Property ArraySpacingX As Double
+    <DatabaseField("ArraySpacingY"), DataType(MySqlDbType.Double), Column(Name:="ArraySpacingY")> Public Property ArraySpacingY As Double
+    <DatabaseField("NumArrays"), DataType(MySqlDbType.Int64, "6"), Column(Name:="NumArrays")> Public Property NumArrays As Long
+    <DatabaseField("OrientationMark"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="OrientationMark")> Public Property OrientationMark As String
+    <DatabaseField("OrientationMarkPosition"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="OrientationMarkPosition")> Public Property OrientationMarkPosition As String
+    <DatabaseField("Width"), DataType(MySqlDbType.Double), Column(Name:="Width")> Public Property Width As Double
+    <DatabaseField("Length"), DataType(MySqlDbType.Double), Column(Name:="Length")> Public Property Length As Double
+    <DatabaseField("ArrayGroup_SubstrateType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayGroup_SubstrateType")> Public Property ArrayGroup_SubstrateType As Long
+    <DatabaseField("ArrayGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayGroup_DistanceUnit")> Public Property ArrayGroup_DistanceUnit As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -179,7 +185,11 @@ Public Class arraygroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Identifier, Name, Barcode, ArraySpacingX, ArraySpacingY, NumArrays, OrientationMark, OrientationMarkPosition, Width, Length, ArrayGroup_SubstrateType, ArrayGroup_DistanceUnit, WID)
     End Function
 #End Region
+Public Function Clone() As arraygroup
+                  Return DirectCast(MyClass.MemberwiseClone, arraygroup)
+              End Function
 End Class
 
 
 End Namespace
+

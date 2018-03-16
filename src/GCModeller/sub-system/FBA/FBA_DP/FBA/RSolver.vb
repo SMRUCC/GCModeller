@@ -33,9 +33,11 @@
 
     ' Class FBAlpRSolver
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __initLpSolver, RSolving
     ' 
-    '     Sub: (+2 Overloads) Dispose, New
+    '     Sub: (+2 Overloads) Dispose
     ' 
     ' /********************************************************************************/
 

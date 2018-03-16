@@ -33,7 +33,7 @@
 
     '     Module Intersection
     ' 
-    '         Function: __setNOTE, LoadReactions
+    '         Function: __setNOTE, KEGGReactions, LoadReactions
     ' 
     ' 
     ' /********************************************************************************/

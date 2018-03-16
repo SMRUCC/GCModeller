@@ -34,7 +34,8 @@
     '     Class BacterialGenome
     ' 
     '         Properties: Comment, CommonName, DbLinks, ExpressionKinetics, Genes
-    '                     Genome, Regulons, Strain, Transcripts, TransUnits
+    '                     Genome, NCBITaxonomy, OperonCounts, Regulons, Strain
+    '                     Transcripts, TransUnits
     ' 
     '         Function: GetExpressionKineticsLaw
     ' 

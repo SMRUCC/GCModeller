@@ -33,6 +33,9 @@
 
     ' Class bioassay
     ' 
+    '     Properties: BioAssayCreation, DataSetWID, DerivedBioAssay_Type, FeatureExtraction, Identifier
+    '                 MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

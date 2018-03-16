@@ -36,10 +36,12 @@
     '         Properties: avgLengthReads, avgReads, minExpression, minExpressionRNA, minExpressionUTR
     '                     name, totalReads, upperQuartile
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __strandCoordinates, __transformation, getBackgroundProb, getMeanOfRange, getReads
     '                   getReadsInRange, getStdevOfRange, ToString
     ' 
-    '         Sub: (+2 Overloads) __readInAlignmentFile, (+2 Overloads) New
+    '         Sub: (+2 Overloads) __readInAlignmentFile
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,3 +1,45 @@
+﻿#Region "Microsoft.VisualBasic::4d4c491f92d58332f5da2cfde1961aec, Shared\InternalApps_CLI\Apps\Excel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Excel
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -21,6 +63,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
 '  /push:            Write target csv table its content data as a worksheet into the target Excel package.
 '  /rbind:           Row bind(merge tables directly) of the csv tables
+'  /rbind.group:     
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -108,16 +151,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Extract /open &lt;xlsx> /sheetName &lt;name_string> [/out &lt;out.csv/directory>]
+''' /Extract /open &lt;xlsx> [/sheetName &lt;name_string, default=*> /out &lt;out.csv/directory>]
 ''' ```
 ''' Open target excel file and get target table and save into a csv file.
 ''' </summary>
 '''
-Public Function Extract(open As String, sheetName As String, Optional out As String = "") As Integer
+Public Function Extract(open As String, Optional sheetname As String = "*", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Extract")
     Call CLI.Append(" ")
     Call CLI.Append("/open " & """" & open & """ ")
-    Call CLI.Append("/sheetName " & """" & sheetName & """ ")
+    If Not sheetname.StringEmpty Then
+            Call CLI.Append("/sheetname " & """" & sheetname & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -193,5 +238,25 @@ Public Function rbind([in] As String, Optional out As String = "") As Integer
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
     Return proc.Run()
 End Function
+
+''' <summary>
+''' ```
+''' /rbind.group /in &lt;*.csv.DIR> [/out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function rbindGroup([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/rbind.group")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
 End Class
 End Namespace
+

@@ -33,9 +33,11 @@
 
     ' Class PbsHostServer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __protocolImplementer, StartServices
     ' 
-    '     Sub: (+2 Overloads) Dispose, InternalThreadsDetection, New, RefreshConsole
+    '     Sub: (+2 Overloads) Dispose, InternalThreadsDetection, RefreshConsole
     ' 
     ' /********************************************************************************/
 

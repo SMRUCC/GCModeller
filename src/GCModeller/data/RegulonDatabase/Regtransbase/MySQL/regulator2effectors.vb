@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a6e8d4b70b02c3189544bfb98e35ef5, data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
+﻿#Region "Microsoft.VisualBasic::804d2bbd8b5b8f68c2dbf279c7b0f4ec, data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class regulator2effectors
     ' 
+    '     Properties: effector_guid, regulator_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -67,7 +72,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `regulator2effectors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class regulator2effectors: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("regulator_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property regulator_guid As Long
-    <DatabaseField("effector_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property effector_guid As Long
+    <DatabaseField("regulator_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="regulator_guid"), XmlAttribute> Public Property regulator_guid As Long
+    <DatabaseField("effector_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="effector_guid"), XmlAttribute> Public Property effector_guid As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class regulator2effectors: Inherits Oracle.LinuxCompatibility.MySQL.MySQL
         Return String.Format(UPDATE_SQL, regulator_guid, effector_guid, regulator_guid, effector_guid)
     End Function
 #End Region
+Public Function Clone() As regulator2effectors
+                  Return DirectCast(MyClass.MemberwiseClone, regulator2effectors)
+              End Function
 End Class
 
 
 End Namespace
+

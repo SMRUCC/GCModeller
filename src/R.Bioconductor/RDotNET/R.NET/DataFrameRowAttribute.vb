@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3917ddb2c7ebd4a048a471c877214f7, RDotNET\R.NET\DataFrameRowAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::190ae4801d7df912b3eec71782d2c7c9, RDotNET\R.NET\DataFrameRowAttribute.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,11 @@
     ' 
     ' Class DataFrameRowAttribute
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: Convert, CreateMap
     ' 
-    '     Sub: Map, New
+    '     Sub: Map
     ' 
     ' 
     ' 

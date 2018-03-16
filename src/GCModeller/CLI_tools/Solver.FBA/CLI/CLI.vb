@@ -31,11 +31,10 @@
 
     ' Summaries:
 
-    '  
+    ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Export, ImportsRxns
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

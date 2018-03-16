@@ -37,10 +37,12 @@
     ' 
     ' Module PfsNET_FootprintMappingPathway_API
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __createNetwork, __fileName, AnalysisFootprintPathway, CreateExpressionWindows, ExportCSV
     '               GenomeProgrammingAnalysis, Initialize
     ' 
-    '     Sub: New, SetPfsNETHandle
+    '     Sub: SetPfsNETHandle
     ' 
     ' /********************************************************************************/
 

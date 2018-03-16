@@ -33,6 +33,8 @@
 
     ' Class citation
     ' 
+    '     Properties: objectId, pubId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

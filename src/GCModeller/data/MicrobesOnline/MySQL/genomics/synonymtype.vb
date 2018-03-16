@@ -33,6 +33,8 @@
 
     ' Class synonymtype
     ' 
+    '     Properties: description, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

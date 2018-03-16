@@ -35,7 +35,7 @@
     ' 
     '         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
     '                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
-    '                   InternalShortID_s, InvokeDrawing, LoadResult, PlotMap, ShortID
+    '                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
     ' 
     '         Sub: AssignCogClass
     ' 

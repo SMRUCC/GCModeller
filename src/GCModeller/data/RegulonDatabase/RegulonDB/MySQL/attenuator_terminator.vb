@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::418a8906801db35ae1e499df0381c803, data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
+﻿#Region "Microsoft.VisualBasic::e139127803294aafb23ad6eee0b82965, data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class attenuator_terminator
     ' 
+    '     Properties: a_terminator_attenuator_id, a_terminator_energy, a_terminator_id, a_terminator_posleft, a_terminator_posright
+    '                 a_terminator_sequence, a_terminator_type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `attenuator_terminator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class attenuator_terminator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("a_terminator_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property a_terminator_id As String
-    <DatabaseField("a_terminator_type"), DataType(MySqlDbType.VarChar, "25")> Public Property a_terminator_type As String
-    <DatabaseField("a_terminator_posleft"), DataType(MySqlDbType.Decimal)> Public Property a_terminator_posleft As Decimal
-    <DatabaseField("a_terminator_posright"), DataType(MySqlDbType.Decimal)> Public Property a_terminator_posright As Decimal
-    <DatabaseField("a_terminator_energy"), DataType(MySqlDbType.Decimal)> Public Property a_terminator_energy As Decimal
-    <DatabaseField("a_terminator_sequence"), DataType(MySqlDbType.VarChar, "200")> Public Property a_terminator_sequence As String
-    <DatabaseField("a_terminator_attenuator_id"), DataType(MySqlDbType.VarChar, "12")> Public Property a_terminator_attenuator_id As String
+    <DatabaseField("a_terminator_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="a_terminator_id")> Public Property a_terminator_id As String
+    <DatabaseField("a_terminator_type"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="a_terminator_type")> Public Property a_terminator_type As String
+    <DatabaseField("a_terminator_posleft"), DataType(MySqlDbType.Decimal), Column(Name:="a_terminator_posleft")> Public Property a_terminator_posleft As Decimal
+    <DatabaseField("a_terminator_posright"), DataType(MySqlDbType.Decimal), Column(Name:="a_terminator_posright")> Public Property a_terminator_posright As Decimal
+    <DatabaseField("a_terminator_energy"), DataType(MySqlDbType.Decimal), Column(Name:="a_terminator_energy")> Public Property a_terminator_energy As Decimal
+    <DatabaseField("a_terminator_sequence"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="a_terminator_sequence")> Public Property a_terminator_sequence As String
+    <DatabaseField("a_terminator_attenuator_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="a_terminator_attenuator_id")> Public Property a_terminator_attenuator_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class attenuator_terminator: Inherits Oracle.LinuxCompatibility.MySQL.MyS
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As attenuator_terminator
+                  Return DirectCast(MyClass.MemberwiseClone, attenuator_terminator)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -31,6 +31,11 @@
 
     ' Summaries:
 
+    '     Enum DNA
+    ' 
+    '         B, D, H, K, M
+    '         N, S, V, W, Y
+    ' 
     '  
     ' 
     ' 

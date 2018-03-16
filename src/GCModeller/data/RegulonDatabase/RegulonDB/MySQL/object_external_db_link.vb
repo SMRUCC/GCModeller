@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4408b5ec32e3b6988f16bba543d83d91, data\RegulonDatabase\RegulonDB\MySQL\object_external_db_link.vb"
+﻿#Region "Microsoft.VisualBasic::da44ee2078f4ede5f79cfaa34932abb7, data\RegulonDatabase\RegulonDB\MySQL\object_external_db_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class object_external_db_link
     ' 
+    '     Properties: ext_reference_id, external_db_id, object_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `object_external_db_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class object_external_db_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property object_id As String
-    <DatabaseField("external_db_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property external_db_id As String
-    <DatabaseField("ext_reference_id"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property ext_reference_id As String
+    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="object_id")> Public Property object_id As String
+    <DatabaseField("external_db_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="external_db_id")> Public Property external_db_id As String
+    <DatabaseField("ext_reference_id"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="ext_reference_id")> Public Property ext_reference_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class object_external_db_link: Inherits Oracle.LinuxCompatibility.MySQL.M
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As object_external_db_link
+                  Return DirectCast(MyClass.MemberwiseClone, object_external_db_link)
+              End Function
 End Class
 
 
 End Namespace
+

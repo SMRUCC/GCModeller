@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee757a5ba32cd15e089dad6678aa63f0, data\ExternalDBSource\ChEBI\Tables\structures.vb"
+﻿#Region "Microsoft.VisualBasic::e3a5af9d4b88d2ba3d97d096f7a1cc9c, data\ExternalDBSource\ChEBI\Tables\structures.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class structures
     ' 
+    '     Properties: [structure], compound_id, dimension, id, type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -72,7 +77,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("structure"), NotNull, DataType(MySqlDbType.Text)> Public Property [structure] As String
-    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text)> Public Property type As String
-    <DatabaseField("dimension"), NotNull, DataType(MySqlDbType.Text)> Public Property dimension As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("structure"), NotNull, DataType(MySqlDbType.Text), Column(Name:="structure")> Public Property [structure] As String
+    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text), Column(Name:="type")> Public Property type As String
+    <DatabaseField("dimension"), NotNull, DataType(MySqlDbType.Text), Column(Name:="dimension")> Public Property dimension As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, compound_id, [structure], type, dimension, id)
     End Function
 #End Region
+Public Function Clone() As structures
+                  Return DirectCast(MyClass.MemberwiseClone, structures)
+              End Function
 End Class
 
 
 End Namespace
+

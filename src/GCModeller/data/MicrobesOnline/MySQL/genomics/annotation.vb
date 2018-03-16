@@ -33,6 +33,8 @@
 
     ' Class annotation
     ' 
+    '     Properties: [date], annotationId, source
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

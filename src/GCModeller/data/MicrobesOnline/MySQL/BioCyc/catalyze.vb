@@ -33,6 +33,8 @@
 
     ' Class catalyze
     ' 
+    '     Properties: catRxn, objectId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

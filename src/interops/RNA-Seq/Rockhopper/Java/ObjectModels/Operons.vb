@@ -35,10 +35,12 @@
     ' 
     '         Properties: operonPrior
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: computeProbabilityOfSameTranscript, getCorrelation, getIGlength, getNumOperonGenePairs, getPercentIGexpressed
     '                   isGenePairAnOperon, operonExpression, outputMergedOperons, readInGenes
     ' 
-    '         Sub: determineOperonCorrelationDistributions, determineOperonLengthDistributions, Main, (+2 Overloads) New, outputGenePairOperons
+    '         Sub: determineOperonCorrelationDistributions, determineOperonLengthDistributions, Main, outputGenePairOperons
     ' 
     ' 
     ' /********************************************************************************/

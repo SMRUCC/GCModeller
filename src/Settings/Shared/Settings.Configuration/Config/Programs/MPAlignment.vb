@@ -33,11 +33,11 @@
 
     '     Class MPAlignment
     ' 
-    '         Properties: Evalue, FilePath
+    '         Properties: Coverage, Evalue, FamilyAccept, FilePath, Identities
+    '                     Offset, ParserThreads, ParserTimeOut
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetValue, Save, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

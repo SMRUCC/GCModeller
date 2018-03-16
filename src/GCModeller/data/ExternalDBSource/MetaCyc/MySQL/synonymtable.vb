@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9047420cf2fbc671d7c257bacd4e444b, data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
+﻿#Region "Microsoft.VisualBasic::48072fa637f03420d0f2e37c2290a4ce, data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class synonymtable
     ' 
+    '     Properties: OtherWID, Syn
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -67,7 +72,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `synonymtable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class synonymtable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("Syn"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property Syn As String
+    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID"), XmlAttribute> Public Property OtherWID As Long
+    <DatabaseField("Syn"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="Syn"), XmlAttribute> Public Property Syn As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class synonymtable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, OtherWID, Syn, OtherWID, Syn)
     End Function
 #End Region
+Public Function Clone() As synonymtable
+                  Return DirectCast(MyClass.MemberwiseClone, synonymtable)
+              End Function
 End Class
 
 
 End Namespace
+

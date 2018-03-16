@@ -35,9 +35,11 @@
     ' 
     '         Properties: Table
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __model, Commit, GetMaxHandle, Load, ToString
     ' 
-    '         Sub: Dispose, New
+    '         Sub: Dispose
     ' 
     ' 
     ' /********************************************************************************/

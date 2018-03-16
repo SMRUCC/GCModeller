@@ -35,16 +35,14 @@
     ' 
     '             Properties: ReconstructedDNASegments
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: GetSegments, Performance, (+2 Overloads) TryParse
-    ' 
-    '             Sub: New
     '             Class Chromosome
     ' 
     '                 Properties: Complement, Length, Sequence, Title
     ' 
+    '                 Constructor: (+1 Overloads) Sub New
     '                 Function: ToString
-    ' 
-    '                 Sub: New
     ' 
     ' 
     ' 

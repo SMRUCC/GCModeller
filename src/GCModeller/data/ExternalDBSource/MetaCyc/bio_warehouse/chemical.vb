@@ -33,6 +33,11 @@
 
     ' Class chemical
     ' 
+    '     Properties: [Class], BeilsteinName, CAS, Charge, DataSetWID
+    '                 EmpiricalFormula, MolecularWeightCalc, MolecularWeightExp, Name, OctH2OPartitionCoeff
+    '                 PKA1, PKA2, PKA3, Smiles, SystematicName
+    '                 WaterSolubility, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class datainternal
     ' 
+    '     Properties: DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

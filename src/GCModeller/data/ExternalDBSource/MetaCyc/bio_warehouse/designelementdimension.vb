@@ -33,6 +33,8 @@
 
     ' Class designelementdimension
     ' 
+    '     Properties: DataSetWID, Identifier, MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

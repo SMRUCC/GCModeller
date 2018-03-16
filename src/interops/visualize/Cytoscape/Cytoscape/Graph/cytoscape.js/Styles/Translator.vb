@@ -36,9 +36,8 @@
     '         Properties: BackgroundColor, BackgroundOpacity, BorderOpacity, Color, FontSize
     '                     Shape, TextOpacity, Width
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

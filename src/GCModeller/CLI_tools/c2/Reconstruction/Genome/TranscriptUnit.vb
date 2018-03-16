@@ -33,9 +33,8 @@
 
     '     Class TranscriptUnit
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetFirstGene, Performance
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

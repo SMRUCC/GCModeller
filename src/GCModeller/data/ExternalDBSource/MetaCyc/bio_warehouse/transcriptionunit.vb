@@ -33,6 +33,8 @@
 
     ' Class transcriptionunit
     ' 
+    '     Properties: DataSetWID, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

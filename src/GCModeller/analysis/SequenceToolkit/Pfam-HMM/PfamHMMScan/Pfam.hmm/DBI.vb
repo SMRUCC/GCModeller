@@ -35,9 +35,8 @@
     ' 
     '     Properties: ActiveSites, Stockholm
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: Compile, (+2 Overloads) GetHMMprof
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' /********************************************************************************/
 

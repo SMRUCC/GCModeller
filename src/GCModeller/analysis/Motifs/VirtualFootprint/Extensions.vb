@@ -33,7 +33,8 @@
 
     ' Module Extensions
     ' 
-    '     Function: KEGGRegulon, MergeLocis, TrimStranded
+    '     Function: __uid, KEGGRegulon, KEGGRegulons, MergeLocis, TrimStranded
+    '               uid
     ' 
     ' /********************************************************************************/
 

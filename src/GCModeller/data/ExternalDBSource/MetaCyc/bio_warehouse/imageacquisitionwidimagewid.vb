@@ -33,6 +33,8 @@
 
     ' Class imageacquisitionwidimagewid
     ' 
+    '     Properties: ImageAcquisitionWID, ImageWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

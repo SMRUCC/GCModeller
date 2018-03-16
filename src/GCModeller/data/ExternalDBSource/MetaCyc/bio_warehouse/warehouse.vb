@@ -33,6 +33,8 @@
 
     ' Class warehouse
     ' 
+    '     Properties: Description, LoadDate, MaxReservedWID, MaxSpecialWID, Version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

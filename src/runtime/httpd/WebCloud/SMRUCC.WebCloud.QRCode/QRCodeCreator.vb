@@ -35,6 +35,8 @@
     ' 
     '     Properties: Description, ErrorCorrection, Type, Version
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: [Get], Add, AddErrorCorrection, ChooseParameters, CreateCodeWords
     '               EncodeCharacterCount, EncodeMode, EvaluateMask, EvaluateMicroMask, EvaluateNormalMask
     '               GetAlignmentPatternLocations, GetAvailableErrorCorrectionLevels, GetAvailableModes, GetCharacterCountBits, GetMaxCharacters
@@ -42,8 +44,8 @@
     ' 
     '     Sub: [Set], AddFormatInformation, AddVersionInformation, Apply, CreateFreeMask
     '          DrawAlignmentPattern, DrawFinderPattern, DrawHLine, DrawRect, DrawTimingHLine
-    '          DrawTimingVLine, DrawVLine, Fill, FillRect, (+3 Overloads) New
-    '          Render, Reserve, Save
+    '          DrawTimingVLine, DrawVLine, Fill, FillRect, Render
+    '          Reserve, Save
     ' 
     ' /********************************************************************************/
 

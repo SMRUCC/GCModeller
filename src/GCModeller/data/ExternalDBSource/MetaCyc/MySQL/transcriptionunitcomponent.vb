@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a48dea53a712115285fb0cf1dcd4d45, data\ExternalDBSource\MetaCyc\MySQL\transcriptionunitcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::4b39cb937cfa16154a50673176707002, data\ExternalDBSource\MetaCyc\MySQL\transcriptionunitcomponent.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class transcriptionunitcomponent
     ' 
+    '     Properties: OtherWID, TranscriptionUnitWID, Type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -69,7 +74,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `transcriptionunitcomponent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class transcriptionunitcomponent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property Type As String
-    <DatabaseField("TranscriptionUnitWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property TranscriptionUnitWID As Long
-    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
+    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("TranscriptionUnitWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="TranscriptionUnitWID"), XmlAttribute> Public Property TranscriptionUnitWID As Long
+    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class transcriptionunitcomponent: Inherits Oracle.LinuxCompatibility.MySQ
         Return String.Format(UPDATE_SQL, Type, TranscriptionUnitWID, OtherWID, TranscriptionUnitWID)
     End Function
 #End Region
+Public Function Clone() As transcriptionunitcomponent
+                  Return DirectCast(MyClass.MemberwiseClone, transcriptionunitcomponent)
+              End Function
 End Class
 
 
 End Namespace
+

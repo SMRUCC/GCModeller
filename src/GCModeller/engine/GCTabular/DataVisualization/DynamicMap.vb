@@ -33,9 +33,11 @@
 
     '     Class DynamicMap
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetItemValue
     ' 
-    '         Sub: AddCellSystemMapHandlers, AddSystemNodesHandles, New, TrimMap
+    '         Sub: AddCellSystemMapHandlers, AddSystemNodesHandles, TrimMap
     '         Class FileHandle
     ' 
     '             Function: CreateObject, GetValue, ReadBuffer, ToString

@@ -35,7 +35,8 @@
     ' 
     '         Properties: AccessionTypeNames
     ' 
-    '         Function: BuildEntitysFromTsv, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel, ScanLoad
+    '         Function: BuildEntitysFromTsv, (+2 Overloads) GetXrefID, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel, ScanLoad
+    '                   SystematicName
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,17 +35,18 @@
     ' 
     '         Properties: averageTranscriptLength, numTranscripts, seed, size
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: charToInt, informationContent, intToChar, longToString, (+2 Overloads) stringToLong
     '                   (+2 Overloads) stringToLong_Reverse
     ' 
     '         Sub: add, assembleTranscripts, buildTranscriptsAndClearTable, extendSeedBackward, extendSeedForward
-    '              initializeReadMapping, Main, (+2 Overloads) mapFullLengthRead, New, prepareSeeds
+    '              initializeReadMapping, Main, (+2 Overloads) mapFullLengthRead, prepareSeeds
     ' 
     '     Class KMer
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: IComparable_CompareTo
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

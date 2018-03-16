@@ -33,6 +33,8 @@
 
     ' Class locus2operon
     ' 
+    '     Properties: locusId, tuId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

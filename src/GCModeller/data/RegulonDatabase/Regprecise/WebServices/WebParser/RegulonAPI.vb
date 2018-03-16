@@ -34,6 +34,7 @@
     '     Module RegulonAPI
     ' 
     '         Function: __getOperons, BuildMapHash, Equals, (+5 Overloads) Reconstruct, TrimId
+    '                   uid
     ' 
     ' 
     ' /********************************************************************************/

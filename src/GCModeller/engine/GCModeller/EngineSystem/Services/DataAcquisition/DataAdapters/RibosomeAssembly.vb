@@ -35,41 +35,36 @@
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class RibosomeAssemblyCompounds
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class RNAPolymeraseAssembly
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class RNAPolymeraseAssemblyCompounds
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class TransmembraneTransportation
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles, GenerateId
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

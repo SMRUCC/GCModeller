@@ -35,25 +35,22 @@
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class EnzymeActivity
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class ConstraintsMetabolite
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

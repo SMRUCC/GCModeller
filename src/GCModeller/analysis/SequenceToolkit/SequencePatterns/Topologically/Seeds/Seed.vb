@@ -35,9 +35,8 @@
     ' 
     '         Properties: Parent, Sequence
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: IsMyParent, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

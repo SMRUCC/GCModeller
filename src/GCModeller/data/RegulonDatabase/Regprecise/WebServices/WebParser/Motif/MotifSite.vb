@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class MotifSitelog
     ' 
-    '     Properties: BiologicalProcess, Effector, Family, Identifier, RegulationMode
-    '                 Regulog, Sites, Taxonomy
+    '         Properties: BiologicalProcess, Effector, Family, Identifier, logo
+    '                     RegulationMode, Regulog, Sites, Taxonomy
     ' 
-    '     Function: ExportMotifs, Name, ToString
+    '         Function: ExportMotifs, Name, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,12 +35,14 @@
     ' 
     '         Properties: Database, SBMLMetabolismModel
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) CreateInstance, GetBindRxns, GetCompounds, GetDNABindingSites, GetEnzrxns
     '                   GetGenes, GetPathways, GetPromoters, GetProteinFeature, GetProteins
     '                   GetProtLigandCplx, GetReactions, GetRegulations, GetTerminators, GetTransUnits
     '                   ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, New, Save
+    '         Sub: (+2 Overloads) Dispose, Save
     ' 
     ' 
     ' /********************************************************************************/

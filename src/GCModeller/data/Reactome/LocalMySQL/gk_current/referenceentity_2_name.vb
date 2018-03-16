@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b9739b96864abab443c0f2a87594435, data\Reactome\LocalMySQL\gk_current\referenceentity_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::0da1367684473ec803eaf27fa69a0aca, data\Reactome\LocalMySQL\gk_current\referenceentity_2_name.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referenceentity_2_name
     ' 
+    '     Properties: DB_ID, name, name_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referenceentity_2_name` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referenceentity_2_name: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("name_rank"), DataType(MySqlDbType.Int64, "10")> Public Property name_rank As Long
-    <DatabaseField("name"), DataType(MySqlDbType.Text)> Public Property name As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("name_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="name_rank")> Public Property name_rank As Long
+    <DatabaseField("name"), DataType(MySqlDbType.Text), Column(Name:="name")> Public Property name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referenceentity_2_name: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, DB_ID, name_rank, name, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referenceentity_2_name
+                  Return DirectCast(MyClass.MemberwiseClone, referenceentity_2_name)
+              End Function
 End Class
 
 
 End Namespace
+

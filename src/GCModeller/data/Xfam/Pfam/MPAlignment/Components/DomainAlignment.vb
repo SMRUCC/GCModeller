@@ -33,7 +33,7 @@
 
     '     Class DomainAlignment
     ' 
-    '         Properties: IsMatch, ProteinQueryDomainDs, ProteinSbjctDomainDs
+    '         Properties: IsMatch, ProteinQueryDomainDs, ProteinSbjctDomainDs, Score
     ' 
     '         Function: FormatPlantTextOutput, ToString
     ' 

@@ -33,6 +33,8 @@
 
     ' Class component
     ' 
+    '     Properties: component, objectId, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

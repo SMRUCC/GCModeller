@@ -37,11 +37,14 @@
     ' 
     '     Class citation
     ' 
-    '         Properties: authorList, dbReferences, title
+    '         Properties: [date], authorList, db, dbReferences, first
+    '                     last, name, title, type, volume
     ' 
     '         Function: ToString
     ' 
     '     Class person
+    ' 
+    '         Properties: name
     ' 
     '         Function: ToString
     ' 

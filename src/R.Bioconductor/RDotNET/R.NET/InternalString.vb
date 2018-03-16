@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7e8b8ced92f8adc4c685a94fcce2368, RDotNET\R.NET\InternalString.vb"
+﻿#Region "Microsoft.VisualBasic::aa70a8daca1b32f657787ed0086f9443, RDotNET\R.NET\InternalString.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' Class InternalString
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: GetInternalValue, ToString
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' /********************************************************************************/
 

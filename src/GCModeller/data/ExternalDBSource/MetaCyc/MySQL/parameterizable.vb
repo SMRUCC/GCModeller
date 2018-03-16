@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8de09eee53966ceecc832635b7d13354, data\ExternalDBSource\MetaCyc\MySQL\parameterizable.vb"
+﻿#Region "Microsoft.VisualBasic::8287466009fe6d3eccdd311a4d9adf99, data\ExternalDBSource\MetaCyc\MySQL\parameterizable.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class parameterizable
     ' 
+    '     Properties: DataSetWID, Hardware, Hardware_Type, Identifier, MAGEClass
+    '                 Make, Model, Name, Protocol_Type, Software_Type
+    '                 Text, Title, URI, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -89,7 +96,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -123,20 +129,20 @@ CREATE TABLE `parameterizable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class parameterizable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255")> Public Property URI As String
-    <DatabaseField("Model"), DataType(MySqlDbType.VarChar, "255")> Public Property Model As String
-    <DatabaseField("Make"), DataType(MySqlDbType.VarChar, "255")> Public Property Make As String
-    <DatabaseField("Hardware_Type"), DataType(MySqlDbType.Int64, "20")> Public Property Hardware_Type As Long
-    <DatabaseField("Text"), DataType(MySqlDbType.VarChar, "1000")> Public Property Text As String
-    <DatabaseField("Title"), DataType(MySqlDbType.VarChar, "255")> Public Property Title As String
-    <DatabaseField("Protocol_Type"), DataType(MySqlDbType.Int64, "20")> Public Property Protocol_Type As Long
-    <DatabaseField("Software_Type"), DataType(MySqlDbType.Int64, "20")> Public Property Software_Type As Long
-    <DatabaseField("Hardware"), DataType(MySqlDbType.Int64, "20")> Public Property Hardware As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="URI")> Public Property URI As String
+    <DatabaseField("Model"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Model")> Public Property Model As String
+    <DatabaseField("Make"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Make")> Public Property Make As String
+    <DatabaseField("Hardware_Type"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Hardware_Type")> Public Property Hardware_Type As Long
+    <DatabaseField("Text"), DataType(MySqlDbType.VarChar, "1000"), Column(Name:="Text")> Public Property Text As String
+    <DatabaseField("Title"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Title")> Public Property Title As String
+    <DatabaseField("Protocol_Type"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Protocol_Type")> Public Property Protocol_Type As Long
+    <DatabaseField("Software_Type"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Software_Type")> Public Property Software_Type As Long
+    <DatabaseField("Hardware"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Hardware")> Public Property Hardware As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -187,7 +193,11 @@ Public Class parameterizable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, URI, Model, Make, Hardware_Type, Text, Title, Protocol_Type, Software_Type, Hardware, WID)
     End Function
 #End Region
+Public Function Clone() As parameterizable
+                  Return DirectCast(MyClass.MemberwiseClone, parameterizable)
+              End Function
 End Class
 
 
 End Namespace
+

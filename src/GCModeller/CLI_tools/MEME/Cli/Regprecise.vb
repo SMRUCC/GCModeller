@@ -34,11 +34,11 @@
     ' Module CLI
     ' 
     '     Function: __allRelated, __buildFamily, (+2 Overloads) __compile, __extract, __getEntry
-    '               __getFamily, __mastNoMEME, __upstreamRelated, Build, BuildFamilyDb
-    '               BuildFromMotifSites, CompileMast, CompileMastBuck, CompileRegprecise, CORN
-    '               DownloadRegprecise, DownloadRegprecise2, FoundModules, KEGGFamilyDump, LDMMaxLen
-    '               RegulatorsBBh, RegulatorsCompile, SelectRegulatorsBBH, SiteMappedBack, TCSRegulateModule
-    '               TCSRegulations
+    '               __getFamily, __isNothing, __mastNoMEME, __upstreamRelated, Build
+    '               BuildFamilyDb, BuildFromMotifSites, CompileMast, CompileMastBuck, CompileRegprecise
+    '               CORN, DownloadRegprecise, DownloadRegprecise2, FoundModules, KEGGFamilyDump
+    '               LDMMaxLen, RegulatorsBBh, RegulatorsCompile, SelectRegulatorsBBH, SiteMappedBack
+    '               TCSRegulateModule, TCSRegulations
     ' 
     ' /********************************************************************************/
 

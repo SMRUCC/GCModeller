@@ -33,6 +33,9 @@
 
     ' Class association
     ' 
+    '     Properties: assocdate, gene_product_id, id, is_not, role_group
+    '                 source_db_id, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

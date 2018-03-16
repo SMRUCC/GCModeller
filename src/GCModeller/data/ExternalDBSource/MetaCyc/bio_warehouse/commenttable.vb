@@ -33,6 +33,8 @@
 
     ' Class commenttable
     ' 
+    '     Properties: Comm, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

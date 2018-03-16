@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb8af2341626e88755b945d16ed650b0, data\RegulonDatabase\RegulonDB\MySQL\method.vb"
+﻿#Region "Microsoft.VisualBasic::1a67b757222f446e88a544c9f62b5197, data\RegulonDatabase\RegulonDB\MySQL\method.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class method
     ' 
+    '     Properties: key_id_org, method_description, method_id, method_internal_comment, method_name
+    '                 method_note, parameter_used
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `method` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class method: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("method_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property method_id As String
-    <DatabaseField("method_name"), NotNull, DataType(MySqlDbType.VarChar, "200")> Public Property method_name As String
-    <DatabaseField("method_description"), DataType(MySqlDbType.VarChar, "2000")> Public Property method_description As String
-    <DatabaseField("parameter_used"), DataType(MySqlDbType.VarChar, "2000")> Public Property parameter_used As String
-    <DatabaseField("method_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property method_note As String
-    <DatabaseField("method_internal_comment"), DataType(MySqlDbType.Text)> Public Property method_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("method_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="method_id")> Public Property method_id As String
+    <DatabaseField("method_name"), NotNull, DataType(MySqlDbType.VarChar, "200"), Column(Name:="method_name")> Public Property method_name As String
+    <DatabaseField("method_description"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="method_description")> Public Property method_description As String
+    <DatabaseField("parameter_used"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="parameter_used")> Public Property parameter_used As String
+    <DatabaseField("method_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="method_note")> Public Property method_note As String
+    <DatabaseField("method_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="method_internal_comment")> Public Property method_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class method: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As method
+                  Return DirectCast(MyClass.MemberwiseClone, method)
+              End Function
 End Class
 
 
 End Namespace
+

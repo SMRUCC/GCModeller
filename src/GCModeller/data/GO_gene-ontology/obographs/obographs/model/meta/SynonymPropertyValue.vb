@@ -52,9 +52,8 @@
     ' 
     ' 		    Properties: Exact, Types
     ' 
+    ' 		    Constructor: (+1 Overloads) Sub New
     ' 		    Function: addType, build, scope, val, xrefs
-    ' 
-    ' 		    Sub: New
     ' 
     '  
     ' 

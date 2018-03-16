@@ -33,11 +33,10 @@
 
     '     Class DBLink
     ' 
-    '         Properties: Entry
+    '         Properties: DBName, Entry
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

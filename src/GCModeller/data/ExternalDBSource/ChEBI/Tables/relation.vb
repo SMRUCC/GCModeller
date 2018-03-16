@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d6224fe466972b46e0ae8e2b0190193, data\ExternalDBSource\ChEBI\Tables\relation.vb"
+﻿#Region "Microsoft.VisualBasic::a2c6db22e3430073e8f9e697954c90a8, data\ExternalDBSource\ChEBI\Tables\relation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class relation
     ' 
+    '     Properties: final_id, id, init_id, status, type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -74,7 +79,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,11 +97,11 @@ CREATE TABLE `relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class relation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text)> Public Property type As String
-    <DatabaseField("init_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property init_id As Long
-    <DatabaseField("final_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property final_id As Long
-    <DatabaseField("status"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property status As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text), Column(Name:="type")> Public Property type As String
+    <DatabaseField("init_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="init_id")> Public Property init_id As Long
+    <DatabaseField("final_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="final_id")> Public Property final_id As Long
+    <DatabaseField("status"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="status")> Public Property status As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -148,7 +152,11 @@ Public Class relation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, type, init_id, final_id, status, id)
     End Function
 #End Region
+Public Function Clone() As relation
+                  Return DirectCast(MyClass.MemberwiseClone, relation)
+              End Function
 End Class
 
 
 End Namespace
+

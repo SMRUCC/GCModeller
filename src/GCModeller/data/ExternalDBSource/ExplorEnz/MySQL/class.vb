@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e8471da9305009267a68a6ab482385c, data\ExternalDBSource\ExplorEnz\MySQL\class.vb"
+﻿#Region "Microsoft.VisualBasic::2979729859031b00cd6677f6441bcd2f, data\ExternalDBSource\ExplorEnz\MySQL\class.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class [class]
     ' 
+    '     Properties: [class], heading, id, last_change, note
+    '                 subclass, subsubclass
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:50 PM
+REM  Dump @3/16/2018 10:40:16 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ExplorEnz.MySQL
 
@@ -72,7 +78,6 @@ Namespace ExplorEnz.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,18 +94,18 @@ CREATE TABLE `class` (
 ) ENGINE=MyISAM AUTO_INCREMENT=631 DEFAULT CHARSET=latin1;")>
 Public Class [class]: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("class"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property [class] As Long
-    <DatabaseField("subclass"), DataType(MySqlDbType.Int64, "11")> Public Property subclass As Long
-    <DatabaseField("subsubclass"), DataType(MySqlDbType.Int64, "11")> Public Property subsubclass As Long
-    <DatabaseField("heading"), DataType(MySqlDbType.VarChar, "255")> Public Property heading As String
-    <DatabaseField("note"), DataType(MySqlDbType.Text)> Public Property note As String
-    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_change As Date
+    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("class"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="class")> Public Property [class] As Long
+    <DatabaseField("subclass"), DataType(MySqlDbType.Int64, "11"), Column(Name:="subclass")> Public Property subclass As Long
+    <DatabaseField("subsubclass"), DataType(MySqlDbType.Int64, "11"), Column(Name:="subsubclass")> Public Property subsubclass As Long
+    <DatabaseField("heading"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="heading")> Public Property heading As String
+    <DatabaseField("note"), DataType(MySqlDbType.Text), Column(Name:="note")> Public Property note As String
+    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_change")> Public Property last_change As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `class` WHERE `id` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `class` SET `id`='{0}', `class`='{1}', `subclass`='{2}', `subsubclass`='{3}', `heading`='{4}', `note`='{5}', `last_change`='{6}' WHERE `id` = '{7}';</SQL>
 #End Region
@@ -114,28 +119,28 @@ Public Class [class]: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+''' INSERT INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, [class], subclass, subsubclass, heading, note, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(INSERT_SQL, [class], subclass, subsubclass, heading, note, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 
 ''' <summary>
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{[class]}', '{subclass}', '{subsubclass}', '{heading}', '{note}', '{last_change}', '{6}')"
+        Return $"('{[class]}', '{subclass}', '{subsubclass}', '{heading}', '{note}', '{last_change}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+''' REPLACE INTO `class` (`class`, `subclass`, `subsubclass`, `heading`, `note`, `last_change`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, [class], subclass, subsubclass, heading, note, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(REPLACE_SQL, [class], subclass, subsubclass, heading, note, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -143,10 +148,14 @@ Public Class [class]: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, id, [class], subclass, subsubclass, heading, note, DataType.ToMySqlDateTimeString(last_change), id)
+        Return String.Format(UPDATE_SQL, id, [class], subclass, subsubclass, heading, note, MySqlScript.ToMySqlDateTimeString(last_change), id)
     End Function
 #End Region
+Public Function Clone() As [class]
+                  Return DirectCast(MyClass.MemberwiseClone, [class])
+              End Function
 End Class
 
 
 End Namespace
+

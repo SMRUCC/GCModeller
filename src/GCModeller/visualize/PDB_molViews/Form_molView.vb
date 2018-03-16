@@ -33,7 +33,8 @@
 
     ' Class Form_molView
     ' 
-    '     Sub: AutoRotationToolStripMenuItem_CheckedChanged, New, OpenToolStripMenuItem_Click
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: AutoRotationToolStripMenuItem_CheckedChanged, OpenToolStripMenuItem_Click
     ' 
     ' /********************************************************************************/
 

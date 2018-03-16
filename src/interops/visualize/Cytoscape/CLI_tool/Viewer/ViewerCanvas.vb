@@ -33,7 +33,8 @@
 
     ' Class ViewerCanvas
     ' 
-    '     Sub: New, OpenToolStripMenuItem_Click
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: OpenToolStripMenuItem_Click
     ' 
     ' /********************************************************************************/
 

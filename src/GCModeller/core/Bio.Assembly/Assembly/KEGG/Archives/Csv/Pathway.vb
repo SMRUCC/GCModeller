@@ -33,7 +33,7 @@
 
     '     Class Pathway
     ' 
-    '         Properties: BriteId, EntryId, PathwayGenes
+    '         Properties: [Class], BriteId, Category, EntryId, PathwayGenes
     ' 
     '         Function: (+2 Overloads) CreateObjects, GenerateObject, GetPathwayGenes, LoadData
     ' 

@@ -33,7 +33,8 @@
 
     '     Module PathwayWebParser
     ' 
-    '         Function: __koPathways, __parseHTML_ModuleList
+    '         Function: __description, __entryID, __koPathways, __name, __organism
+    '                   __parseHTML_ModuleList, __pathwayDrugs, PageParser
     '         Enum LIST_TYPES
     ' 
     '             [Disease], [Module], [Pathway]

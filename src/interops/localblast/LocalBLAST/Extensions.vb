@@ -33,7 +33,7 @@
 
     ' Module Extensions
     ' 
-    '     Function: IsAvailable
+    '     Function: (+2 Overloads) BlastpSearch, IsAvailable, IsNullOrEmpty
     ' 
     ' /********************************************************************************/
 

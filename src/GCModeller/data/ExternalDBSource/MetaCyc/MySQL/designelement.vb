@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef317c1c56f8748ce52de287fd9ef5c5, data\ExternalDBSource\MetaCyc\MySQL\designelement.vb"
+﻿#Region "Microsoft.VisualBasic::6a0de8fd4dfa738f8b124c6206911adb, data\ExternalDBSource\MetaCyc\MySQL\designelement.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class designelement
     ' 
+    '     Properties: DataSetWID, DesignElement_ControlType, Feature_FeatureLocation, Feature_Position, FeatureGroup
+    '                 FeatureGroup_Features, Identifier, MAGEClass, Name, Reporter_WarningType
+    '                 WID, Zone
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -93,7 +100,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -131,18 +137,18 @@ CREATE TABLE `designelement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class designelement: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("FeatureGroup_Features"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureGroup_Features As Long
-    <DatabaseField("DesignElement_ControlType"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElement_ControlType As Long
-    <DatabaseField("Feature_Position"), DataType(MySqlDbType.Int64, "20")> Public Property Feature_Position As Long
-    <DatabaseField("Zone"), DataType(MySqlDbType.Int64, "20")> Public Property Zone As Long
-    <DatabaseField("Feature_FeatureLocation"), DataType(MySqlDbType.Int64, "20")> Public Property Feature_FeatureLocation As Long
-    <DatabaseField("FeatureGroup"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureGroup As Long
-    <DatabaseField("Reporter_WarningType"), DataType(MySqlDbType.Int64, "20")> Public Property Reporter_WarningType As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("FeatureGroup_Features"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureGroup_Features")> Public Property FeatureGroup_Features As Long
+    <DatabaseField("DesignElement_ControlType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElement_ControlType")> Public Property DesignElement_ControlType As Long
+    <DatabaseField("Feature_Position"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Feature_Position")> Public Property Feature_Position As Long
+    <DatabaseField("Zone"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Zone")> Public Property Zone As Long
+    <DatabaseField("Feature_FeatureLocation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Feature_FeatureLocation")> Public Property Feature_FeatureLocation As Long
+    <DatabaseField("FeatureGroup"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureGroup")> Public Property FeatureGroup As Long
+    <DatabaseField("Reporter_WarningType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Reporter_WarningType")> Public Property Reporter_WarningType As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -193,7 +199,11 @@ Public Class designelement: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, FeatureGroup_Features, DesignElement_ControlType, Feature_Position, Zone, Feature_FeatureLocation, FeatureGroup, Reporter_WarningType, WID)
     End Function
 #End Region
+Public Function Clone() As designelement
+                  Return DirectCast(MyClass.MemberwiseClone, designelement)
+              End Function
 End Class
 
 
 End Namespace
+

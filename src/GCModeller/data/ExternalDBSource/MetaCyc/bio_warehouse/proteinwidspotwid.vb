@@ -33,6 +33,8 @@
 
     ' Class proteinwidspotwid
     ' 
+    '     Properties: ProteinWID, SpotWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

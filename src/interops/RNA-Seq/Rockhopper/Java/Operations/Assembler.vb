@@ -35,11 +35,13 @@
     ' 
     '         Properties: compressedFileName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: encode, getFileNameBase, getPhredOffset, getReadsInputFileType, mapPhred
     '                   parametersToString, removePath, reverseComplement, separator
     ' 
-    '         Sub: commandLineArguments, Main, New, outputResults, outputSamHeader
-    '              outputToFile, processReads, readInSequencingReads
+    '         Sub: commandLineArguments, Main, outputResults, outputSamHeader, outputToFile
+    '              processReads, readInSequencingReads
     ' 
     ' 
     ' /********************************************************************************/

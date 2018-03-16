@@ -33,6 +33,8 @@
 
     ' Class tree
     ' 
+    '     Properties: modified, name, newick, treeId, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

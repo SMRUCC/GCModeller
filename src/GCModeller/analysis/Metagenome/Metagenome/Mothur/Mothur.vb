@@ -33,11 +33,10 @@
 
     ' Class Mothur
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
     '               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
     '               (+2 Overloads) Summary_seqs, Unique_seqs
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -33,9 +33,15 @@
 
     '     Class MAST
     ' 
-    '         Function: Invoke
+    '         Properties: BackgroundFile, Best, Composition, Count, DbList
+    '                     df, Diag, dl, DNA, EValue
+    '                     HitList, Mev, mf, MotifNumber, ms
+    '                     mt, NoHtml, NoReverse, NoStatus, NoText
+    '                     OutputDir, OutputOverwriting, RemoveMotifs, Separate, SeqP
+    '                     WeakMatches
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Invoke
     ' 
     ' 
     ' /********************************************************************************/

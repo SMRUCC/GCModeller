@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72554b0de3a45df84dc6f2bc0b052d18, data\RegulonDatabase\RegulonDB\MySQL\charts_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::01dd5eb5ea2b17259f11e9ae7381692c, data\RegulonDatabase\RegulonDB\MySQL\charts_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class charts_tmp
     ' 
+    '     Properties: chart_id, chart_name, chart_title, chart_type, number_option
+    '                 object_name, query_number, title_x, title_y
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `charts_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class charts_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("chart_name"), NotNull, DataType(MySqlDbType.VarChar, "150")> Public Property chart_name As String
-    <DatabaseField("chart_type"), NotNull, DataType(MySqlDbType.VarChar, "150")> Public Property chart_type As String
-    <DatabaseField("chart_title"), DataType(MySqlDbType.VarChar, "150")> Public Property chart_title As String
-    <DatabaseField("title_x"), DataType(MySqlDbType.VarChar, "150")> Public Property title_x As String
-    <DatabaseField("title_y"), DataType(MySqlDbType.VarChar, "150")> Public Property title_y As String
-    <DatabaseField("object_name"), DataType(MySqlDbType.VarChar, "150")> Public Property object_name As String
-    <DatabaseField("number_option"), DataType(MySqlDbType.Decimal)> Public Property number_option As Decimal
-    <DatabaseField("query_number"), DataType(MySqlDbType.Decimal)> Public Property query_number As Decimal
-    <DatabaseField("chart_id"), NotNull, DataType(MySqlDbType.Decimal)> Public Property chart_id As Decimal
+    <DatabaseField("chart_name"), NotNull, DataType(MySqlDbType.VarChar, "150"), Column(Name:="chart_name")> Public Property chart_name As String
+    <DatabaseField("chart_type"), NotNull, DataType(MySqlDbType.VarChar, "150"), Column(Name:="chart_type")> Public Property chart_type As String
+    <DatabaseField("chart_title"), DataType(MySqlDbType.VarChar, "150"), Column(Name:="chart_title")> Public Property chart_title As String
+    <DatabaseField("title_x"), DataType(MySqlDbType.VarChar, "150"), Column(Name:="title_x")> Public Property title_x As String
+    <DatabaseField("title_y"), DataType(MySqlDbType.VarChar, "150"), Column(Name:="title_y")> Public Property title_y As String
+    <DatabaseField("object_name"), DataType(MySqlDbType.VarChar, "150"), Column(Name:="object_name")> Public Property object_name As String
+    <DatabaseField("number_option"), DataType(MySqlDbType.Decimal), Column(Name:="number_option")> Public Property number_option As Decimal
+    <DatabaseField("query_number"), DataType(MySqlDbType.Decimal), Column(Name:="query_number")> Public Property query_number As Decimal
+    <DatabaseField("chart_id"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="chart_id")> Public Property chart_id As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class charts_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As charts_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, charts_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

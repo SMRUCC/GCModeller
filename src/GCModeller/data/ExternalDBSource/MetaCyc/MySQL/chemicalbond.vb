@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97d9944a3f49853c19d2c97d3157f955, data\ExternalDBSource\MetaCyc\MySQL\chemicalbond.vb"
+﻿#Region "Microsoft.VisualBasic::027a94c9506b515e9e645b2813ee22ee, data\ExternalDBSource\MetaCyc\MySQL\chemicalbond.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class chemicalbond
     ' 
+    '     Properties: Atom1Index, Atom2Index, BondStereo, BondType, ChemicalWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,11 +91,11 @@ CREATE TABLE `chemicalbond` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class chemicalbond: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ChemicalWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ChemicalWID As Long
-    <DatabaseField("Atom1Index"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Atom1Index As Long
-    <DatabaseField("Atom2Index"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Atom2Index As Long
-    <DatabaseField("BondType"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property BondType As Long
-    <DatabaseField("BondStereo"), DataType(MySqlDbType.Decimal)> Public Property BondStereo As Decimal
+    <DatabaseField("ChemicalWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ChemicalWID"), XmlAttribute> Public Property ChemicalWID As Long
+    <DatabaseField("Atom1Index"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Atom1Index")> Public Property Atom1Index As Long
+    <DatabaseField("Atom2Index"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Atom2Index")> Public Property Atom2Index As Long
+    <DatabaseField("BondType"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="BondType")> Public Property BondType As Long
+    <DatabaseField("BondStereo"), DataType(MySqlDbType.Decimal), Column(Name:="BondStereo")> Public Property BondStereo As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -142,7 +146,11 @@ Public Class chemicalbond: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, ChemicalWID, Atom1Index, Atom2Index, BondType, BondStereo, ChemicalWID)
     End Function
 #End Region
+Public Function Clone() As chemicalbond
+                  Return DirectCast(MyClass.MemberwiseClone, chemicalbond)
+              End Function
 End Class
 
 
 End Namespace
+

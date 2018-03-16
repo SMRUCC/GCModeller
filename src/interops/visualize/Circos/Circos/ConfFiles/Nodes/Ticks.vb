@@ -33,13 +33,17 @@
 
     '     Class Ticks
     ' 
-    '         Properties: Ticks
+    '         Properties: color, label_offset, label_separation, label_size, min_label_distance_to_edge
+    '                     multiplier, radius, size, skip_first_label, skip_last_label
+    '                     thickness, tick_separation, Ticks
     ' 
     '         Function: Build, DefaultConfiguration
     ' 
     '     Class Tick
     ' 
-    '         Properties: label_offset
+    '         Properties: color, format, grid, grid_color, grid_thickness
+    '                     label_offset, label_size, show_label, size, spacing
+    '                     suffix
     ' 
     '         Function: Build
     ' 

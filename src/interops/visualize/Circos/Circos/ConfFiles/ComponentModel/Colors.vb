@@ -35,9 +35,8 @@
     ' 
     '         Properties: colors
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Build, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

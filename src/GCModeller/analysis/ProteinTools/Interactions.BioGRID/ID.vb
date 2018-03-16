@@ -35,7 +35,7 @@
     ' 
     '     Properties: sId, StringTypes, Type
     ' 
-    '     Sub: (+3 Overloads) New
+    '     Constructor: (+3 Overloads) Sub New
     '     Enum Types
     ' 
     '         BioGrid, NCBI

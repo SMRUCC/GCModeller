@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e63e9fb6ec6ddf6c5f44aedcf0711914, data\Reactome\LocalMySQL\gk_current\reactioncoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::29d4cbf38eb79f62afee30b157706b56, data\Reactome\LocalMySQL\gk_current\reactioncoordinates.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class reactioncoordinates
     ' 
+    '     Properties: DB_ID, locatedEvent, locatedEvent_class, locationContext, locationContext_class
+    '                 sourceX, sourceY, targetX, targetY
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -80,7 +86,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -105,15 +110,15 @@ CREATE TABLE `reactioncoordinates` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class reactioncoordinates: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("locatedEvent"), DataType(MySqlDbType.Int64, "10")> Public Property locatedEvent As Long
-    <DatabaseField("locatedEvent_class"), DataType(MySqlDbType.VarChar, "64")> Public Property locatedEvent_class As String
-    <DatabaseField("locationContext"), DataType(MySqlDbType.Int64, "10")> Public Property locationContext As Long
-    <DatabaseField("locationContext_class"), DataType(MySqlDbType.VarChar, "64")> Public Property locationContext_class As String
-    <DatabaseField("sourceX"), DataType(MySqlDbType.Int64, "10")> Public Property sourceX As Long
-    <DatabaseField("sourceY"), DataType(MySqlDbType.Int64, "10")> Public Property sourceY As Long
-    <DatabaseField("targetX"), DataType(MySqlDbType.Int64, "10")> Public Property targetX As Long
-    <DatabaseField("targetY"), DataType(MySqlDbType.Int64, "10")> Public Property targetY As Long
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("locatedEvent"), DataType(MySqlDbType.Int64, "10"), Column(Name:="locatedEvent")> Public Property locatedEvent As Long
+    <DatabaseField("locatedEvent_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="locatedEvent_class")> Public Property locatedEvent_class As String
+    <DatabaseField("locationContext"), DataType(MySqlDbType.Int64, "10"), Column(Name:="locationContext")> Public Property locationContext As Long
+    <DatabaseField("locationContext_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="locationContext_class")> Public Property locationContext_class As String
+    <DatabaseField("sourceX"), DataType(MySqlDbType.Int64, "10"), Column(Name:="sourceX")> Public Property sourceX As Long
+    <DatabaseField("sourceY"), DataType(MySqlDbType.Int64, "10"), Column(Name:="sourceY")> Public Property sourceY As Long
+    <DatabaseField("targetX"), DataType(MySqlDbType.Int64, "10"), Column(Name:="targetX")> Public Property targetX As Long
+    <DatabaseField("targetY"), DataType(MySqlDbType.Int64, "10"), Column(Name:="targetY")> Public Property targetY As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -164,7 +169,11 @@ Public Class reactioncoordinates: Inherits Oracle.LinuxCompatibility.MySQL.MySQL
         Return String.Format(UPDATE_SQL, DB_ID, locatedEvent, locatedEvent_class, locationContext, locationContext_class, sourceX, sourceY, targetX, targetY, DB_ID)
     End Function
 #End Region
+Public Function Clone() As reactioncoordinates
+                  Return DirectCast(MyClass.MemberwiseClone, reactioncoordinates)
+              End Function
 End Class
 
 
 End Namespace
+

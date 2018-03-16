@@ -33,10 +33,12 @@
 
     '     Module ParallelTaskAPI
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __bbh, __invokeInner, BatchBlastp, BBH, CheckIntegrity
     '                   CreateHandle, CreateInvokeHandle, InvokeCreateBlastpHandle, NewBlastPlusSession, StartTask
     ' 
-    '         Sub: BatchBlastpRev, New
+    '         Sub: BatchBlastpRev
     ' 
     ' 
     ' /********************************************************************************/

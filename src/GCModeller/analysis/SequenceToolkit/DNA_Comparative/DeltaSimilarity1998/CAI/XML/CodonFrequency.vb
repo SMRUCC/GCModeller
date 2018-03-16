@@ -33,17 +33,16 @@
 
     '     Class CodonFrequencyCAI
     ' 
-    '         Properties: BiasFrequency, BiasFrequencyProfile, MaxBias
+    '         Properties: AminoAcid, BiasFrequency, BiasFrequencyProfile, MaxBias
     ' 
     '         Function: ToString
     ' 
     '     Structure CodonBias
     ' 
-    '         Properties: CodonString
+    '         Properties: Bias, Codon, CodonString
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

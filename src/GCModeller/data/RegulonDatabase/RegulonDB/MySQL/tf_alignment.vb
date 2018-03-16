@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::930d37ab2324539d9707ad1d87c78e52, data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
+﻿#Region "Microsoft.VisualBasic::f0040d07fd434f1450daee1f7f2949e2, data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class tf_alignment
     ' 
+    '     Properties: key_id_org, tf_alignment_id, tf_alignment_internal_comment, tf_alignment_name, tf_alignment_note
+    '                 tf_matrix_id, transcription_factor_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `tf_alignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class tf_alignment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("tf_alignment_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property tf_alignment_id As String
-    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property transcription_factor_id As String
-    <DatabaseField("tf_matrix_id"), DataType(MySqlDbType.VarChar, "12")> Public Property tf_matrix_id As String
-    <DatabaseField("tf_alignment_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property tf_alignment_name As String
-    <DatabaseField("tf_alignment_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property tf_alignment_note As String
-    <DatabaseField("tf_alignment_internal_comment"), DataType(MySqlDbType.Text)> Public Property tf_alignment_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("tf_alignment_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="tf_alignment_id")> Public Property tf_alignment_id As String
+    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="transcription_factor_id")> Public Property transcription_factor_id As String
+    <DatabaseField("tf_matrix_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="tf_matrix_id")> Public Property tf_matrix_id As String
+    <DatabaseField("tf_alignment_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="tf_alignment_name")> Public Property tf_alignment_name As String
+    <DatabaseField("tf_alignment_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="tf_alignment_note")> Public Property tf_alignment_note As String
+    <DatabaseField("tf_alignment_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="tf_alignment_internal_comment")> Public Property tf_alignment_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class tf_alignment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As tf_alignment
+                  Return DirectCast(MyClass.MemberwiseClone, tf_alignment)
+              End Function
 End Class
 
 
 End Namespace
+

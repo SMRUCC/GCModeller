@@ -33,6 +33,9 @@
 
     ' Class data_reactions
     ' 
+    '     Properties: comment, definition, EC, KEGG, name
+    '                 products, substrates, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

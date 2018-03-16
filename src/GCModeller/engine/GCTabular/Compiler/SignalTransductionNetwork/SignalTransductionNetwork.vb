@@ -33,10 +33,12 @@
 
     '     Class SignalTransductionNetwork
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: _compile_CheBMethylesterase, _compile_CheBPhosphate, _compile_ChemotaxisSensing, _compile_CheRMethyltransferase, _compile_CrossTalks
     '                   _compile_HkAutoPhosphorus, _compile_OCS_RULE, Internal_get_MappedID
     ' 
-    '         Sub: Add_autoGenerateProteinComplexSubstrate, Invoke, New
+    '         Sub: Add_autoGenerateProteinComplexSubstrate, Invoke
     ' 
     ' 
     ' /********************************************************************************/

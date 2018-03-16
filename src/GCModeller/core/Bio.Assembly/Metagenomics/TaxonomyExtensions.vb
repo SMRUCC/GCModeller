@@ -40,7 +40,7 @@
     ' 
     '         Delegate Function
     ' 
-    '             Function: ParseRank, (+2 Overloads) SelectByTaxonomyRange, TaxonomyLineage, TaxonomyRankEmpty
+    '             Function: ParseRank, (+2 Overloads) SelectByTaxonomyRange, TaxonomyLineage, TaxonomyRankEmpty, Trim
     ' 
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class scaffoldposchunks
     ' 
+    '     Properties: kbt, locusId, posId, scaffoldId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

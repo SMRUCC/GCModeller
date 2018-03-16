@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::870df17b7c74652dab4f483ed68e1bac, data\RegulonDatabase\Regtransbase\MySQL\dict_struct_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::b63e750668ce210123e286c35f099878, data\RegulonDatabase\Regtransbase\MySQL\dict_struct_site_types.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class dict_struct_site_types
     ' 
+    '     Properties: name, struct_site_type_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -67,7 +72,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `dict_struct_site_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class dict_struct_site_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("struct_site_type_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property struct_site_type_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "100")> Public Property name As String
+    <DatabaseField("struct_site_type_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="struct_site_type_guid"), XmlAttribute> Public Property struct_site_type_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="name")> Public Property name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class dict_struct_site_types: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, struct_site_type_guid, name, struct_site_type_guid)
     End Function
 #End Region
+Public Function Clone() As dict_struct_site_types
+                  Return DirectCast(MyClass.MemberwiseClone, dict_struct_site_types)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -36,7 +36,7 @@
     '     Properties: ATGDist, BiologicalProcess, Family, InPromoterRegion, Location
     '                 Regulog, tag, tags, Taxonomy
     ' 
-    '     Sub: (+3 Overloads) New
+    '     Constructor: (+3 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

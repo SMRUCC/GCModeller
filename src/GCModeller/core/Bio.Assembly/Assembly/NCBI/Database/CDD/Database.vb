@@ -36,9 +36,11 @@
     '         Properties: Cdd, Cog, DbPaths, DomainInfo, Kog
     '                     Paths, Pfam, Prk, Smart, Tigr
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetDomainFasta, GetDomainInfo, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Sub: (+2 Overloads) Dispose
     '         Class FastaLoader
     ' 
     '             Function: GetCdd, GetCog, GetKog, GetPfam, GetPrk

@@ -37,12 +37,13 @@
     '                     minQvalue, name, oRF, product, start
     '                     startT, stopT, strand
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: expressionToString, getAvg, getMean, getNormalizedCount, getNumReplicates
     '                   getRawCount, getRawCount_reads, hasQvalue, isDifferntiallyExpressedORF, ToString
     ' 
     '         Sub: computeDifferentialExpression, computeExpression, computeVariance, correctPvalues, merge
-    '              mergesort, New, setLowessVariances, setNormalizedCount, setRawCount
-    '              setRawCount_reads
+    '              mergesort, setLowessVariances, setNormalizedCount, setRawCount, setRawCount_reads
     ' 
     ' 
     ' /********************************************************************************/

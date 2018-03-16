@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5cf5017097b2eff44d60773154d7c88e, data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::e2234fe5cf31230aa055ac4edf0fcac7, data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class helices
     ' 
+    '     Properties: art_guid, descript, fl_real_name, genome_guid, helix_guid
+    '                 name, pkg_guid, pos_from1, pos_from2, pos_to1
+    '                 pos_to2, sec_struct_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -86,7 +93,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -117,18 +123,18 @@ CREATE TABLE `helices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class helices: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("helix_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property helix_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
-    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11")> Public Property genome_guid As Long
-    <DatabaseField("sec_struct_guid"), DataType(MySqlDbType.Int64, "11")> Public Property sec_struct_guid As Long
-    <DatabaseField("pos_from1"), DataType(MySqlDbType.Int64, "11")> Public Property pos_from1 As Long
-    <DatabaseField("pos_to1"), DataType(MySqlDbType.Int64, "11")> Public Property pos_to1 As Long
-    <DatabaseField("pos_from2"), DataType(MySqlDbType.Int64, "11")> Public Property pos_from2 As Long
-    <DatabaseField("pos_to2"), DataType(MySqlDbType.Int64, "11")> Public Property pos_to2 As Long
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
+    <DatabaseField("helix_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="helix_guid"), XmlAttribute> Public Property helix_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
+    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="genome_guid")> Public Property genome_guid As Long
+    <DatabaseField("sec_struct_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="sec_struct_guid")> Public Property sec_struct_guid As Long
+    <DatabaseField("pos_from1"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_from1")> Public Property pos_from1 As Long
+    <DatabaseField("pos_to1"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_to1")> Public Property pos_to1 As Long
+    <DatabaseField("pos_from2"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_from2")> Public Property pos_from2 As Long
+    <DatabaseField("pos_to2"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_to2")> Public Property pos_to2 As Long
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -179,7 +185,11 @@ Public Class helices: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, helix_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, sec_struct_guid, pos_from1, pos_to1, pos_from2, pos_to2, descript, helix_guid)
     End Function
 #End Region
+Public Function Clone() As helices
+                  Return DirectCast(MyClass.MemberwiseClone, helices)
+              End Function
 End Class
 
 
 End Namespace
+

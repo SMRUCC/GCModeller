@@ -33,14 +33,16 @@
 
     '     Class CultivationMediums
     ' 
-    '         Properties: CellObjects, CompartmentId, ConfigurationData, Count, EnvironmentFactors
-    '                     EnzymeKinetics, EventId, IsLiquidsBrothMedium, RuntimeTicks, SystemLogging
-    '                     SystemVariables, WATER_FREE_DIFFUSION
+    '         Properties: CellObjects, CompartmentId, ConfigurationData, Count, CultivationMediums
+    '                     EnvironmentFactors, EnzymeKinetics, EventId, IsLiquidsBrothMedium, RuntimeTicks
+    '                     SystemLogging, SystemVariables, Temperature, WATER_FREE_DIFFUSION
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __innerTicks, CreateServiceSerials, Get_currentPH, Get_currentTemperature, Get_runtimeContainer
     '                   GetArguments, GetEnumerator, GetEnumerator1, Initialize, ToString
     ' 
-    '         Sub: Add, InitializeDelegatesBetweenTheCell, MemoryDump, New
+    '         Sub: Add, InitializeDelegatesBetweenTheCell, MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,7 @@
 
     '     Class CentralDogma
     ' 
-    '         Properties: FluxValue, TypeId
+    '         Properties: ExpressionActivity, FluxValue, MotifSites, TransUnit, TypeId
     ' 
     '         Function: __Internal_createMotifRegulators, CreateInstance, get_Regulators, Initialize, Invoke
     '                   ToString

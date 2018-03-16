@@ -33,9 +33,11 @@
 
     ' Class Engine
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __innerNET
     ' 
-    '     Sub: __tickData, (+2 Overloads) Dispose, New, RunModel
+    '     Sub: __tickData, (+2 Overloads) Dispose, RunModel
     ' 
     ' /********************************************************************************/
 

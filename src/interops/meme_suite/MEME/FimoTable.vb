@@ -33,7 +33,8 @@
 
     ' Class FimoTable
     ' 
-    '     Properties: [End], Motif, Start, Strand
+    '     Properties: [End], Matched, Motif, pValue, qValue
+    '                 Start, Strand, Title
     ' 
     '     Function: MatchInterGeneLoci
     ' 

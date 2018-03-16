@@ -33,7 +33,8 @@
 
     ' Class LocalBlast
     ' 
-    '     Sub: Initialize, InstallNewDB, Load, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Initialize, InstallNewDB, Load
     ' 
     ' /********************************************************************************/
 

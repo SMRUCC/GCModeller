@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acd0843543540dd6887cd3d206ac59af, models\Networks\Microbiome\PathwayProfile.vb"
+﻿#Region "Microsoft.VisualBasic::afae0809fc828d2bab39bc68c0e82d69, models\Networks\Microbiome\PathwayProfile.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Properties: pct, Profile, RankGroup, Taxonomy
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class EnrichmentProfiles
     ' 

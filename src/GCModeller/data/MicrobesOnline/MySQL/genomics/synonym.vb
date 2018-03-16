@@ -33,6 +33,9 @@
 
     ' Class synonym
     ' 
+    '     Properties: created, locusId, name, source, type
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

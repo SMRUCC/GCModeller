@@ -33,8 +33,8 @@
 
     ' Module CLI
     ' 
-    '     Function: GenomeContent, GenomeContext, IdentifyUTRs, siRNAPredictions, TestSites
-    '               VisualReads
+    '     Function: __TSSsLoci, GenomeContent, GenomeContext, IdentifyUTRs, siRNAPredictions
+    '               TestSites, VisualReads
     ' 
     ' /********************************************************************************/
 

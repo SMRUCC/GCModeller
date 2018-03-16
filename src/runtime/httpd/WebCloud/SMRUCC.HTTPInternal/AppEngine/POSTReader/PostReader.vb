@@ -35,9 +35,11 @@
     ' 
     '         Properties: ContentEncoding, ContentType, Files, Form, InputStream
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetParameter, GetSubStream
     ' 
-    '         Sub: __loadMultiPart, LoadMultiPart, New
+    '         Sub: __loadMultiPart, LoadMultiPart
     ' 
     ' 
     ' /********************************************************************************/

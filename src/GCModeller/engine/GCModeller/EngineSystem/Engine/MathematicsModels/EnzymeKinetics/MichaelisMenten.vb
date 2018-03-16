@@ -33,13 +33,12 @@
 
     '     Class CompartmentAccessories
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class MichaelisMenten
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Factor, GetFluxValue, pH_Factor, T_Factor, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

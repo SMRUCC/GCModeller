@@ -39,7 +39,7 @@
     ' 
     '     Class RegulatedGene
     ' 
-    '         Properties: description
+    '         Properties: description, locusId, name, vimssId
     ' 
     '         Function: (+2 Overloads) __parser, DocParser, ParseDoc, ToString
     ' 

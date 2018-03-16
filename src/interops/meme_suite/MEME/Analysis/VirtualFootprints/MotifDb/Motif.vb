@@ -33,7 +33,8 @@
 
     '     Class Motif
     ' 
-    '         Properties: Family, MatchedSites, Signature
+    '         Properties: Evalue, Family, InformationContent, LogLikelihoodRatio, MatchedSites
+    '                     MotifId, RegpreciseRegulators, RelativeEntropy, Signature, Width
     ' 
     '         Function: CopyFrom, ToString
     ' 

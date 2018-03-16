@@ -35,9 +35,11 @@
     ' 
     ' 	    Properties: (+3 Overloads) Context, ContextString, DefaultContext, Prefixes, PrefixManager
     ' 
+    ' 	    Constructor: (+5 Overloads) Sub New
+    ' 
     ' 	    Function: createIRI, getContext, guessCatalogFile, makePrefixManager, parseContext
     ' 
-    ' 	    Sub: (+2 Overloads) addPrefix, (+5 Overloads) New, (+2 Overloads) saveContext, setContext
+    ' 	    Sub: (+2 Overloads) addPrefix, (+2 Overloads) saveContext, setContext
     ' 
     ' 
     ' /********************************************************************************/

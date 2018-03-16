@@ -33,9 +33,8 @@
 
     ' Class BoundsOverrides
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __overrides, OverridesLower, OverridesUpper
-    ' 
-    '     Sub: New
     ' 
     ' Delegate Function
     ' 

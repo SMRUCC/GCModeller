@@ -33,9 +33,11 @@
 
     '     Class GenericKinetic
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) Clone, GetInreversibleFluxValue, GetReversibleFluxValue, GetValue, ToString
     ' 
-    '         Sub: HandleDenominatorEqualsNaNException, HandleDenominatorEqualsZeroException, (+3 Overloads) New
+    '         Sub: HandleDenominatorEqualsNaNException, HandleDenominatorEqualsZeroException
     ' 
     ' 
     ' /********************************************************************************/

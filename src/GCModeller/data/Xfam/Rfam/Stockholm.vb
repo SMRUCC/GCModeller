@@ -33,7 +33,14 @@
 
     ' Class Stockholm
     ' 
-    '     Properties: PI, RF, SS_cons
+    '     Properties: AC, Alignments, AU, BM, CB
+    '                 CC, CL, DC, DE, DR
+    '                 FR, GA, ID, KW, MB
+    '                 NC, NE, NH, NL, PI
+    '                 RA, RC, RF, RL, RM
+    '                 RN, RT, SE, SM, SQ
+    '                 SS, SS_cons, TC, TN, TP
+    '                 WK
     ' 
     '     Function: __fieldsParser, DatabaseParser, Parser, ParseSchema
     ' 

@@ -33,7 +33,9 @@
 
     '     Class Specie
     ' 
-    '         Properties: Table
+    '         Properties: GeneticCode, Genome, MitochndrialGeneticCode, NCBITaxonomyId, PGDBAuthors
+    '                     PGDBCopyright, PGDBFooterCitation, PGDBHomePage, PGDBLastConsistencyCheck, PGDBName
+    '                     PGDBTIER, PGDBUniqueId, Rank, StrainName, Table
     ' 
     '         Function: GetAttributeList, GetFullName, ToFileStream
     ' 

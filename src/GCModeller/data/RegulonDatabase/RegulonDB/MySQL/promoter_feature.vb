@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adaf600fd8981624e52a375e3e2d1f7e, data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
+﻿#Region "Microsoft.VisualBasic::1da26dd05b04edad05e1feacc72f78bb, data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class promoter_feature
     ' 
+    '     Properties: box_10_left, box_10_right, box_10_sequence, box_35_left, box_35_right
+    '                 box_35_sequence, promoter_feature_id, promoter_id, relative_box_10_left, relative_box_10_right
+    '                 relative_box_35_left, relative_box_35_right, score
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -77,7 +84,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -99,19 +105,19 @@ CREATE TABLE `promoter_feature` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class promoter_feature: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("promoter_feature_id"), DataType(MySqlDbType.VarChar, "12")> Public Property promoter_feature_id As String
-    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12")> Public Property promoter_id As String
-    <DatabaseField("box_10_left"), DataType(MySqlDbType.Decimal)> Public Property box_10_left As Decimal
-    <DatabaseField("box_10_right"), DataType(MySqlDbType.Decimal)> Public Property box_10_right As Decimal
-    <DatabaseField("box_35_left"), DataType(MySqlDbType.Decimal)> Public Property box_35_left As Decimal
-    <DatabaseField("box_35_right"), DataType(MySqlDbType.Decimal)> Public Property box_35_right As Decimal
-    <DatabaseField("box_10_sequence"), DataType(MySqlDbType.VarChar, "100")> Public Property box_10_sequence As String
-    <DatabaseField("box_35_sequence"), DataType(MySqlDbType.VarChar, "100")> Public Property box_35_sequence As String
-    <DatabaseField("score"), DataType(MySqlDbType.Decimal)> Public Property score As Decimal
-    <DatabaseField("relative_box_10_left"), DataType(MySqlDbType.Decimal)> Public Property relative_box_10_left As Decimal
-    <DatabaseField("relative_box_10_right"), DataType(MySqlDbType.Decimal)> Public Property relative_box_10_right As Decimal
-    <DatabaseField("relative_box_35_left"), DataType(MySqlDbType.Decimal)> Public Property relative_box_35_left As Decimal
-    <DatabaseField("relative_box_35_right"), DataType(MySqlDbType.Decimal)> Public Property relative_box_35_right As Decimal
+    <DatabaseField("promoter_feature_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="promoter_feature_id")> Public Property promoter_feature_id As String
+    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="promoter_id")> Public Property promoter_id As String
+    <DatabaseField("box_10_left"), DataType(MySqlDbType.Decimal), Column(Name:="box_10_left")> Public Property box_10_left As Decimal
+    <DatabaseField("box_10_right"), DataType(MySqlDbType.Decimal), Column(Name:="box_10_right")> Public Property box_10_right As Decimal
+    <DatabaseField("box_35_left"), DataType(MySqlDbType.Decimal), Column(Name:="box_35_left")> Public Property box_35_left As Decimal
+    <DatabaseField("box_35_right"), DataType(MySqlDbType.Decimal), Column(Name:="box_35_right")> Public Property box_35_right As Decimal
+    <DatabaseField("box_10_sequence"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="box_10_sequence")> Public Property box_10_sequence As String
+    <DatabaseField("box_35_sequence"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="box_35_sequence")> Public Property box_35_sequence As String
+    <DatabaseField("score"), DataType(MySqlDbType.Decimal), Column(Name:="score")> Public Property score As Decimal
+    <DatabaseField("relative_box_10_left"), DataType(MySqlDbType.Decimal), Column(Name:="relative_box_10_left")> Public Property relative_box_10_left As Decimal
+    <DatabaseField("relative_box_10_right"), DataType(MySqlDbType.Decimal), Column(Name:="relative_box_10_right")> Public Property relative_box_10_right As Decimal
+    <DatabaseField("relative_box_35_left"), DataType(MySqlDbType.Decimal), Column(Name:="relative_box_35_left")> Public Property relative_box_35_left As Decimal
+    <DatabaseField("relative_box_35_right"), DataType(MySqlDbType.Decimal), Column(Name:="relative_box_35_right")> Public Property relative_box_35_right As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +168,11 @@ Public Class promoter_feature: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As promoter_feature
+                  Return DirectCast(MyClass.MemberwiseClone, promoter_feature)
+              End Function
 End Class
 
 
 End Namespace
+

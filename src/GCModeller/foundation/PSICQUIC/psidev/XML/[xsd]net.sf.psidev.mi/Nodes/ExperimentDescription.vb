@@ -31,25 +31,28 @@
 
     ' Summaries:
 
+    '     Class ExperimentDescription
+    ' 
+    '         Properties: Bibref, HostOrganismList, interactionDetectionMethod, Names, participantIdentificationMethod
+    ' 
+    '         Function: ToString
     '         Class __bibref
     ' 
-    '             Function: ToString
+    '             Properties: Xref
     ' 
-    '  
+    '         Class __hostOrganism
     ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: interactionDetectionMethod, participantIdentificationMethod
-    ' 
-    '  
+    '             Properties: Names, ncbiTaxId
     ' 
     ' 
     ' 
-    '  
+    '     Class __interactionDetectionMethod
     ' 
+    '         Properties: Names, Xref
     ' 
+    '     Class __participantIdentificationMethod
+    ' 
+    '         Properties: Names, Xref
     ' 
     ' 
     ' /********************************************************************************/

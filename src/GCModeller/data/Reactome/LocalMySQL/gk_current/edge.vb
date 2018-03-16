@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::863782534d085a57cdc5f97e14953244, data\Reactome\LocalMySQL\gk_current\edge.vb"
+﻿#Region "Microsoft.VisualBasic::81a71510dab7c4c8789ad00c68de8ca5, data\Reactome\LocalMySQL\gk_current\edge.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class edge
     ' 
+    '     Properties: DB_ID, edgeType, pathwayDiagram, pathwayDiagram_class, pointCoordinates
+    '                 sourceVertex, sourceVertex_class, targetVertex, targetVertex_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -79,7 +85,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,15 +108,15 @@ CREATE TABLE `edge` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class edge: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("edgeType"), DataType(MySqlDbType.Int64, "10")> Public Property edgeType As Long
-    <DatabaseField("pathwayDiagram"), DataType(MySqlDbType.Int64, "10")> Public Property pathwayDiagram As Long
-    <DatabaseField("pathwayDiagram_class"), DataType(MySqlDbType.VarChar, "64")> Public Property pathwayDiagram_class As String
-    <DatabaseField("pointCoordinates"), DataType(MySqlDbType.Text)> Public Property pointCoordinates As String
-    <DatabaseField("sourceVertex"), DataType(MySqlDbType.Int64, "10")> Public Property sourceVertex As Long
-    <DatabaseField("sourceVertex_class"), DataType(MySqlDbType.VarChar, "64")> Public Property sourceVertex_class As String
-    <DatabaseField("targetVertex"), DataType(MySqlDbType.Int64, "10")> Public Property targetVertex As Long
-    <DatabaseField("targetVertex_class"), DataType(MySqlDbType.VarChar, "64")> Public Property targetVertex_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("edgeType"), DataType(MySqlDbType.Int64, "10"), Column(Name:="edgeType")> Public Property edgeType As Long
+    <DatabaseField("pathwayDiagram"), DataType(MySqlDbType.Int64, "10"), Column(Name:="pathwayDiagram")> Public Property pathwayDiagram As Long
+    <DatabaseField("pathwayDiagram_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="pathwayDiagram_class")> Public Property pathwayDiagram_class As String
+    <DatabaseField("pointCoordinates"), DataType(MySqlDbType.Text), Column(Name:="pointCoordinates")> Public Property pointCoordinates As String
+    <DatabaseField("sourceVertex"), DataType(MySqlDbType.Int64, "10"), Column(Name:="sourceVertex")> Public Property sourceVertex As Long
+    <DatabaseField("sourceVertex_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="sourceVertex_class")> Public Property sourceVertex_class As String
+    <DatabaseField("targetVertex"), DataType(MySqlDbType.Int64, "10"), Column(Name:="targetVertex")> Public Property targetVertex As Long
+    <DatabaseField("targetVertex_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="targetVertex_class")> Public Property targetVertex_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +167,11 @@ Public Class edge: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, edgeType, pathwayDiagram, pathwayDiagram_class, pointCoordinates, sourceVertex, sourceVertex_class, targetVertex, targetVertex_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As edge
+                  Return DirectCast(MyClass.MemberwiseClone, edge)
+              End Function
 End Class
 
 
 End Namespace
+

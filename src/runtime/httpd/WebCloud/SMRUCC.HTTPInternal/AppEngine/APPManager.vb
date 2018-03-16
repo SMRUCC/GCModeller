@@ -31,15 +31,17 @@
 
     ' Summaries:
 
-    '  
+    '     Class APPManager
     ' 
-    '     Properties: baseUrl, DefaultAPI
+    '         Properties: baseUrl, DefaultAPI
     ' 
-    '     Function: __defaultFailure, GetApp, GetEnumerator, Help, IEnumerable_GetEnumerator
-    '               Invoke, InvokePOST, PrintHelp, Register, ServerStatus
-    '               Test404
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '     Sub: Join, New, ResetAPIDefault
+    '         Function: __defaultFailure, GetApp, GetEnumerator, Help, IEnumerable_GetEnumerator
+    '                   Invoke, InvokePOST, PrintHelp, Register, ServerStatus
+    '                   Test404
+    ' 
+    '         Sub: Join, ResetAPIDefault
     ' 
     ' 
     ' /********************************************************************************/

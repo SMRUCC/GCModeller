@@ -33,22 +33,20 @@
 
     ' Class PwyFilters
     ' 
-    '     Properties: AssociatedGenes, ContiansSubPathway, MetaCycBaseType, ReactionList, SuperPathway
-    '                 UniqueId
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CreateGeneCollection, GenerateReport, Performance
+    '     Class Pathway
     ' 
-    '     Function: Performance, ToString
+    '         Properties: AssociatedGenes, ContiansSubPathway, MetaCycBaseType, ReactionList, SuperPathway
+    '                     UniqueId
     ' 
-    '     Sub: New
+    '         Function: ToString
     ' 
     '     Class PathwayBrief
     ' 
-    '         Properties: Associated_gene_counts, Associated_gene_list, Description, UniqueId
+    '         Properties: Associated_gene_counts, Associated_gene_list, Description, Is_Super_Pathway, UniqueId
     ' 
-    '         Function: GenerateReport
     ' 
-    '  
-    ' 
-    '     Function: CreateGeneCollection
     ' 
     ' /********************************************************************************/
 

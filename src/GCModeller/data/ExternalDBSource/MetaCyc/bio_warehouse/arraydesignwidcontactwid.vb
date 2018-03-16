@@ -33,6 +33,8 @@
 
     ' Class arraydesignwidcontactwid
     ' 
+    '     Properties: ArrayDesignWID, ContactWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

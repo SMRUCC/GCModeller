@@ -33,6 +33,8 @@
 
     ' Class desnelmappingwiddesnelmapwid
     ' 
+    '     Properties: DesignElementMappingWID, DesignElementMapWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

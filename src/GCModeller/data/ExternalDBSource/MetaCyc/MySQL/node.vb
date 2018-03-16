@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e92e999e3eeda4fdee939ae40434026f, data\ExternalDBSource\MetaCyc\MySQL\node.vb"
+﻿#Region "Microsoft.VisualBasic::6263ed2d9bff92aa95cc214c4e0f90d7, data\ExternalDBSource\MetaCyc\MySQL\node.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class node
     ' 
+    '     Properties: BioAssayDataCluster_Nodes, DataSetWID, Node_Nodes, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,10 +99,10 @@ CREATE TABLE `node` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class node: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("BioAssayDataCluster_Nodes"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayDataCluster_Nodes As Long
-    <DatabaseField("Node_Nodes"), DataType(MySqlDbType.Int64, "20")> Public Property Node_Nodes As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("BioAssayDataCluster_Nodes"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayDataCluster_Nodes")> Public Property BioAssayDataCluster_Nodes As Long
+    <DatabaseField("Node_Nodes"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Node_Nodes")> Public Property Node_Nodes As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -149,7 +153,11 @@ Public Class node: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, BioAssayDataCluster_Nodes, Node_Nodes, WID)
     End Function
 #End Region
+Public Function Clone() As node
+                  Return DirectCast(MyClass.MemberwiseClone, node)
+              End Function
 End Class
 
 
 End Namespace
+

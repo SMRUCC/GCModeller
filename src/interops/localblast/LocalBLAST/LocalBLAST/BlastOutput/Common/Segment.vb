@@ -33,13 +33,13 @@
 
     '     Class HitSegment
     ' 
-    '         Properties: Consensus
+    '         Properties: Consensus, Query, Subject
     ' 
     '         Function: ToString, TryParse
     ' 
     '     Class Segment
     ' 
-    '         Properties: Location, UniqueId
+    '         Properties: Left, Location, Right, SequenceData, UniqueId
     ' 
     '         Function: ToString, TryParse
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19c8aa8060855c9309ef444add0443ba, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\ts.vb"
+﻿#Region "Microsoft.VisualBasic::252684d1804294d27396827df96b5fa4, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\ts.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '  
+    '     Class ts
     ' 
-    '     Properties: [class], [end], data, deltat, frequency
-    '                 names, start
+    '         Properties: [class], [end], data, deltat, frequency
+    '                     names, start, ts_eps
     ' 
     ' 
     ' /********************************************************************************/

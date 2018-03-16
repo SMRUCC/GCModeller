@@ -33,6 +33,15 @@
 
     ' Class CLIBuilder
     ' 
+    '     Properties: Auto, ClusteringOut, ClusterSize, Dealign, DistmatIn
+    '                 DistmatOut, Force, Full, FullIter, GuidetreeIn
+    '                 GuidetreeOut, Help, HMMIn, InFile, InFmt
+    '                 IsProfile, Iterations, Log, LongVersion, MaxGuidetreeIterations
+    '                 MaxHMMIterations, MaxNumSeq, MaxSeqLen, Out, OutFmt
+    '                 OutputOrder, p1, p2, PercentId, ResidueNumber
+    '                 SeqType, Threads, UseKimura, Verbose, Version
+    '                 Wrap
+    ' 
     '     Function: ToString
     ' 
     ' /********************************************************************************/

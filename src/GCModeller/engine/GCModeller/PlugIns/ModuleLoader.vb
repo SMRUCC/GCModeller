@@ -33,9 +33,11 @@
 
     '     Class ModuleLoader
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: LoadMainModule, LoadModel, ToString
     ' 
-    '         Sub: DisableModule, (+2 Overloads) Dispose, LoadModules, New
+    '         Sub: DisableModule, (+2 Overloads) Dispose, LoadModules
     ' 
     ' 
     ' /********************************************************************************/

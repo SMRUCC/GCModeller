@@ -33,57 +33,48 @@
 
     '     Class [GET]
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class POST
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class HEAD
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class PUT
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class DELETE
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class TRACE
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class OPTIONS
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class CONNECT
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     '     Class PATCH
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetMethodHelp
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

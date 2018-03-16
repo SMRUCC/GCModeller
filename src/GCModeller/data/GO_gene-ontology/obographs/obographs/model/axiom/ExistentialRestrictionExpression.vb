@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: FillerId, PropertyId
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, fillerId, propertyId

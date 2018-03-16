@@ -33,6 +33,8 @@
 
     ' Class composgrpwidcompossequencewid
     ' 
+    '     Properties: CompositeGroupWID, CompositeSequenceWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

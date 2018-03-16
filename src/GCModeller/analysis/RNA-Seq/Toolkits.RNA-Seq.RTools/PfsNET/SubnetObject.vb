@@ -33,17 +33,21 @@
 
     '     Class PfsNET
     ' 
-    '         Properties: [Class], SubNET
+    '         Properties: [Class], Flag, Identifier, n, SubNET
+    '                     Vectors
     ' 
     '         Function: ToPFSNet, ToString, TryParse
     ' 
     '     Structure Vector
     ' 
+    '         Properties: x
+    ' 
     '         Function: ToString
     ' 
     '     Class NetDetails
     ' 
-    '         Properties: Vector
+    '         Properties: Nodes, Pvalue, statistics, Vector, weight
+    '                     weight2
     ' 
     '         Function: ToString, TryParse
     ' 

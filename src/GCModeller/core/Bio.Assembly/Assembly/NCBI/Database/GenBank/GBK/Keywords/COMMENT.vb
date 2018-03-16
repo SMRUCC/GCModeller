@@ -33,6 +33,8 @@
 
     '     Class COMMENT
     ' 
+    '         Properties: Comment
+    ' 
     '         Function: ToString
     ' 
     ' 

@@ -36,10 +36,12 @@
     '         Properties: FirstRepeat, LastRepeat, NumberOfRepeats, NumberOfSpacers, RepeatLength
     '                     Repeats, StartLeft
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: [End], AverageRepeatLength, AverageSpacerLength, RepeatAt, RepeatSpacing
     '                   RepeatStringAt, SpacerStringAt, SpacingAt, ToString
     ' 
-    '         Sub: AddRepeatData, InsertRepeatAt, (+2 Overloads) New, RemoveRepeat, SetRepeatAt
+    '         Sub: AddRepeatData, InsertRepeatAt, RemoveRepeat, SetRepeatAt
     ' 
     ' 
     ' /********************************************************************************/

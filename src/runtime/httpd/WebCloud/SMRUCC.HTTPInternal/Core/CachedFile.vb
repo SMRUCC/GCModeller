@@ -35,9 +35,8 @@
     ' 
     '         Properties: bufs, content, Path
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CacheAllFiles, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

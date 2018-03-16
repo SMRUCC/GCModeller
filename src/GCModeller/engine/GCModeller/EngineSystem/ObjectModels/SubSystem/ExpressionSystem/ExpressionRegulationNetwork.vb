@@ -33,12 +33,14 @@
 
     '     Class ExpressionRegulationNetwork
     ' 
-    '         Properties: BasalExpression, DataSource, ExpressionKinetics, NetworkComponents, RegulationCoverage
-    '                     RegulationEntitiesCount, RibosomeAssembly, RNAPolymeraseAssembly, TranslationDataSource
+    '         Properties: _, BasalExpression, DataSource, ExpressionKinetics, NetworkComponents
+    '                     RegulationCoverage, RegulationEntitiesCount, RibosomeAssembly, RNAPolymeraseAssembly, TranslationDataSource
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: CreateServiceSerials, get_DataSerializerHandles, Initialize
     ' 
-    '         Sub: MemoryDump, New, SetupMutation
+    '         Sub: MemoryDump, SetupMutation
     ' 
     ' 
     ' /********************************************************************************/

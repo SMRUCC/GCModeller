@@ -43,7 +43,7 @@
     ' 
     '     Module TagSiteExtensions
     ' 
-    '         Function: Groups
+    '         Function: __innerGroup, Groups
     ' 
     ' 
     ' /********************************************************************************/

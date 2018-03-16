@@ -39,7 +39,7 @@
     ' 
     ' Class PdbComplexesAssembly
     ' 
-    '     Properties: ChainId, InteractionChainId
+    '     Properties: ChainId, InteractionChainId, PdbId
     ' 
     '     Function: Equals, ToString
     ' 

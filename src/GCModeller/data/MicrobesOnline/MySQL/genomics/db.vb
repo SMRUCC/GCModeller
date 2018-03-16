@@ -33,6 +33,9 @@
 
     ' Class db
     ' 
+    '     Properties: datatype, fullname, generic_url, id, name
+    '                 uri_prefix, url_example, url_syntax
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

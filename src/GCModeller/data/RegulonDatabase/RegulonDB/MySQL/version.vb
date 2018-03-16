@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1dcdd1dc5428e41d0899661d2a50ff8, data\RegulonDatabase\RegulonDB\MySQL\version.vb"
+﻿#Region "Microsoft.VisualBasic::8d127368662c7ccd07d45a92c780e6bd, data\RegulonDatabase\RegulonDB\MySQL\version.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class version
     ' 
+    '     Properties: head_citation, version_date_time, version_ecocyc, version_internal_comment, version_regulon
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -86,7 +91,6 @@ Namespace RegulonDB.Tables
 ''' /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 ''' 
 ''' -- Dump completed on 2017-03-29 23:21:44
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -100,11 +104,11 @@ CREATE TABLE `version` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class version: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("version_regulon"), NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property version_regulon As String
-    <DatabaseField("version_ecocyc"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property version_ecocyc As String
-    <DatabaseField("version_date_time"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property version_date_time As String
-    <DatabaseField("version_internal_comment"), DataType(MySqlDbType.VarChar, "4000")> Public Property version_internal_comment As String
-    <DatabaseField("head_citation"), DataType(MySqlDbType.VarChar, "4000")> Public Property head_citation As String
+    <DatabaseField("version_regulon"), NotNull, DataType(MySqlDbType.VarChar, "10"), Column(Name:="version_regulon")> Public Property version_regulon As String
+    <DatabaseField("version_ecocyc"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="version_ecocyc")> Public Property version_ecocyc As String
+    <DatabaseField("version_date_time"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="version_date_time")> Public Property version_date_time As String
+    <DatabaseField("version_internal_comment"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="version_internal_comment")> Public Property version_internal_comment As String
+    <DatabaseField("head_citation"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="head_citation")> Public Property head_citation As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -155,7 +159,11 @@ Public Class version: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As version
+                  Return DirectCast(MyClass.MemberwiseClone, version)
+              End Function
 End Class
 
 
 End Namespace
+

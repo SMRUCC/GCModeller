@@ -35,9 +35,8 @@
     ' 
     '         Properties: AutoFixError
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CheckConsist, (+2 Overloads) Compile, Link, PreCompile
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

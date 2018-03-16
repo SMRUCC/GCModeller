@@ -37,15 +37,13 @@
     ' 
     '     Class IdentityLevels
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetColor
-    ' 
-    '         Sub: New
     ' 
     '     Class IdentityGradients
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetColor
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

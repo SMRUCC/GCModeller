@@ -33,6 +33,8 @@
 
     ' Class term_synonym
     ' 
+    '     Properties: acc_synonym, synonym_category_id, synonym_type_id, term_id, term_synonym
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

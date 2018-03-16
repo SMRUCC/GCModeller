@@ -31,13 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class ResidueSite
     ' 
-    '     Properties: AsChar
+    '         Properties: AsChar, Bits, PWM, Site
     ' 
-    '     Function: __toChar, Complement, ToString
-    ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: __toChar, Complement, ToString
     ' 
     ' 
     ' /********************************************************************************/

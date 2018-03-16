@@ -33,6 +33,8 @@
 
     ' Class designelementmapping
     ' 
+    '     Properties: DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

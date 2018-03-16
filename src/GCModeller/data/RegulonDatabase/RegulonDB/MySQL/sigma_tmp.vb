@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::898d796c9b797ae37194b459e503ab2f, data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::4b724992d95f16c96b675d3bf0221b4b, data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class sigma_tmp
     ' 
+    '     Properties: key_id_org, sigma_coregulators, sigma_gene_id, sigma_gene_name, sigma_id
+    '                 sigma_name, sigma_notes, sigma_sigmulon_genes, sigma_synonyms
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `sigma_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class sigma_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("sigma_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property sigma_id As String
-    <DatabaseField("sigma_name"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property sigma_name As String
-    <DatabaseField("sigma_synonyms"), DataType(MySqlDbType.VarChar, "50")> Public Property sigma_synonyms As String
-    <DatabaseField("sigma_gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property sigma_gene_id As String
-    <DatabaseField("sigma_gene_name"), DataType(MySqlDbType.VarChar, "250")> Public Property sigma_gene_name As String
-    <DatabaseField("sigma_coregulators"), DataType(MySqlDbType.VarChar, "2000")> Public Property sigma_coregulators As String
-    <DatabaseField("sigma_notes"), DataType(MySqlDbType.VarChar, "4000")> Public Property sigma_notes As String
-    <DatabaseField("sigma_sigmulon_genes"), DataType(MySqlDbType.VarChar, "4000")> Public Property sigma_sigmulon_genes As String
-    <DatabaseField("key_id_org"), DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("sigma_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="sigma_id")> Public Property sigma_id As String
+    <DatabaseField("sigma_name"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="sigma_name")> Public Property sigma_name As String
+    <DatabaseField("sigma_synonyms"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="sigma_synonyms")> Public Property sigma_synonyms As String
+    <DatabaseField("sigma_gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="sigma_gene_id")> Public Property sigma_gene_id As String
+    <DatabaseField("sigma_gene_name"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="sigma_gene_name")> Public Property sigma_gene_name As String
+    <DatabaseField("sigma_coregulators"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="sigma_coregulators")> Public Property sigma_coregulators As String
+    <DatabaseField("sigma_notes"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="sigma_notes")> Public Property sigma_notes As String
+    <DatabaseField("sigma_sigmulon_genes"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="sigma_sigmulon_genes")> Public Property sigma_sigmulon_genes As String
+    <DatabaseField("key_id_org"), DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class sigma_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As sigma_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, sigma_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

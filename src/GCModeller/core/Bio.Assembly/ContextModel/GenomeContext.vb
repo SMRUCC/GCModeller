@@ -35,10 +35,9 @@
     ' 
     '         Properties: AllFeatureKeys, N
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand
     '                   ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -31,13 +31,12 @@
 
     ' Summaries:
 
-    '  
+    ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Blastn, BuildKEGGOrthology, BuildKORepository, CreateTABLE, Download16SRNA
     '               DownloadOrthologs, DownloadReferenceMap, DownloadSequence, FunctionAnalysis, GetFastaBySp
     '               ImportsDb, ImportsKODatabase, IndexSubMatch, QueryGenes, QueryOrthology
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

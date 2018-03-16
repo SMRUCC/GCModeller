@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aecf860dd584cd61fd2a9a430200feef, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_pool.vb"
+﻿#Region "Microsoft.VisualBasic::eab4d0912efa5817faaaa39364215113, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_pool.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class task_pool
     ' 
+    '     Properties: app, description, email, md5, parameters
+    '                 result_url, status, time_complete, time_create, title
+    '                 uid, workspace
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +48,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -209,7 +214,7 @@ Public Class task_pool: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, uid, md5, workspace, DataType.ToMySqlDateTimeString(time_create), DataType.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters)
+        Return String.Format(INSERT_SQL, uid, md5, workspace, MySqlScript.ToMySqlDateTimeString(time_create), MySqlScript.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters)
     End Function
 
 ''' <summary>
@@ -226,7 +231,7 @@ Public Class task_pool: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, uid, md5, workspace, DataType.ToMySqlDateTimeString(time_create), DataType.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters)
+        Return String.Format(REPLACE_SQL, uid, md5, workspace, MySqlScript.ToMySqlDateTimeString(time_create), MySqlScript.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -234,7 +239,7 @@ Public Class task_pool: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, uid, md5, workspace, DataType.ToMySqlDateTimeString(time_create), DataType.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters, uid)
+        Return String.Format(UPDATE_SQL, uid, md5, workspace, MySqlScript.ToMySqlDateTimeString(time_create), MySqlScript.ToMySqlDateTimeString(time_complete), result_url, email, title, description, status, app, parameters, uid)
     End Function
 #End Region
 Public Function Clone() As task_pool
@@ -244,3 +249,4 @@ End Class
 
 
 End Namespace
+

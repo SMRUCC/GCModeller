@@ -33,9 +33,8 @@
 
     '     Class Reaction
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __equals
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

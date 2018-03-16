@@ -33,6 +33,11 @@
 
     ' Class nucleicacid
     ' 
+    '     Properties: [Class], BioSourceWID, CumulativeLength, CumulativeLengthApproximate, DataSetWID
+    '                 Fragment, FullySequenced, GeneticCodeWID, MoleculeLength, MoleculeLengthApproximate
+    '                 Name, SequenceDerivation, Strandedness, Topology, Type
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

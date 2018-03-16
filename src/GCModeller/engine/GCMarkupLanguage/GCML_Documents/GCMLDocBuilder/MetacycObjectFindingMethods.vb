@@ -33,7 +33,7 @@
 
     ' Module MetacycObjectFindingMethods
     ' 
-    '     Function: IndexOf, Take
+    '     Function: [Select], GetHandles, GetRegulatedObject, (+2 Overloads) IndexOf, Take
     ' 
     ' /********************************************************************************/
 

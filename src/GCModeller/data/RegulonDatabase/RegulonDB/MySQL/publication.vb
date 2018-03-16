@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b03b0c76009ad843237b7e5a45f0cad, data\RegulonDatabase\RegulonDB\MySQL\publication.vb"
+﻿#Region "Microsoft.VisualBasic::7590aa24580111e64b3cb956c8ecea57, data\RegulonDatabase\RegulonDB\MySQL\publication.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class publication
     ' 
+    '     Properties: author, external_db_id, publication_id, publication_internal_comment, publication_note
+    '                 reference_id, source, title, years
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `publication` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class publication: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("publication_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property publication_id As String
-    <DatabaseField("reference_id"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property reference_id As String
-    <DatabaseField("external_db_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property external_db_id As String
-    <DatabaseField("author"), DataType(MySqlDbType.VarChar, "2000")> Public Property author As String
-    <DatabaseField("title"), DataType(MySqlDbType.VarChar, "2000")> Public Property title As String
-    <DatabaseField("source"), DataType(MySqlDbType.VarChar, "2000")> Public Property source As String
-    <DatabaseField("years"), DataType(MySqlDbType.VarChar, "50")> Public Property years As String
-    <DatabaseField("publication_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property publication_note As String
-    <DatabaseField("publication_internal_comment"), DataType(MySqlDbType.Text)> Public Property publication_internal_comment As String
+    <DatabaseField("publication_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="publication_id")> Public Property publication_id As String
+    <DatabaseField("reference_id"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="reference_id")> Public Property reference_id As String
+    <DatabaseField("external_db_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="external_db_id")> Public Property external_db_id As String
+    <DatabaseField("author"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="author")> Public Property author As String
+    <DatabaseField("title"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="title")> Public Property title As String
+    <DatabaseField("source"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="source")> Public Property source As String
+    <DatabaseField("years"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="years")> Public Property years As String
+    <DatabaseField("publication_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="publication_note")> Public Property publication_note As String
+    <DatabaseField("publication_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="publication_internal_comment")> Public Property publication_internal_comment As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class publication: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As publication
+                  Return DirectCast(MyClass.MemberwiseClone, publication)
+              End Function
 End Class
 
 
 End Namespace
+

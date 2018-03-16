@@ -33,7 +33,7 @@
 
     '     Class ObjectiveFunction
     ' 
-    '         Properties: Direction
+    '         Properties: Direction, Factors
     ' 
     ' 
     ' /********************************************************************************/

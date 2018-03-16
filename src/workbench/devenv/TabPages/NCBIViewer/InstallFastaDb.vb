@@ -33,8 +33,9 @@
 
     ' Class InstallFastaDb
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: Button1_Click, CheckBox1_CheckedChanged, Install, LinkLabel2_LinkClicked, LoadUninstall
-    '          (+2 Overloads) New, Out2
+    '          Out2
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41a7ff99e2423c3227c2608930b96bbc, RDotNET.Extensions.VisualBasic\Extensions\RScriptInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::81e4e87119863751fa685c0bbf736458, RDotNET.Extensions.VisualBasic\Extensions\RScriptInvoke.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: [Call], STD_OUT
     ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
     '     Function: (+3 Overloads) Invoke, ToString
     ' 
-    '     Sub: (+2 Overloads) New, PrintSTDOUT
+    '     Sub: PrintSTDOUT
     ' 
     ' /********************************************************************************/
 

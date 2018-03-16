@@ -33,6 +33,8 @@
 
     '     Class Pathway
     ' 
+    '         Properties: Comment, Identifier, MetabolismFlux
+    ' 
     '         Function: ToString
     ' 
     '     Class ExpressionKinetics
@@ -41,27 +43,29 @@
     ' 
     '     Class ProteinAssembly
     ' 
-    '         Properties: Comments, Lambda, p_Dynamics_K, ProteinComplexes, Upper_Bound
+    '         Properties: Comments, Lambda, p_Dynamics_K, ProteinComplexes, ProteinComponents
+    '                     Upper_Bound
     ' 
     '         Function: ToString
     ' 
     '     Class Transcript
     ' 
-    '         Properties: Comments, Lamda, Product, Template, TranscriptType
-    '                     UniqueId
+    '         Properties: Comments, Lamda, PolypeptideCompositionVector, Product, Template
+    '                     TranscriptCompositionVectors, TranscriptType, UniqueId
     ' 
     '         Function: ToString
     ' 
     '     Class Protein
     ' 
-    '         Properties: ECNumber, Identifier, ProteinType
+    '         Properties: ECNumber, Identifier, Lambda, PolypeptideCompositionVector, ProteinType
     ' 
     '         Function: ToString
     ' 
     '     Class MetabolismFlux
     ' 
-    '         Properties: CommonName, EnzymeClass, Equation, Identifier, KEGGReaction
-    '                     Left, MetaCycId, Reversible, Right
+    '         Properties: CommonName, EnzymeClass, Enzymes, Equation, Identifier
+    '                     KEGGReaction, Left, LOWER_Bound, MetaCycId, p_Dynamics_K_1
+    '                     p_Dynamics_K_2, Reversible, Right, UPPER_Bound
     ' 
     '         Function: CreateGCMLModel, CreateMetaCycReactionSchema, (+3 Overloads) CreateObject, get_Coefficient, get_Metabolites
     '                   ToString

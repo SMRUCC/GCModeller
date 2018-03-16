@@ -33,6 +33,9 @@
 
     ' Class bioassaydata
     ' 
+    '     Properties: BioAssayData_BioDataValues, BioAssayDimension, DataSetWID, DesignElementDimension, Identifier
+    '                 MAGEClass, Name, ProducerTransformation, QuantitationTypeDimension, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class gene_product_count
     ' 
+    '     Properties: code, product_count, species_id, speciesdbname, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

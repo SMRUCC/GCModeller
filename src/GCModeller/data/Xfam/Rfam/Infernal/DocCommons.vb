@@ -37,11 +37,14 @@
     ' 
     '     Class IHit
     ' 
+    '         Properties: [end], start, strand
+    ' 
     '         Function: __getMappingLoci
     ' 
     '     Class HitDataRow
     ' 
-    '         Properties: direction, distance, LociDescrib, ORF
+    '         Properties: data, direction, distance, LociDescrib, ORF
+    '                     RfamAcc
     ' 
     '         Function: Copy, ToString
     ' 

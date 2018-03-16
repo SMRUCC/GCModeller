@@ -35,29 +35,27 @@
     ' 
     '         Properties: UniqueId
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateObject
-    ' 
-    '         Sub: New
     ' 
     '     Class GenomeSequence
     ' 
     '         Properties: Description, GI, LocusID
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: SaveBriefData
-    ' 
-    '         Sub: New
     ' 
     '     Class GeneObject
     ' 
     '         Properties: Description, GI, Location, Locus
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Protein
     ' 
     '         Properties: Description, GI, Locus
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

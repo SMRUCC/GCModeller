@@ -33,18 +33,18 @@
 
     '     Class BaseEquation
     ' 
-    '         Properties: Value
+    '         Properties: Value, Variables
     ' 
     '         Function: Evaluate, get_ObjectHandle
     '         Class Variable
     ' 
-    ' 
+    '             Properties: Pcc, pHandle, Weight
     ' 
     ' 
     ' 
     '     Class NetworkModel
     ' 
-    ' 
+    '         Properties: MetabolismHref, NetworkComponents, ObjectiveFunction
     ' 
     ' 
     ' /********************************************************************************/

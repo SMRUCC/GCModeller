@@ -33,6 +33,9 @@
 
     ' Class locus2domain
     ' 
+    '     Properties: domainBegin, domainEnd, domainId, evalue, locusId
+    '                 score, seqBegin, seqEnd, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

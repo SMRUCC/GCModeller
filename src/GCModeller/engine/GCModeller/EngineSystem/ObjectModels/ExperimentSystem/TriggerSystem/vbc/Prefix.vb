@@ -36,9 +36,8 @@
     '     Properties: PrefixTypeReference
     '     Class ActionScript
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ChangeMetabolite, GeneMutations, GetActions, MemoryDump
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

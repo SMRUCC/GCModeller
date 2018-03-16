@@ -33,6 +33,8 @@
 
     ' Class quanttypemapwidquanttypewid
     ' 
+    '     Properties: QuantitationTypeMapWID, QuantitationTypeWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

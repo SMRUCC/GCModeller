@@ -40,10 +40,9 @@
     '                     IsNullOrEmpty, KEGGFamilies, MotifLDM, RegpreciseBBH, RegPreciseRegulatorFasta
     '                     RegpreciseRoot, Regulations, RepositoryRoot
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetLocalblast, (+2 Overloads) GetMotifLDM, GetPfamDb, GetR_HOME, GetRegpreciseBBH
     '                   GetRegpreciseRoot, GetRegulations, GetRepositoryRoot, IsRepositoryNullOrEmpty, TryGetSource
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

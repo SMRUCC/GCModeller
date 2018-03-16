@@ -33,7 +33,9 @@
 
     '     Class MotifMatch
     ' 
-    '         Properties: [Module], Family, uid
+    '         Properties: [Module], Family, Headers, LocusId, MatchSelf
+    '                     MEMEEvalue, MEMEPvalue, Right, Site, Start
+    '                     Title, uid, Width
     ' 
     '         Function: ToString
     ' 

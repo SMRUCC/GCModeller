@@ -33,6 +33,10 @@
 
     ' Class jobs
     ' 
+    '     Properties: cartId, doneTime, jobCmd, jobData, jobId
+    '                 jobName, jobType, parentJobId, saved, status
+    '                 time, userId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

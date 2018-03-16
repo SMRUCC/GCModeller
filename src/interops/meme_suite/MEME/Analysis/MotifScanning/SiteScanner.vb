@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2c1758d56fbe569cf34719ee6fc1da6, meme_suite\MEME\Analysis\MotifScanning\SiteScanner.vb"
+﻿#Region "Microsoft.VisualBasic::a867a92643b75bf6ec1a9313a10b1015, meme_suite\MEME\Analysis\MotifScanning\SiteScanner.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module SiteScanner
     ' 
-    ' 
+    '         Function: CreateModel, (+2 Overloads) Scan
     ' 
     ' 
     ' /********************************************************************************/

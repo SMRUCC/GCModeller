@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f84e1a7e2f80b9be946baee13312436e, data\ExternalDBSource\MetaCyc\MySQL\datasethierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::288bde7debf8b12913d8d2fe0f19cb89, data\ExternalDBSource\MetaCyc\MySQL\datasethierarchy.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class datasethierarchy
     ' 
+    '     Properties: SubWID, SuperWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `datasethierarchy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class datasethierarchy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("SuperWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property SuperWID As Long
-    <DatabaseField("SubWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property SubWID As Long
+    <DatabaseField("SuperWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="SuperWID"), XmlAttribute> Public Property SuperWID As Long
+    <DatabaseField("SubWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="SubWID")> Public Property SubWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class datasethierarchy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, SuperWID, SubWID, SuperWID)
     End Function
 #End Region
+Public Function Clone() As datasethierarchy
+                  Return DirectCast(MyClass.MemberwiseClone, datasethierarchy)
+              End Function
 End Class
 
 
 End Namespace
+

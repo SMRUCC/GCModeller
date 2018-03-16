@@ -31,13 +31,15 @@
 
     ' Summaries:
 
-    '  
+    '     Class owlOntology
     ' 
-    '     Function: ToString
+    '         Properties: owlImports
     ' 
-    '  
+    '         Function: ToString
     ' 
-    '     Function: ToString
+    '     Class owlImports
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

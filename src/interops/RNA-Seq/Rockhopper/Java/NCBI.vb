@@ -35,10 +35,12 @@
     ' 
     '         Properties: valid_Genome, valid_Rockhopper
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: createRepliconDictionary, downloadFile, establishServerConnection, getRepliconDir, getRepliconFileName
     '                   getRepliconNames, prepGenomeFiles, readInRepliconList
     ' 
-    '         Sub: Main, New
+    '         Sub: Main
     ' 
     ' 
     ' /********************************************************************************/

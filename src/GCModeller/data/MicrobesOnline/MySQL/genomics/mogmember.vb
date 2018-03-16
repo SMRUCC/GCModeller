@@ -33,6 +33,9 @@
 
     ' Class mogmember
     ' 
+    '     Properties: locusId, maxEnd, metric, minBegin, mogId
+    '                 nAligned, ogId, taxonomyId, treeId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

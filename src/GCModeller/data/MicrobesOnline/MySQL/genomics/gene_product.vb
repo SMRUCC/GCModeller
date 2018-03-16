@@ -33,6 +33,9 @@
 
     ' Class gene_product
     ' 
+    '     Properties: dbxref_id, full_name, id, species_id, symbol
+    '                 type_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

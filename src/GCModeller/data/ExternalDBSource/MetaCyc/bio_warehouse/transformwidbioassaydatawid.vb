@@ -33,6 +33,8 @@
 
     ' Class transformwidbioassaydatawid
     ' 
+    '     Properties: BioAssayDataWID, TransformationWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

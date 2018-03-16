@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7ede900374dfd53b6653d0916768b7, RDotNET.Extensions.VisualBasic\var.vb"
+﻿#Region "Microsoft.VisualBasic::feac868bdbb7360cab8ec94e7d64d5f0, RDotNET.Extensions.VisualBasic\Extensions\var.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: Expression, Name, RValue, type
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: [As], Rvariable, ToString
     ' 
-    '     Sub: __setValue, (+3 Overloads) New
+    '     Sub: __setValue
     ' 
     '     Operators: <=, >=
     ' 

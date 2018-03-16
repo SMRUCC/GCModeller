@@ -33,6 +33,9 @@
 
     ' Class geolite2_country_locations
     ' 
+    '     Properties: continent_code, continent_name, country_iso_code, country_name, geoname_id
+    '                 locale_code
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

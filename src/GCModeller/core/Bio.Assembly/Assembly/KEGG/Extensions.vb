@@ -34,7 +34,7 @@
     '     Module Extensions
     ' 
     '         Function: DirectGetChEBI, GetIDpairedList, GetPathwayBrite, IDlistStrings, LevelAKOStatics
-    '                   RemarksTable, TheSameAs, ValidateEntryFormat
+    '                   RemarksTable, (+2 Overloads) TheSameAs, ValidateEntryFormat
     '         Interface IKEGGRemarks
     ' 
     '             Properties: Remarks

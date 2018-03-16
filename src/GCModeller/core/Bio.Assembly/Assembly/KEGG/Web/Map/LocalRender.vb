@@ -33,10 +33,12 @@
 
     '     Class LocalRender
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
     '                   IteratesMapNames, (+2 Overloads) Rendering
     ' 
-    '         Sub: New, renderCompound, renderGenes
+    '         Sub: renderCompound, renderGenes
     ' 
     ' 
     ' /********************************************************************************/

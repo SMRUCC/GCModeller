@@ -33,6 +33,9 @@
 
     ' Class arraydesign
     ' 
+    '     Properties: DataSetWID, Identifier, MAGEClass, Name, NumberOfFeatures
+    '                 SurfaceType, Version, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

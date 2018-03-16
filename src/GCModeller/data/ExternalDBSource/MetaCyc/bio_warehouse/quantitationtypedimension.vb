@@ -33,6 +33,8 @@
 
     ' Class quantitationtypedimension
     ' 
+    '     Properties: DataSetWID, Identifier, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

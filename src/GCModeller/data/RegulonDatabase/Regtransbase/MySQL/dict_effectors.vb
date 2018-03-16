@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc295503c13f1ca98cfa4a96bec037bd, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors.vb"
+﻿#Region "Microsoft.VisualBasic::7f3b983b125c6156c190af8cda344f04, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class dict_effectors
     ' 
+    '     Properties: description, effector_guid, effector_superclass_guid, name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -69,7 +74,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,10 +87,10 @@ CREATE TABLE `dict_effectors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;")>
 Public Class dict_effectors: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("effector_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property effector_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.Text)> Public Property name As String
-    <DatabaseField("description"), NotNull, DataType(MySqlDbType.Text)> Public Property description As String
-    <DatabaseField("effector_superclass_guid"), DataType(MySqlDbType.Int64, "11")> Public Property effector_superclass_guid As Long
+    <DatabaseField("effector_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="effector_guid"), XmlAttribute> Public Property effector_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.Text), Column(Name:="name")> Public Property name As String
+    <DatabaseField("description"), NotNull, DataType(MySqlDbType.Text), Column(Name:="description")> Public Property description As String
+    <DatabaseField("effector_superclass_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="effector_superclass_guid")> Public Property effector_superclass_guid As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class dict_effectors: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, effector_guid, name, description, effector_superclass_guid, effector_guid)
     End Function
 #End Region
+Public Function Clone() As dict_effectors
+                  Return DirectCast(MyClass.MemberwiseClone, dict_effectors)
+              End Function
 End Class
 
 
 End Namespace
+

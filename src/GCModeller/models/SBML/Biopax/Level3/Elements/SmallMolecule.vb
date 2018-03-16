@@ -33,15 +33,17 @@
 
     ' Class SmallMolecule
     ' 
-    '     Properties: cellularLocation, dataSource, displayName, entityReference, standardName
+    '     Properties: cellularLocation, dataSource, displayName, entityReference, names
+    '                 standardName, xrefs
     ' 
     ' Class BiochemicalReaction
     ' 
-    '     Properties: conversionDirection, dataSource, displayName, eCNumber
+    '     Properties: conversionDirection, dataSource, displayName, eCNumber, left
+    '                 right, xref
     ' 
     ' Class CellularLocationVocabulary
     ' 
-    '     Properties: term
+    '     Properties: term, xref
     ' 
     ' Class ChemicalStructure
     ' 
@@ -49,7 +51,7 @@
     ' 
     ' Class SmallMoleculeReference
     ' 
-    '     Properties: molecularWeight
+    '     Properties: molecularWeight, name, xref
     ' 
     ' Class UnificationXref
     ' 
@@ -61,19 +63,20 @@
     ' 
     ' Class Complex
     ' 
-    '     Properties: cellularLocation, componentStoichiometry, dataSource, displayName
+    '     Properties: cellularLocation, componentStoichiometry, dataSource, displayName, xref
     ' 
     ' Class Protein
     ' 
     '     Properties: cellularLocation, dataSource, displayName, entityReference, feature
+    '                 xref
     ' 
     ' Class ProteinReference
     ' 
-    '     Properties: organism
+    '     Properties: name, organism, xref
     ' 
     ' Class BioSource
     ' 
-    '     Properties: name
+    '     Properties: name, xref
     ' 
     ' Class FragmentFeature
     ' 
@@ -93,7 +96,7 @@
     ' 
     ' Class Catalysis
     ' 
-    '     Properties: controlled, controller, controlType, dataSource
+    '     Properties: controlled, controller, controlType, dataSource, xref
     ' 
     ' Class RelationshipXref
     ' 
@@ -105,11 +108,12 @@
     ' 
     ' Class PublicationXref
     ' 
-    '     Properties: db, id, source, title, year
+    '     Properties: author, db, id, source, title
+    '                 year
     ' 
     ' Class PhysicalEntity
     ' 
-    ' 
+    '     Properties: cellularLocation, dataSource, displayName, xref
     ' 
     ' /********************************************************************************/
 

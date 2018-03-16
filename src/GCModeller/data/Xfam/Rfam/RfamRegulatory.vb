@@ -34,7 +34,7 @@
     ' Class RfamRegulatory
     ' 
     '     Properties: ATGDist, Gene, gStop, site, SiteEvalue
-    '                 SiteLocation, SitePvalue, siteStrand, Trace
+    '                 siteLeft, SiteLocation, SitePvalue, siteStrand, Trace
     ' 
     '     Function: __createObject, __nullRegulatory, __siteCreates, AnalysisRegulatory
     ' 

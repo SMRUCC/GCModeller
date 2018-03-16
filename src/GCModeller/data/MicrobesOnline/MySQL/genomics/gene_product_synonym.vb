@@ -33,6 +33,8 @@
 
     ' Class gene_product_synonym
     ' 
+    '     Properties: gene_product_id, product_synonym
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

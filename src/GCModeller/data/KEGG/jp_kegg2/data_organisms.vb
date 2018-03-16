@@ -33,6 +33,10 @@
 
     ' Class data_organisms
     ' 
+    '     Properties: [class], domain, family, genus, KEGG_sp
+    '                 kingdom, order, phylum, scientific_name, species
+    '                 uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

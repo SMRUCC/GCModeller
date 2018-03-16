@@ -33,6 +33,8 @@
 
     ' Class protocolwidsoftwarewid
     ' 
+    '     Properties: ProtocolWID, SoftwareWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

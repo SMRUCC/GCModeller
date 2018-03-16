@@ -33,9 +33,8 @@
 
     '     Class GenomeGCContent
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __sourceGC, FillData, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

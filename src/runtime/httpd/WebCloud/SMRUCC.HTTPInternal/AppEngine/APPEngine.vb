@@ -35,9 +35,8 @@
     ' 
     '         Properties: [Namespace], Application
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: [Imports], GetHelp, GetParameter, (+3 Overloads) Invoke, InvokePOST
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

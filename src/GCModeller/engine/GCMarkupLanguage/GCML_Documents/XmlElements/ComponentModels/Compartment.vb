@@ -37,7 +37,7 @@
     ' 
     '     Class CompoundSpeciesReference
     ' 
-    '         Properties: CompartmentId
+    '         Properties: CompartmentId, Identifier, StoiChiometry
     ' 
     '         Function: CreateObject, ToString
     ' 

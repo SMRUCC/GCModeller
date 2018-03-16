@@ -33,6 +33,9 @@
 
     ' Class nodecontents
     ' 
+    '     Properties: BioAssayDimension, DataSetWID, DesignElementDimension, Node_NodeContents, QuantitationDimension
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

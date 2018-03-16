@@ -33,6 +33,8 @@
 
     ' Class datum
     ' 
+    '     Properties: DataSetWID, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

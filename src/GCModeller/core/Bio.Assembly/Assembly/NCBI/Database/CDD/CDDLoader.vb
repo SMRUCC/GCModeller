@@ -33,11 +33,13 @@
 
     '     Class CDDLoader
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetCdd, GetCog, GetFastaUrl, GetItem, GetKog
     '                   GetPfam, GetPrk, GetSmart, GetTigr, Load
     '                   LoadFASTA, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

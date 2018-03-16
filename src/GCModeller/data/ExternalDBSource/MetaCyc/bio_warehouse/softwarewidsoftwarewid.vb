@@ -33,6 +33,8 @@
 
     ' Class softwarewidsoftwarewid
     ' 
+    '     Properties: SoftwareWID1, SoftwareWID2
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

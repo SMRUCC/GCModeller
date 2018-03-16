@@ -33,6 +33,8 @@
 
     ' Class tooladvice
     ' 
+    '     Properties: Advice, OtherWID, ToolName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

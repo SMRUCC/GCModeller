@@ -35,6 +35,8 @@
     ' 
     '         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
     ' 
+    '         Constructor: (+8 Overloads) Sub New
+    ' 
     '         Function: [Select], __createNode, __saveUltraLargeSize, AddRange, AsKSource
     '                   Clone, Contains, Distinct, (+2 Overloads) DocParser, Find
     '                   Generate, GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile
@@ -43,7 +45,7 @@
     '                   Take, ToLower, ToString, ToUpper
     ' 
     '         Sub: Add, AppendToFile, Clear, CopyTo, FlushData
-    '              Insert, (+8 Overloads) New, RemoveAt, Split
+    '              Insert, RemoveAt, Split
     ' 
     '         Operators: (+3 Overloads) +, <, >
     ' 

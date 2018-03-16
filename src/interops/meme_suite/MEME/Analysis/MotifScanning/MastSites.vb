@@ -35,12 +35,11 @@
     ' 
     '         Properties: ATGDist, evalue, Family, Gene, gStop
     '                     Length, match, pValue, Regulators, SequenceData
-    '                     Sites, Start, Strand, Trace
+    '                     Sites, Start, Strand, StrandRaw, Trace
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+4 Overloads) __createObject, __getMappingLoci, __getRegulatorys, __getsVIMSSID, __toSites
     '                   (+2 Overloads) Compile, Copy, HasEmptyMappings, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

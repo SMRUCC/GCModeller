@@ -33,9 +33,8 @@
 
     '     Class HighlightLabel
     ' 
+    '         Constructor: (+4 Overloads) Sub New
     '         Function: (+3 Overloads) __textSource
-    ' 
-    '         Sub: (+4 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

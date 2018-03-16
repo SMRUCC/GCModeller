@@ -33,9 +33,11 @@
 
     ' Class MatchedResult
     ' 
-    '     Properties: DoorId, Ends, Information_Content, Log_Likelihood_Ratio, MatchedMotif
-    '                 MotifId, ObjectId, OperonPromoter, RegulationEffects, Relative_Entropy
-    '                 Signature, Starts, Strand, TF, TFFamily
+    '     Properties: BiologicalProcess, DoorId, Effectors, Ends, Information_Content
+    '                 Log_Likelihood_Ratio, MAST_Evalue, MAST_Pvalue, MatchedMotif, MEME_Evalue
+    '                 MEME_Pvalue, MotifId, ObjectId, OperonGeneIds, OperonPromoter
+    '                 PccArray, RegpreciseRegulator, RegulationEffects, Relative_Entropy, Signature
+    '                 Starts, Strand, TF, TFFamily, WGCNAWeight
     '                 Width
     ' 
     '     Function: Clone

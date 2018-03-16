@@ -33,7 +33,7 @@
 
     '     Module KOBAS
     ' 
-    '         Function: GenelistEnrichment
+    '         Function: GenelistEnrichment, (+2 Overloads) P
     ' 
     '         Sub: SplitData
     ' 

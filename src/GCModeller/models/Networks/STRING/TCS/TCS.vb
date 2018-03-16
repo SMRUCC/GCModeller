@@ -31,9 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class TCS
     ' 
-    '     Function: Exists, ToString
+    '         Properties: Chemotaxis, ChemotaxisHKConfidence, HK, HKRRConfidence, RR
+    '                     RRTFConfidence
+    ' 
+    '         Function: Exists, ToString
     ' 
     ' 
     ' /********************************************************************************/

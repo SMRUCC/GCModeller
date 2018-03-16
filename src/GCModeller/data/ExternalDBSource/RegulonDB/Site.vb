@@ -33,6 +33,9 @@
 
     '     Class Site
     ' 
+    '         Properties: key_id_org, site_id, site_internal_comment, site_length, site_note
+    '                     site_posleft, site_posright, site_sequence
+    ' 
     '         Function: GetSequenceData, ToString
     ' 
     ' 

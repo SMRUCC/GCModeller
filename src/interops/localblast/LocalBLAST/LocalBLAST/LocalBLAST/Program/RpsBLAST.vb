@@ -35,9 +35,8 @@
     ' 
     '         Properties: LastBLASTOutputFilePath
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: MakeProfileDb, Performance
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

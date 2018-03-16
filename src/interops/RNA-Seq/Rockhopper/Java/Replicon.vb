@@ -35,11 +35,13 @@
     ' 
     '         Properties: length, name, sequence, transform
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getC, getOcc, getRotations, getStringInRotationsMatrix, lessThanOrEqualTo
     '                   partition, readInFastaFile, replaceAmbiguousCharacters, rotations, stepLeft
     '                   unpermute
     ' 
-    '         Sub: Main, New, precomputeCharacterInfo, quicksort, swap
+    '         Sub: Main, precomputeCharacterInfo, quicksort, swap
     ' 
     ' 
     ' /********************************************************************************/

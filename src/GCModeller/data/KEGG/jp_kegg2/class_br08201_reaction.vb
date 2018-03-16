@@ -33,6 +33,9 @@
 
     ' Class class_br08201_reaction
     ' 
+    '     Properties: EC, level1, level2, level3, name
+    '                 rn, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

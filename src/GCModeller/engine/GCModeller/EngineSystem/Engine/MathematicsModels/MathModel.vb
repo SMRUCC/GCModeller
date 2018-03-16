@@ -33,9 +33,8 @@
 
     '     Class MathematicsModel
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: A, Arrhenius, Hill, MichaelisMenten, NormalDistribution
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

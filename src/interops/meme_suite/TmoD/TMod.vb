@@ -38,7 +38,7 @@
     ' 
     '     Properties: MEME
     ' 
-    '     Function: BatchMEMEScanning, (+2 Overloads) FastaSubSamples, InitializeSession, MotifSelect
+    '     Function: __subSample, BatchMEMEScanning, (+2 Overloads) FastaSubSamples, InitializeSession, MotifSelect
     ' 
     '     Sub: __checkURL
     ' 

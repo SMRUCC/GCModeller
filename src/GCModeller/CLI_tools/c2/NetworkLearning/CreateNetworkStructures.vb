@@ -33,9 +33,8 @@
 
     ' Class CreateNetworkStructures
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: BuildDataFile, CreateNetwork, CreateObject
-    ' 
-    '     Sub: New
     '     Class Node
     ' 
     '         Properties: ConnectedToNodes, Identifier, IsNAN, NodeValueVectors

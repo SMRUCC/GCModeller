@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::997d55f91ce98d12c229ac51d14d4935, data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
+﻿#Region "Microsoft.VisualBasic::499b8e58de32c5710bb3e4c74a8ca6c8, data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class genome2ncbitaxon
     ' 
+    '     Properties: genome_guid, ncbi_tax_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -67,7 +72,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `genome2ncbitaxon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class genome2ncbitaxon: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("genome_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property genome_guid As Long
-    <DatabaseField("ncbi_tax_id"), NotNull, DataType(MySqlDbType.Int64, "10")> Public Property ncbi_tax_id As Long
+    <DatabaseField("genome_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="genome_guid"), XmlAttribute> Public Property genome_guid As Long
+    <DatabaseField("ncbi_tax_id"), NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="ncbi_tax_id")> Public Property ncbi_tax_id As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class genome2ncbitaxon: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, genome_guid, ncbi_tax_id, genome_guid)
     End Function
 #End Region
+Public Function Clone() As genome2ncbitaxon
+                  Return DirectCast(MyClass.MemberwiseClone, genome2ncbitaxon)
+              End Function
 End Class
 
 
 End Namespace
+

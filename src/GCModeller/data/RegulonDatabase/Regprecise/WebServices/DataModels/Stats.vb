@@ -31,25 +31,32 @@
 
     ' Summaries:
 
-    '  
+    '     Class genomeStat
     ' 
-    '     Function: ToString
+    '         Properties: genomeId, name, rnaRegulonCount, rnaSiteCount, taxonomyId
+    '                     tfRegulonCount, tfSiteCount
+    ' 
+    '         Function: ToString
     ' 
     '     Class searchExtRegulons
     ' 
-    ' 
+    '         Properties: foundObjName, foundObjType, genomeName, regulatorName, regulonId
     ' 
     '     Class regulogCollectionStat
     ' 
+    '         Properties: className, collectionId, collectionType, name, rnaCount
+    '                     rnaRegulogCount, rnaSiteCount, tfCount, tfRegulogCount, tfSiteCount
+    '                     totalGenomeCount, totalRegulogCount
     ' 
+    '     Class genome
     ' 
-    '  
+    '         Properties: genomeId, name, taxonomyId
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
     '     Class regulogCollection
     ' 
-    ' 
+    '         Properties: className, collectionId, collectionType, name
     ' 
     ' 
     ' /********************************************************************************/

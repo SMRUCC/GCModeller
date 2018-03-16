@@ -33,7 +33,8 @@
 
     '     Class AnnotationModel
     ' 
-    '         Properties: Motif, NumberOfSites, PspMatrix, PWM, Sites
+    '         Properties: Evalue, Expression, Motif, NumberOfSites, PspMatrix
+    '                     PWM, Sites, SourceLen, Uid, Width
     ' 
     '         Function: Complement, CreateObject, LoadDocument, LoadLDM, LoadMEMEOUT
     '                   MEME_UID, ToString

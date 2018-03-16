@@ -35,9 +35,8 @@
     ' 
     '         Properties: Gene, locus_tag, Relation
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ATGDist, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

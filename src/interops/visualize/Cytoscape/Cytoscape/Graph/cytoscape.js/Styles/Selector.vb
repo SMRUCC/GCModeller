@@ -35,9 +35,8 @@
     ' 
     '         Properties: Expression, Key, Type, value
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Test, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

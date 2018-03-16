@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fe13aab5afc9bebc38331f53c0615aa, RDotNET\R.NET\StartupParameter.vb"
+﻿#Region "Microsoft.VisualBasic::1d12df7cf860540b5ac63416f253e323, RDotNET\R.NET\StartupParameter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
     '                 NoRenviron, Quiet, RestoreAction, RHome, SaveAction
     '                 Slave, StackSize, Verbose
     ' 
-    '     Sub: New, SetDefaultParameter
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: SetDefaultParameter
     ' 
     ' /********************************************************************************/
 

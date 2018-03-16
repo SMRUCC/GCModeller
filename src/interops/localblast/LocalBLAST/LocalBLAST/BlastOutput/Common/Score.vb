@@ -39,9 +39,8 @@
     ' 
     '     Structure Strand
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class BlastnScore
     ' 
@@ -50,6 +49,9 @@
     '         Function: ParseBlastn
     ' 
     '     Class Score
+    ' 
+    '         Properties: Expect, Gaps, Identities, Method, Positives
+    '                     RawScore, Score
     ' 
     '         Function: ScoreTable, ToString, (+2 Overloads) TryParse
     ' 

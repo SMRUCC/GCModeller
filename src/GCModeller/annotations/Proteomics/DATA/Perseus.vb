@@ -33,7 +33,10 @@
 
     ' Class Perseus
     ' 
-    '     Properties: Data, ExpressionValues, geneID
+    '     Properties: Data, ExpressionValues, geneID, Intensity, Majority_proteinIDs
+    '                 Molweight, MSMSCount, OnlyIdentifiedBySite, Peptides, Potential_contaminant
+    '                 ProteinIDs, Qvalue, Razor_unique_peptides, Reverse, Score
+    '                 Sequence_coverage, Unique_peptides, Unique_razor_sequence_coverage, Unique_sequence_coverage
     ' 
     '     Function: ToString, TotalMSDivideMS, TotalPeptides
     ' 

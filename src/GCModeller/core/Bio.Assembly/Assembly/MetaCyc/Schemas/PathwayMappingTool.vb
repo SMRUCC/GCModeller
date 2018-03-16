@@ -33,9 +33,11 @@
 
     '     Class PathwayMappingTool
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: DownloadFromUniprot, ToString
     ' 
-    '         Sub: Initlaize, New
+    '         Sub: Initlaize
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6dd47e89bbd21a8c1567032c6900473, RDotNET.Extensions.VisualBasic\ScriptBuilder\Helpers\RTypes.vb"
+﻿#Region "Microsoft.VisualBasic::de778e094aa0bc2b0e78ae32f5746310, RDotNET.Extensions.VisualBasic\ScriptBuilder\Helpers\RTypes.vb"
 
     ' Author:
     ' 
@@ -35,16 +35,15 @@
     ' 
     '         Properties: [FALSE], [TRUE]
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: RScript
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class RExpression
     ' 
+    '         Properties: value
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: RScript, ToString
-    ' 
-    '         Sub: (+3 Overloads) New
-    ' 
     '         Operators: -, <=, >=
     ' 
     ' 

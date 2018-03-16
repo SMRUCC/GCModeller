@@ -35,9 +35,11 @@
     ' 
     '         Properties: Title
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetSequenceData, ToString, VF2TFreg
     ' 
-    '         Sub: __orderGenome, New
+    '         Sub: __orderGenome
     ' 
     ' 
     ' /********************************************************************************/

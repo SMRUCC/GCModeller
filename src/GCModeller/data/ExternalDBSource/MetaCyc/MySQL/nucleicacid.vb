@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a4b1026a4a3be7f3602812de2f438f7, data\ExternalDBSource\MetaCyc\MySQL\nucleicacid.vb"
+﻿#Region "Microsoft.VisualBasic::7184fafda4664513f9b4b5512e9bfbb0, data\ExternalDBSource\MetaCyc\MySQL\nucleicacid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class nucleicacid
     ' 
+    '     Properties: [Class], BioSourceWID, CumulativeLength, CumulativeLengthApproximate, DataSetWID
+    '                 Fragment, FullySequenced, GeneticCodeWID, MoleculeLength, MoleculeLengthApproximate
+    '                 Name, SequenceDerivation, Strandedness, Topology, Type
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -87,7 +95,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -119,22 +126,22 @@ CREATE TABLE `nucleicacid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class nucleicacid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "200")> Public Property Name As String
-    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "30")> Public Property Type As String
-    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "30")> Public Property [Class] As String
-    <DatabaseField("Topology"), DataType(MySqlDbType.VarChar, "30")> Public Property Topology As String
-    <DatabaseField("Strandedness"), DataType(MySqlDbType.VarChar, "30")> Public Property Strandedness As String
-    <DatabaseField("SequenceDerivation"), DataType(MySqlDbType.VarChar, "30")> Public Property SequenceDerivation As String
-    <DatabaseField("Fragment"), DataType(MySqlDbType.VarChar, "1")> Public Property Fragment As String
-    <DatabaseField("FullySequenced"), DataType(MySqlDbType.VarChar, "1")> Public Property FullySequenced As String
-    <DatabaseField("MoleculeLength"), DataType(MySqlDbType.Int64, "11")> Public Property MoleculeLength As Long
-    <DatabaseField("MoleculeLengthApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property MoleculeLengthApproximate As String
-    <DatabaseField("CumulativeLength"), DataType(MySqlDbType.Int64, "11")> Public Property CumulativeLength As Long
-    <DatabaseField("CumulativeLengthApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property CumulativeLengthApproximate As String
-    <DatabaseField("GeneticCodeWID"), DataType(MySqlDbType.Int64, "20")> Public Property GeneticCodeWID As Long
-    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20")> Public Property BioSourceWID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "30"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="Class")> Public Property [Class] As String
+    <DatabaseField("Topology"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="Topology")> Public Property Topology As String
+    <DatabaseField("Strandedness"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="Strandedness")> Public Property Strandedness As String
+    <DatabaseField("SequenceDerivation"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="SequenceDerivation")> Public Property SequenceDerivation As String
+    <DatabaseField("Fragment"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Fragment")> Public Property Fragment As String
+    <DatabaseField("FullySequenced"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="FullySequenced")> Public Property FullySequenced As String
+    <DatabaseField("MoleculeLength"), DataType(MySqlDbType.Int64, "11"), Column(Name:="MoleculeLength")> Public Property MoleculeLength As Long
+    <DatabaseField("MoleculeLengthApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="MoleculeLengthApproximate")> Public Property MoleculeLengthApproximate As String
+    <DatabaseField("CumulativeLength"), DataType(MySqlDbType.Int64, "11"), Column(Name:="CumulativeLength")> Public Property CumulativeLength As Long
+    <DatabaseField("CumulativeLengthApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="CumulativeLengthApproximate")> Public Property CumulativeLengthApproximate As String
+    <DatabaseField("GeneticCodeWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="GeneticCodeWID")> Public Property GeneticCodeWID As Long
+    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioSourceWID")> Public Property BioSourceWID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -185,7 +192,11 @@ Public Class nucleicacid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, Type, [Class], Topology, Strandedness, SequenceDerivation, Fragment, FullySequenced, MoleculeLength, MoleculeLengthApproximate, CumulativeLength, CumulativeLengthApproximate, GeneticCodeWID, BioSourceWID, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As nucleicacid
+                  Return DirectCast(MyClass.MemberwiseClone, nucleicacid)
+              End Function
 End Class
 
 
 End Namespace
+

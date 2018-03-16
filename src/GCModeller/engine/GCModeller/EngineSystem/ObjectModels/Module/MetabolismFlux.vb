@@ -33,7 +33,8 @@
 
     '     Class MetabolismFlux
     ' 
-    '         Properties: FluxValue, MetaboliteCounts, Reversible, SerialsHandle, TypeId
+    '         Properties: FluxValue, KineticsModel, LOWER_BOUND, MetaboliteCounts, Reversible
+    '                     SerialsHandle, TypeId, UPPER_BOUND
     ' 
     '         Function: __createReferences, Constraint, Contains, CreateBasicalObject, CreateObject
     '                   GetCoefficient, GetEnumerator, GetEnumerator1, Initialize, Invoke

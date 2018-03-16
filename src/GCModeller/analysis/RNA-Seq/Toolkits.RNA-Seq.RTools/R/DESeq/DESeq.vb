@@ -33,10 +33,9 @@
 
     '     Module DESeq
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __runR, (+3 Overloads) DESeq2, DiffGeneCOGs, FilterDifferentExpression, HTSeqCount
     '                   Initialize, LoadPTT, SaveResult, summarizeOverlaps
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eeb74d06eb8991824ca3dc0aff640ed6, data\ExternalDBSource\MetaCyc\MySQL\experimentwidbioassaydatawid.vb"
+﻿#Region "Microsoft.VisualBasic::90f471eb9c029b568058b291f047ed83, data\ExternalDBSource\MetaCyc\MySQL\experimentwidbioassaydatawid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class experimentwidbioassaydatawid
     ' 
+    '     Properties: BioAssayDataWID, ExperimentWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `experimentwidbioassaydatawid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class experimentwidbioassaydatawid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ExperimentWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ExperimentWID As Long
-    <DatabaseField("BioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioAssayDataWID As Long
+    <DatabaseField("ExperimentWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ExperimentWID"), XmlAttribute> Public Property ExperimentWID As Long
+    <DatabaseField("BioAssayDataWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayDataWID")> Public Property BioAssayDataWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class experimentwidbioassaydatawid: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, ExperimentWID, BioAssayDataWID, ExperimentWID)
     End Function
 #End Region
+Public Function Clone() As experimentwidbioassaydatawid
+                  Return DirectCast(MyClass.MemberwiseClone, experimentwidbioassaydatawid)
+              End Function
 End Class
 
 
 End Namespace
+

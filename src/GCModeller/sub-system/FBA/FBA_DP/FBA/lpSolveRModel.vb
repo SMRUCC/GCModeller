@@ -35,11 +35,10 @@
     ' 
     '     Properties: BoundsOverrides, CDirect, Objectives
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __add_constraint, __buildLine, __objFunc, __R_script, __set_bounds
     '               __set_objfn, CreateResultFile, GetEquation, getLowerbound, getMatrix
     '               GetName, getObjectFunction, getUpbound
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

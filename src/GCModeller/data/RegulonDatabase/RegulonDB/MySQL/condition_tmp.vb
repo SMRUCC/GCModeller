@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d453090f712f374f26fb06498b7632b, data\RegulonDatabase\RegulonDB\MySQL\condition_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::9e41ff409dec0cccb5fae198cb8bcd0c, data\RegulonDatabase\RegulonDB\MySQL\condition_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class condition_tmp
     ' 
+    '     Properties: cond_effect_link_id, condition_conformation_id, condition_effect, condition_evidence, condition_final_state
+    '                 condition_gene_id, condition_gene_name, condition_id, condition_promoter_id, condition_promoter_name
+    '                 condition_site
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -75,7 +82,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,17 +101,17 @@ CREATE TABLE `condition_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class condition_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("condition_id"), DataType(MySqlDbType.VarChar, "12")> Public Property condition_id As String
-    <DatabaseField("cond_effect_link_id"), DataType(MySqlDbType.VarChar, "12")> Public Property cond_effect_link_id As String
-    <DatabaseField("condition_gene_name"), DataType(MySqlDbType.VarChar, "200")> Public Property condition_gene_name As String
-    <DatabaseField("condition_gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property condition_gene_id As String
-    <DatabaseField("condition_effect"), DataType(MySqlDbType.VarChar, "10")> Public Property condition_effect As String
-    <DatabaseField("condition_promoter_name"), DataType(MySqlDbType.VarChar, "200")> Public Property condition_promoter_name As String
-    <DatabaseField("condition_promoter_id"), DataType(MySqlDbType.VarChar, "12")> Public Property condition_promoter_id As String
-    <DatabaseField("condition_final_state"), DataType(MySqlDbType.VarChar, "200")> Public Property condition_final_state As String
-    <DatabaseField("condition_conformation_id"), DataType(MySqlDbType.VarChar, "12")> Public Property condition_conformation_id As String
-    <DatabaseField("condition_site"), DataType(MySqlDbType.VarChar, "200")> Public Property condition_site As String
-    <DatabaseField("condition_evidence"), DataType(MySqlDbType.VarChar, "200")> Public Property condition_evidence As String
+    <DatabaseField("condition_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_id")> Public Property condition_id As String
+    <DatabaseField("cond_effect_link_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="cond_effect_link_id")> Public Property cond_effect_link_id As String
+    <DatabaseField("condition_gene_name"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="condition_gene_name")> Public Property condition_gene_name As String
+    <DatabaseField("condition_gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_gene_id")> Public Property condition_gene_id As String
+    <DatabaseField("condition_effect"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="condition_effect")> Public Property condition_effect As String
+    <DatabaseField("condition_promoter_name"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="condition_promoter_name")> Public Property condition_promoter_name As String
+    <DatabaseField("condition_promoter_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_promoter_id")> Public Property condition_promoter_id As String
+    <DatabaseField("condition_final_state"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="condition_final_state")> Public Property condition_final_state As String
+    <DatabaseField("condition_conformation_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_conformation_id")> Public Property condition_conformation_id As String
+    <DatabaseField("condition_site"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="condition_site")> Public Property condition_site As String
+    <DatabaseField("condition_evidence"), DataType(MySqlDbType.VarChar, "200"), Column(Name:="condition_evidence")> Public Property condition_evidence As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -156,7 +162,11 @@ Public Class condition_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As condition_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, condition_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

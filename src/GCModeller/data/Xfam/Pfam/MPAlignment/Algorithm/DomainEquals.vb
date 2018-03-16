@@ -33,9 +33,8 @@
 
     '     Class DomainEquals
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

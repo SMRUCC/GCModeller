@@ -35,9 +35,8 @@
     ' 
     '         Properties: Atoms, Keyword
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetEnumerator, GetEnumerator1
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

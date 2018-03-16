@@ -33,10 +33,9 @@
 
     '     Class Database
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ExportBindingSites, ExportRegulators, GetGenes, GetRegulators, GetSites
     '                   Trim
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,85 +35,85 @@
     ' 
     '         Properties: [Date], Keyword, pdbID, Title
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Title
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Compound
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Source
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Keywords
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Author
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Journal
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Remark
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class DbReference
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Sequence
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Helix
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Sheet
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Site
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Master
     ' 
     '         Properties: Keyword
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

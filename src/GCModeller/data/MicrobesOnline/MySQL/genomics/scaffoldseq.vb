@@ -33,6 +33,8 @@
 
     ' Class scaffoldseq
     ' 
+    '     Properties: scaffoldId, sequence
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

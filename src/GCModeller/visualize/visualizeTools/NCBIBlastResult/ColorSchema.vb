@@ -33,7 +33,8 @@
 
     '     Module ColorSchema
     ' 
-    '         Function: BitScores, IdentitiesBrush, IdentitiesColors, IdentitiesNonColors
+    '         Function: BitScores, GetBlastnIdentitiesColor, GetColor, IdentitiesBrush, IdentitiesColors
+    '                   IdentitiesNonColors
     '         Structure __brushHelper
     ' 
     '             Function: GetBrush

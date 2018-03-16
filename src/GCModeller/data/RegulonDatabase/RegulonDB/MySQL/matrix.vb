@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16326c970de9a9fb418dc7f904993288, data\RegulonDatabase\RegulonDB\MySQL\matrix.vb"
+﻿#Region "Microsoft.VisualBasic::068b9b43b15caf267f0f863b1f8cc25b, data\RegulonDatabase\RegulonDB\MySQL\matrix.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class matrix
     ' 
+    '     Properties: freq_a, freq_c, freq_g, freq_t, num_col
+    '                 tf_matrix_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -70,7 +76,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,12 +90,12 @@ CREATE TABLE `matrix` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class matrix: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("tf_matrix_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property tf_matrix_id As String
-    <DatabaseField("num_col"), NotNull, DataType(MySqlDbType.Decimal)> Public Property num_col As Decimal
-    <DatabaseField("freq_a"), NotNull, DataType(MySqlDbType.Decimal)> Public Property freq_a As Decimal
-    <DatabaseField("freq_c"), NotNull, DataType(MySqlDbType.Decimal)> Public Property freq_c As Decimal
-    <DatabaseField("freq_g"), NotNull, DataType(MySqlDbType.Decimal)> Public Property freq_g As Decimal
-    <DatabaseField("freq_t"), NotNull, DataType(MySqlDbType.Decimal)> Public Property freq_t As Decimal
+    <DatabaseField("tf_matrix_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="tf_matrix_id")> Public Property tf_matrix_id As String
+    <DatabaseField("num_col"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="num_col")> Public Property num_col As Decimal
+    <DatabaseField("freq_a"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="freq_a")> Public Property freq_a As Decimal
+    <DatabaseField("freq_c"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="freq_c")> Public Property freq_c As Decimal
+    <DatabaseField("freq_g"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="freq_g")> Public Property freq_g As Decimal
+    <DatabaseField("freq_t"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="freq_t")> Public Property freq_t As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +146,11 @@ Public Class matrix: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As matrix
+                  Return DirectCast(MyClass.MemberwiseClone, matrix)
+              End Function
 End Class
 
 
 End Namespace
+

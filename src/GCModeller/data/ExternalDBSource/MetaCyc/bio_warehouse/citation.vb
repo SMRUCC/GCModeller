@@ -33,6 +33,10 @@
 
     ' Class citation
     ' 
+    '     Properties: Authors, Citation, DataSetWID, Editor, Issue
+    '                 Pages, PMID, Publication, Publisher, Title
+    '                 URI, Volume, WID, Year
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

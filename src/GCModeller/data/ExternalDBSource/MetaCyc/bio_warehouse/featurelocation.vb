@@ -33,6 +33,8 @@
 
     ' Class featurelocation
     ' 
+    '     Properties: Column_, DataSetWID, Row_, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

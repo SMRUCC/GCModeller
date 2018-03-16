@@ -33,7 +33,7 @@
 
     '     Class DomainDistribution
     ' 
-    '         Properties: Distribution, EmptyDomain
+    '         Properties: Distribution, DomainId, EmptyDomain
     ' 
     '         Function: ToString
     ' 

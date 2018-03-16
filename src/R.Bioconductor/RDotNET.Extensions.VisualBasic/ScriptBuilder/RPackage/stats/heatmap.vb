@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6745661293f4b40289a51af6c2402773, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::a4b062164384b4c2578c697f6a0c6033, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\stats\heatmap.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,11 @@
 
     ' Summaries:
 
-    '  
+    '     Class heatmap
     ' 
-    '     Properties: Colv, Rowv
+    '         Properties: Colv, Rowv
     ' 
-    '     Function: Puriney
+    '         Function: Puriney
     ' 
     ' 
     ' /********************************************************************************/

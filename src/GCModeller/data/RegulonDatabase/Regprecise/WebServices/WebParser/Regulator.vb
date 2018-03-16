@@ -41,12 +41,13 @@
     ' 
     '     Class Regulator
     ' 
-    '         Properties: infoURL, LocusId, regulatorySites
+    '         Properties: biological_process, effector, family, infoURL, locus_tag
+    '                     LocusId, operons, pathway, Regulates, regulationMode
+    '                     regulator, regulatorySites, regulog, type
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __exportServlet, __getTagValue, __getTagValue_td, CreateObject, ExportMotifs
     '                   (+2 Overloads) GetMotifSite, More, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

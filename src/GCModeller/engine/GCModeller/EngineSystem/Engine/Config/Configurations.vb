@@ -33,10 +33,11 @@
 
     '     Class Configurations
     ' 
-    '         Properties: ActionScripts, CultivationMediums, DataStorageUrl, DefaultCompartmentId, DumpData
-    '                     ExpressionRegulationNetwork, GeneMutations, Initial_pH, Initial_Temperature, MetabolismModel
-    '                     mRNA_LambdaWeight, rRNA_LambdaWeight, ScriptMountPoint, SuppressErrorMessage, SuppressPeriodicMessage
-    '                     SuppressWarnMessage, TriggerScripts, TrimMetabolismMetabolites, tRNA_LambdaWeight
+    '         Properties: ActionScripts, CommitLoopsInterval, CultivationMediums, DataStorageUrl, DefaultCompartmentId
+    '                     DumpData, ExperimentData, ExpressionRegulationNetwork, GeneMutations, Initial_pH
+    '                     Initial_Temperature, KernelCycles, MetabolismModel, mRNA_LambdaWeight, rRNA_LambdaWeight
+    '                     ScriptMountPoint, SuppressErrorMessage, SuppressPeriodicMessage, SuppressWarnMessage, TriggerScripts
+    '                     TrimMetabolismMetabolites, tRNA_LambdaWeight
     ' 
     '         Function: DefaultValue, Load, Save, ToString
     ' 

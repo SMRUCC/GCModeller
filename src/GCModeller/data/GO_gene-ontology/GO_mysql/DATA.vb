@@ -33,7 +33,7 @@
 
     ' Module DATA
     ' 
-    '     Function: DumpMySQL
+    '     Function: DumpMySQL, ImportsMySQL
     ' 
     ' /********************************************************************************/
 

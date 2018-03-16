@@ -33,8 +33,9 @@
 
     '     Class SubNetTable
     ' 
-    '         Properties: Description, n, PhenotypePair, PValue, SignificantGeneObjects
-    '                     Statistics, SubNET_Vector, UniqueId, weight2, weights
+    '         Properties: Description, Flag, n, PhenotypePair, PValue
+    '                     SignificantGeneObjects, Statistics, SubNET_Vector, UniqueId, weight2
+    '                     weights
     ' 
     '         Function: __creates, Copy, (+3 Overloads) CreateObject, ToString
     ' 

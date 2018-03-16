@@ -33,7 +33,7 @@
 
     ' Module IQueryExtensions
     ' 
-    '     Function: ContainsMultipleSequence, MatchGene
+    '     Function: ContainsMultipleSequence, GetLocusTag, MatchGene
     ' 
     ' /********************************************************************************/
 

@@ -33,10 +33,10 @@
 
     ' Module ShellScriptAPI
     ' 
-    '     Function: __exportMatrix, __linkLabel, __sort, (+3 Overloads) CreateDocumentFile, CreateGeneDist
-    '               CreateMotifDist, CreateNeighborMatrixFromVennMatrix, CreateNodeLabelAnnotation, ExportGendistMatrixFromBesthitMeta, LoadGendist
-    '               LoadHitsVennData, LoadNewickTree, LoadXmlMeta, NeighborMatrixFromMeta, NeighborMatrixFromVennMatrix
-    '               (+2 Overloads) SelfOverviewsGendist, SelfOverviewsMAT, SubMatrix, TreeLabelFastaReplace
+    '     Function: __exportMatrix, __labelTrimming, __linkLabel, __sort, (+3 Overloads) CreateDocumentFile
+    '               CreateGeneDist, CreateMotifDist, CreateNeighborMatrixFromVennMatrix, CreateNodeLabelAnnotation, ExportGendistMatrixFromBesthitMeta
+    '               LoadGendist, LoadHitsVennData, LoadNewickTree, LoadXmlMeta, NeighborMatrixFromMeta
+    '               NeighborMatrixFromVennMatrix, (+2 Overloads) SelfOverviewsGendist, SelfOverviewsMAT, SubMatrix, TreeLabelFastaReplace
     ' 
     ' /********************************************************************************/
 

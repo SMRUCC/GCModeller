@@ -33,6 +33,8 @@
 
     ' Class datasethierarchy
     ' 
+    '     Properties: SubWID, SuperWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

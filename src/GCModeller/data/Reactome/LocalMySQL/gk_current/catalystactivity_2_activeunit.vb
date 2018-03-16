@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64958c970980481413cf5367138a2dc4, data\Reactome\LocalMySQL\gk_current\catalystactivity_2_activeunit.vb"
+﻿#Region "Microsoft.VisualBasic::270770a61e2043a2e4f1c10c7bfa0fef, data\Reactome\LocalMySQL\gk_current\catalystactivity_2_activeunit.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class catalystactivity_2_activeunit
     ' 
+    '     Properties: activeUnit, activeUnit_class, activeUnit_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `catalystactivity_2_activeunit` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class catalystactivity_2_activeunit: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("activeUnit_rank"), DataType(MySqlDbType.Int64, "10")> Public Property activeUnit_rank As Long
-    <DatabaseField("activeUnit"), DataType(MySqlDbType.Int64, "10")> Public Property activeUnit As Long
-    <DatabaseField("activeUnit_class"), DataType(MySqlDbType.VarChar, "64")> Public Property activeUnit_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("activeUnit_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="activeUnit_rank")> Public Property activeUnit_rank As Long
+    <DatabaseField("activeUnit"), DataType(MySqlDbType.Int64, "10"), Column(Name:="activeUnit")> Public Property activeUnit As Long
+    <DatabaseField("activeUnit_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="activeUnit_class")> Public Property activeUnit_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class catalystactivity_2_activeunit: Inherits Oracle.LinuxCompatibility.M
         Return String.Format(UPDATE_SQL, DB_ID, activeUnit_rank, activeUnit, activeUnit_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As catalystactivity_2_activeunit
+                  Return DirectCast(MyClass.MemberwiseClone, catalystactivity_2_activeunit)
+              End Function
 End Class
 
 
 End Namespace
+

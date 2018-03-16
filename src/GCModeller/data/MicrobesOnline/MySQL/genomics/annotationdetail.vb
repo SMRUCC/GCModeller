@@ -33,6 +33,8 @@
 
     ' Class annotationdetail
     ' 
+    '     Properties: action, annotation, annotationId, locusId, type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

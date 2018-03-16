@@ -33,6 +33,10 @@
 
     '     Class Promoter
     ' 
+    '         Properties: BasalTransValue, Comment, EquilibriumConst, ID, KeyIdOrg
+    '                     KineticConst, Name, Note, Position, Sequence
+    '                     SigmaFactor, Strand, StrengthSeq
+    ' 
     '         Function: ExportFasta, ToString
     ' 
     ' 

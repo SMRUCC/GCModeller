@@ -35,9 +35,8 @@
     ' 
     '         Properties: CommonName, Location, LocusTag
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Load
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

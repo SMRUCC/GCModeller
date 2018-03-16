@@ -33,9 +33,8 @@
 
     '     Class Repeat
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: __creates
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

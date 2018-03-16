@@ -33,7 +33,7 @@
 
     '     Module ModuleClassAPIExtension
     ' 
-    '         Function: __firstCount
+    '         Function: __firstCount, (+2 Overloads) Fill
     ' 
     ' 
     ' /********************************************************************************/

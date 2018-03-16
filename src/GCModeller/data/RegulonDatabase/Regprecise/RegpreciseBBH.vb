@@ -33,11 +33,12 @@
 
     '     Class RegpreciseBBH
     ' 
-    '         Properties: RegprecisePhenotypeAssociation, RegulationEffects
+    '         Properties: Effectors, Family, HitName, QueryName, RegprecisePhenotypeAssociation
+    '                     RegpreciseTfbsIds, RegulationEffects
     ' 
     '     Class RegpreciseMPBBH
     ' 
-    '         Properties: MPScore, Similarity
+    '         Properties: MPScore, PfamString, Similarity, SubjectPfamString
     ' 
     '         Function: GetLocusTag, ToString
     ' 

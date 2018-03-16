@@ -37,7 +37,8 @@
     '               MGA2Myva, NTVariation
     '     Class tRNA
     ' 
-    '         Properties: [end], start, strand
+    '         Properties: [end], AntiCodon, seqName, start, strand
+    '                     tRNAType
     ' 
     ' 
     ' 

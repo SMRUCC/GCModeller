@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::faf923dfa29e9e1f7f8aa79bf6839741, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_input.vb"
+﻿#Region "Microsoft.VisualBasic::6bcfd8faacd46e81da4abd304ea2ad06, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_input.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactionlikeevent_2_input
     ' 
+    '     Properties: DB_ID, input, input_class, input_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `reactionlikeevent_2_input` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class reactionlikeevent_2_input: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("input_rank"), DataType(MySqlDbType.Int64, "10")> Public Property input_rank As Long
-    <DatabaseField("input"), DataType(MySqlDbType.Int64, "10")> Public Property input As Long
-    <DatabaseField("input_class"), DataType(MySqlDbType.VarChar, "64")> Public Property input_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("input_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="input_rank")> Public Property input_rank As Long
+    <DatabaseField("input"), DataType(MySqlDbType.Int64, "10"), Column(Name:="input")> Public Property input As Long
+    <DatabaseField("input_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="input_class")> Public Property input_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class reactionlikeevent_2_input: Inherits Oracle.LinuxCompatibility.MySQL
         Return String.Format(UPDATE_SQL, DB_ID, input_rank, input, input_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As reactionlikeevent_2_input
+                  Return DirectCast(MyClass.MemberwiseClone, reactionlikeevent_2_input)
+              End Function
 End Class
 
 
 End Namespace
+

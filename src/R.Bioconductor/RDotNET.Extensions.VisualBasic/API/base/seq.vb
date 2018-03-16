@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ada4ba94c130adbe9ee19feeb1f2266, RDotNET.Extensions.VisualBasic\API\base\seq.vb"
+﻿#Region "Microsoft.VisualBasic::c3a62365916b5103fee1499ffe86c10f, RDotNET.Extensions.VisualBasic\API\base\seq.vb"
 
     ' Author:
     ' 

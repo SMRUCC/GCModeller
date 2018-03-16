@@ -33,7 +33,8 @@
 
     '     Class Model
     ' 
-    '         Properties: Height, MetabolismNetwork, Metabolites, Width
+    '         Properties: Height, MAT, MetabolismNetwork, Metabolites, Reactions
+    '                     Width
     ' 
     '         Function: Load, Save
     ' 

@@ -33,6 +33,9 @@
 
     ' Class seqfeaturelocation
     ' 
+    '     Properties: DataSetWID, SeqFeature_Regions, SeqFeatureLocation_Coordinate, SeqFeatureLocation_Subregions, StrandType
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

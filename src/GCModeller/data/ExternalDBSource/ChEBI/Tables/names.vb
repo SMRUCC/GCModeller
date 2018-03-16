@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cf5cdb38e4dae5fee717c2b3c1a3b6e, data\ExternalDBSource\ChEBI\Tables\names.vb"
+﻿#Region "Microsoft.VisualBasic::e0cc1dda2744e5aed46189668f7d10fb, data\ExternalDBSource\ChEBI\Tables\names.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class names
     ' 
+    '     Properties: adapted, compound_id, id, language, name
+    '                 source, type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -74,7 +80,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,13 +98,13 @@ CREATE TABLE `names` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class names: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("name"), NotNull, DataType(MySqlDbType.Text)> Public Property name As String
-    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text)> Public Property type As String
-    <DatabaseField("source"), NotNull, DataType(MySqlDbType.Text)> Public Property source As String
-    <DatabaseField("adapted"), NotNull, DataType(MySqlDbType.Text)> Public Property adapted As String
-    <DatabaseField("language"), NotNull, DataType(MySqlDbType.Text)> Public Property language As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("name"), NotNull, DataType(MySqlDbType.Text), Column(Name:="name")> Public Property name As String
+    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text), Column(Name:="type")> Public Property type As String
+    <DatabaseField("source"), NotNull, DataType(MySqlDbType.Text), Column(Name:="source")> Public Property source As String
+    <DatabaseField("adapted"), NotNull, DataType(MySqlDbType.Text), Column(Name:="adapted")> Public Property adapted As String
+    <DatabaseField("language"), NotNull, DataType(MySqlDbType.Text), Column(Name:="language")> Public Property language As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class names: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, compound_id, name, type, source, adapted, language, id)
     End Function
 #End Region
+Public Function Clone() As names
+                  Return DirectCast(MyClass.MemberwiseClone, names)
+              End Function
 End Class
 
 
 End Namespace
+

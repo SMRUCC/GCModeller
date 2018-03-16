@@ -33,7 +33,8 @@
 
     '     Class Model
     ' 
-    '         Properties: Comment, Title
+    '         Properties: [Constant], Comment, Experiments, FinalTime, sEquations
+    '                     Summary, Title, UserFunc, Vars
     ' 
     '         Function: FindObject, Load, ToString
     ' 

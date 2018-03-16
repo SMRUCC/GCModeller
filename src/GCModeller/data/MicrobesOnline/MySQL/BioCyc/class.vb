@@ -33,6 +33,8 @@
 
     ' Class [class]
     ' 
+    '     Properties: classId, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

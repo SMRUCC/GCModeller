@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::523119d637e32b7412b69a9c259b9234, Bioconductor\Bioconductor\biocPkgs\DESeq2\DESeq2.vb"
+﻿#Region "Microsoft.VisualBasic::2e0a363f360fe245519d87b5fc6f37f5, Bioconductor\Bioconductor\biocPkgs\DESeq2\DESeq2.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,12 @@
 
     '     Class DESeq2
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class makeExampleDESeqDataSet
     ' 
-    '     Properties: betaSD, dispMeanRel, interceptMean, interceptSD, m
-    '                 n, sizeFactors
+    '         Properties: betaSD, dispMeanRel, interceptMean, interceptSD, m
+    '                     n, sizeFactors
     ' 
     ' 
     ' /********************************************************************************/

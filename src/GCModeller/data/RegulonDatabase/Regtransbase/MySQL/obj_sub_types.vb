@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ecfc957e90cf2d7e8eac76142ef4950, data\RegulonDatabase\Regtransbase\MySQL\obj_sub_types.vb"
+﻿#Region "Microsoft.VisualBasic::3f711f486f7e1f05c158587ac67d064c, data\RegulonDatabase\Regtransbase\MySQL\obj_sub_types.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class obj_sub_types
     ' 
+    '     Properties: child_obj_type_id, parent_obj_type_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -66,7 +71,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `obj_sub_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class obj_sub_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("parent_obj_type_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property parent_obj_type_id As Long
-    <DatabaseField("child_obj_type_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property child_obj_type_id As Long
+    <DatabaseField("parent_obj_type_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="parent_obj_type_id")> Public Property parent_obj_type_id As Long
+    <DatabaseField("child_obj_type_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="child_obj_type_id")> Public Property child_obj_type_id As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class obj_sub_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As obj_sub_types
+                  Return DirectCast(MyClass.MemberwiseClone, obj_sub_types)
+              End Function
 End Class
 
 
 End Namespace
+

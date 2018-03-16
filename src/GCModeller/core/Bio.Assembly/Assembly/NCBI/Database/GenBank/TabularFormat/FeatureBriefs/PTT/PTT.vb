@@ -36,12 +36,11 @@
     '         Properties: forwards, GeneIDList, GeneObjects, GetsGeneDatas, NumOfProducts
     '                     reversed, Size, Title
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
     '                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
     '                   Load, OrderByGeneID, Read, Save, SaveXml
     '                   ToDictionary, TryGetGeneObjectValue, TryGetGenesId
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

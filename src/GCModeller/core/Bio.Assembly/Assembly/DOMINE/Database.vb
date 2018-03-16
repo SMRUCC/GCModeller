@@ -35,9 +35,8 @@
     ' 
     '         Properties: Go, Interaction, Pfam, PGMap
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetInteractionDomains, Save
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

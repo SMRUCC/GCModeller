@@ -31,11 +31,10 @@
 
     ' Summaries:
 
-    '  
+    ' Class ExampleApp
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetwebForm, JsonExample, Page404, PostTest, redirectTest
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

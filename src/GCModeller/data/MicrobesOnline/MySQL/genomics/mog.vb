@@ -33,6 +33,8 @@
 
     ' Class mog
     ' 
+    '     Properties: metric, mogId, nComponents, nLoci
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

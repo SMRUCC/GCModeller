@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69127e882f2048e63138594f95745a2a, data\RegulonDatabase\RegulonDB\MySQL\operon.vb"
+﻿#Region "Microsoft.VisualBasic::03279539ed2a4b11a1e83d179800d574, data\RegulonDatabase\RegulonDB\MySQL\operon.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class operon
     ' 
+    '     Properties: firstgeneposleft, key_id_org, lastgeneposright, operon_id, operon_internal_comment
+    '                 operon_name, operon_strand, regulationposleft, regulationposright
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `operon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class operon: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("operon_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property operon_id As String
-    <DatabaseField("operon_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property operon_name As String
-    <DatabaseField("firstgeneposleft"), NotNull, DataType(MySqlDbType.Decimal)> Public Property firstgeneposleft As Decimal
-    <DatabaseField("lastgeneposright"), NotNull, DataType(MySqlDbType.Decimal)> Public Property lastgeneposright As Decimal
-    <DatabaseField("regulationposleft"), NotNull, DataType(MySqlDbType.Decimal)> Public Property regulationposleft As Decimal
-    <DatabaseField("regulationposright"), NotNull, DataType(MySqlDbType.Decimal)> Public Property regulationposright As Decimal
-    <DatabaseField("operon_strand"), DataType(MySqlDbType.VarChar, "10")> Public Property operon_strand As String
-    <DatabaseField("operon_internal_comment"), DataType(MySqlDbType.Text)> Public Property operon_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("operon_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="operon_id")> Public Property operon_id As String
+    <DatabaseField("operon_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="operon_name")> Public Property operon_name As String
+    <DatabaseField("firstgeneposleft"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="firstgeneposleft")> Public Property firstgeneposleft As Decimal
+    <DatabaseField("lastgeneposright"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="lastgeneposright")> Public Property lastgeneposright As Decimal
+    <DatabaseField("regulationposleft"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="regulationposleft")> Public Property regulationposleft As Decimal
+    <DatabaseField("regulationposright"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="regulationposright")> Public Property regulationposright As Decimal
+    <DatabaseField("operon_strand"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="operon_strand")> Public Property operon_strand As String
+    <DatabaseField("operon_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="operon_internal_comment")> Public Property operon_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class operon: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As operon
+                  Return DirectCast(MyClass.MemberwiseClone, operon)
+              End Function
 End Class
 
 
 End Namespace
+

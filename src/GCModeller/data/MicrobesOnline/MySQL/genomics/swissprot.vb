@@ -33,6 +33,8 @@
 
     ' Class swissprot
     ' 
+    '     Properties: accession, description, id, length
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,9 @@
 
     ' Class orthologgroup
     ' 
+    '     Properties: isDuplication, nGenes, nGenomes, nNonUniqueGenomes, ogId
+    '                 parentOG, splitTaxId, treeId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

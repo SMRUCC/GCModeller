@@ -33,9 +33,11 @@
 
     '     Class DelegateSystem
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateDelegate, CreateEnzymeObjects, CreateServiceSerials, GetNetworkComponents, Initialize
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

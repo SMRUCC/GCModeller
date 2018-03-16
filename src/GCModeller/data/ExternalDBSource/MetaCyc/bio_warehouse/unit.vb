@@ -33,6 +33,10 @@
 
     ' Class unit
     ' 
+    '     Properties: DataSetWID, MAGEClass, UnitName, UnitNameCV, UnitNameCV2
+    '                 UnitNameCV3, UnitNameCV4, UnitNameCV5, UnitNameCV6, UnitNameCV7
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

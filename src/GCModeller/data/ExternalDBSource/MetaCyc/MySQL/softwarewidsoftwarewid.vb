@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9de757f363b28a2af9b106081ff09139, data\ExternalDBSource\MetaCyc\MySQL\softwarewidsoftwarewid.vb"
+﻿#Region "Microsoft.VisualBasic::9b700ba23707376fb3a567c12940a820, data\ExternalDBSource\MetaCyc\MySQL\softwarewidsoftwarewid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class softwarewidsoftwarewid
     ' 
+    '     Properties: SoftwareWID1, SoftwareWID2
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `softwarewidsoftwarewid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class softwarewidsoftwarewid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("SoftwareWID1"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property SoftwareWID1 As Long
-    <DatabaseField("SoftwareWID2"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property SoftwareWID2 As Long
+    <DatabaseField("SoftwareWID1"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="SoftwareWID1"), XmlAttribute> Public Property SoftwareWID1 As Long
+    <DatabaseField("SoftwareWID2"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="SoftwareWID2")> Public Property SoftwareWID2 As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class softwarewidsoftwarewid: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, SoftwareWID1, SoftwareWID2, SoftwareWID1)
     End Function
 #End Region
+Public Function Clone() As softwarewidsoftwarewid
+                  Return DirectCast(MyClass.MemberwiseClone, softwarewidsoftwarewid)
+              End Function
 End Class
 
 
 End Namespace
+

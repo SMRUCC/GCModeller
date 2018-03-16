@@ -44,9 +44,8 @@
     ' 
     ' 		    Properties: Id, Label, Meta
     ' 
+    ' 		    Constructor: (+1 Overloads) Sub New
     ' 		    Function: build, id, label, meta, type
-    ' 
-    ' 		    Sub: New
     ' 
     '  
     ' 

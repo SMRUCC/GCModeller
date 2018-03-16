@@ -33,6 +33,9 @@
 
     ' Class arraymanufacture
     ' 
+    '     Properties: DataSetWID, Identifier, ManufacturingDate, Name, Tolerance
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

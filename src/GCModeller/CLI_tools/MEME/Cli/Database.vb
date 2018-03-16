@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19e90d31f56a4d89c9dd84a441c771e7, CLI_tools\MEME\Cli\Database.vb"
+﻿#Region "Microsoft.VisualBasic::bfb2e954b0a4beb54839748afa57f37a, CLI_tools\MEME\Cli\Database.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: BuildPWMDb, ExportRegpreciseMotifs, GetIntergenic, TrimInputs
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

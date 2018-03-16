@@ -33,9 +33,8 @@
 
     '     Class DrawingDevice
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: InvokeDrawing
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

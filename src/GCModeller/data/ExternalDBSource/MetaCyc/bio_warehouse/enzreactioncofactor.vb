@@ -33,6 +33,8 @@
 
     ' Class enzreactioncofactor
     ' 
+    '     Properties: ChemicalWID, EnzymaticReactionWID, Prosthetic
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

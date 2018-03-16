@@ -33,6 +33,9 @@
 
     ' Class glammentity2datasource
     ' 
+    '     Properties: created, dataSourceGuid, entityGuid, guid, priority
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

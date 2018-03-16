@@ -33,7 +33,7 @@
 
     '     Class Loci
     ' 
-    '         Properties: Right
+    '         Properties: Left, Right, SequenceData
     ' 
     '         Function: ToString
     ' 

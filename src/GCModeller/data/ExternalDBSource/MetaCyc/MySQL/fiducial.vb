@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43e7263b169d8841ff90e15ef5824eb0, data\ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
+﻿#Region "Microsoft.VisualBasic::42cfad3b3161aecc8aaa10d1fc14585a, data\ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class fiducial
     ' 
+    '     Properties: ArrayGroup_Fiducials, DataSetWID, Fiducial_DistanceUnit, Fiducial_FiducialType, Fiducial_Position
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,12 +112,12 @@ CREATE TABLE `fiducial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class fiducial: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("ArrayGroup_Fiducials"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayGroup_Fiducials As Long
-    <DatabaseField("Fiducial_FiducialType"), DataType(MySqlDbType.Int64, "20")> Public Property Fiducial_FiducialType As Long
-    <DatabaseField("Fiducial_DistanceUnit"), DataType(MySqlDbType.Int64, "20")> Public Property Fiducial_DistanceUnit As Long
-    <DatabaseField("Fiducial_Position"), DataType(MySqlDbType.Int64, "20")> Public Property Fiducial_Position As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("ArrayGroup_Fiducials"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayGroup_Fiducials")> Public Property ArrayGroup_Fiducials As Long
+    <DatabaseField("Fiducial_FiducialType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Fiducial_FiducialType")> Public Property Fiducial_FiducialType As Long
+    <DatabaseField("Fiducial_DistanceUnit"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Fiducial_DistanceUnit")> Public Property Fiducial_DistanceUnit As Long
+    <DatabaseField("Fiducial_Position"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Fiducial_Position")> Public Property Fiducial_Position As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -163,7 +168,11 @@ Public Class fiducial: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, ArrayGroup_Fiducials, Fiducial_FiducialType, Fiducial_DistanceUnit, Fiducial_Position, WID)
     End Function
 #End Region
+Public Function Clone() As fiducial
+                  Return DirectCast(MyClass.MemberwiseClone, fiducial)
+              End Function
 End Class
 
 
 End Namespace
+

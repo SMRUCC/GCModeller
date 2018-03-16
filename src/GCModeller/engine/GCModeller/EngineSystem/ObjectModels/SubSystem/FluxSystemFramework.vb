@@ -34,7 +34,7 @@
     '     Class ReactorMachine
     ' 
     '         Properties: ATP_EnergyConsumption, Count, DataSource, Guid, Keys
-    '                     NetworkComponents, RuntimeTicks, SystemLogging, Values
+    '                     NetworkComponents, RuntimeTicks, SystemActivityLoad, SystemLogging, Values
     ' 
     '         Function: __innerTicks, ContainsKey, get_DataSerializerHandles, get_RuntimeContainer, GetEnumerator
     '                   GetEnumerator1, TryGetValue
@@ -51,15 +51,13 @@
     ' 
     '         Properties: SystemLogging
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: get_runtimeContainer
-    ' 
-    '         Sub: New
     ' 
     '     Class CellComponentSystemFramework
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Get_cellComponentContainer
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,9 @@
 
     ' Class geneticcode
     ' 
+    '     Properties: DataSetWID, Name, NCBIID, StartCodon, TranslationTable
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

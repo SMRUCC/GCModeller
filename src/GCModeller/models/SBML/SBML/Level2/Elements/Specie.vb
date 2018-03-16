@@ -33,7 +33,7 @@
 
     '     Class Specie
     ' 
-    '         Properties: Charge, CompartmentID, ID, InitialAmount
+    '         Properties: Charge, CompartmentID, ID, InitialAmount, Notes
     ' 
     '         Function: GetTrimmedId, ToString
     ' 

@@ -33,7 +33,7 @@
 
     ' Module Extensions
     ' 
-    '     Function: SVGRectangle
+    '     Function: SVGFontStyle, (+3 Overloads) SVGRectangle, (+2 Overloads) SVGUnit
     ' 
     ' /********************************************************************************/
 

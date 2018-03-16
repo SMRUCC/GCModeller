@@ -33,6 +33,9 @@
 
     ' Class glammcompound
     ' 
+    '     Properties: commonName, created, formula, guid, inchi
+    '                 mass, priority, smiles, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

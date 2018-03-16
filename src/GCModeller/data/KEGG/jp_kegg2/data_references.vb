@@ -33,6 +33,8 @@
 
     ' Class data_references
     ' 
+    '     Properties: authors, journal, pmid, title, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

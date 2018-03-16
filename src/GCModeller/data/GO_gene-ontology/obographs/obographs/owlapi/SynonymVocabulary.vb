@@ -35,9 +35,11 @@
     ' 
     ' 	    Properties: IriToScopeMap
     ' 
+    ' 	    Constructor: (+1 Overloads) Sub New
+    ' 
     ' 	    Function: [get], contains
     ' 
-    ' 	    Sub: [set], New, setDefaults
+    ' 	    Sub: [set], setDefaults
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,10 @@
 
     ' Class experiment
     ' 
+    '     Properties: ArchiveWID, BioSourceWID, ContactWID, DataSetWID, Description
+    '                 EndDate, GroupIndex, GroupSize, GroupType, GroupWID
+    '                 StartDate, TimePoint, TimeUnit, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

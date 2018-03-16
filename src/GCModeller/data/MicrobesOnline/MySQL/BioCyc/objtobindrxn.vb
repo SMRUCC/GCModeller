@@ -33,6 +33,8 @@
 
     ' Class objtobindrxn
     ' 
+    '     Properties: bindrxn, objectId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

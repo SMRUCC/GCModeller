@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: [Sub], Meta, Obj, Pred
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: [sub], build, meta, obj, pred

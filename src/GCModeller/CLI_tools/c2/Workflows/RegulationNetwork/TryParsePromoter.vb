@@ -35,17 +35,15 @@
     ' 
     '     Properties: DoorOperonView
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: CreateObject, GetPossibleCoExpression
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' Class TryParsePromoter
     ' 
     '     Properties: DoorOperonView
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: CreateOperonView, Proceeding, SelectGenes, (+2 Overloads) TryParse
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a73eaef0d8e68115962b90d63cef5c8, analysis\SequenceToolkit\MSA\GlobalAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::9bc23ee2d614cc6b9126a7c9fac1d224, analysis\SequenceToolkit\MSA\GlobalAlignment.vb"
 
     ' Author:
     ' 
@@ -43,4 +43,3 @@ Public Structure GlobalAlignment
     Dim seq1, seq2 As String
     Dim score%
 End Structure
-

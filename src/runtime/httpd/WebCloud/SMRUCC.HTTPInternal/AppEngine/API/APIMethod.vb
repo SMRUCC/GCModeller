@@ -35,10 +35,9 @@
     ' 
     '         Properties: Response
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __description, __getFullName, __getParameters, __isValueType, Description
     '                   GetExample
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

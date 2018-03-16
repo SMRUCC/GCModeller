@@ -38,10 +38,12 @@
     ' 
     '             Properties: SystemLogging
     ' 
+    '             Constructor: (+1 Overloads) Sub New
+    ' 
     '             Function: GetEnumerator, GetEnumerator1, Initialize, ToString
     ' 
     '             Sub: ___Internal_get_attachedEvent, __liquidBrothFilledWater, ConnectCultivationMediumSystem, EmptyEvent, InvokeEvents
-    '                  JoinEvents, MemoryDump, New
+    '                  JoinEvents, MemoryDump
     ' 
     ' 
     ' 

@@ -33,7 +33,8 @@
 
     '     Class KeyWord
     ' 
-    '         Sub: __trimHeadKey, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: __trimHeadKey
     ' 
     '     Class KEYWORDS
     ' 

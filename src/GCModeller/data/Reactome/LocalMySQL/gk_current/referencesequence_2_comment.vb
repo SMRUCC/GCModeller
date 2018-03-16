@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efc443f168cf59fe14f12bb9cb460297, data\Reactome\LocalMySQL\gk_current\referencesequence_2_comment.vb"
+﻿#Region "Microsoft.VisualBasic::c862379895c60610647603943d596469, data\Reactome\LocalMySQL\gk_current\referencesequence_2_comment.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencesequence_2_comment
     ' 
+    '     Properties: comment, comment_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referencesequence_2_comment` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencesequence_2_comment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("comment_rank"), DataType(MySqlDbType.Int64, "10")> Public Property comment_rank As Long
-    <DatabaseField("comment"), DataType(MySqlDbType.Text)> Public Property comment As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("comment_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="comment_rank")> Public Property comment_rank As Long
+    <DatabaseField("comment"), DataType(MySqlDbType.Text), Column(Name:="comment")> Public Property comment As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referencesequence_2_comment: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, DB_ID, comment_rank, comment, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencesequence_2_comment
+                  Return DirectCast(MyClass.MemberwiseClone, referencesequence_2_comment)
+              End Function
 End Class
 
 
 End Namespace
+

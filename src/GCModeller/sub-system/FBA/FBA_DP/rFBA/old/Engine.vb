@@ -33,16 +33,21 @@
 
     '     Class Engine
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __innerTicks, GetFBADataPackage, Initialize, Load
     ' 
-    '         Sub: ApplyFBAConstraint, New, RegulationNetwork_TICK
+    '         Sub: ApplyFBAConstraint, RegulationNetwork_TICK
     ' 
     '     Class rFBAlpModel
     ' 
-    '         Function: ApplyFluxConstraint, GetFluxColumnIds, getMatrix
+    '         Properties: FluxObjects
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ApplyFluxConstraint, GetFluxColumnIds, getMatrix
     '         Class FluxMap
+    ' 
+    '             Properties: Boundaries, FluxName, Handle, MappingGeneId, Reversible
     ' 
     '             Function: ApplyConstraint
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::308cd65d051036eeb52aa53c78dde521, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\vennDiagram.vb"
+﻿#Region "Microsoft.VisualBasic::5961ff9155154dcb0b12c9e059f37159, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\vennDiagram.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,18 @@
 
     ' Summaries:
 
-    '  
+    '     Class vennDiagramPlot
     ' 
-    '     Properties: [sub], compression, fill, height, imagetype
-    '                 main, na, resolution, sigdigs, units
-    '                 width, x
+    '         Properties: [sub], areaVector, categoryNames, compression, directArea
+    '                     filename, fill, forceUnique, height, hyperTest
+    '                     imagetype, main, mainCex, mainCol, mainFontface
+    '                     mainFontfamily, mainJust, mainPos, na, printMode
+    '                     resolution, sigdigs, subCex, subCol, subFontface
+    '                     subFontfamily, subJust, subPos, totalPopulation, units
+    '                     width, x
     ' 
-    '     Function: Copy
-    ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Copy
     ' 
     ' 
     ' /********************************************************************************/

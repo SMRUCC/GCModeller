@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7f3c393e0dd3c2f60eece7e4fcd9a23, RDotNET\R.NET\S4Object.vb"
+﻿#Region "Microsoft.VisualBasic::91e4e7da24a977ea3176d60f6c73a073, RDotNET\R.NET\S4Object.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: Item, SlotCount, SlotNames
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetClassDefinition, GetSlotTypes, HasSlot
     ' 
-    '     Sub: checkSlotName, New
+    '     Sub: checkSlotName
     ' 
     ' /********************************************************************************/
 

@@ -33,7 +33,8 @@
 
     '     Class PluginBase
     ' 
-    '         Sub: (+2 Overloads) Dispose, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

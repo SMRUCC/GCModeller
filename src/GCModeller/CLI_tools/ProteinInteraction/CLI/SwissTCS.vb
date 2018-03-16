@@ -33,10 +33,12 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __contact, __contactTrace, Contacts, CreateProfiles, CrossTalksCal
     '               DownloadEntireDb, MergePfam, ProtFastaDownloads, ProtFastaDownloadsBatch
     ' 
-    '     Sub: __downloads, __getProbability, New
+    '     Sub: __downloads, __getProbability
     ' 
     ' /********************************************************************************/
 

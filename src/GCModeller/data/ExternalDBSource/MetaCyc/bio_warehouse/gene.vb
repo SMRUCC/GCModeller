@@ -33,6 +33,10 @@
 
     ' Class gene
     ' 
+    '     Properties: CodingRegionEnd, CodingRegionEndApproximate, CodingRegionStart, CodingRegionStartApproximate, DataSetWID
+    '                 Direction, GenomeID, Interrupted, Name, NucleicAcidWID
+    '                 SubsequenceWID, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7ad801d85e873c174e62fc727aac79, data\ExternalDBSource\MetaCyc\MySQL\genewidproteinwid.vb"
+﻿#Region "Microsoft.VisualBasic::8b432a4909298f99a48b6783fd0c9e40, data\ExternalDBSource\MetaCyc\MySQL\genewidproteinwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class genewidproteinwid
     ' 
+    '     Properties: GeneWID, ProteinWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `genewidproteinwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class genewidproteinwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("GeneWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property GeneWID As Long
-    <DatabaseField("ProteinWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ProteinWID As Long
+    <DatabaseField("GeneWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="GeneWID"), XmlAttribute> Public Property GeneWID As Long
+    <DatabaseField("ProteinWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ProteinWID")> Public Property ProteinWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class genewidproteinwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTa
         Return String.Format(UPDATE_SQL, GeneWID, ProteinWID, GeneWID)
     End Function
 #End Region
+Public Function Clone() As genewidproteinwid
+                  Return DirectCast(MyClass.MemberwiseClone, genewidproteinwid)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,8 @@
 
     '     Class Replicon
     ' 
-    '         Properties: Chemotaxis, OneComponent, Other, TwoComponent
+    '         Properties: Accession, Chemotaxis, ECF, OneComponent, Other
+    '                     Replicon, Size, TwoComponent
     ' 
     '         Function: SignalProteinCollection, ToString
     ' 

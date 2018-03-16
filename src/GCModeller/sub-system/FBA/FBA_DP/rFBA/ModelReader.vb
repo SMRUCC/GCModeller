@@ -33,13 +33,14 @@
 
     '     Class MetabolismFlux
     ' 
-    '         Properties: CommonName, Equation, UniqueId
+    '         Properties: AssociatedEnzymeGenes, CommonName, Equation, Lower_Bound, UniqueId
+    '                     Upper_Bound
     ' 
     '         Function: CreateObject, ToString
     ' 
     '     Class GeneExpression
     ' 
-    '         Properties: AccessionId, BasalExpression
+    '         Properties: AccessionId, BasalExpression, Regulators, RPKM
     ' 
     '         Function: CreateObject
     ' 

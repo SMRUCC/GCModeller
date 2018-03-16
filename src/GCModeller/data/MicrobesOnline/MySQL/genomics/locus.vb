@@ -33,6 +33,9 @@
 
     ' Class locus
     ' 
+    '     Properties: cdsCoords, created, evidence, exonCoords, locusId
+    '                 posId, priority, scaffoldId, type, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

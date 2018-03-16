@@ -33,6 +33,8 @@
 
     ' Class swissprot2pubmed
     ' 
+    '     Properties: accession, id, isDetailed, PubMedId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

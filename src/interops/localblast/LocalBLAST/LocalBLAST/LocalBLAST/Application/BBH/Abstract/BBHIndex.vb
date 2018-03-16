@@ -33,7 +33,7 @@
 
     '     Class BBHIndex
     ' 
-    '         Properties: identities, Properties
+    '         Properties: identities, Positive, Properties
     ' 
     '         Function: BuildHitsHash, ToString
     ' 

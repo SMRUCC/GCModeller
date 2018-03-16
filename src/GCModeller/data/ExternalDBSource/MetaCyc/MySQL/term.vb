@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::189a8f6c893d78af7dd64bf91d28faa3, data\ExternalDBSource\MetaCyc\MySQL\term.vb"
+﻿#Region "Microsoft.VisualBasic::2eadc2af37184951f97c64738f61320c, data\ExternalDBSource\MetaCyc\MySQL\term.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class term
     ' 
+    '     Properties: DataSetWID, Definition, Hierarchical, Name, Obsolete
+    '                 Root, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +78,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,13 +94,13 @@ CREATE TABLE `term` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class term: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("Definition"), DataType(MySqlDbType.Text)> Public Property Definition As String
-    <DatabaseField("Hierarchical"), DataType(MySqlDbType.VarChar, "1")> Public Property Hierarchical As String
-    <DatabaseField("Root"), DataType(MySqlDbType.VarChar, "1")> Public Property Root As String
-    <DatabaseField("Obsolete"), DataType(MySqlDbType.VarChar, "1")> Public Property Obsolete As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Definition"), DataType(MySqlDbType.Text), Column(Name:="Definition")> Public Property Definition As String
+    <DatabaseField("Hierarchical"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Hierarchical")> Public Property Hierarchical As String
+    <DatabaseField("Root"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Root")> Public Property Root As String
+    <DatabaseField("Obsolete"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Obsolete")> Public Property Obsolete As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -146,7 +151,11 @@ Public Class term: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, Definition, Hierarchical, Root, Obsolete, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As term
+                  Return DirectCast(MyClass.MemberwiseClone, term)
+              End Function
 End Class
 
 
 End Namespace
+

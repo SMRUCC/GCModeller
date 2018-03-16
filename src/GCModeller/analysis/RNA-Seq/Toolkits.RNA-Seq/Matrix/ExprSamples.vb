@@ -35,10 +35,9 @@
     ' 
     '         Properties: locusId, Values
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ConvertObject, CreateFile, GetEnumerator, GetEnumerator1, ToRow
     '                   ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

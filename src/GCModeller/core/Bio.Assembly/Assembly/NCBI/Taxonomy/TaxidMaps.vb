@@ -36,7 +36,7 @@
     ' 
     '         Delegate Function
     ' 
-    '             Function: GetAccessionId, GetParser, MapByGI, Reference2Taxid
+    '             Function: GetAccessionId, GetParser, MapByAcc, MapByGI, Reference2Taxid
     ' 
     ' 
     ' 

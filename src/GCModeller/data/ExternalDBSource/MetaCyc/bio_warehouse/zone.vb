@@ -33,6 +33,10 @@
 
     ' Class zone
     ' 
+    '     Properties: Column_, DataSetWID, Identifier, LowerRightX, LowerRightY
+    '                 Name, Row_, UpperLeftX, UpperLeftY, WID
+    '                 Zone_DistanceUnit, ZoneGroup_ZoneLocations
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

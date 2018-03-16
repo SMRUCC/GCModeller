@@ -33,7 +33,7 @@
 
     '     Module EquationBuilder
     ' 
-    '         Function: __tryParse, (+2 Overloads) CreateObject, (+4 Overloads) ToString
+    '         Function: __tryParse, (+2 Overloads) CreateObject, GetSides, (+4 Overloads) ToString
     ' 
     '         Sub: __appendSide, (+2 Overloads) AppendSides
     ' 

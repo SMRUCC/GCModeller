@@ -37,10 +37,9 @@
     '                     KOpathway, modules, name, organism, otherDBs
     '                     pathwayMap, references
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __source, Download, (+2 Overloads) DownloadPage, DownloadPathwayMap, (+2 Overloads) GetCompoundCollection
     '                   GetPathwayGenes, IsContainsCompound, IsContainsGeneObject, IsContainsModule
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

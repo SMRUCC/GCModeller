@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb78b9a7f70715af1a0e97ea93ef46b4, data\ExternalDBSource\MetaCyc\MySQL\experiment.vb"
+﻿#Region "Microsoft.VisualBasic::92c26c85920ebac1c7729d3b181b0187, data\ExternalDBSource\MetaCyc\MySQL\experiment.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class experiment
     ' 
+    '     Properties: ArchiveWID, BioSourceWID, ContactWID, DataSetWID, Description
+    '                 EndDate, GroupIndex, GroupSize, GroupType, GroupWID
+    '                 StartDate, TimePoint, TimeUnit, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -90,7 +97,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -125,21 +131,21 @@ CREATE TABLE `experiment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class experiment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property Type As String
-    <DatabaseField("ContactWID"), DataType(MySqlDbType.Int64, "20")> Public Property ContactWID As Long
-    <DatabaseField("ArchiveWID"), DataType(MySqlDbType.Int64, "20")> Public Property ArchiveWID As Long
-    <DatabaseField("StartDate"), DataType(MySqlDbType.DateTime)> Public Property StartDate As Date
-    <DatabaseField("EndDate"), DataType(MySqlDbType.DateTime)> Public Property EndDate As Date
-    <DatabaseField("Description"), DataType(MySqlDbType.Text)> Public Property Description As String
-    <DatabaseField("GroupWID"), DataType(MySqlDbType.Int64, "20")> Public Property GroupWID As Long
-    <DatabaseField("GroupType"), DataType(MySqlDbType.VarChar, "50")> Public Property GroupType As String
-    <DatabaseField("GroupSize"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property GroupSize As Long
-    <DatabaseField("GroupIndex"), DataType(MySqlDbType.Int64, "11")> Public Property GroupIndex As Long
-    <DatabaseField("TimePoint"), DataType(MySqlDbType.Int64, "11")> Public Property TimePoint As Long
-    <DatabaseField("TimeUnit"), DataType(MySqlDbType.VarChar, "20")> Public Property TimeUnit As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20")> Public Property BioSourceWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Type"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("ContactWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ContactWID")> Public Property ContactWID As Long
+    <DatabaseField("ArchiveWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArchiveWID")> Public Property ArchiveWID As Long
+    <DatabaseField("StartDate"), DataType(MySqlDbType.DateTime), Column(Name:="StartDate")> Public Property StartDate As Date
+    <DatabaseField("EndDate"), DataType(MySqlDbType.DateTime), Column(Name:="EndDate")> Public Property EndDate As Date
+    <DatabaseField("Description"), DataType(MySqlDbType.Text), Column(Name:="Description")> Public Property Description As String
+    <DatabaseField("GroupWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="GroupWID")> Public Property GroupWID As Long
+    <DatabaseField("GroupType"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="GroupType")> Public Property GroupType As String
+    <DatabaseField("GroupSize"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="GroupSize")> Public Property GroupSize As Long
+    <DatabaseField("GroupIndex"), DataType(MySqlDbType.Int64, "11"), Column(Name:="GroupIndex")> Public Property GroupIndex As Long
+    <DatabaseField("TimePoint"), DataType(MySqlDbType.Int64, "11"), Column(Name:="TimePoint")> Public Property TimePoint As Long
+    <DatabaseField("TimeUnit"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="TimeUnit")> Public Property TimeUnit As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioSourceWID")> Public Property BioSourceWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +168,7 @@ Public Class experiment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, WID, Type, ContactWID, ArchiveWID, DataType.ToMySqlDateTimeString(StartDate), DataType.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID)
+        Return String.Format(INSERT_SQL, WID, Type, ContactWID, ArchiveWID, MySqlScript.ToMySqlDateTimeString(StartDate), MySqlScript.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID)
     End Function
 
 ''' <summary>
@@ -179,7 +185,7 @@ Public Class experiment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, WID, Type, ContactWID, ArchiveWID, DataType.ToMySqlDateTimeString(StartDate), DataType.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID)
+        Return String.Format(REPLACE_SQL, WID, Type, ContactWID, ArchiveWID, MySqlScript.ToMySqlDateTimeString(StartDate), MySqlScript.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -187,10 +193,14 @@ Public Class experiment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, WID, Type, ContactWID, ArchiveWID, DataType.ToMySqlDateTimeString(StartDate), DataType.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID, WID)
+        Return String.Format(UPDATE_SQL, WID, Type, ContactWID, ArchiveWID, MySqlScript.ToMySqlDateTimeString(StartDate), MySqlScript.ToMySqlDateTimeString(EndDate), Description, GroupWID, GroupType, GroupSize, GroupIndex, TimePoint, TimeUnit, DataSetWID, BioSourceWID, WID)
     End Function
 #End Region
+Public Function Clone() As experiment
+                  Return DirectCast(MyClass.MemberwiseClone, experiment)
+              End Function
 End Class
 
 
 End Namespace
+

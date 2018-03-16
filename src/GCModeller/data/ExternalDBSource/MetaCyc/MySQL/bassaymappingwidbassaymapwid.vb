@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f5966bf97f323beeaa0aed21ce08a89, data\ExternalDBSource\MetaCyc\MySQL\bassaymappingwidbassaymapwid.vb"
+﻿#Region "Microsoft.VisualBasic::edbb4b6667de4c58efd5122a9d2ae290, data\ExternalDBSource\MetaCyc\MySQL\bassaymappingwidbassaymapwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class bassaymappingwidbassaymapwid
     ' 
+    '     Properties: BioAssayMappingWID, BioAssayMapWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `bassaymappingwidbassaymapwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bassaymappingwidbassaymapwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("BioAssayMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioAssayMappingWID As Long
-    <DatabaseField("BioAssayMapWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioAssayMapWID As Long
+    <DatabaseField("BioAssayMappingWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayMappingWID"), XmlAttribute> Public Property BioAssayMappingWID As Long
+    <DatabaseField("BioAssayMapWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayMapWID")> Public Property BioAssayMapWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class bassaymappingwidbassaymapwid: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, BioAssayMappingWID, BioAssayMapWID, BioAssayMappingWID)
     End Function
 #End Region
+Public Function Clone() As bassaymappingwidbassaymapwid
+                  Return DirectCast(MyClass.MemberwiseClone, bassaymappingwidbassaymapwid)
+              End Function
 End Class
 
 
 End Namespace
+

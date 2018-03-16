@@ -33,6 +33,8 @@
 
     ' Class labeledextractwidcompoundwid
     ' 
+    '     Properties: CompoundWID, LabeledExtractWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

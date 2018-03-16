@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8daf5b65168155ca76a0e62ca10367bb, data\ExternalDBSource\MetaCyc\MySQL\warehouse.vb"
+﻿#Region "Microsoft.VisualBasic::555d8deb69422bee89dac97a13b12a15, data\ExternalDBSource\MetaCyc\MySQL\warehouse.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class warehouse
     ' 
+    '     Properties: Description, LoadDate, MaxReservedWID, MaxSpecialWID, Version
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -69,7 +74,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,11 +87,11 @@ CREATE TABLE `warehouse` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class warehouse: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("Version"), NotNull, DataType(MySqlDbType.Decimal)> Public Property Version As Decimal
-    <DatabaseField("LoadDate"), NotNull, DataType(MySqlDbType.DateTime)> Public Property LoadDate As Date
-    <DatabaseField("MaxSpecialWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property MaxSpecialWID As Long
-    <DatabaseField("MaxReservedWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property MaxReservedWID As Long
-    <DatabaseField("Description"), DataType(MySqlDbType.Text)> Public Property Description As String
+    <DatabaseField("Version"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="Version")> Public Property Version As Decimal
+    <DatabaseField("LoadDate"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="LoadDate")> Public Property LoadDate As Date
+    <DatabaseField("MaxSpecialWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="MaxSpecialWID")> Public Property MaxSpecialWID As Long
+    <DatabaseField("MaxReservedWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="MaxReservedWID")> Public Property MaxReservedWID As Long
+    <DatabaseField("Description"), DataType(MySqlDbType.Text), Column(Name:="Description")> Public Property Description As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -110,7 +114,7 @@ Public Class warehouse: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, Version, DataType.ToMySqlDateTimeString(LoadDate), MaxSpecialWID, MaxReservedWID, Description)
+        Return String.Format(INSERT_SQL, Version, MySqlScript.ToMySqlDateTimeString(LoadDate), MaxSpecialWID, MaxReservedWID, Description)
     End Function
 
 ''' <summary>
@@ -127,7 +131,7 @@ Public Class warehouse: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, Version, DataType.ToMySqlDateTimeString(LoadDate), MaxSpecialWID, MaxReservedWID, Description)
+        Return String.Format(REPLACE_SQL, Version, MySqlScript.ToMySqlDateTimeString(LoadDate), MaxSpecialWID, MaxReservedWID, Description)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -138,7 +142,11 @@ Public Class warehouse: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As warehouse
+                  Return DirectCast(MyClass.MemberwiseClone, warehouse)
+              End Function
 End Class
 
 
 End Namespace
+

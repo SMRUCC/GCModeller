@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccaeafb4ab7cd0106b5dc5d69e57659e, data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
+﻿#Region "Microsoft.VisualBasic::20ed6a04cc3b180a60fa195b6c4f0cb5, data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class enzymaticreaction
     ' 
+    '     Properties: ComplexWID, DataSetWID, ProteinWID, ReactionDirection, ReactionWID
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -79,7 +85,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,12 +108,12 @@ CREATE TABLE `enzymaticreaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class enzymaticreaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("ReactionWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ReactionWID As Long
-    <DatabaseField("ProteinWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ProteinWID As Long
-    <DatabaseField("ComplexWID"), DataType(MySqlDbType.Int64, "20")> Public Property ComplexWID As Long
-    <DatabaseField("ReactionDirection"), DataType(MySqlDbType.VarChar, "30")> Public Property ReactionDirection As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("ReactionWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ReactionWID")> Public Property ReactionWID As Long
+    <DatabaseField("ProteinWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ProteinWID")> Public Property ProteinWID As Long
+    <DatabaseField("ComplexWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ComplexWID")> Public Property ComplexWID As Long
+    <DatabaseField("ReactionDirection"), DataType(MySqlDbType.VarChar, "30"), Column(Name:="ReactionDirection")> Public Property ReactionDirection As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -159,7 +164,11 @@ Public Class enzymaticreaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTa
         Return String.Format(UPDATE_SQL, WID, ReactionWID, ProteinWID, ComplexWID, ReactionDirection, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As enzymaticreaction
+                  Return DirectCast(MyClass.MemberwiseClone, enzymaticreaction)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,9 +33,8 @@
 
     ' Class AssignGene
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: AssignGenes, GetGenes, Performance, Query
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

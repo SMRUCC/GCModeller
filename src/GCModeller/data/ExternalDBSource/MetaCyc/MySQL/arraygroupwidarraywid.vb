@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0661c07e64f1be560e0d9ed59b804289, data\ExternalDBSource\MetaCyc\MySQL\arraygroupwidarraywid.vb"
+﻿#Region "Microsoft.VisualBasic::b9162d6b22879e0da60e6ef8bbfcf982, data\ExternalDBSource\MetaCyc\MySQL\arraygroupwidarraywid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class arraygroupwidarraywid
     ' 
+    '     Properties: ArrayGroupWID, ArrayWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `arraygroupwidarraywid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraygroupwidarraywid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ArrayGroupWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ArrayGroupWID As Long
-    <DatabaseField("ArrayWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ArrayWID As Long
+    <DatabaseField("ArrayGroupWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayGroupWID"), XmlAttribute> Public Property ArrayGroupWID As Long
+    <DatabaseField("ArrayWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayWID")> Public Property ArrayWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class arraygroupwidarraywid: Inherits Oracle.LinuxCompatibility.MySQL.MyS
         Return String.Format(UPDATE_SQL, ArrayGroupWID, ArrayWID, ArrayGroupWID)
     End Function
 #End Region
+Public Function Clone() As arraygroupwidarraywid
+                  Return DirectCast(MyClass.MemberwiseClone, arraygroupwidarraywid)
+              End Function
 End Class
 
 
 End Namespace
+

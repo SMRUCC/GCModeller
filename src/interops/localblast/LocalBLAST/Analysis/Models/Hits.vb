@@ -33,11 +33,13 @@
 
     '     Class HitCollection
     ' 
-    '         Properties: Description
+    '         Properties: Description, Hits, QueryName
     ' 
     '         Function: __orderBySp, GetHitByTagInfo, Take, ToString
     ' 
     '     Class Hit
+    ' 
+    '         Properties: HitName, Identities, Positive, tag
     ' 
     '         Function: ToString
     ' 

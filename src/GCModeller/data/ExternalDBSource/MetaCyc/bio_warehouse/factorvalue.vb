@@ -33,6 +33,9 @@
 
     ' Class factorvalue
     ' 
+    '     Properties: DataSetWID, ExperimentalFactor, ExperimentalFactor2, FactorValue_Measurement, FactorValue_Value
+    '                 Identifier, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

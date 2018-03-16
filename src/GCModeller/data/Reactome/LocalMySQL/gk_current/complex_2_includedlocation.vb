@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e807e812d20d40d1d3cd4b57122050cd, data\Reactome\LocalMySQL\gk_current\complex_2_includedlocation.vb"
+﻿#Region "Microsoft.VisualBasic::d91d276543a348e6287c88356f8fbc96, data\Reactome\LocalMySQL\gk_current\complex_2_includedlocation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class complex_2_includedlocation
     ' 
+    '     Properties: DB_ID, includedLocation, includedLocation_class, includedLocation_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `complex_2_includedlocation` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class complex_2_includedlocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("includedLocation_rank"), DataType(MySqlDbType.Int64, "10")> Public Property includedLocation_rank As Long
-    <DatabaseField("includedLocation"), DataType(MySqlDbType.Int64, "10")> Public Property includedLocation As Long
-    <DatabaseField("includedLocation_class"), DataType(MySqlDbType.VarChar, "64")> Public Property includedLocation_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("includedLocation_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="includedLocation_rank")> Public Property includedLocation_rank As Long
+    <DatabaseField("includedLocation"), DataType(MySqlDbType.Int64, "10"), Column(Name:="includedLocation")> Public Property includedLocation As Long
+    <DatabaseField("includedLocation_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="includedLocation_class")> Public Property includedLocation_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class complex_2_includedlocation: Inherits Oracle.LinuxCompatibility.MySQ
         Return String.Format(UPDATE_SQL, DB_ID, includedLocation_rank, includedLocation, includedLocation_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As complex_2_includedlocation
+                  Return DirectCast(MyClass.MemberwiseClone, complex_2_includedlocation)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,9 @@
 
     ' Class zonelayout
     ' 
+    '     Properties: DataSetWID, NumFeaturesPerCol, NumFeaturesPerRow, SpacingBetweenCols, SpacingBetweenRows
+    '                 WID, ZoneLayout_DistanceUnit
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

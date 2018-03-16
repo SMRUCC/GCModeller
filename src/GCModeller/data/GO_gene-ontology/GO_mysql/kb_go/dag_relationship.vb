@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bf230a0342f22d251a2a93dd4679945, data\GO_gene-ontology\GO_mysql\kb_go\dag_relationship.vb"
+﻿#Region "Microsoft.VisualBasic::bac3d8bc883ac8443f59fe8de9a97afd, data\GO_gene-ontology\GO_mysql\kb_go\dag_relationship.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class dag_relationship
     ' 
+    '     Properties: id, name, relationship, relationship_id, term_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +46,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/3 12:29:34
+REM  Dump @3/16/2018 10:37:28 PM
 
 
 Imports System.Data.Linq.Mapping
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Xml.Serialization
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace kb_go
 
@@ -173,3 +176,4 @@ End Class
 
 
 End Namespace
+

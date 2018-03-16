@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e848c0d0233a9d25ceda2a31e44a8e0b, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\expandGrid.vb"
+﻿#Region "Microsoft.VisualBasic::c836a140ea47d630467ee8f4a40bc2d7, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\expandGrid.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '  
+    '     Class expandGrid
     ' 
-    '     Properties: stringsAsFactors, x
+    '         Properties: KEEP_OUT_ATTRS, stringsAsFactors, x
     ' 
     ' 
     ' /********************************************************************************/

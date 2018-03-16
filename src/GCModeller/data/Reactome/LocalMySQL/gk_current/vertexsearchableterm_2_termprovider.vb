@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d179609a65f813afff8db8504f5683c, data\Reactome\LocalMySQL\gk_current\vertexsearchableterm_2_termprovider.vb"
+﻿#Region "Microsoft.VisualBasic::3fe26c420ae29795fb69f0d9a80efdcb, data\Reactome\LocalMySQL\gk_current\vertexsearchableterm_2_termprovider.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class vertexsearchableterm_2_termprovider
     ' 
+    '     Properties: DB_ID, termProvider, termProvider_class, termProvider_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `vertexsearchableterm_2_termprovider` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class vertexsearchableterm_2_termprovider: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("termProvider_rank"), DataType(MySqlDbType.Int64, "10")> Public Property termProvider_rank As Long
-    <DatabaseField("termProvider"), DataType(MySqlDbType.Int64, "10")> Public Property termProvider As Long
-    <DatabaseField("termProvider_class"), DataType(MySqlDbType.VarChar, "64")> Public Property termProvider_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("termProvider_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="termProvider_rank")> Public Property termProvider_rank As Long
+    <DatabaseField("termProvider"), DataType(MySqlDbType.Int64, "10"), Column(Name:="termProvider")> Public Property termProvider As Long
+    <DatabaseField("termProvider_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="termProvider_class")> Public Property termProvider_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class vertexsearchableterm_2_termprovider: Inherits Oracle.LinuxCompatibi
         Return String.Format(UPDATE_SQL, DB_ID, termProvider_rank, termProvider, termProvider_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As vertexsearchableterm_2_termprovider
+                  Return DirectCast(MyClass.MemberwiseClone, vertexsearchableterm_2_termprovider)
+              End Function
 End Class
 
 
 End Namespace
+

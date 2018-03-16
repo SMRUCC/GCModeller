@@ -33,14 +33,16 @@
 
     '     Class MetabolismCompartment
     ' 
-    '         Properties: CompartmentId, DataSource, EnvironmentFactors, EnzymeActivitiesDataSource, EnzymeActivitySerialHandles
-    '                     EnzymeKinetics, EventId, Metabolites, NetworkComponents, Pathways
-    '                     SystemActivityLoad, SystemLogging
+    '         Properties: CompartmentId, ConstraintMetabolite, DataSource, DelegateSystem, EnvironmentFactors
+    '                     EnzymeActivitiesDataSource, EnzymeActivitySerialHandles, EnzymeKinetics, EventId, Metabolites
+    '                     NetworkComponents, Pathways, ProteinCPLXAssemblies, SystemActivityLoad, SystemLogging
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __innerTicks, CreateMetaboliteObjects, CreateServiceSerials, Get_currentPH, Get_currentTemperature
     '                   get_DataSerializerHandles, GetMetabolite, Initialize, ToString
     ' 
-    '         Sub: InitalizeTrimedHandles, MemoryDump, New
+    '         Sub: InitalizeTrimedHandles, MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

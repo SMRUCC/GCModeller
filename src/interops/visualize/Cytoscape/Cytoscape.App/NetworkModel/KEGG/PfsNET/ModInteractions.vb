@@ -33,7 +33,7 @@
 
     '     Module ModInteractions
     ' 
-    '         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+2 Overloads) BuildNET, LoadModules
+    '         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+3 Overloads) BuildNET, LoadModules
     '                   LoadPathways, SaveNetwork
     ' 
     ' 

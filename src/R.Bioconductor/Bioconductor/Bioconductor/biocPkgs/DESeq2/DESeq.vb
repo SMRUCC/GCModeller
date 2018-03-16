@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::526399f3db59b5cd46dabad1a299850f, Bioconductor\Bioconductor\biocPkgs\DESeq2\DESeq.vb"
+﻿#Region "Microsoft.VisualBasic::3d77ff172107a77492584ac9d338a0ea, Bioconductor\Bioconductor\biocPkgs\DESeq2\DESeq.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,11 @@
 
     ' Summaries:
 
-    '  
+    '     Class DESeq
     ' 
-    '     Properties: [object], betaPrior, BPPARAM, fitType, full
-    '                 minReplicatesForReplace, modelMatrixType, parallel, quiet, reduced
-    '                 test
+    '         Properties: [object], betaPrior, BPPARAM, fitType, full
+    '                     minReplicatesForReplace, modelMatrixType, parallel, quiet, reduced
+    '                     test
     ' 
     ' 
     ' /********************************************************************************/

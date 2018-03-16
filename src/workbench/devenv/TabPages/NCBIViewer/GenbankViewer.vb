@@ -33,8 +33,8 @@
 
     ' Class GenbankViewer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Sub: Initialize, ListFeature, ListFeatureInside, LoadFile, LocalBLAST
-    '          New
     ' 
     ' /********************************************************************************/
 

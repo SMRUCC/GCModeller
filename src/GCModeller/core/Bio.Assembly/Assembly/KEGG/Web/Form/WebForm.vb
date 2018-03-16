@@ -36,10 +36,12 @@
     '         Properties: AllLinksWidget, Count, Keys, References, Values
     '                     WebPageTitle
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ContainsKey, GetEnumerator, GetEnumerator1, GetRaw, GetValue
     '                   parseList, RegexReplace, RemoveHrefLink, ToString, TryGetValue
     ' 
-    '         Sub: (+2 Overloads) Dispose, New, ParseRefList
+    '         Sub: (+2 Overloads) Dispose, ParseRefList
     ' 
     ' 
     ' /********************************************************************************/

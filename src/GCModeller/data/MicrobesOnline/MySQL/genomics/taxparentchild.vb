@@ -33,6 +33,8 @@
 
     ' Class taxparentchild
     ' 
+    '     Properties: childId, nDistance, parentId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     '     Class Model
     ' 
+    '         Properties: Time
+    ' 
     '         Sub: Save
     ' 
     ' 

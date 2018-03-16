@@ -33,11 +33,15 @@
 
     ' Class Mapping
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: CreateEnzrxnGeneMap, (+3 Overloads) EffectorMapping, (+3 Overloads) GetEffectors, GetSBMLQueryKeyword, InternalEffectorMapping
     '               InternalGetEffectors, (+5 Overloads) IsEqually, IsEquals
     ' 
-    '     Sub: (+2 Overloads) Dispose, New
+    '     Sub: (+2 Overloads) Dispose
     '     Class EnzymeGeneMap
+    ' 
+    '         Properties: CommonName, EnzymeRxn, GeneId
     ' 
     '         Function: ToString
     ' 

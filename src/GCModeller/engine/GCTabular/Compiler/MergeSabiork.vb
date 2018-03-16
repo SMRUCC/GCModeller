@@ -33,10 +33,12 @@
 
     '     Class MergeSabiork
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetCompound, GetItems, LoadSabiorkEnzyme, LoadUniprotBesthits, Matches
     '                   WriteResult
     ' 
-    '         Sub: InvokeMergeCompoundSpecies, New
+    '         Sub: InvokeMergeCompoundSpecies
     '         Class MatchedSabiorkEnzyme
     ' 
     '             Properties: MatchedId

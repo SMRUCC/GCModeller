@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c5000ce957b97f9008e5c88680d2678, RDotNET\R.NET\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::9081cf687f1ca7ae8b45eff96d26b684, RDotNET\R.NET\DataFrame.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,11 @@
     '     Properties: ColumnCount, ColumnNames, DataSize, Item, RowCount
     '                 RowNames
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast, GetColumn, GetMetaObject, (+2 Overloads) GetRow, (+2 Overloads) GetRows
     ' 
-    '     Sub: New, SetColumn, SetVectorDirect
+    '     Sub: SetColumn, SetVectorDirect
     ' 
     ' /********************************************************************************/
 

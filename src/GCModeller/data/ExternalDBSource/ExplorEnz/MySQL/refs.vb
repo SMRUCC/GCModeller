@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bb1f7579390ede39566fef3484f2b96, data\ExternalDBSource\ExplorEnz\MySQL\refs.vb"
+﻿#Region "Microsoft.VisualBasic::d08de1353c896a0f9d79a0700948be57, data\ExternalDBSource\ExplorEnz\MySQL\refs.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,12 @@
 
     ' Class refs
     ' 
+    '     Properties: address, author, booktitle, cite_key, edition
+    '                 editor, entry_title, erratum, first_page, journal
+    '                 language, last_change, last_page, link, patent_yr
+    '                 publisher, pubmed_id, title, type, volume
+    '                 year
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +48,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:50 PM
+REM  Dump @3/16/2018 10:40:16 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ExplorEnz.MySQL
 
@@ -95,7 +104,6 @@ Namespace ExplorEnz.MySQL
 ''' /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 ''' 
 ''' -- Dump completed on 2015-12-03 19:58:29
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -126,27 +134,27 @@ CREATE TABLE `refs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class refs: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("cite_key"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "48")> Public Property cite_key As String
-    <DatabaseField("type"), DataType(MySqlDbType.VarChar, "7")> Public Property type As String
-    <DatabaseField("author"), DataType(MySqlDbType.Text)> Public Property author As String
-    <DatabaseField("title"), DataType(MySqlDbType.Text)> Public Property title As String
-    <DatabaseField("journal"), DataType(MySqlDbType.VarChar, "72")> Public Property journal As String
-    <DatabaseField("volume"), DataType(MySqlDbType.VarChar, "20")> Public Property volume As String
-    <DatabaseField("year"), DataType(MySqlDbType.Int64, "11")> Public Property year As Long
-    <DatabaseField("first_page"), DataType(MySqlDbType.VarChar, "12")> Public Property first_page As String
-    <DatabaseField("last_page"), DataType(MySqlDbType.VarChar, "11")> Public Property last_page As String
-    <DatabaseField("pubmed_id"), DataType(MySqlDbType.VarChar, "8")> Public Property pubmed_id As String
-    <DatabaseField("language"), DataType(MySqlDbType.VarChar, "127")> Public Property language As String
-    <DatabaseField("booktitle"), DataType(MySqlDbType.VarChar, "255")> Public Property booktitle As String
-    <DatabaseField("editor"), DataType(MySqlDbType.VarChar, "128")> Public Property editor As String
-    <DatabaseField("edition"), DataType(MySqlDbType.VarChar, "3")> Public Property edition As String
-    <DatabaseField("publisher"), DataType(MySqlDbType.VarChar, "65")> Public Property publisher As String
-    <DatabaseField("address"), DataType(MySqlDbType.VarChar, "65")> Public Property address As String
-    <DatabaseField("erratum"), DataType(MySqlDbType.Text)> Public Property erratum As String
-    <DatabaseField("entry_title"), DataType(MySqlDbType.Text)> Public Property entry_title As String
-    <DatabaseField("patent_yr"), DataType(MySqlDbType.Int64, "11")> Public Property patent_yr As Long
-    <DatabaseField("link"), DataType(MySqlDbType.VarChar, "1")> Public Property link As String
-    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_change As Date
+    <DatabaseField("cite_key"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "48"), Column(Name:="cite_key"), XmlAttribute> Public Property cite_key As String
+    <DatabaseField("type"), DataType(MySqlDbType.VarChar, "7"), Column(Name:="type")> Public Property type As String
+    <DatabaseField("author"), DataType(MySqlDbType.Text), Column(Name:="author")> Public Property author As String
+    <DatabaseField("title"), DataType(MySqlDbType.Text), Column(Name:="title")> Public Property title As String
+    <DatabaseField("journal"), DataType(MySqlDbType.VarChar, "72"), Column(Name:="journal")> Public Property journal As String
+    <DatabaseField("volume"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="volume")> Public Property volume As String
+    <DatabaseField("year"), DataType(MySqlDbType.Int64, "11"), Column(Name:="year")> Public Property year As Long
+    <DatabaseField("first_page"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="first_page")> Public Property first_page As String
+    <DatabaseField("last_page"), DataType(MySqlDbType.VarChar, "11"), Column(Name:="last_page")> Public Property last_page As String
+    <DatabaseField("pubmed_id"), DataType(MySqlDbType.VarChar, "8"), Column(Name:="pubmed_id")> Public Property pubmed_id As String
+    <DatabaseField("language"), DataType(MySqlDbType.VarChar, "127"), Column(Name:="language")> Public Property language As String
+    <DatabaseField("booktitle"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="booktitle")> Public Property booktitle As String
+    <DatabaseField("editor"), DataType(MySqlDbType.VarChar, "128"), Column(Name:="editor")> Public Property editor As String
+    <DatabaseField("edition"), DataType(MySqlDbType.VarChar, "3"), Column(Name:="edition")> Public Property edition As String
+    <DatabaseField("publisher"), DataType(MySqlDbType.VarChar, "65"), Column(Name:="publisher")> Public Property publisher As String
+    <DatabaseField("address"), DataType(MySqlDbType.VarChar, "65"), Column(Name:="address")> Public Property address As String
+    <DatabaseField("erratum"), DataType(MySqlDbType.Text), Column(Name:="erratum")> Public Property erratum As String
+    <DatabaseField("entry_title"), DataType(MySqlDbType.Text), Column(Name:="entry_title")> Public Property entry_title As String
+    <DatabaseField("patent_yr"), DataType(MySqlDbType.Int64, "11"), Column(Name:="patent_yr")> Public Property patent_yr As Long
+    <DatabaseField("link"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="link")> Public Property link As String
+    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_change")> Public Property last_change As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -169,7 +177,7 @@ Public Class refs: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(INSERT_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 
 ''' <summary>
@@ -186,7 +194,7 @@ Public Class refs: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(REPLACE_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -194,10 +202,14 @@ Public Class refs: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, DataType.ToMySqlDateTimeString(last_change), cite_key)
+        Return String.Format(UPDATE_SQL, cite_key, type, author, title, journal, volume, year, first_page, last_page, pubmed_id, language, booktitle, editor, edition, publisher, address, erratum, entry_title, patent_yr, link, MySqlScript.ToMySqlDateTimeString(last_change), cite_key)
     End Function
 #End Region
+Public Function Clone() As refs
+                  Return DirectCast(MyClass.MemberwiseClone, refs)
+              End Function
 End Class
 
 
 End Namespace
+

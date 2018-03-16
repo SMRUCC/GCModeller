@@ -34,7 +34,7 @@
     '     Module MotifDeltaSimilarity
     ' 
     '         Function: __BIAS, (+2 Overloads) __counts, __createObject, DinucleotideBIAS, (+2 Overloads) MergeSubsamples
-    '                   (+3 Overloads) PWM, SaveCompareResult, (+2 Overloads) Sigma
+    '                   MotifDiff, (+3 Overloads) PWM, SaveCompareResult, (+2 Overloads) Sigma
     '         Class MotifCompares
     ' 
     '             Properties: Delta, Motif1, Motif2

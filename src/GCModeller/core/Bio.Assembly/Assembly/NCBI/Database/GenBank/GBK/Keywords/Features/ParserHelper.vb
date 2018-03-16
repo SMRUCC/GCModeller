@@ -33,7 +33,7 @@
 
     '     Module ParserHelper
     ' 
-    '         Function: __formatString, __nullFeature, readBlock
+    '         Function: __formatString, __nullFeature, FeaturesListParser, readBlock
     ' 
     '         Sub: __append
     ' 

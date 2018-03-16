@@ -33,6 +33,8 @@
 
     ' Class locus2tigrfuncat
     ' 
+    '     Properties: evidence, locusId, mainRole, subRole
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

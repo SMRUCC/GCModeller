@@ -41,22 +41,28 @@
     ' 
     '         Class StartPageF
     ' 
+    '             Properties: CloseAfterProjectLoad, IDE, Session, ShowOnStartUp, StartPage
+    ' 
     '             Function: (+2 Overloads) [Default]
     ' 
     '         Class IDEConfig
     ' 
+    '             Properties: Language, Location, Size
+    ' 
     '             Function: [Default]
     '             Class PointF
     ' 
-    ' 
+    '                 Properties: Left, Top
     ' 
     '             Class SizeF
     ' 
-    ' 
+    '                 Properties: Height, Width
     ' 
     ' 
     ' 
     '         Class SessionF
+    ' 
+    '             Properties: LoadLastSessionAfterStartUp, ProjectFile
     ' 
     '             Function: [Default]
     ' 

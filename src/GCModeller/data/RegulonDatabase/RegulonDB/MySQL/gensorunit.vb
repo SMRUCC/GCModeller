@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff33cdd1a1b0f6a726bc1b0d2f7e2ffe, data\RegulonDatabase\RegulonDB\MySQL\gensorunit.vb"
+﻿#Region "Microsoft.VisualBasic::2c61f6b42bd1305c2bfc796dd185df81, data\RegulonDatabase\RegulonDB\MySQL\gensorunit.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class gensorunit
     ' 
+    '     Properties: effector_feedback_paths, enzymes_withconnectivity, gu_description, gu_id, gu_map_file
+    '                 gu_name, gu_status, note, proteincomplex_regulated_by_tf, total_enzymes_withconnectivity
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -74,7 +80,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,16 +98,16 @@ CREATE TABLE `gensorunit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gensorunit: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gu_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property gu_id As String
-    <DatabaseField("gu_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property gu_name As String
-    <DatabaseField("gu_description"), DataType(MySqlDbType.VarChar, "2000")> Public Property gu_description As String
-    <DatabaseField("gu_map_file"), NotNull, DataType(MySqlDbType.VarChar, "250")> Public Property gu_map_file As String
-    <DatabaseField("gu_status"), DataType(MySqlDbType.VarChar, "50")> Public Property gu_status As String
-    <DatabaseField("effector_feedback_paths"), DataType(MySqlDbType.VarChar, "2000")> Public Property effector_feedback_paths As String
-    <DatabaseField("proteincomplex_regulated_by_tf"), DataType(MySqlDbType.VarChar, "100")> Public Property proteincomplex_regulated_by_tf As String
-    <DatabaseField("total_enzymes_withconnectivity"), DataType(MySqlDbType.VarChar, "100")> Public Property total_enzymes_withconnectivity As String
-    <DatabaseField("enzymes_withconnectivity"), DataType(MySqlDbType.VarChar, "2000")> Public Property enzymes_withconnectivity As String
-    <DatabaseField("note"), DataType(MySqlDbType.Text)> Public Property note As String
+    <DatabaseField("gu_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="gu_id")> Public Property gu_id As String
+    <DatabaseField("gu_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="gu_name")> Public Property gu_name As String
+    <DatabaseField("gu_description"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="gu_description")> Public Property gu_description As String
+    <DatabaseField("gu_map_file"), NotNull, DataType(MySqlDbType.VarChar, "250"), Column(Name:="gu_map_file")> Public Property gu_map_file As String
+    <DatabaseField("gu_status"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="gu_status")> Public Property gu_status As String
+    <DatabaseField("effector_feedback_paths"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="effector_feedback_paths")> Public Property effector_feedback_paths As String
+    <DatabaseField("proteincomplex_regulated_by_tf"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="proteincomplex_regulated_by_tf")> Public Property proteincomplex_regulated_by_tf As String
+    <DatabaseField("total_enzymes_withconnectivity"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="total_enzymes_withconnectivity")> Public Property total_enzymes_withconnectivity As String
+    <DatabaseField("enzymes_withconnectivity"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="enzymes_withconnectivity")> Public Property enzymes_withconnectivity As String
+    <DatabaseField("note"), DataType(MySqlDbType.Text), Column(Name:="note")> Public Property note As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -153,7 +158,11 @@ Public Class gensorunit: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As gensorunit
+                  Return DirectCast(MyClass.MemberwiseClone, gensorunit)
+              End Function
 End Class
 
 
 End Namespace
+

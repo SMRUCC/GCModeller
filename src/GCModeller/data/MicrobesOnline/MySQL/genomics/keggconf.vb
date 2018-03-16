@@ -33,6 +33,8 @@
 
     ' Class keggconf
     ' 
+    '     Properties: [object], coord, mapId, type, url
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

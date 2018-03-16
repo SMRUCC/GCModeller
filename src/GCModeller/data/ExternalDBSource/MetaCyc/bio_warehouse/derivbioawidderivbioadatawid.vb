@@ -33,6 +33,8 @@
 
     ' Class derivbioawidderivbioadatawid
     ' 
+    '     Properties: DerivedBioAssayDataWID, DerivedBioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

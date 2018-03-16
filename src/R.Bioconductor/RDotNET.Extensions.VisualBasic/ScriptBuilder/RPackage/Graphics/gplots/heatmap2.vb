@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af44037ad7ef174a482b4591247101b3, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb"
+﻿#Region "Microsoft.VisualBasic::6ad3a65182c4d92ae5b0804ae62f3b33, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,20 @@
 
     ' Summaries:
 
-    '  
+    '     Class heatmap2
     ' 
-    '     Properties: adjCol, adjRow, breaks, cellnote, col
-    '                 colCol, colRow, colsep, Colv, dendrogram
-    '                 densadj, denscol, extrafun, hline, key
-    '                 keysize, lhei, linecol, lmat, lwid
-    '                 notecex, notecol, offsetCol, offsetRow, rowsep
-    '                 Rowv, sepcolor, sepwidth, srtCol, srtRow
-    '                 symbreaks, symkey, trace, tracecol, vline
+    '         Properties: adjCol, adjRow, breaks, cellnote, col
+    '                     colCol, colRow, colsep, Colv, dendrogram
+    '                     densadj, denscol, densityInfo, extrafun, hline
+    '                     key, keyPar, keysize, keyTitle, keyxlab
+    '                     keyxtickfun, keyylab, keyytickfun, lhei, linecol
+    '                     lmat, lwid, naColor, notecex, notecol
+    '                     offsetCol, offsetRow, rowsep, Rowv, sepcolor
+    '                     sepwidth, srtCol, srtRow, symbreaks, symkey
+    '                     trace, tracecol, vline
     ' 
-    '     Function: Puriney
-    ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Puriney
     ' 
     ' 
     ' /********************************************************************************/

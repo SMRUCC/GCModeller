@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93fcda5cdf1f22bb67571db63fc1ba61, RDotNET.Extensions.VisualBasic\ScriptBuilder\ScriptBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::b203903733d70367e0829c23c6369344, RDotNET.Extensions.VisualBasic\ScriptBuilder\ScriptBuilder.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,7 @@
 
     '     Class ScriptBuilder
     ' 
-    '         Sub: (+2 Overloads) New
-    ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Operators: +
     ' 
     ' 

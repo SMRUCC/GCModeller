@@ -35,10 +35,11 @@
     ' 
     '         Properties: num3UTRs, num5UTRs, numAntisenseRNAs, numSenseRNAs
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getAnnotationOfIG, getAntisenseAnnotation, getUTR_length
     ' 
-    '         Sub: identifyNovelTranscriptsInIG, identifyRNAs, identifyUTRs, merge_RNAs, New
-    '              output_IG_to_file
+    '         Sub: identifyNovelTranscriptsInIG, identifyRNAs, identifyUTRs, merge_RNAs, output_IG_to_file
     ' 
     ' 
     ' /********************************************************************************/

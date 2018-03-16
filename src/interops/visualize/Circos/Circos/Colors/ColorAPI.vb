@@ -38,9 +38,8 @@
     '         Function: GenerateColors, GetCogColorProfile
     '         Class __innerProfiles
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: GetColor
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

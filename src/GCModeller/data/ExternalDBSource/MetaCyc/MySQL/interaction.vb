@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44188cc6ea62a765f0bc54e6d80b1277, data\ExternalDBSource\MetaCyc\MySQL\interaction.vb"
+﻿#Region "Microsoft.VisualBasic::5031b92eb47ef3851d3cd86419f3db72, data\ExternalDBSource\MetaCyc\MySQL\interaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class interaction
     ' 
+    '     Properties: DataSetWID, Name, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,10 +91,10 @@ CREATE TABLE `interaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "100")> Public Property Type As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "120")> Public Property Name As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "120"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +145,11 @@ Public Class interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Type, Name, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As interaction
+                  Return DirectCast(MyClass.MemberwiseClone, interaction)
+              End Function
 End Class
 
 
 End Namespace
+

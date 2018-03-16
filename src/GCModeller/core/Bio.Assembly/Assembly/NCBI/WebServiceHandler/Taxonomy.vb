@@ -37,7 +37,7 @@
     ' 
     '     Class TSeqSet
     ' 
-    ' 
+    '         Properties: TSeq
     ' 
     '     Class SeqBrief
     ' 

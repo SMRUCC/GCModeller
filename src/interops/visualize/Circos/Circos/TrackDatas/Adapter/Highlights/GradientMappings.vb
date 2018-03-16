@@ -33,9 +33,8 @@
 
     '     Class GradientMappings
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: (+2 Overloads) __initCommon
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,10 @@
 
     '     Class MiST2
     ' 
+    '         Properties: GC, Genes, MajorModules, MiST2Code, Organism
+    '                     ProfileImageUrl, Proteins, Replicons, Size, Status
+    '                     Taxonomy
+    ' 
     '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+2 Overloads) Save
     '                   ToString
     ' 

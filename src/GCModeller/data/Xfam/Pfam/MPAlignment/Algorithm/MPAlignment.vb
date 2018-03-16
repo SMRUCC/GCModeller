@@ -33,7 +33,7 @@
 
     '     Module Algorithm
     ' 
-    '         Function: __createDS, AltEquals, (+2 Overloads) PfamStringEquals, PositionEquals
+    '         Function: __createDS, AltEquals, Edits, (+2 Overloads) PfamStringEquals, PositionEquals
     ' 
     '         Sub: __alignDomain
     ' 

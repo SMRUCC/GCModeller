@@ -35,9 +35,11 @@
     ' 
     '         Properties: GetHandles
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CommitData
     ' 
-    '         Sub: Append, Close, CreateHandle, Initialize, New
+    '         Sub: Append, Close, CreateHandle, Initialize
     '         Class SerialsData
     ' 
     '             Properties: DataPackage

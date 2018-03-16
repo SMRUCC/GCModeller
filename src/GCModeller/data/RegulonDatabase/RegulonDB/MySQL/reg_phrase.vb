@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db0b918607f583697ff2757372903c1, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase.vb"
+﻿#Region "Microsoft.VisualBasic::f12221dbfa509cf83310709b41c373e8, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class reg_phrase
     ' 
+    '     Properties: key_id_org, off_half_life, on_half_life, phrase, reg_phrase_description
+    '                 reg_phrase_function, reg_phrase_id, reg_phrase_internal_comment, reg_phrase_note, regulation_ratio
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -74,7 +80,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,16 +98,16 @@ CREATE TABLE `reg_phrase` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reg_phrase: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("reg_phrase_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reg_phrase_id As String
-    <DatabaseField("reg_phrase_description"), DataType(MySqlDbType.VarChar, "255")> Public Property reg_phrase_description As String
-    <DatabaseField("regulation_ratio"), DataType(MySqlDbType.VarChar, "20")> Public Property regulation_ratio As String
-    <DatabaseField("on_half_life"), DataType(MySqlDbType.Decimal)> Public Property on_half_life As Decimal
-    <DatabaseField("off_half_life"), DataType(MySqlDbType.Decimal)> Public Property off_half_life As Decimal
-    <DatabaseField("phrase"), NotNull, DataType(MySqlDbType.VarChar, "2000")> Public Property phrase As String
-    <DatabaseField("reg_phrase_function"), DataType(MySqlDbType.VarChar, "25")> Public Property reg_phrase_function As String
-    <DatabaseField("reg_phrase_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property reg_phrase_note As String
-    <DatabaseField("reg_phrase_internal_comment"), DataType(MySqlDbType.Text)> Public Property reg_phrase_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("reg_phrase_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reg_phrase_id")> Public Property reg_phrase_id As String
+    <DatabaseField("reg_phrase_description"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="reg_phrase_description")> Public Property reg_phrase_description As String
+    <DatabaseField("regulation_ratio"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="regulation_ratio")> Public Property regulation_ratio As String
+    <DatabaseField("on_half_life"), DataType(MySqlDbType.Decimal), Column(Name:="on_half_life")> Public Property on_half_life As Decimal
+    <DatabaseField("off_half_life"), DataType(MySqlDbType.Decimal), Column(Name:="off_half_life")> Public Property off_half_life As Decimal
+    <DatabaseField("phrase"), NotNull, DataType(MySqlDbType.VarChar, "2000"), Column(Name:="phrase")> Public Property phrase As String
+    <DatabaseField("reg_phrase_function"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="reg_phrase_function")> Public Property reg_phrase_function As String
+    <DatabaseField("reg_phrase_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="reg_phrase_note")> Public Property reg_phrase_note As String
+    <DatabaseField("reg_phrase_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="reg_phrase_internal_comment")> Public Property reg_phrase_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -153,7 +158,11 @@ Public Class reg_phrase: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As reg_phrase
+                  Return DirectCast(MyClass.MemberwiseClone, reg_phrase)
+              End Function
 End Class
 
 
 End Namespace
+

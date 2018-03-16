@@ -35,9 +35,11 @@
     ' 
     '         Properties: avgUpperQuartile, minDiffExpressionLevel, partner
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getReplicate, numReplicates, ToString
     ' 
-    '         Sub: addReplicate, New, setMinDiffExpressionLevel
+    '         Sub: addReplicate, setMinDiffExpressionLevel
     ' 
     ' 
     ' /********************************************************************************/

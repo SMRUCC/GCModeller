@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::881ae8c94135e1a2b46f775f62bb37ec, data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
+﻿#Region "Microsoft.VisualBasic::f5146a833067204f1f3c3ae0af296bba, data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class seqfeaturelocation
     ' 
+    '     Properties: DataSetWID, SeqFeature_Regions, SeqFeatureLocation_Coordinate, SeqFeatureLocation_Subregions, StrandType
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -79,7 +85,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,12 +108,12 @@ CREATE TABLE `seqfeaturelocation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class seqfeaturelocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("SeqFeature_Regions"), DataType(MySqlDbType.Int64, "20")> Public Property SeqFeature_Regions As Long
-    <DatabaseField("StrandType"), DataType(MySqlDbType.VarChar, "255")> Public Property StrandType As String
-    <DatabaseField("SeqFeatureLocation_Subregions"), DataType(MySqlDbType.Int64, "20")> Public Property SeqFeatureLocation_Subregions As Long
-    <DatabaseField("SeqFeatureLocation_Coordinate"), DataType(MySqlDbType.Int64, "20")> Public Property SeqFeatureLocation_Coordinate As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("SeqFeature_Regions"), DataType(MySqlDbType.Int64, "20"), Column(Name:="SeqFeature_Regions")> Public Property SeqFeature_Regions As Long
+    <DatabaseField("StrandType"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="StrandType")> Public Property StrandType As String
+    <DatabaseField("SeqFeatureLocation_Subregions"), DataType(MySqlDbType.Int64, "20"), Column(Name:="SeqFeatureLocation_Subregions")> Public Property SeqFeatureLocation_Subregions As Long
+    <DatabaseField("SeqFeatureLocation_Coordinate"), DataType(MySqlDbType.Int64, "20"), Column(Name:="SeqFeatureLocation_Coordinate")> Public Property SeqFeatureLocation_Coordinate As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -159,7 +164,11 @@ Public Class seqfeaturelocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, WID, DataSetWID, SeqFeature_Regions, StrandType, SeqFeatureLocation_Subregions, SeqFeatureLocation_Coordinate, WID)
     End Function
 #End Region
+Public Function Clone() As seqfeaturelocation
+                  Return DirectCast(MyClass.MemberwiseClone, seqfeaturelocation)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -35,10 +35,9 @@
     ' 
     '         Properties: FileName
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: [GetType], GetDocumentText, GetEnumerator, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1
     '                   ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

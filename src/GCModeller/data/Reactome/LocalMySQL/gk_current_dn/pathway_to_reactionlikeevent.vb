@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::904e642212bf08008892beefbf0cb34f, data\Reactome\LocalMySQL\gk_current_dn\pathway_to_reactionlikeevent.vb"
+﻿#Region "Microsoft.VisualBasic::564a268ee4062b1fbbb076c55000caae, data\Reactome\LocalMySQL\gk_current_dn\pathway_to_reactionlikeevent.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathway_to_reactionlikeevent
     ' 
+    '     Properties: pathwayId, reactionLikeEventId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `pathway_to_reactionlikeevent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class pathway_to_reactionlikeevent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("pathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property pathwayId As Long
-    <DatabaseField("reactionLikeEventId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property reactionLikeEventId As Long
+    <DatabaseField("pathwayId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="pathwayId"), XmlAttribute> Public Property pathwayId As Long
+    <DatabaseField("reactionLikeEventId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="reactionLikeEventId"), XmlAttribute> Public Property reactionLikeEventId As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class pathway_to_reactionlikeevent: Inherits Oracle.LinuxCompatibility.My
         Return String.Format(UPDATE_SQL, pathwayId, reactionLikeEventId, pathwayId, reactionLikeEventId)
     End Function
 #End Region
+Public Function Clone() As pathway_to_reactionlikeevent
+                  Return DirectCast(MyClass.MemberwiseClone, pathway_to_reactionlikeevent)
+              End Function
 End Class
 
 
 End Namespace
+

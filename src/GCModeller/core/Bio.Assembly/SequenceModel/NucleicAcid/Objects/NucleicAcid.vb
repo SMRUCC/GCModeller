@@ -35,16 +35,17 @@
     ' 
     '         Properties: GC, Length, SequenceData, Tm, UserTag
     ' 
+    '         Constructor: (+6 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) Complement, CopyNT, Counts, CreateObject, GetSegment
     '                   IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment, RemoveInvalids
     '                   Replace, Reverse, Split, ToArray, (+3 Overloads) ToString
     ' 
-    '         Sub: __convertSequence, (+6 Overloads) New
+    '         Sub: __convertSequence
     '         Structure __cacheHelper
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __getList
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

@@ -33,7 +33,7 @@
 
     '     Module Stream
     ' 
-    '         Function: ReadAllLines
+    '         Function: AsReadsNode, ReadAllLines, WriteFastQ
     ' 
     ' 
     ' /********************************************************************************/

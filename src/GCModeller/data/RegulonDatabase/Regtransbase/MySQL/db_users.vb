@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46803154475e2cb9d74fb6469bd57c96, data\RegulonDatabase\Regtransbase\MySQL\db_users.vb"
+﻿#Region "Microsoft.VisualBasic::32ebaf2ded46e3e5bef09f724f69af9d, data\RegulonDatabase\Regtransbase\MySQL\db_users.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class db_users
     ' 
+    '     Properties: email, fl_active, full_name, id, name
+    '                 phone, user_role_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -72,7 +78,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,13 +94,13 @@ CREATE TABLE `db_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class db_users: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("user_role_id"), DataType(MySqlDbType.Int64, "11")> Public Property user_role_id As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "20")> Public Property name As String
-    <DatabaseField("full_name"), DataType(MySqlDbType.VarChar, "100")> Public Property full_name As String
-    <DatabaseField("phone"), DataType(MySqlDbType.VarChar, "100")> Public Property phone As String
-    <DatabaseField("email"), DataType(MySqlDbType.VarChar, "100")> Public Property email As String
-    <DatabaseField("fl_active"), DataType(MySqlDbType.Int64, "1")> Public Property fl_active As Long
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("user_role_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="user_role_id")> Public Property user_role_id As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("full_name"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="full_name")> Public Property full_name As String
+    <DatabaseField("phone"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="phone")> Public Property phone As String
+    <DatabaseField("email"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="email")> Public Property email As String
+    <DatabaseField("fl_active"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_active")> Public Property fl_active As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -146,7 +151,11 @@ Public Class db_users: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, user_role_id, name, full_name, phone, email, fl_active, id)
     End Function
 #End Region
+Public Function Clone() As db_users
+                  Return DirectCast(MyClass.MemberwiseClone, db_users)
+              End Function
 End Class
 
 
 End Namespace
+

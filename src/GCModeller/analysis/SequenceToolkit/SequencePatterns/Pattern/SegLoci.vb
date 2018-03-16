@@ -33,6 +33,8 @@
 
     '     Class SegLoci
     ' 
+    '         Properties: Left, Length, Right, Sequence
+    ' 
     '         Function: CreateObject, ToRow, ToString
     ' 
     ' 

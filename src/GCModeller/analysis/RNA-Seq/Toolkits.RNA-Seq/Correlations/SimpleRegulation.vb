@@ -33,7 +33,7 @@
 
     ' Class SimpleRegulation
     ' 
-    ' 
+    '     Properties: Operon, PccValue, Regulator
     ' 
     ' /********************************************************************************/
 

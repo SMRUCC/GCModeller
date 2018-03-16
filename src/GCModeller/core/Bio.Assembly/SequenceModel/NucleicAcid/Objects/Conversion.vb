@@ -35,9 +35,8 @@
     ' 
     '         Properties: BaseDegenerateEntries, DegenerateBases, NucleotideAsChar, NucleotideConvert
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CharEnums, Equals, IsAValidDNAChar, ToChar
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

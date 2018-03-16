@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a51e481c6b15e49e9566db8a8050379, data\ExternalDBSource\MetaCyc\MySQL\arraydesignwidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::341b54404a434e5d8886cb9e6e95b9ce, data\ExternalDBSource\MetaCyc\MySQL\arraydesignwidcontactwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class arraydesignwidcontactwid
     ' 
+    '     Properties: ArrayDesignWID, ContactWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `arraydesignwidcontactwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraydesignwidcontactwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ArrayDesignWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ArrayDesignWID As Long
-    <DatabaseField("ContactWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ContactWID As Long
+    <DatabaseField("ArrayDesignWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayDesignWID"), XmlAttribute> Public Property ArrayDesignWID As Long
+    <DatabaseField("ContactWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ContactWID")> Public Property ContactWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class arraydesignwidcontactwid: Inherits Oracle.LinuxCompatibility.MySQL.
         Return String.Format(UPDATE_SQL, ArrayDesignWID, ContactWID, ArrayDesignWID)
     End Function
 #End Region
+Public Function Clone() As arraydesignwidcontactwid
+                  Return DirectCast(MyClass.MemberwiseClone, arraydesignwidcontactwid)
+              End Function
 End Class
 
 
 End Namespace
+

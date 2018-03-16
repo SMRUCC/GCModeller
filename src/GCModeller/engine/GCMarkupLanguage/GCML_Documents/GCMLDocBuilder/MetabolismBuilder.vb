@@ -33,10 +33,12 @@
 
     '     Class MetabolismBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetReactionHandles, InsertMetabolites, InsertReaction, Invoke, IsChemicalReaction
     '                   TrimMetabolites
     ' 
-    '         Sub: BuildPathwayMap, Link, New
+    '         Sub: BuildPathwayMap, Link
     ' 
     ' 
     ' /********************************************************************************/

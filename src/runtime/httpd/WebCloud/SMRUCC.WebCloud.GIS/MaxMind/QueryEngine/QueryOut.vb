@@ -33,6 +33,10 @@
 
     '     Class FindResult
     ' 
+    '         Properties: city_name, continent_code, continent_name, country_iso_code, country_name
+    '                     geoname_id, metro_code, subdivision_1_iso_code, subdivision_1_name, subdivision_2_iso_code
+    '                     subdivision_2_name, time_zone
+    ' 
     '         Function: Null, ToString
     ' 
     ' 

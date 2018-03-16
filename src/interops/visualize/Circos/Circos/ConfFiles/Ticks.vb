@@ -33,11 +33,11 @@
 
     '     Class Ticks
     ' 
-    '         Properties: Ticks
+    '         Properties: grid_end, grid_start, show_grid, show_tick_labels, show_ticks
+    '                     Ticks
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Build
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

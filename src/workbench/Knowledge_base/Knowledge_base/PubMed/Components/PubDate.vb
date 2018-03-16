@@ -33,7 +33,8 @@
 
     ' Class PubDate
     ' 
-    '     Properties: Day, Hour, Minute, Month, Year
+    '     Properties: DateType, Day, Hour, Minute, Month
+    '                 PubStatus, Year
     ' 
     '     Function: ToString
     ' 

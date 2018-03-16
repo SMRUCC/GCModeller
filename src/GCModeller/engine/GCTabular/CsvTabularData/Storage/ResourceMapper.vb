@@ -33,11 +33,16 @@
 
     '     Class ResourceMapper
     ' 
-    '         Properties: KEGGCompiledXmlModel
+    '         Properties: CheBMethylesterase, CheBPhosphate, ChemotaxisProfile, CheRMethyltransferase, ChipData
+    '                     ConstraintMetabolites, CrossTalk, CrossTalkAnnotations, CultivationMediums, DoorOperons
+    '                     EffectorMapping, EnzymeMapping, Enzymes, ExpressionKinetics, GenomeAnnotiation
+    '                     HkAutoPhosphorus, KEGGCompiledXmlModel, MetabolismModel, MetabolitesModel, MisT2
+    '                     Motifs, ObjectiveFunctionModel, OCSSensing, Pathway, ProteinAssembly
+    '                     Proteins, Regulators, RibosomeAssembly, RNAPolymerase, STrPModel
+    '                     SystemVariables, Transcript, TranscriptionModel, TransmembraneTransportation
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: InternalCheckNull
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

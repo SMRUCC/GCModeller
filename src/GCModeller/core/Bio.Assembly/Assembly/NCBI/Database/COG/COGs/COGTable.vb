@@ -33,9 +33,11 @@
 
     '     Class COGTable
     ' 
-    '         Function: GI2COGs, LoadCsv, ToString
+    '         Properties: COGId, DomainID, Ends, GenomeName, Membership
+    '                     ProteinID, ProteinLength, Start
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: GI2COGs, LoadCsv, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -41,6 +41,8 @@
     ' 
     '     Class I_BlastQueryHit
     ' 
+    '         Properties: BBH_ID, HitName, Matched, QueryName, SelfHit
+    ' 
     '         Function: ToString
     ' 
     ' 

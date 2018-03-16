@@ -33,11 +33,10 @@
 
     '     Module MotifMatchMast
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) __fill, __getPath, __parallelBatch, __toSites, (+4 Overloads) AssignContext
     '                   BatchCompile, BatchCompileDirectly, BuildVirtualFootprints, CompileDirectly, CompileSingle
-    '                   PreCompile
-    ' 
-    '         Sub: New
+    '                   MotifMatchCompile, PreCompile
     ' 
     ' 
     ' /********************************************************************************/

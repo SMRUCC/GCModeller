@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1649426cec1bc504da133a4c3007d0ac, data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
+﻿#Region "Microsoft.VisualBasic::3beaa7c6952b24e84f5eeefe6ffa51d3, data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class attenuator
     ' 
+    '     Properties: attenuator_id, attenuator_strand, attenuator_type, gene_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `attenuator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class attenuator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("attenuator_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property attenuator_id As String
-    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("attenuator_type"), DataType(MySqlDbType.VarChar, "16")> Public Property attenuator_type As String
-    <DatabaseField("attenuator_strand"), DataType(MySqlDbType.VarChar, "12")> Public Property attenuator_strand As String
+    <DatabaseField("attenuator_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="attenuator_id")> Public Property attenuator_id As String
+    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("attenuator_type"), DataType(MySqlDbType.VarChar, "16"), Column(Name:="attenuator_type")> Public Property attenuator_type As String
+    <DatabaseField("attenuator_strand"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="attenuator_strand")> Public Property attenuator_strand As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class attenuator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As attenuator
+                  Return DirectCast(MyClass.MemberwiseClone, attenuator)
+              End Function
 End Class
 
 
 End Namespace
+

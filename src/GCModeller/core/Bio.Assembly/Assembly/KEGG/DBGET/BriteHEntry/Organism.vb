@@ -33,7 +33,7 @@
 
     '     Module Organism
     ' 
-    '         Function: FillTaxonomyTable, GetBacteriaList, GetResource, IsSpeciesLevel
+    '         Function: (+2 Overloads) FillTaxonomyTable, GetBacteriaList, GetResource, IsSpeciesLevel
     ' 
     ' 
     ' /********************************************************************************/

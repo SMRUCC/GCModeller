@@ -33,7 +33,7 @@
 
     '     Class tRNA
     ' 
-    '         Properties: Codons, Table
+    '         Properties: Anticodon, Codons, Table
     ' 
     ' 
     ' /********************************************************************************/

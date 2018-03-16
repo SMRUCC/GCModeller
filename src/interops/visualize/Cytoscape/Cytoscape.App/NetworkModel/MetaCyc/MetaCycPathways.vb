@@ -33,16 +33,16 @@
 
     ' Class MetaCycPathways
     ' 
-    '     Properties: AssociatedGenes, ContiansSubPathway, Identifier, MetaCycBaseType, ReactionList
-    '                 SuperPathway
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: __generatePwy, CreateGeneCollection, GenerateReport, Performance
+    '     Class Pathway
     ' 
-    '     Function: __generatePwy, Performance, ToString
+    '         Properties: AssociatedGenes, ContiansSubPathway, Identifier, MetaCycBaseType, ReactionList
+    '                     SuperPathway
     ' 
-    '     Sub: New
+    '         Function: ToString
     ' 
-    '  
     ' 
-    '     Function: CreateGeneCollection, GenerateReport
     ' 
     ' /********************************************************************************/
 

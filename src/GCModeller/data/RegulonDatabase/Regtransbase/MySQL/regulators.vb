@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea09a3a4657500bab8686af434fea548, data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
+﻿#Region "Microsoft.VisualBasic::063c21c67571c3eff74b192fe283f117, data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class regulators
     ' 
+    '     Properties: art_guid, consensus, descript, family, fl_prot_rna
+    '                 fl_real_name, gene_guid, genome_guid, last_update, name
+    '                 pkg_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4
+    '                 regulator_guid, regulator_type_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -92,7 +100,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -129,23 +136,23 @@ CREATE TABLE `regulators` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class regulators: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("regulator_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property regulator_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
-    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11")> Public Property genome_guid As Long
-    <DatabaseField("fl_prot_rna"), DataType(MySqlDbType.Int64, "1")> Public Property fl_prot_rna As Long
-    <DatabaseField("regulator_type_guid"), DataType(MySqlDbType.Int64, "11")> Public Property regulator_type_guid As Long
-    <DatabaseField("gene_guid"), DataType(MySqlDbType.Int64, "11")> Public Property gene_guid As Long
-    <DatabaseField("ref_bank1"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank1 As String
-    <DatabaseField("ref_bank2"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank2 As String
-    <DatabaseField("ref_bank3"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank3 As String
-    <DatabaseField("ref_bank4"), DataType(MySqlDbType.VarChar, "255")> Public Property ref_bank4 As String
-    <DatabaseField("consensus"), DataType(MySqlDbType.VarChar, "50")> Public Property consensus As String
-    <DatabaseField("family"), DataType(MySqlDbType.VarChar, "20")> Public Property family As String
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
-    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_update As Date
+    <DatabaseField("regulator_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="regulator_guid"), XmlAttribute> Public Property regulator_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
+    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="genome_guid")> Public Property genome_guid As Long
+    <DatabaseField("fl_prot_rna"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_prot_rna")> Public Property fl_prot_rna As Long
+    <DatabaseField("regulator_type_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="regulator_type_guid")> Public Property regulator_type_guid As Long
+    <DatabaseField("gene_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="gene_guid")> Public Property gene_guid As Long
+    <DatabaseField("ref_bank1"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank1")> Public Property ref_bank1 As String
+    <DatabaseField("ref_bank2"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank2")> Public Property ref_bank2 As String
+    <DatabaseField("ref_bank3"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank3")> Public Property ref_bank3 As String
+    <DatabaseField("ref_bank4"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ref_bank4")> Public Property ref_bank4 As String
+    <DatabaseField("consensus"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="consensus")> Public Property consensus As String
+    <DatabaseField("family"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="family")> Public Property family As String
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
+    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_update")> Public Property last_update As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -168,7 +175,7 @@ Public Class regulators: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(INSERT_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 
 ''' <summary>
@@ -185,7 +192,7 @@ Public Class regulators: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(REPLACE_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -193,10 +200,14 @@ Public Class regulators: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, DataType.ToMySqlDateTimeString(last_update), regulator_guid)
+        Return String.Format(UPDATE_SQL, regulator_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, fl_prot_rna, regulator_type_guid, gene_guid, ref_bank1, ref_bank2, ref_bank3, ref_bank4, consensus, family, descript, MySqlScript.ToMySqlDateTimeString(last_update), regulator_guid)
     End Function
 #End Region
+Public Function Clone() As regulators
+                  Return DirectCast(MyClass.MemberwiseClone, regulators)
+              End Function
 End Class
 
 
 End Namespace
+

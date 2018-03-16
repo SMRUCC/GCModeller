@@ -35,9 +35,8 @@
     ' 
     '         Properties: BitScore, EValue, Location, Name, Position
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CopyTo, GetInteractionDomains, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

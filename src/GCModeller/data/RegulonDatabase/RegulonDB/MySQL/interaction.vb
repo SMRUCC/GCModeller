@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29bc6529dbfe8db6be6b256da653e396, data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
+﻿#Region "Microsoft.VisualBasic::a935f06d224d4652c0e27d04f7df81ce, data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class interaction
     ' 
+    '     Properties: affinity_exp, center_position, interaction_first_gene_id, interaction_function, interaction_id
+    '                 interaction_internal_comment, interaction_note, interaction_sequence, key_id_org, promoter_id
+    '                 regulator_id, site_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -76,7 +83,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,18 +103,18 @@ CREATE TABLE `interaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property interaction_id As String
-    <DatabaseField("regulator_id"), DataType(MySqlDbType.VarChar, "12")> Public Property regulator_id As String
-    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12")> Public Property promoter_id As String
-    <DatabaseField("site_id"), DataType(MySqlDbType.VarChar, "12")> Public Property site_id As String
-    <DatabaseField("interaction_function"), DataType(MySqlDbType.VarChar, "12")> Public Property interaction_function As String
-    <DatabaseField("center_position"), DataType(MySqlDbType.Decimal)> Public Property center_position As Decimal
-    <DatabaseField("interaction_first_gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property interaction_first_gene_id As String
-    <DatabaseField("affinity_exp"), DataType(MySqlDbType.Decimal)> Public Property affinity_exp As Decimal
-    <DatabaseField("interaction_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property interaction_note As String
-    <DatabaseField("interaction_internal_comment"), DataType(MySqlDbType.Text)> Public Property interaction_internal_comment As String
-    <DatabaseField("interaction_sequence"), DataType(MySqlDbType.VarChar, "100")> Public Property interaction_sequence As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="interaction_id")> Public Property interaction_id As String
+    <DatabaseField("regulator_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="regulator_id")> Public Property regulator_id As String
+    <DatabaseField("promoter_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="promoter_id")> Public Property promoter_id As String
+    <DatabaseField("site_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="site_id")> Public Property site_id As String
+    <DatabaseField("interaction_function"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="interaction_function")> Public Property interaction_function As String
+    <DatabaseField("center_position"), DataType(MySqlDbType.Decimal), Column(Name:="center_position")> Public Property center_position As Decimal
+    <DatabaseField("interaction_first_gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="interaction_first_gene_id")> Public Property interaction_first_gene_id As String
+    <DatabaseField("affinity_exp"), DataType(MySqlDbType.Decimal), Column(Name:="affinity_exp")> Public Property affinity_exp As Decimal
+    <DatabaseField("interaction_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="interaction_note")> Public Property interaction_note As String
+    <DatabaseField("interaction_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="interaction_internal_comment")> Public Property interaction_internal_comment As String
+    <DatabaseField("interaction_sequence"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="interaction_sequence")> Public Property interaction_sequence As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -159,7 +165,11 @@ Public Class interaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As interaction
+                  Return DirectCast(MyClass.MemberwiseClone, interaction)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbb6a06408a3bcfc1b43cb547a932f66, data\RegulonDatabase\RegulonDB\MySQL\gene_product_link.vb"
+﻿#Region "Microsoft.VisualBasic::e2fafe08e9538dcdf4f7bd89ce901cef, data\RegulonDatabase\RegulonDB\MySQL\gene_product_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class gene_product_link
     ' 
+    '     Properties: gene_id, product_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -66,7 +71,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `gene_product_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gene_product_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property product_id As String
+    <DatabaseField("gene_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="product_id")> Public Property product_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class gene_product_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTa
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As gene_product_link
+                  Return DirectCast(MyClass.MemberwiseClone, gene_product_link)
+              End Function
 End Class
 
 
 End Namespace
+

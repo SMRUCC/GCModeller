@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ad7ea70921735efb6334fc59c6e71b8, RDotNET\R.NET\Dynamic\ListDynamicMeta.vb"
+﻿#Region "Microsoft.VisualBasic::e7bd93b050ba08b098b6b8ad349d78bf, RDotNET\R.NET\Dynamic\ListDynamicMeta.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' 	Class ListDynamicMeta
     ' 
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 	    Function: BindGetMember, GetDynamicMemberNames, GetNames
-    ' 
-    ' 	    Sub: New
     ' 
     ' 
     ' /********************************************************************************/

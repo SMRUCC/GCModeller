@@ -33,6 +33,8 @@
 
     ' Class channelwidcompoundwid
     ' 
+    '     Properties: ChannelWID, CompoundWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

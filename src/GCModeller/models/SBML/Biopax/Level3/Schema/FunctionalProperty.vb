@@ -41,7 +41,7 @@
     ' 
     '     Class [Class]
     ' 
-    '         Properties: disjointWith, unionOf
+    '         Properties: disjointWith, subClassOf, unionOf
     ' 
     '     Class subClassOf
     ' 
@@ -53,11 +53,11 @@
     ' 
     '     Class unionOf
     ' 
-    ' 
+    '         Properties: [Class]
     ' 
     '     Class InverseFunctionalProperty
     ' 
-    '         Properties: domain, inverseOf
+    '         Properties: domain, inverseOf, type
     ' 
     ' 
     ' /********************************************************************************/

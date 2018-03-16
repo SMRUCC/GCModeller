@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73b691c30296593917c90f5ce48e884e, RDotNET\R.NET\LogicalMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::ee94fece0b295d207c963154d48094c9, RDotNET\R.NET\LogicalMatrix.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: DataSize, Item
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast
     ' 
-    '     Sub: InitMatrixFastDirect, (+3 Overloads) New
+    '     Sub: InitMatrixFastDirect
     ' 
     ' /********************************************************************************/
 

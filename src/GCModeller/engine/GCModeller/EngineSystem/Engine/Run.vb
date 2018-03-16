@@ -36,9 +36,8 @@
     '         Function: Invoke
     '         Class KernelInitializer
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: CheckArguments, InitializeKernel, InitializeModellerEngine, LoadModules
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

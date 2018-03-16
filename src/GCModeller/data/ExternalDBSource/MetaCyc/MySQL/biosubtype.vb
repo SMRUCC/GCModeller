@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc4dd02c9d5b343c6d20dce2db9785a6, data\ExternalDBSource\MetaCyc\MySQL\biosubtype.vb"
+﻿#Region "Microsoft.VisualBasic::99ec9cc3d199e61366d2713c79a8aa4f, data\ExternalDBSource\MetaCyc\MySQL\biosubtype.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class biosubtype
     ' 
+    '     Properties: DataSetWID, Type, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,10 +91,10 @@ CREATE TABLE `biosubtype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class biosubtype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "25")> Public Property Type As String
-    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property Value As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="Value")> Public Property Value As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +145,11 @@ Public Class biosubtype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Type, Value, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As biosubtype
+                  Return DirectCast(MyClass.MemberwiseClone, biosubtype)
+              End Function
 End Class
 
 
 End Namespace
+

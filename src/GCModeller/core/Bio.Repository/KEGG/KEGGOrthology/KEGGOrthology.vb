@@ -35,10 +35,12 @@
     ' 
     '     Properties: Repository
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __copy, __ko_genes_index, BuildLocus2KOIndex, EnumerateKO, FileCopy
     '               IndexSubMatch
     ' 
-    '     Sub: __locus2KO, BuildLocusIndex, New
+    '     Sub: __locus2KO, BuildLocusIndex
     ' 
     ' /********************************************************************************/
 

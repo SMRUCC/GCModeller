@@ -35,7 +35,8 @@
     ' 
     '         Properties: TemplateFolder
     ' 
-    '         Sub: New, WriteExcelTemplate
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: WriteExcelTemplate
     ' 
     ' 
     ' /********************************************************************************/

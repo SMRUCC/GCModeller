@@ -33,9 +33,11 @@
 
     '     Class Reaction
     ' 
-    '         Properties: __ObjectiveCoefficient, DynamicsRegulators, Equation, Identifier, IFBAC2_LOWER_BOUND
-    '                     IFBAC2_UPPER_BOUND, IsEnzymaticMetabolismFlux, LOWER_BOUND, Metabolites, Products
-    '                     Reactants, Substrates, TCSCrossTalk, UPPER_BOUND
+    '         Properties: __ObjectiveCoefficient, DynamicsRegulators, EC, Enzymes, Equation
+    '                     Identifier, IFBAC2_LOWER_BOUND, IFBAC2_UPPER_BOUND, IsEnzymaticMetabolismFlux, LOWER_BOUND
+    '                     Metabolites, Name, ObjectiveCoefficient, p_Dynamics_K_1, p_Dynamics_K_2
+    '                     Products, Reactants, Reversible, Substrates, TCSCrossTalk
+    '                     UPPER_BOUND
     ' 
     '         Function: _add_Regulator, CastTo, get_Regulators, GetStoichiometry, ToString
     '         Structure Parameter

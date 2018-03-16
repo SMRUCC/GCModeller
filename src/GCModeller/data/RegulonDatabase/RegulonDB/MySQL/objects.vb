@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe501170f48adc94f98d14a74e7b228d, data\RegulonDatabase\RegulonDB\MySQL\objects.vb"
+﻿#Region "Microsoft.VisualBasic::067d22d73445aa47d6de4e898bf13581, data\RegulonDatabase\RegulonDB\MySQL\objects.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class objects
     ' 
+    '     Properties: object_description, object_id, object_table_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `objects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class objects: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("object_id"), DataType(MySqlDbType.Decimal)> Public Property object_id As Decimal
-    <DatabaseField("object_description"), DataType(MySqlDbType.VarChar, "4000")> Public Property object_description As String
-    <DatabaseField("object_table_name"), DataType(MySqlDbType.VarChar, "50")> Public Property object_table_name As String
+    <DatabaseField("object_id"), DataType(MySqlDbType.Decimal), Column(Name:="object_id")> Public Property object_id As Decimal
+    <DatabaseField("object_description"), DataType(MySqlDbType.VarChar, "4000"), Column(Name:="object_description")> Public Property object_description As String
+    <DatabaseField("object_table_name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="object_table_name")> Public Property object_table_name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class objects: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As objects
+                  Return DirectCast(MyClass.MemberwiseClone, objects)
+              End Function
 End Class
 
 
 End Namespace
+

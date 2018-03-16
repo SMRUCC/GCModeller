@@ -33,6 +33,9 @@
 
     ' Class gellocation
     ' 
+    '     Properties: DatasetWID, ExperimentWID, refGel, SpotWID, WID
+    '                 Xcoord, Ycoord
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

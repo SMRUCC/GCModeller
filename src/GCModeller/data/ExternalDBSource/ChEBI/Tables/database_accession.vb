@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b91bd7e3bea265b302b0bd9e786d7a2, data\ExternalDBSource\ChEBI\Tables\database_accession.vb"
+﻿#Region "Microsoft.VisualBasic::01430b894a021a93241be7a10a82a409, data\ExternalDBSource\ChEBI\Tables\database_accession.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class database_accession
     ' 
+    '     Properties: accession_number, compound_id, id, source, type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -72,7 +77,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `database_accession` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class database_accession: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("accession_number"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property accession_number As String
-    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text)> Public Property type As String
-    <DatabaseField("source"), NotNull, DataType(MySqlDbType.Text)> Public Property source As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("accession_number"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="accession_number")> Public Property accession_number As String
+    <DatabaseField("type"), NotNull, DataType(MySqlDbType.Text), Column(Name:="type")> Public Property type As String
+    <DatabaseField("source"), NotNull, DataType(MySqlDbType.Text), Column(Name:="source")> Public Property source As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class database_accession: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, id, compound_id, accession_number, type, source, id)
     End Function
 #End Region
+Public Function Clone() As database_accession
+                  Return DirectCast(MyClass.MemberwiseClone, database_accession)
+              End Function
 End Class
 
 
 End Namespace
+

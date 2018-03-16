@@ -33,6 +33,8 @@
 
     '     Class Whog
     ' 
+    '         Properties: Categories
+    ' 
     '         Function: [Imports], __assignInvoke, FindByCogId, MatchCogCategory, Save
     ' 
     ' 

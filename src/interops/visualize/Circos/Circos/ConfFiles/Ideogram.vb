@@ -35,9 +35,8 @@
     ' 
     '         Properties: Ideogram
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Build
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

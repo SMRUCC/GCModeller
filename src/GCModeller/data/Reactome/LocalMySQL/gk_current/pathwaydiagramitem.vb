@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9d43f24dab781e90325706777bb276e, data\Reactome\LocalMySQL\gk_current\pathwaydiagramitem.vb"
+﻿#Region "Microsoft.VisualBasic::9c491e0b71c8119164c643c02df671e6, data\Reactome\LocalMySQL\gk_current\pathwaydiagramitem.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwaydiagramitem
     ' 
+    '     Properties: DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -66,7 +71,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,7 +81,7 @@ CREATE TABLE `pathwaydiagramitem` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class pathwaydiagramitem: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -128,7 +132,11 @@ Public Class pathwaydiagramitem: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, DB_ID, DB_ID)
     End Function
 #End Region
+Public Function Clone() As pathwaydiagramitem
+                  Return DirectCast(MyClass.MemberwiseClone, pathwaydiagramitem)
+              End Function
 End Class
 
 
 End Namespace
+

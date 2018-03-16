@@ -35,10 +35,10 @@
     ' 
     '     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
     '                 CodonChange, CodonNumber, Coverage, gene, Intervals
-    '                 Length, Name, note, PolymorphismType, PositionWithinCodon
-    '                 product, protein_id, ProteinEffect, ReferenceFrequency, ReferenceNucleotides
-    '                 SignificantStrandBias, Site, StrandBias, TotalLength, VariantFrequency
-    '                 VariantNucleotides, VariantRawFrequency, VariantSequences
+    '                 Left, Length, Name, note, PolymorphismType
+    '                 PositionWithinCodon, product, protein_id, ProteinEffect, ReferenceFrequency
+    '                 ReferenceNucleotides, Right, SignificantStrandBias, Site, StrandBias
+    '                 TotalLength, VariantFrequency, VariantNucleotides, VariantRawFrequency, VariantSequences
     ' 
     ' /********************************************************************************/
 

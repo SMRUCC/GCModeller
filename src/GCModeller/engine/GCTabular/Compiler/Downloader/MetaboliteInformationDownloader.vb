@@ -33,9 +33,8 @@
 
     '     Class MetaboliteInformationDownloader
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Match
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

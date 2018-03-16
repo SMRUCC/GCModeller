@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1a396561b703d0651920e4e36f23dfb, data\Reactome\LocalMySQL\gk_current_dn\physicalentityhierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::a78af0d4cb147577db34933919ed24e7, data\Reactome\LocalMySQL\gk_current_dn\physicalentityhierarchy.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class physicalentityhierarchy
     ' 
+    '     Properties: childPhysicalEntityId, physicalEntityId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -68,7 +73,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,8 +85,8 @@ CREATE TABLE `physicalentityhierarchy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class physicalentityhierarchy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("physicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property physicalEntityId As Long
-    <DatabaseField("childPhysicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property childPhysicalEntityId As Long
+    <DatabaseField("physicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="physicalEntityId"), XmlAttribute> Public Property physicalEntityId As Long
+    <DatabaseField("childPhysicalEntityId"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="childPhysicalEntityId"), XmlAttribute> Public Property childPhysicalEntityId As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -133,7 +137,11 @@ Public Class physicalentityhierarchy: Inherits Oracle.LinuxCompatibility.MySQL.M
         Return String.Format(UPDATE_SQL, physicalEntityId, childPhysicalEntityId, physicalEntityId, childPhysicalEntityId)
     End Function
 #End Region
+Public Function Clone() As physicalentityhierarchy
+                  Return DirectCast(MyClass.MemberwiseClone, physicalentityhierarchy)
+              End Function
 End Class
 
 
 End Namespace
+

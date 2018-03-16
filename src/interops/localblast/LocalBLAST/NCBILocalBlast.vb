@@ -35,10 +35,10 @@
     ' 
     '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
     '               (+2 Overloads) BlastX, ClassifyEnzyme, CreateGrepScript, CreateSession, (+2 Overloads) Export_BidirBesthit
-    '               ExportBesthit, ExportBesthits, ExportOverviewCsv, Grephits, GrepQuery
-    '               LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview
-    '               LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH
-    '               SaveBlastOutput, Version, WriteBesthit
+    '               ExportBesthit, ExportBesthits, ExportOverviewCsv, FastCheckIntegrityProvider, Grephits
+    '               GrepQuery, LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput
+    '               LoadOverview, LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG
+    '               SaveBBH, SaveBlastOutput, Version, WriteBesthit
     ' 
     ' /********************************************************************************/
 

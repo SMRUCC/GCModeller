@@ -35,10 +35,12 @@
     ' 
     '         Properties: [Class], Category, EC, Entry, SubCategory
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __getDIR, __rxns, __source, __trimInner, Build
     '                   DownloadReactions, LoadFile, LoadFromResource, ToString
     ' 
-    '         Sub: __downloadInternal, New
+    '         Sub: __downloadInternal
     ' 
     ' 
     ' /********************************************************************************/

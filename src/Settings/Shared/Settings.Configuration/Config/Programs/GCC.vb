@@ -33,8 +33,10 @@
 
     '     Class GCC
     ' 
-    ' 
+    '         Properties: Filters
     '         Structure Replacement
+    ' 
+    '             Properties: NewReplaced, Old
     ' 
     '             Function: ToString
     ' 

@@ -33,6 +33,8 @@
 
     ' Class spotidmethod
     ' 
+    '     Properties: DatasetWID, MethodAbbrev, MethodDesc, MethodName, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

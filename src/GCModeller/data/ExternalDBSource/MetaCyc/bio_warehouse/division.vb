@@ -33,6 +33,8 @@
 
     ' Class division
     ' 
+    '     Properties: Code, DataSetWID, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

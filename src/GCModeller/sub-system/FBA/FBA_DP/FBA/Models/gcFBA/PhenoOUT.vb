@@ -35,11 +35,12 @@
     ' 
     '         Properties: Properties
     ' 
-    '         Sub: AddLowerBound, AddUpperBound, (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Sub: AddLowerBound, AddUpperBound
     ' 
     '     Class RPKMStat
     ' 
-    '         Properties: Locus
+    '         Properties: Locus, Properties
     ' 
     '         Function: ToString
     ' 

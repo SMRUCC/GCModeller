@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8fe7d36743fc27ff56d3b1e9c8ef927, data\Reactome\LocalMySQL\gk_current\summation_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::360e0cda7c20d1cb5c61f44c46ff876f, data\Reactome\LocalMySQL\gk_current\summation_2_literaturereference.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class summation_2_literaturereference
     ' 
+    '     Properties: DB_ID, literatureReference, literatureReference_class, literatureReference_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `summation_2_literaturereference` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class summation_2_literaturereference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("literatureReference_rank"), DataType(MySqlDbType.Int64, "10")> Public Property literatureReference_rank As Long
-    <DatabaseField("literatureReference"), DataType(MySqlDbType.Int64, "10")> Public Property literatureReference As Long
-    <DatabaseField("literatureReference_class"), DataType(MySqlDbType.VarChar, "64")> Public Property literatureReference_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("literatureReference_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="literatureReference_rank")> Public Property literatureReference_rank As Long
+    <DatabaseField("literatureReference"), DataType(MySqlDbType.Int64, "10"), Column(Name:="literatureReference")> Public Property literatureReference As Long
+    <DatabaseField("literatureReference_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="literatureReference_class")> Public Property literatureReference_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class summation_2_literaturereference: Inherits Oracle.LinuxCompatibility
         Return String.Format(UPDATE_SQL, DB_ID, literatureReference_rank, literatureReference, literatureReference_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As summation_2_literaturereference
+                  Return DirectCast(MyClass.MemberwiseClone, summation_2_literaturereference)
+              End Function
 End Class
 
 
 End Namespace
+

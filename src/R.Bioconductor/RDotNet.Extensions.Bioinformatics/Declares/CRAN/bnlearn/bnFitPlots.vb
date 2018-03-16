@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a99916aa7b98650a06cfdfb272f9994, RDotNet.Extensions.Bioinformatics\Declares\bnlearn\bnFitPlots.vb"
+﻿#Region "Microsoft.VisualBasic::b64ef447121e3ce3403f9622beb790de, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\bnFitPlots.vb"
 
     ' Author:
     ' 
@@ -35,29 +35,29 @@
     ' 
     '         Properties: fitted, main, xlab, ylab
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class bnFitQqplot
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class bnFitHistogram
     ' 
-    '     Properties: density
+    '         Properties: density
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class bnFitxyplot
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class bnFitBarchart
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '  
+    '     Class bnFitDotplot
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::770428f27e69c3a315a5e270f60bd9a9, data\ExternalDBSource\MetaCyc\MySQL\zonegroup.vb"
+﻿#Region "Microsoft.VisualBasic::39a2d622357c4d8c7ca6cc6971a4bf19, data\ExternalDBSource\MetaCyc\MySQL\zonegroup.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class zonegroup
     ' 
+    '     Properties: DataSetWID, PhysicalArrayDesign_ZoneGroups, SpacingsBetweenZonesX, SpacingsBetweenZonesY, WID
+    '                 ZoneGroup_DistanceUnit, ZoneGroup_ZoneLayout, ZonesPerX, ZonesPerY
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -82,7 +88,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -109,15 +114,15 @@ CREATE TABLE `zonegroup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class zonegroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("PhysicalArrayDesign_ZoneGroups"), DataType(MySqlDbType.Int64, "20")> Public Property PhysicalArrayDesign_ZoneGroups As Long
-    <DatabaseField("SpacingsBetweenZonesX"), DataType(MySqlDbType.Double)> Public Property SpacingsBetweenZonesX As Double
-    <DatabaseField("SpacingsBetweenZonesY"), DataType(MySqlDbType.Double)> Public Property SpacingsBetweenZonesY As Double
-    <DatabaseField("ZonesPerX"), DataType(MySqlDbType.Int64, "6")> Public Property ZonesPerX As Long
-    <DatabaseField("ZonesPerY"), DataType(MySqlDbType.Int64, "6")> Public Property ZonesPerY As Long
-    <DatabaseField("ZoneGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20")> Public Property ZoneGroup_DistanceUnit As Long
-    <DatabaseField("ZoneGroup_ZoneLayout"), DataType(MySqlDbType.Int64, "20")> Public Property ZoneGroup_ZoneLayout As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("PhysicalArrayDesign_ZoneGroups"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PhysicalArrayDesign_ZoneGroups")> Public Property PhysicalArrayDesign_ZoneGroups As Long
+    <DatabaseField("SpacingsBetweenZonesX"), DataType(MySqlDbType.Double), Column(Name:="SpacingsBetweenZonesX")> Public Property SpacingsBetweenZonesX As Double
+    <DatabaseField("SpacingsBetweenZonesY"), DataType(MySqlDbType.Double), Column(Name:="SpacingsBetweenZonesY")> Public Property SpacingsBetweenZonesY As Double
+    <DatabaseField("ZonesPerX"), DataType(MySqlDbType.Int64, "6"), Column(Name:="ZonesPerX")> Public Property ZonesPerX As Long
+    <DatabaseField("ZonesPerY"), DataType(MySqlDbType.Int64, "6"), Column(Name:="ZonesPerY")> Public Property ZonesPerY As Long
+    <DatabaseField("ZoneGroup_DistanceUnit"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ZoneGroup_DistanceUnit")> Public Property ZoneGroup_DistanceUnit As Long
+    <DatabaseField("ZoneGroup_ZoneLayout"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ZoneGroup_ZoneLayout")> Public Property ZoneGroup_ZoneLayout As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -168,7 +173,11 @@ Public Class zonegroup: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, PhysicalArrayDesign_ZoneGroups, SpacingsBetweenZonesX, SpacingsBetweenZonesY, ZonesPerX, ZonesPerY, ZoneGroup_DistanceUnit, ZoneGroup_ZoneLayout, WID)
     End Function
 #End Region
+Public Function Clone() As zonegroup
+                  Return DirectCast(MyClass.MemberwiseClone, zonegroup)
+              End Function
 End Class
 
 
 End Namespace
+

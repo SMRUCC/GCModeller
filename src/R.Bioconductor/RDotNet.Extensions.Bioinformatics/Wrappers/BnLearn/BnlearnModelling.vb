@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5088472e5d7b97309d9255c6f32c7739, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\BnlearnModelling.vb"
+﻿#Region "Microsoft.VisualBasic::adbb992226ad0d0f0dd8a63f2c427f87, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\BnlearnModelling.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     '     Class BnlearnModelling
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __R_script, BuildDataFile, Convert, createNetwork
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

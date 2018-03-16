@@ -33,7 +33,7 @@
 
     '     Class IMapBuilder
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Component
     ' 
@@ -41,7 +41,7 @@
     ' 
     '     Class ComponentInteraction
     ' 
-    '         Properties: InteractionType
+    '         Properties: InteractionType, value
     ' 
     '         Function: ShadowCopy
     ' 

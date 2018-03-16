@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46e8a79eca0f5e40bc48467f198682f2, data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
+﻿#Region "Microsoft.VisualBasic::d19ca50c669d9ee4b077347c26c457c4, data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class positiondelta
     ' 
+    '     Properties: DataSetWID, DeltaX, DeltaY, PositionDelta_DistanceUnit, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -74,7 +79,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,11 +97,11 @@ CREATE TABLE `positiondelta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class positiondelta: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("DeltaX"), DataType(MySqlDbType.Double)> Public Property DeltaX As Double
-    <DatabaseField("DeltaY"), DataType(MySqlDbType.Double)> Public Property DeltaY As Double
-    <DatabaseField("PositionDelta_DistanceUnit"), DataType(MySqlDbType.Int64, "20")> Public Property PositionDelta_DistanceUnit As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("DeltaX"), DataType(MySqlDbType.Double), Column(Name:="DeltaX")> Public Property DeltaX As Double
+    <DatabaseField("DeltaY"), DataType(MySqlDbType.Double), Column(Name:="DeltaY")> Public Property DeltaY As Double
+    <DatabaseField("PositionDelta_DistanceUnit"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PositionDelta_DistanceUnit")> Public Property PositionDelta_DistanceUnit As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -148,7 +152,11 @@ Public Class positiondelta: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, DeltaX, DeltaY, PositionDelta_DistanceUnit, WID)
     End Function
 #End Region
+Public Function Clone() As positiondelta
+                  Return DirectCast(MyClass.MemberwiseClone, positiondelta)
+              End Function
 End Class
 
 
 End Namespace
+

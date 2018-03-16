@@ -33,14 +33,12 @@
 
     '     Class EqualsOperation
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals, Initialize, SelectFromReconstructed, SelectFromSubject
-    ' 
-    '         Sub: New
     '         Class ObjectSchema
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: ToString
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class superpathway
     ' 
+    '     Properties: SubPathwayWID, SuperPathwayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class imagewidchannelwid
     ' 
+    '     Properties: ChannelWID, ImageWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

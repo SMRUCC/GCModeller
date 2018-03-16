@@ -35,9 +35,11 @@
     ' 
     '         Properties: IsReady, LeftKicks
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ToString
     ' 
-    '         Sub: New, Tick
+    '         Sub: Tick
     ' 
     ' 
     ' /********************************************************************************/

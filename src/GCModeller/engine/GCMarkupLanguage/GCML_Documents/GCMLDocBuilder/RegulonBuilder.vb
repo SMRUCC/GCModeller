@@ -33,9 +33,8 @@
 
     '     Class RegulonBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Invoke
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

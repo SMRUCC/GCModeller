@@ -33,6 +33,8 @@
 
     ' Class locus2rtbarticles
     ' 
+    '     Properties: locusId, pubMedId, wetExp
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

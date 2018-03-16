@@ -36,13 +36,15 @@
     '         Properties: DataSource, DEBUG_TagId, Identifier, PBS_MMF_DATA, Quantity
     '                     SerialsHandle, TypeId
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) CreateObject, SetFluxValue, ToString
     ' 
-    '         Sub: New, set_Tag
+    '         Sub: set_Tag
     ' 
     '     Class IDisposableCompound
     ' 
-    ' 
+    '         Properties: CompositionVector, Lamda
     '         Enum DisposableCompoundTypes
     ' 
     '             Polypeptide, Transcripts
