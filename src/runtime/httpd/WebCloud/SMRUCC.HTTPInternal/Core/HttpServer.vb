@@ -35,10 +35,11 @@
     ' 
     '         Properties: BufferSize, IsRunning, localhost, LocalPort
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getProcessor, Run
     ' 
-    '         Sub: __accept, (+2 Overloads) Dispose, New, OpenAPI_HOME, RunTask
-    '              Shutdown
+    '         Sub: __accept, (+2 Overloads) Dispose, OpenAPI_HOME, RunTask, Shutdown
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,8 +35,9 @@
     ' 
     '         Properties: AppManager, EnginePlugins
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Sub: __finally, __handleREST, __init, __runDll, Dispose
-    '              handleOtherMethod, handlePOSTRequest, New
+    '              handleOtherMethod, handlePOSTRequest
     ' 
     ' 
     ' /********************************************************************************/

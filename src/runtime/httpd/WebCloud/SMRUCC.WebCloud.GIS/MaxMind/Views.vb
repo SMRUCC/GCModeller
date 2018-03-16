@@ -33,13 +33,20 @@
 
     '     Class Country
     ' 
+    '         Properties: CityLocations, continent_code, continent_name, country_iso_code, country_name
+    ' 
     '         Function: ToString
     ' 
     '     Class CityLocation
     ' 
+    '         Properties: city_name, GeographicLocations, geoname_id, metro_code, subdivision_1_iso_code
+    '                     subdivision_1_name, subdivision_2_iso_code, subdivision_2_name, time_zone
+    ' 
     '         Function: IPLocatedAtCity, ToString
     ' 
     '     Class GeographicLocation
+    ' 
+    '         Properties: CIDR, latitude, longitude, postal_code
     ' 
     '         Function: Locating, ToString
     ' 
@@ -47,9 +54,8 @@
     ' 
     '         Properties: CIDR, Invalid
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Locating, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

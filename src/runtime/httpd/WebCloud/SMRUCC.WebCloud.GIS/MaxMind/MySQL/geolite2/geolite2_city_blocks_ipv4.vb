@@ -33,6 +33,9 @@
 
     ' Class geolite2_city_blocks_ipv4
     ' 
+    '     Properties: accuracy_radius, geoname_id, is_anonymous_proxy, is_satellite_provider, latitude
+    '                 longitude, network, postal_code, registered_country_geoname_id, represented_country_geoname_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

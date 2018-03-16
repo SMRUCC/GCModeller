@@ -33,7 +33,7 @@
 
     '     Module NetworkGenerator
     ' 
-    '         Function: (+2 Overloads) FromRegulations, LoadJson
+    '         Function: FromNetwork, (+2 Overloads) FromRegulations, LoadJson
     ' 
     ' 
     ' /********************************************************************************/

@@ -31,13 +31,12 @@
 
     ' Summaries:
 
-    '  
+    ' Class FileSystem
     ' 
     '     Properties: DIR
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: listDIR, Page404
-    ' 
-    '     Sub: New
     ' 
     ' Structure File
     ' 

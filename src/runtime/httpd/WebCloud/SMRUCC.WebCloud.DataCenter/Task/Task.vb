@@ -38,9 +38,11 @@
     ' 
     '             Properties: Complete, TaskData, uid
     ' 
+    '             Constructor: (+1 Overloads) Sub New
+    ' 
     '             Function: GetProgress, Start, ToString
     ' 
-    '             Sub: (+2 Overloads) Dispose, New
+    '             Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' 

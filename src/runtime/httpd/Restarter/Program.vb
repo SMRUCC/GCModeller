@@ -33,9 +33,11 @@
 
     ' Module Program
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: RestartByInterval, RestartByTime
     ' 
-    '     Sub: Main, New, Restart
+    '     Sub: Main, Restart
     ' 
     ' Class Ini
     ' 
