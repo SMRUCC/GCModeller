@@ -158,7 +158,7 @@ Public Module FunctionalNetwork
                                            Function(key) nodeGroups(key))
         End If
 
-        Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
+        Dim nodePoints As Dictionary(Of Graph.Node, PointF) = Nothing
         Dim image As Image
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
@@ -187,7 +187,7 @@ Public Module FunctionalNetwork
             For Each pathway In nodeGroups.SeqIterator
                 Dim nodes = (+pathway).Value
                 Dim name$ = (+pathway).Key
-                Dim polygon As Point() = nodePoints.Selects(nodes)
+                Dim polygon As PointF() = nodePoints.Selects(nodes)
 
                 Try
                     polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
