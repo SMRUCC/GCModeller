@@ -147,7 +147,8 @@ Module CLI
             If Not zhCN.ContainsKey(value) Then
                 zhCN(value) = BingTranslation.GetTranslation(value) _
                     ?.Translations _
-                    ?.FirstOrDefault
+                    ?.FirstOrDefault _
+                    ?.Text
             End If
 
             row(i) = zhCN(value)
