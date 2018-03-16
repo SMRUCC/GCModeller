@@ -33,11 +33,16 @@
 
     '     Class Spacing
     ' 
+    '         Properties: [default], break
+    ' 
     '         Function: Build
     ' 
     '     Class Ideogram
     ' 
-    '         Properties: Spacing
+    '         Properties: band_stroke_thickness, fill, fill_bands, fill_color, label_case
+    '                     label_font, label_parallel, label_radius, label_size, radius
+    '                     show_bands, show_label, Spacing, stroke_color, stroke_thickness
+    '                     thickness
     ' 
     '         Function: Build
     ' 

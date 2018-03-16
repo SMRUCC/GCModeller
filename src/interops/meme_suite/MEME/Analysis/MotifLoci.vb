@@ -34,7 +34,7 @@
     '     Module MotifLoci
     ' 
     '         Function: __forwards, __getGene, __located, __reversed, GetTraningSet
-    '                   LoadMastSiteXml, Located
+    '                   LoadMastSiteXml, (+2 Overloads) Located
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,9 +33,12 @@
 
     '     Class Site
     ' 
-    '         Function: Copy
+    '         Properties: Ends, Evalue, Id, InformationContent, LogLikelihoodRatio
+    '                     Name, Pvalue, RegularExpression, RelativeEntropy, Start
+    '                     Width
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Copy
     ' 
     ' 
     ' /********************************************************************************/

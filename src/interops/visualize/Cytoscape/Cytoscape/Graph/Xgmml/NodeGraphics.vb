@@ -33,7 +33,9 @@
 
     '     Class NodeGraphics
     ' 
-    '         Properties: FillColor, LabelColor, NODE_LABEL_FONT_SIZE, radius
+    '         Properties: Fill, FillColor, h, LabelColor, NODE_LABEL_FONT_SIZE
+    '                     Outline, radius, Type, w, Width
+    '                     x, y, z
     ' 
     '         Function: GetLabelFont
     ' 

@@ -33,9 +33,8 @@
 
     '     Class MotifScans
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Mast, Match
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

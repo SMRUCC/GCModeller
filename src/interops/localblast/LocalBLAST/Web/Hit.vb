@@ -38,9 +38,8 @@
     '                     QueryID, QueryStart, SubjectAccVer, SubjectEnd, SubjectIDs
     '                     SubjectStart
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Mapper, SplitByHeaders, TopBest, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,9 +35,8 @@
     ' 
     '         Properties: Encoding, FileName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: IteratesAllHeaders, IteratesAllReads, SkipSAMHeaders, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

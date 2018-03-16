@@ -46,9 +46,10 @@
     ' 
     '     Class InitializeParameter
     ' 
-    '         Function: ToString
+    '         Properties: BlastBin, Program
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     '     Class PredictedRegulationFootprint
     ' 
+    '         Properties: MotifTrace, RegulatorTrace
+    ' 
     '         Function: __createRegulationObject, Clone, Copy, OperonRegulationCopies
     ' 
     ' 

@@ -35,9 +35,11 @@
     ' 
     '         Properties: DoorOperonView
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateObject, GetFASTA
     ' 
-    '         Sub: Dispose, InitalizeOperons, New
+    '         Sub: Dispose, InitalizeOperons
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,8 @@
 
     '     Class MEME
     ' 
-    ' 
+    '         Properties: h, IsDNA, IsProtein, IsTextOutput, OutputDir
+    '                     OutputDir2
     '         Enum Modes
     ' 
     '             anr, oops, zoops
@@ -58,9 +59,12 @@
     ' 
     '  
     ' 
-    '     Function: Invoke
+    '     Properties: BranchingFactor, Cons, Hs, MaxSize, NoStatus
+    '                 Np, sf, SpMap, Time, Verbose
+    '                 WBranch, XBranch
     ' 
-    '     Sub: New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: Invoke
     ' 
     ' 
     ' /********************************************************************************/

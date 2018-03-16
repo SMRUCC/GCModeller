@@ -36,10 +36,12 @@
     '         Properties: averageTranscriptLength, medianTranscriptLength, minDiffExpressionLevels, numTranscripts, totalAssembledBases
     '                     transcriptSequences
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: determineTranscripts, getReadCountAtIndex, getTranscript, ToString
     ' 
     '         Sub: computeDifferentialExpression, computeExpression, computeVarianceAndLowess, correctPvalues, identifySimilarConditions
-    '              merge, mergesort, (+2 Overloads) New
+    '              merge, mergesort
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,7 @@
 
     '     Class VizMap
     ' 
-    ' 
+    '         Properties: documentVersion, id, visualStyle
     ' 
     ' 
     ' /********************************************************************************/

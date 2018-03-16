@@ -33,7 +33,8 @@
 
     '     Class Motif
     ' 
-    '         Properties: MatchedSites, MotifId, RegularExpression
+    '         Properties: Evalue, Id, InformationContent, LogLikelihoodRatio, MatchedSites
+    '                     MotifId, RegularExpression, RelativeEntropy, Width
     ' 
     '         Function: ToString, TryParse
     ' 

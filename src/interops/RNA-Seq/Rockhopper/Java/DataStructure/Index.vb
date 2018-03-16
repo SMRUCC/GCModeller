@@ -35,9 +35,11 @@
     ' 
     '         Properties: numReplicons, randomSeed, stopAfterOneHit
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: charToInt, getReplicon, reverseComplement
     ' 
-    '         Sub: (+3 Overloads) exactMatch, (+2 Overloads) inexactMatch, Main, New
+    '         Sub: (+3 Overloads) exactMatch, (+2 Overloads) inexactMatch, Main
     ' 
     ' 
     ' /********************************************************************************/

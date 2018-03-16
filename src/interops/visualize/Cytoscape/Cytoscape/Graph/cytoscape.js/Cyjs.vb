@@ -42,9 +42,8 @@
     '         Properties: __Annotations, attributes, DynamicsSlot, id, name
     '                     selected, shared_name, SUID
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetAttrJson, Replace
-    ' 
-    '         Sub: New
     ' 
     '     Class Network
     ' 

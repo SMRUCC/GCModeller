@@ -33,9 +33,13 @@
 
     '     Class Parameters
     ' 
-    ' 
+    '         Properties: Expect, Filter, GapExtend, GapOpen, ScMatch
+    '                     ScMismatch
     ' 
     '     Class BlastOutput
+    ' 
+    '         Properties: Database, Iterations, Param, Program, QueryDef
+    '                     QueryId, QueryLen, Reference, Version
     ' 
     '         Function: __toHit, __toQuery, CheckIntegrity, ExportAllBestHist, ExportBestHit
     '                   ExportOverview, Grep, LoadFromFile, Save

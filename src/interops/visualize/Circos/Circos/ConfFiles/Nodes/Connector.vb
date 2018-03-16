@@ -33,9 +33,10 @@
 
     '     Class Connector
     ' 
-    '         Function: GetProperties
+    '         Properties: type
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: GetProperties
     ' 
     ' 
     ' /********************************************************************************/

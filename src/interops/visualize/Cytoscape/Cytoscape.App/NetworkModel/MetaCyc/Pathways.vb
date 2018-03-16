@@ -33,9 +33,11 @@
 
     '     Class Pathways
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Export, GenerateLinks
     ' 
-    '         Sub: Export, New
+    '         Sub: Export
     '         Class Pathway
     ' 
     '             Properties: CommonName, EnzymeCounts, GeneObjects, Identifier, ReactionCounts

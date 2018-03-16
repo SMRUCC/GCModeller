@@ -33,9 +33,8 @@
 
     '     Class GrepOperation
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: Grep
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

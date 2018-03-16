@@ -31,66 +31,100 @@
 
     ' Summaries:
 
-    '  
+    '     Class Model
     ' 
+    '         Properties: BackgroundFrequencies, Beta, Distance, EndGaps, EValueThreshold
+    '                     Maxiter, MaxSites, MaxWidth, MiniC, MinSites
+    '                     MinWidth, NumMotifs, NumPositions, NumSequences, ObjectFunction
+    '                     Prior, PriorsFile, Prob, ReasonForStopping, Seed
+    '                     SeqFrac, SpFuzz, SpMap, Strands, Type
+    '                     Wg, WnSites, Ws
     ' 
+    '     Class BackgroundFrequencies
     ' 
-    '  
+    '         Properties: AlphabetArray, Source
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
-    '  
+    '     Class AlphabetArray
     ' 
-    '     Function: GetValue, ToString
+    '         Properties: Values
     ' 
-    '  
+    '         Function: GetValue
+    '         Class Value
+    ' 
+    '             Properties: LetterId, Value
+    ' 
+    '             Function: ToString
     ' 
     ' 
     ' 
     '     Class Scores
     ' 
+    '         Properties: AlphabetMatrix
     ' 
+    '     Class Motif
     ' 
+    '         Properties: BayesThreshold, ContributingSites, ElapsedTime, EValue, Ic
+    '                     Id, Llr, Name, Probabilities, Re
+    '                     RegularExpression, Scores, Sites, Width
+    ' 
+    '         Function: GetEvalue, ToString
     '         Class ProbabilitiesArray
     ' 
-    '             Function: GetEvalue, ToString
+    '             Properties: AlphabetMatrix
     ' 
-    '  
+    '         Class ContributingSite
     ' 
-    '     Function: ToString
+    '             Properties: Id, LeftFlank, Position, PValue, RightFlank
+    '                         Site, Strand
     ' 
-    '  
+    '             Function: ToString
+    '             Class LetterRef
     ' 
-    '     Function: ToString
+    '                 Properties: Id
     ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: LoadDocument, ToMEMEHtml, ToString
-    ' 
-    '  
-    ' 
-    '     Function: ToString
-    ' 
-    '  
+    '                 Function: ToString
     ' 
     ' 
     ' 
-    '  
+    ' 
+    ' 
+    '     Class MEME
+    ' 
+    '         Properties: Model, Motifs, ScannedSitesSummary, TrainingSet
+    ' 
+    '         Function: LoadDocument, ToMEMEHtml, ToString
+    ' 
+    '     Class ScannedSitesSummary
+    ' 
+    '         Properties: pThresh, ScannedSites
+    '         Class ScannedSite
+    ' 
+    '             Properties: Id, NumSites, PValue, ScannedSites
+    '             Class ScannedSite
+    ' 
+    '                 Properties: MotifId, Position, PValue, Strand
+    ' 
+    '                 Function: ToString
+    ' 
+    ' 
     ' 
     ' 
     ' 
     '     Class TrainingSet
     ' 
+    '         Properties: Alphabet, Ambigs, DataFile, Length, LetterFrequencies
+    '                     Sequences
+    ' 
     '         Function: GetObject, ToString
     '         Class AmbigsArray
     ' 
-    ' 
+    '             Properties: Letters
     ' 
     '         Class Sequence
+    ' 
+    '             Properties: Id, Length, Name, Weight
     ' 
     '             Function: ToString
     ' 
@@ -98,12 +132,16 @@
     ' 
     '     Class LetterFrequencies
     ' 
-    ' 
+    '         Properties: AlphabetArray
     ' 
     '     Class Alphabet
     ' 
+    '         Properties: Id, Length, Letters
+    ' 
     '         Function: ToString
     '         Class Letter
+    ' 
+    '             Properties: Id, Symbol
     ' 
     '             Function: ToString
     ' 

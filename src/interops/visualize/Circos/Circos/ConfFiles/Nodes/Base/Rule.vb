@@ -33,6 +33,8 @@
 
     '     Class ConditionalRule
     ' 
+    '         Properties: color, condition
+    ' 
     '         Function: Build
     ' 
     ' 

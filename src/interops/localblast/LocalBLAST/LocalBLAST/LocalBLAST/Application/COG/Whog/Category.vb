@@ -33,7 +33,7 @@
 
     '     Class Category
     ' 
-    '         Properties: locus_tags
+    '         Properties: Category, COG_id, Description, IdList, locus_tags
     ' 
     '         Function: __parseList, ContainsGene, Find, Parse, ToString
     ' 

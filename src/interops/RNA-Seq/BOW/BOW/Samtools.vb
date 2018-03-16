@@ -33,11 +33,13 @@
 
     ' Module Samtools
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: Assembly, Bam2Sam, GetBitFLAGSDescription, Import, Index
     '               Indexing, ReadSam, Sam2Bam, SaveCsv, Sort
     '               Viewing
     ' 
-    '     Sub: __release, Assembly, New
+    '     Sub: __release, Assembly
     ' 
     ' /********************************************************************************/
 

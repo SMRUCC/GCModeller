@@ -33,6 +33,8 @@
 
     '     Class SiteInfo
     ' 
+    '         Properties: Ends, Name, Pvalue, Start
+    ' 
     '         Function: ToString, TryParse
     ' 
     ' 

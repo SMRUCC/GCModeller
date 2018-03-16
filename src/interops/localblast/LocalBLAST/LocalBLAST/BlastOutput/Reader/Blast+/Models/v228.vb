@@ -33,6 +33,8 @@
 
     '     Class v228
     ' 
+    '         Properties: ParameterSummary, Queries
+    ' 
     '         Function: Save
     '         Delegate Function
     ' 

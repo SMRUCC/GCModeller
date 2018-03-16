@@ -35,15 +35,15 @@
     ' 
     '         Properties: MAST_LDM
     ' 
-    '         Function: Export, IsRegulonCorrect, uid
-    ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: (+2 Overloads) __creates, Export, IsRegulonCorrect, uid
     ' 
     '     Class Regulon
     ' 
-    '         Properties: BiologicalProcess, Effector, Family, Hit, Mode
-    '                     Motif, Pathway, ref, Regulates, Regulator
-    '                     Trace
+    '         Properties: BiologicalProcess, Consensus, Distance, Edits, Effector
+    '                     Family, Gaps, Hit, HitMotif, Mode
+    '                     Motif, Pathway, ref, refLocus, Regulates
+    '                     Regulator, Score, Similarity, Trace
     ' 
     ' 
     ' /********************************************************************************/

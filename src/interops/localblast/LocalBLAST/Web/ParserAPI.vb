@@ -33,8 +33,8 @@
 
     '     Module AlignmentTableParserAPI
     ' 
-    '         Function: (+2 Overloads) __createFromBlastn, __hspHits, __parseTable, CreateFromBlastn, CreateFromBlastnFile
-    '                   CreateFromBlastnFiles, CreateFromBlastX, IterateTables, LoadTable
+    '         Function: (+2 Overloads) __createFromBlastn, __hits, __hspHits, __parseTable, CreateFromBlastn
+    '                   CreateFromBlastnFile, CreateFromBlastnFiles, CreateFromBlastX, IterateTables, LoadTable
     ' 
     ' 
     ' /********************************************************************************/

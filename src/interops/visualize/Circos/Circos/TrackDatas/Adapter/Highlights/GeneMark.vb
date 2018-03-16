@@ -35,9 +35,11 @@
     ' 
     '         Properties: COGColors
     ' 
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
     '         Function: LegendsDrawing
     ' 
-    '         Sub: __motifSitesCommon, (+4 Overloads) New
+    '         Sub: __motifSitesCommon
     ' 
     ' 
     ' /********************************************************************************/

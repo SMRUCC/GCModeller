@@ -33,12 +33,14 @@
 
     ' Module CLI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __clusterFastCommon, __clusteringCommon, __expends, __getMaxMods, __getMaxRelates
     '               __getMods, __merges, BuildTreeNET, BuildTreeNET_DEGs, BuildTreeNET_KEGGModules
     '               BuildTreeNET_KEGGPathways, BuildTreeNET_MergeRegulons, BuildTreeNETCOGs, BuildTreeNetTF, ClusterMatrix
     '               FastCluster, MotifCluster, MotifClusterSites, rFBATreeCluster, TreeCluster
     ' 
-    '     Sub: __briefTrim, New
+    '     Sub: __briefTrim
     '     Class FamilyHit
     ' 
     '         Properties: Family, HitName, QueryName

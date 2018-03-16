@@ -33,7 +33,7 @@
 
     '     Class BestHit
     ' 
-    '         Properties: GetTopHits
+    '         Properties: GetTopHits, hits, sp
     ' 
     '         Function: ExportCsv, GetConservedRegions, GetTotalIdentities, GetUnConservedRegions, IndexOf
     '                   InternalSort, SelectSourceFromHits, Take, ToString, TrimEmpty

@@ -33,9 +33,8 @@
 
     '     Class DeltaDiff
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetEnumerator
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

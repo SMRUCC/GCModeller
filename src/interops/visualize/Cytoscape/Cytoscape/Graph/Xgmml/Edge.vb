@@ -33,7 +33,8 @@
 
     '     Class Edge
     ' 
-    '         Properties: __internalUID
+    '         Properties: __internalUID, Graphics, Id, Label, source
+    '                     target
     ' 
     '         Function: ContainsNode, ContainsOneOfNode, ToString
     ' 

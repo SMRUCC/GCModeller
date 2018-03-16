@@ -33,11 +33,14 @@
 
     '     Class MotifPM
     ' 
-    '         Properties: MostProperly
+    '         Properties: A, Bits, C, G, MostProperly
+    '                     T
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: ToString
     ' 
-    '         Sub: __setValue, (+3 Overloads) New
+    '         Sub: __setValue
     '         Delegate Function
     ' 
     '             Properties: GetValueMethods, Index

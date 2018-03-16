@@ -33,9 +33,8 @@
 
     ' Class PhylipInvoker
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Gendist, ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

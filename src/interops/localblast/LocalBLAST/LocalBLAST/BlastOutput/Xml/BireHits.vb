@@ -33,15 +33,25 @@
 
     '     Class Hit
     ' 
-    '         Properties: Coverage, Gaps, HitLength, Identities, QueryLength
+    '         Properties: Accession, Coverage, Def, Gaps, HitLength
+    '                     Hsps, Id, Identities, Len, Num
+    '                     QueryLength
     ' 
     '         Function: Grep, ToString
     ' 
     '     Class Hsp
     ' 
+    '         Properties: AlignLen, BitScore, Evalue, Gaps, HitFrame
+    '                     HitFrom, HitTo, Hseq, Identity, Midline
+    '                     Num, Positive, Qseq, QueryFrame, QueryFrom
+    '                     QueryTo, Score
+    ' 
     '         Function: ToString
     ' 
     '     Class Statistics
+    ' 
+    '         Properties: DbLen, DbNum, EffSpace, Entropy, HspLen
+    '                     Kappa, Lambda
     ' 
     '         Function: ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9b342f62788be58ac9bf1dff9440231, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
+﻿#Region "Microsoft.VisualBasic::6f28cab2dc8aadb9eb0120ac382bd728, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,9 @@
     ' Summaries:
 
     '     Class Parameters
+    ' 
+    '         Properties: AllowComplement, BitsLevel, LevCost, Method, MinW
+    '                     Parallel, SWOffset, SWThreshold, TOMThreshold
     ' 
     '         Function: SiteScanProfile, ToString
     ' 

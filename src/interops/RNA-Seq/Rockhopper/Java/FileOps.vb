@@ -37,11 +37,13 @@
     '                     inexactMappedReads, invalidQualityReads, lowQualityReads, mappedMoreThanOnceReads, mappedOnceReads
     '                     readFileName, totalReads, transcripts, valid
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: byteToDoubleList, byteToIntArray, byteToLong2Darray, byteToLongList, doubleArrayToByteArray
     '                   getInt, (+2 Overloads) getLine, getStopIndex, InlineAssignHelper, intArrayToByteArray
     '                   isGZIP, longArrayToByteArray, readCompressedFile, readCompressedFile_DeNovo
     ' 
-    '         Sub: Main, (+3 Overloads) New, (+2 Overloads) writeCompressedFile
+    '         Sub: Main, (+2 Overloads) writeCompressedFile
     ' 
     ' 
     ' /********************************************************************************/

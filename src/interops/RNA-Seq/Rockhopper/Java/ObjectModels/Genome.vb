@@ -36,10 +36,12 @@
     '         Properties: baseFileName, codingGenes, formalGenomeName, genes, iD
     '                     name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: genesToString, getAnnotations, getGene, getSeq, mergeGenes
     '                   numGenes, readInGenes, size
     ' 
-    '         Sub: addPredictedRNAs, create_GFF_file, Main, (+2 Overloads) New, readInGenome
+    '         Sub: addPredictedRNAs, create_GFF_file, Main, readInGenome
     ' 
     ' 
     ' /********************************************************************************/

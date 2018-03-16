@@ -36,11 +36,13 @@
     '         Properties: [stop], errors, numErrors, score, start
     '                     threshold
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: getMatchMismatchChar, min, mismatch, readSequenceFromFile, tableToString_post
     '                   tableToString_pre, ToString
     ' 
-    '         Sub: (+2 Overloads) align, backtrack_post, backtrack_pre, Main, (+2 Overloads) New
-    '              postAlign, preAlign
+    '         Sub: (+2 Overloads) align, backtrack_post, backtrack_pre, Main, postAlign
+    '              preAlign
     ' 
     ' 
     ' /********************************************************************************/

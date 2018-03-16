@@ -33,11 +33,10 @@
 
     '     Class HighLight
     ' 
-    '         Properties: Highlights
+    '         Properties: Highlights, type
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetProperties
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

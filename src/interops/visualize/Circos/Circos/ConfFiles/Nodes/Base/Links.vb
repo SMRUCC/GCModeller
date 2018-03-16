@@ -39,9 +39,8 @@
     ' 
     '         Properties: bezier_radius, color, radius, type
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetProperties
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -35,9 +35,8 @@
     ' 
     '     Properties: KGML
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: KGMLReconstruct
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 
