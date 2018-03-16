@@ -21,5 +21,5 @@ RD /S /Q "./kb_UniProtKB/"
 
 
 REM generates the mysql development sdk documents
-reflector /MySQL.Markdown /sql ./kb_UniProtKB.sql
-reflector /MySQL.Markdown /sql ./kb_go.sql
+reflector /MySQL.Markdown /sql ./kb_UniProtKB.sql > ./kb_UniProtKB-dev-docs.md
+reflector /MySQL.Markdown /sql ./kb_go.sql > ./kb_go-dev-docs.md
