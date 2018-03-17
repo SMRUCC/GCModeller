@@ -95,7 +95,7 @@ Namespace Assembly.KEGG.WebServices
                 For Each entry As PathwayEntry In entries
                     Dim id$ = getID(entry)
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"
-                    Dim save$ = EXPORT & $"/{id}.XML"
+                    Dim save$ = $"{EXPORT}/{entry.GetPathCategory}/{id}.XML"
 
                     If id.StringEmpty Then
                         Continue For
