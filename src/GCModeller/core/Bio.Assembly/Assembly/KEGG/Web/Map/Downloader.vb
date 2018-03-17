@@ -161,7 +161,7 @@ Namespace Assembly.KEGG.WebServices
                         url = KGML.pathway.ResourceURL(entry.EntryID)
                         msg = entry.Description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
                         bCode = r.Match(entry.EntryID, "\d+").Value
-                        path = PathwayEntry.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                        path = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
                         refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.EntryID}"
 
                         Call url.GET(refer:=refer).SaveTo(path, TextEncodings.UTF8WithoutBOM)

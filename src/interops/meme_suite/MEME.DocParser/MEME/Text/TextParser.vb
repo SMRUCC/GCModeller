@@ -209,7 +209,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                 Dim Motifs = Strings.Split(str.Replace(vbCr, ""), SPLIT_MOTIFS)
                 Dim Length As String = Motifs(2)
                 Length = Strings.Split(Length, "********************************************************************************")(1)
-                Dim Tokens As String() = Length.lTokens
+                Dim Tokens As String() = Length.LineTokens
 
                 If Tokens.Length >= 7 Then
                     Length = Tokens(6)

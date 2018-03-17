@@ -78,7 +78,7 @@ Public Module ecardParser
     ''' </remarks>
     <Extension>
     Public Iterator Function Parsing(content As String) As IEnumerable(Of Dictionary(Of String, String()))
-        Dim lines As String() = content.lTokens
+        Dim lines As String() = content.LineTokens
         Dim tokens As IEnumerable(Of String()) = lines.Skip(4).Split("//")
 
         For Each part As String() In tokens

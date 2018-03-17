@@ -132,7 +132,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         Private Shared Function __blastnTryParse(str As String, Name As String, len As Double) As BlastnHit
-            Dim scoreText$ = str.lTokens.Take(3).JoinBy(vbLf)
+            Dim scoreText$ = str.LineTokens.Take(3).JoinBy(vbLf)
             Dim score As Score = BlastnScore.ParseBlastn(scoreText)
             Dim blastnHit As New BlastnHit With {
                 .Score = score,

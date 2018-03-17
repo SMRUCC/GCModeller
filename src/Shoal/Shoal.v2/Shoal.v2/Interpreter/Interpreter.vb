@@ -76,7 +76,7 @@ Namespace Interpreter
         ''' <param name="Script"></param>
         ''' <returns></returns>
         Public Shared Function MSLParser(Script As String) As PrimaryExpression()
-            Dim lines As String() = Script.lTokens
+            Dim lines As String() = Script.LineTokens
             Dim Expressions As New List(Of PrimaryExpression)
             Dim ExprQueue As New Queue(Of String)(lines)
 

@@ -91,7 +91,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Function GetImage() As Image
-            Dim lines$() = PathwayImage.lTokens
+            Dim lines$() = PathwayImage.LineTokens
             Dim base64$ = String.Join("", lines)
             Return Image.FromStream(base64.UnzipBase64)
         End Function
@@ -110,7 +110,7 @@ Namespace Assembly.KEGG.WebServices
 
         Private Shared Function GetEntryInfo(html As String) As NamedValue(Of String)
             Dim comment$ = html.GetHtmlComments.First
-            Dim text = comment.lTokens
+            Dim text = comment.LineTokens
             Dim entry = text(1).GetTagValue(" ", trim:=True).Value
             Dim definition = text(2).GetTagValue(" ", trim:=True).Value
 
@@ -125,7 +125,7 @@ Namespace Assembly.KEGG.WebServices
         Public Shared Function ParseHTML(url$) As Map
             Dim html$ = url.GET
             Dim map$ = r.Match(html, data, RegexICSng).Value
-            Dim areas = map.lTokens.Skip(1).ToArray
+            Dim areas = map.LineTokens.Skip(1).ToArray
             Dim img = r.Match(html, mapImageURL, RegexICSng).Value
             Dim tmp$ = App.GetAppSysTempFile
             Dim shapes = areas _

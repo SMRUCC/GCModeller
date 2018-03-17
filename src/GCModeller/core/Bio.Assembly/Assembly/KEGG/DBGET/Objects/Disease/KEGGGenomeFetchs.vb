@@ -97,10 +97,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
 
             With hsa
-                .AA = .AA.Trim.lTokens.Skip(1).JoinBy(ASCII.LF)
+                .AA = .AA.Trim.LineTokens.Skip(1).JoinBy(ASCII.LF)
                 .NT = .NT.Replace(InternalWebFormParsers.DBGET, "") _
                     .StripBlank _
-                    .lTokens _
+                    .LineTokens _
                     .Skip(1) _
                     .JoinBy(ASCII.LF)
             End With

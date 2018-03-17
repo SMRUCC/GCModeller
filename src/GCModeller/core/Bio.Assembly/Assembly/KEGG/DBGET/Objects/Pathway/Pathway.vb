@@ -187,9 +187,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         ''' <summary>
-        ''' Downloads all of the available pathway information for the target species genome.(下载目标基因组对象之中的所有可用的代谢途径信息)
+        ''' Downloads all of the available pathway information for the target species genome.
+        ''' (下载目标基因组对象之中的所有可用的代谢途径信息)
         ''' </summary>
-        ''' <param name="sp">The brief code of the target genome species in KEGG database.(目标基因组在KEGG数据库之中的简写编号.)</param>
+        ''' <param name="sp">
+        ''' The brief code of the target genome species in KEGG database.(目标基因组在KEGG数据库之中的简写编号.)
+        ''' </param>
         ''' <param name="EXPORT"></param>
         ''' <returns>函数返回下载失败的代谢途径的编号代码</returns>
         ''' <remarks></remarks>
@@ -203,7 +206,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
                 For Each entry As KEGG.DBGET.BriteHEntry.Pathway In source
                     Dim EntryID As String = String.Format("{0}{1}", sp, entry.Entry.Key)
-                    Dim saveDIR As String = BriteHEntry.Pathway.CombineDIR(entry, EXPORT)
+                    Dim saveDIR As String = $"{EXPORT}/{entry.GetPathCategory}"
 
                     Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryID)
                     Dim png As String = String.Format("{0}/{1}.png", saveDIR, EntryID)

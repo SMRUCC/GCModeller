@@ -137,7 +137,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             If String.IsNullOrEmpty(Map) Then
                 Return Nothing
             Else
-                Dim lines$() = Map.lTokens
+                Dim lines$() = Map.LineTokens
                 Dim base64$ = String.Join("", lines)
                 Return Base64Codec.GetImage(base64)
             End If
@@ -225,18 +225,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="directoryOrganized"></param>
         ''' <returns></returns>
         Public Shared Function DownloadAll(EXPORT$, Optional briteFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
-            Dim BriefEntries As BriteHEntry.Pathway() = SolveEntries(briteFile)
+            Dim entries As BriteHEntry.Pathway() = SolveEntries(briteFile)
             Dim rtvl% = Scan0
             Dim EXPORT_dir = New DefaultValue(Of String)(EXPORT).When(Not directoryOrganized)
 
             Using progress As New ProgressBar("Download KEGG pathway reference map data...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(BriefEntries.Length)
+                Dim tick As New ProgressProvider(entries.Length)
 
                 Call tick.StepProgress()
 
-                For Each entry As BriteHEntry.Pathway In BriefEntries
+                For Each entry As BriteHEntry.Pathway In entries
                     Dim Id$ = entry.Entry.Key
-                    Dim save$ = BriteHEntry.Pathway.CombineDIR(entry, EXPORT) Or EXPORT_dir
+                    Dim save$ = $"{EXPORT}/{entry.GetPathCategory}" Or EXPORT_dir
                     Dim xml As String = $"{save}/map{Id}.xml"
                     Dim png As String = $"{save}/map{Id}.png"
 
