@@ -66,12 +66,13 @@ Namespace Assembly.KEGG.WebServices
 
         <XmlElement("name")>
         Public Property Name As String
+        Public Property URL As String
 
         ''' <summary>
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement("area")>
+        <XmlArray("shapes")>
         Public Property Areas As Area()
 
         ''' <summary>
@@ -148,7 +149,8 @@ Namespace Assembly.KEGG.WebServices
                 .PathwayImage = img,
                 .Areas = shapes,
                 .ID = info.Name,
-                .Name = info.Value
+                .Name = info.Value,
+                .URL = url
             }
         End Function
     End Class

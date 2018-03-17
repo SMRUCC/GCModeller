@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG.WebServices
 
-    Public Class Area
+    <XmlType("area")> Public Class Area
 
         <XmlAttribute> Public Property shape As String
         ''' <summary>
