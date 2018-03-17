@@ -81,11 +81,11 @@ Namespace Assembly.KEGG.WebServices
             Dim tick As New ProgressProvider(entries.Length)
             Dim msg$
             Dim getID = Function(entry As PathwayEntry)
-                            If briefFile Is Nothing Then
+                            If briefFile.StringEmpty Then
                                 Return "map" & entry.EntryId
                             Else
                                 Dim s = entry.Entry.Value
-                                s = Regex.Match(s, "\[PATH:.+?\]", RegexICSng).Value
+                                s = r.Match(s, "\[PATH:.+?\]", RegexICSng).Value
                                 s = s.GetStackValue("[", "]").Split(":"c).Last
                                 Return s
                             End If
