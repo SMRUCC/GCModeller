@@ -256,7 +256,7 @@ Partial Module CLI
     Public Function DumpKEGGMaps(args As CommandLine) As Integer
         Dim htext$ = args <= "/htext"
 
-        With (args <= "/out") Or $"{htext.TrimSuffix}/KEGG.pathwayMaps/".AsDefault
+        With (args <= "/out") Or $"./KEGG.pathwayMaps/".AsDefault
             Return kegMap.Downloads(EXPORT:= .ByRef, briefFile:=htext) _
                 .GetJson _
                 .SaveTo(.ByRef & "/failures.json") _
