@@ -76,9 +76,9 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="briefFile$"></param>
         ''' <returns></returns>
         Public Function Downloads(EXPORT$, Optional briefFile$ = Nothing) As String()
-            Dim briefEntries As PathwayEntry() = loadEntryAuto(briefFile)
+            Dim entries As PathwayEntry() = loadEntryAuto(briefFile)
             Dim failures As New List(Of String)
-            Dim tick As New ProgressProvider(briefEntries.Length)
+            Dim tick As New ProgressProvider(entries.Length)
             Dim msg$
             Dim getID = Function(entry As PathwayEntry)
                             If briefFile Is Nothing Then
@@ -92,7 +92,7 @@ Namespace Assembly.KEGG.WebServices
                         End Function
 
             Using progress As New ProgressBar("Downloads KEGG pathway map data...", 1, CLS:=True)
-                For Each entry In briefEntries
+                For Each entry As PathwayEntry In entries
                     Dim id$ = getID(entry)
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"
                     Dim save$ = EXPORT & $"/{id}.XML"

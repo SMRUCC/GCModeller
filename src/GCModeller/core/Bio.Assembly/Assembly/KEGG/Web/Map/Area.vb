@@ -62,8 +62,10 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
-        <XmlElement> Public Property href As String
-        <XmlElement> Public Property title As String
+        <XmlAttribute> Public Property href As String
+
+        <XmlText>
+        Public Property title As String
 
         Public ReadOnly Property Rectangle As RectangleF
             Get

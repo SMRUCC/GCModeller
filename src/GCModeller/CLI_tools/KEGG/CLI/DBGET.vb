@@ -246,7 +246,7 @@ Partial Module CLI
 
     <ExportAPI("/dump.kegg.maps")>
     <Description("Dumping the KEGG maps database for human species.")>
-    <Usage("/dump.kegg.maps /htext <htext.txt> [/out <save_dir>]")>
+    <Usage("/dump.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
     <Argument("/htext", False, CLITypes.File,
               Extensions:="*.txt",
               Description:="The KEGG category term provider")>

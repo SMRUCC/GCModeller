@@ -58,24 +58,27 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
+    <XmlRoot("Map", [Namespace]:="http://GCModeller.org/core/KEGG/KGML_map.xsd")>
     Public Class Map : Implements INamedValue
 
-        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
-        <XmlElement>
+        <XmlAttribute>
+        Public Property ID As String Implements IKeyedEntity(Of String).Key
+
+        <XmlElement("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement>
+        <XmlElement("area")>
         Public Property Areas As Area()
 
         ''' <summary>
         ''' base64 image
         ''' </summary>
         ''' <returns></returns>
-        <XmlText>
+        <XmlElement("KEGGmap")>
         Public Property PathwayImage As String
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -90,7 +93,7 @@ Namespace Assembly.KEGG.WebServices
         Public Function GetImage() As Image
             Dim lines$() = PathwayImage.lTokens
             Dim base64$ = String.Join("", lines)
-            Return Base64Codec.GetImage(base64)
+            Return Image.FromStream(base64.UnzipBase64)
         End Function
 
         Public Overrides Function ToString() As String
@@ -117,11 +120,13 @@ Namespace Assembly.KEGG.WebServices
             }
         End Function
 
+        Const mapImageURL$ = "<img src="".+?"" name=""pathwayimage"" usemap=""#mapdata"".+?/>"
+
         Public Shared Function ParseHTML(url$) As Map
             Dim html$ = url.GET
             Dim map$ = r.Match(html, data, RegexICSng).Value
             Dim areas = map.lTokens.Skip(1).ToArray
-            Dim img = r.Match(html, "<img src="".+?"" name=""pathwayimage"" usemap=""#mapdata"".+?/>", RegexICSng).Value
+            Dim img = r.Match(html, mapImageURL, RegexICSng).Value
             Dim tmp$ = App.GetAppSysTempFile
             Dim shapes = areas _
                 .Take(areas.Length - 1) _
@@ -131,7 +136,9 @@ Namespace Assembly.KEGG.WebServices
             With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)
 
-                img = tmp.LoadImage.ToBase64String
+                img = tmp.LoadImage _
+                         .ToStream(ImageFormats.Png) _
+                         .ZipAsBase64
                 img = FastaSeq.SequenceLineBreak(200, img)
             End With
 
