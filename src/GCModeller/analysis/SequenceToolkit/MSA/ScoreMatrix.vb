@@ -60,7 +60,7 @@ Public Class ScoreMatrix
         Return New ScoreMatrix With {
             .Matrix = My.Resources _
                 .Matrix _
-                .lTokens _
+                .LineTokens _
                 .Select(Function(l)
                             Return l.Replace(" "c, "").ToArray
                         End Function) _

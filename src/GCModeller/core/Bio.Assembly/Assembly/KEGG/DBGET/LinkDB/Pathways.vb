@@ -126,7 +126,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
-                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
 
                 If xml.FileLength > 0 AndAlso img.FileLength > 0 Then
                     If Not forceUpdate Then

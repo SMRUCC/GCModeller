@@ -146,7 +146,7 @@ Public Class Clustal : Inherits CLI
         Dim fa As New FASTA.FastaFile(source)
         Dim input As String = fa.Generate
         Dim out As String = MyBase._executableAssembly.Call("", input)
-        Return FASTA.FastaFile.DocParser(out.lTokens)
+        Return FASTA.FastaFile.DocParser(out.LineTokens)
     End Function
 
     Public Function AlignmentTask(source As String) As AsyncHandle(Of FASTA.FastaFile)

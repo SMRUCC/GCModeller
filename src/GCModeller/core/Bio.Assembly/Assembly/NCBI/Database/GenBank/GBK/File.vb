@@ -259,7 +259,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 From s As String
                 In parts.AsParallel
                 Let ss As String = s & vbCrLf & "//"
-                Select ss.lTokens
+                Select ss.LineTokens
 
             Try
                 For Each buf As String() In sBuf

@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0670D2E7-0A62-41AF-BDB7-D6698EC799CC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.seqParserTest</StartupObject>
+    <StartupObject>Test.KEGGRefMaps</StartupObject>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -73,6 +73,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,7 +94,6 @@
   <ItemGroup>
     <Compile Include="chebiTest.vb" />
     <Compile Include="KEGGRefMaps.vb" />
-    <Compile Include="seqParserTest.vb" />
     <Compile Include="TaxonomyTreeTest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

@@ -146,7 +146,7 @@ Namespace DocumentFormat.MEME.Text
             s = Tokens(1)
             Tokens = Regex.Split(s, sp)
             s = Tokens.Last
-            Tokens = s.lTokens
+            Tokens = s.LineTokens
             Tokens = Tokens.Select(Function(x) Regex.Split(x, "\s+")).ToVector
             Tokens = (From x As String In Tokens Where Not String.IsNullOrWhiteSpace(x) Select x).ToArray
 

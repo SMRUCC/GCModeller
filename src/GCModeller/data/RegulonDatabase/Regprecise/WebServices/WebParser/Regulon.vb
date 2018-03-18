@@ -99,7 +99,7 @@ Namespace Regprecise
         ''' <param name="doc"></param>
         ''' <returns></returns>
         Public Shared Function DocParser(doc As String) As RegulatedGene()
-            Dim tokens As String() = doc.lTokens
+            Dim tokens As String() = doc.LineTokens
             Return __parser(tokens)
         End Function
 
