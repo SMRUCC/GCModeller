@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Public Class Demo
 
     Public Shared Sub Main(args As String())
-        Dim population As Population(Of MyVector) = New MyVector().InitialPopulation(500)
+        Dim population As Population(Of MyVector) = New MyVector().InitialPopulation(5000)
         Dim fitness As Fitness(Of MyVector) = New MyVectorFitness()
         Dim ga As New GeneticAlgorithm(Of MyVector)(population, fitness)
         '   Dim out As New List(Of outPrint)
@@ -92,11 +92,11 @@ Public Class Demo
         ''' Siblings are actually new chromosomes, <br/>
         ''' created using any of crossover strategy
         ''' </summary>
-        Public Function Crossover(other As MyVector) As IList(Of MyVector) Implements Chromosome(Of MyVector).Crossover
+        Public Function Crossover(other As MyVector) As IEnumerable(Of MyVector) Implements Chromosome(Of MyVector).Crossover
             Dim thisClone As MyVector = Me.clone()
             Dim otherClone As MyVector = other.clone()
             Call random.Crossover(thisClone._vector, other._vector)
-            Return New List(Of MyVector)({thisClone, otherClone})
+            Return {thisClone, otherClone}
         End Function
 
         Protected Friend Function clone() As Object Implements ICloneable.Clone
