@@ -78,7 +78,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
         Private Shared Function __parserCommon(line As String, Parser As Parameter.ParameterParser) As Parameter()
             Dim Match As String = Regex.Match(line, Parameter.MATCHED, RegexOptions.Singleline).Value
-            Dim Tokens As String() = Match.lTokens
+            Dim Tokens As String() = Match.LineTokens
 
             If Tokens.IsNullOrEmpty OrElse StringHelpers.IsNullOrEmpty(Tokens) Then
 NULL:           Call $"[{line}] ===> {NameOf(Tokens)}:=null".__DEBUG_ECHO

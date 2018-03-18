@@ -377,7 +377,7 @@ AAGCGAACAAATGTTCTATA"
         ''' 
         <ExportAPI("FastaToken.Parser")>
         Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaSeq
-            Dim lines$() = s.lTokens
+            Dim lines$() = s.LineTokens
             Return FastaSeq.ParseFromStream(lines, {deli})
         End Function
 

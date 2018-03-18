@@ -246,7 +246,7 @@ Partial Module CLI
 
     <ExportAPI("/dump.kegg.maps")>
     <Description("Dumping the KEGG maps database for human species.")>
-    <Usage("/dump.kegg.maps /htext <htext.txt> [/out <save_dir>]")>
+    <Usage("/dump.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
     <Argument("/htext", False, CLITypes.File,
               Extensions:="*.txt",
               Description:="The KEGG category term provider")>
@@ -256,7 +256,7 @@ Partial Module CLI
     Public Function DumpKEGGMaps(args As CommandLine) As Integer
         Dim htext$ = args <= "/htext"
 
-        With (args <= "/out") Or $"{htext.TrimSuffix}/KEGG.pathwayMaps/".AsDefault
+        With (args <= "/out") Or $"./KEGG.pathwayMaps/".AsDefault
             Return kegMap.Downloads(EXPORT:= .ByRef, briefFile:=htext) _
                 .GetJson _
                 .SaveTo(.ByRef & "/failures.json") _

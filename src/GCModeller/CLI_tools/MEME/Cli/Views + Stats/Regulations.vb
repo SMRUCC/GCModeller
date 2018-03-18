@@ -74,7 +74,7 @@ Partial Module CLI
 
         For Each pathway As bGetObject.Pathway In Pathways
             Dim pwyBrite As BriteHEntry.Pathway = PathwayBrites(pathway.BriteId)
-            Dim savePath As String = BriteHEntry.Pathway.CombineDIR(pwyBrite, outDIR)
+            Dim savePath As String = $"{outDIR}/{pwyBrite.GetPathCategory}"
             Dim pathwayGenes As String() = pathway.GetPathwayGenes
             Dim doc = (From vf As PredictedRegulationFootprint
                        In Footprints.AsParallel

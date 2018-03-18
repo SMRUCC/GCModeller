@@ -63,7 +63,7 @@ Public Module BlosumParser
     ''' <param name="doc"></param>
     ''' <returns></returns>
     Public Function LoadFromStream(doc As String) As Blosum
-        Dim tokens$() = doc.lTokens
+        Dim tokens$() = doc.LineTokens
         Dim i%
 
         Do While tokens.Read(i).First = "#"c

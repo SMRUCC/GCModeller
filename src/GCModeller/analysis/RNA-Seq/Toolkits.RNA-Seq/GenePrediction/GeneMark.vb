@@ -102,7 +102,7 @@ Namespace GenePrediction
         End Function
 
         Private Shared Function __parser(doc As String) As GeneMark
-            Dim Tokens As String() = doc.lTokens
+            Dim Tokens As String() = doc.LineTokens
             Dim gmObj As GeneMark = __paramParser(Tokens)
 
             On Error Resume Next

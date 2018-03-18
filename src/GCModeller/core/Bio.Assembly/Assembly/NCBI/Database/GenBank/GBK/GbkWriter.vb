@@ -83,7 +83,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Call writer.Append(ToString(gb.Origin))
             Call writer.AppendLine("//")
 
-            Dim lines As String() = writer.ToString.lTokens
+            Dim lines As String() = writer.ToString.LineTokens
             Dim text As String = String.Join(vbLf, lines)
 
             Return text

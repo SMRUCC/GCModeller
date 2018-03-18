@@ -299,7 +299,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
-            Dim TokenLines As String() = doc.lTokens
+            Dim TokenLines As String() = doc.LineTokens
             Return DocParser(TokenLines, deli)
         End Function
 

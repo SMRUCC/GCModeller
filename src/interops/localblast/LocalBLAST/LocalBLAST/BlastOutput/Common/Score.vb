@@ -177,7 +177,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         End Function
 
         Public Shared Function ScoreTable(text As String) As Dictionary(Of String, String)
-            Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").lTokens
+            Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").LineTokens
             Dim items = lines _
                 .Select(Function(l) l.Trim.Split(","c)) _
                 .IteratesALL _

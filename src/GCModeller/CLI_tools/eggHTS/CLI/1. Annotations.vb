@@ -643,7 +643,7 @@ Partial Module CLI
                 Dim seq$ = prot _
                     .sequence _
                     .sequence _
-                    .lTokens _
+                    .LineTokens _
                     .JoinBy("") _
                     .Replace(" ", "")
                 Dim fa As New FastaSeq With {

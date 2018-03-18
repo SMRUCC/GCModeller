@@ -101,7 +101,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.lTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
             Call args.Add(NameOf(globalmap), If(globalmap, yes, no))
             Call args.Add("submit", "Exec")
             Call args.Add("unclassified", list)
@@ -121,7 +121,7 @@ Namespace Assembly.KEGG.WebServices
                 id = Regex.Match(link, "map\d+", RegexICSng).Value
                 id = Regex.Match(id, "\d+").Value
 
-                Dim path$ = Pathway.CombineDIR(htext(id), work) & $"/map{id}.png"
+                Dim path$ = $"{work}/{htext(id).GetPathCategory}/map{id}.png"
 
                 If Not path.FileLength > 5 Then
                     html = ("http://www.genome.jp" & link).GET
@@ -158,7 +158,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.lTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
             Call args.Add("org", "ko")
             Call args.Add("other_dbs", "")
             Call args.Add("unclassified", list)
@@ -187,7 +187,7 @@ Namespace Assembly.KEGG.WebServices
                 Dim path$
 
                 If Ko.ContainsKey(id) Then
-                    path = Pathway.CombineDIR(Ko(id), work) & $"/ko{id}.png"
+                    path = $"{work}/{Ko(id).GetPathCategory}/ko{id}.png"
                 Else
                     path = work & $"/unknown/ko{id}.png"
                     Call path.Warning
