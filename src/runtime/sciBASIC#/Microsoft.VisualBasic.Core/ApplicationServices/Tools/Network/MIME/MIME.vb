@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b649e76d5c6b26cb8101dfcf5bd42d47, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Network\MIME\MIME.vb"
+﻿#Region "Microsoft.VisualBasic::3244f74453c2ff24e544c7e38ac5d8c6, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Network\MIME\MIME.vb"
 
     ' Author:
     ' 
@@ -83,7 +83,7 @@ Namespace Net.Protocols.ContentTypes
         Sub New()
             SuffixTable = My.Resources _
                 .List_of_MIME_types___Internet_Media_Types_ _
-                .lTokens _
+                .LineTokens _
                 .__loadContents _
                 .Where(Function(x) Not x.IsEmpty) _
                 .GroupBy(Function(x) x.FileExt.ToLower) _
