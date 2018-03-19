@@ -40,8 +40,9 @@
     ' 
     '     Class DESeqCOGs
     ' 
-    '         Properties: Category, COG, NumbersOfDiffDown, NumbersOfDiffUp, NumbersOfGenes
-    '                     NumbersOfIdenticalHigh, NumbersOfIdenticalLow
+    '         Properties: Category, CategoryDescription, COG, COGDescription, DiffDown
+    '                     DiffUp, IdenticalHigh, IdenticalLow, NumbersOfDiffDown, NumbersOfDiffUp
+    '                     NumbersOfGenes, NumbersOfIdenticalHigh, NumbersOfIdenticalLow
     ' 
     '         Function: ToString
     ' 

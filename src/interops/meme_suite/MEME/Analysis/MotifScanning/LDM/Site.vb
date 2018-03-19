@@ -33,6 +33,8 @@
 
     '     Class Site
     ' 
+    '         Properties: Regulators
+    ' 
     '         Function: CreateObject, GetDist, GetLoci
     ' 
     ' 

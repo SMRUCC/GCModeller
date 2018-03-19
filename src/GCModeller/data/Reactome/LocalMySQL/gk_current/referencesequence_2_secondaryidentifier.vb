@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb05cec2034392709944c2a3dc08a19c, data\Reactome\LocalMySQL\gk_current\referencesequence_2_secondaryidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::bcdd0fd30a4108cb765815f6811a7372, data\Reactome\LocalMySQL\gk_current\referencesequence_2_secondaryidentifier.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencesequence_2_secondaryidentifier
     ' 
+    '     Properties: DB_ID, secondaryIdentifier, secondaryIdentifier_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referencesequence_2_secondaryidentifier` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencesequence_2_secondaryidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("secondaryIdentifier_rank"), DataType(MySqlDbType.Int64, "10")> Public Property secondaryIdentifier_rank As Long
-    <DatabaseField("secondaryIdentifier"), DataType(MySqlDbType.Text)> Public Property secondaryIdentifier As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("secondaryIdentifier_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="secondaryIdentifier_rank")> Public Property secondaryIdentifier_rank As Long
+    <DatabaseField("secondaryIdentifier"), DataType(MySqlDbType.Text), Column(Name:="secondaryIdentifier")> Public Property secondaryIdentifier As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referencesequence_2_secondaryidentifier: Inherits Oracle.LinuxCompa
         Return String.Format(UPDATE_SQL, DB_ID, secondaryIdentifier_rank, secondaryIdentifier, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencesequence_2_secondaryidentifier
+                  Return DirectCast(MyClass.MemberwiseClone, referencesequence_2_secondaryidentifier)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1453a9b10c4462134be5e4278ea0d648, data\Reactome\LocalMySQL\gk_current\databaseobject.vb"
+﻿#Region "Microsoft.VisualBasic::2dbec29504de0ef7311a527995f63ba1, data\Reactome\LocalMySQL\gk_current\databaseobject.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class databaseobject
     ' 
+    '     Properties: __is_ghost, _class, _displayName, _Protege_id, _timestamp
+    '                 created, created_class, DB_ID, stableIdentifier, stableIdentifier_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -84,7 +90,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -113,21 +118,21 @@ CREATE TABLE `databaseobject` (
 ) ENGINE=MyISAM AUTO_INCREMENT=8835475 DEFAULT CHARSET=latin1;")>
 Public Class databaseobject: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("_Protege_id"), DataType(MySqlDbType.VarChar, "255")> Public Property _Protege_id As String
-    <DatabaseField("__is_ghost"), DataType(MySqlDbType.String)> Public Property __is_ghost As String
-    <DatabaseField("_class"), DataType(MySqlDbType.VarChar, "64")> Public Property _class As String
-    <DatabaseField("_displayName"), DataType(MySqlDbType.Text)> Public Property _displayName As String
-    <DatabaseField("_timestamp"), NotNull, DataType(MySqlDbType.DateTime)> Public Property _timestamp As Date
-    <DatabaseField("created"), DataType(MySqlDbType.Int64, "10")> Public Property created As Long
-    <DatabaseField("created_class"), DataType(MySqlDbType.VarChar, "64")> Public Property created_class As String
-    <DatabaseField("stableIdentifier"), DataType(MySqlDbType.Int64, "10")> Public Property stableIdentifier As Long
-    <DatabaseField("stableIdentifier_class"), DataType(MySqlDbType.VarChar, "64")> Public Property stableIdentifier_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("_Protege_id"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="_Protege_id")> Public Property _Protege_id As String
+    <DatabaseField("__is_ghost"), DataType(MySqlDbType.String), Column(Name:="__is_ghost")> Public Property __is_ghost As String
+    <DatabaseField("_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="_class")> Public Property _class As String
+    <DatabaseField("_displayName"), DataType(MySqlDbType.Text), Column(Name:="_displayName")> Public Property _displayName As String
+    <DatabaseField("_timestamp"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="_timestamp")> Public Property _timestamp As Date
+    <DatabaseField("created"), DataType(MySqlDbType.Int64, "10"), Column(Name:="created")> Public Property created As Long
+    <DatabaseField("created_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="created_class")> Public Property created_class As String
+    <DatabaseField("stableIdentifier"), DataType(MySqlDbType.Int64, "10"), Column(Name:="stableIdentifier")> Public Property stableIdentifier As Long
+    <DatabaseField("stableIdentifier_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="stableIdentifier_class")> Public Property stableIdentifier_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `databaseobject` WHERE `DB_ID` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `databaseobject` SET `DB_ID`='{0}', `_Protege_id`='{1}', `__is_ghost`='{2}', `_class`='{3}', `_displayName`='{4}', `_timestamp`='{5}', `created`='{6}', `created_class`='{7}', `stableIdentifier`='{8}', `stableIdentifier_class`='{9}' WHERE `DB_ID` = '{10}';</SQL>
 #End Region
@@ -141,28 +146,28 @@ Public Class databaseobject: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}');
+''' INSERT INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, _Protege_id, __is_ghost, _class, _displayName, DataType.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class)
+        Return String.Format(INSERT_SQL, _Protege_id, __is_ghost, _class, _displayName, MySqlScript.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class)
     End Function
 
 ''' <summary>
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{_Protege_id}', '{__is_ghost}', '{_class}', '{_displayName}', '{_timestamp}', '{created}', '{created_class}', '{stableIdentifier}', '{stableIdentifier_class}', '{9}')"
+        Return $"('{_Protege_id}', '{__is_ghost}', '{_class}', '{_displayName}', '{_timestamp}', '{created}', '{created_class}', '{stableIdentifier}', '{stableIdentifier_class}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}');
+''' REPLACE INTO `databaseobject` (`_Protege_id`, `__is_ghost`, `_class`, `_displayName`, `_timestamp`, `created`, `created_class`, `stableIdentifier`, `stableIdentifier_class`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, _Protege_id, __is_ghost, _class, _displayName, DataType.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class)
+        Return String.Format(REPLACE_SQL, _Protege_id, __is_ghost, _class, _displayName, MySqlScript.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -170,10 +175,14 @@ Public Class databaseobject: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, DB_ID, _Protege_id, __is_ghost, _class, _displayName, DataType.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class, DB_ID)
+        Return String.Format(UPDATE_SQL, DB_ID, _Protege_id, __is_ghost, _class, _displayName, MySqlScript.ToMySqlDateTimeString(_timestamp), created, created_class, stableIdentifier, stableIdentifier_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As databaseobject
+                  Return DirectCast(MyClass.MemberwiseClone, databaseobject)
+              End Function
 End Class
 
 
 End Namespace
+

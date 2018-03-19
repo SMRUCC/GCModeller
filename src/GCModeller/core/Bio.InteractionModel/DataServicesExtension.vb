@@ -31,15 +31,16 @@
 
     ' Summaries:
 
+    ' Module DataServicesExtension
+    ' 
+    '     Function: (+2 Overloads) LoadCsv, LoadData, (+2 Overloads) SaveCsv
     '     Structure SerialsData
     ' 
     '         Properties: ChunkBuffer, Length, Tag
     ' 
     '         Function: GetEnumerator, GetEnumerator1, ToString
     ' 
-    '  
     ' 
-    '     Function: (+2 Overloads) LoadCsv, LoadData, (+2 Overloads) SaveCsv
     ' 
     ' /********************************************************************************/
 

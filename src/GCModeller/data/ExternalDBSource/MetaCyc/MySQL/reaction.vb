@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22bcccb4cebd8dad8b47ca276298386a, data\ExternalDBSource\MetaCyc\MySQL\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::f671c02d3bd79c656152364f7c4fd0f6, data\ExternalDBSource\MetaCyc\MySQL\reaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class reaction
     ' 
+    '     Properties: DataSetWID, DeltaG, ECNumber, ECNumberProposed, Name
+    '                 Spontaneous, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -74,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,13 +98,13 @@ CREATE TABLE `reaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "250")> Public Property Name As String
-    <DatabaseField("DeltaG"), DataType(MySqlDbType.VarChar, "50")> Public Property DeltaG As String
-    <DatabaseField("ECNumber"), DataType(MySqlDbType.VarChar, "50")> Public Property ECNumber As String
-    <DatabaseField("ECNumberProposed"), DataType(MySqlDbType.VarChar, "50")> Public Property ECNumberProposed As String
-    <DatabaseField("Spontaneous"), DataType(MySqlDbType.VarChar, "1")> Public Property Spontaneous As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("DeltaG"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="DeltaG")> Public Property DeltaG As String
+    <DatabaseField("ECNumber"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="ECNumber")> Public Property ECNumber As String
+    <DatabaseField("ECNumberProposed"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="ECNumberProposed")> Public Property ECNumberProposed As String
+    <DatabaseField("Spontaneous"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Spontaneous")> Public Property Spontaneous As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class reaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, DeltaG, ECNumber, ECNumberProposed, Spontaneous, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As reaction
+                  Return DirectCast(MyClass.MemberwiseClone, reaction)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,9 @@
 
     ' Class Regulation
     ' 
+    '     Properties: BiologicalProcess, Effector, Family, MatchedRegulator, Name
+    '                 Pcc, RegpreciseRegulog, Regulation, SameOperon, WGCNAWeight
+    ' 
     '     Function: SetSameOperon
     ' 
     ' /********************************************************************************/

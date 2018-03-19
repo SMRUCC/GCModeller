@@ -33,6 +33,8 @@
 
     ' Class gene_product_subset
     ' 
+    '     Properties: gene_product_id, subset_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,9 +33,11 @@
 
     '     Class Chemotaxis
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __innerTicks, CreateServiceSerials, Initialize
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

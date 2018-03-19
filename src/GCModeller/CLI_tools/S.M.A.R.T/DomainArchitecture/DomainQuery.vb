@@ -33,9 +33,8 @@
 
     ' Class DomainQuery
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Query
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

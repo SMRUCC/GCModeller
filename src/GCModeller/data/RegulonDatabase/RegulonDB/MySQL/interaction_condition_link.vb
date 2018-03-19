@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ff208d9d6aa996726712c2d55a6a6d6, data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
+﻿#Region "Microsoft.VisualBasic::161a1db421b1d55ea1edadd487f8f30d, data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class interaction_condition_link
     ' 
+    '     Properties: condition_id, interaction_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -66,7 +71,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `interaction_condition_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class interaction_condition_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property interaction_id As String
-    <DatabaseField("condition_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property condition_id As String
+    <DatabaseField("interaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="interaction_id")> Public Property interaction_id As String
+    <DatabaseField("condition_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="condition_id")> Public Property condition_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class interaction_condition_link: Inherits Oracle.LinuxCompatibility.MySQ
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As interaction_condition_link
+                  Return DirectCast(MyClass.MemberwiseClone, interaction_condition_link)
+              End Function
 End Class
 
 
 End Namespace
+

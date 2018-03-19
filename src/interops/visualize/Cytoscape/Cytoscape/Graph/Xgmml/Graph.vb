@@ -33,7 +33,8 @@
 
     '     Class Graph
     ' 
-    '         Properties: NetworkMetaData, Size
+    '         Properties: Attributes, Directed, documentVersion, Edges, Graphics
+    '                     ID, Label, NetworkMetaData, Nodes, Size
     ' 
     '         Function: (+2 Overloads) CreateObject, DeleteDuplication, ExistEdge, (+2 Overloads) GetNode, GetSize
     '                   Load, Save

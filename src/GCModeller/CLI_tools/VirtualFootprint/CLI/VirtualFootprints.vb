@@ -39,9 +39,11 @@
     '               TFMotifSites, TrimRegulates
     '     Class __testWorker
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __buildHash, __isValid
     ' 
-    '         Sub: New, TestBlock
+    '         Sub: TestBlock
     ' 
     ' 
     ' 

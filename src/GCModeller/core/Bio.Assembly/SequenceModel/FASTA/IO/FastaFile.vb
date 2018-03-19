@@ -35,6 +35,8 @@
     ' 
     '         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
     ' 
+    '         Constructor: (+8 Overloads) Sub New
+    ' 
     '         Function: [Select], __createNode, __saveUltraLargeSize, AddRange, AsKSource
     '                   Clone, Contains, Distinct, (+2 Overloads) DocParser, Find
     '                   Generate, GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile
@@ -43,7 +45,7 @@
     '                   Take, ToLower, ToString, ToUpper
     ' 
     '         Sub: Add, AppendToFile, Clear, CopyTo, FlushData
-    '              Insert, (+8 Overloads) New, RemoveAt, Split
+    '              Insert, RemoveAt, Split
     ' 
     '         Operators: (+3 Overloads) +, <, >
     ' 
@@ -297,7 +299,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
-            Dim TokenLines As String() = doc.lTokens
+            Dim TokenLines As String() = doc.LineTokens
             Return DocParser(TokenLines, deli)
         End Function
 

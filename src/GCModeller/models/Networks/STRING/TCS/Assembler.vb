@@ -33,11 +33,10 @@
 
     ' Class Assembler
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: (+2 Overloads) Assembly, (+2 Overloads) CompileAssembly, GetEdge, GetEffectors, GetInteractions
     '               GetProteins, IsChemotaxis, IsHHK, IsHK, IsHRR
     '               IsOneComponent, IsRR, ToString
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -33,9 +33,8 @@
 
     '     Class PartialBestBLAST
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ExportAllPartialBesthit, ExportPartialBesthit, GetPartialBesthit, Peformance
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

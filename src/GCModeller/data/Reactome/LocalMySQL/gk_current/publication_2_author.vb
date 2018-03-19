@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0feb576472cff30f4ff2937abc7826b0, data\Reactome\LocalMySQL\gk_current\publication_2_author.vb"
+﻿#Region "Microsoft.VisualBasic::5a7a974e8e9fc5754e1a4a1674794895, data\Reactome\LocalMySQL\gk_current\publication_2_author.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class publication_2_author
     ' 
+    '     Properties: author, author_class, author_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `publication_2_author` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class publication_2_author: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("author_rank"), DataType(MySqlDbType.Int64, "10")> Public Property author_rank As Long
-    <DatabaseField("author"), DataType(MySqlDbType.Int64, "10")> Public Property author As Long
-    <DatabaseField("author_class"), DataType(MySqlDbType.VarChar, "64")> Public Property author_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("author_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="author_rank")> Public Property author_rank As Long
+    <DatabaseField("author"), DataType(MySqlDbType.Int64, "10"), Column(Name:="author")> Public Property author As Long
+    <DatabaseField("author_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="author_class")> Public Property author_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class publication_2_author: Inherits Oracle.LinuxCompatibility.MySQL.MySQ
         Return String.Format(UPDATE_SQL, DB_ID, author_rank, author, author_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As publication_2_author
+                  Return DirectCast(MyClass.MemberwiseClone, publication_2_author)
+              End Function
 End Class
 
 
 End Namespace
+

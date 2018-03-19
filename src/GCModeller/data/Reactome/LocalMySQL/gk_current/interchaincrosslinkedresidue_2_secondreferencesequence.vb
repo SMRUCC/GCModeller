@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31c2b7190bf058ebe342f6084b58e706, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
+﻿#Region "Microsoft.VisualBasic::9eedac0e9f47e900702e6761e397df21, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class interchaincrosslinkedresidue_2_secondreferencesequence
     ' 
+    '     Properties: DB_ID, secondReferenceSequence, secondReferenceSequence_class, secondReferenceSequence_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `interchaincrosslinkedresidue_2_secondreferencesequence` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class interchaincrosslinkedresidue_2_secondreferencesequence: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("secondReferenceSequence_rank"), DataType(MySqlDbType.Int64, "10")> Public Property secondReferenceSequence_rank As Long
-    <DatabaseField("secondReferenceSequence"), DataType(MySqlDbType.Int64, "10")> Public Property secondReferenceSequence As Long
-    <DatabaseField("secondReferenceSequence_class"), DataType(MySqlDbType.VarChar, "64")> Public Property secondReferenceSequence_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("secondReferenceSequence_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="secondReferenceSequence_rank")> Public Property secondReferenceSequence_rank As Long
+    <DatabaseField("secondReferenceSequence"), DataType(MySqlDbType.Int64, "10"), Column(Name:="secondReferenceSequence")> Public Property secondReferenceSequence As Long
+    <DatabaseField("secondReferenceSequence_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="secondReferenceSequence_class")> Public Property secondReferenceSequence_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class interchaincrosslinkedresidue_2_secondreferencesequence: Inherits Or
         Return String.Format(UPDATE_SQL, DB_ID, secondReferenceSequence_rank, secondReferenceSequence, secondReferenceSequence_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As interchaincrosslinkedresidue_2_secondreferencesequence
+                  Return DirectCast(MyClass.MemberwiseClone, interchaincrosslinkedresidue_2_secondreferencesequence)
+              End Function
 End Class
 
 
 End Namespace
+

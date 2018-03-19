@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: NodeIds, RepresentativeNodeId
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: build, nodeIds, representativeNodeId

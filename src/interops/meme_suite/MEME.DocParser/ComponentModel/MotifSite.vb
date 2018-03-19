@@ -33,9 +33,9 @@
 
     '     Class MotifSite
     ' 
-    '         Properties: EValue, Family, gStart, gStop, PValue
-    '                     RightEndDownStream, Sequence, Signature, Start, Strand
-    '                     Tag
+    '         Properties: EValue, Family, gStart, gStop, Locus_tag
+    '                     PValue, RightEndDownStream, Sequence, Signature, Start
+    '                     Strand, Tag, uid
     ' 
     '         Function: ToString
     ' 

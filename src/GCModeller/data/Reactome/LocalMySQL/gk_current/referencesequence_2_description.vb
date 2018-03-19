@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3976b5a22516871e190e0b0562290815, data\Reactome\LocalMySQL\gk_current\referencesequence_2_description.vb"
+﻿#Region "Microsoft.VisualBasic::a537490136c7587350f99bca42e307e8, data\Reactome\LocalMySQL\gk_current\referencesequence_2_description.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencesequence_2_description
     ' 
+    '     Properties: DB_ID, description, description_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referencesequence_2_description` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencesequence_2_description: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("description_rank"), DataType(MySqlDbType.Int64, "10")> Public Property description_rank As Long
-    <DatabaseField("description"), DataType(MySqlDbType.Text)> Public Property description As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("description_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="description_rank")> Public Property description_rank As Long
+    <DatabaseField("description"), DataType(MySqlDbType.Text), Column(Name:="description")> Public Property description As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referencesequence_2_description: Inherits Oracle.LinuxCompatibility
         Return String.Format(UPDATE_SQL, DB_ID, description_rank, description, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencesequence_2_description
+                  Return DirectCast(MyClass.MemberwiseClone, referencesequence_2_description)
+              End Function
 End Class
 
 
 End Namespace
+

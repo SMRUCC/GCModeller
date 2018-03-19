@@ -39,6 +39,8 @@
     ' 
     '     Class Network
     ' 
+    '         Properties: Nodes
+    ' 
     '         Function: Compile, GetConfidence
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class tigrroles
     ' 
+    '     Properties: description, level, roleId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

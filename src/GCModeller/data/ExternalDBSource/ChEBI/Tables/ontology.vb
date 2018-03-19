@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9261e4afedd78071eee2d774f6c6b0c, data\ExternalDBSource\ChEBI\Tables\ontology.vb"
+﻿#Region "Microsoft.VisualBasic::1a96da3d5aab1ef9f7717d82151099c4, data\ExternalDBSource\ChEBI\Tables\ontology.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class ontology
     ' 
+    '     Properties: id, title
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -67,7 +72,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `ontology` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class ontology: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("title"), NotNull, DataType(MySqlDbType.Text)> Public Property title As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("title"), NotNull, DataType(MySqlDbType.Text), Column(Name:="title")> Public Property title As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class ontology: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, title, id)
     End Function
 #End Region
+Public Function Clone() As ontology
+                  Return DirectCast(MyClass.MemberwiseClone, ontology)
+              End Function
 End Class
 
 
 End Namespace
+

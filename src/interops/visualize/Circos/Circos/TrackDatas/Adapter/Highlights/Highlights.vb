@@ -33,7 +33,8 @@
 
     '     Class Highlights
     ' 
-    '         Sub: __throwSourceNullEx, (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Sub: __throwSourceNullEx
     ' 
     ' 
     ' /********************************************************************************/

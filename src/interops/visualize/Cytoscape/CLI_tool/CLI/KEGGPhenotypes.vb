@@ -33,7 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: BuildModelNet, KEGGModulesPhenotypeRegulates, PathwayNet, SimpleModesNET
+    '     Function: __distinctCommon, BuildModelNet, KEGGModulesPhenotypeRegulates, PathwayNet, SimpleModesNET
     ' 
     ' /********************************************************************************/
 

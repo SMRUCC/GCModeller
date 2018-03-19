@@ -38,7 +38,8 @@
     '     Class FunctionCluster
     ' 
     '         Properties: Benjamini, Bonferroni, Category, Count, FDR
-    '                     Link, PValue, Term
+    '                     FoldEnrichment, Link, ListTotal, ORFs, Percent
+    '                     PopHits, PopTotal, PValue, Term
     ' 
     '         Function: ToString
     ' 

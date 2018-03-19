@@ -33,6 +33,8 @@
 
     ' Class term2term
     ' 
+    '     Properties: complete, id, relationship_type_id, term1_id, term2_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

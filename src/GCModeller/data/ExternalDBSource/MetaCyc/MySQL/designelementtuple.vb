@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97119483e29e22cca5f17f2999556762, data\ExternalDBSource\MetaCyc\MySQL\designelementtuple.vb"
+﻿#Region "Microsoft.VisualBasic::17cdea879fa252dd20047559aca79d81, data\ExternalDBSource\MetaCyc\MySQL\designelementtuple.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class designelementtuple
     ' 
+    '     Properties: BioAssayTuple, DataSetWID, DesignElement, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +80,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,10 +99,10 @@ CREATE TABLE `designelementtuple` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class designelementtuple: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("BioAssayTuple"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayTuple As Long
-    <DatabaseField("DesignElement"), DataType(MySqlDbType.Int64, "20")> Public Property DesignElement As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("BioAssayTuple"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayTuple")> Public Property BioAssayTuple As Long
+    <DatabaseField("DesignElement"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DesignElement")> Public Property DesignElement As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -149,7 +153,11 @@ Public Class designelementtuple: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, WID, DataSetWID, BioAssayTuple, DesignElement, WID)
     End Function
 #End Region
+Public Function Clone() As designelementtuple
+                  Return DirectCast(MyClass.MemberwiseClone, designelementtuple)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,13 +33,15 @@
 
     '     Class BinaryExpression
     ' 
-    '         Properties: __address, Identifier, Is_RegulatorType, RegulationValue, RegulatorCounts
-    '                     Status, Value
+    '         Properties: __address, Handle, Identifier, Is_RegulatorType, RegulationValue
+    '                     RegulatorCounts, RegulatorySites, Status, Value
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: CreateHandle, Evaluate, InternalGetMostPossibleAppearState, Regulators_DynamicsRegulation, Regulators_SiteSpecificDynamicsRegulations
     '                   SetConfigs, ToString
     ' 
-    '         Sub: InternalFactorDecays, (+2 Overloads) New, set_Mutation
+    '         Sub: InternalFactorDecays, set_Mutation
     ' 
     ' 
     ' /********************************************************************************/

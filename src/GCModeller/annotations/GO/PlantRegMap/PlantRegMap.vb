@@ -34,7 +34,7 @@
     '     Class PlantRegMap_GoTermEnrichment
     ' 
     '         Properties: Annotated, Aspect, Count, Expected, Genes
-    '                     Term
+    '                     GoID, pvalue, qvalue, Term
     ' 
     '         Function: ToString
     ' 

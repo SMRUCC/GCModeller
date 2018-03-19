@@ -33,6 +33,8 @@
 
     '     Structure Escaping
     ' 
+    '         Properties: Escape, Original
+    ' 
     '         Function: DefaultEscapes, ToString
     ' 
     '         Sub: (+2 Overloads) Replace

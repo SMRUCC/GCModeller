@@ -33,7 +33,7 @@
 
     '     Module MolecularWeightCalculator
     ' 
-    '         Function: CalcMW_Nucleotides, CalcMW_Polypeptide
+    '         Function: CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide
     ' 
     ' 
     ' /********************************************************************************/

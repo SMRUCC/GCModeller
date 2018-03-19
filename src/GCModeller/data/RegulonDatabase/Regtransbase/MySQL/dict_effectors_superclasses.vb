@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::854b393540f5e524c04c3829a7a5263f, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::266b1514e6bba2bd055e14f8a0a8f072, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class dict_effectors_superclasses
     ' 
+    '     Properties: effector_superclass_guid, idx, left_idx, name, parent_guid
+    '                 right_idx
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -71,7 +77,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,12 +92,12 @@ CREATE TABLE `dict_effectors_superclasses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class dict_effectors_superclasses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("effector_superclass_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property effector_superclass_guid As Long
-    <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property name As String
-    <DatabaseField("parent_guid"), DataType(MySqlDbType.Int64, "11")> Public Property parent_guid As Long
-    <DatabaseField("idx"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property idx As Long
-    <DatabaseField("left_idx"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property left_idx As Long
-    <DatabaseField("right_idx"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property right_idx As Long
+    <DatabaseField("effector_superclass_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="effector_superclass_guid"), XmlAttribute> Public Property effector_superclass_guid As Long
+    <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("parent_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="parent_guid")> Public Property parent_guid As Long
+    <DatabaseField("idx"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="idx")> Public Property idx As Long
+    <DatabaseField("left_idx"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="left_idx")> Public Property left_idx As Long
+    <DatabaseField("right_idx"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="right_idx")> Public Property right_idx As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -143,7 +148,11 @@ Public Class dict_effectors_superclasses: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, effector_superclass_guid, name, parent_guid, idx, left_idx, right_idx, effector_superclass_guid)
     End Function
 #End Region
+Public Function Clone() As dict_effectors_superclasses
+                  Return DirectCast(MyClass.MemberwiseClone, dict_effectors_superclasses)
+              End Function
 End Class
 
 
 End Namespace
+

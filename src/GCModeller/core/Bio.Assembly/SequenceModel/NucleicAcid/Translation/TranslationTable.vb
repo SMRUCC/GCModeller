@@ -35,6 +35,8 @@
     ' 
     '         Properties: CodenTable
     ' 
+    '         Function: (+2 Overloads) IsStopCoden, ToCodonCollection, (+3 Overloads) Translate
+    ' 
     ' 
     ' /********************************************************************************/
 

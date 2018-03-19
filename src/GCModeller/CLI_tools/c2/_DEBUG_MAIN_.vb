@@ -38,7 +38,8 @@
     '     Sub: CreateRegulatorCoExpressionNetwork, ExportRegulatorRegulationNetwork, fff, GenomeWildParse, Main
     '     Class RegulatorMatching
     ' 
-    '         Sub: Invoke, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Invoke
     ' 
     ' 
     ' 

@@ -33,10 +33,9 @@
 
     '     Class ModsBrite
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: [GetType], __modsBrite, __pathwaysBrite, (+2 Overloads) __toValue, GetCategory
     '                   GetClass
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

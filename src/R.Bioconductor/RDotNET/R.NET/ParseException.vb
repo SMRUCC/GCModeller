@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70072132bda0b6ae52aa334910a6e363, RDotNET\R.NET\ParseException.vb"
+﻿#Region "Microsoft.VisualBasic::6c0e40a748272733a78001e5d06b6e3e, RDotNET\R.NET\ParseException.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: ErrorStatement, Status
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: MakeErrorMsg
     ' 
-    '     Sub: GetObjectData, (+3 Overloads) New
+    '     Sub: GetObjectData
     ' 
     ' /********************************************************************************/
 

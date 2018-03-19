@@ -36,9 +36,8 @@
     '         Function: GradientMappings, MapAnnotations
     '         Structure __maps
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: CreateMaps
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

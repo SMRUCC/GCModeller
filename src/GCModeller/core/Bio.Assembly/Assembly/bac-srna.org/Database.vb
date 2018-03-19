@@ -35,9 +35,8 @@
     ' 
     '         Properties: Interactions, lastUpdate, Sequences
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ImportsInteraction, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -41,7 +41,7 @@
     ' 
     '  
     ' 
-    '     Properties: CompositionVector, DynamicsLamda
+    '     Properties: CompositionVector, DynamicsLamda, Identifier, ProteinType
     ' 
     '     Function: CreateObject, GenerateVector
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf3777f02212fc54bb567960e92d89b8, data\ExternalDBSource\MetaCyc\MySQL\protein.vb"
+﻿#Region "Microsoft.VisualBasic::afce98026905085a2498a1f479ef7842, data\ExternalDBSource\MetaCyc\MySQL\protein.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class protein
     ' 
+    '     Properties: AASequence, Charge, DataSetWID, Fragment, Length
+    '                 LengthApproximate, MolecularWeightCalc, MolecularWeightExp, Name, PICalc
+    '                 PIExp, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -79,7 +86,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,18 +109,18 @@ CREATE TABLE `protein` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class protein: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), DataType(MySqlDbType.Text)> Public Property Name As String
-    <DatabaseField("AASequence"), DataType(MySqlDbType.Text)> Public Property AASequence As String
-    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11")> Public Property Length As Long
-    <DatabaseField("LengthApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property LengthApproximate As String
-    <DatabaseField("Charge"), DataType(MySqlDbType.Int64, "6")> Public Property Charge As Long
-    <DatabaseField("Fragment"), DataType(MySqlDbType.VarChar, "1")> Public Property Fragment As String
-    <DatabaseField("MolecularWeightCalc"), DataType(MySqlDbType.Double)> Public Property MolecularWeightCalc As Double
-    <DatabaseField("MolecularWeightExp"), DataType(MySqlDbType.Double)> Public Property MolecularWeightExp As Double
-    <DatabaseField("PICalc"), DataType(MySqlDbType.VarChar, "50")> Public Property PICalc As String
-    <DatabaseField("PIExp"), DataType(MySqlDbType.VarChar, "50")> Public Property PIExp As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), DataType(MySqlDbType.Text), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("AASequence"), DataType(MySqlDbType.Text), Column(Name:="AASequence")> Public Property AASequence As String
+    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11"), Column(Name:="Length")> Public Property Length As Long
+    <DatabaseField("LengthApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="LengthApproximate")> Public Property LengthApproximate As String
+    <DatabaseField("Charge"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Charge")> Public Property Charge As Long
+    <DatabaseField("Fragment"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Fragment")> Public Property Fragment As String
+    <DatabaseField("MolecularWeightCalc"), DataType(MySqlDbType.Double), Column(Name:="MolecularWeightCalc")> Public Property MolecularWeightCalc As Double
+    <DatabaseField("MolecularWeightExp"), DataType(MySqlDbType.Double), Column(Name:="MolecularWeightExp")> Public Property MolecularWeightExp As Double
+    <DatabaseField("PICalc"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="PICalc")> Public Property PICalc As String
+    <DatabaseField("PIExp"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="PIExp")> Public Property PIExp As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -165,7 +171,11 @@ Public Class protein: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Name, AASequence, Length, LengthApproximate, Charge, Fragment, MolecularWeightCalc, MolecularWeightExp, PICalc, PIExp, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As protein
+                  Return DirectCast(MyClass.MemberwiseClone, protein)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,11 @@
 
     ' Class feature
     ' 
+    '     Properties: [Class], [Variant], ComputationalSupport, DataSetWID, Description
+    '                 EndPosition, EndPositionApproximate, ExperimentalSupport, PointType, RegionOrPoint
+    '                 SequenceType, SequenceWID, StartPosition, StartPositionApproximate, Type
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

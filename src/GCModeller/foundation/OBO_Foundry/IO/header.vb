@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e6c8d5f05d07ff587d4c00381f8af54, foundation\OBO_Foundry\IO\header.vb"
+﻿#Region "Microsoft.VisualBasic::2b1b048bed0ce9e20b1c21efc60b8bbf, foundation\OBO_Foundry\IO\header.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,10 @@
     ' Summaries:
 
     ' Class header
+    ' 
+    '     Properties: [Date], Author, DataVersion, DefaultNamespace, Ontology
+    '                 property_value, Remark, SubsetDef, SynonymTypeDef, Tools
+    '                 Version
     ' 
     '     Function: ToString
     ' 

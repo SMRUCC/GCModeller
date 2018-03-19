@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df09b3a60fddfa026643c8c021f621d5, data\ExternalDBSource\MetaCyc\MySQL\bioassay.vb"
+﻿#Region "Microsoft.VisualBasic::ea3a4553940c161666d802f5e8099a30, data\ExternalDBSource\MetaCyc\MySQL\bioassay.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class bioassay
     ' 
+    '     Properties: BioAssayCreation, DataSetWID, DerivedBioAssay_Type, FeatureExtraction, Identifier
+    '                 MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,14 +112,14 @@ CREATE TABLE `bioassay` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class bioassay: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("DerivedBioAssay_Type"), DataType(MySqlDbType.Int64, "20")> Public Property DerivedBioAssay_Type As Long
-    <DatabaseField("FeatureExtraction"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureExtraction As Long
-    <DatabaseField("BioAssayCreation"), DataType(MySqlDbType.Int64, "20")> Public Property BioAssayCreation As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("DerivedBioAssay_Type"), DataType(MySqlDbType.Int64, "20"), Column(Name:="DerivedBioAssay_Type")> Public Property DerivedBioAssay_Type As Long
+    <DatabaseField("FeatureExtraction"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureExtraction")> Public Property FeatureExtraction As Long
+    <DatabaseField("BioAssayCreation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayCreation")> Public Property BioAssayCreation As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -165,7 +170,11 @@ Public Class bioassay: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, DerivedBioAssay_Type, FeatureExtraction, BioAssayCreation, WID)
     End Function
 #End Region
+Public Function Clone() As bioassay
+                  Return DirectCast(MyClass.MemberwiseClone, bioassay)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,8 @@
 
     ' Module Extensions
     ' 
-    '     Function: Install
+    '     Function: (+2 Overloads) Append, AsName, ContainsAny, ContainsKeyword, GetIdList
+    '               Install
     ' 
     ' /********************************************************************************/
 

@@ -33,7 +33,11 @@
 
     '     Class BlastnMapping
     ' 
-    '         Properties: Extensions, QueryLength, Reference, Strand
+    '         Properties: AlignmentFullLength, Evalue, Extensions, Gaps, GapsFraction
+    '                     Identities, IdentitiesFraction, PerfectAlignment, QueryLeft, QueryLength
+    '                     QueryRight, QueryStrand, RawScore, ReadQuery, Reference
+    '                     ReferenceLeft, ReferenceRight, ReferenceStrand, Score, Strand
+    '                     Unique
     ' 
     '         Function: __getMappingLoci, ToString
     ' 

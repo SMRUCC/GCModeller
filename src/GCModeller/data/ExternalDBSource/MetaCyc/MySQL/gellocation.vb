@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca3b0cda541a151095f590ed738a802e, data\ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
+﻿#Region "Microsoft.VisualBasic::1e4196e0b11924177eb42dfcdd1ed90b, data\ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class gellocation
     ' 
+    '     Properties: DatasetWID, ExperimentWID, refGel, SpotWID, WID
+    '                 Xcoord, Ycoord
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -78,7 +84,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -101,13 +106,13 @@ CREATE TABLE `gellocation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gellocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("SpotWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property SpotWID As Long
-    <DatabaseField("Xcoord"), DataType(MySqlDbType.Double)> Public Property Xcoord As Double
-    <DatabaseField("Ycoord"), DataType(MySqlDbType.Double)> Public Property Ycoord As Double
-    <DatabaseField("refGel"), DataType(MySqlDbType.VarChar, "1")> Public Property refGel As String
-    <DatabaseField("ExperimentWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ExperimentWID As Long
-    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DatasetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("SpotWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="SpotWID")> Public Property SpotWID As Long
+    <DatabaseField("Xcoord"), DataType(MySqlDbType.Double), Column(Name:="Xcoord")> Public Property Xcoord As Double
+    <DatabaseField("Ycoord"), DataType(MySqlDbType.Double), Column(Name:="Ycoord")> Public Property Ycoord As Double
+    <DatabaseField("refGel"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="refGel")> Public Property refGel As String
+    <DatabaseField("ExperimentWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ExperimentWID")> Public Property ExperimentWID As Long
+    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DatasetWID")> Public Property DatasetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -158,7 +163,11 @@ Public Class gellocation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, SpotWID, Xcoord, Ycoord, refGel, ExperimentWID, DatasetWID, WID)
     End Function
 #End Region
+Public Function Clone() As gellocation
+                  Return DirectCast(MyClass.MemberwiseClone, gellocation)
+              End Function
 End Class
 
 
 End Namespace
+

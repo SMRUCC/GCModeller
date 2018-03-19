@@ -35,8 +35,8 @@
     ' 
     '         Properties: AllCircosColors, DefaultCOGColor
     ' 
-    '         Function: __loadResource, ColorFromHSV, FromColor, FromHsv, FromKnownColorName
-    '                   FromRGB
+    '         Function: __loadResource, ColorFromHSV, (+2 Overloads) ColorProfiles, FromColor, FromHsv
+    '                   FromKnownColorName, FromRGB
     ' 
     ' 
     ' /********************************************************************************/

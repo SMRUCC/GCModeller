@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bd722bcdbec8253ba66fa71393a7525, RDotNET\R.NET\Symbol.vb"
+﻿#Region "Microsoft.VisualBasic::9c85a331f3676ad17016705b224a0d14, RDotNET\R.NET\Symbol.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,8 @@
     ' 
     '     Properties: Internal, PrintName, Value
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetOffsetOf
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

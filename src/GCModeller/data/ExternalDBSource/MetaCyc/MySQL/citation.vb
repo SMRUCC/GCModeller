@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4ba3db734910f3da7b2e53b68643cf4, data\ExternalDBSource\MetaCyc\MySQL\citation.vb"
+﻿#Region "Microsoft.VisualBasic::fe4d740c67d2b14e322fc5eeb366f3b7, data\ExternalDBSource\MetaCyc\MySQL\citation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class citation
     ' 
+    '     Properties: Authors, Citation, DataSetWID, Editor, Issue
+    '                 Pages, PMID, Publication, Publisher, Title
+    '                 URI, Volume, WID, Year
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -83,7 +90,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -111,20 +117,20 @@ CREATE TABLE `citation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class citation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Citation"), DataType(MySqlDbType.Text)> Public Property Citation As String
-    <DatabaseField("PMID"), DataType(MySqlDbType.Decimal)> Public Property PMID As Decimal
-    <DatabaseField("Title"), DataType(MySqlDbType.VarChar, "255")> Public Property Title As String
-    <DatabaseField("Authors"), DataType(MySqlDbType.VarChar, "255")> Public Property Authors As String
-    <DatabaseField("Publication"), DataType(MySqlDbType.VarChar, "255")> Public Property Publication As String
-    <DatabaseField("Publisher"), DataType(MySqlDbType.VarChar, "255")> Public Property Publisher As String
-    <DatabaseField("Editor"), DataType(MySqlDbType.VarChar, "255")> Public Property Editor As String
-    <DatabaseField("Year"), DataType(MySqlDbType.VarChar, "255")> Public Property Year As String
-    <DatabaseField("Volume"), DataType(MySqlDbType.VarChar, "255")> Public Property Volume As String
-    <DatabaseField("Issue"), DataType(MySqlDbType.VarChar, "255")> Public Property Issue As String
-    <DatabaseField("Pages"), DataType(MySqlDbType.VarChar, "255")> Public Property Pages As String
-    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255")> Public Property URI As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Citation"), DataType(MySqlDbType.Text), Column(Name:="Citation")> Public Property Citation As String
+    <DatabaseField("PMID"), DataType(MySqlDbType.Decimal), Column(Name:="PMID")> Public Property PMID As Decimal
+    <DatabaseField("Title"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Title")> Public Property Title As String
+    <DatabaseField("Authors"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Authors")> Public Property Authors As String
+    <DatabaseField("Publication"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Publication")> Public Property Publication As String
+    <DatabaseField("Publisher"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Publisher")> Public Property Publisher As String
+    <DatabaseField("Editor"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Editor")> Public Property Editor As String
+    <DatabaseField("Year"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Year")> Public Property Year As String
+    <DatabaseField("Volume"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Volume")> Public Property Volume As String
+    <DatabaseField("Issue"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Issue")> Public Property Issue As String
+    <DatabaseField("Pages"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Pages")> Public Property Pages As String
+    <DatabaseField("URI"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="URI")> Public Property URI As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -175,7 +181,11 @@ Public Class citation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Citation, PMID, Title, Authors, Publication, Publisher, Editor, Year, Volume, Issue, Pages, URI, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As citation
+                  Return DirectCast(MyClass.MemberwiseClone, citation)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aaf8d048731e4bc0411322b1c7de4499, data\RegulonDatabase\RegulonDB\MySQL\alignment.vb"
+﻿#Region "Microsoft.VisualBasic::9961afc0f1ac53be97997ee639e47313, data\RegulonDatabase\RegulonDB\MySQL\alignment.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class alignment
     ' 
+    '     Properties: alignment_score_sequence, alignment_sequence, site_id, tf_alignment_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `alignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class alignment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("tf_alignment_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property tf_alignment_id As String
-    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property site_id As String
-    <DatabaseField("alignment_sequence"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property alignment_sequence As String
-    <DatabaseField("alignment_score_sequence"), NotNull, DataType(MySqlDbType.Decimal)> Public Property alignment_score_sequence As Decimal
+    <DatabaseField("tf_alignment_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="tf_alignment_id")> Public Property tf_alignment_id As String
+    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="site_id")> Public Property site_id As String
+    <DatabaseField("alignment_sequence"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="alignment_sequence")> Public Property alignment_sequence As String
+    <DatabaseField("alignment_score_sequence"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="alignment_score_sequence")> Public Property alignment_score_sequence As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class alignment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As alignment
+                  Return DirectCast(MyClass.MemberwiseClone, alignment)
+              End Function
 End Class
 
 
 End Namespace
+

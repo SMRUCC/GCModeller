@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91919fcad178a69cf9fcfce968d49457, data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb"
+﻿#Region "Microsoft.VisualBasic::8f8412a8ce5d446eacacd715b5728c16, data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class concurrenteventset_2_concurrentevents
     ' 
+    '     Properties: concurrentEvents, concurrentEvents_class, concurrentEvents_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `concurrenteventset_2_concurrentevents` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class concurrenteventset_2_concurrentevents: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("concurrentEvents_rank"), DataType(MySqlDbType.Int64, "10")> Public Property concurrentEvents_rank As Long
-    <DatabaseField("concurrentEvents"), DataType(MySqlDbType.Int64, "10")> Public Property concurrentEvents As Long
-    <DatabaseField("concurrentEvents_class"), DataType(MySqlDbType.VarChar, "64")> Public Property concurrentEvents_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("concurrentEvents_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="concurrentEvents_rank")> Public Property concurrentEvents_rank As Long
+    <DatabaseField("concurrentEvents"), DataType(MySqlDbType.Int64, "10"), Column(Name:="concurrentEvents")> Public Property concurrentEvents As Long
+    <DatabaseField("concurrentEvents_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="concurrentEvents_class")> Public Property concurrentEvents_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class concurrenteventset_2_concurrentevents: Inherits Oracle.LinuxCompati
         Return String.Format(UPDATE_SQL, DB_ID, concurrentEvents_rank, concurrentEvents, concurrentEvents_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As concurrenteventset_2_concurrentevents
+                  Return DirectCast(MyClass.MemberwiseClone, concurrenteventset_2_concurrentevents)
+              End Function
 End Class
 
 
 End Namespace
+

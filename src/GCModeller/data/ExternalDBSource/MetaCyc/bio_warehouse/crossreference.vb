@@ -33,6 +33,9 @@
 
     ' Class crossreference
     ' 
+    '     Properties: CrossWID, DatabaseName, OtherWID, Relationship, Type
+    '                 Version, XID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

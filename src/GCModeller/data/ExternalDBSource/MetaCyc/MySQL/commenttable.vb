@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddb1ef1ef024b0e582d2e4e0da7f1575, data\ExternalDBSource\MetaCyc\MySQL\commenttable.vb"
+﻿#Region "Microsoft.VisualBasic::4f9b0f65c6fe04d7026ca7dfe5042dc6, data\ExternalDBSource\MetaCyc\MySQL\commenttable.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class commenttable
     ' 
+    '     Properties: Comm, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -66,7 +71,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `commenttable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class commenttable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("Comm"), DataType(MySqlDbType.Text)> Public Property Comm As String
+    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
+    <DatabaseField("Comm"), DataType(MySqlDbType.Text), Column(Name:="Comm")> Public Property Comm As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class commenttable: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As commenttable
+                  Return DirectCast(MyClass.MemberwiseClone, commenttable)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,7 @@
 
     ' Module Extensions
     ' 
-    '     Function: (+2 Overloads) __createObject, __toSites, MASTSites
+    '     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
     ' 
     ' /********************************************************************************/
 

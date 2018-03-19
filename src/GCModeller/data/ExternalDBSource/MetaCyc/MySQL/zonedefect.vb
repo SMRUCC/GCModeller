@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::feb2c0d87ccfd8df12b130c4d592bf36, data\ExternalDBSource\MetaCyc\MySQL\zonedefect.vb"
+﻿#Region "Microsoft.VisualBasic::0ef1c70c2f238d01b4c047d54cf54254, data\ExternalDBSource\MetaCyc\MySQL\zonedefect.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class zonedefect
     ' 
+    '     Properties: ArrayManufactureDeviation, DataSetWID, WID, Zone, ZoneDefect_DefectType
+    '                 ZoneDefect_PositionDelta
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,12 +112,12 @@ CREATE TABLE `zonedefect` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class zonedefect: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("ArrayManufactureDeviation"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayManufactureDeviation As Long
-    <DatabaseField("ZoneDefect_DefectType"), DataType(MySqlDbType.Int64, "20")> Public Property ZoneDefect_DefectType As Long
-    <DatabaseField("ZoneDefect_PositionDelta"), DataType(MySqlDbType.Int64, "20")> Public Property ZoneDefect_PositionDelta As Long
-    <DatabaseField("Zone"), DataType(MySqlDbType.Int64, "20")> Public Property Zone As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("ArrayManufactureDeviation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayManufactureDeviation")> Public Property ArrayManufactureDeviation As Long
+    <DatabaseField("ZoneDefect_DefectType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ZoneDefect_DefectType")> Public Property ZoneDefect_DefectType As Long
+    <DatabaseField("ZoneDefect_PositionDelta"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ZoneDefect_PositionDelta")> Public Property ZoneDefect_PositionDelta As Long
+    <DatabaseField("Zone"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Zone")> Public Property Zone As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -163,7 +168,11 @@ Public Class zonedefect: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, ArrayManufactureDeviation, ZoneDefect_DefectType, ZoneDefect_PositionDelta, Zone, WID)
     End Function
 #End Region
+Public Function Clone() As zonedefect
+                  Return DirectCast(MyClass.MemberwiseClone, zonedefect)
+              End Function
 End Class
 
 
 End Namespace
+

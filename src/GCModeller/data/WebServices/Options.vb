@@ -36,19 +36,20 @@
     '         Properties: Count, ICollection_IsSynchronized, ICollection_SyncRoot, IList_IsFixedSize, IList_Item
     '                     IsReadOnly
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IList_Add, IList_Contains
     '                   IList_IndexOf, IndexOf, Remove, ToArray, ToList
     '                   ToString
     ' 
     '         Sub: Add, AssertValid, Clear, CopyTo, ICollection_CopyTo
-    '              IList_Insert, IList_Remove, IList_RemoveAt, Insert, New
-    '              RemoveAt
+    '              IList_Insert, IList_Remove, IList_RemoveAt, Insert, RemoveAt
     ' 
     '     Class OptionContext
     ' 
     '         Properties: [Option], OptionIndex, OptionName, OptionSet, OptionValues
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Enum OptionValueType
     ' 
@@ -63,15 +64,18 @@
     '         Properties: Description, MaxValueCount, Names, OptionValueType, Prototype
     '                     ValueSeparators
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: GetNames, GetValueSeparators, Parse, ParsePrototype, ToString
     ' 
-    '         Sub: AddSeparators, Invoke, (+2 Overloads) New
+    '         Sub: AddSeparators, Invoke
     ' 
     '     Class OptionException
     ' 
     '         Properties: OptionName
     ' 
-    '         Sub: GetObjectData, (+4 Overloads) New
+    '         Constructor: (+4 Overloads) Sub New
+    '         Sub: GetObjectData
     ' 
     '     Delegate Sub
     ' 
@@ -80,23 +84,28 @@
     ' 
     '         Properties: MessageLocalizer
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: (+9 Overloads) Add, CreateOptionContext, GetArgumentName, GetDescription, GetKeyForItem
     '                   GetLineEnd, GetLines, GetNextOptionIndex, GetOptionForName, GetOptionParts
     '                   (+3 Overloads) Parse, ParseBool, ParseBundledValue, Unprocessed, WriteOptionPrototype
     ' 
-    '         Sub: AddImpl, InsertItem, Invoke, (+2 Overloads) New, ParseValue
-    '              RemoveItem, SetItem, Write, WriteOptionDescriptions
+    '         Sub: AddImpl, InsertItem, Invoke, ParseValue, RemoveItem
+    '              SetItem, Write, WriteOptionDescriptions
     '         Class ActionOption
     ' 
-    '             Sub: New, OnParseComplete
-    ' 
-    '         Class ActionOption
-    ' 
-    '             Sub: New, OnParseComplete
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: OnParseComplete
     ' 
     '         Class ActionOption
     ' 
-    '             Sub: New, OnParseComplete
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: OnParseComplete
+    ' 
+    '         Class ActionOption
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: OnParseComplete
     ' 
     ' 
     ' 

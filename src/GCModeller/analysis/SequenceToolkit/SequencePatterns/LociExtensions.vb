@@ -33,10 +33,9 @@
 
     ' Module LociExtensions
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __ip, __pl, __revp, __revpcsv, __rps
     '               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53ac556986579bf068ba13495b2bd036, data\RegulonDatabase\RegulonDB\MySQL\site.vb"
+﻿#Region "Microsoft.VisualBasic::7cb4801d72948615ae67ba0a4a51459d, data\RegulonDatabase\RegulonDB\MySQL\site.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class site
     ' 
+    '     Properties: key_id_org, site_id, site_internal_comment, site_length, site_note
+    '                 site_posleft, site_posright, site_sequence
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -72,7 +78,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,14 +94,14 @@ CREATE TABLE `site` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class site: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property site_id As String
-    <DatabaseField("site_posleft"), NotNull, DataType(MySqlDbType.Decimal)> Public Property site_posleft As Decimal
-    <DatabaseField("site_posright"), NotNull, DataType(MySqlDbType.Decimal)> Public Property site_posright As Decimal
-    <DatabaseField("site_sequence"), DataType(MySqlDbType.VarChar, "100")> Public Property site_sequence As String
-    <DatabaseField("site_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property site_note As String
-    <DatabaseField("site_internal_comment"), DataType(MySqlDbType.Text)> Public Property site_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
-    <DatabaseField("site_length"), DataType(MySqlDbType.Decimal)> Public Property site_length As Decimal
+    <DatabaseField("site_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="site_id")> Public Property site_id As String
+    <DatabaseField("site_posleft"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="site_posleft")> Public Property site_posleft As Decimal
+    <DatabaseField("site_posright"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="site_posright")> Public Property site_posright As Decimal
+    <DatabaseField("site_sequence"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="site_sequence")> Public Property site_sequence As String
+    <DatabaseField("site_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="site_note")> Public Property site_note As String
+    <DatabaseField("site_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="site_internal_comment")> Public Property site_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
+    <DatabaseField("site_length"), DataType(MySqlDbType.Decimal), Column(Name:="site_length")> Public Property site_length As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -147,7 +152,11 @@ Public Class site: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As site
+                  Return DirectCast(MyClass.MemberwiseClone, site)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,9 @@
 
     '     Class Experiment
     ' 
+    '         Properties: DisturbType, Id, Interval, Kicks, Start
+    '                     Value
+    ' 
     '         Function: ToString
     ' 
     ' 

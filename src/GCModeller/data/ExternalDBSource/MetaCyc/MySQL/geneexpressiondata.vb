@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcf826d71e777f7c68aa46a6e324b43b, data\ExternalDBSource\MetaCyc\MySQL\geneexpressiondata.vb"
+﻿#Region "Microsoft.VisualBasic::b9cf9e6b01982429dd0ab4b406372756, data\ExternalDBSource\MetaCyc\MySQL\geneexpressiondata.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class geneexpressiondata
     ' 
+    '     Properties: B, BioAssayValuesWID, D, Q, Value
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +76,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,11 +91,11 @@ CREATE TABLE `geneexpressiondata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class geneexpressiondata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("B"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property B As Long
-    <DatabaseField("D"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property D As Long
-    <DatabaseField("Q"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Q As Long
-    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property Value As String
-    <DatabaseField("BioAssayValuesWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property BioAssayValuesWID As Long
+    <DatabaseField("B"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="B")> Public Property B As Long
+    <DatabaseField("D"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="D")> Public Property D As Long
+    <DatabaseField("Q"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Q")> Public Property Q As Long
+    <DatabaseField("Value"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="Value")> Public Property Value As String
+    <DatabaseField("BioAssayValuesWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="BioAssayValuesWID"), XmlAttribute> Public Property BioAssayValuesWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -142,7 +146,11 @@ Public Class geneexpressiondata: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, B, D, Q, Value, BioAssayValuesWID, BioAssayValuesWID)
     End Function
 #End Region
+Public Function Clone() As geneexpressiondata
+                  Return DirectCast(MyClass.MemberwiseClone, geneexpressiondata)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,9 @@
 
     '     Module GCModellerCommons
     ' 
+    '         Function: GetCompartment, GetKineticLaw, GetValue
     ' 
+    '         Sub: Invoke
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class reguloncluster
     ' 
+    '     Properties: clusterId, link, locusId, updated
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

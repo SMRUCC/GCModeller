@@ -33,6 +33,8 @@
 
     ' Class reporterdimenswidreporterwid
     ' 
+    '     Properties: ReporterDimensionWID, ReporterWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class ipr2go
     ' 
+    '     Properties: goId, iprId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

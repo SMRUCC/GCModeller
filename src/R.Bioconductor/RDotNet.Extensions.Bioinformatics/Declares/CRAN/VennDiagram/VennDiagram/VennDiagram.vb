@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42674fcdeca7e2a6ebf21c0331377123, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\VennDiagram.vb"
+﻿#Region "Microsoft.VisualBasic::ec5cde00f941810b548080583c182da9, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\VennDiagram.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,13 @@
 
     '     Class VennDiagram
     ' 
-    '         Properties: categoryNames, plot
+    '         Properties: categoryNames, partitions, plot, saveTiff, Title
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __R_script, ToString
     ' 
-    '         Sub: New, RandomColors
+    '         Sub: RandomColors
     ' 
     '         Operators: +
     ' 

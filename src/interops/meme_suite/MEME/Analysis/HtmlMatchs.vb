@@ -33,9 +33,10 @@
 
     '     Module HtmlMatching
     ' 
-    '         Function: ____match, __assignOperonInfo, (+6 Overloads) __match, __matchProcess, FilteringPcc
-    '                   (+2 Overloads) Invoke, LoadMEMEXml, (+5 Overloads) Match, MatchedTargetRegulator, MergeResult
-    '                   NovelSites, PhenotypeRegulations, Process, ReadData, SaveMatchedResult
+    '         Function: ____match, __assignOperonInfo, __createObject, __isSingle, (+6 Overloads) __match
+    '                   __matchProcess, FilteringPcc, (+2 Overloads) Invoke, LoadMEMEXml, (+5 Overloads) Match
+    '                   MatchedTargetRegulator, MergeResult, NovelSites, PhenotypeRegulations, Process
+    '                   ReadData, SaveMatchedResult
     '         Class MEMEAnalysisResult
     ' 
     '             Properties: Regulated, RegulationMode, Regulator

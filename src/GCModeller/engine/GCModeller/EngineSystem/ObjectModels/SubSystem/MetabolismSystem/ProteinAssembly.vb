@@ -33,25 +33,27 @@
 
     '     Class ProteinAssembly
     ' 
+    '         Properties: ProteinComplex, Proteins
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ___createPolypeptideObject, CreateServiceSerials, GetProteins, Initialize
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     '     Class RibosomalAssembly
     ' 
     '         Properties: RibosomalComplexes
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Initialize
-    ' 
-    '         Sub: New
     ' 
     '     Class RNAPolymeraseAssembly
     ' 
     '         Properties: RNAPolymerase
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __innerTicks, Initialize
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

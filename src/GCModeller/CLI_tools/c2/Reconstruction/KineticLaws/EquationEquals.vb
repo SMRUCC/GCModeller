@@ -33,9 +33,8 @@
 
     ' Class EquationEquals
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ApplyAnalysis
-    ' 
-    '     Sub: New
     '     Class EquationEqualsMapping
     ' 
     '         Properties: Comments, CommonNames, KEGG_Equation, KEGG_Id, Metacyc_Equation

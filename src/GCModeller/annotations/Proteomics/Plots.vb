@@ -33,7 +33,7 @@
 
     ' Module Plots
     ' 
-    '     Function: GOEnrichmentPlot, logFCHistogram
+    '     Function: GOEnrichmentPlot, logFCHistogram, VennData
     ' 
     ' /********************************************************************************/
 

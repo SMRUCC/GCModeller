@@ -33,6 +33,8 @@
 
     ' Class description
     ' 
+    '     Properties: Comm, OtherWID, TableName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -109,7 +109,7 @@ Namespace Script
         ''' 
         <Extension>
         Public Function ParseScript(scriptText As String) As Model
-            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(scriptText.lTokens)
+            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(scriptText.LineTokens)
             Dim typeTokens = (From x As Token(Of Tokens)
                               In tokens
                               Select x

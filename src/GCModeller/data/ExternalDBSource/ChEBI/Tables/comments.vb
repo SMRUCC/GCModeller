@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a36b8ab30644d577a2a59c56486afdc2, data\ExternalDBSource\ChEBI\Tables\comments.vb"
+﻿#Region "Microsoft.VisualBasic::a163dee148e352b7ea6d273be31d802b, data\ExternalDBSource\ChEBI\Tables\comments.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class comments
     ' 
+    '     Properties: compound_id, created_on, datatype, datatype_id, id
+    '                 text
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -73,7 +79,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,12 +96,12 @@ CREATE TABLE `comments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class comments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("text"), NotNull, DataType(MySqlDbType.Text)> Public Property text As String
-    <DatabaseField("created_on"), NotNull, DataType(MySqlDbType.DateTime)> Public Property created_on As Date
-    <DatabaseField("datatype"), DataType(MySqlDbType.VarChar, "80")> Public Property datatype As String
-    <DatabaseField("datatype_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property datatype_id As Long
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("compound_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("text"), NotNull, DataType(MySqlDbType.Text), Column(Name:="text")> Public Property text As String
+    <DatabaseField("created_on"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="created_on")> Public Property created_on As Date
+    <DatabaseField("datatype"), DataType(MySqlDbType.VarChar, "80"), Column(Name:="datatype")> Public Property datatype As String
+    <DatabaseField("datatype_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="datatype_id")> Public Property datatype_id As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -119,7 +124,7 @@ Public Class comments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes.DataType.ToMySqlDateTimeString(created_on), datatype, datatype_id)
+        Return String.Format(INSERT_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Scripting.Extensions.ToMySqlDateTimeString(created_on), datatype, datatype_id)
     End Function
 
 ''' <summary>
@@ -136,7 +141,7 @@ Public Class comments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes.DataType.ToMySqlDateTimeString(created_on), datatype, datatype_id)
+        Return String.Format(REPLACE_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Scripting.Extensions.ToMySqlDateTimeString(created_on), datatype, datatype_id)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -144,10 +149,14 @@ Public Class comments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes.DataType.ToMySqlDateTimeString(created_on), datatype, datatype_id, id)
+        Return String.Format(UPDATE_SQL, id, compound_id, text, Oracle.LinuxCompatibility.MySQL.Scripting.Extensions.ToMySqlDateTimeString(created_on), datatype, datatype_id, id)
     End Function
 #End Region
+Public Function Clone() As comments
+                  Return DirectCast(MyClass.MemberwiseClone, comments)
+              End Function
 End Class
 
 
 End Namespace
+

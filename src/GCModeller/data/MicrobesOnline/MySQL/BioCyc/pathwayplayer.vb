@@ -33,6 +33,8 @@
 
     ' Class pathwayplayer
     ' 
+    '     Properties: pathwayId, player, playerId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

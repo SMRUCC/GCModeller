@@ -33,7 +33,7 @@
 
     ' Module KEGGPathwayMap
     ' 
-    '     Function: MapImageInvalid, PSum
+    '     Function: KOBAS_DEPs, KOBAS_visualize, MapImageInvalid, PSum
     ' 
     ' /********************************************************************************/
 

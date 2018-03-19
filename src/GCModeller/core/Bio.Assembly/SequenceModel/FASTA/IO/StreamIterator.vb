@@ -35,9 +35,8 @@
     ' 
     '         Properties: DefaultSuffix
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __loops, ReadStream, SeqSource, Split
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

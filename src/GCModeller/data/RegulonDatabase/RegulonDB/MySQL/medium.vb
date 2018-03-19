@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19d15b2226325a9f8997fc277342ca6d, data\RegulonDatabase\RegulonDB\MySQL\medium.vb"
+﻿#Region "Microsoft.VisualBasic::c7b45d6a96a64fc64c914b50bf83e94a, data\RegulonDatabase\RegulonDB\MySQL\medium.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class medium
     ' 
+    '     Properties: medium_description, medium_id, medium_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `medium` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class medium: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("medium_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property medium_id As String
-    <DatabaseField("medium_name"), NotNull, DataType(MySqlDbType.VarChar, "300")> Public Property medium_name As String
-    <DatabaseField("medium_description"), NotNull, DataType(MySqlDbType.VarChar, "2000")> Public Property medium_description As String
+    <DatabaseField("medium_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="medium_id")> Public Property medium_id As String
+    <DatabaseField("medium_name"), NotNull, DataType(MySqlDbType.VarChar, "300"), Column(Name:="medium_name")> Public Property medium_name As String
+    <DatabaseField("medium_description"), NotNull, DataType(MySqlDbType.VarChar, "2000"), Column(Name:="medium_description")> Public Property medium_description As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class medium: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As medium
+                  Return DirectCast(MyClass.MemberwiseClone, medium)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38bf0cb3ab16de32f41d92f8dc9ac2a1, data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
+﻿#Region "Microsoft.VisualBasic::af9a5e1debe733cf407862361bd71b14, data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class transcription_factor
     ' 
+    '     Properties: connectivity_class, consensus_sequence, key_id_org, sensing_class, site_length
+    '                 symmetry, tf_internal_comment, transcription_factor_family, transcription_factor_id, transcription_factor_name
+    '                 transcription_factor_note
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -75,7 +82,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,17 +101,17 @@ CREATE TABLE `transcription_factor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class transcription_factor: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property transcription_factor_id As String
-    <DatabaseField("transcription_factor_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property transcription_factor_name As String
-    <DatabaseField("site_length"), DataType(MySqlDbType.Decimal)> Public Property site_length As Decimal
-    <DatabaseField("symmetry"), DataType(MySqlDbType.VarChar, "50")> Public Property symmetry As String
-    <DatabaseField("transcription_factor_family"), DataType(MySqlDbType.VarChar, "250")> Public Property transcription_factor_family As String
-    <DatabaseField("tf_internal_comment"), DataType(MySqlDbType.Text)> Public Property tf_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
-    <DatabaseField("transcription_factor_note"), DataType(MySqlDbType.Text)> Public Property transcription_factor_note As String
-    <DatabaseField("connectivity_class"), DataType(MySqlDbType.VarChar, "100")> Public Property connectivity_class As String
-    <DatabaseField("sensing_class"), DataType(MySqlDbType.VarChar, "100")> Public Property sensing_class As String
-    <DatabaseField("consensus_sequence"), DataType(MySqlDbType.VarChar, "255")> Public Property consensus_sequence As String
+    <DatabaseField("transcription_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="transcription_factor_id")> Public Property transcription_factor_id As String
+    <DatabaseField("transcription_factor_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="transcription_factor_name")> Public Property transcription_factor_name As String
+    <DatabaseField("site_length"), DataType(MySqlDbType.Decimal), Column(Name:="site_length")> Public Property site_length As Decimal
+    <DatabaseField("symmetry"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="symmetry")> Public Property symmetry As String
+    <DatabaseField("transcription_factor_family"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="transcription_factor_family")> Public Property transcription_factor_family As String
+    <DatabaseField("tf_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="tf_internal_comment")> Public Property tf_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
+    <DatabaseField("transcription_factor_note"), DataType(MySqlDbType.Text), Column(Name:="transcription_factor_note")> Public Property transcription_factor_note As String
+    <DatabaseField("connectivity_class"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="connectivity_class")> Public Property connectivity_class As String
+    <DatabaseField("sensing_class"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="sensing_class")> Public Property sensing_class As String
+    <DatabaseField("consensus_sequence"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="consensus_sequence")> Public Property consensus_sequence As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -156,7 +162,11 @@ Public Class transcription_factor: Inherits Oracle.LinuxCompatibility.MySQL.MySQ
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As transcription_factor
+                  Return DirectCast(MyClass.MemberwiseClone, transcription_factor)
+              End Function
 End Class
 
 
 End Namespace
+

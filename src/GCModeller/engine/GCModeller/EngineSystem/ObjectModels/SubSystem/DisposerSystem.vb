@@ -35,9 +35,11 @@
     ' 
     '         Properties: SystemLogging
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateServiceSerials, Initialize
     ' 
-    '         Sub: MemoryDump, New
+    '         Sub: MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

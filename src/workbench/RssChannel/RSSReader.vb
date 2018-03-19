@@ -37,8 +37,8 @@
     ' 
     ' Class Channel
     ' 
-    '     Properties: description, image, language, lastBuildDate, link
-    '                 title
+    '     Properties: description, image, items, language, lastBuildDate
+    '                 link, title
     ' 
     ' Class Image
     ' 
@@ -46,16 +46,17 @@
     ' 
     ' Class Guid
     ' 
-    ' 
+    '     Properties: isPermaLink, link
     ' 
     ' Class Item
     ' 
-    '     Properties: comments, content, dc_creator, description, guid
-    '                 link, pubDate, slash_comments, title, wfw_commentRss
+    '     Properties: category, comments, content, dc_creator, description
+    '                 guid, link, pubDate, slash_comments, title
+    '                 wfw_commentRss
     ' 
     ' Class Category
     ' 
-    ' 
+    '     Properties: value
     ' 
     ' /********************************************************************************/
 

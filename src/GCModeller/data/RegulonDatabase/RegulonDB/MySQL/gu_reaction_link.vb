@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0e35a56f5387993572272521443bc51, data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
+﻿#Region "Microsoft.VisualBasic::8062ee6cfd7c6ea9193691ff2c2c7df0, data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class gu_reaction_link
     ' 
+    '     Properties: gu_id, reaction_id, reaction_number, reaction_order
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `gu_reaction_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gu_reaction_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gu_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property gu_id As String
-    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property reaction_id As String
-    <DatabaseField("reaction_number"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property reaction_number As String
-    <DatabaseField("reaction_order"), DataType(MySqlDbType.Decimal)> Public Property reaction_order As Decimal
+    <DatabaseField("gu_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="gu_id")> Public Property gu_id As String
+    <DatabaseField("reaction_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="reaction_id")> Public Property reaction_id As String
+    <DatabaseField("reaction_number"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="reaction_number")> Public Property reaction_number As String
+    <DatabaseField("reaction_order"), DataType(MySqlDbType.Decimal), Column(Name:="reaction_order")> Public Property reaction_order As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class gu_reaction_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As gu_reaction_link
+                  Return DirectCast(MyClass.MemberwiseClone, gu_reaction_link)
+              End Function
 End Class
 
 
 End Namespace
+

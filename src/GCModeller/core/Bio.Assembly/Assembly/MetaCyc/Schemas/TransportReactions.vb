@@ -35,16 +35,14 @@
     ' 
     '         Properties: ECNumber, LEFT, PrefixTransportReactionTypes, Reversible, RIGHT
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateEquatopnExpression, GetSubstrates, GetTransportReactionExpasyEntries, GetUniqueId
-    ' 
-    '         Sub: New
     '         Class CompoundSpecies
     ' 
     '             Properties: Compartment, Identifier, StoiChiometry
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: GetAttributeValue, ToString
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

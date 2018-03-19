@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::356084dfc6f02919e7e6d3fc38d54f3f, data\Reactome\LocalMySQL\gk_current\functionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::4249e07a05aab2f345a4d8383d140293, data\Reactome\LocalMySQL\gk_current\functionalstatus.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class functionalstatus
     ' 
+    '     Properties: DB_ID, functionalStatusType, functionalStatusType_class, structuralVariant, structuralVariant_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -72,7 +77,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `functionalstatus` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class functionalstatus: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("functionalStatusType"), DataType(MySqlDbType.Int64, "10")> Public Property functionalStatusType As Long
-    <DatabaseField("functionalStatusType_class"), DataType(MySqlDbType.VarChar, "64")> Public Property functionalStatusType_class As String
-    <DatabaseField("structuralVariant"), DataType(MySqlDbType.Int64, "10")> Public Property structuralVariant As Long
-    <DatabaseField("structuralVariant_class"), DataType(MySqlDbType.VarChar, "64")> Public Property structuralVariant_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("functionalStatusType"), DataType(MySqlDbType.Int64, "10"), Column(Name:="functionalStatusType")> Public Property functionalStatusType As Long
+    <DatabaseField("functionalStatusType_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="functionalStatusType_class")> Public Property functionalStatusType_class As String
+    <DatabaseField("structuralVariant"), DataType(MySqlDbType.Int64, "10"), Column(Name:="structuralVariant")> Public Property structuralVariant As Long
+    <DatabaseField("structuralVariant_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="structuralVariant_class")> Public Property structuralVariant_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class functionalstatus: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, DB_ID, functionalStatusType, functionalStatusType_class, structuralVariant, structuralVariant_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As functionalstatus
+                  Return DirectCast(MyClass.MemberwiseClone, functionalstatus)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d49257aea8f1c7eb084dfafd63a9310b, data\ExternalDBSource\MetaCyc\MySQL\entry.vb"
+﻿#Region "Microsoft.VisualBasic::ef7960b89957f6b02029db40955c65f0, data\ExternalDBSource\MetaCyc\MySQL\entry.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class entry
     ' 
+    '     Properties: CreationDate, DatasetWID, ErrorMessage, InsertDate, LineNumber
+    '                 LoadError, ModifiedDate, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -75,7 +81,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,14 +100,14 @@ CREATE TABLE `entry` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("InsertDate"), NotNull, DataType(MySqlDbType.DateTime)> Public Property InsertDate As Date
-    <DatabaseField("CreationDate"), DataType(MySqlDbType.DateTime)> Public Property CreationDate As Date
-    <DatabaseField("ModifiedDate"), DataType(MySqlDbType.DateTime)> Public Property ModifiedDate As Date
-    <DatabaseField("LoadError"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property LoadError As String
-    <DatabaseField("LineNumber"), DataType(MySqlDbType.Int64, "11")> Public Property LineNumber As Long
-    <DatabaseField("ErrorMessage"), DataType(MySqlDbType.Text)> Public Property ErrorMessage As String
-    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DatasetWID As Long
+    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID"), XmlAttribute> Public Property OtherWID As Long
+    <DatabaseField("InsertDate"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="InsertDate")> Public Property InsertDate As Date
+    <DatabaseField("CreationDate"), DataType(MySqlDbType.DateTime), Column(Name:="CreationDate")> Public Property CreationDate As Date
+    <DatabaseField("ModifiedDate"), DataType(MySqlDbType.DateTime), Column(Name:="ModifiedDate")> Public Property ModifiedDate As Date
+    <DatabaseField("LoadError"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="LoadError")> Public Property LoadError As String
+    <DatabaseField("LineNumber"), DataType(MySqlDbType.Int64, "11"), Column(Name:="LineNumber")> Public Property LineNumber As Long
+    <DatabaseField("ErrorMessage"), DataType(MySqlDbType.Text), Column(Name:="ErrorMessage")> Public Property ErrorMessage As String
+    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DatasetWID")> Public Property DatasetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -125,7 +130,7 @@ Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, OtherWID, DataType.ToMySqlDateTimeString(InsertDate), DataType.ToMySqlDateTimeString(CreationDate), DataType.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID)
+        Return String.Format(INSERT_SQL, OtherWID, MySqlScript.ToMySqlDateTimeString(InsertDate), MySqlScript.ToMySqlDateTimeString(CreationDate), MySqlScript.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID)
     End Function
 
 ''' <summary>
@@ -142,7 +147,7 @@ Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, OtherWID, DataType.ToMySqlDateTimeString(InsertDate), DataType.ToMySqlDateTimeString(CreationDate), DataType.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID)
+        Return String.Format(REPLACE_SQL, OtherWID, MySqlScript.ToMySqlDateTimeString(InsertDate), MySqlScript.ToMySqlDateTimeString(CreationDate), MySqlScript.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -150,10 +155,14 @@ Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, OtherWID, DataType.ToMySqlDateTimeString(InsertDate), DataType.ToMySqlDateTimeString(CreationDate), DataType.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID, OtherWID)
+        Return String.Format(UPDATE_SQL, OtherWID, MySqlScript.ToMySqlDateTimeString(InsertDate), MySqlScript.ToMySqlDateTimeString(CreationDate), MySqlScript.ToMySqlDateTimeString(ModifiedDate), LoadError, LineNumber, ErrorMessage, DatasetWID, OtherWID)
     End Function
 #End Region
+Public Function Clone() As entry
+                  Return DirectCast(MyClass.MemberwiseClone, entry)
+              End Function
 End Class
 
 
 End Namespace
+

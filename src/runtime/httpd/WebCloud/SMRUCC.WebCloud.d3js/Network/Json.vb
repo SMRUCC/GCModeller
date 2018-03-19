@@ -33,7 +33,7 @@
 
     '     Class Regulation
     ' 
-    '         Properties: MotifFamily, Regulator
+    '         Properties: MotifFamily, ORF_ID, Regulator
     ' 
     '         Function: ToString
     ' 

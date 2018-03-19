@@ -33,7 +33,8 @@
 
     '     Class Regulation
     ' 
-    '         Properties: IsMetabolismRegulation, Table
+    '         Properties: AssociatedBindingSite, IsMetabolismRegulation, Ki, Mechanism, Mode
+    '                     PhysiologicallyRelevant, RegulatedEntity, Regulator, Table
     '         Interface IRegulator
     ' 
     '             Properties: CommonName, ComponentOf, locusId, Regulates, Types

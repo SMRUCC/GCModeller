@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10ab705d58aaf8ca4713dae447fa0d15, data\Reactome\LocalMySQL\gk_current\stableidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::18dca1f0bf3872f74bcd76a78a65cd6d, data\Reactome\LocalMySQL\gk_current\stableidentifier.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class stableidentifier
     ' 
+    '     Properties: DB_ID, identifier, identifierVersion, oldIdentifier, oldIdentifierVersion
+    '                 referenceDatabase, referenceDatabase_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -77,7 +83,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -99,13 +104,13 @@ CREATE TABLE `stableidentifier` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("identifier"), DataType(MySqlDbType.Text)> Public Property identifier As String
-    <DatabaseField("identifierVersion"), DataType(MySqlDbType.Text)> Public Property identifierVersion As String
-    <DatabaseField("oldIdentifier"), DataType(MySqlDbType.Text)> Public Property oldIdentifier As String
-    <DatabaseField("oldIdentifierVersion"), DataType(MySqlDbType.Text)> Public Property oldIdentifierVersion As String
-    <DatabaseField("referenceDatabase"), DataType(MySqlDbType.Int64, "10")> Public Property referenceDatabase As Long
-    <DatabaseField("referenceDatabase_class"), DataType(MySqlDbType.VarChar, "64")> Public Property referenceDatabase_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("identifier"), DataType(MySqlDbType.Text), Column(Name:="identifier")> Public Property identifier As String
+    <DatabaseField("identifierVersion"), DataType(MySqlDbType.Text), Column(Name:="identifierVersion")> Public Property identifierVersion As String
+    <DatabaseField("oldIdentifier"), DataType(MySqlDbType.Text), Column(Name:="oldIdentifier")> Public Property oldIdentifier As String
+    <DatabaseField("oldIdentifierVersion"), DataType(MySqlDbType.Text), Column(Name:="oldIdentifierVersion")> Public Property oldIdentifierVersion As String
+    <DatabaseField("referenceDatabase"), DataType(MySqlDbType.Int64, "10"), Column(Name:="referenceDatabase")> Public Property referenceDatabase As Long
+    <DatabaseField("referenceDatabase_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="referenceDatabase_class")> Public Property referenceDatabase_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -156,7 +161,11 @@ Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, DB_ID, identifier, identifierVersion, oldIdentifier, oldIdentifierVersion, referenceDatabase, referenceDatabase_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As stableidentifier
+                  Return DirectCast(MyClass.MemberwiseClone, stableidentifier)
+              End Function
 End Class
 
 
 End Namespace
+

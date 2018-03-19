@@ -33,6 +33,9 @@
 
     ' Class locus2swissprot
     ' 
+    '     Properties: accession, bidir, id, identity, locusId
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

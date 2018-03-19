@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30eb3ad086c8c1385fe47a9105c538c3, RDotNET\Graphics\Point.vb"
+﻿#Region "Microsoft.VisualBasic::9fa087b2e8604451fc586ba4dc80196f, RDotNET\Graphics\Point.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,8 @@
     ' 
     '         Properties: X, Y
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Equals, GetHashCode
-    ' 
-    '         Sub: New
-    ' 
     '         Operators: <>, =
     ' 
     ' 

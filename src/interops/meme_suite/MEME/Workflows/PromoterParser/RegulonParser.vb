@@ -33,9 +33,8 @@
 
     '     Class RegulonParser
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+3 Overloads) RegulonParser
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

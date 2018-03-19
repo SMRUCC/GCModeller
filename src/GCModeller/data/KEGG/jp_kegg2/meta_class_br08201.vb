@@ -33,6 +33,8 @@
 
     ' Class meta_class_br08201
     ' 
+    '     Properties: EC, level1, level2, level3, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

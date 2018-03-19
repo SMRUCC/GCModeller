@@ -45,9 +45,8 @@
     '         Function: [GetType], __locusItSelf, CreateMethod
     '         Class __DOORHelper
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __initX, InitX, UniDOOR
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 

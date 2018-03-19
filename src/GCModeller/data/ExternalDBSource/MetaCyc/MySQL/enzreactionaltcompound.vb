@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03a2003c4ad221fde7dff690d71e3901, data\ExternalDBSource\MetaCyc\MySQL\enzreactionaltcompound.vb"
+﻿#Region "Microsoft.VisualBasic::ad8883d4fcbe14b5ef3277274918c6eb, data\ExternalDBSource\MetaCyc\MySQL\enzreactionaltcompound.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class enzreactionaltcompound
     ' 
+    '     Properties: AlternativeWID, Cofactor, EnzymaticReactionWID, PrimaryWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -74,7 +79,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,10 +97,10 @@ CREATE TABLE `enzreactionaltcompound` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class enzreactionaltcompound: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("EnzymaticReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property EnzymaticReactionWID As Long
-    <DatabaseField("PrimaryWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property PrimaryWID As Long
-    <DatabaseField("AlternativeWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property AlternativeWID As Long
-    <DatabaseField("Cofactor"), DataType(MySqlDbType.VarChar, "1")> Public Property Cofactor As String
+    <DatabaseField("EnzymaticReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="EnzymaticReactionWID"), XmlAttribute> Public Property EnzymaticReactionWID As Long
+    <DatabaseField("PrimaryWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="PrimaryWID")> Public Property PrimaryWID As Long
+    <DatabaseField("AlternativeWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="AlternativeWID")> Public Property AlternativeWID As Long
+    <DatabaseField("Cofactor"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="Cofactor")> Public Property Cofactor As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -147,7 +151,11 @@ Public Class enzreactionaltcompound: Inherits Oracle.LinuxCompatibility.MySQL.My
         Return String.Format(UPDATE_SQL, EnzymaticReactionWID, PrimaryWID, AlternativeWID, Cofactor, EnzymaticReactionWID)
     End Function
 #End Region
+Public Function Clone() As enzreactionaltcompound
+                  Return DirectCast(MyClass.MemberwiseClone, enzreactionaltcompound)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,8 +33,9 @@
 
     ' Class NCBIViewer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Sub: Button2_Click, Button3_Click, Button4_Click, Button6_Click, Initialize
-    '          NCBIViewer_Load, New
+    '          NCBIViewer_Load
     ' 
     ' /********************************************************************************/
 

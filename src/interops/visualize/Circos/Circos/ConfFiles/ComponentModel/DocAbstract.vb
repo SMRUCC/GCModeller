@@ -35,9 +35,11 @@
     ' 
     '         Properties: Includes, main, RefPath
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GenerateIncludes, Save
     ' 
-    '         Sub: __appendLine, New
+    '         Sub: __appendLine
     ' 
     ' 
     ' /********************************************************************************/

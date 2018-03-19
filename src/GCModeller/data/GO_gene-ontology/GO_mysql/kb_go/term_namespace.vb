@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20d889281a8d34073a9168d997153c84, data\GO_gene-ontology\GO_mysql\kb_go\term_namespace.vb"
+﻿#Region "Microsoft.VisualBasic::77bc50766b5e8db5ba5ec004369cac4c, data\GO_gene-ontology\GO_mysql\kb_go\term_namespace.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class term_namespace
     ' 
+    '     Properties: [namespace], id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +46,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/3 12:29:34
+REM  Dump @3/16/2018 10:37:28 PM
 
 
 Imports System.Data.Linq.Mapping
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Xml.Serialization
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace kb_go
 
@@ -148,3 +151,4 @@ End Class
 
 
 End Namespace
+

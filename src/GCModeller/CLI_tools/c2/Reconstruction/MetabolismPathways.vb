@@ -35,9 +35,8 @@
     ' 
     '         Properties: ReconstructedEnzrxn
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: LinkEnzymaticCatalyze, Performance
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

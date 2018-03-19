@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f37eb481dd695f28f993996f9363c6c, data\Reactome\LocalMySQL\gk_current\referencedatabase.vb"
+﻿#Region "Microsoft.VisualBasic::07eb8cb0781c2c58f4098233c37bd7ec, data\Reactome\LocalMySQL\gk_current\referencedatabase.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referencedatabase
     ' 
+    '     Properties: accessUrl, DB_ID, url
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,9 +89,9 @@ CREATE TABLE `referencedatabase` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referencedatabase: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("accessUrl"), DataType(MySqlDbType.Text)> Public Property accessUrl As String
-    <DatabaseField("url"), DataType(MySqlDbType.Text)> Public Property url As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("accessUrl"), DataType(MySqlDbType.Text), Column(Name:="accessUrl")> Public Property accessUrl As String
+    <DatabaseField("url"), DataType(MySqlDbType.Text), Column(Name:="url")> Public Property url As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -138,7 +142,11 @@ Public Class referencedatabase: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTa
         Return String.Format(UPDATE_SQL, DB_ID, accessUrl, url, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referencedatabase
+                  Return DirectCast(MyClass.MemberwiseClone, referencedatabase)
+              End Function
 End Class
 
 
 End Namespace
+

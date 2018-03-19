@@ -33,6 +33,9 @@
 
     ' Class archive
     ' 
+    '     Properties: Contents, DataSetWID, Format, OtherWID, ToolName
+    '                 URL, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

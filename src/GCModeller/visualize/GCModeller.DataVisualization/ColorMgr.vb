@@ -35,9 +35,8 @@
     ' 
     '     Properties: [Default]
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: GetEntityColor, GetValue, ToString
-    ' 
-    '     Sub: New
     ' 
     ' Class ClMap
     ' 

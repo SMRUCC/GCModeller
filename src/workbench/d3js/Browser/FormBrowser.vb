@@ -33,7 +33,8 @@
 
     ' Class FormBrowser
     ' 
-    '     Sub: FormBrowser_Load, geckoWebBrowser_DocumentCompleted, New, ToolStripButton1_Click, ToolStripButton2_Click
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: FormBrowser_Load, geckoWebBrowser_DocumentCompleted, ToolStripButton1_Click, ToolStripButton2_Click
     ' 
     ' /********************************************************************************/
 

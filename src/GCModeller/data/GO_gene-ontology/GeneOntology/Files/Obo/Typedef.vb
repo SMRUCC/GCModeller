@@ -33,6 +33,12 @@
 
     '     Class Typedef
     ' 
+    '         Properties: alt_id, comment, consider, def, domain
+    '                     holds_over_chain, inverse_of, is_a, is_anonymous, is_anti_symmetric
+    '                     is_class_level, is_cyclic, is_metadata_tag, is_obsolete, is_reflexive
+    '                     is_symmetric, is_transitive, range, relationship, replaced_by
+    '                     subset, synonym, transitive_over, xref
+    ' 
     '         Function: ToString
     ' 
     ' 

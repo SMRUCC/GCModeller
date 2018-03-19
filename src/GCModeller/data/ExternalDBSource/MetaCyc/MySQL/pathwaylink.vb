@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1678642fa06b35a9ffacf4ac3f61db2b, data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
+﻿#Region "Microsoft.VisualBasic::30fcd724ca7abad8fb2d4e7b270fa328, data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwaylink
     ' 
+    '     Properties: ChemicalWID, Pathway1WID, Pathway2WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -73,7 +78,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,9 +95,9 @@ CREATE TABLE `pathwaylink` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class pathwaylink: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("Pathway1WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property Pathway1WID As Long
-    <DatabaseField("Pathway2WID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property Pathway2WID As Long
-    <DatabaseField("ChemicalWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ChemicalWID As Long
+    <DatabaseField("Pathway1WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="Pathway1WID"), XmlAttribute> Public Property Pathway1WID As Long
+    <DatabaseField("Pathway2WID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="Pathway2WID")> Public Property Pathway2WID As Long
+    <DatabaseField("ChemicalWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ChemicalWID")> Public Property ChemicalWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class pathwaylink: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, Pathway1WID, Pathway2WID, ChemicalWID, Pathway1WID)
     End Function
 #End Region
+Public Function Clone() As pathwaylink
+                  Return DirectCast(MyClass.MemberwiseClone, pathwaylink)
+              End Function
 End Class
 
 
 End Namespace
+

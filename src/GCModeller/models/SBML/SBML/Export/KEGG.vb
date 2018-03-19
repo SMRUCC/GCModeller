@@ -33,7 +33,7 @@
 
     '     Module KEGG
     ' 
-    '         Function: __getModel
+    '         Function: __getModel, Exists, GetReactions
     ' 
     ' 
     ' /********************************************************************************/

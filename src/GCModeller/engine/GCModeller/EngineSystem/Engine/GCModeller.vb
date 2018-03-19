@@ -33,14 +33,17 @@
 
     '     Class GCModeller
     ' 
-    '         Properties: args, ConfigurationData, EventId, KernelModule, KernelProfile
-    '                     RuntimeTicks, SystemLogging, SystemVariable
+    '         Properties: args, ConfigurationData, CultivatingMediums, DataAcquisitionService, EventId
+    '                     KernelModule, KernelProfile, MemoryDumpTime, PhysicalMemory, RuntimeTicks
+    '                     SystemLogging, SystemVariable
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __innerTicks, (+2 Overloads) ConnectDataService, get_DataModel, GetArguments, Initialize
     '                   Load, RegisterEvent, Run, ToString
     ' 
     '         Sub: ConnectLoggingClient, (+2 Overloads) Dispose, InternalRecordActivityStatus, LoadKernel, LoadSystemModule
-    '              MemoryDump, New
+    '              MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

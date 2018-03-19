@@ -33,7 +33,7 @@
 
     '     Module ModelAPI
     ' 
-    '         Function: __creates
+    '         Function: __creates, __getEquation, DumpModel
     ' 
     ' 
     ' /********************************************************************************/

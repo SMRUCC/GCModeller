@@ -33,7 +33,7 @@
 
     '     Class BindReaction
     ' 
-    '         Properties: Activators, Inhibitors, Reactants, Table
+    '         Properties: Activators, Inhibitors, OfficialEC, Reactants, Table
     ' 
     ' 
     ' /********************************************************************************/

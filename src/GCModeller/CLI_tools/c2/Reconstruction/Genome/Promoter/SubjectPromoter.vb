@@ -35,9 +35,8 @@
     ' 
     '             Properties: GetExported
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: Export, Performance
-    ' 
-    '             Sub: New
     ' 
     '  
     ' 

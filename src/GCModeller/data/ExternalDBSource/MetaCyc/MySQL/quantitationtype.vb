@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a125dbefad570e7345a1ffcddb8313f, data\ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
+﻿#Region "Microsoft.VisualBasic::fb66fc5212018a1909eac54befd0c659, data\ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class quantitationtype
     ' 
+    '     Properties: Channel, DataSetWID, Identifier, IsBackground, MAGEClass
+    '                 Name, QuantitationType_DataType, QuantitationType_Scale, TargetQuantitationType, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -85,7 +91,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -115,16 +120,16 @@ CREATE TABLE `quantitationtype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class quantitationtype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("IsBackground"), DataType(MySqlDbType.VarChar, "1")> Public Property IsBackground As String
-    <DatabaseField("Channel"), DataType(MySqlDbType.Int64, "20")> Public Property Channel As Long
-    <DatabaseField("QuantitationType_Scale"), DataType(MySqlDbType.Int64, "20")> Public Property QuantitationType_Scale As Long
-    <DatabaseField("QuantitationType_DataType"), DataType(MySqlDbType.Int64, "20")> Public Property QuantitationType_DataType As Long
-    <DatabaseField("TargetQuantitationType"), DataType(MySqlDbType.Int64, "20")> Public Property TargetQuantitationType As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("IsBackground"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="IsBackground")> Public Property IsBackground As String
+    <DatabaseField("Channel"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Channel")> Public Property Channel As Long
+    <DatabaseField("QuantitationType_Scale"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationType_Scale")> Public Property QuantitationType_Scale As Long
+    <DatabaseField("QuantitationType_DataType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="QuantitationType_DataType")> Public Property QuantitationType_DataType As Long
+    <DatabaseField("TargetQuantitationType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="TargetQuantitationType")> Public Property TargetQuantitationType As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -175,7 +180,11 @@ Public Class quantitationtype: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Identifier, Name, IsBackground, Channel, QuantitationType_Scale, QuantitationType_DataType, TargetQuantitationType, WID)
     End Function
 #End Region
+Public Function Clone() As quantitationtype
+                  Return DirectCast(MyClass.MemberwiseClone, quantitationtype)
+              End Function
 End Class
 
 
 End Namespace
+

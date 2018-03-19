@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c9fa1dd98cd30eeea9bfbee6311c066, RDotNet.Extensions.Bioinformatics\Declares\igraph\make_lattice.vb"
+﻿#Region "Microsoft.VisualBasic::cfeeed34564de6876ab6a9a43fd6616c, RDotNet.Extensions.Bioinformatics\Declares\igraph\make_lattice.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class make_lattice
     ' 
-    '     Properties: [dim], circular, dimvector, directed, length
-    '                 mutual, nei
+    '         Properties: [dim], circular, dimvector, directed, length
+    '                     mutual, nei
     ' 
-    '  
+    '     Class lattice
     ' 
     ' 
     ' 

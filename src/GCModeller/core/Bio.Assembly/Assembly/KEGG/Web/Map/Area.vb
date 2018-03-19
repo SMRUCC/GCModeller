@@ -33,7 +33,8 @@
 
     '     Class Area
     ' 
-    '         Properties: IDVector, Names, Rectangle, Type
+    '         Properties: coords, href, IDVector, Names, Rectangle
+    '                     shape, title, Type
     ' 
     '         Function: Parse, ToString
     ' 
@@ -53,7 +54,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG.WebServices
 
-    Public Class Area
+    <XmlType("area")> Public Class Area
 
         <XmlAttribute> Public Property shape As String
         ''' <summary>
@@ -61,8 +62,10 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
-        <XmlElement> Public Property href As String
-        <XmlElement> Public Property title As String
+        <XmlAttribute> Public Property href As String
+
+        <XmlText>
+        Public Property title As String
 
         Public ReadOnly Property Rectangle As RectangleF
             Get

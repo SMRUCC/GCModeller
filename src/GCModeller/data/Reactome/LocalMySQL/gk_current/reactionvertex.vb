@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da6130b1b47396870e4d803fb3364504, data\Reactome\LocalMySQL\gk_current\reactionvertex.vb"
+﻿#Region "Microsoft.VisualBasic::ce8f7e6402c41ba931a68e9b1d2b3898, data\Reactome\LocalMySQL\gk_current\reactionvertex.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactionvertex
     ' 
+    '     Properties: DB_ID, pointCoordinates
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -68,7 +73,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,8 +85,8 @@ CREATE TABLE `reactionvertex` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class reactionvertex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("pointCoordinates"), DataType(MySqlDbType.Text)> Public Property pointCoordinates As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("pointCoordinates"), DataType(MySqlDbType.Text), Column(Name:="pointCoordinates")> Public Property pointCoordinates As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -133,7 +137,11 @@ Public Class reactionvertex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, pointCoordinates, DB_ID)
     End Function
 #End Region
+Public Function Clone() As reactionvertex
+                  Return DirectCast(MyClass.MemberwiseClone, reactionvertex)
+              End Function
 End Class
 
 
 End Namespace
+

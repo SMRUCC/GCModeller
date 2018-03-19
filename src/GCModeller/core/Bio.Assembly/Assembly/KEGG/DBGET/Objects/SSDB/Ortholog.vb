@@ -33,8 +33,9 @@
 
     '     Class Ortholog
     ' 
-    '         Properties: bits, Definition, identity, KO, LocusId
-    '                     overlap, query_length, sp
+    '         Properties: bestAll, bits, Definition, hit_name, identity
+    '                     KO, len, LocusId, margin, overlap
+    '                     query_length, sp, SW
     ' 
     '         Function: __createObject, CreateObjects, ToString
     ' 

@@ -41,6 +41,8 @@
     ' 
     '  
     ' 
+    '     Properties: SerialNumber, SubCategory, SubType, Type
+    ' 
     '     Function: ToString, ValidateValue, ValueParser
     ' 
     ' 

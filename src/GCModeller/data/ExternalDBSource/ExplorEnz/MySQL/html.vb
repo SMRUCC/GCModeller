@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db6a0f62bd3ecacba68a55133ce7608f, data\ExternalDBSource\ExplorEnz\MySQL\html.vb"
+﻿#Region "Microsoft.VisualBasic::4d339ef2075d9dc435ac3218ae390a78, data\ExternalDBSource\ExplorEnz\MySQL\html.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class html
     ' 
+    '     Properties: accepted_name, comments, ec_num, glossary, last_change
+    '                 links, other_names, reaction, sys_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:50 PM
+REM  Dump @3/16/2018 10:40:16 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ExplorEnz.MySQL
 
@@ -75,7 +81,6 @@ Namespace ExplorEnz.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,15 +100,15 @@ CREATE TABLE `html` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class html: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ec_num"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property ec_num As String
-    <DatabaseField("accepted_name"), DataType(MySqlDbType.Text)> Public Property accepted_name As String
-    <DatabaseField("reaction"), DataType(MySqlDbType.Text)> Public Property reaction As String
-    <DatabaseField("other_names"), DataType(MySqlDbType.Text)> Public Property other_names As String
-    <DatabaseField("sys_name"), DataType(MySqlDbType.Text)> Public Property sys_name As String
-    <DatabaseField("comments"), DataType(MySqlDbType.Text)> Public Property comments As String
-    <DatabaseField("links"), DataType(MySqlDbType.Text)> Public Property links As String
-    <DatabaseField("glossary"), DataType(MySqlDbType.Text)> Public Property glossary As String
-    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_change As Date
+    <DatabaseField("ec_num"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="ec_num"), XmlAttribute> Public Property ec_num As String
+    <DatabaseField("accepted_name"), DataType(MySqlDbType.Text), Column(Name:="accepted_name")> Public Property accepted_name As String
+    <DatabaseField("reaction"), DataType(MySqlDbType.Text), Column(Name:="reaction")> Public Property reaction As String
+    <DatabaseField("other_names"), DataType(MySqlDbType.Text), Column(Name:="other_names")> Public Property other_names As String
+    <DatabaseField("sys_name"), DataType(MySqlDbType.Text), Column(Name:="sys_name")> Public Property sys_name As String
+    <DatabaseField("comments"), DataType(MySqlDbType.Text), Column(Name:="comments")> Public Property comments As String
+    <DatabaseField("links"), DataType(MySqlDbType.Text), Column(Name:="links")> Public Property links As String
+    <DatabaseField("glossary"), DataType(MySqlDbType.Text), Column(Name:="glossary")> Public Property glossary As String
+    <DatabaseField("last_change"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_change")> Public Property last_change As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -126,7 +131,7 @@ Public Class html: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(INSERT_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 
 ''' <summary>
@@ -143,7 +148,7 @@ Public Class html: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, DataType.ToMySqlDateTimeString(last_change))
+        Return String.Format(REPLACE_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, MySqlScript.ToMySqlDateTimeString(last_change))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -151,10 +156,14 @@ Public Class html: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, DataType.ToMySqlDateTimeString(last_change), ec_num)
+        Return String.Format(UPDATE_SQL, ec_num, accepted_name, reaction, other_names, sys_name, comments, links, glossary, MySqlScript.ToMySqlDateTimeString(last_change), ec_num)
     End Function
 #End Region
+Public Function Clone() As html
+                  Return DirectCast(MyClass.MemberwiseClone, html)
+              End Function
 End Class
 
 
 End Namespace
+

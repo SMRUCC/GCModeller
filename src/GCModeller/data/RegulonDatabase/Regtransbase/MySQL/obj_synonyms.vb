@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11cb7c1cbc3cc3bb69030b86b00e4e72, data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
+﻿#Region "Microsoft.VisualBasic::e7e09233dd12d7bce30a3a0ef1fd6204, data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class obj_synonyms
     ' 
+    '     Properties: art_guid, fl_real_name, obj_guid, pkg_guid, syn_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -75,7 +80,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,11 +99,11 @@ CREATE TABLE `obj_synonyms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class obj_synonyms: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("obj_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property obj_guid As Long
-    <DatabaseField("syn_name"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property syn_name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("obj_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="obj_guid"), XmlAttribute> Public Property obj_guid As Long
+    <DatabaseField("syn_name"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="syn_name"), XmlAttribute> Public Property syn_name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +154,11 @@ Public Class obj_synonyms: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, pkg_guid, art_guid, obj_guid, syn_name, fl_real_name, obj_guid, syn_name)
     End Function
 #End Region
+Public Function Clone() As obj_synonyms
+                  Return DirectCast(MyClass.MemberwiseClone, obj_synonyms)
+              End Function
 End Class
 
 
 End Namespace
+

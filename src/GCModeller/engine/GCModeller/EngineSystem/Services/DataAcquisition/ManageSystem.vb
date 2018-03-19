@@ -44,9 +44,11 @@
     ' 
     '     Properties: SystemLogging
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: Connect, GetTypeOfDataStorageServiceOfMySQL, TestMySQL
     ' 
-    '     Sub: CloseStorageService, Initialize, Join, New, Tick
+    '     Sub: CloseStorageService, Initialize, Join, Tick
     ' 
     ' 
     ' /********************************************************************************/

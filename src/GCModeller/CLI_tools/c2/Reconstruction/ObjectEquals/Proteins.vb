@@ -33,9 +33,8 @@
 
     '     Class Proteins
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetEquals, Initialize
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

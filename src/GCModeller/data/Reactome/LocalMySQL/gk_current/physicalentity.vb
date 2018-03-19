@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91915316bb6ad98a8c21b741bf940b66, data\Reactome\LocalMySQL\gk_current\physicalentity.vb"
+﻿#Region "Microsoft.VisualBasic::c9e1a25dbe73722bd3386ba0aeaa2212, data\Reactome\LocalMySQL\gk_current\physicalentity.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class physicalentity
     ' 
+    '     Properties: authored, authored_class, cellType, cellType_class, DB_ID
+    '                 definition, goCellularComponent, goCellularComponent_class, systematicName
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -79,7 +85,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,15 +108,15 @@ CREATE TABLE `physicalentity` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class physicalentity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("authored"), DataType(MySqlDbType.Int64, "10")> Public Property authored As Long
-    <DatabaseField("authored_class"), DataType(MySqlDbType.VarChar, "64")> Public Property authored_class As String
-    <DatabaseField("cellType"), DataType(MySqlDbType.Int64, "10")> Public Property cellType As Long
-    <DatabaseField("cellType_class"), DataType(MySqlDbType.VarChar, "64")> Public Property cellType_class As String
-    <DatabaseField("definition"), DataType(MySqlDbType.Text)> Public Property definition As String
-    <DatabaseField("goCellularComponent"), DataType(MySqlDbType.Int64, "10")> Public Property goCellularComponent As Long
-    <DatabaseField("goCellularComponent_class"), DataType(MySqlDbType.VarChar, "64")> Public Property goCellularComponent_class As String
-    <DatabaseField("systematicName"), DataType(MySqlDbType.Text)> Public Property systematicName As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("authored"), DataType(MySqlDbType.Int64, "10"), Column(Name:="authored")> Public Property authored As Long
+    <DatabaseField("authored_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="authored_class")> Public Property authored_class As String
+    <DatabaseField("cellType"), DataType(MySqlDbType.Int64, "10"), Column(Name:="cellType")> Public Property cellType As Long
+    <DatabaseField("cellType_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="cellType_class")> Public Property cellType_class As String
+    <DatabaseField("definition"), DataType(MySqlDbType.Text), Column(Name:="definition")> Public Property definition As String
+    <DatabaseField("goCellularComponent"), DataType(MySqlDbType.Int64, "10"), Column(Name:="goCellularComponent")> Public Property goCellularComponent As Long
+    <DatabaseField("goCellularComponent_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="goCellularComponent_class")> Public Property goCellularComponent_class As String
+    <DatabaseField("systematicName"), DataType(MySqlDbType.Text), Column(Name:="systematicName")> Public Property systematicName As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +167,11 @@ Public Class physicalentity: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, authored, authored_class, cellType, cellType_class, definition, goCellularComponent, goCellularComponent_class, systematicName, DB_ID)
     End Function
 #End Region
+Public Function Clone() As physicalentity
+                  Return DirectCast(MyClass.MemberwiseClone, physicalentity)
+              End Function
 End Class
 
 
 End Namespace
+

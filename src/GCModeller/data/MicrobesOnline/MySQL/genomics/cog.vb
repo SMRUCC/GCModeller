@@ -33,6 +33,8 @@
 
     ' Class cog
     ' 
+    '     Properties: cogId, cogInfoId, locusId, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

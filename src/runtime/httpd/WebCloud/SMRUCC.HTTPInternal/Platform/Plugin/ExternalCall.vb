@@ -33,7 +33,7 @@
 
     '     Module ExternalCall
     ' 
-    '         Function: Scan
+    '         Function: __getPlugins, Scan
     ' 
     ' 
     ' /********************************************************************************/

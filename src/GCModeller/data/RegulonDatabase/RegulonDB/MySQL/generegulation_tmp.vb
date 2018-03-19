@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e5c0a56109baf840381bcd13c1486ca, data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::c7c2df46def141af5fd7afccd05cb9f2, data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class generegulation_tmp
     ' 
+    '     Properties: conformation_status, gene_id_regulated, gene_id_regulator, gene_name_regulated, gene_name_regulator
+    '                 generegulation_function, tf_conformation, tf_id_regulator, transcription_factor_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `generegulation_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class generegulation_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gene_id_regulator"), DataType(MySqlDbType.VarChar, "12")> Public Property gene_id_regulator As String
-    <DatabaseField("gene_name_regulator"), DataType(MySqlDbType.VarChar, "255")> Public Property gene_name_regulator As String
-    <DatabaseField("tf_id_regulator"), DataType(MySqlDbType.VarChar, "12")> Public Property tf_id_regulator As String
-    <DatabaseField("transcription_factor_name"), DataType(MySqlDbType.VarChar, "255")> Public Property transcription_factor_name As String
-    <DatabaseField("tf_conformation"), DataType(MySqlDbType.VarChar, "2000")> Public Property tf_conformation As String
-    <DatabaseField("conformation_status"), DataType(MySqlDbType.VarChar, "5")> Public Property conformation_status As String
-    <DatabaseField("gene_id_regulated"), DataType(MySqlDbType.VarChar, "12")> Public Property gene_id_regulated As String
-    <DatabaseField("gene_name_regulated"), DataType(MySqlDbType.VarChar, "255")> Public Property gene_name_regulated As String
-    <DatabaseField("generegulation_function"), DataType(MySqlDbType.VarChar, "9")> Public Property generegulation_function As String
+    <DatabaseField("gene_id_regulator"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id_regulator")> Public Property gene_id_regulator As String
+    <DatabaseField("gene_name_regulator"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="gene_name_regulator")> Public Property gene_name_regulator As String
+    <DatabaseField("tf_id_regulator"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="tf_id_regulator")> Public Property tf_id_regulator As String
+    <DatabaseField("transcription_factor_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="transcription_factor_name")> Public Property transcription_factor_name As String
+    <DatabaseField("tf_conformation"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="tf_conformation")> Public Property tf_conformation As String
+    <DatabaseField("conformation_status"), DataType(MySqlDbType.VarChar, "5"), Column(Name:="conformation_status")> Public Property conformation_status As String
+    <DatabaseField("gene_id_regulated"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id_regulated")> Public Property gene_id_regulated As String
+    <DatabaseField("gene_name_regulated"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="gene_name_regulated")> Public Property gene_name_regulated As String
+    <DatabaseField("generegulation_function"), DataType(MySqlDbType.VarChar, "9"), Column(Name:="generegulation_function")> Public Property generegulation_function As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class generegulation_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As generegulation_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, generegulation_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

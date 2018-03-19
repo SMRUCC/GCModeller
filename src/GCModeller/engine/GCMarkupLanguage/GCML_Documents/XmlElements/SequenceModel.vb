@@ -39,6 +39,8 @@
     ' 
     '     Class CompositionVector
     ' 
+    '         Properties: T
+    ' 
     '         Function: ToString
     ' 
     ' 

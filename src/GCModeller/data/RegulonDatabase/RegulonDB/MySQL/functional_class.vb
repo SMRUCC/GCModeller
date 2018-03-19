@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::010f7580cabe3538ef19565b51c17ca3, data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
+﻿#Region "Microsoft.VisualBasic::55c3673c933af3fd6f0583db00532965, data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class functional_class
     ' 
+    '     Properties: color_class, fc_description, fc_internal_comment, fc_label_index, fc_note
+    '                 fc_reference, functional_class_id, head_class, key_id_org
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -73,7 +79,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,15 +96,15 @@ CREATE TABLE `functional_class` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class functional_class: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("functional_class_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property functional_class_id As String
-    <DatabaseField("fc_description"), NotNull, DataType(MySqlDbType.VarChar, "500")> Public Property fc_description As String
-    <DatabaseField("fc_label_index"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property fc_label_index As String
-    <DatabaseField("head_class"), DataType(MySqlDbType.VarChar, "12")> Public Property head_class As String
-    <DatabaseField("color_class"), DataType(MySqlDbType.VarChar, "20")> Public Property color_class As String
-    <DatabaseField("fc_reference"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property fc_reference As String
-    <DatabaseField("fc_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property fc_note As String
-    <DatabaseField("fc_internal_comment"), DataType(MySqlDbType.Text)> Public Property fc_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("functional_class_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="functional_class_id")> Public Property functional_class_id As String
+    <DatabaseField("fc_description"), NotNull, DataType(MySqlDbType.VarChar, "500"), Column(Name:="fc_description")> Public Property fc_description As String
+    <DatabaseField("fc_label_index"), NotNull, DataType(MySqlDbType.VarChar, "50"), Column(Name:="fc_label_index")> Public Property fc_label_index As String
+    <DatabaseField("head_class"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="head_class")> Public Property head_class As String
+    <DatabaseField("color_class"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="color_class")> Public Property color_class As String
+    <DatabaseField("fc_reference"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="fc_reference")> Public Property fc_reference As String
+    <DatabaseField("fc_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="fc_note")> Public Property fc_note As String
+    <DatabaseField("fc_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="fc_internal_comment")> Public Property fc_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -150,7 +155,11 @@ Public Class functional_class: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As functional_class
+                  Return DirectCast(MyClass.MemberwiseClone, functional_class)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,9 @@
 
     ' Class mismatchinformation
     ' 
+    '     Properties: CompositePosition, DataSetWID, FeatureInformation, NewSequence, ReplacedLength
+    '                 ReporterPosition, StartCoord, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

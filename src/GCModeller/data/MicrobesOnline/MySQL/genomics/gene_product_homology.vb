@@ -33,6 +33,8 @@
 
     ' Class gene_product_homology
     ' 
+    '     Properties: gene_product1_id, gene_product2_id, relationship_type_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

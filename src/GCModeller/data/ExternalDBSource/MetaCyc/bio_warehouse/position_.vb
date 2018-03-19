@@ -33,6 +33,8 @@
 
     ' Class position_
     ' 
+    '     Properties: DataSetWID, Position_DistanceUnit, WID, X, Y
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

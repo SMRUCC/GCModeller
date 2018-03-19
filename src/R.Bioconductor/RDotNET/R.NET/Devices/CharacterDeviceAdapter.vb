@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::652cc1e21e19f8ac187d9eb12bcade47, RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::f5dc465d04b6bbc9f48a813c73ab455d, RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
 
     ' Author:
     ' 
@@ -35,13 +35,14 @@
     ' 
     ' 	    Properties: Device, Engine
     ' 
+    ' 	    Constructor: (+1 Overloads) Sub New
+    ' 
     ' 	    Function: AddHistory, Ask, CallDeviceFunction, ChooseFile, ConvertSeparatorToUnixStylePath
     '                GetFunction, LoadHistory, ReadConsole, SaveHistory, ShowFiles
     ' 
     ' 	    Sub: Busy, Callback, CleanUp, ClearErrorConsole, Dispose
-    '           EditFile, FlushConsole, Install, New, ResetConsole
-    '           SetupUnixDevice, SetupWindowsDevice, ShowMessage, Suicide, WriteConsole
-    '           WriteConsoleEx
+    '           EditFile, FlushConsole, Install, ResetConsole, SetupUnixDevice
+    '           SetupWindowsDevice, ShowMessage, Suicide, WriteConsole, WriteConsoleEx
     ' 		Delegate Function
     ' 
     ' 

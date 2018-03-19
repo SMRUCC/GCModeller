@@ -35,7 +35,7 @@
     ' 
     '     Properties: color, ID, Order, shapetype
     ' 
-    '  
+    ' Class SampleGroup
     ' 
     '     Properties: sample_group, sample_name
     ' 

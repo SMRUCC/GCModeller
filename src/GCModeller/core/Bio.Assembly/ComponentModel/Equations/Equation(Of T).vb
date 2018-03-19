@@ -33,6 +33,8 @@
 
     '     Class Equation
     ' 
+    '         Properties: Products, Reactants, Reversible
+    ' 
     '         Function: __gethash, (+2 Overloads) Consume, Equals, GetCoEfficient, GetMetabolites
     '                   (+2 Overloads) Produce, ToString
     ' 

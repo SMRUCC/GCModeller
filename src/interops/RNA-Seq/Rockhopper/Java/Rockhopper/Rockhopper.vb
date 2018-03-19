@@ -35,9 +35,11 @@
     ' 
     '         Properties: genomes
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getNumOfDifferentiallyExpressedGenes
     ' 
-    '         Sub: computeDifferentialExpression, computeGeneExpression, identifySimilarConditions, New, runRockhopper
+    '         Sub: computeDifferentialExpression, computeGeneExpression, identifySimilarConditions, runRockhopper
     ' 
     ' 
     ' /********************************************************************************/

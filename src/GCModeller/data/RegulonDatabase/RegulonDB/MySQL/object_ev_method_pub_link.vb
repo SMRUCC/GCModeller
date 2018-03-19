@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae724d3ab9f1b0740c68d684105f18a7, data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
+﻿#Region "Microsoft.VisualBasic::c005f0883e64cca8844128cf4e7ea7b7, data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class object_ev_method_pub_link
     ' 
+    '     Properties: evidence_id, method_id, object_id, publication_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -68,7 +73,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,10 +85,10 @@ CREATE TABLE `object_ev_method_pub_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class object_ev_method_pub_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property object_id As String
-    <DatabaseField("evidence_id"), DataType(MySqlDbType.VarChar, "12")> Public Property evidence_id As String
-    <DatabaseField("method_id"), DataType(MySqlDbType.VarChar, "12")> Public Property method_id As String
-    <DatabaseField("publication_id"), DataType(MySqlDbType.VarChar, "12")> Public Property publication_id As String
+    <DatabaseField("object_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="object_id")> Public Property object_id As String
+    <DatabaseField("evidence_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="evidence_id")> Public Property evidence_id As String
+    <DatabaseField("method_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="method_id")> Public Property method_id As String
+    <DatabaseField("publication_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="publication_id")> Public Property publication_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class object_ev_method_pub_link: Inherits Oracle.LinuxCompatibility.MySQL
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As object_ev_method_pub_link
+                  Return DirectCast(MyClass.MemberwiseClone, object_ev_method_pub_link)
+              End Function
 End Class
 
 
 End Namespace
+

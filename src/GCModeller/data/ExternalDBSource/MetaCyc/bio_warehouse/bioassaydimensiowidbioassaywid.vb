@@ -33,6 +33,8 @@
 
     ' Class bioassaydimensiowidbioassaywid
     ' 
+    '     Properties: BioAssayDimensionWID, BioAssayWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,7 +33,7 @@
 
     '     Class MotifSite
     ' 
-    '         Properties: Regulators
+    '         Properties: MotifName, Regulators, SitePosition
     ' 
     '         Function: ToString
     ' 

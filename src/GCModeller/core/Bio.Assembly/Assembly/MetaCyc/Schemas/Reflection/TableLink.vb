@@ -44,9 +44,8 @@
     ' 
     '     Properties: Direction, PropertyInfo, TableList
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Link, ToString
-    ' 
-    '     Sub: New
     ' 
     ' 
     ' /********************************************************************************/

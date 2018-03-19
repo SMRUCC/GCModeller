@@ -38,9 +38,11 @@
     ' 
     '         Properties: RequestStream, wwwroot
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: AddMappings, GetResource, MapPath
     ' 
-    '         Sub: Dispose, New
+    '         Sub: Dispose
     '         Delegate Function
     ' 
     '             Properties: Page404

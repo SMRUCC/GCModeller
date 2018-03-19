@@ -33,11 +33,10 @@
 
     '     Class [NameOf]
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __valueTable, ContainsChEBIid, FromDataDirectory, GetChEBINamesByID, GetChebiXrefs
     '                   GetChemicalDatas, GetInCHIData, MatchByFormula, MatchByID, MatchByIDs
     '                   MatchByMass, MatchByName, ToKEGG
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

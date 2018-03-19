@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10f8866d778186c1f9a3cabf1993365b, data\GO_gene-ontology\GO_mysql\kb_go\go_terms.vb"
+﻿#Region "Microsoft.VisualBasic::4697af0a86f30c643cf8bc952fd17ed1, data\GO_gene-ontology\GO_mysql\kb_go\go_terms.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class go_terms
     ' 
+    '     Properties: [namespace], comment, def, id, is_obsolete
+    '                 name, namespace_id, term
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +47,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/3 12:29:34
+REM  Dump @3/16/2018 10:37:28 PM
 
 
 Imports System.Data.Linq.Mapping
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Xml.Serialization
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace kb_go
 
@@ -119,7 +123,7 @@ Public Class go_terms: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' <value></value>
 ''' <returns></returns>
 ''' <remarks></remarks>
-    <DatabaseField("is_obsolete"), NotNull, DataType(MySqlDbType.Int64, "4"), Column(Name:="is_obsolete")> Public Property is_obsolete As Long
+    <DatabaseField("is_obsolete"), NotNull, DataType(MySqlDbType.Int32, "4"), Column(Name:="is_obsolete")> Public Property is_obsolete As Integer
     <DatabaseField("comment"), DataType(MySqlDbType.Text), Column(Name:="comment")> Public Property comment As String
 #End Region
 #Region "Public SQL Interface"
@@ -178,3 +182,4 @@ End Class
 
 
 End Namespace
+

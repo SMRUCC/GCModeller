@@ -33,11 +33,14 @@
 
     '     Class Attribute
     ' 
-    '         Properties: TypeMapping
+    '         Properties: cyType, Directed, elementType, Hidden, Name
+    '                     Type, TypeMapping, Value
     ' 
     '         Function: StringValue, ToString
     ' 
     '     Class AttributeDictionary
+    ' 
+    '         Properties: Attributes
     ' 
     '         Function: AddAttribute, SetAttribute, ToString
     ' 

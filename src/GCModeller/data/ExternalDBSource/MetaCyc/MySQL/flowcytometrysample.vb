@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f0d1cf9494c4a07b78d4785fba8754b, data\ExternalDBSource\MetaCyc\MySQL\flowcytometrysample.vb"
+﻿#Region "Microsoft.VisualBasic::e77634d79ab132dc08b9477c1b13086c, data\ExternalDBSource\MetaCyc\MySQL\flowcytometrysample.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class flowcytometrysample
     ' 
+    '     Properties: BioSourceWID, DataSetWID, FlowCytometryProbeWID, ManufacturerWID, MeasurementWID
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,12 +112,12 @@ CREATE TABLE `flowcytometrysample` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class flowcytometrysample: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20")> Public Property BioSourceWID As Long
-    <DatabaseField("FlowCytometryProbeWID"), DataType(MySqlDbType.Int64, "20")> Public Property FlowCytometryProbeWID As Long
-    <DatabaseField("MeasurementWID"), DataType(MySqlDbType.Int64, "20")> Public Property MeasurementWID As Long
-    <DatabaseField("ManufacturerWID"), DataType(MySqlDbType.Int64, "20")> Public Property ManufacturerWID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("BioSourceWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioSourceWID")> Public Property BioSourceWID As Long
+    <DatabaseField("FlowCytometryProbeWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FlowCytometryProbeWID")> Public Property FlowCytometryProbeWID As Long
+    <DatabaseField("MeasurementWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="MeasurementWID")> Public Property MeasurementWID As Long
+    <DatabaseField("ManufacturerWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ManufacturerWID")> Public Property ManufacturerWID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -163,7 +168,11 @@ Public Class flowcytometrysample: Inherits Oracle.LinuxCompatibility.MySQL.MySQL
         Return String.Format(UPDATE_SQL, WID, BioSourceWID, FlowCytometryProbeWID, MeasurementWID, ManufacturerWID, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As flowcytometrysample
+                  Return DirectCast(MyClass.MemberwiseClone, flowcytometrysample)
+              End Function
 End Class
 
 
 End Namespace
+

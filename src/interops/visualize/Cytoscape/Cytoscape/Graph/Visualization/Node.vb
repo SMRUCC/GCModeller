@@ -35,9 +35,8 @@
     ' 
     '         Properties: Location, NodeModel, Radius, Rectangle
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: getCosAlpha, getSinAlpha, OffSet, Point_getInterface, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

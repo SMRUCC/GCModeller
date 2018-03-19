@@ -39,11 +39,13 @@
     ' 
     '     Class runtime
     ' 
+    '         Properties: cycles, seconds
+    ' 
     '         Function: ToString
     ' 
     '     Class target_file
     ' 
-    ' 
+    '         Properties: excluded, index, loaded, motif
     ' 
     '     Class queries
     ' 
@@ -51,25 +53,33 @@
     ' 
     '     Class MotifFile
     ' 
+    '         Properties: last_mod_date, name, source
+    ' 
     '         Function: ToString
     ' 
     '     Class query_file
     ' 
-    ' 
+    '         Properties: query
     ' 
     '     Class query
     ' 
-    '         Properties: motif
+    '         Properties: match, motif
     ' 
     '     Class match
+    ' 
+    '         Properties: evalue, offset, orientation, pvalue, qvalue
+    '                     target
     ' 
     '         Function: ToString
     ' 
     '     Class motif
     ' 
-    ' 
+    '         Properties: evalue, id, length, name, nsites
+    '                     pos
     ' 
     '     Class pos
+    ' 
+    '         Properties: A, C, G, i, T
     ' 
     '         Function: ToString
     ' 
@@ -79,13 +89,19 @@
     ' 
     '     Class value
     ' 
+    '         Properties: value
+    ' 
     '         Function: ToString
     ' 
     '     Class threshold
     ' 
+    '         Properties: type, value
+    ' 
     '         Function: ToString
     ' 
     '     Class background
+    ' 
+    '         Properties: A, C, from, G, T
     ' 
     '         Function: ToString
     ' 

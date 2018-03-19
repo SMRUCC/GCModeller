@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '  
+    ' Class iTraqSymbols
     ' 
     '     Properties: AnalysisID, SampleGroup, SampleID, Symbol
     ' 

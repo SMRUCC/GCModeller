@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::468625f76d3d27485e713c1c66e8c1a3, data\ExternalDBSource\MetaCyc\MySQL\parametervalue.vb"
+﻿#Region "Microsoft.VisualBasic::99b391c8f47f540083e8c0795a774feb, data\ExternalDBSource\MetaCyc\MySQL\parametervalue.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class parametervalue
     ' 
+    '     Properties: DataSetWID, ParameterizableApplication, ParameterType, Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -76,7 +81,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,11 +101,11 @@ CREATE TABLE `parametervalue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class parametervalue: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Value"), DataType(MySqlDbType.VarChar, "255")> Public Property Value As String
-    <DatabaseField("ParameterType"), DataType(MySqlDbType.Int64, "20")> Public Property ParameterType As Long
-    <DatabaseField("ParameterizableApplication"), DataType(MySqlDbType.Int64, "20")> Public Property ParameterizableApplication As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Value"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Value")> Public Property Value As String
+    <DatabaseField("ParameterType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ParameterType")> Public Property ParameterType As Long
+    <DatabaseField("ParameterizableApplication"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ParameterizableApplication")> Public Property ParameterizableApplication As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -152,7 +156,11 @@ Public Class parametervalue: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Value, ParameterType, ParameterizableApplication, WID)
     End Function
 #End Region
+Public Function Clone() As parametervalue
+                  Return DirectCast(MyClass.MemberwiseClone, parametervalue)
+              End Function
 End Class
 
 
 End Namespace
+

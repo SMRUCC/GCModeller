@@ -33,9 +33,11 @@
 
     '     Class MergeKEGGReactions
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetEnzyme
     ' 
-    '         Sub: InvokeMethods, New
+    '         Sub: InvokeMethods
     ' 
     ' 
     ' /********************************************************************************/

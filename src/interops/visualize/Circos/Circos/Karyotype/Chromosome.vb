@@ -35,9 +35,8 @@
     ' 
     '         Properties: Size
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: FromBlastnMappings, FromNts, GenerateDocument
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33db4bb49d34065dc74dfcf79babf0c7, data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
+﻿#Region "Microsoft.VisualBasic::d379607df9188455ec93413b7b3b4059, data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class sec_structures
     ' 
+    '     Properties: art_guid, descript, fl_real_name, genome_guid, name
+    '                 pfo_side_guid, pfo_type_id, pkg_guid, pos_from, pos_from_guid
+    '                 pos_to, pos_to_guid, pto_side_guid, pto_type_id, sec_struct_guid
+    '                 sequence
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -87,7 +95,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -119,22 +126,22 @@ CREATE TABLE `sec_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class sec_structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("sec_struct_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property sec_struct_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
-    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11")> Public Property genome_guid As Long
-    <DatabaseField("pos_from"), DataType(MySqlDbType.Int64, "11")> Public Property pos_from As Long
-    <DatabaseField("pos_from_guid"), DataType(MySqlDbType.Int64, "11")> Public Property pos_from_guid As Long
-    <DatabaseField("pfo_type_id"), DataType(MySqlDbType.Int64, "11")> Public Property pfo_type_id As Long
-    <DatabaseField("pfo_side_guid"), DataType(MySqlDbType.Int64, "11")> Public Property pfo_side_guid As Long
-    <DatabaseField("pos_to"), DataType(MySqlDbType.Int64, "11")> Public Property pos_to As Long
-    <DatabaseField("pos_to_guid"), DataType(MySqlDbType.Int64, "11")> Public Property pos_to_guid As Long
-    <DatabaseField("pto_type_id"), DataType(MySqlDbType.Int64, "11")> Public Property pto_type_id As Long
-    <DatabaseField("pto_side_guid"), DataType(MySqlDbType.Int64, "11")> Public Property pto_side_guid As Long
-    <DatabaseField("sequence"), DataType(MySqlDbType.VarChar, "255")> Public Property sequence As String
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
+    <DatabaseField("sec_struct_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="sec_struct_guid"), XmlAttribute> Public Property sec_struct_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
+    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="genome_guid")> Public Property genome_guid As Long
+    <DatabaseField("pos_from"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_from")> Public Property pos_from As Long
+    <DatabaseField("pos_from_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_from_guid")> Public Property pos_from_guid As Long
+    <DatabaseField("pfo_type_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pfo_type_id")> Public Property pfo_type_id As Long
+    <DatabaseField("pfo_side_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pfo_side_guid")> Public Property pfo_side_guid As Long
+    <DatabaseField("pos_to"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_to")> Public Property pos_to As Long
+    <DatabaseField("pos_to_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pos_to_guid")> Public Property pos_to_guid As Long
+    <DatabaseField("pto_type_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pto_type_id")> Public Property pto_type_id As Long
+    <DatabaseField("pto_side_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="pto_side_guid")> Public Property pto_side_guid As Long
+    <DatabaseField("sequence"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="sequence")> Public Property sequence As String
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -185,7 +192,11 @@ Public Class sec_structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, sec_struct_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, pos_from, pos_from_guid, pfo_type_id, pfo_side_guid, pos_to, pos_to_guid, pto_type_id, pto_side_guid, sequence, descript, sec_struct_guid)
     End Function
 #End Region
+Public Function Clone() As sec_structures
+                  Return DirectCast(MyClass.MemberwiseClone, sec_structures)
+              End Function
 End Class
 
 
 End Namespace
+

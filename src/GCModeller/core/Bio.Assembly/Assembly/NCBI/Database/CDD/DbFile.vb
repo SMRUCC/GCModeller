@@ -33,7 +33,7 @@
 
     '     Class DbFile
     ' 
-    '         Properties: FastaUrl
+    '         Properties: BuildTime, FastaUrl, Id, SmpData
     ' 
     '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
     '                   Save, Takes, ToString

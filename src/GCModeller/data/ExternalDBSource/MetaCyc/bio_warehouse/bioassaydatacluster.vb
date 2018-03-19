@@ -33,6 +33,8 @@
 
     ' Class bioassaydatacluster
     ' 
+    '     Properties: ClusterBioAssayData, DataSetWID, Identifier, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

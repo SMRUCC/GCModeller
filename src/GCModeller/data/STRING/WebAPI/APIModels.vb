@@ -47,9 +47,8 @@
     ' 
     '     Class Request
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetToken
-    ' 
-    '         Sub: New
     '         Class Parameter
     ' 
     '             Function: GetToken
@@ -57,13 +56,13 @@
     ' 
     '                 Properties: Name
     ' 
-    '                 Sub: New
+    '                 Constructor: (+1 Overloads) Sub New
     ' 
     '             Class identifiers
     ' 
     '                 Properties: Name
     ' 
-    '                 Sub: New
+    '                 Constructor: (+1 Overloads) Sub New
     ' 
     '             Class format
     ' 

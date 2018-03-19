@@ -50,7 +50,7 @@ Public Module Extensions
         Dim table As String()() = r _
             .Split(summary, "summary\.seqs\(.+?\)", RegexICSng) _
             .Last _
-            .lTokens _
+            .LineTokens _
             .Skip(4) _
             .Take(9) _
             .Select(Function(line) line.Split(ASCII.TAB)) _

@@ -36,11 +36,10 @@
     '         Properties: Count, GeneFastas, Keys, Proteins, RptGenomeBrief
     '                     Values
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ContainsKey, CreateObject, ExportCOGProfiles, GenomeFasta, GetEnumerator
     '                   GetEnumerator1, GetGeneUniqueId, GetLocusId, (+2 Overloads) GetRelatedGenes, ORF_PTT
     '                   RNARnt, TryGetValue
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

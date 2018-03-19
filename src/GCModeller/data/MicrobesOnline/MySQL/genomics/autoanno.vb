@@ -33,6 +33,10 @@
 
     ' Class autoanno
     ' 
+    '     Properties: alignLength, db, evalue, gap, identity
+    '                 locusId, mismatch, qBegin, qEnd, sBegin
+    '                 score, sEnd, subject, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

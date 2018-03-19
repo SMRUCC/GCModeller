@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6ad1b81877dfa0e6bb6cd16acab4c1c, data\Reactome\LocalMySQL\gk_current\physicalentity_2_edited.vb"
+﻿#Region "Microsoft.VisualBasic::e18efa1415f83d8de346c7ad90bb2936, data\Reactome\LocalMySQL\gk_current\physicalentity_2_edited.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class physicalentity_2_edited
     ' 
+    '     Properties: DB_ID, edited, edited_class, edited_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `physicalentity_2_edited` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class physicalentity_2_edited: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("edited_rank"), DataType(MySqlDbType.Int64, "10")> Public Property edited_rank As Long
-    <DatabaseField("edited"), DataType(MySqlDbType.Int64, "10")> Public Property edited As Long
-    <DatabaseField("edited_class"), DataType(MySqlDbType.VarChar, "64")> Public Property edited_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("edited_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="edited_rank")> Public Property edited_rank As Long
+    <DatabaseField("edited"), DataType(MySqlDbType.Int64, "10"), Column(Name:="edited")> Public Property edited As Long
+    <DatabaseField("edited_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="edited_class")> Public Property edited_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class physicalentity_2_edited: Inherits Oracle.LinuxCompatibility.MySQL.M
         Return String.Format(UPDATE_SQL, DB_ID, edited_rank, edited, edited_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As physicalentity_2_edited
+                  Return DirectCast(MyClass.MemberwiseClone, physicalentity_2_edited)
+              End Function
 End Class
 
 
 End Namespace
+

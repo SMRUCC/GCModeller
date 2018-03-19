@@ -33,11 +33,10 @@
 
     '     Class ReactionModifier
     ' 
-    '         Properties: DataSource, TypeId
+    '         Properties: DataSource, InhibitionType, Quantity, TypeId
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: GetRegulationFluxValue
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

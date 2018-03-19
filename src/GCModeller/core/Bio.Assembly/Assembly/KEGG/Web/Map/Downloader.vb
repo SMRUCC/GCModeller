@@ -76,26 +76,26 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="briefFile$"></param>
         ''' <returns></returns>
         Public Function Downloads(EXPORT$, Optional briefFile$ = Nothing) As String()
-            Dim briefEntries As PathwayEntry() = loadEntryAuto(briefFile)
+            Dim entries As PathwayEntry() = loadEntryAuto(briefFile)
             Dim failures As New List(Of String)
-            Dim tick As New ProgressProvider(briefEntries.Length)
+            Dim tick As New ProgressProvider(entries.Length)
             Dim msg$
             Dim getID = Function(entry As PathwayEntry)
-                            If briefFile Is Nothing Then
+                            If briefFile.StringEmpty Then
                                 Return "map" & entry.EntryId
                             Else
                                 Dim s = entry.Entry.Value
-                                s = Regex.Match(s, "\[PATH:.+?\]", RegexICSng).Value
+                                s = r.Match(s, "\[PATH:.+?\]", RegexICSng).Value
                                 s = s.GetStackValue("[", "]").Split(":"c).Last
                                 Return s
                             End If
                         End Function
 
             Using progress As New ProgressBar("Downloads KEGG pathway map data...", 1, CLS:=True)
-                For Each entry In briefEntries
+                For Each entry As PathwayEntry In entries
                     Dim id$ = getID(entry)
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"
-                    Dim save$ = EXPORT & $"/{id}.XML"
+                    Dim save$ = $"{EXPORT}/{entry.GetPathCategory}/{id}.XML"
 
                     If id.StringEmpty Then
                         Continue For
@@ -161,7 +161,7 @@ Namespace Assembly.KEGG.WebServices
                         url = KGML.pathway.ResourceURL(entry.EntryID)
                         msg = entry.Description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
                         bCode = r.Match(entry.EntryID, "\d+").Value
-                        path = PathwayEntry.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                        path = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
                         refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.EntryID}"
 
                         Call url.GET(refer:=refer).SaveTo(path, TextEncodings.UTF8WithoutBOM)

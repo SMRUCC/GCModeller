@@ -37,9 +37,8 @@
     '                 Journal, Keywords, MaxSpace, MinSpace, Remark
     '                 Sequence, Source, Title
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Load, LoadDocument, Save
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

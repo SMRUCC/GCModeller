@@ -33,6 +33,8 @@
 
     ' Class xref_pathway_genes
     ' 
+    '     Properties: gene, gene_KO, gene_name, locus_tag, pathway
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

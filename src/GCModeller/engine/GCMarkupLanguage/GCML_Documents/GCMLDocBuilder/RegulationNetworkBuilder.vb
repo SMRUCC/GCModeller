@@ -33,9 +33,11 @@
 
     '     Class RegulationNetworkBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetTransUnit, Invoke
     ' 
-    '         Sub: BuildRegulationNetwork, New
+    '         Sub: BuildRegulationNetwork
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::648e4ffad4d6bd03a12d724335d56a3a, data\Reactome\LocalMySQL\gk_stable_ids\stableidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::3d6ee58d7f522ea2cb7ae5d39ed7986b, data\Reactome\LocalMySQL\gk_stable_ids\stableidentifier.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class stableidentifier
     ' 
+    '     Properties: DB_ID, identifier, identifierVersion, instanceId
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:31 PM
+REM  Dump @3/16/2018 10:40:24 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_stable_ids
 
@@ -87,7 +92,6 @@ Namespace LocalMySQL.Tables.gk_stable_ids
 ''' /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 ''' 
 ''' -- Dump completed on 2017-03-29 21:35:20
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -102,15 +106,15 @@ CREATE TABLE `stableidentifier` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1792857 DEFAULT CHARSET=latin1;")>
 Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12")> Public Property DB_ID As Long
-    <DatabaseField("identifier"), DataType(MySqlDbType.VarChar, "32")> Public Property identifier As String
-    <DatabaseField("identifierVersion"), DataType(MySqlDbType.Int64, "4")> Public Property identifierVersion As Long
-    <DatabaseField("instanceId"), DataType(MySqlDbType.Int64, "12")> Public Property instanceId As Long
+    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("identifier"), DataType(MySqlDbType.VarChar, "32"), Column(Name:="identifier")> Public Property identifier As String
+    <DatabaseField("identifierVersion"), DataType(MySqlDbType.Int64, "4"), Column(Name:="identifierVersion")> Public Property identifierVersion As Long
+    <DatabaseField("instanceId"), DataType(MySqlDbType.Int64, "12"), Column(Name:="instanceId")> Public Property instanceId As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `stableidentifier` WHERE `DB_ID` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `stableidentifier` SET `DB_ID`='{0}', `identifier`='{1}', `identifierVersion`='{2}', `instanceId`='{3}' WHERE `DB_ID` = '{4}';</SQL>
 #End Region
@@ -124,7 +128,7 @@ Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}', '{3}');
+''' INSERT INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
@@ -135,13 +139,13 @@ Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{identifier}', '{identifierVersion}', '{instanceId}', '{3}')"
+        Return $"('{identifier}', '{identifierVersion}', '{instanceId}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}', '{3}');
+''' REPLACE INTO `stableidentifier` (`identifier`, `identifierVersion`, `instanceId`) VALUES ('{0}', '{1}', '{2}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
@@ -156,7 +160,11 @@ Public Class stableidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, DB_ID, identifier, identifierVersion, instanceId, DB_ID)
     End Function
 #End Region
+Public Function Clone() As stableidentifier
+                  Return DirectCast(MyClass.MemberwiseClone, stableidentifier)
+              End Function
 End Class
 
 
 End Namespace
+

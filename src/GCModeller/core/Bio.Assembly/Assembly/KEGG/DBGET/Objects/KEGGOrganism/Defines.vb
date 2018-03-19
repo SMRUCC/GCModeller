@@ -33,15 +33,17 @@
 
     '     Class Organism
     ' 
-    '         Properties: RefSeq, Species
+    '         Properties: [Class], KEGGId, Kingdom, Phylum, RefSeq
+    '                     Species
     ' 
     '         Function: __createObject, GetValue, ToString, Trim
     ' 
     '     Class Prokaryote
     ' 
-    '         Function: GetValue, Trim
+    '         Properties: Year
     ' 
-    '         Sub: (+3 Overloads) New
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: GetValue, Trim
     ' 
     ' 
     ' /********************************************************************************/

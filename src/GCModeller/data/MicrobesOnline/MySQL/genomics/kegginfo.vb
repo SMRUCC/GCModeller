@@ -33,6 +33,8 @@
 
     ' Class kegginfo
     ' 
+    '     Properties: description, hitId, sLength
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

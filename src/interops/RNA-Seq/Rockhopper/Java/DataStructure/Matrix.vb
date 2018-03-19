@@ -35,23 +35,20 @@
     ' 
     '         Properties: array, arrayCopy, cols, rows
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) getMatrix, hypot, solve
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class LUDecomposition
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: solve
-    ' 
-    '         Sub: New
     ' 
     '     Class QRDecomposition
     ' 
     '         Properties: fullRank
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: solve
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

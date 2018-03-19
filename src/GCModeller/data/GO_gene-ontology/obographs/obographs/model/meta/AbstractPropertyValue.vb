@@ -35,7 +35,7 @@
     ' 
     ' 	    Properties: Meta, Pred, Val, Xrefs
     ' 
-    ' 	    Sub: New
+    ' 	    Constructor: (+1 Overloads) Sub New
     ' 		Class Builder
     ' 
     ' 		    Function: meta, pred, val, xrefs

@@ -33,10 +33,9 @@
 
     ' Class FBAIterator
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __buildMAT, __isDIR, __lowerBounds, __overridesBounds, __upperBounds
     '               Run
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

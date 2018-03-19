@@ -35,19 +35,16 @@
     ' 
     '         Properties: Left, Right
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class Location
     ' 
-    '         Properties: Center, FragmentSize, IsNormalized
+    '         Properties: Center, FragmentSize, IsNormalized, Left, Right
     ' 
+    '         Constructor: (+4 Overloads) Sub New
     '         Function: Clone, ContainSite, CreateObject, Equals, Inside
     '                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
-    ' 
-    '         Sub: (+4 Overloads) New
-    ' 
     '         Operators: <>, =
     ' 
     ' 

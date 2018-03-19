@@ -43,9 +43,10 @@
     ' 
     '     Class WSDBFetchServerClient
     ' 
+    '         Constructor: (+5 Overloads) Sub New
     '         Sub: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDbFormats
     '              getDbFormatsAsync, getFormatStyles, getFormatStylesAsync, getSupportedDBs, getSupportedDBsAsync
-    '              getSupportedFormats, getSupportedFormatsAsync, getSupportedStyles, getSupportedStylesAsync, (+5 Overloads) New
+    '              getSupportedFormats, getSupportedFormatsAsync, getSupportedStyles, getSupportedStylesAsync
     ' 
     ' 
     ' /********************************************************************************/

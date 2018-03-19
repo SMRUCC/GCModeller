@@ -33,11 +33,18 @@
 
     '     Class LocalBLAST
     ' 
-    '         Properties: MolTypeNucleotide, MolTypeProtein
+    '         Properties: AlignmentView, BestHitsKeepsNumber, CheckpointFile, CompositionBasedScoreAdjustments, ConcatenatedQueries
+    '                     ConcatenatedQueriesNumber, DBEffectiveLength, DBGeneticCode, DropoffValue, EValue
+    '                     Filter, ForceLegacy, ForceLegacyNumber, FrameShiftPenalty, GapExtend
+    '                     GapOpen, GappedAlignment, GI, Hits, HitsWindowSize
+    '                     HTML, IntronLength, LowerCaseFiltering, MatchReward, Matrix
+    '                     MegaBlast, MismatchPenalty, MolTypeNucleotide, MolTypeProtein, Processors
+    '                     QueryDeflineBelieve, QueryGeneticCode, QueryLocation, RestrictList, SearchSpace
+    '                     SeqAlign, SmithWatermanAlignments, Strand, Threshold, UngappedExtensionsXDropOff
+    '                     WordSize, XDropoffValue
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Blastn, Blastp, FormatDb, GetLastLogFile
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

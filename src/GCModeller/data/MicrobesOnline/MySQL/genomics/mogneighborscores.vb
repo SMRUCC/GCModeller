@@ -33,6 +33,9 @@
 
     ' Class mogneighborscores
     ' 
+    '     Properties: mog1, mog2, nTaxGroups1, nTaxGroups2, nTaxGroupsBoth
+    '                 score
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

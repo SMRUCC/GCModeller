@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72df5bfcc22671401d6f9a91a9075f97, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
+﻿#Region "Microsoft.VisualBasic::298f1f923902bccfa2a0d172e7069393, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class task_errors
     ' 
+    '     Properties: app, exception, solved, stack_trace, task
+    '                 type, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +47,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -191,3 +195,4 @@ End Class
 
 
 End Namespace
+

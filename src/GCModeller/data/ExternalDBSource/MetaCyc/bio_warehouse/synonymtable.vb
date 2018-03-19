@@ -33,6 +33,8 @@
 
     ' Class synonymtable
     ' 
+    '     Properties: OtherWID, Syn
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

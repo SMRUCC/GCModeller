@@ -33,7 +33,7 @@
 
     ' Module UniProtBuild
     ' 
-    '     Function: ko00000Provider, ScanInternal, (+2 Overloads) ScanModels, skipUntil
+    '     Function: ko00000Provider, ScanInternal, (+2 Overloads) ScanModels, ScanUniProt, skipUntil
     ' 
     '     Sub: CopyTo
     ' 

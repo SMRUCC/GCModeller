@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::add94927a010d5ad1d279a6af7a9d353, data\ExternalDBSource\MetaCyc\MySQL\pathwayreaction.vb"
+﻿#Region "Microsoft.VisualBasic::88c19c051a7ea0463491a679459ee3e9, data\ExternalDBSource\MetaCyc\MySQL\pathwayreaction.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwayreaction
     ' 
+    '     Properties: Hypothetical, PathwayWID, PriorReactionWID, ReactionWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,10 +93,10 @@ CREATE TABLE `pathwayreaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class pathwayreaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("PathwayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property PathwayWID As Long
-    <DatabaseField("ReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ReactionWID As Long
-    <DatabaseField("PriorReactionWID"), DataType(MySqlDbType.Int64, "20")> Public Property PriorReactionWID As Long
-    <DatabaseField("Hypothetical"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property Hypothetical As String
+    <DatabaseField("PathwayWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="PathwayWID"), XmlAttribute> Public Property PathwayWID As Long
+    <DatabaseField("ReactionWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ReactionWID"), XmlAttribute> Public Property ReactionWID As Long
+    <DatabaseField("PriorReactionWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="PriorReactionWID")> Public Property PriorReactionWID As Long
+    <DatabaseField("Hypothetical"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="Hypothetical")> Public Property Hypothetical As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -143,7 +147,11 @@ Public Class pathwayreaction: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, PathwayWID, ReactionWID, PriorReactionWID, Hypothetical, PathwayWID, ReactionWID)
     End Function
 #End Region
+Public Function Clone() As pathwayreaction
+                  Return DirectCast(MyClass.MemberwiseClone, pathwayreaction)
+              End Function
 End Class
 
 
 End Namespace
+

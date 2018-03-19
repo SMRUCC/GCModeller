@@ -33,7 +33,8 @@
 
     '     Class MEMEOutput
     ' 
-    '         Properties: MatchedRegulator
+    '         Properties: DoorOperonId, MAST_EValue, MAST_PValue, MatchedMotif, MatchedRegulator
+    '                     ObjectId, Strand
     ' 
     '         Function: CreateObject
     ' 

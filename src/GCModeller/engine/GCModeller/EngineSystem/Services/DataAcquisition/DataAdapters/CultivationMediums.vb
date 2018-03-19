@@ -35,17 +35,15 @@
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class CultivationMediumsReactor
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

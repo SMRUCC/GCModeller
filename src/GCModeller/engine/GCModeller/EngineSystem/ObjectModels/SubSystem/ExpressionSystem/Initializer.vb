@@ -33,9 +33,8 @@
 
     '     Class Initializer
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Invoke, IsProduct, SetupConstraint, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

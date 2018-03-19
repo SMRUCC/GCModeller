@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92c908df2ed5eb5df94f7ba118461b9b, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\options.vb"
+﻿#Region "Microsoft.VisualBasic::d0a507f98e637b8d5df389dfe3a8349d, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\options.vb"
 
     ' Author:
     ' 
@@ -35,18 +35,26 @@
     ' 
     ' 
     ' 
-    '  
+    '     Class options
     ' 
-    '     Properties: [continue], [error], BioC_mirror, browser, browserNLdisabled
-    '                 CBoundsCheck, ccaddress, checkPackageLicense, contrasts, defaultPackages
-    '                 device, digits, dvipscmd, echo, editor
-    '                 encoding, expressions, help_type, HTTPUserAgent, locatorBell
-    '                 mailer, nwarnings, OutDec, pager, papersize
-    '                 pdfviewer, pkgType, printcmd, prompt, repos
-    '                 scipen, showErrorCalls, showNCalls, showWarnCalls, stringsAsFactors
-    '                 SweaveHooks, SweaveSyntax, texi2dvi, timeout, topLevelEnvironment
-    '                 unzip, useFancyQuotes, useHTTPS, verbose, warn
-    '                 warnPartialMatchArgs, warnPartialMatchAttr, warnPartialMatchDollar, width, windowsTimeout
+    '         Properties: [continue], [error], addSmooth, BioC_mirror, browser
+    '                     browserNLdisabled, CBoundsCheck, ccaddress, checkBounds, checkPackageLicense
+    '                     citationBibtexMax, contrasts, deCellwidth, defaultPackages, demoAsk
+    '                     deparseCutoff, deparseMaxLines, device, deviceAskDefault, digits
+    '                     digitsSecs, downloadFileExtra, downloadFileMethod, dvipscmd, echo
+    '                     editor, encoding, exampleAsk, expressions, help_type
+    '                     helpPorts, helpSearchTypes, helpTryAllPackages, HTTPUserAgent, installLock
+    '                     installPackagesCheckSource, installPackagesCompileFromSource, internetInfo, keepSource, keepSourcePkgs
+    '                     locatorBell, mailer, maxContourSegments, maxPrint, mcCores
+    '                     menuGraphics, NAaction, nwarnings, OutDec, pager
+    '                     papersize, pdfviewer, pkgType, printcmd, prompt
+    '                     repos, saveDefaults, saveImageDefaults, scipen, showCoefPvalues
+    '                     showErrorCalls, showErrorLocations, showErrorMessages, showNCalls, showNlsConvergence
+    '                     showSignifStars, showWarnCalls, stringsAsFactors, SweaveHooks, SweaveSyntax
+    '                     texi2dvi, timeout, topLevelEnvironment, tsEps, tsSCompat
+    '                     unzip, urlMethod, useFancyQuotes, useHTTPS, verbose
+    '                     warn, warnFPU, warningExpression, warningLength, warnPartialMatchArgs
+    '                     warnPartialMatchAttr, warnPartialMatchDollar, width, windowsTimeout
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,8 @@
 
     '     Module Extensions
     ' 
-    '         Function: ECNumberList, GetDomainData, OrganismScientificName, Term2Gene
+    '         Function: ECNumberList, GetDomainData, ORF, OrganismScientificName, proteinFullName
+    '                   SubCellularLocations, Term2Gene
     ' 
     ' 
     ' /********************************************************************************/

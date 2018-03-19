@@ -33,6 +33,9 @@
 
     ' Class featuredefect
     ' 
+    '     Properties: ArrayManufactureDeviation, DataSetWID, Feature, FeatureDefect_DefectType, FeatureDefect_PositionDelta
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

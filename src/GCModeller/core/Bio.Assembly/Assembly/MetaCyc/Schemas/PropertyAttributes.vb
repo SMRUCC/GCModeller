@@ -35,9 +35,8 @@
     ' 
     '         Properties: PropertyValue
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetAdditionalAttribute, GetEnumerator, GetEnumerator1, (+2 Overloads) ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

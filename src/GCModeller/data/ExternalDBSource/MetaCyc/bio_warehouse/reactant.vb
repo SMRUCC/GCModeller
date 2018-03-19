@@ -33,6 +33,8 @@
 
     ' Class reactant
     ' 
+    '     Properties: Coefficient, OtherWID, ReactionWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

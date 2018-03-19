@@ -33,6 +33,8 @@
 
     ' Class [function]
     ' 
+    '     Properties: DataSetWID, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,27 +33,30 @@
 
     '     Class COGName
     ' 
+    '         Properties: COG, Func, Name
+    ' 
     '         Function: LoadTable
     ' 
     '     Class COGFunc
     ' 
-    '         Function: LoadDoc, ToString
+    '         Properties: Code, Name
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: LoadDoc, ToString
     ' 
     '     Class Genomes
     ' 
     '         Properties: Code, FTP_name, Taxid
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: LoadDoc, ToString
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     '     Class COGProt
     ' 
-    '         Function: LoadDoc, ToString
+    '         Properties: ProtID, RefSeq
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: LoadDoc, ToString
     ' 
     ' 
     ' /********************************************************************************/

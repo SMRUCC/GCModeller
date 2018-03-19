@@ -33,7 +33,8 @@
 
     '     Class Motif
     ' 
-    '         Properties: Mcs, NtMolType, PspMatrix, Sites
+    '         Properties: Evalue, Id, llr, Mcs, NtMolType
+    '                     PspMatrix, Signature, Sites, uid, Width
     ' 
     '         Function: ToString
     ' 

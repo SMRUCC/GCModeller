@@ -36,10 +36,12 @@
     '         Properties: avgLengthReads, avgReads, minExpression, minExpressionRNA, minExpressionUTR
     '                     name, totalReads, upperQuartile
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getBackgroundProb, getCompressedFileName, getMeanOfRange, getReads, getReadsInRange
     '                   getStdevOfRange, ToString, transformation
     ' 
-    '         Sub: New, readInAlignmentFile
+    '         Sub: readInAlignmentFile
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e6c51b5a84a6b660ede866007100ba, RDotNET\R.NET\RawVector.vb"
+﻿#Region "Microsoft.VisualBasic::c9e811b581ea1958c7869c6a65f1bbd7, RDotNET\R.NET\RawVector.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '     Properties: DataSize, Item
     ' 
+    '     Constructor: (+4 Overloads) Sub New
+    ' 
     '     Function: GetArrayFast
     ' 
-    '     Sub: CopyTo, (+4 Overloads) New, SetVectorDirect
+    '     Sub: CopyTo, SetVectorDirect
     ' 
     ' /********************************************************************************/
 

@@ -33,6 +33,9 @@
 
     ' Class subsequence
     ' 
+    '     Properties: DataSetWID, FullSequence, Length, LengthApproximate, NucleicAcidWID
+    '                 PercentGC, Sequence, Version, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c756e665fe9e175452c2430b96a174c, data\RegulonDatabase\Regtransbase\MySQL\exp2result_types.vb"
+﻿#Region "Microsoft.VisualBasic::6a94eef2dd5123d12a7661b74453c358, data\RegulonDatabase\Regtransbase\MySQL\exp2result_types.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class exp2result_types
     ' 
+    '     Properties: art_guid, exp_guid, exp_result_type_guid, pkg_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -76,7 +81,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,10 +101,10 @@ CREATE TABLE `exp2result_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class exp2result_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("exp_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property exp_guid As Long
-    <DatabaseField("exp_result_type_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property exp_result_type_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("exp_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="exp_guid"), XmlAttribute> Public Property exp_guid As Long
+    <DatabaseField("exp_result_type_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="exp_result_type_guid"), XmlAttribute> Public Property exp_result_type_guid As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -151,7 +155,11 @@ Public Class exp2result_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, pkg_guid, art_guid, exp_guid, exp_result_type_guid, exp_guid, exp_result_type_guid)
     End Function
 #End Region
+Public Function Clone() As exp2result_types
+                  Return DirectCast(MyClass.MemberwiseClone, exp2result_types)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,6 +33,8 @@
 
     ' Class lightsource
     ' 
+    '     Properties: DataSetWID, InstrumentWID, Type, Wavelength, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

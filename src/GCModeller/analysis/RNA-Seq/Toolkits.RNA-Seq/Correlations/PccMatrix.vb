@@ -35,9 +35,11 @@
     ' 
     '     Properties: Count, lstGenes, PCC_SPCC_MixedType, PccValues
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: GetEnumerator, GetEnumerator1, GetValue, SaveTo
     ' 
-    '     Sub: (+2 Overloads) Dispose, Filtering, (+3 Overloads) New
+    '     Sub: (+2 Overloads) Dispose, Filtering
     ' 
     ' /********************************************************************************/
 

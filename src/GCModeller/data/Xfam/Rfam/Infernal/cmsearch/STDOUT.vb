@@ -43,7 +43,8 @@
     ' 
     '     Class Query
     ' 
-    '         Properties: Accession, Clen, describ, hits, Uncertain
+    '         Properties: Accession, Clen, describ, hits, Query
+    '                     Uncertain
     ' 
     '         Function: GetDataFrame, ToString
     ' 
@@ -51,11 +52,12 @@
     ' 
     '         Properties: Accession, Clen, Query, QueryDef
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Hit
     ' 
-    '         Properties: Evalue
+    '         Properties: bias, description, Evalue, gc, mdl
+    '                     rank, score, sequence, trunc
     ' 
     '         Function: ToString
     ' 

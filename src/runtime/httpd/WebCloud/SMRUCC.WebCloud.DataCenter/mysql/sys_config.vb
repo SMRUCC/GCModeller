@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22d08f150a536767f06bbb2ee8fde652, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_config.vb"
+﻿#Region "Microsoft.VisualBasic::fc8d374529c5428f7d09607f54c73c2a, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_config.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class sys_config
     ' 
+    '     Properties: set_by, set_time, value, variable
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +46,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -111,7 +114,7 @@ Public Class sys_config: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, variable, value, DataType.ToMySqlDateTimeString(set_time), set_by)
+        Return String.Format(INSERT_SQL, variable, value, MySqlScript.ToMySqlDateTimeString(set_time), set_by)
     End Function
 
 ''' <summary>
@@ -128,7 +131,7 @@ Public Class sys_config: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, variable, value, DataType.ToMySqlDateTimeString(set_time), set_by)
+        Return String.Format(REPLACE_SQL, variable, value, MySqlScript.ToMySqlDateTimeString(set_time), set_by)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -136,7 +139,7 @@ Public Class sys_config: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, variable, value, DataType.ToMySqlDateTimeString(set_time), set_by, variable)
+        Return String.Format(UPDATE_SQL, variable, value, MySqlScript.ToMySqlDateTimeString(set_time), set_by, variable)
     End Function
 #End Region
 Public Function Clone() As sys_config
@@ -146,3 +149,4 @@ End Class
 
 
 End Namespace
+

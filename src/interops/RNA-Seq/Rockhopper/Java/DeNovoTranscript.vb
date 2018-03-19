@@ -36,12 +36,13 @@
     '         Properties: lowess, means, numPvalues, pvalues, qvalues
     '                     rPKMs, variances
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: array2D_to_1D_long, getMean, getNormalizedCounts_array, getPvalue, getRawCountNTs
     '                   getRawCountReads, getRawCounts_nts_array, getRawCounts_reads_array, Length, listToArray_double
     '                   listToArray_long, SequenceData, ToString
     ' 
-    '         Sub: computeDifferentialExpression, computeExpression, computeVariance, (+2 Overloads) New, setNormalizedCount
-    '              setQvalue
+    '         Sub: computeDifferentialExpression, computeExpression, computeVariance, setNormalizedCount, setQvalue
     ' 
     ' 
     ' /********************************************************************************/

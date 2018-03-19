@@ -33,7 +33,8 @@
 
     '     Module MapsAPI
     ' 
-    '         Function: CreateObject, (+2 Overloads) Export, TrimAssembly, Where
+    '         Function: __createObject, __setUnique, CreateObject, (+2 Overloads) Export, GetCoverage
+    '                   TrimAssembly, Where
     ' 
     ' 
     ' /********************************************************************************/

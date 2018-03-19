@@ -33,7 +33,7 @@
 
     ' Module DumpUniprot
     ' 
-    ' 
+    '     Function: ImportsUniprotProteins
     ' 
     ' /********************************************************************************/
 

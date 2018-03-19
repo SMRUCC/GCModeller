@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba0a1cc3029138efc083c49418ea1812, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\subscription.vb"
+﻿#Region "Microsoft.VisualBasic::7c8667430153994d8fda5000ac34f232, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\subscription.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class subscription
     ' 
+    '     Properties: active, add_time, app, email, hash
+    '                 uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +47,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -129,7 +133,7 @@ Public Class subscription: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, uid, email, hash, app, active, DataType.ToMySqlDateTimeString(add_time))
+        Return String.Format(INSERT_SQL, uid, email, hash, app, active, MySqlScript.ToMySqlDateTimeString(add_time))
     End Function
 
 ''' <summary>
@@ -146,7 +150,7 @@ Public Class subscription: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, uid, email, hash, app, active, DataType.ToMySqlDateTimeString(add_time))
+        Return String.Format(REPLACE_SQL, uid, email, hash, app, active, MySqlScript.ToMySqlDateTimeString(add_time))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -154,7 +158,7 @@ Public Class subscription: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, uid, email, hash, app, active, DataType.ToMySqlDateTimeString(add_time), email)
+        Return String.Format(UPDATE_SQL, uid, email, hash, app, active, MySqlScript.ToMySqlDateTimeString(add_time), email)
     End Function
 #End Region
 Public Function Clone() As subscription
@@ -164,3 +168,4 @@ End Class
 
 
 End Namespace
+

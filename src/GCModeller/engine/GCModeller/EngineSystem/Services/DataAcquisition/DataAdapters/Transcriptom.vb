@@ -35,33 +35,29 @@
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class TranscriptionFlux
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class BasalTranscription
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     '     Class BasalTranslationFlux
     ' 
     '         Properties: TableName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: DataSource, DefHandles
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

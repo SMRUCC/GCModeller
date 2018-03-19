@@ -33,6 +33,8 @@
 
     ' Class quanttypedimenswidquanttypewid
     ' 
+    '     Properties: QuantitationTypeDimensionWID, QuantitationTypeWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

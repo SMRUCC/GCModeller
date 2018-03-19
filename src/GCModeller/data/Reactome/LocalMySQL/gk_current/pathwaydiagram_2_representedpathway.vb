@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a84a949d876f6a47513d4c669167d25, data\Reactome\LocalMySQL\gk_current\pathwaydiagram_2_representedpathway.vb"
+﻿#Region "Microsoft.VisualBasic::1b5e3001c9dff626d43847232e96912a, data\Reactome\LocalMySQL\gk_current\pathwaydiagram_2_representedpathway.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwaydiagram_2_representedpathway
     ' 
+    '     Properties: DB_ID, representedPathway, representedPathway_class, representedPathway_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `pathwaydiagram_2_representedpathway` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class pathwaydiagram_2_representedpathway: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("representedPathway_rank"), DataType(MySqlDbType.Int64, "10")> Public Property representedPathway_rank As Long
-    <DatabaseField("representedPathway"), DataType(MySqlDbType.Int64, "10")> Public Property representedPathway As Long
-    <DatabaseField("representedPathway_class"), DataType(MySqlDbType.VarChar, "64")> Public Property representedPathway_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("representedPathway_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="representedPathway_rank")> Public Property representedPathway_rank As Long
+    <DatabaseField("representedPathway"), DataType(MySqlDbType.Int64, "10"), Column(Name:="representedPathway")> Public Property representedPathway As Long
+    <DatabaseField("representedPathway_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="representedPathway_class")> Public Property representedPathway_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class pathwaydiagram_2_representedpathway: Inherits Oracle.LinuxCompatibi
         Return String.Format(UPDATE_SQL, DB_ID, representedPathway_rank, representedPathway, representedPathway_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As pathwaydiagram_2_representedpathway
+                  Return DirectCast(MyClass.MemberwiseClone, pathwaydiagram_2_representedpathway)
+              End Function
 End Class
 
 
 End Namespace
+

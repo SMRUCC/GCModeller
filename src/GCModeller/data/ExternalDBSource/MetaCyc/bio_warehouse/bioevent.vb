@@ -33,6 +33,12 @@
 
     ' Class bioevent
     ' 
+    '     Properties: Array_, BioAssayMapTarget, BioMaterial_Treatments, CompositeSequence, CompositeSequence2
+    '                 DataSetWID, DerivedBioAssayDataTarget, DesignElementMapping, Identifier, MAGEClass
+    '                 MeasuredBioAssayTarget, Name, Order_, PhysicalBioAssay, PhysicalBioAssay2
+    '                 PhysicalBioAssaySource, PhysicalBioAssayTarget, QuantitationTypeMapping, Reporter, Target
+    '                 TargetQuantitationType, Transformation_BioAssayMapping, Treatment_Action, Treatment_ActionMeasurement, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

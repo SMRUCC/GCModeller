@@ -33,6 +33,8 @@
 
     ' Class spot
     ' 
+    '     Properties: DatasetWID, MolecularWeightEst, PIEst, SpotId, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

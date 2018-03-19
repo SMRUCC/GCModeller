@@ -33,11 +33,13 @@
 
     '     Class Dictionary
     ' 
+    '         Properties: Name
+    ' 
     '         Function: ToString
     ' 
     '     Class Genomes
     ' 
-    ' 
+    '         Properties: Guid
     ' 
     ' 
     ' /********************************************************************************/

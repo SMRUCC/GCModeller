@@ -33,6 +33,8 @@
 
     ' Class ReactorMachine
     ' 
+    '     Properties: IterationLoops
+    ' 
     '     Function: get_Expressions, TICK
     ' 
     ' Interface IReactorMachine

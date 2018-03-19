@@ -40,7 +40,7 @@
     ' 
     ' Module CircosDebugger
     ' 
-    '     Function: EnableAllOptions
+    '     Function: EnableAllOptions, GetOptions
     ' 
     ' /********************************************************************************/
 

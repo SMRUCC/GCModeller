@@ -33,7 +33,8 @@
 
     ' Class VisitStat
     ' 
-    '     Sub: __commits, Dispose, handleVisit, New
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: __commits, Dispose, handleVisit
     ' 
     ' /********************************************************************************/
 

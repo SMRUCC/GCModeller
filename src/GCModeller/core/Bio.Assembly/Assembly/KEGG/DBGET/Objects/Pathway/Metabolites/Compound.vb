@@ -37,10 +37,12 @@
     '                     Enzyme, ExactMass, Formula, MolWeight, Pathway
     '                     PUBCHEM, reactionId, Remarks
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetModules, GetPathways
     '                   ToString
     ' 
-    '         Sub: DownloadKCF, DownloadStructureImage, (+2 Overloads) New
+    '         Sub: DownloadKCF, DownloadStructureImage
     ' 
     ' 
     ' /********************************************************************************/

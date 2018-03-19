@@ -33,7 +33,8 @@
 
     '     Class Parameters
     ' 
-    '         Sub: New, outputParametersToFile
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: outputParametersToFile
     ' 
     ' 
     ' /********************************************************************************/

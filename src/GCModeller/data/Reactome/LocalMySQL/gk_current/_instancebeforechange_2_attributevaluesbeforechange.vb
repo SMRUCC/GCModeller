@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd4173c6c9bfd126a6574c1343335f61, data\Reactome\LocalMySQL\gk_current\_instancebeforechange_2_attributevaluesbeforechange.vb"
+﻿#Region "Microsoft.VisualBasic::0e3d95dd4b63a4e50e5761b6e4a9d957, data\Reactome\LocalMySQL\gk_current\_instancebeforechange_2_attributevaluesbeforechange.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class _instancebeforechange_2_attributevaluesbeforechange
     ' 
+    '     Properties: attributeValuesBeforeChange, attributeValuesBeforeChange_class, attributeValuesBeforeChange_rank, DB_ID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `_instancebeforechange_2_attributevaluesbeforechange` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class _instancebeforechange_2_attributevaluesbeforechange: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("attributeValuesBeforeChange_rank"), DataType(MySqlDbType.Int64, "10")> Public Property attributeValuesBeforeChange_rank As Long
-    <DatabaseField("attributeValuesBeforeChange"), DataType(MySqlDbType.Int64, "10")> Public Property attributeValuesBeforeChange As Long
-    <DatabaseField("attributeValuesBeforeChange_class"), DataType(MySqlDbType.VarChar, "64")> Public Property attributeValuesBeforeChange_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("attributeValuesBeforeChange_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="attributeValuesBeforeChange_rank")> Public Property attributeValuesBeforeChange_rank As Long
+    <DatabaseField("attributeValuesBeforeChange"), DataType(MySqlDbType.Int64, "10"), Column(Name:="attributeValuesBeforeChange")> Public Property attributeValuesBeforeChange As Long
+    <DatabaseField("attributeValuesBeforeChange_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="attributeValuesBeforeChange_class")> Public Property attributeValuesBeforeChange_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class _instancebeforechange_2_attributevaluesbeforechange: Inherits Oracl
         Return String.Format(UPDATE_SQL, DB_ID, attributeValuesBeforeChange_rank, attributeValuesBeforeChange, attributeValuesBeforeChange_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As _instancebeforechange_2_attributevaluesbeforechange
+                  Return DirectCast(MyClass.MemberwiseClone, _instancebeforechange_2_attributevaluesbeforechange)
+              End Function
 End Class
 
 
 End Namespace
+

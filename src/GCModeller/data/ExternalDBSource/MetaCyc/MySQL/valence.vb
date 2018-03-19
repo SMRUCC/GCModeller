@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3657cd3cfcf7c9ca81cd1a33747afcd, data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
+﻿#Region "Microsoft.VisualBasic::4fd56431b0d89bb4fcb43085ebe526fd, data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class valence
     ' 
+    '     Properties: OtherWID, Valence
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -68,7 +73,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,8 +85,8 @@ CREATE TABLE `valence` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class valence: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("Valence"), NotNull, DataType(MySqlDbType.Int64, "6")> Public Property Valence As Long
+    <DatabaseField("OtherWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID"), XmlAttribute> Public Property OtherWID As Long
+    <DatabaseField("Valence"), NotNull, DataType(MySqlDbType.Int64, "6"), Column(Name:="Valence")> Public Property Valence As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -133,7 +137,11 @@ Public Class valence: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, OtherWID, Valence, OtherWID)
     End Function
 #End Region
+Public Function Clone() As valence
+                  Return DirectCast(MyClass.MemberwiseClone, valence)
+              End Function
 End Class
 
 
 End Namespace
+

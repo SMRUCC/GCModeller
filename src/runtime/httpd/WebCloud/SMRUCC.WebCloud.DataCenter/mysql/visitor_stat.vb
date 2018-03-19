@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01652da3ebbb2ebcf95ff38da2889a37, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
+﻿#Region "Microsoft.VisualBasic::7f2d9a07ef3335d1062853dba4705240, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class visitor_stat
     ' 
+    '     Properties: app, data, ip, method, ref
+    '                 success, time, ua, uid, url
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -44,12 +47,13 @@ REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
 REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @2017/9/10 4:06:03
+REM  Dump @3/16/2018 10:32:32 PM
 
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace mysql
 
@@ -210,7 +214,7 @@ Public Class visitor_stat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetDeleteSQL() As String
-        Return String.Format(DELETE_SQL, ip, DataType.ToMySqlDateTimeString(time), app)
+        Return String.Format(DELETE_SQL, ip, MySqlScript.ToMySqlDateTimeString(time), app)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -218,7 +222,7 @@ Public Class visitor_stat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, uid, DataType.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app)
+        Return String.Format(INSERT_SQL, uid, MySqlScript.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app)
     End Function
 
 ''' <summary>
@@ -235,7 +239,7 @@ Public Class visitor_stat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, uid, DataType.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app)
+        Return String.Format(REPLACE_SQL, uid, MySqlScript.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -243,7 +247,7 @@ Public Class visitor_stat: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, uid, DataType.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app, ip, DataType.ToMySqlDateTimeString(time), app)
+        Return String.Format(UPDATE_SQL, uid, MySqlScript.ToMySqlDateTimeString(time), ip, url, success, method, ua, ref, data, app, ip, MySqlScript.ToMySqlDateTimeString(time), app)
     End Function
 #End Region
 Public Function Clone() As visitor_stat
@@ -253,3 +257,4 @@ End Class
 
 
 End Namespace
+

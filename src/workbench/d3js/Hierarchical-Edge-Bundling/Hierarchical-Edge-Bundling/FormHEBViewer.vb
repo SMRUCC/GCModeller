@@ -33,9 +33,11 @@
 
     ' Class FormHEBViewer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __getValue
     ' 
-    '     Sub: FormHEBViewer_Load, New, OpenToolStripMenuItem_Click
+    '     Sub: FormHEBViewer_Load, OpenToolStripMenuItem_Click
     ' 
     ' /********************************************************************************/
 

@@ -33,8 +33,8 @@
 
     '     Class Regulator
     ' 
-    '         Properties: CommonName, Effector, ProteinAssembly, Regulates, Types
-    '                     Weight
+    '         Properties: Activation, CommonName, Effector, K_Dynamics, PhysiologicallyRelevant
+    '                     ProteinAssembly, Regulates, Types, Weight
     ' 
     '         Function: Clone
     '         Enum RegulationTypes

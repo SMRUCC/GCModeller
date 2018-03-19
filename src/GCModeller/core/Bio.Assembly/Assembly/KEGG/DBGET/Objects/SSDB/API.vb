@@ -290,7 +290,7 @@ both of these relationships hold
                 seq = seq _
                     .StripHTMLTags _
                     .StripBlank _
-                    .lTokens _
+                    .LineTokens _
                     .Skip(1) _
                     .JoinBy("")
 

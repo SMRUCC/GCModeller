@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::009cd033f982bdf6e88d4edbc7d91288, data\Reactome\LocalMySQL\gk_current\parameters.vb"
+﻿#Region "Microsoft.VisualBasic::c3a5d273c7f791a300f19d5db01bceb6, data\Reactome\LocalMySQL\gk_current\parameters.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class parameters
     ' 
+    '     Properties: parameter, value
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -67,7 +72,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,8 +83,8 @@ CREATE TABLE `parameters` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class parameters: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("parameter"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "64")> Public Property parameter As String
-    <DatabaseField("value"), DataType(MySqlDbType.Blob)> Public Property value As Byte()
+    <DatabaseField("parameter"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "64"), Column(Name:="parameter"), XmlAttribute> Public Property parameter As String
+    <DatabaseField("value"), DataType(MySqlDbType.Blob), Column(Name:="value")> Public Property value As Byte()
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -131,7 +135,11 @@ Public Class parameters: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, parameter, value, parameter)
     End Function
 #End Region
+Public Function Clone() As parameters
+                  Return DirectCast(MyClass.MemberwiseClone, parameters)
+              End Function
 End Class
 
 
 End Namespace
+

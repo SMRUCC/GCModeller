@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54a7d5f96fb8f71e44cf900325138f35, data\ExternalDBSource\MetaCyc\MySQL\manufacturelims.vb"
+﻿#Region "Microsoft.VisualBasic::7031488dcebec8e49ef3b49313e82f19, data\ExternalDBSource\MetaCyc\MySQL\manufacturelims.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class manufacturelims
     ' 
+    '     Properties: ArrayManufacture_FeatureLIMSs, BioMaterial, BioMaterialPlateCol, BioMaterialPlateIdentifier, BioMaterialPlateRow
+    '                 DataSetWID, Feature, MAGEClass, ManufactureLIMS_IdentifierLIMS, Quality
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -84,7 +91,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -113,17 +119,17 @@ CREATE TABLE `manufacturelims` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class manufacturelims: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("ArrayManufacture_FeatureLIMSs"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayManufacture_FeatureLIMSs As Long
-    <DatabaseField("Quality"), DataType(MySqlDbType.VarChar, "255")> Public Property Quality As String
-    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20")> Public Property Feature As Long
-    <DatabaseField("BioMaterial"), DataType(MySqlDbType.Int64, "20")> Public Property BioMaterial As Long
-    <DatabaseField("ManufactureLIMS_IdentifierLIMS"), DataType(MySqlDbType.Int64, "20")> Public Property ManufactureLIMS_IdentifierLIMS As Long
-    <DatabaseField("BioMaterialPlateIdentifier"), DataType(MySqlDbType.VarChar, "255")> Public Property BioMaterialPlateIdentifier As String
-    <DatabaseField("BioMaterialPlateRow"), DataType(MySqlDbType.VarChar, "255")> Public Property BioMaterialPlateRow As String
-    <DatabaseField("BioMaterialPlateCol"), DataType(MySqlDbType.VarChar, "255")> Public Property BioMaterialPlateCol As String
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("ArrayManufacture_FeatureLIMSs"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayManufacture_FeatureLIMSs")> Public Property ArrayManufacture_FeatureLIMSs As Long
+    <DatabaseField("Quality"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Quality")> Public Property Quality As String
+    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Feature")> Public Property Feature As Long
+    <DatabaseField("BioMaterial"), DataType(MySqlDbType.Int64, "20"), Column(Name:="BioMaterial")> Public Property BioMaterial As Long
+    <DatabaseField("ManufactureLIMS_IdentifierLIMS"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ManufactureLIMS_IdentifierLIMS")> Public Property ManufactureLIMS_IdentifierLIMS As Long
+    <DatabaseField("BioMaterialPlateIdentifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="BioMaterialPlateIdentifier")> Public Property BioMaterialPlateIdentifier As String
+    <DatabaseField("BioMaterialPlateRow"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="BioMaterialPlateRow")> Public Property BioMaterialPlateRow As String
+    <DatabaseField("BioMaterialPlateCol"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="BioMaterialPlateCol")> Public Property BioMaterialPlateCol As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -174,7 +180,11 @@ Public Class manufacturelims: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, ArrayManufacture_FeatureLIMSs, Quality, Feature, BioMaterial, ManufactureLIMS_IdentifierLIMS, BioMaterialPlateIdentifier, BioMaterialPlateRow, BioMaterialPlateCol, WID)
     End Function
 #End Region
+Public Function Clone() As manufacturelims
+                  Return DirectCast(MyClass.MemberwiseClone, manufacturelims)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff5c0fc0fdc4836becd39d41a03fc553, RDotNET\Graphics\Colors.vb"
+﻿#Region "Microsoft.VisualBasic::5417ffb9b6f526f1f6b9508e2d95c32e, RDotNET\Graphics\Colors.vb"
 
     ' Author:
     ' 
@@ -166,7 +166,7 @@
     '                     White, WhiteSmoke, Yellow, Yellow1, Yellow2
     '                     Yellow3, Yellow4, YellowGreen
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12cbd7054b1bd8ed87e3fe8d3c05f4c6, data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
+﻿#Region "Microsoft.VisualBasic::efc12a2077f94521d3fae2cf3a25319b, data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class product_fc_link
     ' 
+    '     Properties: functional_class_id, prod_fc_l_id, product_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -67,7 +72,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -79,9 +83,9 @@ CREATE TABLE `product_fc_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class product_fc_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property product_id As String
-    <DatabaseField("functional_class_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property functional_class_id As String
-    <DatabaseField("prod_fc_l_id"), DataType(MySqlDbType.VarChar, "12")> Public Property prod_fc_l_id As String
+    <DatabaseField("product_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="product_id")> Public Property product_id As String
+    <DatabaseField("functional_class_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="functional_class_id")> Public Property functional_class_id As String
+    <DatabaseField("prod_fc_l_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="prod_fc_l_id")> Public Property prod_fc_l_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -132,7 +136,11 @@ Public Class product_fc_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As product_fc_link
+                  Return DirectCast(MyClass.MemberwiseClone, product_fc_link)
+              End Function
 End Class
 
 
 End Namespace
+

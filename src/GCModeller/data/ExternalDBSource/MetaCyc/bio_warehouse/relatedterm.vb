@@ -33,6 +33,8 @@
 
     ' Class relatedterm
     ' 
+    '     Properties: OtherWID, Relationship, TermWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

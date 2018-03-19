@@ -33,6 +33,8 @@
 
     ' Class dataexternal
     ' 
+    '     Properties: DataFormat, DataFormatInfoURI, DataSetWID, FilenameURI, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

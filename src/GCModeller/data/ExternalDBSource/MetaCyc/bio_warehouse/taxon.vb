@@ -33,6 +33,10 @@
 
     ' Class taxon
     ' 
+    '     Properties: DataSetWID, DivisionWID, GencodeWID, InheritedDivision, InheritedGencode
+    '                 InheritedMCGencode, MCGencodeWID, Name, ParentWID, Rank
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

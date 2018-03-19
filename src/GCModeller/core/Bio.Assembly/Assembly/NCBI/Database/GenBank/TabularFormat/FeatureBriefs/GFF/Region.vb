@@ -33,6 +33,8 @@
 
     '     Class SeqRegion
     ' 
+    '         Properties: AccessId, Ends, Start
+    ' 
     '         Function: Parser, ToString
     ' 
     ' 

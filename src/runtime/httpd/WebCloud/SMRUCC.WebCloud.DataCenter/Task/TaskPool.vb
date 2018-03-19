@@ -35,10 +35,12 @@
     ' 
     '         Properties: NumThreads, TimeInterval
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Connect, GetQueueTask, GetRunningTask, GetTaskQueuePosition, Queue
     '                   TaskRunning, ToString
     ' 
-    '         Sub: __taskInvoke, Assign, (+2 Overloads) Dispose, New, WriteFailure
+    '         Sub: __taskInvoke, Assign, (+2 Overloads) Dispose, WriteFailure
     '         Class __internalQueue
     ' 
     '             Function: Dequeue, GetEnumerator, GetQueuePosition, IEnumerable_GetEnumerator

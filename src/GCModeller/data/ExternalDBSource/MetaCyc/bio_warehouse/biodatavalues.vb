@@ -33,6 +33,9 @@
 
     ' Class biodatavalues
     ' 
+    '     Properties: BioDataCube_DataExternal, BioDataCube_DataInternal, DataSetWID, MAGEClass, Order_
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

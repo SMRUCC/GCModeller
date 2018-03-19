@@ -42,10 +42,12 @@
     '                     StringInteractions, STrPModel, SystemVariables, TranscriptionModel, Transcripts
     '                     TransmembraneTransportation
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: CreateObject, Decryption, Encryption, LoadCsvData, LoadData
     '                   SaveCsvData, SaveData, SaveTo, ToString
     ' 
-    '         Sub: Copy, InternalLoadResourceData, (+3 Overloads) New, SetExportDirectory
+    '         Sub: Copy, InternalLoadResourceData, SetExportDirectory
     ' 
     ' 
     ' /********************************************************************************/

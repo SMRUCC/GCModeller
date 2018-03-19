@@ -33,7 +33,8 @@
 
     '     Module GBFFFeatureDumps
     ' 
-    '         Function: __dumpCDS, __dumpMiscFeature, __dumpRegulatory, FeatureDumps
+    '         Function: __dump3UTRs, __dump5UTRs, __dumpCDS, __dumpMiscFeature, __dumpRegulatory
+    '                   FeatureDumps
     ' 
     ' 
     ' /********************************************************************************/

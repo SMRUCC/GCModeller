@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abaa7834a8e10c9a336a2b6251e9ba4f, data\ExternalDBSource\MetaCyc\MySQL\reportergroupwidreporterwid.vb"
+﻿#Region "Microsoft.VisualBasic::f1b5a9fa04000724f8f51cef980cee33, data\ExternalDBSource\MetaCyc\MySQL\reportergroupwidreporterwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reportergroupwidreporterwid
     ' 
+    '     Properties: ReporterGroupWID, ReporterWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `reportergroupwidreporterwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class reportergroupwidreporterwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ReporterGroupWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ReporterGroupWID As Long
-    <DatabaseField("ReporterWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ReporterWID As Long
+    <DatabaseField("ReporterGroupWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ReporterGroupWID"), XmlAttribute> Public Property ReporterGroupWID As Long
+    <DatabaseField("ReporterWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ReporterWID")> Public Property ReporterWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class reportergroupwidreporterwid: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, ReporterGroupWID, ReporterWID, ReporterGroupWID)
     End Function
 #End Region
+Public Function Clone() As reportergroupwidreporterwid
+                  Return DirectCast(MyClass.MemberwiseClone, reportergroupwidreporterwid)
+              End Function
 End Class
 
 
 End Namespace
+

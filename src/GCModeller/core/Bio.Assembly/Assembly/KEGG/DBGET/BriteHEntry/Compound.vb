@@ -35,10 +35,12 @@
     ' 
     '         Properties: [Class], Category, Entry, Order, SubCategory
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
     '                   Lipids, LoadFile
     ' 
-    '         Sub: __downloadsInternal, New, WorkspaceCleanup
+    '         Sub: __downloadsInternal, WorkspaceCleanup
     ' 
     ' 
     ' /********************************************************************************/

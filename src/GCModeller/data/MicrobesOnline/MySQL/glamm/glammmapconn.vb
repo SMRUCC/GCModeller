@@ -33,6 +33,10 @@
 
     ' Class glammmapconn
     ' 
+    '     Properties: cpd0ExtId, cpd0SvgId, cpd1ExtId, cpd1SvgId, created
+    '                 guid, mapTitle, priority, rxnExtId, rxnSvgId
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

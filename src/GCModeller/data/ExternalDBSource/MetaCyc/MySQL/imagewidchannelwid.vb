@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70b140a130ddf125be302efa30981243, data\ExternalDBSource\MetaCyc\MySQL\imagewidchannelwid.vb"
+﻿#Region "Microsoft.VisualBasic::10acdcef7d207a4e9fbb569922561d9d, data\ExternalDBSource\MetaCyc\MySQL\imagewidchannelwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class imagewidchannelwid
     ' 
+    '     Properties: ChannelWID, ImageWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `imagewidchannelwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class imagewidchannelwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ImageWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ImageWID As Long
-    <DatabaseField("ChannelWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ChannelWID As Long
+    <DatabaseField("ImageWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ImageWID"), XmlAttribute> Public Property ImageWID As Long
+    <DatabaseField("ChannelWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ChannelWID")> Public Property ChannelWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class imagewidchannelwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, ImageWID, ChannelWID, ImageWID)
     End Function
 #End Region
+Public Function Clone() As imagewidchannelwid
+                  Return DirectCast(MyClass.MemberwiseClone, imagewidchannelwid)
+              End Function
 End Class
 
 
 End Namespace
+

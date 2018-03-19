@@ -33,7 +33,7 @@
 
     '     Module Encoder
     ' 
-    '         Function: ToString
+    '         Function: Level, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,6 +33,8 @@
 
     ' Class association_property
     ' 
+    '     Properties: association_id, id, relationship_type_id, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

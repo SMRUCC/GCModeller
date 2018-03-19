@@ -33,6 +33,8 @@
 
     ' Class annotatedmap
     ' 
+    '     Properties: icon, id, mapId, svg, title
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

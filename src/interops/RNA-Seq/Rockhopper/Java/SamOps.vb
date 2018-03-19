@@ -35,13 +35,15 @@
     ' 
     '         Properties: maxQuality, pairedEnd, replicons, validBam, validSam
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: byteArrayToInt, checkAlignmentLine_BAM, checkAlignmentLine_SAM, getRepliconLength, isHeaderLine
     '                   isTextFile, parseAlignmentLine_BAM, parseAlignmentLine_SAM, parseHeaderLine_SAM, prepBAM
     '                   prepSAM, readCigarString, readInSAM, readInt, readSequence
     '                   readString, reverseComplement, ToString
     ' 
     '         Sub: disregardHeader_BAM, Main, mapReadToCoords, merge, mergesort
-    '              New, output, parseCigar, readInBAM
+    '              output, parseCigar, readInBAM
     ' 
     ' 
     ' /********************************************************************************/

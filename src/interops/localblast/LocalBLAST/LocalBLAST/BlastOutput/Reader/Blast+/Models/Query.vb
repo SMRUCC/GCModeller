@@ -33,10 +33,12 @@
 
     '     Class Query
     ' 
+    '         Properties: EffectiveSearchSpace, Gapped, p, QueryLength, QueryName
+    '                     SubjectHits
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: BlastnOutputParser, GetBestHit, GetBesthits, GetQueryLength, GetQueryName
     '                   ToString, TryParse
-    ' 
-    '         Sub: (+2 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

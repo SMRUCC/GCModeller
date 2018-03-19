@@ -33,7 +33,7 @@
 
     '     Class KEGGPhenotypes
     ' 
-    '         Properties: [Class], Category
+    '         Properties: [Class], Category, Percentage, Percentage2
     ' 
     '         Function: __assign, __weights, CalculateContributions, ExportCytoscape, PhenotypeAssociations
     ' 

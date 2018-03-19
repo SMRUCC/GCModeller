@@ -33,13 +33,16 @@
 
     '     Class GFFTable
     ' 
-    '         Properties: DNA, Features, Protein, RNA, Size
+    '         Properties: [Date], DNA, Features, GffVersion, Protein
+    '                     RNA, SeqRegion, Size, SrcVersion, Type
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
     '                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
     '                   TryGetMetaData, TryGetValue
     ' 
-    '         Sub: (+2 Overloads) New, TrySetMetaData
+    '         Sub: TrySetMetaData
     '         Structure __parserHelper
     ' 
     '             Function: CreateObject

@@ -33,11 +33,27 @@
 
     '     Class BlastpOptionalArguments
     ' 
-    ' 
+    '         Properties: BestHitOverhang, BestHitScoreEdge, CompBasedStats, CullingLimit, DbHardMask
+    '                     DbSize, DbSoftMask, EntrezQuery, ExportSearchStrategy, GapExtend
+    '                     GapOpen, GiList, Html, ImportSearchStrategy, LCaseMasking
+    '                     Matrix, MaxHspsPerSubject, MaxTargetSeqs, NegativeGiList, NumberAlignments
+    '                     NumberDescriptions, NumThreads, OutFormat, ParseDeflines, QueryLocation
+    '                     Remote, SearcHsp, Seg, SeqIdList, ShowGis
+    '                     SoftMasking, SubjectLocation, Task, Threshold, UnGapped
+    '                     UseSwTback, WindowSize, WordSize, XDropGap, XDropGapFinal
+    '                     XDropUngap
     ' 
     '     Class BlastnOptionalArguments
     ' 
-    '         Properties: penalty, reward
+    '         Properties: BestHitOverhang, BestHitScoreEdge, CompBasedStats, CullingLimit, DbHardMask
+    '                     DbSize, DbSoftMask, EntrezQuery, ExportSearchStrategy, GapExtend
+    '                     GapOpen, GiList, Html, ImportSearchStrategy, LCaseMasking
+    '                     Matrix, MaxHspsPerSubject, MaxTargetSeqs, NegativeGiList, NumberAlignments
+    '                     NumberDescriptions, NumThreads, OutFormat, ParseDeflines, penalty
+    '                     Query, QueryLocation, Remote, reward, SearcHsp
+    '                     Seg, SeqIdList, ShowGis, SoftMasking, SubjectLocation
+    '                     Task, Threshold, UnGapped, UseSwTback, WindowSize
+    '                     WordSize, XDropGap, XDropGapFinal, XDropUngap
     ' 
     ' 
     ' /********************************************************************************/

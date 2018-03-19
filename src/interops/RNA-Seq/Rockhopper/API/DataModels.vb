@@ -33,15 +33,15 @@
 
     '     Class Operon
     ' 
-    '         Properties: [Stop], NumberOfGenes, Start, Strand
+    '         Properties: [Stop], Genes, NumberOfGenes, Start, Strand
     ' 
     '         Function: ToString
     ' 
     '     Class Transcripts
     ' 
-    '         Properties: Expression, Is_sRNA, IsPredictedRNA, IsRNA, Leaderless
-    '                     Minus35BoxLoci, Name, Product, Strand, Synonym
-    '                     TranscriptLength
+    '         Properties: ATG, Expression, Is_sRNA, IsPredictedRNA, IsRNA
+    '                     Leaderless, Minus35BoxLoci, Name, Product, Strand
+    '                     Synonym, TGA, TranscriptLength, TSSs, TTSs
     ' 
     '         Function: FromReadsMap, GenerateTranscripts, GetTULoci, InterGenicTranscript
     '         Enum Categories

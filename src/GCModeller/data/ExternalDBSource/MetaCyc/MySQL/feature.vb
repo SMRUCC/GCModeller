@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2692b16bafa9130a17102b0c492af646, data\ExternalDBSource\MetaCyc\MySQL\feature.vb"
+﻿#Region "Microsoft.VisualBasic::57f5a215967e389c101589a6e7372ab6, data\ExternalDBSource\MetaCyc\MySQL\feature.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,11 @@
 
     ' Class feature
     ' 
+    '     Properties: [Class], [Variant], ComputationalSupport, DataSetWID, Description
+    '                 EndPosition, EndPositionApproximate, ExperimentalSupport, PointType, RegionOrPoint
+    '                 SequenceType, SequenceWID, StartPosition, StartPositionApproximate, Type
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +47,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -83,7 +91,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -111,22 +118,22 @@ CREATE TABLE `feature` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class feature: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Description"), DataType(MySqlDbType.VarChar, "1300")> Public Property Description As String
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "50")> Public Property Type As String
-    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "50")> Public Property [Class] As String
-    <DatabaseField("SequenceType"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property SequenceType As String
-    <DatabaseField("SequenceWID"), DataType(MySqlDbType.Int64, "20")> Public Property SequenceWID As Long
-    <DatabaseField("Variant"), DataType(MySqlDbType.Text)> Public Property [Variant] As String
-    <DatabaseField("RegionOrPoint"), DataType(MySqlDbType.VarChar, "10")> Public Property RegionOrPoint As String
-    <DatabaseField("PointType"), DataType(MySqlDbType.VarChar, "10")> Public Property PointType As String
-    <DatabaseField("StartPosition"), DataType(MySqlDbType.Int64, "11")> Public Property StartPosition As Long
-    <DatabaseField("EndPosition"), DataType(MySqlDbType.Int64, "11")> Public Property EndPosition As Long
-    <DatabaseField("StartPositionApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property StartPositionApproximate As String
-    <DatabaseField("EndPositionApproximate"), DataType(MySqlDbType.VarChar, "10")> Public Property EndPositionApproximate As String
-    <DatabaseField("ExperimentalSupport"), DataType(MySqlDbType.VarChar, "1")> Public Property ExperimentalSupport As String
-    <DatabaseField("ComputationalSupport"), DataType(MySqlDbType.VarChar, "1")> Public Property ComputationalSupport As String
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Description"), DataType(MySqlDbType.VarChar, "1300"), Column(Name:="Description")> Public Property Description As String
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Class"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Class")> Public Property [Class] As String
+    <DatabaseField("SequenceType"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="SequenceType")> Public Property SequenceType As String
+    <DatabaseField("SequenceWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="SequenceWID")> Public Property SequenceWID As Long
+    <DatabaseField("Variant"), DataType(MySqlDbType.Text), Column(Name:="Variant")> Public Property [Variant] As String
+    <DatabaseField("RegionOrPoint"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="RegionOrPoint")> Public Property RegionOrPoint As String
+    <DatabaseField("PointType"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="PointType")> Public Property PointType As String
+    <DatabaseField("StartPosition"), DataType(MySqlDbType.Int64, "11"), Column(Name:="StartPosition")> Public Property StartPosition As Long
+    <DatabaseField("EndPosition"), DataType(MySqlDbType.Int64, "11"), Column(Name:="EndPosition")> Public Property EndPosition As Long
+    <DatabaseField("StartPositionApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="StartPositionApproximate")> Public Property StartPositionApproximate As String
+    <DatabaseField("EndPositionApproximate"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="EndPositionApproximate")> Public Property EndPositionApproximate As String
+    <DatabaseField("ExperimentalSupport"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="ExperimentalSupport")> Public Property ExperimentalSupport As String
+    <DatabaseField("ComputationalSupport"), DataType(MySqlDbType.VarChar, "1"), Column(Name:="ComputationalSupport")> Public Property ComputationalSupport As String
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -177,7 +184,11 @@ Public Class feature: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, Description, Type, [Class], SequenceType, SequenceWID, [Variant], RegionOrPoint, PointType, StartPosition, EndPosition, StartPositionApproximate, EndPositionApproximate, ExperimentalSupport, ComputationalSupport, DataSetWID, WID)
     End Function
 #End Region
+Public Function Clone() As feature
+                  Return DirectCast(MyClass.MemberwiseClone, feature)
+              End Function
 End Class
 
 
 End Namespace
+

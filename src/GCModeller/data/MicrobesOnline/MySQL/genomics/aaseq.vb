@@ -33,6 +33,8 @@
 
     ' Class aaseq
     ' 
+    '     Properties: locusId, sequence, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

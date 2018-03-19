@@ -33,6 +33,8 @@
 
     ' Class map_pathway
     ' 
+    '     Properties: description, KO, map, name, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

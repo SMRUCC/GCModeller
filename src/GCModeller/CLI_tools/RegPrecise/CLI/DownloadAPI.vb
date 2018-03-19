@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '  
+    ' Module CLI
     ' 
     '     Function: DownloadFasta, DownloadMotifSites, DownloadProteinMotifs, DownloadRegprecise2, Fetch
     '               FetchRepostiory, FetchThread, MergeDownload

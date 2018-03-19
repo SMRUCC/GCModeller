@@ -33,9 +33,11 @@
 
     '     Class DataSerializer
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetErrMessage, ToString
     ' 
-    '         Sub: Append, Initialize, New
+    '         Sub: Append, Initialize
     ' 
     ' 
     ' /********************************************************************************/

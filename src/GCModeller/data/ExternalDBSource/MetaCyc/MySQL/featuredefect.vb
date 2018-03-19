@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9db1b7fcb2dea7fd1c1715fe2825e142, data\ExternalDBSource\MetaCyc\MySQL\featuredefect.vb"
+﻿#Region "Microsoft.VisualBasic::1b88db62ed096a14eb30702037ef0bdd, data\ExternalDBSource\MetaCyc\MySQL\featuredefect.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class featuredefect
     ' 
+    '     Properties: ArrayManufactureDeviation, DataSetWID, Feature, FeatureDefect_DefectType, FeatureDefect_PositionDelta
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -81,7 +87,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -107,12 +112,12 @@ CREATE TABLE `featuredefect` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class featuredefect: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("ArrayManufactureDeviation"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayManufactureDeviation As Long
-    <DatabaseField("FeatureDefect_DefectType"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureDefect_DefectType As Long
-    <DatabaseField("FeatureDefect_PositionDelta"), DataType(MySqlDbType.Int64, "20")> Public Property FeatureDefect_PositionDelta As Long
-    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20")> Public Property Feature As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("ArrayManufactureDeviation"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayManufactureDeviation")> Public Property ArrayManufactureDeviation As Long
+    <DatabaseField("FeatureDefect_DefectType"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureDefect_DefectType")> Public Property FeatureDefect_DefectType As Long
+    <DatabaseField("FeatureDefect_PositionDelta"), DataType(MySqlDbType.Int64, "20"), Column(Name:="FeatureDefect_PositionDelta")> Public Property FeatureDefect_PositionDelta As Long
+    <DatabaseField("Feature"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Feature")> Public Property Feature As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -163,7 +168,11 @@ Public Class featuredefect: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, ArrayManufactureDeviation, FeatureDefect_DefectType, FeatureDefect_PositionDelta, Feature, WID)
     End Function
 #End Region
+Public Function Clone() As featuredefect
+                  Return DirectCast(MyClass.MemberwiseClone, featuredefect)
+              End Function
 End Class
 
 
 End Namespace
+

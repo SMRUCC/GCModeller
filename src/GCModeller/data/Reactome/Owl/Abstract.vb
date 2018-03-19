@@ -43,6 +43,8 @@
     ' 
     '     Class RDFresource
     ' 
+    '         Properties: ResourceId
+    ' 
     '         Function: GetResourceId, ToString
     ' 
     ' 

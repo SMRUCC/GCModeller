@@ -38,9 +38,8 @@
     ' 
     '         Properties: Alphabets, ColIndex
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Compute, GetFrequency, GetResidueCollection, ToString
-    ' 
-    '         Sub: New
     '         Class Alphabet
     ' 
     '             Properties: [Chr], Counts

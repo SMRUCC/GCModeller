@@ -33,6 +33,8 @@
 
     ' Class element
     ' 
+    '     Properties: AtomicNumber, AtomicWeight, ElementSymbol, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

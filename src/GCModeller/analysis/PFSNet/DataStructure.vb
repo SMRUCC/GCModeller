@@ -39,23 +39,26 @@
     ' 
     '     Class GraphEdge
     ' 
-    '         Properties: SelfLoop
+    '         Properties: g1, g2, PathwayID, SelfLoop
     ' 
     '         Function: LoadData, ToString
     ' 
     '     Class PFSNetResultOut
     ' 
-    '         Properties: DataTag
+    '         Properties: DataTag, Phenotype1, Phenotype2
     ' 
     '         Function: ToString
     ' 
     '     Class PFSNetGraphNode
     ' 
+    '         Properties: Name, weight, weight2
+    ' 
     '         Function: ToString
     ' 
     '     Class PFSNetGraph
     ' 
-    '         Properties: Edges, Length, Nodes
+    '         Properties: Edges, Id, Length, masked, Nodes
+    '                     pvalue, statistics
     ' 
     '         Function: ToString
     ' 

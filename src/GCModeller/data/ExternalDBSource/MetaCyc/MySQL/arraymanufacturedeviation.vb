@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::852bf1caebcb6859717138443d3de8cd, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturedeviation.vb"
+﻿#Region "Microsoft.VisualBasic::eff97f231e487825dbd8258f5c5aef77, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturedeviation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class arraymanufacturedeviation
     ' 
+    '     Properties: Array_, DataSetWID, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,9 +93,9 @@ CREATE TABLE `arraymanufacturedeviation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraymanufacturedeviation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Array_"), DataType(MySqlDbType.Int64, "20")> Public Property Array_ As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Array_"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Array_")> Public Property Array_ As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -142,7 +146,11 @@ Public Class arraymanufacturedeviation: Inherits Oracle.LinuxCompatibility.MySQL
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Array_, WID)
     End Function
 #End Region
+Public Function Clone() As arraymanufacturedeviation
+                  Return DirectCast(MyClass.MemberwiseClone, arraymanufacturedeviation)
+              End Function
 End Class
 
 
 End Namespace
+

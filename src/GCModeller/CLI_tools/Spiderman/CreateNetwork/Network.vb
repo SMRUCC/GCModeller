@@ -36,7 +36,7 @@
     '     Function: ToString
     '     Class Edge
     ' 
-    ' 
+    '         Properties: Description, Direction, FromNode, ToNode
     '         Enum Directions
     ' 
     '             Bidirectional, DirectlyTo

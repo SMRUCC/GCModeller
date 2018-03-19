@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8792c53243d93ea9afebd7cc956d969c, WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\JSON.vb"
+﻿#Region "Microsoft.VisualBasic::fea3898a643ed32d13ff097efde347fc, WebCloud\SMRUCC.WebCloud.d3js\Network\htmlwidget\JSON.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class JSON
     ' 
-    '         Properties: x
+    '         Properties: evals, jsHooks, x
     ' 
     '     Class NetGraph
     ' 
@@ -41,10 +41,10 @@
     ' 
     '     Class Options
     ' 
-    '         Properties: bounded, charge, clickAction, clickTextSize, colourScale
-    '                     fontFamily, fontSize, Group, legend, linkDistance
-    '                     linkWidth, NodeID, nodesize, opacity, opacityNoHover
-    '                     radiusCalculation, zoom
+    '         Properties: arrows, bounded, charge, clickAction, clickTextSize
+    '                     colourScale, fontFamily, fontSize, Group, legend
+    '                     linkDistance, linkWidth, NodeID, nodesize, opacity
+    '                     opacityNoHover, radiusCalculation, zoom
     ' 
     '     Class Links
     ' 

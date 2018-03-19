@@ -43,6 +43,8 @@
     ' 
     '         Class PeriodicBahaviors
     ' 
+    '             Properties: Interval, PeriodicBehavior, TargetAction, TICKS, TriggedCondition
+    ' 
     '             Function: ToString
     ' 
     '  

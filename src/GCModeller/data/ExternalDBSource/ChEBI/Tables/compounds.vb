@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56b6b5955adc6d3b918592eaa1ec6da6, data\ExternalDBSource\ChEBI\Tables\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::be6892e725176ff9fade2749b57e08ef, data\ExternalDBSource\ChEBI\Tables\compounds.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class compounds
     ' 
+    '     Properties: chebi_accession, created_by, definition, id, modified_on
+    '                 name, parent_id, source, star, status
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -75,7 +81,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -95,16 +100,16 @@ CREATE TABLE `compounds` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class compounds: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("name"), DataType(MySqlDbType.Text)> Public Property name As String
-    <DatabaseField("source"), NotNull, DataType(MySqlDbType.VarChar, "32")> Public Property source As String
-    <DatabaseField("parent_id"), DataType(MySqlDbType.Int64, "11")> Public Property parent_id As Long
-    <DatabaseField("chebi_accession"), NotNull, DataType(MySqlDbType.VarChar, "30")> Public Property chebi_accession As String
-    <DatabaseField("status"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property status As String
-    <DatabaseField("definition"), DataType(MySqlDbType.Text)> Public Property definition As String
-    <DatabaseField("star"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property star As Long
-    <DatabaseField("modified_on"), DataType(MySqlDbType.Text)> Public Property modified_on As String
-    <DatabaseField("created_by"), DataType(MySqlDbType.Text)> Public Property created_by As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("name"), DataType(MySqlDbType.Text), Column(Name:="name")> Public Property name As String
+    <DatabaseField("source"), NotNull, DataType(MySqlDbType.VarChar, "32"), Column(Name:="source")> Public Property source As String
+    <DatabaseField("parent_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="parent_id")> Public Property parent_id As Long
+    <DatabaseField("chebi_accession"), NotNull, DataType(MySqlDbType.VarChar, "30"), Column(Name:="chebi_accession")> Public Property chebi_accession As String
+    <DatabaseField("status"), NotNull, DataType(MySqlDbType.VarChar, "1"), Column(Name:="status")> Public Property status As String
+    <DatabaseField("definition"), DataType(MySqlDbType.Text), Column(Name:="definition")> Public Property definition As String
+    <DatabaseField("star"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="star")> Public Property star As Long
+    <DatabaseField("modified_on"), DataType(MySqlDbType.Text), Column(Name:="modified_on")> Public Property modified_on As String
+    <DatabaseField("created_by"), DataType(MySqlDbType.Text), Column(Name:="created_by")> Public Property created_by As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -155,7 +160,11 @@ Public Class compounds: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, name, source, parent_id, chebi_accession, status, definition, star, modified_on, created_by, id)
     End Function
 #End Region
+Public Function Clone() As compounds
+                  Return DirectCast(MyClass.MemberwiseClone, compounds)
+              End Function
 End Class
 
 
 End Namespace
+

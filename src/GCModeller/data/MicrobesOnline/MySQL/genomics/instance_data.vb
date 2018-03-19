@@ -33,6 +33,8 @@
 
     ' Class instance_data
     ' 
+    '     Properties: release_name, release_notes, release_type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

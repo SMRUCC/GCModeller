@@ -33,10 +33,11 @@
 
     ' Class FormViwer
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: PWMHtml
     ' 
-    '     Sub: AboutToolStripMenuItem_Click, FormViwer_Load, New, OpenToolStripMenuItem_Click, QuitToolStripMenuItem_Click
-    '          SequenceLogoToolStripMenuItem_Click
+    '     Sub: AboutToolStripMenuItem_Click, FormViwer_Load, OpenToolStripMenuItem_Click, QuitToolStripMenuItem_Click, SequenceLogoToolStripMenuItem_Click
     ' 
     ' /********************************************************************************/
 

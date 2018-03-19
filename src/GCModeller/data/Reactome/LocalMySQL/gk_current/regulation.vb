@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b5512c5e89ee823f89db7b5413e5eb2, data\Reactome\LocalMySQL\gk_current\regulation.vb"
+﻿#Region "Microsoft.VisualBasic::b9ad095c2ad0bd8fe408e9ac2ca4d4df, data\Reactome\LocalMySQL\gk_current\regulation.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class regulation
     ' 
+    '     Properties: authored, authored_class, DB_ID, regulatedEntity, regulatedEntity_class
+    '                 regulationType, regulationType_class, regulator, regulator_class, releaseDate
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -80,7 +86,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -105,16 +110,16 @@ CREATE TABLE `regulation` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class regulation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("authored"), DataType(MySqlDbType.Int64, "10")> Public Property authored As Long
-    <DatabaseField("authored_class"), DataType(MySqlDbType.VarChar, "64")> Public Property authored_class As String
-    <DatabaseField("regulatedEntity"), DataType(MySqlDbType.Int64, "10")> Public Property regulatedEntity As Long
-    <DatabaseField("regulatedEntity_class"), DataType(MySqlDbType.VarChar, "64")> Public Property regulatedEntity_class As String
-    <DatabaseField("regulationType"), DataType(MySqlDbType.Int64, "10")> Public Property regulationType As Long
-    <DatabaseField("regulationType_class"), DataType(MySqlDbType.VarChar, "64")> Public Property regulationType_class As String
-    <DatabaseField("regulator"), DataType(MySqlDbType.Int64, "10")> Public Property regulator As Long
-    <DatabaseField("regulator_class"), DataType(MySqlDbType.VarChar, "64")> Public Property regulator_class As String
-    <DatabaseField("releaseDate"), DataType(MySqlDbType.DateTime)> Public Property releaseDate As Date
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("authored"), DataType(MySqlDbType.Int64, "10"), Column(Name:="authored")> Public Property authored As Long
+    <DatabaseField("authored_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="authored_class")> Public Property authored_class As String
+    <DatabaseField("regulatedEntity"), DataType(MySqlDbType.Int64, "10"), Column(Name:="regulatedEntity")> Public Property regulatedEntity As Long
+    <DatabaseField("regulatedEntity_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="regulatedEntity_class")> Public Property regulatedEntity_class As String
+    <DatabaseField("regulationType"), DataType(MySqlDbType.Int64, "10"), Column(Name:="regulationType")> Public Property regulationType As Long
+    <DatabaseField("regulationType_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="regulationType_class")> Public Property regulationType_class As String
+    <DatabaseField("regulator"), DataType(MySqlDbType.Int64, "10"), Column(Name:="regulator")> Public Property regulator As Long
+    <DatabaseField("regulator_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="regulator_class")> Public Property regulator_class As String
+    <DatabaseField("releaseDate"), DataType(MySqlDbType.DateTime), Column(Name:="releaseDate")> Public Property releaseDate As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +142,7 @@ Public Class regulation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, DataType.ToMySqlDateTimeString(releaseDate))
+        Return String.Format(INSERT_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, MySqlScript.ToMySqlDateTimeString(releaseDate))
     End Function
 
 ''' <summary>
@@ -154,7 +159,7 @@ Public Class regulation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, DataType.ToMySqlDateTimeString(releaseDate))
+        Return String.Format(REPLACE_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, MySqlScript.ToMySqlDateTimeString(releaseDate))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -162,10 +167,14 @@ Public Class regulation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, DataType.ToMySqlDateTimeString(releaseDate), DB_ID)
+        Return String.Format(UPDATE_SQL, DB_ID, authored, authored_class, regulatedEntity, regulatedEntity_class, regulationType, regulationType_class, regulator, regulator_class, MySqlScript.ToMySqlDateTimeString(releaseDate), DB_ID)
     End Function
 #End Region
+Public Function Clone() As regulation
+                  Return DirectCast(MyClass.MemberwiseClone, regulation)
+              End Function
 End Class
 
 
 End Namespace
+

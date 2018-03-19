@@ -33,9 +33,11 @@
 
     '     Class MergeKEGGCompounds
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Internal_getCompound
     ' 
-    '         Sub: InvokeMergeCompoundSpecies, New
+    '         Sub: InvokeMergeCompoundSpecies
     ' 
     ' 
     ' /********************************************************************************/

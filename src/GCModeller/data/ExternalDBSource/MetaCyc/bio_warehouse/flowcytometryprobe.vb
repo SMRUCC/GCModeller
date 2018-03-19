@@ -33,6 +33,8 @@
 
     ' Class flowcytometryprobe
     ' 
+    '     Properties: DataSetWID, Type, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

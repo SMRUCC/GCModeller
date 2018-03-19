@@ -34,7 +34,7 @@
     ' Module ACE
     ' 
     '     Function: C_ACE, F, GammaACE, Nrare, S
-    '               S_ACE, Sabund, SumFk
+    '               S_ACE, Sabund, Srare, SumFk
     ' 
     ' /********************************************************************************/
 

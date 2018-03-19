@@ -33,9 +33,8 @@
 
     ' Structure MapLabelLayout
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ForceNextLocation
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

@@ -33,6 +33,9 @@
 
     ' Class dnabindsite
     ' 
+    '     Properties: bsId, centerDist, comment, evidence, name
+    '                 promoterID, taxId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

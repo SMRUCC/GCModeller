@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e210c60b9aadcc6fe1a18f5b42b8587, data\Reactome\LocalMySQL\gk_current\candidateset_2_hascandidate.vb"
+﻿#Region "Microsoft.VisualBasic::4987146b98cc69b9ab168812fb6daa02, data\Reactome\LocalMySQL\gk_current\candidateset_2_hascandidate.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class candidateset_2_hascandidate
     ' 
+    '     Properties: DB_ID, hasCandidate, hasCandidate_class, hasCandidate_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `candidateset_2_hascandidate` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class candidateset_2_hascandidate: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("hasCandidate_rank"), DataType(MySqlDbType.Int64, "10")> Public Property hasCandidate_rank As Long
-    <DatabaseField("hasCandidate"), DataType(MySqlDbType.Int64, "10")> Public Property hasCandidate As Long
-    <DatabaseField("hasCandidate_class"), DataType(MySqlDbType.VarChar, "64")> Public Property hasCandidate_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("hasCandidate_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="hasCandidate_rank")> Public Property hasCandidate_rank As Long
+    <DatabaseField("hasCandidate"), DataType(MySqlDbType.Int64, "10"), Column(Name:="hasCandidate")> Public Property hasCandidate As Long
+    <DatabaseField("hasCandidate_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="hasCandidate_class")> Public Property hasCandidate_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class candidateset_2_hascandidate: Inherits Oracle.LinuxCompatibility.MyS
         Return String.Format(UPDATE_SQL, DB_ID, hasCandidate_rank, hasCandidate, hasCandidate_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As candidateset_2_hascandidate
+                  Return DirectCast(MyClass.MemberwiseClone, candidateset_2_hascandidate)
+              End Function
 End Class
 
 
 End Namespace
+

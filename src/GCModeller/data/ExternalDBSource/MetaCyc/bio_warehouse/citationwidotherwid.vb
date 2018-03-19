@@ -33,6 +33,8 @@
 
     ' Class citationwidotherwid
     ' 
+    '     Properties: CitationWID, OtherWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

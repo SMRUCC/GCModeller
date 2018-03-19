@@ -33,9 +33,8 @@
 
     '     Class QuertTextProvider
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: QueryDatas
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

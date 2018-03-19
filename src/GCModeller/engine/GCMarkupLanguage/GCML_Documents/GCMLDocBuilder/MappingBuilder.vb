@@ -33,9 +33,11 @@
 
     '     Class MappingBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Invoke
     ' 
-    '         Sub: GeneLinkMetabolism, Link, LinkGene, New
+    '         Sub: GeneLinkMetabolism, Link, LinkGene
     ' 
     ' 
     ' /********************************************************************************/

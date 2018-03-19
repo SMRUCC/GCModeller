@@ -33,7 +33,7 @@
 
     '     Module EntitySearch
     ' 
-    '         Function: SearchByNameAndFormula, SearchByNameEqualsAny
+    '         Function: EnumerateNames, NameEqualsAny, SearchByNameAndFormula, SearchByNameEqualsAny
     ' 
     ' 
     ' /********************************************************************************/

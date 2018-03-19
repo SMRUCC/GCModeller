@@ -33,9 +33,11 @@
 
     '     Class AnalysisTransmembraneFlux
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateNewModel, GetEntryItems
     ' 
-    '         Sub: Invoke, New
+    '         Sub: Invoke
     ' 
     ' 
     ' /********************************************************************************/

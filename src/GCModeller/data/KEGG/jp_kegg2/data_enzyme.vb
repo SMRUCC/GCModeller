@@ -33,6 +33,9 @@
 
     ' Class data_enzyme
     ' 
+    '     Properties: Comment, EC, name, Product, Reaction_IUBMB_
+    '                 Reaction_KEGG_, Reaction_KEGG__uid, Substrate, sysname, uid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

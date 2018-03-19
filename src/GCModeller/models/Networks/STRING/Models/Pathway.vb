@@ -33,7 +33,7 @@
 
     '     Class Pathway
     ' 
-    '         Properties: OCS, TCSSystem
+    '         Properties: Effectors, OCS, TCSSystem, TF, TF_MiST2Type
     '         Enum TFSignalTypes
     ' 
     '             OneComponentType, TwoComponentType

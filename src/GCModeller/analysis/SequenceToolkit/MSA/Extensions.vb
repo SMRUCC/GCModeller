@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1230c8b9d678b9c18803370b346d8fe0, analysis\SequenceToolkit\MSA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b1c9265ef4433d622ef82a38bfb448b0, analysis\SequenceToolkit\MSA\Extensions.vb"
 
     ' Author:
     ' 
@@ -56,4 +56,3 @@ Public Module Extensions
         Return New CenterStar(input).Compute(matrix)
     End Function
 End Module
-

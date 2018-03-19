@@ -33,13 +33,15 @@
 
     '     Class Peregrine
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getCompressedFileName, getFileNameBase, getGenomeName, getInformalName, getListOfCompressedFileNames
     '                   getPhredOffset, getReadsInputFileType, mapPhred, parametersToString, reverse
     '                   reverseComplement, ToArray
     ' 
     '         Sub: commandLineArguments, Main, mapBamNames, mapHitsToCoordinates, mapReads
-    '              New, output, outputAnnotationStats, outputBrowserFile, outputReadsToFile
-    '              outputResults, outputSamHeader, processReads, releaseMemory
+    '              output, outputAnnotationStats, outputBrowserFile, outputReadsToFile, outputResults
+    '              outputSamHeader, processReads, releaseMemory
     ' 
     ' 
     ' /********************************************************************************/

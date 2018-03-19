@@ -35,8 +35,9 @@
     ' 
     '         Properties: length_of_genome, number_of_samples, sequence_names
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
-    '              check_input_file_and_calc_dimensions, fast_calculate_gwani, New, print_header
+    '              check_input_file_and_calc_dimensions, fast_calculate_gwani, print_header
     ' 
     ' 
     ' /********************************************************************************/

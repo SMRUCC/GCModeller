@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6f581998dcf12b2079087a8e96a8089, data\Reactome\LocalMySQL\gk_current\pathwaydiagram.vb"
+﻿#Region "Microsoft.VisualBasic::efbfb69c7d5ea87e35e7b952bd268837, data\Reactome\LocalMySQL\gk_current\pathwaydiagram.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathwaydiagram
     ' 
+    '     Properties: DB_ID, height, storedATXML, width
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -71,7 +76,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,10 +91,10 @@ CREATE TABLE `pathwaydiagram` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class pathwaydiagram: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("height"), DataType(MySqlDbType.Int64, "10")> Public Property height As Long
-    <DatabaseField("storedATXML"), DataType(MySqlDbType.Blob)> Public Property storedATXML As Byte()
-    <DatabaseField("width"), DataType(MySqlDbType.Int64, "10")> Public Property width As Long
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("height"), DataType(MySqlDbType.Int64, "10"), Column(Name:="height")> Public Property height As Long
+    <DatabaseField("storedATXML"), DataType(MySqlDbType.Blob), Column(Name:="storedATXML")> Public Property storedATXML As Byte()
+    <DatabaseField("width"), DataType(MySqlDbType.Int64, "10"), Column(Name:="width")> Public Property width As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +145,11 @@ Public Class pathwaydiagram: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, height, storedATXML, width, DB_ID)
     End Function
 #End Region
+Public Function Clone() As pathwaydiagram
+                  Return DirectCast(MyClass.MemberwiseClone, pathwaydiagram)
+              End Function
 End Class
 
 
 End Namespace
+

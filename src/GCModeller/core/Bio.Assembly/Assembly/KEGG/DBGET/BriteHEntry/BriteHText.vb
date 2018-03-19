@@ -33,8 +33,8 @@
 
     '     Class BriteHText
     ' 
-    '         Properties: [Class], CategoryItems, CategoryLevel, Description, EntryId
-    '                     Parent
+    '         Properties: [Class], CategoryItems, CategoryLevel, ClassLabel, Degree
+    '                     Description, EntryId, Level, Parent
     ' 
     '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
     '                   (+2 Overloads) Load, Load_ko00001, Load_ko00002, LoadData, NormalizePath
@@ -214,7 +214,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim lines As String() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
-                In data.Replace("<b>", "").Replace("</b>", "").lTokens
+                In data.Replace("<b>", "").Replace("</b>", "").LineTokens
                 Where Not String.IsNullOrEmpty(s) AndAlso
                     (Array.IndexOf(ClassLevels, s.First) > -1 AndAlso Len(s) > 1)
                 Select s

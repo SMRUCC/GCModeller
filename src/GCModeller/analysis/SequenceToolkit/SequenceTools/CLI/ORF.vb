@@ -33,7 +33,7 @@
 
     ' Module Utilities
     ' 
-    '     Function: Translates
+    '     Function: __translate, Translates
     ' 
     ' /********************************************************************************/
 

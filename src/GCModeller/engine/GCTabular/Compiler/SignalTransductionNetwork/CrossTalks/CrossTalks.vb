@@ -33,6 +33,8 @@
 
     '     Class CrossTalks
     ' 
+    '         Properties: Kinase, Probability, Regulator
+    ' 
     '         Function: get_InternalGUID, ToString, Trimed, TrimedKinaseId, TrimedRegulatorId
     ' 
     ' 

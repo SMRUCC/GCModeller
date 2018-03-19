@@ -36,9 +36,8 @@
     '     Properties: eggHTS, KEGG_tools, localblast, MEME, metaProfiler
     '                 NCBI_tools, seqtools, VennDiagram
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: IsAppHome, LinuxPath, WindowsPath
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

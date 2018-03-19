@@ -33,6 +33,10 @@
 
     ' Class designelementgroup
     ' 
+    '     Properties: ArrayDesign_FeatureGroups, DataSetWID, DesignElementGroup_Species, FeatureGroup_DistanceUnit, FeatureGroup_FeatureShape
+    '                 FeatureGroup_TechnologyType, FeatureHeight, FeatureLength, FeatureWidth, Identifier
+    '                 MAGEClass, Name, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

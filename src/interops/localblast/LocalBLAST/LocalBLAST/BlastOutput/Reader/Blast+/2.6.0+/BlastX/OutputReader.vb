@@ -33,8 +33,8 @@
 
     '     Module OutputReader
     ' 
-    '         Function: __hitFragments, __hspParser, __parser, (+2 Overloads) __queryParser, subjectInfo
-    '                   TryParseOutput
+    '         Function: __hitFragments, __hspParser, __parser, (+2 Overloads) __queryParser, parseFragment
+    '                   QueryBlockIterator, queryInfo, subjectInfo, subjectParser, TryParseOutput
     ' 
     ' 
     ' /********************************************************************************/
@@ -139,7 +139,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             End If
 
             block = block _
-                .lTokens _
+                .LineTokens _
                 .Skip(3) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .JoinBy(ASCII.LF) _
@@ -269,7 +269,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         Private Function __hspParser(s As String, Score As String) As Components.HitFragment
-            Dim hsp = s.lTokens.Split(3, echo:=False)
+            Dim hsp = s.LineTokens.Split(3, echo:=False)
             Dim LQuery As HitSegment() = hsp _
                 .Select(Function(x) HitSegment.TryParse(x)) _
                 .ToArray

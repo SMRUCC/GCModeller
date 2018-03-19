@@ -33,6 +33,8 @@
 
     ' Class bioassaywidchannelwid
     ' 
+    '     Properties: BioAssayWID, ChannelWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

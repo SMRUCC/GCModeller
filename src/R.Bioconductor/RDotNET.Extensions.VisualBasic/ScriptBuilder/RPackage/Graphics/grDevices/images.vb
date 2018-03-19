@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66d1ee8876d091b09c90e3ae04fbc201, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\images.vb"
+﻿#Region "Microsoft.VisualBasic::3aedf6c13d0036b80e0ecefe8f783a34, RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\images.vb"
 
     ' Author:
     ' 
@@ -33,30 +33,30 @@
 
     '     Class grImage
     ' 
-    '         Properties: antialias, pointsize, res, restoreConsole, type
-    '                     units
+    '         Properties: antialias, filename, pointsize, res, restoreConsole
+    '                     type, units
     ' 
-    '  
+    '     Class bmp
     ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
-    '  
+    '     Class jpeg
     ' 
-    '     Properties: quality
+    '         Properties: quality
     ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
-    '  
+    '     Class png
     ' 
-    '     Properties: type
+    '         Properties: type
     ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
-    '  
+    '     Class tiff
     ' 
-    '     Properties: compression
+    '         Properties: compression
     ' 
-    '     Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

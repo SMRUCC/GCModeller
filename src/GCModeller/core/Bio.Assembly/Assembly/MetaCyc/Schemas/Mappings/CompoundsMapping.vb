@@ -33,9 +33,11 @@
 
     '     Class CompoundsMapping
     ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: EffectorMapping, Equals, IsEqual, IsEqually, NameQuery
     ' 
-    '         Sub: (+2 Overloads) Dispose, (+3 Overloads) New
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/

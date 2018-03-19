@@ -33,46 +33,51 @@
 
     '     Class XmlFile
     ' 
+    '         Properties: Level, ModelData, Version
+    ' 
     '         Function: ToString
     ' 
     '     Class Model
     ' 
-    ' 
+    '         Properties: ListOfCompartment, ListOfReactions, ListOfSpecies
     ' 
     '     Class Compartment
     ' 
-    ' 
+    '         Properties: Constant, Size
     ' 
     '     Class Species
     ' 
-    ' 
+    '         Properties: constant, hasOnlySubstanceUnits
     ' 
     '     Class Reaction
     ' 
-    '         Properties: listOfModifiers, listOfProducts, listOfReactants
+    '         Properties: id, listOfModifiers, listOfProducts, listOfReactants, name
+    '                     Notes, reversible
     ' 
     '         Function: ToString
     ' 
     '     Class modifierSpeciesReference
     ' 
+    '         Properties: species
+    ' 
     '         Function: ToString
     ' 
     '     Class SpeciesReference
     ' 
-    ' 
+    '         Properties: Constant
     ' 
     '     Class kineticLaw
     ' 
-    '         Properties: listOfLocalParameters
+    '         Properties: AnnotationData, listOfLocalParameters, Math, metaid, sboTerm
     '         Class annotation
     ' 
-    ' 
+    '             Properties: _sbrk, bqbiol, rdf, RDFData, sabiorkValue
     '             Class sabiork
     ' 
-    ' 
+    '                 Properties: ExperimentConditionsValue, kineticLawID
     '                 Class experimentalConditions
     ' 
-    ' 
+    '                     Properties: buffer, pHValue, TempratureValue
     ' 
     '                 Class temperature
     ' 
@@ -90,10 +95,10 @@
     ' 
     '     Class RDF
     ' 
-    ' 
+    '         Properties: bqbiol, bqmodel, DescriptionValue, rdf
     '         Class Description
     ' 
-    ' 
+    '             Properties: about, isDescribedBy
     ' 
     '         Class isDescribedBy
     ' 
@@ -105,22 +110,22 @@
     ' 
     '         Class li
     ' 
-    ' 
+    '             Properties: resource
     ' 
     ' 
     ' 
     '     Class Math
     ' 
-    ' 
+    '         Properties: applyValue
     '         Class Apply
     ' 
-    ' 
+    '             Properties: VaslueCollection
     ' 
     ' 
     ' 
     '     Class localParameter
     ' 
-    ' 
+    '         Properties: id, name, sboTerm, units, value
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a7d98f0cb9f6a41f1564fa83ce2e718, data\Reactome\LocalMySQL\gk_current\ontology.vb"
+﻿#Region "Microsoft.VisualBasic::9fc05c7adfd556193919f99226b358e3, data\Reactome\LocalMySQL\gk_current\ontology.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class ontology
     ' 
+    '     Properties: ontology
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -65,7 +70,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -75,7 +79,7 @@ CREATE TABLE `ontology` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class ontology: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ontology"), DataType(MySqlDbType.Blob)> Public Property ontology As Byte()
+    <DatabaseField("ontology"), DataType(MySqlDbType.Blob), Column(Name:="ontology")> Public Property ontology As Byte()
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -126,7 +130,11 @@ Public Class ontology: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As ontology
+                  Return DirectCast(MyClass.MemberwiseClone, ontology)
+              End Function
 End Class
 
 
 End Namespace
+

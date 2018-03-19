@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76d9cf1e0a5f5be90ec77ad3780074e9, data\Reactome\LocalMySQL\gk_current\referenceentity_2_otheridentifier.vb"
+﻿#Region "Microsoft.VisualBasic::10d48ceaf2cccbb452a3bfec7db915f6, data\Reactome\LocalMySQL\gk_current\referenceentity_2_otheridentifier.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class referenceentity_2_otheridentifier
     ' 
+    '     Properties: DB_ID, otherIdentifier, otherIdentifier_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,9 +87,9 @@ CREATE TABLE `referenceentity_2_otheridentifier` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class referenceentity_2_otheridentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("otherIdentifier_rank"), DataType(MySqlDbType.Int64, "10")> Public Property otherIdentifier_rank As Long
-    <DatabaseField("otherIdentifier"), DataType(MySqlDbType.Text)> Public Property otherIdentifier As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("otherIdentifier_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="otherIdentifier_rank")> Public Property otherIdentifier_rank As Long
+    <DatabaseField("otherIdentifier"), DataType(MySqlDbType.Text), Column(Name:="otherIdentifier")> Public Property otherIdentifier As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +140,11 @@ Public Class referenceentity_2_otheridentifier: Inherits Oracle.LinuxCompatibili
         Return String.Format(UPDATE_SQL, DB_ID, otherIdentifier_rank, otherIdentifier, DB_ID)
     End Function
 #End Region
+Public Function Clone() As referenceentity_2_otheridentifier
+                  Return DirectCast(MyClass.MemberwiseClone, referenceentity_2_otheridentifier)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,9 +33,8 @@
 
     '     Class DataAdapter
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __getHeaders
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

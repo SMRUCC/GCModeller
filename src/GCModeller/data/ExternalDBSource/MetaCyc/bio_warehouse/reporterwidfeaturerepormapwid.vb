@@ -33,6 +33,8 @@
 
     ' Class reporterwidfeaturerepormapwid
     ' 
+    '     Properties: FeatureReporterMapWID, ReporterWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

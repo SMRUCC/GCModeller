@@ -35,9 +35,8 @@
     ' 
     '         Properties: MySQl
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: LocationQuery
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

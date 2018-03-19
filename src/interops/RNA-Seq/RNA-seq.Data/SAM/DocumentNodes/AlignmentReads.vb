@@ -37,10 +37,12 @@
     '                     OptionalTable, PNEXT, POS, QNAME, QUAL
     '                     RNAME, RNEXT, Strand, TLEN
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: GenerateDocumentLine, GetBitFLAGSDescriptions, GetLocation, HaveFLAG, (+2 Overloads) RangeAt
     '                   ToString
     ' 
-    '         Sub: CIGARParser, (+2 Overloads) New
+    '         Sub: CIGARParser
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a89d14555cc5ac2bd806edbabf98cac, data\RegulonDatabase\Regtransbase\MySQL\obj_types.vb"
+﻿#Region "Microsoft.VisualBasic::27f6b8f68a473a2506abf045a38a0065, data\RegulonDatabase\Regtransbase\MySQL\obj_types.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class obj_types
     ' 
+    '     Properties: cp_order, id, obj_tbname, obj_type_name
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -69,7 +74,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,15 +87,15 @@ CREATE TABLE `obj_types` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;")>
 Public Class obj_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("obj_type_name"), DataType(MySqlDbType.VarChar, "50")> Public Property obj_type_name As String
-    <DatabaseField("obj_tbname"), DataType(MySqlDbType.VarChar, "50")> Public Property obj_tbname As String
-    <DatabaseField("cp_order"), DataType(MySqlDbType.Int64, "11")> Public Property cp_order As Long
+    <DatabaseField("id"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("obj_type_name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="obj_type_name")> Public Property obj_type_name As String
+    <DatabaseField("obj_tbname"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="obj_tbname")> Public Property obj_tbname As String
+    <DatabaseField("cp_order"), DataType(MySqlDbType.Int64, "11"), Column(Name:="cp_order")> Public Property cp_order As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}', '{3}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `obj_types` WHERE `id` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `obj_types` SET `id`='{0}', `obj_type_name`='{1}', `obj_tbname`='{2}', `cp_order`='{3}' WHERE `id` = '{4}';</SQL>
 #End Region
@@ -105,7 +109,7 @@ Public Class obj_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}', '{3}');
+''' INSERT INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
@@ -116,13 +120,13 @@ Public Class obj_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{obj_type_name}', '{obj_tbname}', '{cp_order}', '{3}')"
+        Return $"('{obj_type_name}', '{obj_tbname}', '{cp_order}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}', '{3}');
+''' REPLACE INTO `obj_types` (`obj_type_name`, `obj_tbname`, `cp_order`) VALUES ('{0}', '{1}', '{2}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
@@ -137,7 +141,11 @@ Public Class obj_types: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, obj_type_name, obj_tbname, cp_order, id)
     End Function
 #End Region
+Public Function Clone() As obj_types
+                  Return DirectCast(MyClass.MemberwiseClone, obj_types)
+              End Function
 End Class
 
 
 End Namespace
+

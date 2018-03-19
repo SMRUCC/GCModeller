@@ -33,7 +33,8 @@
 
     '     Class BiochemicalReaction
     ' 
-    '         Properties: conversionDirection, eCNumber
+    '         Properties: conversionDirection, displayName, eCNumber, left, participantStoichiometry
+    '                     right
     ' 
     '     Class SmallMolecule
     ' 
@@ -41,11 +42,11 @@
     ' 
     '     Class CellularLocationVocabulary
     ' 
-    '         Properties: term
+    '         Properties: term, xref
     ' 
     '     Class SmallMoleculeReference
     ' 
-    ' 
+    '         Properties: name, xref
     ' 
     '     Class Provenance
     ' 
@@ -57,15 +58,15 @@
     ' 
     '     Class Protein
     ' 
-    '         Properties: cellularLocation, displayName, entityReference
+    '         Properties: cellularLocation, displayName, entityReference, feature, name
     ' 
     '     Class ProteinReference
     ' 
-    '         Properties: organism
+    '         Properties: name, organism
     ' 
     '     Class BioSource
     ' 
-    ' 
+    '         Properties: name
     ' 
     '     Class FragmentFeature
     ' 
@@ -81,11 +82,11 @@
     ' 
     '     Class RelationshipTypeVocabulary
     ' 
-    '         Properties: term
+    '         Properties: term, xref
     ' 
     '     Class Complex
     ' 
-    '         Properties: cellularLocation
+    '         Properties: cellularLocation, component, componentStoichiometry, displayName
     ' 
     '     Class Stoichiometry
     ' 
@@ -93,7 +94,7 @@
     ' 
     '     Class PhysicalEntity
     ' 
-    '         Properties: cellularLocation, displayName
+    '         Properties: cellularLocation, displayName, memberPhysicalEntity
     ' 
     ' 
     ' /********************************************************************************/

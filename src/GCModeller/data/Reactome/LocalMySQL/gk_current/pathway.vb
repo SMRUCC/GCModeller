@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15591b5f3a473177199034e55e4a2070, data\Reactome\LocalMySQL\gk_current\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c9a397904129773d8f467f5df34b9764, data\Reactome\LocalMySQL\gk_current\pathway.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class pathway
     ' 
+    '     Properties: DB_ID, doi, isCanonical, normalPathway, normalPathway_class
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -74,7 +79,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,11 +97,11 @@ CREATE TABLE `pathway` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class pathway: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("doi"), DataType(MySqlDbType.VarChar, "64")> Public Property doi As String
-    <DatabaseField("isCanonical"), DataType(MySqlDbType.String)> Public Property isCanonical As String
-    <DatabaseField("normalPathway"), DataType(MySqlDbType.Int64, "10")> Public Property normalPathway As Long
-    <DatabaseField("normalPathway_class"), DataType(MySqlDbType.VarChar, "64")> Public Property normalPathway_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("doi"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="doi")> Public Property doi As String
+    <DatabaseField("isCanonical"), DataType(MySqlDbType.String), Column(Name:="isCanonical")> Public Property isCanonical As String
+    <DatabaseField("normalPathway"), DataType(MySqlDbType.Int64, "10"), Column(Name:="normalPathway")> Public Property normalPathway As Long
+    <DatabaseField("normalPathway_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="normalPathway_class")> Public Property normalPathway_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -148,7 +152,11 @@ Public Class pathway: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, doi, isCanonical, normalPathway, normalPathway_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As pathway
+                  Return DirectCast(MyClass.MemberwiseClone, pathway)
+              End Function
 End Class
 
 
 End Namespace
+

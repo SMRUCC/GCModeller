@@ -33,7 +33,9 @@
 
     ' Module Extensions
     ' 
-    ' 
+    '     Function: [Select], AsIntegerArray, AsMetabolite, (+3 Overloads) AsMetabolites, (+3 Overloads) AsStringArray
+    '               Generate, (+3 Overloads) IndexOf, IsRegulator, (+2 Overloads) Replace, Replace2
+    '               Takes
     ' 
     ' /********************************************************************************/
 

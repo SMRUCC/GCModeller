@@ -33,7 +33,8 @@
 
     '     Class SubjectHit
     ' 
-    '         Properties: Hsp, LengthHit, LengthQuery, QueryLocation, SubjectLocation
+    '         Properties: Hsp, Length, LengthHit, LengthQuery, Name
+    '                     QueryLocation, Score, SubjectLocation
     ' 
     '         Function: GetItems, ParseHitSegments, ToString, TryParse
     ' 
@@ -163,7 +164,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             For i As Integer = 0 To TextLines.Length - 1
                 Dim buffer As String() =
                     LinqAPI.Exec(Of String) <= From s As String
-                                               In TextLines(i).lTokens
+                                               In TextLines(i).LineTokens
                                                Select s.Replace(vbCr, "")
                 Hsp(i) = HitSegment.TryParse(buffer)
             Next

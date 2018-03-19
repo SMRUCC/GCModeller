@@ -33,8 +33,9 @@
 
     '     Module gbExportService
     ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
-    '                   CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneNtFasta
+    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
+    '                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
     ' 
     ' 
     ' /********************************************************************************/

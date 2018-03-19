@@ -33,6 +33,9 @@
 
     ' Class species
     ' 
+    '     Properties: common_name, genus, id, left_value, lineage_string
+    '                 ncbi_taxa_id, parent_id, right_value, species, taxonomic_rank
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

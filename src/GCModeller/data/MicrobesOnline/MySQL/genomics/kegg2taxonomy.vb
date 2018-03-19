@@ -33,6 +33,8 @@
 
     ' Class kegg2taxonomy
     ' 
+    '     Properties: keggOrgId, taxonomyId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

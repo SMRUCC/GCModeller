@@ -33,6 +33,9 @@
 
     ' Class biomaterialmeasurement
     ' 
+    '     Properties: BioAssayCreation, BioMaterial, DataSetWID, Measurement, Treatment
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

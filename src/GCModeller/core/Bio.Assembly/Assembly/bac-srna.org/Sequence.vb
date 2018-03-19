@@ -35,9 +35,8 @@
     ' 
     '         Properties: Name, SequenceData, Specie, UniqueId
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: [CType], __getMappingLoci, ToFasta, ToString
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

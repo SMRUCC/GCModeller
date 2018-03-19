@@ -33,6 +33,11 @@
 
     ' Class GAF
     ' 
+    '     Properties: [Date], AnnotationExtension, Aspect, AssignedBy, DB
+    '                 DBObjectID, DBObjectName, DBObjectSymbol, DBObjectSynonym, DBObjectType
+    '                 DBReference, EvidenceCode, GeneProductFormID, GOID, Qualifier
+    '                 Taxon, WithOrFrom
+    ' 
     '     Function: GenerateLine, (+2 Overloads) Load, Save, ToString
     ' 
     ' /********************************************************************************/

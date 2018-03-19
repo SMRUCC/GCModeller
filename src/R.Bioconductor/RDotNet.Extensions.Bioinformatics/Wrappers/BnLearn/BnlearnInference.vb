@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f31d334a0466f2973ff7d0cf71c6676f, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\BnlearnInference.vb"
+﻿#Region "Microsoft.VisualBasic::a08a326186727c911933c3685e64547f, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\BnlearnInference.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     '     Class BnlearnInference
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __R_script, CreateEvidence, CreatePartner
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

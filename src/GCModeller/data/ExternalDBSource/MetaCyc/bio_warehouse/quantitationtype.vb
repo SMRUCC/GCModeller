@@ -33,6 +33,9 @@
 
     ' Class quantitationtype
     ' 
+    '     Properties: Channel, DataSetWID, Identifier, IsBackground, MAGEClass
+    '                 Name, QuantitationType_DataType, QuantitationType_Scale, TargetQuantitationType, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

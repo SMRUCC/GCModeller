@@ -33,8 +33,8 @@
 
     '     Class MetabolismEnzyme
     ' 
-    '         Properties: DataSource, ECNumber, EnzymeActivity, MappingHandler, ReferenceTag
-    '                     SerialsHandle, TypeId
+    '         Properties: DataSource, ECNumber, EnzymeActivity, MappingHandler, Quantity
+    '                     ReferenceTag, SerialsHandle, TypeId
     ' 
     '         Function: CreateObject, ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eaa6149b9b7b4e2582aed8bfec78fff5, RDotNET.Extensions.VisualBasic\ScriptBuilder\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::83a887a0035c2d47020a70ca9e0c1d17, RDotNET.Extensions.VisualBasic\ScriptBuilder\Extensions.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: [dim], (+4 Overloads) c, commandArgs, getOption, library
     '                   list, median, names, par, Rbool
-    '                   rep, Rstring, t, UnixPath
+    '                   rep, (+2 Overloads) Rstring, t, UnixPath
     ' 
     ' 
     ' /********************************************************************************/

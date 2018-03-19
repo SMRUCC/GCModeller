@@ -35,9 +35,11 @@
     ' 
     '         Properties: RandomColor
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: GetColorRenderingProfiles, (+3 Overloads) GetDesityRule, InternalRenderColor, Interpolate, ToString
     ' 
-    '         Sub: InternalGlobalCalculation, InternalLocalCalculation, New
+    '         Sub: InternalGlobalCalculation, InternalLocalCalculation
     '         Structure ColorProfile
     ' 
     '             Properties: Average, Max

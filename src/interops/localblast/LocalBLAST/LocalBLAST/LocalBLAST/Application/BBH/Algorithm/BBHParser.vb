@@ -36,7 +36,7 @@
     '         Function: __bhHash, __export, __generateBBH, __hash, __topBesthit
     '                   BBHScore, BBHTop, EnzymeClassification, get_DiReBh, GetBBHTop
     '                   GetDirreBhAll, (+2 Overloads) GetDirreBhAll2, MapsNames, QueryNames, SBHScore
-    '                   StripTopBest
+    '                   StripTopBest, TopHit
     ' 
     ' 
     ' /********************************************************************************/

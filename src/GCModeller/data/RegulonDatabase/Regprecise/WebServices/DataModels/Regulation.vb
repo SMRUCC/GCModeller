@@ -33,27 +33,32 @@
 
     '     Class regulog
     ' 
-    ' 
+    '         Properties: effector, pathway, regulationType, regulatorFamily, regulatorName
+    '                     regulogId, taxonName
     ' 
     '     Class regulon
     ' 
-    '         Properties: effector, pathway, regulatorFamily, regulatorName
+    '         Properties: effector, genomeId, genomeName, pathway, regulationType
+    '                     regulatorFamily, regulatorName, regulogId, regulonId
     ' 
     '     Class regulator
+    ' 
+    '         Properties: locusTag, name, regulatorFamily, regulonId, vimssId
     ' 
     '         Function: ToString
     ' 
     '     Class gene
     ' 
-    ' 
+    '         Properties: [function], locusTag, name, regulonId, vimssId
     ' 
     '     Class site
     ' 
-    ' 
+    '         Properties: geneLocusTag, geneVIMSSId, position, regulonId, score
+    '                     sequence
     ' 
     '     Class regulonRef
     ' 
-    ' 
+    '         Properties: foundObjName, foundObjType, genomeName, regulatorName, regulonId
     ' 
     ' 
     ' /********************************************************************************/

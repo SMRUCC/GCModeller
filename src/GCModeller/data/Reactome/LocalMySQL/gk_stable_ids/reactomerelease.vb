@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93dde091fd3cb4edd24277d7dfb85d4c, data\Reactome\LocalMySQL\gk_stable_ids\reactomerelease.vb"
+﻿#Region "Microsoft.VisualBasic::93ba5ff89a2e4019b9a06bd4172b4b12, data\Reactome\LocalMySQL\gk_stable_ids\reactomerelease.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactomerelease
     ' 
+    '     Properties: database_name, DB_ID, release_num
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:31 PM
+REM  Dump @3/16/2018 10:40:24 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_stable_ids
 
@@ -68,7 +73,6 @@ Namespace LocalMySQL.Tables.gk_stable_ids
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -81,14 +85,14 @@ CREATE TABLE `reactomerelease` (
 ) ENGINE=MyISAM AUTO_INCREMENT=869251 DEFAULT CHARSET=latin1;")>
 Public Class reactomerelease: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12")> Public Property DB_ID As Long
-    <DatabaseField("release_num"), NotNull, DataType(MySqlDbType.Int64, "12")> Public Property release_num As Long
-    <DatabaseField("database_name"), NotNull, DataType(MySqlDbType.Text)> Public Property database_name As String
+    <DatabaseField("DB_ID"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "12"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("release_num"), NotNull, DataType(MySqlDbType.Int64, "12"), Column(Name:="release_num")> Public Property release_num As Long
+    <DatabaseField("database_name"), NotNull, DataType(MySqlDbType.Text), Column(Name:="database_name")> Public Property database_name As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
-    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}', '{2}');</SQL>
-    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}', '{2}');</SQL>
+    Private Shared ReadOnly INSERT_SQL As String = <SQL>INSERT INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}');</SQL>
+    Private Shared ReadOnly REPLACE_SQL As String = <SQL>REPLACE INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}');</SQL>
     Private Shared ReadOnly DELETE_SQL As String = <SQL>DELETE FROM `reactomerelease` WHERE `DB_ID` = '{0}';</SQL>
     Private Shared ReadOnly UPDATE_SQL As String = <SQL>UPDATE `reactomerelease` SET `DB_ID`='{0}', `release_num`='{1}', `database_name`='{2}' WHERE `DB_ID` = '{3}';</SQL>
 #End Region
@@ -102,7 +106,7 @@ Public Class reactomerelease: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
     End Function
 ''' <summary>
 ''' ```SQL
-''' INSERT INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}', '{2}');
+''' INSERT INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
@@ -113,13 +117,13 @@ Public Class reactomerelease: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
 ''' <see cref="GetInsertSQL"/>
 ''' </summary>
     Public Overrides Function GetDumpInsertValue() As String
-        Return $"('{release_num}', '{database_name}', '{2}')"
+        Return $"('{release_num}', '{database_name}')"
     End Function
 
 
 ''' <summary>
 ''' ```SQL
-''' REPLACE INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}', '{2}');
+''' REPLACE INTO `reactomerelease` (`release_num`, `database_name`) VALUES ('{0}', '{1}');
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
@@ -134,7 +138,11 @@ Public Class reactomerelease: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTabl
         Return String.Format(UPDATE_SQL, DB_ID, release_num, database_name, DB_ID)
     End Function
 #End Region
+Public Function Clone() As reactomerelease
+                  Return DirectCast(MyClass.MemberwiseClone, reactomerelease)
+              End Function
 End Class
 
 
 End Namespace
+

@@ -33,7 +33,7 @@
 
     '     Class GeneLinks
     ' 
-    ' 
+    '         Properties: Objects
     ' 
     '     Structure GeneLink
     ' 

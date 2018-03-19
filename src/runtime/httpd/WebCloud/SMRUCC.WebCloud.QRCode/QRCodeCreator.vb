@@ -35,6 +35,8 @@
     ' 
     '     Properties: Description, ErrorCorrection, Type, Version
     ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
     '     Function: [Get], Add, AddErrorCorrection, ChooseParameters, CreateCodeWords
     '               EncodeCharacterCount, EncodeMode, EvaluateMask, EvaluateMicroMask, EvaluateNormalMask
     '               GetAlignmentPatternLocations, GetAvailableErrorCorrectionLevels, GetAvailableModes, GetCharacterCountBits, GetMaxCharacters
@@ -42,8 +44,8 @@
     ' 
     '     Sub: [Set], AddFormatInformation, AddVersionInformation, Apply, CreateFreeMask
     '          DrawAlignmentPattern, DrawFinderPattern, DrawHLine, DrawRect, DrawTimingHLine
-    '          DrawTimingVLine, DrawVLine, Fill, FillRect, (+3 Overloads) New
-    '          Render, Reserve, Save
+    '          DrawTimingVLine, DrawVLine, Fill, FillRect, Render
+    '          Reserve, Save
     ' 
     ' /********************************************************************************/
 
@@ -184,7 +186,15 @@ Public Class QRCodeCreator
     ''' <returns></returns>
     Private Function ChooseParameters(data As String, minimumErrorCorrection As ErrorCorrection, allowMicroCodes As Boolean) As Mode
         ' get list of error correction modes at least as good as the user-specified one
-        Dim allowedErrorCorrectionModes = {ErrorCorrection.None, ErrorCorrection.L, ErrorCorrection.M, ErrorCorrection.Q, ErrorCorrection.H}.SkipWhile(Function(e) e <> minimumErrorCorrection).ToList()
+        Dim allowedErrorCorrectionModes = {
+            ErrorCorrection.None,
+            ErrorCorrection.L,
+            ErrorCorrection.M,
+            ErrorCorrection.Q,
+            ErrorCorrection.H
+        }.SkipWhile(Function(e) e <> minimumErrorCorrection) _
+         .ToList()
+
         ' get the tightest-fit encoding mode
         Dim tightestMode As Mode
 
@@ -199,10 +209,16 @@ Public Class QRCodeCreator
         ' get list of allowed encoding modes
         Dim allowedModes = New Mode() {Mode.Numeric, Mode.AlphaNumeric, Mode.[Byte]}.SkipWhile(Function(m) m <> tightestMode).ToList()
         ' get list of possible types
-        Dim possibleTypes As List(Of Tuple(Of SymbolType, Byte)) = If(allowMicroCodes, Enumerable.Concat(Enumerable.Range(1, 4).[Select](Function(i) Tuple.Create(SymbolType.Micro, CByte(i))), Enumerable.Range(1, 40).[Select](Function(i) Tuple.Create(SymbolType.Normal, CByte(i)))).ToList(), Enumerable.Range(1, 40).[Select](Function(i) Tuple.Create(SymbolType.Normal, CByte(i))).ToList())
+        Dim possibleTypes As List(Of (SymbolType, Byte))
+
+        If allowMicroCodes Then
+            possibleTypes = Enumerable.Concat(Enumerable.Range(1, 4).[Select](Function(i) (SymbolType.Micro, CByte(i))), Enumerable.Range(1, 40).[Select](Function(i) (SymbolType.Normal, CByte(i)))).ToList()
+        Else
+            possibleTypes = Enumerable.Range(1, 40).[Select](Function(i) (SymbolType.Normal, CByte(i))).ToList()
+        End If
 
         ' for each type in ascending order of size
-        For Each p In possibleTypes
+        For Each p As (SymbolType, Byte) In possibleTypes
             ' for each error correction level from most to least
             For Each e In allowedErrorCorrectionModes.Intersect(GetAvailableErrorCorrectionLevels(p.Item1, p.Item2)).Reverse()
                 ' lookup the data capacity
@@ -603,7 +619,7 @@ Public Class QRCodeCreator
         End Select
 
         ' evaluate all the maks
-        Dim results = masks.[Select](Function(m) Tuple.Create(m, EvaluateMask(m.Item3)))
+        Dim results = masks.[Select](Function(m) (m, EvaluateMask(m.Item3)))
 
         ' choose a winner
         Dim winner As Tuple(Of Byte, Byte, Func(Of Integer, Integer, Boolean))
@@ -615,7 +631,7 @@ Public Class QRCodeCreator
         End If
         ' highest score wins
         ' apply the winner
-        Apply(winner.Item3)
+        Call Apply(winner.Item3)
 
         ' return the winner's ID
         Return If(Type = SymbolType.Normal, winner.Item1, winner.Item2)
@@ -949,7 +965,7 @@ Public Class QRCodeCreator
         Throw New InvalidOperationException()
     End Function
 
-    Private Iterator Function GetAlignmentPatternLocations() As IEnumerable(Of Tuple(Of Integer, Integer))
+    Private Iterator Function GetAlignmentPatternLocations() As IEnumerable(Of (Integer, Integer))
         Select Case Type
             Case SymbolType.Micro
                 Exit Select
@@ -958,9 +974,10 @@ Public Class QRCodeCreator
                 Dim locations = AlignmentPatternLocations(Version)
                 For i As Integer = 0 To locations.Length - 1
                     For j As Integer = i To locations.Length - 1
-                        Yield Tuple.Create(locations(i), locations(j))
+                        Yield (locations(i), locations(j))
+
                         If i <> j Then
-                            Yield Tuple.Create(locations(j), locations(i))
+                            Yield (locations(j), locations(i))
                         End If
                     Next
                 Next

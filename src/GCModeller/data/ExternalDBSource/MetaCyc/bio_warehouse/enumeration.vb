@@ -33,6 +33,8 @@
 
     ' Class enumeration
     ' 
+    '     Properties: ColumnName, Meaning, TableName, Value
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

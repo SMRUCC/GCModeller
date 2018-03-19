@@ -36,9 +36,11 @@
     '         Properties: [stop], errors, length, repliconIndex, start
     '                     strand
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: compareTo, getFormattedHit, ToString
     ' 
-    '         Sub: combinePairedEndHits, New
+    '         Sub: combinePairedEndHits
     ' 
     ' 
     ' /********************************************************************************/

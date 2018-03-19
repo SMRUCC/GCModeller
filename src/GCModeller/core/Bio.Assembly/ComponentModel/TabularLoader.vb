@@ -33,9 +33,8 @@
 
     '     Class TabularLazyLoader
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) __getFiles, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

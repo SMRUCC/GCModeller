@@ -31,13 +31,14 @@
 
     ' Summaries:
 
-    '  
+    '     Class ObjectItem
     ' 
-    '     Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class Regulator
     ' 
-    ' 
+    '         Properties: KEY_ID_ORG, PRODUCT_ID, REGULATOR_ID, REGULATOR_INTERNAL_COMMNET, REGULATOR_NAME
+    '                     REGULATOR_NOTE
     ' 
     ' 
     ' /********************************************************************************/

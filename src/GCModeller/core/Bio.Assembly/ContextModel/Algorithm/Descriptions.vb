@@ -33,7 +33,8 @@
 
     '     Module LocationDescriptions
     ' 
-    '         Function: ATGDistance, GetLociRelations
+    '         Function: ATGDistance, BlankSegment, GetATGDistance, GetLociRelations, IsBlankSegment
+    '                   LocationDescription
     ' 
     ' 
     ' /********************************************************************************/

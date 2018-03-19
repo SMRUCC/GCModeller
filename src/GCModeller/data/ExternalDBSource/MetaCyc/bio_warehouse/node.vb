@@ -33,6 +33,8 @@
 
     ' Class node
     ' 
+    '     Properties: BioAssayDataCluster_Nodes, DataSetWID, Node_Nodes, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

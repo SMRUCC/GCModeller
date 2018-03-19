@@ -33,6 +33,8 @@
 
     ' Class product
     ' 
+    '     Properties: Coefficient, OtherWID, ReactionWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

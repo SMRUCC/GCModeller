@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dcbc61cbd481dc148b4c7e098338ea6, RDotNet.Extensions.Bioinformatics\Declares\bnlearn\bnlearnBase.vb"
+﻿#Region "Microsoft.VisualBasic::626c110ea4d0e3330f9338c15f05db3d, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\bnlearnBase.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class bnlearnBase
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

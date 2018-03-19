@@ -33,6 +33,8 @@
 
     ' Class cogfun
     ' 
+    '     Properties: description, funCode, funGroup
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

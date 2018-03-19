@@ -33,11 +33,10 @@
 
     '     Class BacteriaRegulome
     ' 
-    '         Properties: NumOfRegulons
+    '         Properties: genome, NumOfRegulons, regulons
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateKEGGQuery, ListRegulatedGenes, ListRegulators, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49845e2eded3e74e84da6eccbc6ae1c1, data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
+﻿#Region "Microsoft.VisualBasic::0930697436f385f5abc3158c60919d83, data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class pkg_history
     ' 
+    '     Properties: event_date, event_operation, pkg_guid, user_by_email, user_by_id
+    '                 user_by_name, user_by_phone, user_by_role, user_to_email, user_to_id
+    '                 user_to_name, user_to_phone, user_to_role
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -77,7 +84,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -99,19 +105,19 @@ CREATE TABLE `pkg_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class pkg_history: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("event_date"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property event_date As String
-    <DatabaseField("event_operation"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property event_operation As String
-    <DatabaseField("user_by_id"), DataType(MySqlDbType.Int64, "11")> Public Property user_by_id As Long
-    <DatabaseField("user_by_name"), DataType(MySqlDbType.VarChar, "100")> Public Property user_by_name As String
-    <DatabaseField("user_by_role"), DataType(MySqlDbType.VarChar, "100")> Public Property user_by_role As String
-    <DatabaseField("user_by_email"), DataType(MySqlDbType.VarChar, "100")> Public Property user_by_email As String
-    <DatabaseField("user_by_phone"), DataType(MySqlDbType.VarChar, "100")> Public Property user_by_phone As String
-    <DatabaseField("user_to_id"), DataType(MySqlDbType.Int64, "11")> Public Property user_to_id As Long
-    <DatabaseField("user_to_name"), DataType(MySqlDbType.VarChar, "100")> Public Property user_to_name As String
-    <DatabaseField("user_to_role"), DataType(MySqlDbType.VarChar, "100")> Public Property user_to_role As String
-    <DatabaseField("user_to_email"), DataType(MySqlDbType.VarChar, "100")> Public Property user_to_email As String
-    <DatabaseField("user_to_phone"), DataType(MySqlDbType.VarChar, "100")> Public Property user_to_phone As String
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("event_date"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="event_date")> Public Property event_date As String
+    <DatabaseField("event_operation"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="event_operation")> Public Property event_operation As String
+    <DatabaseField("user_by_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="user_by_id")> Public Property user_by_id As Long
+    <DatabaseField("user_by_name"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_by_name")> Public Property user_by_name As String
+    <DatabaseField("user_by_role"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_by_role")> Public Property user_by_role As String
+    <DatabaseField("user_by_email"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_by_email")> Public Property user_by_email As String
+    <DatabaseField("user_by_phone"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_by_phone")> Public Property user_by_phone As String
+    <DatabaseField("user_to_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="user_to_id")> Public Property user_to_id As Long
+    <DatabaseField("user_to_name"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_to_name")> Public Property user_to_name As String
+    <DatabaseField("user_to_role"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_to_role")> Public Property user_to_role As String
+    <DatabaseField("user_to_email"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_to_email")> Public Property user_to_email As String
+    <DatabaseField("user_to_phone"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="user_to_phone")> Public Property user_to_phone As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -162,7 +168,11 @@ Public Class pkg_history: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As pkg_history
+                  Return DirectCast(MyClass.MemberwiseClone, pkg_history)
+              End Function
 End Class
 
 
 End Namespace
+

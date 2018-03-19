@@ -35,9 +35,8 @@
     ' 
     '         Properties: ECNumber, Handle
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Interface IMappingEdge
     ' 

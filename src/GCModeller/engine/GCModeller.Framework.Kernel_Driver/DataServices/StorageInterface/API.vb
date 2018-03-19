@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    ' 
+    '         Function: LoadData_Boolean, LoadData_Double, LoadData_Integer, SampleCounts, TakeSamples
     ' 
     ' 
     ' /********************************************************************************/

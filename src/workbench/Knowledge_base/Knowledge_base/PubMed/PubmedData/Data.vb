@@ -33,7 +33,7 @@
 
     ' Class History
     ' 
-    ' 
+    '     Properties: PubMedPubDate
     ' 
     ' Class ArticleId
     ' 

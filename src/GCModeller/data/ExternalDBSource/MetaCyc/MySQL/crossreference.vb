@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce06f62248d7e240d998d79fbacb84df, data\ExternalDBSource\MetaCyc\MySQL\crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::7fd91e721534063cc07d26fd9e249b06, data\ExternalDBSource\MetaCyc\MySQL\crossreference.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class crossreference
     ' 
+    '     Properties: CrossWID, DatabaseName, OtherWID, Relationship, Type
+    '                 Version, XID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -71,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `crossreference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class crossreference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property OtherWID As Long
-    <DatabaseField("CrossWID"), DataType(MySqlDbType.Int64, "20")> Public Property CrossWID As Long
-    <DatabaseField("XID"), DataType(MySqlDbType.VarChar, "50")> Public Property XID As String
-    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "20")> Public Property Type As String
-    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "10")> Public Property Version As String
-    <DatabaseField("Relationship"), DataType(MySqlDbType.VarChar, "50")> Public Property Relationship As String
-    <DatabaseField("DatabaseName"), DataType(MySqlDbType.VarChar, "255")> Public Property DatabaseName As String
+    <DatabaseField("OtherWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="OtherWID")> Public Property OtherWID As Long
+    <DatabaseField("CrossWID"), DataType(MySqlDbType.Int64, "20"), Column(Name:="CrossWID")> Public Property CrossWID As Long
+    <DatabaseField("XID"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="XID")> Public Property XID As String
+    <DatabaseField("Type"), DataType(MySqlDbType.VarChar, "20"), Column(Name:="Type")> Public Property Type As String
+    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="Version")> Public Property Version As String
+    <DatabaseField("Relationship"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Relationship")> Public Property Relationship As String
+    <DatabaseField("DatabaseName"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="DatabaseName")> Public Property DatabaseName As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class crossreference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As crossreference
+                  Return DirectCast(MyClass.MemberwiseClone, crossreference)
+              End Function
 End Class
 
 
 End Namespace
+

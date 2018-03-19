@@ -34,7 +34,8 @@
     '     Module NucleicAcidStaticsProperty
     ' 
     '         Function: __circular, __contentCommon, __getPercent, __liner, ATPercent
-    '                   Count, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector, Tm
+    '                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
+    '                   Tm
     '         Delegate Function
     ' 
     '             Function: __NAHandle, GCSkew

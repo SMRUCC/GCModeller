@@ -33,6 +33,9 @@
 
     ' Class flowcytometrysample
     ' 
+    '     Properties: BioSourceWID, DataSetWID, FlowCytometryProbeWID, ManufacturerWID, MeasurementWID
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

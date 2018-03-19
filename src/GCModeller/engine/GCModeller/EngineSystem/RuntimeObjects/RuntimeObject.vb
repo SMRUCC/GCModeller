@@ -35,7 +35,7 @@
     ' 
     '         Properties: Guid
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Interface IRuntimeObject
     ' 

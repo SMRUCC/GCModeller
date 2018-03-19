@@ -33,7 +33,7 @@
 
     '     Class EntrySet
     ' 
-    '         Properties: FirstInstance
+    '         Properties: Entries, FirstInstance
     ' 
     '         Function: GetInteractor
     ' 

@@ -33,9 +33,8 @@
 
     '     Class ProteinQuery
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetAllComponentList
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

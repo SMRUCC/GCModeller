@@ -33,6 +33,8 @@
 
     ' Class experimentwidbioassaywid
     ' 
+    '     Properties: BioAssayWID, ExperimentWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

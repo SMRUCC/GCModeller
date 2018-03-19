@@ -35,10 +35,9 @@
     ' 
     '     Properties: Pcc, SPcc, WGCNA
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: CreateFromName, GetPcc, GetPccGreaterThan, GetPccSignificantThan, GetSPcc
     '               GetWGCNAWeight, LoadAuto
-    ' 
-    '     Sub: (+2 Overloads) New
     ' 
     ' /********************************************************************************/
 

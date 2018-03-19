@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10e5168a04fa7d6d13bbd4875021459c, data\Reactome\LocalMySQL\gk_current\complex.vb"
+﻿#Region "Microsoft.VisualBasic::106a654f4c1666bc925ec36a6e5a8001, data\Reactome\LocalMySQL\gk_current\complex.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class complex
     ' 
+    '     Properties: DB_ID, inferredProt, isChimeric, maxHomologues, totalProt
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -74,7 +79,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,11 +97,11 @@ CREATE TABLE `complex` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class complex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("isChimeric"), DataType(MySqlDbType.String)> Public Property isChimeric As String
-    <DatabaseField("totalProt"), DataType(MySqlDbType.Text)> Public Property totalProt As String
-    <DatabaseField("maxHomologues"), DataType(MySqlDbType.Text)> Public Property maxHomologues As String
-    <DatabaseField("inferredProt"), DataType(MySqlDbType.Text)> Public Property inferredProt As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("isChimeric"), DataType(MySqlDbType.String), Column(Name:="isChimeric")> Public Property isChimeric As String
+    <DatabaseField("totalProt"), DataType(MySqlDbType.Text), Column(Name:="totalProt")> Public Property totalProt As String
+    <DatabaseField("maxHomologues"), DataType(MySqlDbType.Text), Column(Name:="maxHomologues")> Public Property maxHomologues As String
+    <DatabaseField("inferredProt"), DataType(MySqlDbType.Text), Column(Name:="inferredProt")> Public Property inferredProt As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -148,7 +152,11 @@ Public Class complex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, isChimeric, totalProt, maxHomologues, inferredProt, DB_ID)
     End Function
 #End Region
+Public Function Clone() As complex
+                  Return DirectCast(MyClass.MemberwiseClone, complex)
+              End Function
 End Class
 
 
 End Namespace
+

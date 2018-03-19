@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f78afe61bdcb102197854a79239927b, Bioconductor\Bioconductor\Web\Installer\InstallPackage.vb"
+﻿#Region "Microsoft.VisualBasic::ef28f0c785385d0824749efef13324a7, Bioconductor\Bioconductor\Web\Installer\InstallPackage.vb"
 
     ' Author:
     ' 
@@ -35,18 +35,19 @@
     ' 
     '     Properties: Current, Repository
     ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
     '     Function: __addNodes
     ' 
     '     Sub: __runR, __updateInfo, AboutToolStripMenuItem1_Click, Button1_Click, CloseToolStripMenuItem_Click
     '          EMailAuthorToolStripMenuItem_Click, HomeToolStripMenuItem_Click, InstallPackage_FormClosing, InstallPackage_Load, InstallUpdateToolStripMenuItem_Click
     '          LinkLabel1_LinkClicked, LinkLabel2_LinkClicked, LinkLabel3_LinkClicked, LinkLabel4_LinkClicked, ListBox1_SelectedIndexChanged
-    '          (+2 Overloads) New, SaveToolStripMenuItem_Click, TreeView1_AfterSelect, TreeView1_NodeMouseClick, UpdateToolStripMenuItem_Click
-    '          ViewOnBioconductorToolStripMenuItem_Click, ViewToolStripMenuItem_Click
+    '          SaveToolStripMenuItem_Click, TreeView1_AfterSelect, TreeView1_NodeMouseClick, UpdateToolStripMenuItem_Click, ViewOnBioconductorToolStripMenuItem_Click
+    '          ViewToolStripMenuItem_Click
     '     Class __runRScript
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: run
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' 

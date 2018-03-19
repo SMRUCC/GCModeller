@@ -35,9 +35,8 @@
     ' 
     '         Properties: color, type
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: TCSColors, ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class DrawingModel
     ' 

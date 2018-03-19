@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24613c8e8b3054b1ea70cd0dddcdbb40, data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::cc5190cea8f293ddc2a1f28f868ef4fb, data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class sequencematch
     ' 
+    '     Properties: ComputationWID, EValue, Length, MatchEnd, MatchStart
+    '                 MatchWID, PercentIdentical, PercentSimilar, PValue, QueryEnd
+    '                 QueryStart, QueryWID, Rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -79,7 +86,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -103,19 +109,19 @@ CREATE TABLE `sequencematch` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class sequencematch: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("QueryWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property QueryWID As Long
-    <DatabaseField("MatchWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property MatchWID As Long
-    <DatabaseField("ComputationWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ComputationWID As Long
-    <DatabaseField("EValue"), DataType(MySqlDbType.Double)> Public Property EValue As Double
-    <DatabaseField("PValue"), DataType(MySqlDbType.Double)> Public Property PValue As Double
-    <DatabaseField("PercentIdentical"), DataType(MySqlDbType.Double)> Public Property PercentIdentical As Double
-    <DatabaseField("PercentSimilar"), DataType(MySqlDbType.Double)> Public Property PercentSimilar As Double
-    <DatabaseField("Rank"), DataType(MySqlDbType.Int64, "6")> Public Property Rank As Long
-    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11")> Public Property Length As Long
-    <DatabaseField("QueryStart"), DataType(MySqlDbType.Int64, "11")> Public Property QueryStart As Long
-    <DatabaseField("QueryEnd"), DataType(MySqlDbType.Int64, "11")> Public Property QueryEnd As Long
-    <DatabaseField("MatchStart"), DataType(MySqlDbType.Int64, "11")> Public Property MatchStart As Long
-    <DatabaseField("MatchEnd"), DataType(MySqlDbType.Int64, "11")> Public Property MatchEnd As Long
+    <DatabaseField("QueryWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="QueryWID")> Public Property QueryWID As Long
+    <DatabaseField("MatchWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="MatchWID")> Public Property MatchWID As Long
+    <DatabaseField("ComputationWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ComputationWID"), XmlAttribute> Public Property ComputationWID As Long
+    <DatabaseField("EValue"), DataType(MySqlDbType.Double), Column(Name:="EValue")> Public Property EValue As Double
+    <DatabaseField("PValue"), DataType(MySqlDbType.Double), Column(Name:="PValue")> Public Property PValue As Double
+    <DatabaseField("PercentIdentical"), DataType(MySqlDbType.Double), Column(Name:="PercentIdentical")> Public Property PercentIdentical As Double
+    <DatabaseField("PercentSimilar"), DataType(MySqlDbType.Double), Column(Name:="PercentSimilar")> Public Property PercentSimilar As Double
+    <DatabaseField("Rank"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Rank")> Public Property Rank As Long
+    <DatabaseField("Length"), DataType(MySqlDbType.Int64, "11"), Column(Name:="Length")> Public Property Length As Long
+    <DatabaseField("QueryStart"), DataType(MySqlDbType.Int64, "11"), Column(Name:="QueryStart")> Public Property QueryStart As Long
+    <DatabaseField("QueryEnd"), DataType(MySqlDbType.Int64, "11"), Column(Name:="QueryEnd")> Public Property QueryEnd As Long
+    <DatabaseField("MatchStart"), DataType(MySqlDbType.Int64, "11"), Column(Name:="MatchStart")> Public Property MatchStart As Long
+    <DatabaseField("MatchEnd"), DataType(MySqlDbType.Int64, "11"), Column(Name:="MatchEnd")> Public Property MatchEnd As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -166,7 +172,11 @@ Public Class sequencematch: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, QueryWID, MatchWID, ComputationWID, EValue, PValue, PercentIdentical, PercentSimilar, Rank, Length, QueryStart, QueryEnd, MatchStart, MatchEnd, ComputationWID)
     End Function
 #End Region
+Public Function Clone() As sequencematch
+                  Return DirectCast(MyClass.MemberwiseClone, sequencematch)
+              End Function
 End Class
 
 
 End Namespace
+

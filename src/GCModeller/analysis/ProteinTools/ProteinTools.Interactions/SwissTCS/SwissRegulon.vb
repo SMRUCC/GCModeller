@@ -33,8 +33,8 @@
 
     '     Module SwissRegulon
     ' 
-    '         Function: __getCrossTalk, __getOptions, __trim, CreateCrossTalks, Download
-    '                   DownloadTcsSequence, GetScores, GetSpeciesList, GetTCSList
+    '         Function: __getCrossTalk, __getOptions, __trim, CreateCrossTalks, CrossTalk
+    '                   Download, DownloadTcsSequence, GetScores, GetSpeciesList, GetTCSList
     ' 
     '         Sub: __downloads, Download
     ' 

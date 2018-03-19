@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01d496fadb51ced2f9e4aad13f0baad4, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::ea2de37a89aca9d628436687647a75bc, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidcontactwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class arraymanufacturewidcontactwid
     ' 
+    '     Properties: ArrayManufactureWID, ContactWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `arraymanufacturewidcontactwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraymanufacturewidcontactwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ArrayManufactureWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ArrayManufactureWID As Long
-    <DatabaseField("ContactWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ContactWID As Long
+    <DatabaseField("ArrayManufactureWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayManufactureWID"), XmlAttribute> Public Property ArrayManufactureWID As Long
+    <DatabaseField("ContactWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ContactWID")> Public Property ContactWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class arraymanufacturewidcontactwid: Inherits Oracle.LinuxCompatibility.M
         Return String.Format(UPDATE_SQL, ArrayManufactureWID, ContactWID, ArrayManufactureWID)
     End Function
 #End Region
+Public Function Clone() As arraymanufacturewidcontactwid
+                  Return DirectCast(MyClass.MemberwiseClone, arraymanufacturewidcontactwid)
+              End Function
 End Class
 
 
 End Namespace
+

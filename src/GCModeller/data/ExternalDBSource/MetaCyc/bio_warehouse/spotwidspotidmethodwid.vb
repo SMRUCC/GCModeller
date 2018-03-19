@@ -33,6 +33,8 @@
 
     ' Class spotwidspotidmethodwid
     ' 
+    '     Properties: SpotIdMethodWID, SpotWID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

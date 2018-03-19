@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::308f531e49f472af2d8924377195988a, data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
+﻿#Region "Microsoft.VisualBasic::2098eca7673231513d24e047a9997cd8, data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class conformation_effector_link
     ' 
+    '     Properties: conformation_id, effector_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -66,7 +71,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `conformation_effector_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class conformation_effector_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("effector_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property effector_id As String
-    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property conformation_id As String
+    <DatabaseField("effector_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="effector_id")> Public Property effector_id As String
+    <DatabaseField("conformation_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="conformation_id")> Public Property conformation_id As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class conformation_effector_link: Inherits Oracle.LinuxCompatibility.MySQ
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As conformation_effector_link
+                  Return DirectCast(MyClass.MemberwiseClone, conformation_effector_link)
+              End Function
 End Class
 
 
 End Namespace
+

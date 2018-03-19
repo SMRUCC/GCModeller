@@ -35,9 +35,11 @@
     ' 
     '     Properties: AppId, MySQL
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: __changeStatus, Active, Add
     ' 
-    '     Sub: New, Remove
+    '     Sub: Remove
     ' 
     ' /********************************************************************************/
 

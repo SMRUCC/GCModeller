@@ -31,15 +31,17 @@
 
     ' Summaries:
 
-    '  
+    '     Class Notes
     ' 
-    '     Properties: body, Properties, Text
+    '         Properties: body, Properties, Text
     ' 
-    '     Function: ToString
+    '         Function: ToString
     ' 
-    '  
+    '     Class Body
     ' 
-    '     Function: GetProperties, ToString
+    '         Properties: Passage, Text
+    ' 
+    '         Function: GetProperties, ToString
     ' 
     '     Class [Property]
     ' 

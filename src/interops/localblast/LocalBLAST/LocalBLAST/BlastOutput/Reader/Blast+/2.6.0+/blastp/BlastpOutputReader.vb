@@ -167,7 +167,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         Private Function __hspParser(s As String, scoreText As String) As FragmentHit
-            Dim hsp = s.lTokens.Split(3, echo:=False)
+            Dim hsp = s.LineTokens.Split(3, echo:=False)
             Dim LQuery As HitSegment() = hsp _
                 .Select(Function(x) HitSegment.TryParse(x)) _
                 .ToArray

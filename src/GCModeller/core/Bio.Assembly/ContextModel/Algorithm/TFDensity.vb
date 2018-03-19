@@ -33,18 +33,18 @@
 
     '     Module TFDensity
     ' 
-    '         Function: __getCisGenes, __getGenes, Density
+    '         Function: __getCisGenes, __getGenes, __worker, Density, DensityCis
     '         Structure __sourceHelper
     ' 
+    '             Constructor: (+1 Overloads) Sub New
     '             Function: __stranded, __unstranded
-    ' 
-    '             Sub: New
     ' 
     ' 
     ' 
     '     Class Density
     ' 
-    '         Properties: Abundance, Hits, loci, locus_tag, product
+    '         Properties: Abundance, Hits, location, loci, locus_tag
+    '                     product
     ' 
     '         Function: ToString
     ' 

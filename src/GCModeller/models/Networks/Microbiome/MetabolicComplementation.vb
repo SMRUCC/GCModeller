@@ -33,9 +33,9 @@
 
     ' Module MetabolicComplementation
     ' 
-    '     Function: BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
+    '     Function: (+2 Overloads) BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
     ' 
-    '     Sub: FetchModels
+    '     Sub: FetchModels, link, linkNodes, RenderColors
     ' 
     ' /********************************************************************************/
 

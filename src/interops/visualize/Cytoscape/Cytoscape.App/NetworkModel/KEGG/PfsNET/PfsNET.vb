@@ -33,9 +33,9 @@
 
     '     Class PfsNET
     ' 
-    '         Properties: [Class], Category, Description, n, PhenotypePair
-    '                     PValue, SignificantGeneObjects, Statistics, SubNET_Vector, UniqueId
-    '                     Vectors, weight2, weights
+    '         Properties: [Class], Category, Description, Flag, n
+    '                     PhenotypePair, PValue, SignificantGeneObjects, Statistics, SubNET_Vector
+    '                     UniqueId, Vectors, weight2, weights
     ' 
     '         Function: ToString
     ' 

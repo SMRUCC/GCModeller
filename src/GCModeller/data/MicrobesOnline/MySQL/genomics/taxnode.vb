@@ -33,6 +33,10 @@
 
     ' Class taxnode
     ' 
+    '     Properties: comments, divId, embl, flag1, flag2
+    '                 flag3, flag4, flag5, flag6, flag7
+    '                 parentId, rank, taxonomyId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,8 +33,8 @@
 
     '     Class EnrichmentTerm
     ' 
-    '         Properties: Database, ID, Input, link, ORF
-    '                     Term
+    '         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
+    '                     link, number, ORF, Pvalue, Term
     ' 
     '         Function: ToString
     ' 

@@ -35,37 +35,47 @@
     ' 
     '         Properties: value
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class AttenuatorsPrediction
     ' 
-    ' 
+    '         Properties: AntiAntiterminatorEnergy, AntiAntiterminatorSequence, AntiterminatorEnergy, AntiterminatorSequence, AttenuatorType
+    '                     RegulatedGene, TerminatorEnergy, TerminatorSequence
     ' 
     '     Class BindingSitePredictionSet
     ' 
-    ' 
+    '         Properties: AbsoluteLeft, AbsoluteRight, gi, Method, NameTF
+    '                     Sequence, Strand
     ' 
     '     Class OperonPredictionSetDistances
     ' 
-    ' 
+    '         Properties: Identifiers, Operonname, OperonStrand
     ' 
     '     Class PromoterPredictionSigma24Set
     ' 
-    ' 
+    '         Properties: _10Box, _10Box_Lend, _10Box_Rend, _35Box, _35Box_Lend
+    '                     _35Box_Rend, Evidence, EvidenceType, Gene, Homology_Level
+    '                     Lend, Pos_1, Promoter_Name, Pvalue, Rend
+    '                     Score, Sequence, Sigma, Signicance_Level, Spacer
+    '                     Strand
     ' 
     '     Class RiboswitchesPrediction
     ' 
-    ' 
+    '         Properties: GENE_NAME, RFAM_DESCRIPTION, RFAM_ID, RFAM_POSLEFT, RFAM_POSRIGHT
+    '                     RFAM_SCORE, RFAM_SEQUENCE, RFAM_STRAND, RFAM_TYPE
     ' 
     '     Class TF_predicted
     ' 
-    ' 
+    '         Properties: Bnumber, EvolutionaryFamily, GeneName, GI, MotifPosition
+    '                     MotifPosition2, PFAMDescriptionMOTIF, PFAMDescriptionMOTIF2, PFAMID, Score
+    '                     Status, UniProtID
     ' 
     '     Class TFBSs_predictions
     ' 
-    ' 
+    '         Properties: Endsequence, ft_name, ft_type, ln_Pval, Pval
+    '                     rank, rank_pm, seq_id, sig, start
+    '                     strand, weight, Wmax, Wmin
     ' 
     ' 
     ' /********************************************************************************/

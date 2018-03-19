@@ -38,9 +38,8 @@
     '                     out, ref, rtax, table, terse
     '                     udb, wdb
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

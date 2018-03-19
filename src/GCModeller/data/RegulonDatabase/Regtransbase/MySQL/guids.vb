@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f56db1ef422a59df511a5a925a7ea157, data\RegulonDatabase\Regtransbase\MySQL\guids.vb"
+﻿#Region "Microsoft.VisualBasic::6b7683bcab1cc1297f511bdf5f28631e, data\RegulonDatabase\Regtransbase\MySQL\guids.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class guids
     ' 
+    '     Properties: max_guid, obj_type
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -66,7 +71,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -77,8 +81,8 @@ CREATE TABLE `guids` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class guids: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("obj_type"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property obj_type As String
-    <DatabaseField("max_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property max_guid As Long
+    <DatabaseField("obj_type"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="obj_type")> Public Property obj_type As String
+    <DatabaseField("max_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="max_guid")> Public Property max_guid As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -129,7 +133,11 @@ Public Class guids: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As guids
+                  Return DirectCast(MyClass.MemberwiseClone, guids)
+              End Function
 End Class
 
 
 End Namespace
+

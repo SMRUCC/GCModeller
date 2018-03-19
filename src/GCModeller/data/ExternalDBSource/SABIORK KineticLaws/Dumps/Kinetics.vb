@@ -33,8 +33,9 @@
 
     '     Class EnzymeCatalystKineticLaw
     ' 
-    '         Properties: Buffer, Enzyme, Kcat, KEGGReactionId, Km
-    '                     Metabolite, PH, PubMed, Temperature, Uniprot
+    '         Properties: Buffer, Ec, Enzyme, Kcat, KEGGCompoundId
+    '                     KEGGReactionId, KineticRecord, Km, Metabolite, PH
+    '                     PubMed, Temperature, Uniprot
     ' 
     '         Function: Copy, ToString
     ' 
@@ -49,13 +50,15 @@
     ' 
     '  
     ' 
-    '     Properties: KineticsRecordId, Modifier
+    '     Properties: K, KEGGCompoundId, KineticsRecordId, Modifier, ModifierType
+    '                 ObjectId
     ' 
     '     Function: ToString, TryGetType
     ' 
     '     Class KineticLawModel
     ' 
-    '         Properties: Catalyst, Equation, PubMed, Taxonomy
+    '         Properties: Catalyst, Ec, Equation, Fast, KeggReaction
+    '                     KineticRecord, PubMed, Reaction, Taxonomy
     ' 
     '         Function: CreateObject, ToString
     ' 

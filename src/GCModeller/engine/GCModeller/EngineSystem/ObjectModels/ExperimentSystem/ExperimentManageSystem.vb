@@ -35,9 +35,11 @@
     ' 
     '         Properties: EventId, SystemLogging
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: Initialize, Tick
     ' 
-    '         Sub: LoadExperimentData, MemoryDump, New
+    '         Sub: LoadExperimentData, MemoryDump
     ' 
     ' 
     ' /********************************************************************************/

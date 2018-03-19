@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6004df71a26c8785e20769cb15b8b344, data\ExternalDBSource\MetaCyc\MySQL\protocolapplwidpersonwid.vb"
+﻿#Region "Microsoft.VisualBasic::69ade42f1e3624a2d3fecfe22e01cacd, data\ExternalDBSource\MetaCyc\MySQL\protocolapplwidpersonwid.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class protocolapplwidpersonwid
     ' 
+    '     Properties: PersonWID, ProtocolApplicationWID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -70,7 +75,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,8 +89,8 @@ CREATE TABLE `protocolapplwidpersonwid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class protocolapplwidpersonwid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("ProtocolApplicationWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property ProtocolApplicationWID As Long
-    <DatabaseField("PersonWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property PersonWID As Long
+    <DatabaseField("ProtocolApplicationWID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="ProtocolApplicationWID"), XmlAttribute> Public Property ProtocolApplicationWID As Long
+    <DatabaseField("PersonWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="PersonWID")> Public Property PersonWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class protocolapplwidpersonwid: Inherits Oracle.LinuxCompatibility.MySQL.
         Return String.Format(UPDATE_SQL, ProtocolApplicationWID, PersonWID, ProtocolApplicationWID)
     End Function
 #End Region
+Public Function Clone() As protocolapplwidpersonwid
+                  Return DirectCast(MyClass.MemberwiseClone, protocolapplwidpersonwid)
+              End Function
 End Class
 
 
 End Namespace
+

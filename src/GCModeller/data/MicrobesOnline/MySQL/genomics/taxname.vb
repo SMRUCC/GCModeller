@@ -33,6 +33,8 @@
 
     ' Class taxname
     ' 
+    '     Properties: [class], name, taxonomyId, uniqueName
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

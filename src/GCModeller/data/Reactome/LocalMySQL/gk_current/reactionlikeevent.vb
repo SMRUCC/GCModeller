@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccd5cc2f03dc17d5d4208f16b31d956d, data\Reactome\LocalMySQL\gk_current\reactionlikeevent.vb"
+﻿#Region "Microsoft.VisualBasic::bd6048dee9fdfa014fa8513910f8b56f, data\Reactome\LocalMySQL\gk_current\reactionlikeevent.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class reactionlikeevent
     ' 
+    '     Properties: DB_ID, isChimeric, systematicName
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,9 +89,9 @@ CREATE TABLE `reactionlikeevent` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class reactionlikeevent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("isChimeric"), DataType(MySqlDbType.String)> Public Property isChimeric As String
-    <DatabaseField("systematicName"), DataType(MySqlDbType.Text)> Public Property systematicName As String
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("isChimeric"), DataType(MySqlDbType.String), Column(Name:="isChimeric")> Public Property isChimeric As String
+    <DatabaseField("systematicName"), DataType(MySqlDbType.Text), Column(Name:="systematicName")> Public Property systematicName As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -138,7 +142,11 @@ Public Class reactionlikeevent: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTa
         Return String.Format(UPDATE_SQL, DB_ID, isChimeric, systematicName, DB_ID)
     End Function
 #End Region
+Public Function Clone() As reactionlikeevent
+                  Return DirectCast(MyClass.MemberwiseClone, reactionlikeevent)
+              End Function
 End Class
 
 
 End Namespace
+

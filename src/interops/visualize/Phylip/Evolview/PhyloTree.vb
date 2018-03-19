@@ -38,13 +38,15 @@
     '                     maxHorizontalLevel, maxTotalBranchLengthFromRootToAnyTip, maxVerticalLevel, RootNode, treeDataValid
     '                     treeFormat, treeString
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: getAllAncestors, getAttributeValueByItemID, getExternalIDbyInternalID, getLCA, getNodeByID
     '                   getNumericValueForNamedItemFromAnXMLNode, hasBootstrapScores, MakeNewInternalNode, makeNewLeafNode, phyloNodeToString
     '                   reMakeEssentialVariables, ToString, toTreeString
     ' 
     '         Sub: CalcDistanceToRoot, CalcLevels, CalcMaxDistanceToTip, InternalReCalcLevels, InternalReDoID2Node
-    '              New, newickParser, NewickParser, NexusParser, nhxParser
-    '              parseInforAndMakeNewLeafNode, phyloXMLparserNodesIterator, reCalcDistanceToRoot, reCalcMaxDistanceToTip, rerootTree
+    '              newickParser, NewickParser, NexusParser, nhxParser, parseInforAndMakeNewLeafNode
+    '              phyloXMLparserNodesIterator, reCalcDistanceToRoot, reCalcMaxDistanceToTip, rerootTree
     ' 
     ' 
     ' /********************************************************************************/

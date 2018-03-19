@@ -33,7 +33,7 @@
 
     '     Module API
     ' 
-    ' 
+    '         Function: GetAllConsume, GetAllProduce, IsEntry, RevertEscapes
     ' 
     ' 
     ' /********************************************************************************/

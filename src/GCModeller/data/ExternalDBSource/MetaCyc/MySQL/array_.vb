@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0f1c92044a2c254cec99606fe70e3bb, data\ExternalDBSource\MetaCyc\MySQL\array_.vb"
+﻿#Region "Microsoft.VisualBasic::b9c4fa02a0d5ed1100c6327891998c7d, data\ExternalDBSource\MetaCyc\MySQL\array_.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class array_
     ' 
+    '     Properties: ArrayDesign, ArrayGroup, ArrayIdentifier, ArrayXOrigin, ArrayYOrigin
+    '                 DataSetWID, Identifier, Information, Name, OriginRelativeTo
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -84,7 +91,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -113,17 +119,17 @@ CREATE TABLE `array_` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class array_: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("ArrayIdentifier"), DataType(MySqlDbType.VarChar, "255")> Public Property ArrayIdentifier As String
-    <DatabaseField("ArrayXOrigin"), DataType(MySqlDbType.Double)> Public Property ArrayXOrigin As Double
-    <DatabaseField("ArrayYOrigin"), DataType(MySqlDbType.Double)> Public Property ArrayYOrigin As Double
-    <DatabaseField("OriginRelativeTo"), DataType(MySqlDbType.VarChar, "255")> Public Property OriginRelativeTo As String
-    <DatabaseField("ArrayDesign"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayDesign As Long
-    <DatabaseField("Information"), DataType(MySqlDbType.Int64, "20")> Public Property Information As Long
-    <DatabaseField("ArrayGroup"), DataType(MySqlDbType.Int64, "20")> Public Property ArrayGroup As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("ArrayIdentifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ArrayIdentifier")> Public Property ArrayIdentifier As String
+    <DatabaseField("ArrayXOrigin"), DataType(MySqlDbType.Double), Column(Name:="ArrayXOrigin")> Public Property ArrayXOrigin As Double
+    <DatabaseField("ArrayYOrigin"), DataType(MySqlDbType.Double), Column(Name:="ArrayYOrigin")> Public Property ArrayYOrigin As Double
+    <DatabaseField("OriginRelativeTo"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="OriginRelativeTo")> Public Property OriginRelativeTo As String
+    <DatabaseField("ArrayDesign"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayDesign")> Public Property ArrayDesign As Long
+    <DatabaseField("Information"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Information")> Public Property Information As Long
+    <DatabaseField("ArrayGroup"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ArrayGroup")> Public Property ArrayGroup As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -174,7 +180,11 @@ Public Class array_: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Identifier, Name, ArrayIdentifier, ArrayXOrigin, ArrayYOrigin, OriginRelativeTo, ArrayDesign, Information, ArrayGroup, WID)
     End Function
 #End Region
+Public Function Clone() As array_
+                  Return DirectCast(MyClass.MemberwiseClone, array_)
+              End Function
 End Class
 
 
 End Namespace
+

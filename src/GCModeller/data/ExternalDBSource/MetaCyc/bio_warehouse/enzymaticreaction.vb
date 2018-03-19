@@ -33,6 +33,9 @@
 
     ' Class enzymaticreaction
     ' 
+    '     Properties: ComplexWID, DataSetWID, ProteinWID, ReactionDirection, ReactionWID
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00d234792fec5e1e2d2efc462e7533a6, RDotNET\R.NET\Internals\Windows\UiMode.vb"
+﻿#Region "Microsoft.VisualBasic::e2548efdc16625c9e35fbe499006a8fa, RDotNET\R.NET\Internals\Windows\UiMode.vb"
 
     ' Author:
     ' 

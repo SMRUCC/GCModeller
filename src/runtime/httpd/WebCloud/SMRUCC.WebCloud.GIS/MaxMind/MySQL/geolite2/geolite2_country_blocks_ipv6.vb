@@ -33,6 +33,9 @@
 
     ' Class geolite2_country_blocks_ipv6
     ' 
+    '     Properties: geoname_id, is_anonymous_proxy, is_satellite_provider, network, registered_country_geoname_id
+    '                 represented_country_geoname_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

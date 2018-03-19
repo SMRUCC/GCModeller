@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e016f9eca293f876937d03e938f2bd9e, data\RegulonDatabase\Regtransbase\MySQL\locuses.vb"
+﻿#Region "Microsoft.VisualBasic::c8b7ad40f59a6547a3a1a40f70e78cb7, data\RegulonDatabase\Regtransbase\MySQL\locuses.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class locuses
     ' 
+    '     Properties: art_guid, descript, fl_real_name, genome_guid, last_update
+    '                 location, locus_guid, name, pkg_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -80,7 +86,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -105,15 +110,15 @@ CREATE TABLE `locuses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class locuses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("locus_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property locus_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String
-    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1")> Public Property fl_real_name As Long
-    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11")> Public Property genome_guid As Long
-    <DatabaseField("location"), DataType(MySqlDbType.VarChar, "50")> Public Property location As String
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
-    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_update As Date
+    <DatabaseField("locus_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="locus_guid"), XmlAttribute> Public Property locus_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="name")> Public Property name As String
+    <DatabaseField("fl_real_name"), DataType(MySqlDbType.Int64, "1"), Column(Name:="fl_real_name")> Public Property fl_real_name As Long
+    <DatabaseField("genome_guid"), DataType(MySqlDbType.Int64, "11"), Column(Name:="genome_guid")> Public Property genome_guid As Long
+    <DatabaseField("location"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="location")> Public Property location As String
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
+    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_update")> Public Property last_update As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -136,7 +141,7 @@ Public Class locuses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(INSERT_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 
 ''' <summary>
@@ -153,7 +158,7 @@ Public Class locuses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(REPLACE_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -161,10 +166,14 @@ Public Class locuses: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, DataType.ToMySqlDateTimeString(last_update), locus_guid)
+        Return String.Format(UPDATE_SQL, locus_guid, pkg_guid, art_guid, name, fl_real_name, genome_guid, location, descript, MySqlScript.ToMySqlDateTimeString(last_update), locus_guid)
     End Function
 #End Region
+Public Function Clone() As locuses
+                  Return DirectCast(MyClass.MemberwiseClone, locuses)
+              End Function
 End Class
 
 
 End Namespace
+

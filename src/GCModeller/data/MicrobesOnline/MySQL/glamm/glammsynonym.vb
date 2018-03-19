@@ -33,6 +33,9 @@
 
     ' Class glammsynonym
     ' 
+    '     Properties: created, forGuid, guid, priority, synonym
+    '                 version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

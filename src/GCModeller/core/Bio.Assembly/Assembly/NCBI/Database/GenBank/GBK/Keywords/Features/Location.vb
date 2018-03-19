@@ -33,13 +33,14 @@
 
     '     Class Location
     ' 
-    '         Properties: ContiguousRegion, HasJoinLocation, JoinLocation, Location, UniqueId
+    '         Properties: Complement, ContiguousRegion, HasJoinLocation, JoinLocation, Location
+    '                     Locations, UniqueId
     ' 
     '         Function: ToString
     ' 
     '     Class RegionSegment
     ' 
-    '         Properties: RegionLength
+    '         Properties: Left, RegionLength, Right
     ' 
     '         Function: ToString
     ' 

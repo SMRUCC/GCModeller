@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    '  
+    '     Class Reaction
     ' 
-    '     Properties: kineticLaw, LowerBound, ObjectiveCoefficient, UpperBound
+    '         Properties: id, kineticLaw, LowerBound, name, Notes
+    '                     ObjectiveCoefficient, Products, Reactants, reversible, UpperBound
     ' 
-    '     Function: __equals, GetCoEfficient, ToString
+    '         Function: __equals, GetCoEfficient, ToString
     ' 
     ' 
     ' /********************************************************************************/

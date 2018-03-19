@@ -54,7 +54,8 @@
     ' 
     '         Properties: LNG, Value
     ' 
-    '         Sub: New, RaisePropertyChanged
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: RaisePropertyChanged
     ' 
     '     Enum UrlTypeLNG
     ' 
@@ -116,7 +117,8 @@
     ' 
     '         Properties: LNG, Value
     ' 
-    '         Sub: New, RaisePropertyChanged
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: RaisePropertyChanged
     ' 
     '     Enum IconUrlTypeLNG
     ' 
@@ -264,11 +266,11 @@
     ' 
     '     Class run_eGqueryRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eGqueryResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class eInfoRequest
     ' 
@@ -284,11 +286,11 @@
     ' 
     '     Class run_eInfoRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eInfoResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class eSearchRequest
     ' 
@@ -309,11 +311,11 @@
     ' 
     '     Class run_eSearchRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eSearchResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class eSummaryRequest
     ' 
@@ -330,11 +332,11 @@
     ' 
     '     Class run_eSummaryRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eSummaryResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class eLinkRequest
     ' 
@@ -352,11 +354,11 @@
     ' 
     '     Class run_eLinkRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eLinkResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class eSpellRequest
     ' 
@@ -386,11 +388,11 @@
     ' 
     '     Class run_eSpellRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_eSpellResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class ePostRequest
     ' 
@@ -406,11 +408,11 @@
     ' 
     '     Class run_ePostRequest
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class run_ePostResponse
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Interface eUtilsServiceSoapChannel
     ' 
@@ -418,14 +420,13 @@
     ' 
     '     Class eUtilsServiceSoapClient
     ' 
+    '         Constructor: (+5 Overloads) Sub New
     '         Function: NCBI_eUtils_eUtilsServiceSoap_run_eGquery, NCBI_eUtils_eUtilsServiceSoap_run_eGqueryAsync, NCBI_eUtils_eUtilsServiceSoap_run_eInfo, NCBI_eUtils_eUtilsServiceSoap_run_eInfoAsync, NCBI_eUtils_eUtilsServiceSoap_run_eLink
     '                   NCBI_eUtils_eUtilsServiceSoap_run_eLinkAsync, NCBI_eUtils_eUtilsServiceSoap_run_ePost, NCBI_eUtils_eUtilsServiceSoap_run_ePostAsync, NCBI_eUtils_eUtilsServiceSoap_run_eSearch, NCBI_eUtils_eUtilsServiceSoap_run_eSearchAsync
     '                   NCBI_eUtils_eUtilsServiceSoap_run_eSpell, NCBI_eUtils_eUtilsServiceSoap_run_eSpellAsync, NCBI_eUtils_eUtilsServiceSoap_run_eSummary, NCBI_eUtils_eUtilsServiceSoap_run_eSummaryAsync, run_eGquery
     '                   run_eGqueryAsync, run_eInfo, run_eInfoAsync, run_eLink, run_eLinkAsync
     '                   run_ePost, run_ePostAsync, run_eSearch, run_eSearchAsync, run_eSpell
     '                   run_eSpellAsync, run_eSummary, run_eSummaryAsync
-    ' 
-    '         Sub: (+5 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

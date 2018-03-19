@@ -33,6 +33,9 @@
 
     ' Class fasthmmrawhits
     ' 
+    '     Properties: domainBegin, domainEnd, evalue, hmmId, locusId
+    '                 score, seqBegin, seqEnd, version
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

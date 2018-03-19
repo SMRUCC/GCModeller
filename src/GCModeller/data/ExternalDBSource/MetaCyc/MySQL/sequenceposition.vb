@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25c8b29b536dceaf74fb4df45466f567, data\ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
+﻿#Region "Microsoft.VisualBasic::61dc490fe0c7e05bad7d6add0cdcbd0a, data\ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class sequenceposition
     ' 
+    '     Properties: [End], Composite, CompositeCompositeMap, DataSetWID, MAGEClass
+    '                 Reporter, ReporterCompositeMap, Start_, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -84,7 +90,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -113,15 +118,15 @@ CREATE TABLE `sequenceposition` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class sequenceposition: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property MAGEClass As String
-    <DatabaseField("Start_"), DataType(MySqlDbType.Int64, "6")> Public Property Start_ As Long
-    <DatabaseField("End"), DataType(MySqlDbType.Int64, "6")> Public Property [End] As Long
-    <DatabaseField("CompositeCompositeMap"), DataType(MySqlDbType.Int64, "20")> Public Property CompositeCompositeMap As Long
-    <DatabaseField("Composite"), DataType(MySqlDbType.Int64, "20")> Public Property Composite As Long
-    <DatabaseField("ReporterCompositeMap"), DataType(MySqlDbType.Int64, "20")> Public Property ReporterCompositeMap As Long
-    <DatabaseField("Reporter"), DataType(MySqlDbType.Int64, "20")> Public Property Reporter As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("MAGEClass"), NotNull, DataType(MySqlDbType.VarChar, "100"), Column(Name:="MAGEClass")> Public Property MAGEClass As String
+    <DatabaseField("Start_"), DataType(MySqlDbType.Int64, "6"), Column(Name:="Start_")> Public Property Start_ As Long
+    <DatabaseField("End"), DataType(MySqlDbType.Int64, "6"), Column(Name:="End")> Public Property [End] As Long
+    <DatabaseField("CompositeCompositeMap"), DataType(MySqlDbType.Int64, "20"), Column(Name:="CompositeCompositeMap")> Public Property CompositeCompositeMap As Long
+    <DatabaseField("Composite"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Composite")> Public Property Composite As Long
+    <DatabaseField("ReporterCompositeMap"), DataType(MySqlDbType.Int64, "20"), Column(Name:="ReporterCompositeMap")> Public Property ReporterCompositeMap As Long
+    <DatabaseField("Reporter"), DataType(MySqlDbType.Int64, "20"), Column(Name:="Reporter")> Public Property Reporter As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -172,7 +177,11 @@ Public Class sequenceposition: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, WID, DataSetWID, MAGEClass, Start_, [End], CompositeCompositeMap, Composite, ReporterCompositeMap, Reporter, WID)
     End Function
 #End Region
+Public Function Clone() As sequenceposition
+                  Return DirectCast(MyClass.MemberwiseClone, sequenceposition)
+              End Function
 End Class
 
 
 End Namespace
+

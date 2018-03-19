@@ -33,15 +33,15 @@
 
     '     Class CompoundSpecieReference
     ' 
-    '         Function: Equals, ToString
+    '         Properties: ID, StoiChiometry
     ' 
-    '         Sub: (+2 Overloads) New
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Equals, ToString
     ' 
     '     Class Equation
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: __equals
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

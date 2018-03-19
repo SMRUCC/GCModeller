@@ -33,6 +33,8 @@
 
     ' Class term_definition
     ' 
+    '     Properties: dbxref_id, reference, term_comment, term_definition, term_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

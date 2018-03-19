@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46259cf35af147df0e55d3a7b47e2edd, data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
+﻿#Region "Microsoft.VisualBasic::118ef59dfee46d60ded6316129351e91, data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class experiments
     ' 
+    '     Properties: art_guid, descript, exp_guid, last_update, pkg_guid
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 10:54:58 PM
+REM  Dump @3/16/2018 10:40:17 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace Regtransbase.MySQL
 
@@ -74,7 +79,6 @@ Namespace Regtransbase.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,11 +97,11 @@ CREATE TABLE `experiments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class experiments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("exp_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property exp_guid As Long
-    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property pkg_guid As Long
-    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property art_guid As Long
-    <DatabaseField("descript"), DataType(MySqlDbType.Blob)> Public Property descript As Byte()
-    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime)> Public Property last_update As Date
+    <DatabaseField("exp_guid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="exp_guid"), XmlAttribute> Public Property exp_guid As Long
+    <DatabaseField("pkg_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="pkg_guid")> Public Property pkg_guid As Long
+    <DatabaseField("art_guid"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="art_guid")> Public Property art_guid As Long
+    <DatabaseField("descript"), DataType(MySqlDbType.Blob), Column(Name:="descript")> Public Property descript As Byte()
+    <DatabaseField("last_update"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="last_update")> Public Property last_update As Date
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -120,7 +124,7 @@ Public Class experiments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, exp_guid, pkg_guid, art_guid, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(INSERT_SQL, exp_guid, pkg_guid, art_guid, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 
 ''' <summary>
@@ -137,7 +141,7 @@ Public Class experiments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, exp_guid, pkg_guid, art_guid, descript, DataType.ToMySqlDateTimeString(last_update))
+        Return String.Format(REPLACE_SQL, exp_guid, pkg_guid, art_guid, descript, MySqlScript.ToMySqlDateTimeString(last_update))
     End Function
 ''' <summary>
 ''' ```SQL
@@ -145,10 +149,14 @@ Public Class experiments: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, exp_guid, pkg_guid, art_guid, descript, DataType.ToMySqlDateTimeString(last_update), exp_guid)
+        Return String.Format(UPDATE_SQL, exp_guid, pkg_guid, art_guid, descript, MySqlScript.ToMySqlDateTimeString(last_update), exp_guid)
     End Function
 #End Region
+Public Function Clone() As experiments
+                  Return DirectCast(MyClass.MemberwiseClone, experiments)
+              End Function
 End Class
 
 
 End Namespace
+

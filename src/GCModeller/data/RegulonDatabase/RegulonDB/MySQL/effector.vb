@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5d6a25e39a6978ed1d936a4bdd7e254, data\RegulonDatabase\RegulonDB\MySQL\effector.vb"
+﻿#Region "Microsoft.VisualBasic::85531e5e4a38e2846bd940d947d31ddb, data\RegulonDatabase\RegulonDB\MySQL\effector.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class effector
     ' 
+    '     Properties: category, effector_id, effector_internal_comment, effector_name, effector_note
+    '                 effector_type, key_id_org
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -71,7 +77,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -87,13 +92,13 @@ CREATE TABLE `effector` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class effector: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("effector_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property effector_id As String
-    <DatabaseField("effector_name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property effector_name As String
-    <DatabaseField("category"), DataType(MySqlDbType.VarChar, "10")> Public Property category As String
-    <DatabaseField("effector_type"), DataType(MySqlDbType.VarChar, "100")> Public Property effector_type As String
-    <DatabaseField("effector_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property effector_note As String
-    <DatabaseField("effector_internal_comment"), DataType(MySqlDbType.Text)> Public Property effector_internal_comment As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("effector_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="effector_id")> Public Property effector_id As String
+    <DatabaseField("effector_name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="effector_name")> Public Property effector_name As String
+    <DatabaseField("category"), DataType(MySqlDbType.VarChar, "10"), Column(Name:="category")> Public Property category As String
+    <DatabaseField("effector_type"), DataType(MySqlDbType.VarChar, "100"), Column(Name:="effector_type")> Public Property effector_type As String
+    <DatabaseField("effector_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="effector_note")> Public Property effector_note As String
+    <DatabaseField("effector_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="effector_internal_comment")> Public Property effector_internal_comment As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +149,11 @@ Public Class effector: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As effector
+                  Return DirectCast(MyClass.MemberwiseClone, effector)
+              End Function
 End Class
 
 
 End Namespace
+

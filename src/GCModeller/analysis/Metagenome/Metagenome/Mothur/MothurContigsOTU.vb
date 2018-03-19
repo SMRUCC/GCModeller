@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d980cfcf1a2721b7bf6485830f1c2b6d, analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
+﻿#Region "Microsoft.VisualBasic::a2fcb119cfe6dab6c77315761aa1a05a, analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,11 @@
 
     ' Module MothurContigsOTU
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: GetContigAlignmentTemplate, RunAutoScreen, RunAutoScreen2
     ' 
-    '     Sub: ClusterOTUByMothur, New
+    '     Sub: ClusterOTUByMothur
     ' 
     ' /********************************************************************************/
 

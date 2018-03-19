@@ -33,6 +33,10 @@
 
     ' Class scaffold
     ' 
+    '     Properties: allowUpdates, chr_num, comment, created, file
+    '                 gi, isActive, isCircular, isGenomic, isPartial
+    '                 length, md5, ncbiProjectId, scaffoldId, taxonomyId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

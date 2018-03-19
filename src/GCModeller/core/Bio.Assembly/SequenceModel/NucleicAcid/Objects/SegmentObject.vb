@@ -35,9 +35,8 @@
     ' 
     '         Properties: Complement, Description, GC_Content, SequenceData, Title
     ' 
+    '         Constructor: (+4 Overloads) Sub New
     '         Function: (+2 Overloads) Get_GCContent, GetFasta, ToLoci, ToString
-    ' 
-    '         Sub: (+4 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

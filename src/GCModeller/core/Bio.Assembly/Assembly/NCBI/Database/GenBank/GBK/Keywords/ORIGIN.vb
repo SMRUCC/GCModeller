@@ -33,7 +33,7 @@
 
     '     Class ORIGIN
     ' 
-    '         Properties: GCSkew, Headers, Size, Title
+    '         Properties: GCSkew, Headers, SequenceData, Size, Title
     ' 
     '         Function: GetEnumerator, GetEnumerator1, GetFeatureSegment, ToFasta, ToString
     ' 

@@ -33,7 +33,7 @@
 
     '     Class Transcription
     ' 
-    '         Properties: FluxValue, MotifSites, TypeId
+    '         Properties: CoefficientFactor, FluxValue, MotifSites, TypeId
     ' 
     '         Function: CreateConstraintFlux, InitializeConstraints, Invoke, ToString, TranscriptionWeightFitting
     ' 

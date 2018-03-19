@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd3beea8a68c434a7346d3d3d42d5b7b, RDotNET.Extensions.VisualBasic\ScriptBuilder\Helpers\Decorates.vb"
+﻿#Region "Microsoft.VisualBasic::f22ffc4882b4110d01f64e32ed782d81, RDotNET.Extensions.VisualBasic\ScriptBuilder\Helpers\Decorates.vb"
 
     ' Author:
     ' 
@@ -35,17 +35,15 @@
     ' 
     '         Properties: Name
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Class Parameter
     ' 
     '         Properties: [Optional], ForceFirst, Type
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     '     Enum ValueTypes
     ' 
@@ -57,15 +55,14 @@
     ' 
     '     Class RFunc
     ' 
-    '         Sub: New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Class RImport
     ' 
     '         Properties: Required
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

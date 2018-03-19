@@ -33,6 +33,8 @@
 
     ' Class pfamclan
     ' 
+    '     Properties: clanId, domainId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

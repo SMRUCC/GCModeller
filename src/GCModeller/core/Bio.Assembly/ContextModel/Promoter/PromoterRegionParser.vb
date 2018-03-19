@@ -35,9 +35,8 @@
     ' 
     '         Properties: PrefixLengths, PromoterRegions
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ContainsLength, GetRegionCollectionByLength, (+2 Overloads) GetSequenceById
-    ' 
-    '         Sub: (+3 Overloads) New
     ' 
     ' 
     ' /********************************************************************************/

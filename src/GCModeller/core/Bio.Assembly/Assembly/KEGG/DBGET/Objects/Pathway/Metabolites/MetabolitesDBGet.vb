@@ -34,7 +34,7 @@
     '     Module MetabolitesDBGet
     ' 
     '         Function: __parseNamedData, DownloadCompound, DownloadCompoundFrom, FetchTo, GetCommonNames
-    '                   GetDBLinks, LoadCompoundObject, MatchByName, ParseCompound
+    '                   GetDBLinks, LoadCompoundObject, MatchByName, ParseCompound, TryParse
     ' 
     ' 
     ' /********************************************************************************/

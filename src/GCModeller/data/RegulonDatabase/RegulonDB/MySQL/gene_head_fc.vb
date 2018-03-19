@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6005aa38c4ff1db0e4d60dcd5c4655b, data\RegulonDatabase\RegulonDB\MySQL\gene_head_fc.vb"
+﻿#Region "Microsoft.VisualBasic::18be920fadd72efa7697a137a1b4a880, data\RegulonDatabase\RegulonDB\MySQL\gene_head_fc.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class gene_head_fc
     ' 
+    '     Properties: child_fc_description, child_fc_id, child_fc_label_index, child_fc_reference, gene_id
+    '                 gene_name, head_fc_description, head_fc_id, head_fc_label_index, head_fc_reference
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -74,7 +80,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -93,16 +98,16 @@ CREATE TABLE `gene_head_fc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class gene_head_fc: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12")> Public Property gene_id As String
-    <DatabaseField("gene_name"), DataType(MySqlDbType.VarChar, "255")> Public Property gene_name As String
-    <DatabaseField("head_fc_id"), DataType(MySqlDbType.VarChar, "12")> Public Property head_fc_id As String
-    <DatabaseField("head_fc_description"), DataType(MySqlDbType.VarChar, "500")> Public Property head_fc_description As String
-    <DatabaseField("head_fc_label_index"), DataType(MySqlDbType.VarChar, "50")> Public Property head_fc_label_index As String
-    <DatabaseField("head_fc_reference"), DataType(MySqlDbType.VarChar, "255")> Public Property head_fc_reference As String
-    <DatabaseField("child_fc_id"), DataType(MySqlDbType.VarChar, "12")> Public Property child_fc_id As String
-    <DatabaseField("child_fc_description"), DataType(MySqlDbType.VarChar, "500")> Public Property child_fc_description As String
-    <DatabaseField("child_fc_label_index"), DataType(MySqlDbType.VarChar, "50")> Public Property child_fc_label_index As String
-    <DatabaseField("child_fc_reference"), DataType(MySqlDbType.VarChar, "255")> Public Property child_fc_reference As String
+    <DatabaseField("gene_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="gene_id")> Public Property gene_id As String
+    <DatabaseField("gene_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="gene_name")> Public Property gene_name As String
+    <DatabaseField("head_fc_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="head_fc_id")> Public Property head_fc_id As String
+    <DatabaseField("head_fc_description"), DataType(MySqlDbType.VarChar, "500"), Column(Name:="head_fc_description")> Public Property head_fc_description As String
+    <DatabaseField("head_fc_label_index"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="head_fc_label_index")> Public Property head_fc_label_index As String
+    <DatabaseField("head_fc_reference"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="head_fc_reference")> Public Property head_fc_reference As String
+    <DatabaseField("child_fc_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="child_fc_id")> Public Property child_fc_id As String
+    <DatabaseField("child_fc_description"), DataType(MySqlDbType.VarChar, "500"), Column(Name:="child_fc_description")> Public Property child_fc_description As String
+    <DatabaseField("child_fc_label_index"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="child_fc_label_index")> Public Property child_fc_label_index As String
+    <DatabaseField("child_fc_reference"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="child_fc_reference")> Public Property child_fc_reference As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -153,7 +158,11 @@ Public Class gene_head_fc: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As gene_head_fc
+                  Return DirectCast(MyClass.MemberwiseClone, gene_head_fc)
+              End Function
 End Class
 
 
 End Namespace
+

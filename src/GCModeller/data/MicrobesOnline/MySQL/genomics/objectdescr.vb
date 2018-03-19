@@ -33,6 +33,8 @@
 
     ' Class objectdescr
     ' 
+    '     Properties: description, objectId
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

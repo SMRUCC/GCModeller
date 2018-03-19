@@ -33,7 +33,7 @@
 
     '     Class SRChain
     ' 
-    '         Properties: Hits, IsEmpty, Name
+    '         Properties: Hits, IsEmpty, lstSR, Name
     ' 
     '         Function: ToString
     ' 

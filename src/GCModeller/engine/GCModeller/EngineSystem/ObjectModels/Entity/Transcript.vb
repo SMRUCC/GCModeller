@@ -33,7 +33,8 @@
 
     '     Class Transcript
     ' 
-    '         Properties: DataSource, TypeId
+    '         Properties: DataSource, Identifier, ModelId, Product, Quantity
+    '                     TypeId
     ' 
     '         Function: CreateInstance, ToString
     ' 

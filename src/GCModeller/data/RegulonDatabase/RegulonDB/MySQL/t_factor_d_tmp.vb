@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cd062a87186d33a182aa43ecde699ef, data\RegulonDatabase\RegulonDB\MySQL\t_factor_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::12bc251841f42f7b5f0317e533febcce, data\RegulonDatabase\RegulonDB\MySQL\t_factor_d_tmp.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class t_factor_d_tmp
     ' 
+    '     Properties: t_factor_id, t_factor_key_id_org, t_factor_name, t_factor_site_group, t_factor_site_length
+    '                 tf_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -70,7 +76,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,12 +90,12 @@ CREATE TABLE `t_factor_d_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class t_factor_d_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("tf_id"), NotNull, DataType(MySqlDbType.Decimal)> Public Property tf_id As Decimal
-    <DatabaseField("t_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property t_factor_id As String
-    <DatabaseField("t_factor_name"), DataType(MySqlDbType.VarChar, "255")> Public Property t_factor_name As String
-    <DatabaseField("t_factor_site_length"), DataType(MySqlDbType.Decimal)> Public Property t_factor_site_length As Decimal
-    <DatabaseField("t_factor_key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property t_factor_key_id_org As String
-    <DatabaseField("t_factor_site_group"), NotNull, DataType(MySqlDbType.Decimal)> Public Property t_factor_site_group As Decimal
+    <DatabaseField("tf_id"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="tf_id")> Public Property tf_id As Decimal
+    <DatabaseField("t_factor_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="t_factor_id")> Public Property t_factor_id As String
+    <DatabaseField("t_factor_name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="t_factor_name")> Public Property t_factor_name As String
+    <DatabaseField("t_factor_site_length"), DataType(MySqlDbType.Decimal), Column(Name:="t_factor_site_length")> Public Property t_factor_site_length As Decimal
+    <DatabaseField("t_factor_key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="t_factor_key_id_org")> Public Property t_factor_key_id_org As String
+    <DatabaseField("t_factor_site_group"), NotNull, DataType(MySqlDbType.Decimal), Column(Name:="t_factor_site_group")> Public Property t_factor_site_group As Decimal
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +146,11 @@ Public Class t_factor_d_tmp: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As t_factor_d_tmp
+                  Return DirectCast(MyClass.MemberwiseClone, t_factor_d_tmp)
+              End Function
 End Class
 
 
 End Namespace
+

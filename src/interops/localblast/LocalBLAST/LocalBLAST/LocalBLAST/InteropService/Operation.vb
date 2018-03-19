@@ -35,10 +35,9 @@
     ' 
     '         Properties: MolTypeNucleotide, MolTypeProtein
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: Blastn, Blastp, CreateObject, CreateObjectFromFile, FormatDb
     '                   GetLastLogFile
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

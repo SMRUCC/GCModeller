@@ -33,6 +33,8 @@
 
     '     Class Regulon
     ' 
+    '         Properties: GeneList, Regulator
+    ' 
     '         Function: Create, ToString
     '         Structure RegulatorF
     ' 

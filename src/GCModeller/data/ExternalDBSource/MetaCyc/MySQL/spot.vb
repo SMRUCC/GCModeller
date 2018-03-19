@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a3ae73a075d6b7cbbbfe89b92767519, data\ExternalDBSource\MetaCyc\MySQL\spot.vb"
+﻿#Region "Microsoft.VisualBasic::bf8c3ea030e85dfdb1de49c5df912240, data\ExternalDBSource\MetaCyc\MySQL\spot.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class spot
     ' 
+    '     Properties: DatasetWID, MolecularWeightEst, PIEst, SpotId, WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -72,7 +77,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -89,11 +93,11 @@ CREATE TABLE `spot` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class spot: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("SpotId"), DataType(MySqlDbType.VarChar, "25")> Public Property SpotId As String
-    <DatabaseField("MolecularWeightEst"), DataType(MySqlDbType.Double)> Public Property MolecularWeightEst As Double
-    <DatabaseField("PIEst"), DataType(MySqlDbType.VarChar, "50")> Public Property PIEst As String
-    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DatasetWID As Long
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("SpotId"), DataType(MySqlDbType.VarChar, "25"), Column(Name:="SpotId")> Public Property SpotId As String
+    <DatabaseField("MolecularWeightEst"), DataType(MySqlDbType.Double), Column(Name:="MolecularWeightEst")> Public Property MolecularWeightEst As Double
+    <DatabaseField("PIEst"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="PIEst")> Public Property PIEst As String
+    <DatabaseField("DatasetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DatasetWID")> Public Property DatasetWID As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -144,7 +148,11 @@ Public Class spot: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, WID, SpotId, MolecularWeightEst, PIEst, DatasetWID, WID)
     End Function
 #End Region
+Public Function Clone() As spot
+                  Return DirectCast(MyClass.MemberwiseClone, spot)
+              End Function
 End Class
 
 
 End Namespace
+

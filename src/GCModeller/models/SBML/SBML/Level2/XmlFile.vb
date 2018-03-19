@@ -33,7 +33,8 @@
 
     '     Class XmlFile
     ' 
-    '         Properties: Height, MetabolismNetwork, Metabolites, Width
+    '         Properties: Height, level, MetabolismNetwork, Metabolites, Model
+    '                     version, Width
     ' 
     '         Function: __loadXml, __processNamespace, Load, Save, ToString
     ' 

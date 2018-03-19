@@ -33,10 +33,9 @@
 
     ' Module MiST2API
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: __getFasta, DownloadData, DownloadMisT2Sequence, GetOCSId, ReadMist2
     '               WriteData
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

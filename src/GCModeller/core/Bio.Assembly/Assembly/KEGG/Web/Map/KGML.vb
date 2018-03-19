@@ -33,11 +33,14 @@
 
     '     Class pathway
     ' 
+    '         Properties: image, items, link, name, number
+    '                     org, reactions, relations, title
+    ' 
     '         Function: ResourceURL, ToString
     ' 
     '     Class Link
     ' 
-    ' 
+    '         Properties: entry1, entry2, type
     ' 
     '     Class relation
     ' 
@@ -45,9 +48,11 @@
     ' 
     '     Class subtype
     ' 
-    ' 
+    '         Properties: name, value
     ' 
     '     Class compound
+    ' 
+    '         Properties: id, name
     ' 
     '         Function: ToString
     ' 
@@ -59,11 +64,14 @@
     ' 
     '     Class entry
     ' 
-    '         Properties: graphics
+    '         Properties: graphics, id, link, name, type
     ' 
     '         Function: ToString
     ' 
     '     Class graphics
+    ' 
+    '         Properties: bgcolor, fgcolor, height, name, type
+    '                     width, x, y
     ' 
     '         Function: ToString
     ' 

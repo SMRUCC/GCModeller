@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e78e5f585b0890f46f88e0a10a0f2f69, data\RegulonDatabase\RegulonDB\MySQL\regulator.vb"
+﻿#Region "Microsoft.VisualBasic::be60c51b6dedb17aa55c2ff75a67cf28, data\RegulonDatabase\RegulonDB\MySQL\regulator.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class regulator
     ' 
+    '     Properties: key_id_org, product_id, regulator_id, regulator_internal_commnet, regulator_name
+    '                 regulator_note
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -70,7 +76,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,12 +90,12 @@ CREATE TABLE `regulator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class regulator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("regulator_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property regulator_id As String
-    <DatabaseField("product_id"), DataType(MySqlDbType.VarChar, "12")> Public Property product_id As String
-    <DatabaseField("regulator_name"), DataType(MySqlDbType.VarChar, "250")> Public Property regulator_name As String
-    <DatabaseField("regulator_internal_commnet"), DataType(MySqlDbType.VarChar, "2000")> Public Property regulator_internal_commnet As String
-    <DatabaseField("regulator_note"), DataType(MySqlDbType.Text)> Public Property regulator_note As String
-    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property key_id_org As String
+    <DatabaseField("regulator_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="regulator_id")> Public Property regulator_id As String
+    <DatabaseField("product_id"), DataType(MySqlDbType.VarChar, "12"), Column(Name:="product_id")> Public Property product_id As String
+    <DatabaseField("regulator_name"), DataType(MySqlDbType.VarChar, "250"), Column(Name:="regulator_name")> Public Property regulator_name As String
+    <DatabaseField("regulator_internal_commnet"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="regulator_internal_commnet")> Public Property regulator_internal_commnet As String
+    <DatabaseField("regulator_note"), DataType(MySqlDbType.Text), Column(Name:="regulator_note")> Public Property regulator_note As String
+    <DatabaseField("key_id_org"), NotNull, DataType(MySqlDbType.VarChar, "5"), Column(Name:="key_id_org")> Public Property key_id_org As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -141,7 +146,11 @@ Public Class regulator: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As regulator
+                  Return DirectCast(MyClass.MemberwiseClone, regulator)
+              End Function
 End Class
 
 
 End Namespace
+

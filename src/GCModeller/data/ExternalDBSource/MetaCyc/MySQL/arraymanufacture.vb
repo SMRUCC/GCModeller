@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::652e83cd123f195e29b521bf5ac78e13, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacture.vb"
+﻿#Region "Microsoft.VisualBasic::f43641b7952833f307b44a36845dd067, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacture.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class arraymanufacture
     ' 
+    '     Properties: DataSetWID, Identifier, ManufacturingDate, Name, Tolerance
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -73,7 +79,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -91,12 +96,12 @@ CREATE TABLE `arraymanufacture` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class arraymanufacture: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20")> Public Property DataSetWID As Long
-    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255")> Public Property Identifier As String
-    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("ManufacturingDate"), DataType(MySqlDbType.VarChar, "255")> Public Property ManufacturingDate As String
-    <DatabaseField("Tolerance"), DataType(MySqlDbType.Double)> Public Property Tolerance As Double
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("DataSetWID"), NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="DataSetWID")> Public Property DataSetWID As Long
+    <DatabaseField("Identifier"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Identifier")> Public Property Identifier As String
+    <DatabaseField("Name"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("ManufacturingDate"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ManufacturingDate")> Public Property ManufacturingDate As String
+    <DatabaseField("Tolerance"), DataType(MySqlDbType.Double), Column(Name:="Tolerance")> Public Property Tolerance As Double
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -147,7 +152,11 @@ Public Class arraymanufacture: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTab
         Return String.Format(UPDATE_SQL, WID, DataSetWID, Identifier, Name, ManufacturingDate, Tolerance, WID)
     End Function
 #End Region
+Public Function Clone() As arraymanufacture
+                  Return DirectCast(MyClass.MemberwiseClone, arraymanufacture)
+              End Function
 End Class
 
 
 End Namespace
+

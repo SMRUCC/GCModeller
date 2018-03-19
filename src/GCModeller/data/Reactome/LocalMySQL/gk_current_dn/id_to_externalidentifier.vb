@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f20623e0ab50d5c7fa7386912f37027e, data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::1687cd18a3c03af62ef0a40bf3cb028a, data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class id_to_externalidentifier
     ' 
+    '     Properties: description, externalIdentifier, id, referenceDatabase
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:30 PM
+REM  Dump @3/16/2018 10:40:23 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current_dn
 
@@ -69,7 +74,6 @@ Namespace LocalMySQL.Tables.gk_current_dn
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,10 +87,10 @@ CREATE TABLE `id_to_externalidentifier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
 Public Class id_to_externalidentifier: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32")> Public Property id As Long
-    <DatabaseField("referenceDatabase"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property referenceDatabase As String
-    <DatabaseField("externalIdentifier"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "32")> Public Property externalIdentifier As String
-    <DatabaseField("description"), DataType(MySqlDbType.VarChar, "255")> Public Property description As String
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "32"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("referenceDatabase"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="referenceDatabase"), XmlAttribute> Public Property referenceDatabase As String
+    <DatabaseField("externalIdentifier"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "32"), Column(Name:="externalIdentifier"), XmlAttribute> Public Property externalIdentifier As String
+    <DatabaseField("description"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="description")> Public Property description As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -137,7 +141,11 @@ Public Class id_to_externalidentifier: Inherits Oracle.LinuxCompatibility.MySQL.
         Return String.Format(UPDATE_SQL, id, referenceDatabase, externalIdentifier, description, id, referenceDatabase, externalIdentifier)
     End Function
 #End Region
+Public Function Clone() As id_to_externalidentifier
+                  Return DirectCast(MyClass.MemberwiseClone, id_to_externalidentifier)
+              End Function
 End Class
 
 
 End Namespace
+

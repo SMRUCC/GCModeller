@@ -33,7 +33,8 @@
 
     '     Module WikiLoader
     ' 
-    '         Function: __recognitionParser, FromWiki
+    '         Function: __cutsParser, __enzymeParser, __isoschizomersParser, __recognitionParser, FromWiki
+    '                   HTMLParser, LoadDIR
     ' 
     ' 
     ' /********************************************************************************/

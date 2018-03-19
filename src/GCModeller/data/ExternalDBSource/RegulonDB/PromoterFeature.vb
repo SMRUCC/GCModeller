@@ -33,7 +33,9 @@
 
     '     Class PromoterFeature
     ' 
-    ' 
+    '         Properties: BOX_10_LEFT, BOX_10_RIGHT, BOX_10_SEQUENCE, BOX_35_LEFT, BOX_35_RIGHT
+    '                     BOX_35_SEQUENCE, PROMOTER_FEATURE_ID, PROMOTER_ID, RELATIVE_BOX_10_LEFT, RELATIVE_BOX_10_RIGHT
+    '                     RELATIVE_BOX_35_LEFT, RELATIVE_BOX_35_RIGHT, SCORE
     ' 
     ' 
     ' /********************************************************************************/

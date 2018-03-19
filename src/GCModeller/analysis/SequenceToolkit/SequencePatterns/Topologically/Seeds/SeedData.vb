@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '  
+    '     Structure SeedData
     ' 
-    '     Function: Initialize, Load, Save, ToString
+    '         Function: Initialize, Load, Save, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -31,13 +31,14 @@
 
     ' Summaries:
 
+    ' Module CLI
+    ' 
+    '     Function: [GET], RunApp, RunDll, Start, StressTest
     '     Structure __test
     ' 
-    '         Function: [GET], Run, RunApp, Start, StressTest
+    '         Function: Run
     ' 
-    '  
     ' 
-    '     Function: RunDll
     ' 
     ' /********************************************************************************/
 

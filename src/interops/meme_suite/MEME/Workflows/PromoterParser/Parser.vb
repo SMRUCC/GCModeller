@@ -33,14 +33,16 @@
 
     '     Class DataPreparingParser
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __getFastaList, (+2 Overloads) CreateObject, ExtractFromStringInteraction, ExtractMekkPathwayPromoter, ExtractMetacycPathwayPromoter
     '                   ExtractPromoterRegion_Pathway, ExtractPromoterRegion_PhenotypePathways, (+2 Overloads) ExtractWholeGenomePromoter, GetFasta
     ' 
-    '         Sub: Extract, ExtractKEGGModulesPromoter, ExtractPromoterRegion_KEGGModules, (+2 Overloads) New, StringDbInteractions
-    '              (+2 Overloads) WholeGenomeParser
+    '         Sub: Extract, ExtractKEGGModulesPromoter, ExtractPromoterRegion_KEGGModules, StringDbInteractions, (+2 Overloads) WholeGenomeParser
     '         Class __extractFromStringTask
     ' 
-    '             Sub: __extractForGenes, __extractFromString, New
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: __extractForGenes, __extractFromString
     ' 
     ' 
     ' 

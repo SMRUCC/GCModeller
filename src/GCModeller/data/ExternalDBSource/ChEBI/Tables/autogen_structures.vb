@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07c62383312abd0c681f61cd15312ef3, data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
+﻿#Region "Microsoft.VisualBasic::a14bb30ab96bcaaf4b8a388fb46f0df5, data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class autogen_structures
     ' 
+    '     Properties: id, structure_id
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -69,7 +74,6 @@ Namespace ChEBI.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,8 +87,8 @@ CREATE TABLE `autogen_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class autogen_structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("structure_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property structure_id As Long
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("structure_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="structure_id")> Public Property structure_id As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -135,7 +139,11 @@ Public Class autogen_structures: Inherits Oracle.LinuxCompatibility.MySQL.MySQLT
         Return String.Format(UPDATE_SQL, id, structure_id, id)
     End Function
 #End Region
+Public Function Clone() As autogen_structures
+                  Return DirectCast(MyClass.MemberwiseClone, autogen_structures)
+              End Function
 End Class
 
 
 End Namespace
+

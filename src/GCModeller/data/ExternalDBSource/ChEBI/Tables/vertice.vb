@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43b58a1c976d114fd3e4e8f9113c218d, data\ExternalDBSource\ChEBI\Tables\vertice.vb"
+﻿#Region "Microsoft.VisualBasic::8a9ba737bf7b0a00b9fa7ef61f54c27d, data\ExternalDBSource\ChEBI\Tables\vertice.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class vertice
     ' 
+    '     Properties: compound_id, id, ontology_id, vertice_ref
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:55 PM
+REM  Dump @3/16/2018 10:40:18 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace ChEBI.Tables
 
@@ -81,7 +86,6 @@ Namespace ChEBI.Tables
 ''' /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 ''' 
 ''' -- Dump completed on 2015-10-22 16:20:17
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -98,10 +102,10 @@ CREATE TABLE `vertice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class vertice: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
-    <DatabaseField("vertice_ref"), NotNull, DataType(MySqlDbType.VarChar, "60")> Public Property vertice_ref As String
-    <DatabaseField("compound_id"), DataType(MySqlDbType.Int64, "11")> Public Property compound_id As Long
-    <DatabaseField("ontology_id"), NotNull, DataType(MySqlDbType.Int64, "11")> Public Property ontology_id As Long
+    <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="id"), XmlAttribute> Public Property id As Long
+    <DatabaseField("vertice_ref"), NotNull, DataType(MySqlDbType.VarChar, "60"), Column(Name:="vertice_ref")> Public Property vertice_ref As String
+    <DatabaseField("compound_id"), DataType(MySqlDbType.Int64, "11"), Column(Name:="compound_id")> Public Property compound_id As Long
+    <DatabaseField("ontology_id"), NotNull, DataType(MySqlDbType.Int64, "11"), Column(Name:="ontology_id")> Public Property ontology_id As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -152,7 +156,11 @@ Public Class vertice: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, id, vertice_ref, compound_id, ontology_id, id)
     End Function
 #End Region
+Public Function Clone() As vertice
+                  Return DirectCast(MyClass.MemberwiseClone, vertice)
+              End Function
 End Class
 
 
 End Namespace
+

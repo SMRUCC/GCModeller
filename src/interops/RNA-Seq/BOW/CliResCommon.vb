@@ -33,9 +33,8 @@
 
     ' Module CliResCommon
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: TryRelease
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

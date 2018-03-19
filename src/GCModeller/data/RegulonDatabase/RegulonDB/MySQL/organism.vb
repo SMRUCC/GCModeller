@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60903568346aabd4031cdc0735612567, data\RegulonDatabase\RegulonDB\MySQL\organism.vb"
+﻿#Region "Microsoft.VisualBasic::ee2d6c32380ed5da44ece698a1378a05, data\RegulonDatabase\RegulonDB\MySQL\organism.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class organism
     ' 
+    '     Properties: organism_description, organism_id, organism_internal_comment, organism_name, organism_note
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 11:24:24 PM
+REM  Dump @3/16/2018 10:40:14 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace RegulonDB.Tables
 
@@ -69,7 +74,6 @@ Namespace RegulonDB.Tables
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -83,11 +87,11 @@ CREATE TABLE `organism` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class organism: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("organism_id"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property organism_id As String
-    <DatabaseField("organism_name"), NotNull, DataType(MySqlDbType.VarChar, "1000")> Public Property organism_name As String
-    <DatabaseField("organism_description"), DataType(MySqlDbType.VarChar, "2000")> Public Property organism_description As String
-    <DatabaseField("organism_note"), DataType(MySqlDbType.VarChar, "2000")> Public Property organism_note As String
-    <DatabaseField("organism_internal_comment"), DataType(MySqlDbType.Text)> Public Property organism_internal_comment As String
+    <DatabaseField("organism_id"), NotNull, DataType(MySqlDbType.VarChar, "12"), Column(Name:="organism_id")> Public Property organism_id As String
+    <DatabaseField("organism_name"), NotNull, DataType(MySqlDbType.VarChar, "1000"), Column(Name:="organism_name")> Public Property organism_name As String
+    <DatabaseField("organism_description"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="organism_description")> Public Property organism_description As String
+    <DatabaseField("organism_note"), DataType(MySqlDbType.VarChar, "2000"), Column(Name:="organism_note")> Public Property organism_note As String
+    <DatabaseField("organism_internal_comment"), DataType(MySqlDbType.Text), Column(Name:="organism_internal_comment")> Public Property organism_internal_comment As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -138,7 +142,11 @@ Public Class organism: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Throw New NotImplementedException("Table key was Not found, unable To generate ___UPDATE_SQL_Invoke automatically, please edit this Function manually!")
     End Function
 #End Region
+Public Function Clone() As organism
+                  Return DirectCast(MyClass.MemberwiseClone, organism)
+              End Function
 End Class
 
 
 End Namespace
+

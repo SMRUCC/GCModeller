@@ -38,12 +38,16 @@
     '               to2, UniprotToNCBIId, WriteData, WriteItem2
     '     Class Item
     ' 
-    '         Properties: AccessionId, biological_process, cellular_component, molecular_function, prot_desc
-    '                     Pvalue, Ratio
+    '         Properties: AccessionId, biological_process, cellular_component, Domain, Gene
+    '                     InterproID, KO, molecular_function, Pathway, prot_desc
+    '                     Pvalue, Ratio, SubcellularLocation, UniprotId
     ' 
     '     Class Item2
     ' 
-    '         Properties: Accession, Coverage, Description, Gene, Score
+    '         Properties: AAs, Accession, BiologicalProcess, CellularComponent, Coverage
+    '                     d1, d2, d3, Description, Gene
+    '                     MolecularFunction, MW, peptides, PfamIDs, PI
+    '                     Proteins, psms, Score, Uniprot
     ' 
     ' 
     ' 

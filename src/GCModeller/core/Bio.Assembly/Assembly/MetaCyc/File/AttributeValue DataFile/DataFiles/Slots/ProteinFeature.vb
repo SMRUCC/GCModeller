@@ -33,7 +33,8 @@
 
     '     Class ProteinFeature
     ' 
-    '         Properties: PossibleFeatureStates, ResidueNumber, Table
+    '         Properties: AttachedGroup, FeatureOf, LeftEndPosition, PossibleFeatureStates, ResidueNumber
+    '                     RightEndPosition, Table
     ' 
     ' 
     ' /********************************************************************************/

@@ -33,7 +33,14 @@
 
     ' Class Stockholm
     ' 
-    '     Properties: PI, RF, SS_cons
+    '     Properties: AC, Alignments, AU, BM, CB
+    '                 CC, CL, DC, DE, DR
+    '                 FR, GA, ID, KW, MB
+    '                 NC, NE, NH, NL, PI
+    '                 RA, RC, RF, RL, RM
+    '                 RN, RT, SE, SM, SQ
+    '                 SS, SS_cons, TC, TN, TP
+    '                 WK
     ' 
     '     Function: __fieldsParser, DatabaseParser, Parser, ParseSchema
     ' 
@@ -279,7 +286,7 @@ Public Class Stockholm
 #End Region
 
     Public Shared Function Parser(source As String, schema As PropertyInfo()) As Stockholm
-        Dim Tokens As String() = source.lTokens
+        Dim Tokens As String() = source.LineTokens
         Dim fields As Dictionary(Of String, String) =
             __fieldsParser((From line As String In Tokens
                             Where Not String.IsNullOrWhiteSpace(line) AndAlso

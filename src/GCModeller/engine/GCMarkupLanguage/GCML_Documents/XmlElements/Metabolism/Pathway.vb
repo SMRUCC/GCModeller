@@ -33,6 +33,8 @@
 
     '     Class Pathway
     ' 
+    '         Properties: MetabolismNetwork
+    ' 
     '         Function: CastTo, ToString
     ' 
     ' 

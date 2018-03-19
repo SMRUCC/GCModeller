@@ -35,9 +35,8 @@
     ' 
     '         Properties: SpeciesColor, SubjectSpecies
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetEnumerator, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

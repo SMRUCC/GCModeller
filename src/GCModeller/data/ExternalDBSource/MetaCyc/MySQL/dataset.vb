@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a497041d4877e96eac4cdbdacfd16d3, data\ExternalDBSource\MetaCyc\MySQL\dataset.vb"
+﻿#Region "Microsoft.VisualBasic::f777216c3927f0aefd8a3d415910cf19, data\ExternalDBSource\MetaCyc\MySQL\dataset.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,10 @@
 
     ' Class dataset
     ' 
+    '     Properties: Application, ApplicationVersion, ChangeDate, HomeURL, LoadDate
+    '                 LoadedBy, Name, QueryURL, ReleaseDate, Version
+    '                 WID
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +46,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 8:48:56 PM
+REM  Dump @3/16/2018 10:40:19 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace MetaCyc.MySQL
 
@@ -76,7 +83,6 @@ Namespace MetaCyc.MySQL
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -97,17 +103,17 @@ CREATE TABLE `dataset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
 Public Class dataset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20")> Public Property WID As Long
-    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255")> Public Property Name As String
-    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "50")> Public Property Version As String
-    <DatabaseField("ReleaseDate"), DataType(MySqlDbType.DateTime)> Public Property ReleaseDate As Date
-    <DatabaseField("LoadDate"), NotNull, DataType(MySqlDbType.DateTime)> Public Property LoadDate As Date
-    <DatabaseField("ChangeDate"), DataType(MySqlDbType.DateTime)> Public Property ChangeDate As Date
-    <DatabaseField("HomeURL"), DataType(MySqlDbType.VarChar, "255")> Public Property HomeURL As String
-    <DatabaseField("QueryURL"), DataType(MySqlDbType.VarChar, "255")> Public Property QueryURL As String
-    <DatabaseField("LoadedBy"), DataType(MySqlDbType.VarChar, "255")> Public Property LoadedBy As String
-    <DatabaseField("Application"), DataType(MySqlDbType.VarChar, "255")> Public Property Application As String
-    <DatabaseField("ApplicationVersion"), DataType(MySqlDbType.VarChar, "255")> Public Property ApplicationVersion As String
+    <DatabaseField("WID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "20"), Column(Name:="WID"), XmlAttribute> Public Property WID As Long
+    <DatabaseField("Name"), NotNull, DataType(MySqlDbType.VarChar, "255"), Column(Name:="Name")> Public Property Name As String
+    <DatabaseField("Version"), DataType(MySqlDbType.VarChar, "50"), Column(Name:="Version")> Public Property Version As String
+    <DatabaseField("ReleaseDate"), DataType(MySqlDbType.DateTime), Column(Name:="ReleaseDate")> Public Property ReleaseDate As Date
+    <DatabaseField("LoadDate"), NotNull, DataType(MySqlDbType.DateTime), Column(Name:="LoadDate")> Public Property LoadDate As Date
+    <DatabaseField("ChangeDate"), DataType(MySqlDbType.DateTime), Column(Name:="ChangeDate")> Public Property ChangeDate As Date
+    <DatabaseField("HomeURL"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="HomeURL")> Public Property HomeURL As String
+    <DatabaseField("QueryURL"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="QueryURL")> Public Property QueryURL As String
+    <DatabaseField("LoadedBy"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="LoadedBy")> Public Property LoadedBy As String
+    <DatabaseField("Application"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="Application")> Public Property Application As String
+    <DatabaseField("ApplicationVersion"), DataType(MySqlDbType.VarChar, "255"), Column(Name:="ApplicationVersion")> Public Property ApplicationVersion As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -130,7 +136,7 @@ Public Class dataset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetInsertSQL() As String
-        Return String.Format(INSERT_SQL, WID, Name, Version, DataType.ToMySqlDateTimeString(ReleaseDate), DataType.ToMySqlDateTimeString(LoadDate), DataType.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion)
+        Return String.Format(INSERT_SQL, WID, Name, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), MySqlScript.ToMySqlDateTimeString(LoadDate), MySqlScript.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion)
     End Function
 
 ''' <summary>
@@ -147,7 +153,7 @@ Public Class dataset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetReplaceSQL() As String
-        Return String.Format(REPLACE_SQL, WID, Name, Version, DataType.ToMySqlDateTimeString(ReleaseDate), DataType.ToMySqlDateTimeString(LoadDate), DataType.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion)
+        Return String.Format(REPLACE_SQL, WID, Name, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), MySqlScript.ToMySqlDateTimeString(LoadDate), MySqlScript.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion)
     End Function
 ''' <summary>
 ''' ```SQL
@@ -155,10 +161,14 @@ Public Class dataset: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 ''' ```
 ''' </summary>
     Public Overrides Function GetUpdateSQL() As String
-        Return String.Format(UPDATE_SQL, WID, Name, Version, DataType.ToMySqlDateTimeString(ReleaseDate), DataType.ToMySqlDateTimeString(LoadDate), DataType.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion, WID)
+        Return String.Format(UPDATE_SQL, WID, Name, Version, MySqlScript.ToMySqlDateTimeString(ReleaseDate), MySqlScript.ToMySqlDateTimeString(LoadDate), MySqlScript.ToMySqlDateTimeString(ChangeDate), HomeURL, QueryURL, LoadedBy, Application, ApplicationVersion, WID)
     End Function
 #End Region
+Public Function Clone() As dataset
+                  Return DirectCast(MyClass.MemberwiseClone, dataset)
+              End Function
 End Class
 
 
 End Namespace
+

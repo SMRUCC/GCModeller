@@ -33,6 +33,8 @@
 
     ' Class xref_pathway_compounds
     ' 
+    '     Properties: compound, KEGG, name, pathway
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

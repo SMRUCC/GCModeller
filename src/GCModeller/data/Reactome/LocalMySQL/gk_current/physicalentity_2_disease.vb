@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff8cd351e167dcc22956f0fe786f20a3, data\Reactome\LocalMySQL\gk_current\physicalentity_2_disease.vb"
+﻿#Region "Microsoft.VisualBasic::13254f4de24c89c04ce41f0b556bd895, data\Reactome\LocalMySQL\gk_current\physicalentity_2_disease.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,8 @@
 
     ' Class physicalentity_2_disease
     ' 
+    '     Properties: DB_ID, disease, disease_class, disease_rank
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +44,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:27 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -70,7 +75,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -85,10 +89,10 @@ CREATE TABLE `physicalentity_2_disease` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class physicalentity_2_disease: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("disease_rank"), DataType(MySqlDbType.Int64, "10")> Public Property disease_rank As Long
-    <DatabaseField("disease"), DataType(MySqlDbType.Int64, "10")> Public Property disease As Long
-    <DatabaseField("disease_class"), DataType(MySqlDbType.VarChar, "64")> Public Property disease_class As String
+    <DatabaseField("DB_ID"), PrimaryKey, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("disease_rank"), DataType(MySqlDbType.Int64, "10"), Column(Name:="disease_rank")> Public Property disease_rank As Long
+    <DatabaseField("disease"), DataType(MySqlDbType.Int64, "10"), Column(Name:="disease")> Public Property disease As Long
+    <DatabaseField("disease_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="disease_class")> Public Property disease_class As String
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -139,7 +143,11 @@ Public Class physicalentity_2_disease: Inherits Oracle.LinuxCompatibility.MySQL.
         Return String.Format(UPDATE_SQL, DB_ID, disease_rank, disease, disease_class, DB_ID)
     End Function
 #End Region
+Public Function Clone() As physicalentity_2_disease
+                  Return DirectCast(MyClass.MemberwiseClone, physicalentity_2_disease)
+              End Function
 End Class
 
 
 End Namespace
+

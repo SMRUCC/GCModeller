@@ -101,7 +101,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 res = res.ReadAllText
             End If
 
-            Dim lines$() = res.Replace("<b>", "").Replace("</b>", "").lTokens
+            Dim lines$() = res.Replace("<b>", "").Replace("</b>", "").LineTokens
             Dim header$() = lines(Scan0).Split(ASCII.TAB)
             Dim title As String = lines(1)
             Dim defs As New List(Of String)

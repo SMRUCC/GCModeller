@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13dd78e52b4de836bca97d83b25596b1, RDotNet.Extensions.Bioinformatics\Declares\adegenet\genind.vb"
+﻿#Region "Microsoft.VisualBasic::73aa26bea3716daa259a82d6a46669ad, RDotNet.Extensions.Bioinformatics\Declares\adegenet\genind.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     '     Class genind
     ' 
-    '         Properties: [call], hierarchy, other, ploidy, pop
-    '                     strata, tab, type
+    '         Properties: [call], allNames, hierarchy, locFac, locNAll
+    '                     other, ploidy, pop, strata, tab
+    '                     type
     ' 
     '         Function: nancycats
     ' 

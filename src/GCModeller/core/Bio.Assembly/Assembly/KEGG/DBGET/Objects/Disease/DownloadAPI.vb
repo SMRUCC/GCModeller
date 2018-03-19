@@ -34,7 +34,7 @@
     '     Module DownloadDiseases
     ' 
     '         Function: __drugMembers, __otherDBs, __pairList, Download, DownloadDrug
-    '                   DownloadURL
+    '                   DownloadURL, MarkerList, Parse, ParseDrugData
     ' 
     ' 
     ' /********************************************************************************/

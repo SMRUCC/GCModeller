@@ -47,17 +47,15 @@
     ' 
     '         Properties: Address, Alphabets, IsConserved
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: EnumerateKeys, EnumerateValues, ToString
-    ' 
-    '         Sub: New
     ' 
     '     Structure PatternModel
     ' 
     '         Properties: Residues
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetVariation, PWM, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

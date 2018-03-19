@@ -33,6 +33,11 @@
 
     '     Class File
     ' 
+    '         Properties: BiochemicalReaction, BioSource, Catalysis, CellularLocationVocabulary, Complex
+    '                     FragmentFeature, Owl, PhysicalEntity, Protein, ProteinReference
+    '                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
+    '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
+    ' 
     '         Function: __cleanXML, LoadDoc
     ' 
     ' 

@@ -33,6 +33,9 @@
 
     ' Class measurement
     ' 
+    '     Properties: DataSetWID, KindCV, Measurement_Unit, OtherKind, Type_
+    '                 Value, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

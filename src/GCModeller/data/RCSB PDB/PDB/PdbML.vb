@@ -33,10 +33,10 @@
 
     '     Class PdbML
     ' 
-    ' 
+    '         Properties: AtomSiteCategory, datablockName, entityPolyCategory
     '         Class entity_polyCategory
     ' 
-    ' 
+    '             Properties: entity_polyes
     '             Class entity_poly
     ' 
     '                 Properties: pdbx_seq_one_letter_code, pdbx_seq_one_letter_code_can, pdbx_strand_id, type
@@ -47,82 +47,89 @@
     ' 
     '     Class PDBx
     ' 
+    '         Properties: id
+    ' 
     '         Function: ToString
     ' 
     '     Class PDBxEntity
     ' 
+    '         Properties: entity_id
+    ' 
     '         Function: ToString
     ' 
-    '  
+    '         Class Site
     ' 
+    '             Properties: auth_asym_id, auth_atom_id, auth_comp_id, auth_seq_id, B_iso_or_equiv
+    '                         Cartn_x, Cartn_y, Cartn_z, group_PDB, label_asym_id
+    '                         label_atom_id, label_comp_id, label_entity_id, label_seq_id, occupancy
+    '                         pdbx_PDB_model_num, type_symbol
     ' 
+    '         Class anisotrop
     ' 
-    '  
+    '             Properties: pdbx_auth_asym_id, pdbx_auth_atom_id, pdbx_auth_comp_id, pdbx_auth_seq_id, pdbx_label_asym_id
+    '                         pdbx_label_atom_id, pdbx_label_comp_id, pdbx_label_seq_id, type_symbol, U11
+    '                         U12, U13, U22, U23, U33
     ' 
-    '     Properties: pdbx_auth_asym_id, pdbx_auth_atom_id, pdbx_auth_comp_id, pdbx_auth_seq_id, pdbx_label_asym_id
-    '                 pdbx_label_atom_id, pdbx_label_comp_id, pdbx_label_seq_id, type_symbol, U11
-    '                 U12, U13, U22, U23, U33
+    '         Class sites
     ' 
-    '  
+    '             Properties: fract_transf_matrix11, fract_transf_matrix12, fract_transf_matrix13, fract_transf_matrix21, fract_transf_matrix22
+    '                         fract_transf_matrix23, fract_transf_matrix31, fract_transf_matrix32, fract_transf_matrix33, fract_transf_vector1
+    '                         fract_transf_vector2, fract_transf_vector3
     ' 
-    '     Properties: fract_transf_matrix11, fract_transf_matrix12, fract_transf_matrix13, fract_transf_matrix21, fract_transf_matrix22
-    '                 fract_transf_matrix23, fract_transf_matrix31, fract_transf_matrix32, fract_transf_matrix33, fract_transf_vector1
-    '                 fract_transf_vector2, fract_transf_vector3
+    '         Class type
     ' 
-    '  
+    '             Properties: symbol
     ' 
+    '         Class typeCategory
     ' 
+    '             Properties: atom_types
     ' 
-    '  
+    '         Class sitesCategory
     ' 
+    '             Properties: atom_sites
     ' 
+    '         Class siteCategory
     ' 
-    '  
+    '             Properties: atom_sites
     ' 
+    '         Class anisotropCategory
     ' 
+    '             Properties: atom_site_anisotrop
     ' 
-    '  
+    '         Class authorCategory
     ' 
-    '     Properties: atom_sites
+    '             Properties: authors
     ' 
-    '  
+    '         Class author
     ' 
-    '     Properties: atom_site_anisotrop
+    '             Properties: name, pdbx_ordinal
     ' 
-    '  
+    '         Class conformCategory
     ' 
+    '             Properties: conforms
     ' 
+    '         Class conform
     ' 
-    '  
+    '             Properties: dict_location, dict_name, dict_version
     ' 
-    '     Properties: name
+    '             Function: ToString
     ' 
-    '  
+    '     Class cellCategory
     ' 
+    '         Properties: cells
     ' 
+    '     Class cell
     ' 
-    '  
+    '         Properties: angle_alpha, angle_beta, angle_gamma, length_a, length_b
+    '                     length_c, Z_PDB
     ' 
-    '     Properties: dict_location
+    '         Class compCategory
     ' 
-    '     Function: ToString
+    '             Properties: chem_comp
     ' 
-    '  
+    '         Class comp
     ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: angle_alpha, angle_beta, angle_gamma, length_a, length_b
-    '                 length_c, Z_PDB
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: formula, formula_weight, mon_nstd_flag, name, type
+    '             Properties: formula, formula_weight, mon_nstd_flag, name, type
     ' 
     ' 
     ' /********************************************************************************/

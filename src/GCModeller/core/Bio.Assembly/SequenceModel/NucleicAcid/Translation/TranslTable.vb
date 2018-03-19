@@ -35,12 +35,14 @@
     ' 
     '         Properties: CodenTable, InitCodons, StopCodons, TranslTable
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
     '                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
     '                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
     '                   (+2 Overloads) Translate
     ' 
-    '         Sub: __initProfiles, (+2 Overloads) New
+    '         Sub: __initProfiles
     ' 
     ' 
     ' /********************************************************************************/
@@ -120,7 +122,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="Table">资源文件里面的字典数据或者读取自外部文件的数据</param>
         Sub New(Table As String)
-            Dim transl_table = __parseTable(Table.lTokens, _TranslTable)
+            Dim transl_table = __parseTable(Table.LineTokens, _TranslTable)
             Call __initProfiles(transl_table)
         End Sub
 
@@ -396,7 +398,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Public Shared Function CreateFrom(hashTable As String) As TranslTable
-            Dim transl_table As Integer, hashTokens As String() = hashTable.lTokens
+            Dim transl_table As Integer, hashTokens As String() = hashTable.LineTokens
             Dim dict As Dictionary(Of Codon, AminoAcid) =
                 __parseTable(hashTokens, transl_table)
             Dim table As TranslTable = New TranslTable(transl_table, dict)

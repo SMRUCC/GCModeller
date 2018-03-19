@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f78aad6c974977fc633aff524c204c4, RDotNet.Extensions.Bioinformatics\Declares\bnlearn\bnFit.vb"
+﻿#Region "Microsoft.VisualBasic::b73d981ac5644c2940eed55e44d31398, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\bnFit.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,17 @@
 
     ' Summaries:
 
-    '  
+    '     Class bnFit
     ' 
-    '     Properties: data, debug, method, x
+    '         Properties: data, debug, method, x
     ' 
-    '  
+    '     Class customFit
     ' 
-    '     Properties: dist, ordinal, x
+    '         Properties: dist, ordinal, x
     ' 
-    '  
+    '     Class bnNet
     ' 
-    '     Properties: debug, x
+    '         Properties: debug, x
     ' 
     ' 
     ' /********************************************************************************/

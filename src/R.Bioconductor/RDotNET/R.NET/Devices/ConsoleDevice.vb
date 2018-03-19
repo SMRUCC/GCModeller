@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37c9ed368c597abbc4d0d4670f9d030a, RDotNET\R.NET\Devices\ConsoleDevice.vb"
+﻿#Region "Microsoft.VisualBasic::d9f64290695f7a1205ca28bb111dd1a0, RDotNET\R.NET\Devices\ConsoleDevice.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a01a281bd93e474c59c65fc27f8852e, Bioconductor\Bioconductor\Web\WebService.vb"
+﻿#Region "Microsoft.VisualBasic::61a7534a4f809ef83a60be70b6c805fe, Bioconductor\Bioconductor\Web\WebService.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' 
     '         Properties: AnnotationData, ExperimentData, Repository, Softwares, Version
     ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: [Default], __init, DownloadList, ToString
     ' 
-    '         Sub: __downloadUpdates, (+2 Overloads) New
+    '         Sub: __downloadUpdates
     ' 
     ' 
     ' /********************************************************************************/

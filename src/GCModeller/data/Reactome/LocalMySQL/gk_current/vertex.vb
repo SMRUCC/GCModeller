@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d8e7329ec1a834ce27613bdda1378bc, data\Reactome\LocalMySQL\gk_current\vertex.vb"
+﻿#Region "Microsoft.VisualBasic::549e370a4d1eab50c63555f28af5e072, data\Reactome\LocalMySQL\gk_current\vertex.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@
 
     ' Class vertex
     ' 
+    '     Properties: DB_ID, height, pathwayDiagram, pathwayDiagram_class, representedInstance
+    '                 representedInstance_class, width, x, y
+    ' 
     '     Function: GetDeleteSQL, GetDumpInsertValue, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 
@@ -42,12 +45,15 @@
 
 REM  Oracle.LinuxCompatibility.MySQL.CodeSolution.VisualBasic.CodeGenerator
 REM  MYSQL Schema Mapper
-REM      for Microsoft VisualBasic.NET 1.0.0.0
+REM      for Microsoft VisualBasic.NET 2.1.0.2569
 
-REM  Dump @3/29/2017 9:40:28 PM
+REM  Dump @3/16/2018 10:40:21 PM
 
 
+Imports System.Data.Linq.Mapping
+Imports System.Xml.Serialization
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports MySqlScript = Oracle.LinuxCompatibility.MySQL.Scripting.Extensions
 
 Namespace LocalMySQL.Tables.gk_current
 
@@ -80,7 +86,6 @@ Namespace LocalMySQL.Tables.gk_current
 ''' /*!40101 SET character_set_client = @saved_cs_client */;
 ''' 
 ''' --
-''' 
 ''' ```
 ''' </summary>
 ''' <remarks></remarks>
@@ -105,15 +110,15 @@ CREATE TABLE `vertex` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
 Public Class vertex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
-    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property DB_ID As Long
-    <DatabaseField("height"), DataType(MySqlDbType.Int64, "10")> Public Property height As Long
-    <DatabaseField("pathwayDiagram"), DataType(MySqlDbType.Int64, "10")> Public Property pathwayDiagram As Long
-    <DatabaseField("pathwayDiagram_class"), DataType(MySqlDbType.VarChar, "64")> Public Property pathwayDiagram_class As String
-    <DatabaseField("representedInstance"), DataType(MySqlDbType.Int64, "10")> Public Property representedInstance As Long
-    <DatabaseField("representedInstance_class"), DataType(MySqlDbType.VarChar, "64")> Public Property representedInstance_class As String
-    <DatabaseField("width"), DataType(MySqlDbType.Int64, "10")> Public Property width As Long
-    <DatabaseField("x"), DataType(MySqlDbType.Int64, "10")> Public Property x As Long
-    <DatabaseField("y"), DataType(MySqlDbType.Int64, "10")> Public Property y As Long
+    <DatabaseField("DB_ID"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10"), Column(Name:="DB_ID"), XmlAttribute> Public Property DB_ID As Long
+    <DatabaseField("height"), DataType(MySqlDbType.Int64, "10"), Column(Name:="height")> Public Property height As Long
+    <DatabaseField("pathwayDiagram"), DataType(MySqlDbType.Int64, "10"), Column(Name:="pathwayDiagram")> Public Property pathwayDiagram As Long
+    <DatabaseField("pathwayDiagram_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="pathwayDiagram_class")> Public Property pathwayDiagram_class As String
+    <DatabaseField("representedInstance"), DataType(MySqlDbType.Int64, "10"), Column(Name:="representedInstance")> Public Property representedInstance As Long
+    <DatabaseField("representedInstance_class"), DataType(MySqlDbType.VarChar, "64"), Column(Name:="representedInstance_class")> Public Property representedInstance_class As String
+    <DatabaseField("width"), DataType(MySqlDbType.Int64, "10"), Column(Name:="width")> Public Property width As Long
+    <DatabaseField("x"), DataType(MySqlDbType.Int64, "10"), Column(Name:="x")> Public Property x As Long
+    <DatabaseField("y"), DataType(MySqlDbType.Int64, "10"), Column(Name:="y")> Public Property y As Long
 #End Region
 #Region "Public SQL Interface"
 #Region "Interface SQL"
@@ -164,7 +169,11 @@ Public Class vertex: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
         Return String.Format(UPDATE_SQL, DB_ID, height, pathwayDiagram, pathwayDiagram_class, representedInstance, representedInstance_class, width, x, y, DB_ID)
     End Function
 #End Region
+Public Function Clone() As vertex
+                  Return DirectCast(MyClass.MemberwiseClone, vertex)
+              End Function
 End Class
 
 
 End Namespace
+

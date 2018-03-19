@@ -33,6 +33,8 @@
 
     ' Class evidence
     ' 
+    '     Properties: association_id, code, dbxref_id, id, seq_acc
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

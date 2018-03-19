@@ -33,6 +33,8 @@
 
     ' Class quantitationtypetuple
     ' 
+    '     Properties: DataSetWID, DesignElementTuple, QuantitationType, QuantitationTypeTuple_Datum, WID
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

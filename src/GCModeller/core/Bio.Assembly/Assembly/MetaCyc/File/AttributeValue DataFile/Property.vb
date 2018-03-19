@@ -36,9 +36,8 @@
     '         Properties: Authors, Database, FileName, GeneratedDate, Species
     '                     Version
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateFrom, Generate, ToString
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

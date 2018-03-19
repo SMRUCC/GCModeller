@@ -33,19 +33,19 @@
 
     '     Class visualProperty
     ' 
-    '         Properties: continuousMapping, discreteMapping, passthroughMapping
+    '         Properties: [Default], continuousMapping, discreteMapping, name, passthroughMapping
     ' 
     '     Class dependency
     ' 
-    ' 
+    '         Properties: name, value
     ' 
     '     Class passthroughMapping
     ' 
-    ' 
+    '         Properties: attributeName, attributeType
     ' 
     '     Class discreteMapping
     ' 
-    ' 
+    '         Properties: attributeName, attributeType, discreteMappingEntrys
     ' 
     '     Class discreteMappingEntry
     ' 
@@ -53,7 +53,7 @@
     ' 
     '     Class continuousMapping
     ' 
-    ' 
+    '         Properties: attributeName, attributeType, continuousMappingPoints
     ' 
     '     Class continuousMappingPoint
     ' 

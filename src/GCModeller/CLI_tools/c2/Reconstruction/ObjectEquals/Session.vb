@@ -33,7 +33,8 @@
 
     '     Class Session
     ' 
-    '         Sub: Initialize, New
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Initialize
     ' 
     ' 
     ' /********************************************************************************/
