@@ -17,11 +17,11 @@ Public Class Icon
         End Get
     End Property
 
-    Sub New(icon As icons, Optional style As Styles = Styles.Regular, Optional color As Color = Nothing)
+    Sub New(icon As icons, Optional style As Styles = Styles.Solid, Optional color As Color = Nothing)
         Call Me.New(icon.Description, style, color)
     End Sub
 
-    Sub New(name$, Optional style As Styles = Styles.Regular, Optional color As Color = Nothing)
+    Sub New(name$, Optional style As Styles = Styles.Solid, Optional color As Color = Nothing)
         Me.Name = name
         Me.Style = style
         Me.Color = color
@@ -36,4 +36,13 @@ Public Class Icon
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Operator &(html$, fa As Icon) As String
+        Return html & fa.ToString
+    End Operator
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Operator &(fa As Icon, html$) As String
+        Return fa.ToString & html
+    End Operator
 End Class
