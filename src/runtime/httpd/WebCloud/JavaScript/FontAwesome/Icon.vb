@@ -30,9 +30,9 @@ Public Class Icon
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         If Color.IsEmpty Then
-            Return (<li class=<%= Style.Description & " " & Strings.LCase(Name) %>></li>).ToString
+            Return (<i class=<%= Style.Description & " " & Strings.LCase(Name) %>></i>).ToString
         Else
-            Return (<li class=<%= Style.Description & " " & Strings.LCase(Name) %> style=<%= $"color:{Color.ToHtmlColor}" %>></li>).ToString
+            Return (<i class=<%= Style.Description & " " & Strings.LCase(Name) %> style=<%= $"color:{Color.ToHtmlColor};" %>></i>).ToString
         End If
     End Function
 
