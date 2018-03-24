@@ -247,10 +247,6 @@
       <Project>{a0e37308-0007-4578-b006-905b9042afde}</Project>
       <Name>Index</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\Graph.vbproj">
-      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
-      <Name>Graph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
       <Name>math-core</Name>
