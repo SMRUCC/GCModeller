@@ -1,6 +1,6 @@
 ﻿Namespace Network
 
-    Public Class NetworkGraph(Of T As Node) : Inherits Graph(Of Node, Edge(Of T), NetworkGraph(Of T))
+    Public Class NetworkGraph(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)}) : Inherits Graph(Of Node, Edge, NetworkGraph(Of Node, Edge))
 
         Sub New()
         End Sub
@@ -10,7 +10,7 @@
         ''' </summary>
         ''' <param name="nodes"></param>
         ''' <param name="edges"></param>
-        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge(Of T)))
+        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge))
 
         End Sub
     End Class

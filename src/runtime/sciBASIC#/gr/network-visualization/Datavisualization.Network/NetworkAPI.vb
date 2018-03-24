@@ -61,7 +61,7 @@ Public Module NetworkAPI
 
     <Extension>
     Public Function EndPoints(network As Graph.NetworkGraph) As (input As Graph.Node(), output As Graph.Node())
-        Return New GraphTheory.Network.NetworkGraph(network.nodes, network.edges).EndPoints
+        Return New NetworkGraph(Of Graph.Node, Graph.Edge)(network.nodes, network.edges).EndPoints
     End Function
 
     <ExportAPI("Read.Network")>
