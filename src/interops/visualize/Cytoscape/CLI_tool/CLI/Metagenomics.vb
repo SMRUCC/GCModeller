@@ -271,7 +271,7 @@ Partial Module CLI
         End If
 
         ' step3
-        Dim network As NetworkTables = BuildNetwork(matrix, ssuTax, theme, parallel)
+        Dim network As NetworkTables = Protocol.BuildNetwork(matrix, ssuTax, theme, parallel)
 
         ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
         Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")
