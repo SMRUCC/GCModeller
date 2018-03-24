@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.DataMining
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
@@ -73,7 +74,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
-        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = [in].LoadCsv(Of EntityClusterModel).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
         Dim tlog# = args.GetValue("/t.log", -1.0R)
 
@@ -141,8 +142,7 @@ Partial Module CLI
                               Return prot.ProteinId
                           End Function)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfamstring.enrichment.csv"
-        Dim clusters = DataSet _
-            .LoadDataSet(Of EntityClusterModel)([in]) _
+        Dim clusters = [in].LoadCsv(Of EntityClusterModel) _
             .GroupBy(Function(c) c.Cluster) _
             .ToArray
 
@@ -223,7 +223,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
-        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = [in].LoadCsv(Of EntityClusterModel).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 2500)
         Dim camera As New Camera With {

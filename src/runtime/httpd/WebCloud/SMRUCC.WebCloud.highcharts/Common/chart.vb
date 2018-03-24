@@ -121,6 +121,9 @@ Public Class chart
     Public Property renderTo As String
     Public Property margin As Double?
     Public Property polar As Boolean?
+    Public Property plotBackgroundColor As String
+    Public Property plotBorderWidth As String
+    Public Property plotShadow As Boolean?
 
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
@@ -239,11 +242,13 @@ End Class
 
 Public Class styleOptions
     Public Property fontSize As String
+    Public Property color As String
 End Class
 
 Public Class dataLabels
     Public Property enabled As Boolean?
     Public Property format As String
+    Public Property style As styleOptions
 End Class
 
 Public Class responsiveOptions

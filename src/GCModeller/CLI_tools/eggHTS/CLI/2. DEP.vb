@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
@@ -609,7 +610,12 @@ Partial Module CLI
                  .SaveDataSet(dataOUT, Encodings.UTF8)
 
             ' 保存能够应用于R脚本进行热图绘制的矩阵数据
-            Call .Select(Function(d) DirectCast(d, DataSet)) _
+            Call .Select(Function(d)
+                             Return New DataSet With {
+                                 .ID = d.ID,
+                                 .Properties = d.Properties
+                             }
+                         End Function) _
                  .AsCharacter _
                  .ToArray _
                  .SaveDataSet(dataOUT.TrimSuffix & ".heampa_Matrix.csv", Encodings.UTF8)
