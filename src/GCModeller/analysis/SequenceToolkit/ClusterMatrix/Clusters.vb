@@ -43,6 +43,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
