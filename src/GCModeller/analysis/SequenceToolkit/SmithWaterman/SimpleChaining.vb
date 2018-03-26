@@ -45,13 +45,22 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
 Public Module SimpleChaining
 
+    ReadOnly Property FromAComparator As IComparer(Of Match) = New ComparatorHelper()
+
+    Private Structure ComparatorHelper : Implements IComparer(Of Match)
+
+        Public Function Compare(x As Match, y As Match) As Integer Implements IComparer(Of Match).Compare
+            Return x.FromA - y.FromA
+        End Function
+    End Structure
+
     ''' <summary>
     ''' Identify the best chain from given list of match
     ''' </summary>
     ''' <param name="matches"> a list of match </param>
     ''' <param name="debug">  if true, print list of input match, adjacency, score matrix, best chain found. </param>
     ''' <returns> the optimal chain as a list of match </returns>
-    Public Function chaining(matches As List(Of Match), debug As Boolean) As List(Of Match)
+    Public Function Chaining(matches As List(Of Match), debug As Boolean) As List(Of Match)
         If matches.Count <= 1 Then
             Return matches
         End If
@@ -66,12 +75,13 @@ Public Module SimpleChaining
         Dim sMax As Double() = New Double(size - 1) {}
         ' Hold the previous match index point to match i
         Dim prevIndex As Integer() = New Integer(size - 1) {}
+
         For i As Integer = 0 To size - 1
             prevIndex(i) = -1
         Next
 
         'sort the matches based on the occurance in sequence A
-        Call matches.Sort(Match.FROMA_COMPARATOR)
+        Call matches.Sort(FromAComparator)
 
         If debug Then
             Console.WriteLine("The list of Matches {[fromA, toA, fromB, toB, score]...}")
