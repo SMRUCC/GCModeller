@@ -85,27 +85,22 @@ Public Module Extensions
     <Extension>
     Public Iterator Function FindObjects(view As Image, obj As Image, Optional cutoff# = 0.95) As IEnumerable(Of Rectangle)
         Dim size As Size = obj.Size
-        Dim query = obj.ToVector
-        Dim subject = view.ToVector(size)
+        Dim query As Vector = obj.ToVector
+        Dim subject As Vector = view.ToVector(size)
         Dim equals As ISimilarity(Of Double) =
             Function(a, b)
                 If a = b Then
-                    Return 0
-                Else
                     Return 1
+                Else
+                    Return 0
                 End If
             End Function
-        Dim local As New GSW(Of Double)(query, subject, equals, AddressOf asChar)
+        Dim local As New GSW(Of Double)(subject, query, equals, AddressOf asChar)
         Dim objects = local.GetMatches(local.MaxScore * cutoff)
         Dim viewSize = view.Size
 
         For Each region As Match In objects
-            If (region.ToA - region.FromA) / query.Length >= 0.9 Then
-                Dim left = region.FromB
-                Dim length = region.ToB - left
-
-                Yield left.TranslateRegion(size, viewSize)
-            End If
+            Yield region.FromA.TranslateRegion(size, viewSize)
         Next
     End Function
 
