@@ -101,7 +101,7 @@ Public Class HSP : Inherits Match
             .ToArray
 
         Try
-            Dim lstb = SimpleChaining.chaining(hsp.Select(Function(x) DirectCast(x, Match)).AsList, False)
+            Dim lstb = SimpleChaining.Chaining(hsp.Select(Function(x) DirectCast(x, Match)).AsList, False)
             lstb = (From x In lstb Select x Order By x.Score Descending).AsList
             If Not lstb.IsNullOrEmpty Then
                 best = CreateObject(lstb.FirstOrDefault, query, subject)
