@@ -40,10 +40,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.PageRank
+Imports Microsoft.VisualBasic.Data.NLP
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Webservices.Bing.Academic
-Imports Microsoft.VisualBasic.Data.NLP
-Imports Microsoft.VisualBasic.Data.Graph.Analysis.PageRank
 
 Public Module NLPExtensions
 

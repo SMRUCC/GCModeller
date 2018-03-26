@@ -45,7 +45,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.Graph.Dijkstra
+Imports Microsoft.VisualBasic.Data.GraphTheory.Dijkstra
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataVisualization
