@@ -57,8 +57,9 @@ Module Module1
         Dim font As New Font(FontFace.MicrosoftYaHei, 20, FontStyle.Bold)
         Dim view As Image
 
-        Using g = New Size(font.Height * 30, font.Height * 1.2).CreateGDIDevice
+        Using g = New Size(font.Height * 30, font.Height * 5).CreateGDIDevice
             Call g.DrawString("3.14159265353", font, Brushes.Black, New Point)
+            Call g.DrawString("1666669", font, Brushes.Black, New Point(30, font.Height + 10))
             view = g.ImageResource
         End Using
 
@@ -73,7 +74,72 @@ Module Module1
         Pause()
     End Sub
 
+    Public Sub projectionTest()
+        Dim font As New Font(FontFace.MicrosoftYaHei, 20, FontStyle.Bold)
+        Dim view As Image
+
+        Using g = New Size(font.Height * 30, font.Height * 5).CreateGDIDevice
+            Call g.DrawString("3.14159265353", font, Brushes.Black, New Point)
+            Call g.DrawString("1666669", font, Brushes.Black, New Point(30, font.Height + 10))
+            view = g.ImageResource
+        End Using
+
+        Dim test As Vector
+        Dim test2 As Vector
+
+        Using g = New Size(font.Height, font.Height).CreateGDIDevice
+            Call g.DrawString("3", font, Brushes.Black, New Point)
+            test = g.ImageResource.CorpBlank.SliceSegments(New Size(3, 3))
+        End Using
+
+        Using g = New Size(font.Height, font.Height).CreateGDIDevice
+            Call g.DrawString("7", font, Brushes.Black, New Point)
+            test2 = g.ImageResource.CorpBlank.SliceSegments(New Size(3, 3))
+        End Using
+
+        Using g = New Size(font.Height, font.Height).CreateGDIDevice
+            Call g.DrawString("8", font, Brushes.Black, New Point)
+            test2 = g.ImageResource.CorpBlank.SliceSegments(New Size(3, 3))
+        End Using
+
+        '  Dim hv = view.Projection(True).Split(Function(d) d = 0R).ToArray
+        '  Dim vv = view.Projection(False)
+
+        For Each s In view.Slicing()
+            Call s.Maps.SaveAs($"./asfsdfsdfsd/{s.Key}.png")
+
+            Dim sss = s.Maps.SliceSegments(New Size(3, 3))
+            Dim similarity = GlobalMatch.Similarity(sss, test, 3 * 3 / 2)
+            Dim similarity2 = GlobalMatch.Similarity(sss, test2, 3 * 3 / 2)
+
+            Pause()
+        Next
+
+        Call view.SaveAs("./view.png")
+
+        Pause()
+
+    End Sub
+
+    Sub sliceTest2()
+
+        Dim view = "D:\smartnucl_integrative\biodeepDB\METLINApp\mzCloud\test.png".LoadImage
+
+
+        For Each s In view.Slicing()
+            Call s.Maps.SaveAs($"./kkkkk/{s.Key}.png")
+        Next
+
+        Call view.SaveAs("./view2222222.png")
+
+
+        Pause()
+    End Sub
+
     Sub Main()
+        Call projectionTest()
+        Call sliceTest2()
+
 
         Call OCRtest2()
 
