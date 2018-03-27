@@ -8,7 +8,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Public Module Scanner
 
-    <Extension> Public Function FullScan(bitmap As BitmapBuffer, blank As Color) As Vector
+    <Extension> Public Function FullScan(bitmap As BitmapBuffer, blank As Color, Optional fillDeli As Boolean = False) As Vector
         Dim vector As New List(Of Double)
 
         ' 逐行扫描
@@ -22,12 +22,16 @@ Public Module Scanner
                     Call vector.Add(1)
                 End If
             Next
+
+            If fillDeli Then
+                Call vector.Add(-1)
+            End If
         Next
 
         Return vector.AsVector
     End Function
 
-    <Extension> Public Iterator Function RegionScan(bitmap As BitmapBuffer, blank As Color, size As Size) As IEnumerable(Of Map(Of Point, Vector))
+    <Extension> Public Iterator Function RegionScan(bitmap As BitmapBuffer, blank As Color, size As Size, Optional fillDeli As Boolean = False) As IEnumerable(Of Map(Of Point, Vector))
         For top As Integer = 0 To bitmap.Height - 1 - size.Height
             For left As Integer = 0 To bitmap.Width - 1 - size.Width
                 Dim vector As New List(Of Double)
@@ -43,13 +47,29 @@ Public Module Scanner
                             Call vector.Add(1)
                         End If
                     Next
+
+                    If fillDeli Then
+                        Call vector.Add(-1)
+                    End If
                 Next
+
+#If DEBUG Then
+                If GDIColors.Equals(bitmap.GetPixel(left, top), blank) Then
+                    Console.Write(" "c)
+                Else
+                    Console.Write("*"c)
+                End If
+#End If
 
                 Yield New Map(Of Point, Vector)(
                     New Point(left, top),
                     vector.AsVector
                 )
             Next
+
+#If DEBUG Then
+            Console.WriteLine()
+#End If
         Next
     End Function
 

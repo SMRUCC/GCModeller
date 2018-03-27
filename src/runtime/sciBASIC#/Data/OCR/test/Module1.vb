@@ -32,28 +32,51 @@ Module Module1
         Return obj
     End Function
 
-    Sub CompareTest2()
-        Dim a = draw("8")
-        Dim b = draw(1)
-        Dim C = draw(8)
-        Dim query As Vector = a.ToVector.First
-        Dim subject As Vector = b.ToVector.First
-        Dim subject2 As Vector = C.ToVector.First
-        Dim local As New GSW(Of Double)(query, subject, AddressOf Equals, AddressOf AsChar)
-        Dim cutoff = 0.9
-        Dim match1 As Match = local.GetMatches(local.MaxScore * cutoff).FirstOrDefault
+    'Sub CompareTest2()
+    '    Dim a = draw("8")
+    '    Dim b = draw(1)
+    '    Dim C = draw(8)
+    '    Dim query As Vector = a.ToVector.First
+    '    Dim subject As Vector = b.ToVector.First
+    '    Dim subject2 As Vector = C.ToVector.First
+    '    Dim local As New GSW(Of Double)(query, subject, AddressOf Equals, AddressOf AsChar)
+    '    Dim cutoff = 0.9
+    '    Dim match1 As Match = local.GetMatches(local.MaxScore * cutoff).FirstOrDefault
 
-        local = New GSW(Of Double)(query, subject2, AddressOf Equals, AddressOf AsChar)
-        Dim match2 As Match = local.GetMatches(local.MaxScore * cutoff).FirstOrDefault
+    '    local = New GSW(Of Double)(query, subject2, AddressOf Equals, AddressOf AsChar)
+    '    Dim match2 As Match = local.GetMatches(local.MaxScore * cutoff).FirstOrDefault
 
 
-        Dim s1 = SSM(query, subject)
-        Dim s2 = SSM(query, subject2)
+    '    Dim s1 = SSM(query, subject)
+    '    Dim s2 = SSM(query, subject2)
+
+    '    Pause()
+    'End Sub
+
+    Sub OCRtest2()
+        Dim font As New Font(FontFace.MicrosoftYaHei, 20, FontStyle.Bold)
+        Dim view As Image
+
+        Using g = New Size(font.Height * 30, font.Height * 1.2).CreateGDIDevice
+            Call g.DrawString("3.14159265353", font, Brushes.Black, New Point)
+            view = g.ImageResource
+        End Using
+
+        ' OCR test 
+        Dim library As New Library(font, Library.Numeric)
+
+        For Each c In view.GetCharacters(library)
+            ' Call $"[{c.position}] {c.obj} = {c.score}".__DEBUG_ECHO
+            Call Console.Write(c.obj)
+        Next
 
         Pause()
     End Sub
 
     Sub Main()
+
+        Call OCRtest2()
+
         ' Call CompareTest2()
 
 
@@ -76,6 +99,15 @@ Module Module1
 
             view = g.ImageResource
         End Using
+
+        ' OCR test 
+        Dim library As New Library(font)
+
+        For Each c In view.GetCharacters(library)
+            Call $"[{c.position}] {c.obj} = {c.score}".__DEBUG_ECHO
+        Next
+
+        Pause()
 
         'Using buffer = BitmapBuffer.FromImage(view)
         '    Dim objSize = obj.Size

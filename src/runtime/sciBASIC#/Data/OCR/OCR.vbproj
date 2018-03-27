@@ -85,6 +85,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library.vb" />
+    <Compile Include="OCR.vb" />
+    <Compile Include="OpticalCharacter.vb" />
     <Compile Include="Scanner.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -123,10 +126,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
-      <Project>{a903b744-c08d-4869-bc35-3dd25e36aa16}</Project>
-      <Name>DynamicProgramming</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
