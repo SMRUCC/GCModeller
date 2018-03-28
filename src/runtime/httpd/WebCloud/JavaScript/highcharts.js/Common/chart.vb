@@ -126,35 +126,27 @@ Public Class chart
     Public Property plotBorderWidth As String
     Public Property plotShadow As Boolean?
 
+#Region "Chart Profiles"
+    Public Shared ReadOnly Property PieChart3D As chart
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return ChartProfiles.PieChart3D
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property BarChart3D As chart
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return ChartProfiles.BarChart3D
+        End Get
+    End Property
+#End Region
+
     Public Overrides Function ToString() As String
         If options3d Is Nothing OrElse Not options3d.enabled Then
             Return type
         Else
             Return $"[3D] {type}"
         End If
-    End Function
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function PieChart3D() As chart
-        Return New chart With {
-            .type = "pie",
-            .options3d = New options3d With {
-                .enabled = True,
-                .alpha = 45,
-                .beta = 0
-            }
-        }
-    End Function
-
-    Public Shared Function BarChart3D() As chart
-        Return New chart With {
-            .type = "column",
-            .options3d = New options3d With {
-                .enabled = True,
-                .alpha = 10,
-                .beta = 25,
-                .depth = 70
-            }
-        }
     End Function
 End Class

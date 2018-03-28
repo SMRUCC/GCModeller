@@ -134,6 +134,7 @@
     <Compile Include="Charts\LineChart.vb" />
     <Compile Include="Common\AbstractSerial.vb" />
     <Compile Include="Common\Components.vb" />
+    <Compile Include="Common\ChartProfiles.vb" />
     <Compile Include="Common\PlotOptions.vb" />
     <Compile Include="Highcharts.vb" />
     <Compile Include="Javascript.vb" />
