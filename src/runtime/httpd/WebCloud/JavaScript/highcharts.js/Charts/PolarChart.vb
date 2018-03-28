@@ -53,6 +53,9 @@ Namespace PolarChart
         Public Property endAngle As Double?
     End Class
 
+    ''' <summary>
+    ''' 雷达图
+    ''' </summary>
     Public Class PolarChart : Inherits Highcharts(Of GenericDataSerial)
 
         Public Property pane As paneOptions
