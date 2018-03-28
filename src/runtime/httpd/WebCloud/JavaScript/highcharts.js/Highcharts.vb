@@ -45,11 +45,19 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports Microsoft.VisualBasic.Text.Xml
+
 ''' <summary>
 ''' The abstract ``highcharts.js`` data model
 ''' </summary>
 ''' <typeparam name="T"></typeparam>
 Public MustInherit Class Highcharts(Of T)
+    Implements IVisualStudioPreviews
+
+    Protected Friend reference As New List(Of String) From {
+        "https://code.highcharts.com/highcharts.src.js"
+    }
 
     ''' <summary>
     ''' The charting options
@@ -66,6 +74,35 @@ Public MustInherit Class Highcharts(Of T)
     Public Property series As T()
     Public Property responsiveOptions As responsiveOptions
     Public Property credits As credits
+
+    ''' <summary>
+    ''' HTML Debug view in VisualStudio
+    ''' </summary>
+    ''' <returns></returns>
+    Protected ReadOnly Property Preview As String Implements IVisualStudioPreviews.Previews
+        Get
+            Return sprintf(<html>
+                               <head>
+                                   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                                   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+                                   <title>Highcharts VisualStudio Previews</title>
+
+                                   <style type="text/css">
+                                   </style>
+
+                                   <script type="text/javascript" src="https://code.highcharts.com/highcharts.src.js"></script>
+                               </head>
+                               <body>
+                                   <div id="container" style="min-width: 310px; max-width: 400px; height: 400px; margin: 0 auto">
+                                   </div>
+                                   <script type="text/javascript">
+                                       %s
+                                   </script>
+                               </body>
+                           </html>, Javascript.WriteJavascript("container", Me))
+        End Get
+    End Property
 
 End Class
 

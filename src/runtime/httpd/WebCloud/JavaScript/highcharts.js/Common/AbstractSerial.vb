@@ -65,7 +65,7 @@ Public MustInherit Class AbstractSerial(Of T)
 End Class
 
 Public Class GenericDataSerial : Inherits AbstractSerial(Of Double)
-
+    Public Property pointPlacement As String
 End Class
 
 ''' <summary>
