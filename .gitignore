@@ -239,3 +239,4 @@ pip-log.txt
 *.ide-shm
 *.ide-wal
 /src/runtime/.vs/installer
+/smartnucl_integrative/biodeepDB/METLINApp/App

@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add("unclassified", list)
 
             Dim htext = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
-            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, "http://www.genome.jp/kegg/tool/map_pathway.html")
+            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, , "http://www.genome.jp/kegg/tool/map_pathway.html")
 
             Const mapLink$ = "<a href=""/kegg-bin/show_pathway[^""]+"" target=""_map"">"
 
