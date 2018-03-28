@@ -1,5 +1,7 @@
 ﻿Imports System.Reflection
+Imports System.Text
 Imports Newtonsoft.Json
+Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
 ''' 
@@ -47,6 +49,27 @@ Public Class LambdaWriter : Inherits JsonConverter
             Return False
         End If
     End Function
+
+    Const LambdaPattern$ = Lambda.DeliStart & ".+?" & Lambda.DeliEnds
+
+    Public Shared Function StripLambda(json As String) As String
+        Dim matches = r.Matches(json, LambdaPattern, RegexICSng).ToArray
+        Dim out As New StringBuilder(json)
+        Dim replaceValue$
+
+        For Each match As String In matches
+            replaceValue = match _
+                .Replace(Lambda.DeliStart, "") _
+                .Replace(Lambda.DeliEnds, "") _
+                .Replace("\r", vbCr) _
+                .Replace("\n", vbLf)
+            match = $"""{match}"""
+
+            out.Replace(match, replaceValue)
+        Next
+
+        Return out.ToString
+    End Function
 End Class
 
 Public Class Lambda
@@ -54,9 +77,12 @@ Public Class Lambda
     Public Property args As String()
     Public Property [function] As String
 
+    Friend Const DeliStart$ = ";<<<"
+    Friend Const DeliEnds$ = ";>>>>"
+
     Public Overrides Function ToString() As String
-        Return $"function({args.JoinBy(", ")}) {{
+        Return $"{DeliStart} function({args.JoinBy(", ")}) {{
     {[function]}
-}}"
+}} {DeliEnds}"
     End Function
 End Class

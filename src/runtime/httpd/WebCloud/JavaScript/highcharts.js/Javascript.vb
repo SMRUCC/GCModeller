@@ -83,7 +83,7 @@ Public Module Javascript
             .NewtonsoftJsonWriter _
             .RemoveJsonNullItems _
             .FixDate
-        Dim javascript$ = $"Highcharts.chart('{container}', {json});"
+        Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
         Return javascript
     End Function
 
