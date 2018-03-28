@@ -1,4 +1,6 @@
 ﻿
+Imports Newtonsoft.Json
+
 Public Class Axis
     Public Property type As String
     Public Property allowDecimals As Boolean?
@@ -69,12 +71,13 @@ Public Class tooltip
     Public Property useHTML As Boolean?
 End Class
 
+<JsonConverter(GetType(LambdaWriter))>
 Public Class labelOptions
     Public Property connectorAllowed As Boolean?
     Public Property overflow As String
     Public Property skew3d As Boolean?
     Public Property style As styleOptions
-    Public Property formatter As lambda
+    Public Property formatter As Lambda
 End Class
 
 Public Class styleOptions

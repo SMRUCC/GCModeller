@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::14500943f249f8745fd3d11a341ccfe7, WebCloud\SMRUCC.WebCloud.highcharts\Javascript.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Javascript
-    ' 
-    '     Function: CreateDataSequence, FixDate, WriteJavascript
-    ' 
-    '     Sub: WriteHighchartsHTML
-    ' 
-    ' /********************************************************************************/
+' Module Javascript
+' 
+'     Function: CreateDataSequence, FixDate, WriteJavascript
+' 
+'     Sub: WriteHighchartsHTML
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Newtonsoft.Json
 Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -51,6 +52,12 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' The highcharts.js helper
 ''' </summary>
 Public Module Javascript
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function NewtonsoftJsonWriter(Of T)(obj As T) As String
+        Return JsonConvert.SerializeObject(obj)
+    End Function
 
     ''' <summary>
     ''' Generates the javascript call for highcharts.js charting from a given data model. 
@@ -61,10 +68,19 @@ Public Module Javascript
     ''' <returns></returns>
     <Extension>
     Public Function WriteJavascript(Of S)(container$, chart As Highcharts(Of S)) As String
-        Dim knownTypes = {GetType(String), GetType(Double), GetType(pieData), GetType(Date)}
-        Dim json$ = chart _
-            .GetType _
-            .GetObjectJson(chart, indent:=True, knownTypes:=knownTypes) _
+        Dim knownTypes As Type() = {
+            GetType(String),
+            GetType(Double),
+            GetType(pieData),
+            GetType(Date)
+        }
+        'Dim json$ = chart _
+        '    .GetType _
+        '    .GetObjectJson(chart, indent:=True, knownTypes:=knownTypes) _
+        '    .RemoveJsonNullItems _
+        '    .FixDate
+        Dim JSON$ = chart _
+            .NewtonsoftJsonWriter _
             .RemoveJsonNullItems _
             .FixDate
         Dim javascript$ = $"Highcharts.chart('{container}', {json});"
