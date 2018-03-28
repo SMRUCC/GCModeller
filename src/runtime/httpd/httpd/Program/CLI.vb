@@ -83,6 +83,11 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
         Dim threads As Integer = args.GetValue("/threads", -1)
         Dim cacheMode As Boolean = args.IsTrue("/cache")
 
+#If DEBUG Then
+        ' 使用单线程模式方便做调试
+        threads = 1
+#End If
+
         Dim server As New PlatformEngine(
             HOME, port,
             nullExists:=True,
