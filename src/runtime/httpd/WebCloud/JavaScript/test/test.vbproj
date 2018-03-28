@@ -137,9 +137,9 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>MIME-htmls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FontAwesome\FontAwesome.vbproj">
+    <ProjectReference Include="..\font-awesome\font-awesome.vbproj">
       <Project>{3eb28d56-95e7-40a8-95f5-5fa079a8ccb8}</Project>
-      <Name>FontAwesome</Name>
+      <Name>font-awesome</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
