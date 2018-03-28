@@ -47,6 +47,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.highcharts.PieChart
 Imports r = System.Text.RegularExpressions.Regex
 
+''' <summary>
+''' The highcharts.js helper
+''' </summary>
 Public Module Javascript
 
     ''' <summary>
@@ -68,9 +71,11 @@ Public Module Javascript
         Return javascript
     End Function
 
+    Const JSONDateTime$ = "[""]\\/Date\(\d+[+]\d+\)\\/[""]"
+
     <Extension>
     Public Function FixDate(json As String) As String
-        Dim dates$() = r.Matches(json, "[""]\\/Date\(\d+[+]\d+\)\\/[""]", RegexICSng).ToArray
+        Dim dates$() = r.Matches(json, JSONDateTime, RegexICSng).ToArray
         Dim sb As New StringBuilder(json)
 
         For Each d As String In dates
