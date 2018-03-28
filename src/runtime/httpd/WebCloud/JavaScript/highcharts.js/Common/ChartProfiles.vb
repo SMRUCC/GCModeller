@@ -44,4 +44,9 @@ Friend Module ChartProfiles
     Public Function VariWide() As chart
         Return profileBase(ChartTypes.variwide)
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function AreaSpline() As chart
+        Return profileBase(ChartTypes.areaspline)
+    End Function
 End Module
