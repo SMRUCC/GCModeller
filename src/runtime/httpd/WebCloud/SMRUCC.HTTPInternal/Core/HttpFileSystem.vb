@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::950f9a4d6836c2184bdaa05f449fc536, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpFileSystem
-    ' 
-    ' 
-    '     Class HttpFileSystem
-    ' 
-    '         Properties: RequestStream, wwwroot
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AddMappings, GetResource, MapPath
-    ' 
-    '         Sub: Dispose
-    '         Delegate Function
-    ' 
-    '             Properties: Page404
-    ' 
-    '             Function: __getMapDIR, __handleFileGET, __httpProcessor, __request404, Open
-    ' 
-    '             Sub: __handleREST, __transferData, handleGETRequest, handleOtherMethod, handlePOSTRequest
-    '                  RunServer, SetGetRequest
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpFileSystem
+' 
+' 
+'     Class HttpFileSystem
+' 
+'         Properties: RequestStream, wwwroot
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AddMappings, GetResource, MapPath
+' 
+'         Sub: Dispose
+'         Delegate Function
+' 
+'             Properties: Page404
+' 
+'             Function: __getMapDIR, __handleFileGET, __httpProcessor, __request404, Open
+' 
+'             Sub: __handleREST, __transferData, handleGETRequest, handleOtherMethod, handlePOSTRequest
+'                  RunServer, SetGetRequest
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
@@ -183,20 +184,22 @@ Namespace Core
             If Not FileExists(file) Then
                 ' 检查是不是文件夹
                 If file.DirectoryExists Then
-                    Dim index As String = file & "/index.html"
+                    Dim index As Value(Of String) = ""
 
                     ' 这是一个存在的文件夹，则返回该文件夹下面的index.html或者index.vbhtml
-
-                    If index.FileExists Then
+                    If (index = file & "/index.html").FileExists Then
+                        res = file
+                        file = index
+                    ElseIf (index = file & "/index.htm").FileExists Then
+                        res = file
+                        file = index
+                    ElseIf (index = file & "/index.vbhtml").FileExists Then
                         res = file
                         file = index
                     Else
-                        index = file & "/index.vbhtml"
-
-                        If index.FileExists Then
-                            res = file
-                            file = index
-                        End If
+                        ' 2018-3-28
+                        ' 使用root文件夹，但是当前的这个文件夹之中不存在index文件？？
+                        Return Nothing
                     End If
                 ElseIf file.Last = "/"c OrElse file.Last = "\"c Then
                     ' 这是一个不存在的文件夹
