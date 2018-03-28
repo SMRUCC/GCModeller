@@ -54,7 +54,15 @@ Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 
 Public MustInherit Class AbstractSerial(Of T)
 
+    ''' <summary>
+    ''' 数据序列的展示类型。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property type As String
+    ''' <summary>
+    ''' 数据序列的名称。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property name As String
 
     Public Overridable Property data As T()

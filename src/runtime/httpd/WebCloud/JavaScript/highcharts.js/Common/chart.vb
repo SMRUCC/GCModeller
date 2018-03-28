@@ -115,16 +115,52 @@ Imports SMRUCC.WebCloud.JavaScript.highcharts.viz3D
 
 Public Class chart
 
+    ''' <summary>
+    ''' 图表的类型，默认为line，还有bar/column/pie……
+    ''' </summary>
+    ''' <returns></returns>
     Public Property type As String
     Public Property options3d As options3d
+    ''' <summary>
+    ''' 图表中数据报表的放大类型，可以以X轴放大，或是以Y轴放大，还可以以XY轴同时放大。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property zoomType As String
+    ''' <summary>
+    ''' 图表中的x，y轴对换。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property inverted As Boolean?
     Public Property renderTo As String
     Public Property margin As Double?
+    ''' <summary>
+    ''' 是否为极性图表。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property polar As Boolean?
     Public Property plotBackgroundColor As String
     Public Property plotBorderWidth As String
     Public Property plotShadow As Boolean?
+    ''' <summary>
+    ''' 在空白图表中，是否显示坐标轴。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property showAxes As Boolean?
+    ''' <summary>
+    ''' 所绘制图表的高度值。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property height As Double?
+    ''' <summary>
+    ''' 图表绘图区的宽度，默认为自适应。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property width As Double?
+    ''' <summary>
+    ''' 当窗口大小改变时，图表宽度自适应窗口大小改变。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property reflow As Boolean?
 
 #Region "Chart Profiles"
     Public Shared ReadOnly Property PieChart3D As chart

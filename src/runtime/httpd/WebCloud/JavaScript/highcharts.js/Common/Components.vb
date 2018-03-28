@@ -34,6 +34,11 @@ Public Class Band
 End Class
 
 Public Class legendOptions
+
+    ''' <summary>
+    ''' 是否允许图注。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property enabled As Boolean?
     Public Property layout As String
     Public Property align As String
@@ -109,5 +114,19 @@ Public Class chartOptions
 End Class
 
 Public Class credits
+    ''' <summary>
+    ''' 是否允许显示版权信息。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property enabled As Boolean?
+    ''' <summary>
+    ''' 版权所有的链接。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property href As String
+    ''' <summary>
+    ''' 版权信息显示文字。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property text As String
 End Class

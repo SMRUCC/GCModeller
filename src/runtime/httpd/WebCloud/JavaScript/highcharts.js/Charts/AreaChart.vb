@@ -52,4 +52,8 @@ Namespace AreaChart
     Public Class areasplineOptions
         Public Property fillOpacity As Double?
     End Class
+
+    Public Class areaOptions
+
+    End Class
 End Namespace
