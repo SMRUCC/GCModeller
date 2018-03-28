@@ -77,10 +77,6 @@ Public Class labelOptions
     Public Property formatter As lambda
 End Class
 
-Public Class lambda
-    Public Property func As String
-End Class
-
 Public Class styleOptions
     Public Property fontSize As String
     Public Property color As String
