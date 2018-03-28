@@ -60,8 +60,5 @@ Namespace PolarChart
 
         Public Property pane As paneOptions
 
-        Public Shared Function CreateEmptyChart() As chart
-            Return New chart With {.polar = True}
-        End Function
     End Class
 End Namespace

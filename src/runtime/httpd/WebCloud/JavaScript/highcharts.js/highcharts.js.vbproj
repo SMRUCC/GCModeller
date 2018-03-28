@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{021B5E01-F386-4C93-98B3-CD7F8383AE70}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.WebCloud.highcharts</RootNamespace>
-    <AssemblyName>SMRUCC.WebCloud.highcharts</AssemblyName>
+    <RootNamespace>SMRUCC.WebCloud.JavaScript.highcharts</RootNamespace>
+    <AssemblyName>SMRUCC.WebCloud.JavaScript.highcharts</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -47,7 +47,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -66,7 +66,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Biodeep_UNIX_x64\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -76,7 +76,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Biodeep_UNIX_x64\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -86,7 +86,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Biodeep\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -96,7 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
-    <DocumentationFile>SMRUCC.WebCloud.highcharts.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.WebCloud.JavaScript.highcharts.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>

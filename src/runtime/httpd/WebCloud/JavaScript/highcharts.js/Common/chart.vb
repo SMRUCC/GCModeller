@@ -111,7 +111,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.WebCloud.highcharts.viz3D
+Imports SMRUCC.WebCloud.JavaScript.highcharts.viz3D
 
 Public Class chart
 
@@ -140,6 +140,20 @@ Public Class chart
             Return ChartProfiles.BarChart3D
         End Get
     End Property
+
+    Public Shared ReadOnly Property PolarChart As chart
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return ChartProfiles.PolarChart
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property VariWide As chart
+        Get
+
+        End Get
+    End Property
+
 #End Region
 
     Public Overrides Function ToString() As String

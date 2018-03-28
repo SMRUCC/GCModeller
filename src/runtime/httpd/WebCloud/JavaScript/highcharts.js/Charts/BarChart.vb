@@ -95,9 +95,5 @@ Namespace BarChart
     End Class
 
     Public Class VariWideBarChart : Inherits Highcharts(Of serial)
-
-        Public Shared Function variwide() As chart
-            Return New chart With {.type = "variwide"}
-        End Function
     End Class
 End Namespace

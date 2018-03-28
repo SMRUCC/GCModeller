@@ -51,4 +51,5 @@ Public Enum ChartTypes As Integer
     pie
     columnrange
     areaspline
+    variwide
 End Enum

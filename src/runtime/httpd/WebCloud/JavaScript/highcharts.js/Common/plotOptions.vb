@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::5c8e156aa914ce741087ddf41241ea99, WebCloud\SMRUCC.WebCloud.highcharts\Common\plotOptions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class plotOptions
-    ' 
-    '     Properties: areaspline, bar, column, columnrange, pie
-    '                 scatter, series
-    ' 
-    '     Function: ToString
-    ' 
-    ' Class seriesOptions
-    ' 
-    '     Properties: type
-    ' 
-    ' /********************************************************************************/
+' Class plotOptions
+' 
+'     Properties: areaspline, bar, column, columnrange, pie
+'                 scatter, series
+' 
+'     Function: ToString
+' 
+' Class seriesOptions
+' 
+'     Properties: type
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports SMRUCC.WebCloud.highcharts.AreaChart
-Imports SMRUCC.WebCloud.highcharts.BarChart
-Imports SMRUCC.WebCloud.highcharts.LineChart
-Imports SMRUCC.WebCloud.highcharts.PieChart
-Imports SMRUCC.WebCloud.highcharts.ScatterChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.AreaChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.BarChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.LineChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.ScatterChart
 
 Public Class plotOptions
 

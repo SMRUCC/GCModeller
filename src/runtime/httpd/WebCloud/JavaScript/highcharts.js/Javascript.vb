@@ -44,7 +44,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.highcharts.PieChart
+Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>

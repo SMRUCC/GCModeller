@@ -54,7 +54,11 @@ Namespace LineChart
         Public Property label As labelOptions
         Public Property pointStart As String
         Public Property stacking As String
-        Public Property pointInterval As Boolean?
+        ''' <summary>
+        ''' 这个属性可能是逻辑值或者数值，所以在这里使用字符串来兼容
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pointInterval As String
     End Class
 
     Public Class LineChart : Inherits Highcharts(Of GenericDataSerial)

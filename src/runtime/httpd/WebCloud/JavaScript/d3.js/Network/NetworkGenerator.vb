@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.d3js.Network.JSON
+Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 Imports NetworkEdge = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 

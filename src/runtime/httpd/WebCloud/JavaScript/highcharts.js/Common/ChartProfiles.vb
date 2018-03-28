@@ -1,7 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.WebCloud.highcharts.viz3D
+Imports SMRUCC.WebCloud.JavaScript.highcharts.viz3D
 
 Friend Module ChartProfiles
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function profileBase(type As ChartTypes) As chart
+        Return New chart With {.type = type.Description}
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function PieChart3D() As chart
@@ -26,5 +31,17 @@ Friend Module ChartProfiles
                 .depth = 70
             }
         }
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function PolarChart() As chart
+        Return New chart With {
+            .polar = True
+        }
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function VariWide() As chart
+        Return profileBase(ChartTypes.variwide)
     End Function
 End Module
