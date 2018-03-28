@@ -48,14 +48,26 @@ Module jsonTest
             .chart = chart.PolarChart,
             .title = "Highcharts Polar Chart",
             .pane = New PolarChart.paneOptions With {.startAngle = 0, .endAngle = 360},
-            .xAxis = New Axis With {.tickInterval = 45, .min = 0, .max = 360, .labels = New labelOptions With {.formatter = New Lambda With {.function = "return this.value + '°';"}}},
+            .xAxis = New Axis With {
+                .tickInterval = 45, .min = 0, .max = 360,
+                .labels = New labelOptions With {
+                    .formatter = New Lambda With {.function = "return this.value + '°';"}
+                }
+            },
             .yAxis = New Axis With {.min = 0},
-            .plotOptions = New plotOptions With {.series = New LineChart.lineOptions With {.pointStart = 0, .pointInterval = 45}, .column = New BarChart.columnOptions With {.pointPadding = 0, .groupPadding = 0}},
+            .plotOptions = New plotOptions With {
+                .series = New LineChart.lineOptions With {
+                    .pointStart = 0, .pointInterval = 45
+                },
+                .column = New BarChart.columnOptions With {
+                    .pointPadding = 0, .groupPadding = 0
+                }
+            },
             .series = {
-            New GenericDataSerial With {.type = "column", .name = "Column", .data = {8, 7, 6, 5, 4, 3, 2, 1}, .pointPlacement = "between"},
-            New GenericDataSerial With {.type = "line", .name = "Line", .data = {1, 2, 3, 4, 5, 6, 7, 8}},
-            New GenericDataSerial With {.type = "area", .name = "Area", .data = {1, 8, 2, 7, 3, 6, 4, 5}}
-        }
+                New GenericDataSerial With {.type = "column", .name = "Column", .data = {8, 7, 6, 5, 4, 3, 2, 1}, .pointPlacement = "between"},
+                New GenericDataSerial With {.type = "line", .name = "Line", .data = {1, 2, 3, 4, 5, 6, 7, 8}},
+                New GenericDataSerial With {.type = "area", .name = "Area", .data = {1, 8, 2, 7, 3, 6, 4, 5}}
+            }
         }
 
 

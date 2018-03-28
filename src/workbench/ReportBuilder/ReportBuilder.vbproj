@@ -207,6 +207,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTMLReport.vb" />
     <Compile Include="EMailMsg.vb" />
     <Compile Include="Navigation.vb" />
     <Compile Include="HTML.vb" />
@@ -272,10 +273,6 @@
     <ProjectReference Include="..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\application%25RTF\RTF.vbproj">
-      <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>
-      <Name>RTF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
