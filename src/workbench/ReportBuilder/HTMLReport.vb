@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Text
+Imports System.Runtime.CompilerServices
 
 Public Class HTMLReport
 
@@ -43,6 +45,12 @@ Public Class HTMLReport
     Public Overrides Function ToString() As String
         Return Directory
     End Function
+
+    Public Sub Save()
+        For Each template In Templates.Values
+            Call template.Flush()
+        Next
+    End Sub
 End Class
 
 Public Class TemplateHandler
@@ -55,6 +63,11 @@ Public Class TemplateHandler
         ' 所以需要在这里获取得到全路径
         Path = file.GetFullPath
         Builder = New ScriptBuilder(Path.ReadAllText)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Sub Flush()
+        Call Builder.Save(Path, TextEncodings.UTF8WithoutBOM)
     End Sub
 
     Public Overrides Function ToString() As String
