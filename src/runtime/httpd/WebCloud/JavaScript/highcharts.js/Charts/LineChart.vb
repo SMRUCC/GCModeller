@@ -52,13 +52,13 @@ Namespace LineChart
 
     Public Class lineOptions
         Public Property label As labelOptions
-        Public Property pointStart As String
+        Public Property pointStart As Object
         Public Property stacking As String
         ''' <summary>
         ''' 这个属性可能是逻辑值或者数值，所以在这里使用字符串来兼容
         ''' </summary>
         ''' <returns></returns>
-        Public Property pointInterval As String
+        Public Property pointInterval As Object
     End Class
 
     Public Class LineChart : Inherits Highcharts(Of GenericDataSerial)

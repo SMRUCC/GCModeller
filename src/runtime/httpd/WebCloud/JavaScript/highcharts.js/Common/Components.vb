@@ -17,7 +17,11 @@ Public Class Axis
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
-    Public Property tickInterval As Boolean?
+    ''' <summary>
+    ''' 逻辑值或者一个实数
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property tickInterval As Object
     Public Property plotBands As Band()
     Public Property dateTimeLabelFormats As dateTimeLabelFormats
 End Class

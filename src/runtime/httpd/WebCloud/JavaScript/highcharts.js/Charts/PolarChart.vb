@@ -60,5 +60,10 @@ Namespace PolarChart
 
         Public Property pane As paneOptions
 
+        Sub New()
+            Call MyBase.New
+            Call MyBase.reference.Add("https://code.highcharts.com/highcharts-more.js")
+        End Sub
+
     End Class
 End Namespace

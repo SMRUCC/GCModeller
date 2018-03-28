@@ -56,7 +56,7 @@ Public MustInherit Class Highcharts(Of T)
     Implements IVisualStudioPreviews
 
     Protected Friend reference As New List(Of String) From {
-        "https://code.highcharts.com/highcharts.src.js"
+        "https://code.highcharts.com/highcharts.js"
     }
 
     ''' <summary>

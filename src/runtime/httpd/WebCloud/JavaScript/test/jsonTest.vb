@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.WebCloud.JavaScript.highcharts
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports SMRUCC.WebCloud.JavaScript.highcharts
 
 Module jsonTest
 
@@ -57,6 +58,8 @@ Module jsonTest
         }
         }
 
+
+        Call DirectCast(polar, IVisualStudioPreviews).Previews.SaveTo("C:\Users\administrator\Desktop\VSD1.html")
 
 
         Pause()
