@@ -81,6 +81,9 @@ Public MustInherit Class Highcharts(Of T)
     ''' HTML Debug view in VisualStudio
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' This preview feature required Windows 10
+    ''' </remarks>
     Protected ReadOnly Property Preview As String Implements IVisualStudioPreviews.Previews
         Get
             Dim refs$ = reference _
