@@ -75,12 +75,21 @@ Public MustInherit Class Highcharts(Of T)
     Public Property responsiveOptions As responsiveOptions
     Public Property credits As credits
 
+    Const container$ = NameOf(container)
+
     ''' <summary>
     ''' HTML Debug view in VisualStudio
     ''' </summary>
     ''' <returns></returns>
     Protected ReadOnly Property Preview As String Implements IVisualStudioPreviews.Previews
         Get
+            Dim refs$ = reference _
+                .Select(Function(url)
+                            Return <script type="text/javascript" src=<%= url %>></script>
+                        End Function) _
+                .Select(AddressOf Scripting.ToString) _
+                .JoinBy(vbCrLf)
+
             Return sprintf(<html>
                                <head>
                                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -91,16 +100,16 @@ Public MustInherit Class Highcharts(Of T)
                                    <style type="text/css">
                                    </style>
 
-                                   <script type="text/javascript" src="https://code.highcharts.com/highcharts.src.js"></script>
+                                   %s
                                </head>
                                <body>
-                                   <div id="container" style="min-width: 310px; max-width: 400px; height: 400px; margin: 0 auto">
+                                   <div id=<%= container %> style="min-width: 310px; max-width: 400px; height: 400px; margin: 0 auto">
                                    </div>
                                    <script type="text/javascript">
                                        %s
                                    </script>
                                </body>
-                           </html>, Javascript.WriteJavascript("container", Me))
+                           </html>, refs, Javascript.WriteJavascript(container, Me))
         End Get
     End Property
 
