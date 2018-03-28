@@ -44,6 +44,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml
 Imports Newtonsoft.Json
 Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 Imports r = System.Text.RegularExpressions.Regex
@@ -127,18 +128,20 @@ Public Module Javascript
             .ToArray
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Sub WriteHighchartsHTML(template As StringBuilder, name$, javascript$, div$, Optional style$ = "height: 450px")
-        Dim html$ =
-            (<p>
-                 <div id=<%= div %> style=<%= style %>></div>
-                 <script type="text/javascript">
-                     <%= javascript %>
-                 </script>
-             </p>).ToString _
-                  .Replace("&lt;", "<") _
-                  .Replace("&gt;", ">")
-
-        Call template.Replace(name, html)
+        Call template.Replace(name, javascript.GetHtmlViewer(div, style))
     End Sub
+
+    <Extension>
+    Public Function GetHtmlViewer(javascript$, div$, Optional style$ = "height: 450px") As String
+        Return sprintf(
+            <p>
+                <div id=<%= div %> style=<%= style %>></div>
+                <script type="text/javascript">
+                    %s
+                </script>
+            </p>, javascript)
+    End Function
 End Module
