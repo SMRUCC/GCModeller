@@ -149,8 +149,9 @@ Public Class chart
     End Property
 
     Public Shared ReadOnly Property VariWide As chart
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-
+            Return ChartProfiles.VariWide
         End Get
     End Property
 

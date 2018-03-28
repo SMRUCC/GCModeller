@@ -12,6 +12,7 @@ Public Class Icon
     Public Property Color As Color
 
     Public ReadOnly Property Preview As String
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return ToString()
         End Get
@@ -30,10 +31,26 @@ Public Class Icon
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         If Color.IsEmpty Then
-            Return (<i class=<%= Style.Description & " " & Strings.LCase(Name) %>></i>).ToString
+            Return (<i class=<%= getClassName() %>></i>).ToString
         Else
-            Return (<i class=<%= Style.Description & " " & Strings.LCase(Name) %> style=<%= $"color:{Color.ToHtmlColor};" %>></i>).ToString
+            Return ToString(style:=$"color:{Color.ToHtmlColor};")
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function getClassName() As String
+        Return Style.Description & " " & Strings.LCase(Name)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="style">With CSS style values</param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overloads Function ToString(style As String) As String
+        Return (<i class=<%= getClassName() %> style=<%= style %>></i>).ToString
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
