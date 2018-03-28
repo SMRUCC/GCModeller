@@ -85,9 +85,8 @@ Public MustInherit Class Highcharts(Of T)
         Get
             Dim refs$ = reference _
                 .Select(Function(url)
-                            Return <script type="text/javascript" src=<%= url %>></script>
+                            Return (<script type="text/javascript" src=<%= url %>></script>).ToString
                         End Function) _
-                .Select(AddressOf Scripting.ToString) _
                 .JoinBy(vbCrLf)
 
             Return sprintf(<html>

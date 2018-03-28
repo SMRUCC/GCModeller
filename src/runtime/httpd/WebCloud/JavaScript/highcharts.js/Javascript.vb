@@ -56,7 +56,7 @@ Public Module Javascript
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NewtonsoftJsonWriter(Of T)(obj As T) As String
-        Return JsonConvert.SerializeObject(obj)
+        Return JsonConvert.SerializeObject(obj, Formatting.Indented)
     End Function
 
     ''' <summary>
@@ -82,9 +82,24 @@ Public Module Javascript
         Dim JSON$ = chart _
             .NewtonsoftJsonWriter _
             .RemoveJsonNullItems _
-            .FixDate
+            .FixDate _
+            .RemoveTrailingComma
         Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
         Return javascript
+    End Function
+
+    <Extension>
+    Public Function RemoveTrailingComma(json As String) As String
+        Dim trim As New StringBuilder(json)
+
+        For Each match As String In json.Matches(",\s*\]", RegexICSng)
+            Call trim.Replace(match, "]")
+        Next
+        For Each match As String In json.Matches(",\s*}", RegexICSng)
+            Call trim.Replace(match, "}")
+        Next
+
+        Return trim.ToString
     End Function
 
     Const JSONDateTime$ = "[""]\\/Date\(\d+[+]\d+\)\\/[""]"
