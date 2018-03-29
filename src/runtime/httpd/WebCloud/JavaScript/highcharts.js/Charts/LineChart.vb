@@ -53,6 +53,7 @@ Imports SMRUCC.WebCloud.JavaScript.highcharts.ScatterChart
 Namespace LineChart
 
     Public Class lineOptions
+
         Public Property label As labelOptions
         Public Property pointStart As Object
         Public Property stacking As String
@@ -61,6 +62,7 @@ Namespace LineChart
         ''' </summary>
         ''' <returns></returns>
         Public Property pointInterval As Object
+
     End Class
 
     Public Class LineChart : Inherits Highcharts(Of GenericDataSerial)
