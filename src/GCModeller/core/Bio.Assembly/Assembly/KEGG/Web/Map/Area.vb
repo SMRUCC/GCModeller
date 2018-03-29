@@ -56,6 +56,12 @@ Namespace Assembly.KEGG.WebServices
 
     <XmlType("area")> Public Class Area
 
+        ''' <summary>
+        ''' + rect
+        ''' + poly
+        ''' + circle
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property shape As String
         ''' <summary>
         ''' 位置坐标信息
@@ -67,6 +73,11 @@ Namespace Assembly.KEGG.WebServices
         <XmlText>
         Public Property title As String
 
+        ''' <summary>
+        ''' 如果是方块的话，则这个属性代表图上面的方块的参数，包括位置和大小
+        ''' 如果是圆的话，则这个属性的中心点为圆心，宽度的一半为半径
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Rectangle As RectangleF
             Get
                 Dim t#() = coords _
