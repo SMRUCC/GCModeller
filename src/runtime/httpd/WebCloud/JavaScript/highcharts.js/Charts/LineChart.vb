@@ -84,7 +84,7 @@ Namespace LineChart
     ''' <summary>
     ''' <see cref="LineRangeSerial.data"/> 如果是datetime类型的话，则应该为``{unix_time_stamp, value}``的集合
     ''' </summary>
-    Public Class LineRangeSerial : Inherits AbstractSerial(Of Double())
+    Public Class LineRangeSerial : Inherits AbstractSerial(Of Object())
         Public Property zIndex As Integer?
         Public Property marker As markerOptions
         Public Property lineWidth As Double?

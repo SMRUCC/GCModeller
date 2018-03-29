@@ -57,7 +57,7 @@ Public Module Javascript
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NewtonsoftJsonWriter(Of T)(obj As T) As String
-        Return JsonConvert.SerializeObject(obj, Formatting.Indented)
+        Return JsonConvert.SerializeObject(obj, Formatting.Indented, settings:=New JsonSerializerSettings With {.DateFormatString = "Date.UTC(yyyy, MM, dd)"})
     End Function
 
     ''' <summary>
@@ -83,7 +83,6 @@ Public Module Javascript
         Dim JSON$ = chart _
             .NewtonsoftJsonWriter _
             .RemoveJsonNullItems _
-            .FixDate _
             .RemoveTrailingComma _
             .RemovesEmptyLine
         Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
