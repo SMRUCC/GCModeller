@@ -105,11 +105,12 @@ Namespace Network.JSON
         Public Class node : Implements IAddressOf, INamedValue
 
             Public Property name As String Implements INamedValue.Key
-            Public Property group As Integer
-            Public Property size As Integer
+            Public Property group As String
+            Public Property size As Double
             Public Property type As String
             Public Property ID As Integer Implements IAddressOf.Address
             Public Property color As String
+            Public Property value As Dictionary(Of String, String)
 
             Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
                 ID = address
