@@ -84,9 +84,15 @@ Public Module Javascript
             .NewtonsoftJsonWriter _
             .RemoveJsonNullItems _
             .FixDate _
-            .RemoveTrailingComma
+            .RemoveTrailingComma _
+            .RemovesEmptyLine
         Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
         Return javascript
+    End Function
+
+    <Extension>
+    Public Function RemovesEmptyLine(str As String) As String
+        Return r.Replace(str, "(((\r)|(\n)){2,}\s*)+", vbCrLf, RegexICMul)
     End Function
 
     <Extension>
