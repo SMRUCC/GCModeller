@@ -64,10 +64,8 @@ Module jsonTest
                 }
             },
             .series = {
-                New GenericDataSerial With {.type = "column", .name = "Column", .data = {8, 7, 6, 5, 4, 3, 2, 1}, .pointPlacement = "between"},
-                New GenericDataSerial With {.type = "line", .name = "Line", .data = {1, 2, 3, 4, 5, 6, 7, 8}},
-                New GenericDataSerial With {.type = "area", .name = "Area", .data = {1, 8, 2, 7, 3, 6, 4, 5}}
-            }
+            New GenericDataSerial With {.type = "area", .name = "Area", .data = {1, 8, 2, 7, 3, 6, 4, 5}}              '  New GenericDataSerial With {.type = "column", .name = "Column", .data = {8, 7, 6, 5, 4, 3, 2, 1}, .pointPlacement = "between"},              '  New GenericDataSerial With {.type = "line", .name = "Line", .data = {1, 2, 3, 4, 5, 6, 7, 8}},
+                            }
         }
 
 
