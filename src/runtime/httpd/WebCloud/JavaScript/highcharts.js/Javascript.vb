@@ -100,10 +100,10 @@ Public Module Javascript
         Dim trim As New StringBuilder(json)
 
         For Each match As String In json.Matches(",\s*\]", RegexICSng)
-            Call trim.Replace(match, "]")
+            Call trim.Replace(match, vbCrLf & "]")
         Next
         For Each match As String In json.Matches(",\s*}", RegexICSng)
-            Call trim.Replace(match, "}")
+            Call trim.Replace(match, vbCrLf & "}")
         Next
 
         Return trim.ToString
