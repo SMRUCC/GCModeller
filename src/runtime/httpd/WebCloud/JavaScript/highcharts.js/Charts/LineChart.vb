@@ -83,6 +83,7 @@ Namespace LineChart
 
     ''' <summary>
     ''' <see cref="LineRangeSerial.data"/> 如果是datetime类型的话，则应该为``{unix_time_stamp, value}``的集合
+    ''' 对于range类型，则应该是``{unix_time_stamp, min, max}``的集合
     ''' </summary>
     Public Class LineRangeSerial : Inherits AbstractSerial(Of Object())
         Public Property zIndex As Integer?
