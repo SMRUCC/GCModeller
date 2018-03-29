@@ -57,7 +57,7 @@ Public Module Javascript
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NewtonsoftJsonWriter(Of T)(obj As T) As String
-        Return JsonConvert.SerializeObject(obj, Formatting.Indented)
+        Return JsonConvert.SerializeObject(obj, Formatting.Indented, settings:=New JsonSerializerSettings With {.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat})
     End Function
 
     ''' <summary>
@@ -82,11 +82,17 @@ Public Module Javascript
         '    .FixDate
         Dim JSON$ = chart _
             .NewtonsoftJsonWriter _
-            .RemoveJsonNullItems _
             .FixDate _
-            .RemoveTrailingComma
+            .RemoveJsonNullItems _
+            .RemoveTrailingComma _
+            .RemovesEmptyLine
         Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
         Return javascript
+    End Function
+
+    <Extension>
+    Public Function RemovesEmptyLine(str As String) As String
+        Return r.Replace(str, "(((\r)|(\n)){2,}\s*)+", vbCrLf, RegexICMul)
     End Function
 
     <Extension>
@@ -94,10 +100,10 @@ Public Module Javascript
         Dim trim As New StringBuilder(json)
 
         For Each match As String In json.Matches(",\s*\]", RegexICSng)
-            Call trim.Replace(match, "]")
+            Call trim.Replace(match, vbCrLf & "]")
         Next
         For Each match As String In json.Matches(",\s*}", RegexICSng)
-            Call trim.Replace(match, "}")
+            Call trim.Replace(match, vbCrLf & "}")
         Next
 
         Return trim.ToString

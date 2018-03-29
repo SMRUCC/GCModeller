@@ -79,49 +79,61 @@ Namespace Network.JSON
         End Function
     End Class
 
-    ''' <summary>
-    ''' helper class for json text generation 
-    ''' </summary>
-    Public Structure out
+    Namespace v3
 
         ''' <summary>
-        ''' 网络之中的节点对象
+        ''' helper class for json text generation 
         ''' </summary>
-        ''' <returns></returns>
-        Public Property nodes As node()
+        Public Structure out
+
+            ''' <summary>
+            ''' 网络之中的节点对象
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property nodes As node()
+            ''' <summary>
+            ''' 节点之间的边链接
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property links As link(Of Integer)()
+
+            Public Overrides Function ToString() As String
+                Return Me.GetJson
+            End Function
+        End Structure
+
+        Public Class node : Implements IAddressOf, INamedValue
+
+            Public Property name As String Implements INamedValue.Key
+            Public Property group As String
+            Public Property size As Double
+            Public Property type As String
+            Public Property ID As Integer Implements IAddressOf.Address
+            Public Property color As String
+            Public Property value As Dictionary(Of String, String)
+
+            Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                ID = address
+            End Sub
+
+            Public Overrides Function ToString() As String
+                Return Me.GetJson
+            End Function
+        End Class
+
         ''' <summary>
-        ''' 节点之间的边链接
+        ''' 在d3.js v3之中，边的连接使用的是节点集合之中的下标数值
+        ''' 但是在d3.js v4之中，边的连接则可以直接使用节点的``id``属性来表示了
         ''' </summary>
-        ''' <returns></returns>
-        Public Property links As link()       
+        Public Class link(Of T)
 
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Structure
+            Public Property source As T
+            Public Property target As T
+            Public Property value As Double
 
-    Public Class node : Implements IAddressOf, INamedValue
-
-        Public Property name As String Implements INamedValue.Key
-        Public Property group As Integer
-        Public Property size As Integer
-        Public Property type As String
-        Public Property Address As Integer Implements IAddressOf.Address
-        Public Property color As String 
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
-    Public Class link
-
-        Public Property source As Integer
-        Public Property target As Integer
-        Public Property value As Integer
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
+            Public Overrides Function ToString() As String
+                Return Me.GetJson
+            End Function
+        End Class
+    End Namespace
 End Namespace

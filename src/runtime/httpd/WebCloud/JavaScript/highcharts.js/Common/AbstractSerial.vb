@@ -52,6 +52,10 @@
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 
+''' <summary>
+''' With basic ``type``, ``name`` and ``data``.
+''' </summary>
+''' <typeparam name="T"></typeparam>
 Public MustInherit Class AbstractSerial(Of T)
 
     ''' <summary>

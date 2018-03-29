@@ -132,5 +132,9 @@ Namespace Assembly.EBI.ChEBI.XML
         Public Overrides Function ToString() As String
             Return chebiAsciiName
         End Function
+
+        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Throw New NotImplementedException()
+        End Sub
     End Class
 End Namespace

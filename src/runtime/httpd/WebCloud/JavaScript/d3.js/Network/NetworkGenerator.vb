@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::25ace87278f75d922fdb6dc365d53032, WebCloud\SMRUCC.WebCloud.d3js\Network\NetworkGenerator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module NetworkGenerator
-    ' 
-    '         Function: FromNetwork, (+2 Overloads) FromRegulations, LoadJson
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module NetworkGenerator
+' 
+'         Function: FromNetwork, (+2 Overloads) FromRegulations, LoadJson
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON
+Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON.v3
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 Imports NetworkEdge = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 
@@ -85,13 +86,13 @@ Namespace Network
             Dim nodeTable As Dictionary(Of node) = nodes _
                 .WriteAddress _
                 .ToDictionary
-            Dim links As link() = LinqAPI.Exec(Of link) <=
+            Dim links As link(Of Integer)() = LinqAPI.Exec(Of link(Of Integer)) <=
  _
                 From edge As NetworkEdge
                 In net.Edges
-                Select New link With {
-                    .source = nodeTable(edge.FromNode).Address,
-                    .target = nodeTable(edge.ToNode).Address,
+                Select New link(Of Integer) With {
+                    .source = nodeTable(edge.FromNode).ID,
+                    .target = nodeTable(edge.ToNode).ID,
                     .value = edge.value
                 }
 
