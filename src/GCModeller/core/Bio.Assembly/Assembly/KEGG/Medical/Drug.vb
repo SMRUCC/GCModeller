@@ -97,6 +97,10 @@ Namespace Assembly.KEGG.Medical
         Public Property N As Integer
         Public Property Edit As String
 
+        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            index = address
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{index}] {a} <-{N}-> {b} {Edit}"
         End Function
@@ -110,6 +114,10 @@ Namespace Assembly.KEGG.Medical
         Public Property M As Double
         Public Property Charge As Double
         Public Property Edit As String
+
+        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            index = address
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

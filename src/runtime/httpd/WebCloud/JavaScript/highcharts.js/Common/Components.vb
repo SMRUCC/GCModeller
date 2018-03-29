@@ -78,6 +78,7 @@ Public Class tooltip
     Public Property footerFormat As String
     Public Property [shared] As Boolean?
     Public Property useHTML As Boolean?
+    Public Property crosshairs As Boolean?
 End Class
 
 <JsonConverter(GetType(LambdaWriter))>

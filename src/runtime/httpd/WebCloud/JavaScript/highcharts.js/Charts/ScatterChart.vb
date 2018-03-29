@@ -84,7 +84,10 @@ Namespace ScatterChart
     End Class
 
     Public Class markerOptions
-        Public Property enabled As Boolean
+        Public Property enabled As Boolean?
+        Public Property fillColor As String
+        Public Property lineWidth As Double?
+        Public Property lineColor As String
     End Class
 
     Public Class ScatterSerial
