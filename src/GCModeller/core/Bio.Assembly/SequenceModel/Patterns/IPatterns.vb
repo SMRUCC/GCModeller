@@ -129,6 +129,10 @@ Namespace SequenceModel.Patterns
         Public Function EnumerateValues() As IEnumerable(Of Double) Implements IPatternSite.EnumerateValues
             Return Alphabets.Values
         End Function
+
+        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Throw New NotImplementedException()
+        End Sub
     End Structure
 
     ''' <summary>

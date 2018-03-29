@@ -124,5 +124,9 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
                 Return $"{ChEBI_ID} ({FORMULA.Select(Function(f) f.CHEMICAL_DATA).Distinct.JoinBy(" / ")})"
             End If
         End Function
+
+        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Throw New NotImplementedException()
+        End Sub
     End Class
 End Namespace
