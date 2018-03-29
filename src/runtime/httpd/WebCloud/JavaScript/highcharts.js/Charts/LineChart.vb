@@ -73,8 +73,15 @@ Namespace LineChart
 
     Public Class LineWithRangeChart : Inherits Highcharts(Of LineRangeSerial)
 
+        Sub New()
+            Call MyBase.New
+            Call MyBase.reference.Add("https://code.highcharts.com/highcharts-more.js")
+        End Sub
     End Class
 
+    ''' <summary>
+    ''' <see cref="LineRangeSerial.data"/> 如果是datetime类型的话，则应该为``{unix_time_stamp, value}``的集合
+    ''' </summary>
     Public Class LineRangeSerial : Inherits AbstractSerial(Of Double())
         Public Property zIndex As Integer?
         Public Property marker As markerOptions
