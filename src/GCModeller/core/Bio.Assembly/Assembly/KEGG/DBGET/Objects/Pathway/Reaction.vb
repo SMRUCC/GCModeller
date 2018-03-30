@@ -60,6 +60,7 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
+    <XmlType("Orthology-terms", [Namespace]:="http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd")>
     Public Structure OrthologyTerms
 
         <XmlIgnore>
@@ -74,8 +75,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' The KO terms?
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement("Term")>
+        <XmlElement("terms")>
         Public Property Terms As XmlProperty()
+
+        Public Overrides Function ToString() As String
+            Return EntityList.GetJson
+        End Function
     End Structure
 
     ''' <summary>
