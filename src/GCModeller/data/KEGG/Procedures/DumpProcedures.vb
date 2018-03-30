@@ -168,11 +168,11 @@ Public Module DumpProcedures
             Dim rn As Reaction = xml.LoadXml(Of Reaction)
 
             data_reactions += New mysql.data_reactions With {
-                .uid = Mid(rn.Entry, 2),
+                .uid = Mid(rn.ID, 2),
                 .definition = rn.Definition,
                 .comment = rn.Comments,
                 .name = rn.CommonNames.JoinBy("; "),
-                .KEGG = rn.Entry
+                .KEGG = rn.ID
             }
 
             Dim rnUid = data_reactions.Last.uid

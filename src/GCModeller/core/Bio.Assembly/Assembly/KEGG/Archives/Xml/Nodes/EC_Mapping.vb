@@ -147,7 +147,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                                                         Select rxn
             Return New ReactionMaps With {
                 .EC = mappedEC,
-                .Reactions = LQuery.Select(Function(x) x.Entry).ToArray
+                .Reactions = LQuery.Select(Function(x) x.ID).ToArray
             }
         End Function
 

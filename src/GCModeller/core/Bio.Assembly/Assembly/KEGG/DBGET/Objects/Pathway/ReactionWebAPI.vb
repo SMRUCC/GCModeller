@@ -95,7 +95,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             On Error Resume Next
 
-            rn.Entry = WebForm.GetValue("Entry").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank.Split.First
+            rn.ID = WebForm.GetValue("Entry").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank.Split.First
             rn.Comments = __trimComments(WebForm.GetValue("Comment").FirstOrDefault) _
                 .Strip_NOBR _
                 .StripBlank _
