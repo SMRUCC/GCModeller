@@ -78,6 +78,7 @@ Public Class tooltip
     Public Property footerFormat As String
     Public Property [shared] As Boolean?
     Public Property useHTML As Boolean?
+    Public Property crosshairs As Boolean?
 End Class
 
 <JsonConverter(GetType(LambdaWriter))>
@@ -87,10 +88,12 @@ Public Class labelOptions
     Public Property skew3d As Boolean?
     Public Property style As styleOptions
     Public Property formatter As Lambda
+    Public Property rotation As Double?
 End Class
 
 Public Class styleOptions
     Public Property fontSize As String
+    Public Property fontFamily As String
     Public Property color As String
 End Class
 
@@ -98,6 +101,10 @@ Public Class dataLabels
     Public Property enabled As Boolean?
     Public Property format As String
     Public Property style As styleOptions
+    Public Property rotation As Double?
+    Public Property color As String
+    Public Property align As String
+    Public Property y As Double?
 End Class
 
 Public Class responsiveOptions

@@ -94,4 +94,8 @@ Namespace BarChart
 
     Public Class VariWideBarChart : Inherits Highcharts(Of serial)
     End Class
+
+    Public Class ColumnChart : Inherits Highcharts(Of serial)
+
+    End Class
 End Namespace
