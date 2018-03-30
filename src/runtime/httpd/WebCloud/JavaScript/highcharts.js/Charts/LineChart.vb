@@ -52,7 +52,7 @@ Imports SMRUCC.WebCloud.JavaScript.highcharts.ScatterChart
 
 Namespace LineChart
 
-    Public Class lineOptions
+    Public Class lineOptions : Inherits seriesOptions
 
         Public Property label As labelOptions
         Public Property pointStart As Object

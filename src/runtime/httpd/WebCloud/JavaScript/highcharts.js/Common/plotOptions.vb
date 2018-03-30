@@ -48,14 +48,13 @@
 
 Imports SMRUCC.WebCloud.JavaScript.highcharts.AreaChart
 Imports SMRUCC.WebCloud.JavaScript.highcharts.BarChart
-Imports SMRUCC.WebCloud.JavaScript.highcharts.LineChart
 Imports SMRUCC.WebCloud.JavaScript.highcharts.PieChart
 Imports SMRUCC.WebCloud.JavaScript.highcharts.ScatterChart
 
 Public Class plotOptions
 
     Public Property pie As pieOptions
-    Public Property series As lineOptions
+    Public Property series As seriesOptions
     Public Property scatter As scatterOptions
     Public Property columnrange As columnrangeOptions
     Public Property column As columnOptions
@@ -81,4 +80,6 @@ End Class
 
 Public Class seriesOptions
     Public Property type As String
+    Public Property borderWidth As Double?
+    Public Property dataLabels As dataLabels
 End Class

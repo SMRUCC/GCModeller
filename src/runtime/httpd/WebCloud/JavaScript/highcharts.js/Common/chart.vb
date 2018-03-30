@@ -191,6 +191,12 @@ Public Class chart
         End Get
     End Property
 
+    Public Shared ReadOnly Property ColumnChart As chart
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return ChartProfiles.ColumnChart
+        End Get
+    End Property
 #End Region
 
     Public Overrides Function ToString() As String
