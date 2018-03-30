@@ -61,6 +61,11 @@ Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 使用这个工具下载KEGG之中的代谢反应的模型信息
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data.")>
     <Group(CLIGroups.DBGET_tools)>

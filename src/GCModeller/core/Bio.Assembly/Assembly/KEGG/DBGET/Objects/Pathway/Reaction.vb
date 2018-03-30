@@ -82,24 +82,27 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' KEGG reaction annotation data.
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("bGetObject.Reaction", [Namespace]:=Reaction.Xmlns)>
+    <XmlRoot("KEGG-reaction", [Namespace]:=Reaction.Xmlns)>
     Public Class Reaction : Implements INamedValue
 
-        Public Const Xmlns$ = "http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID"
+        Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd"
 
         ''' <summary>
         ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute>
-        Public Property Entry As String Implements INamedValue.Key
+        <XmlElement("ID")>
+        Public Property ID As String Implements INamedValue.Key
         Public Property CommonNames As String()
+        <XmlElement("def")>
         Public Property Definition As String
 
         ''' <summary>
         ''' 使用KEGG compound编号作为代谢物的反应过程的表达式
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <XmlElement("equation")>
         Public Property Equation As String
 
         ''' <summary>
@@ -108,16 +111,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <XmlArray("enzymes")>
         Public Property Enzyme As String()
+        <XmlElement("comment")>
         Public Property Comments As String
+        <XmlArray("pathway")>
         Public Property Pathway As NamedValue()
+        <XmlArray("module")>
         Public Property [Module] As NamedValue()
+        <XmlElement("orthology")>
         Public Property Orthology As OrthologyTerms
 
         ''' <summary>
         ''' The reaction class
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <XmlArray("class")>
         Public Property [Class] As NamedValue()
 
         ''' <summary>
@@ -147,7 +158,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1}:  {2}", Enzyme, Entry, Definition)
+            Return String.Format("[{0}] {1}:  {2}", Enzyme, ID, Definition)
         End Function
 
         ''' <summary>

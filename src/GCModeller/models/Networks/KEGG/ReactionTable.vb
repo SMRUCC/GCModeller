@@ -94,7 +94,7 @@ Public Class ReactionTable
         Return New ReactionTable With {
             .definition = xml.Definition,
             .EC = xml.Enzyme,
-            .entry = xml.Entry,
+            .entry = xml.ID,
             .name = xml.CommonNames.JoinBy("; "),
             .products = eq.Products _
                 .Select(Function(x) x.ID) _

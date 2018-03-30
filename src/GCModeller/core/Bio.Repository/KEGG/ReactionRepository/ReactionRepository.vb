@@ -70,7 +70,7 @@ Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction
             Return table.Values.ToArray
         End Get
         Set(value As Reaction())
-            table = value.ToDictionary(Function(r) r.Entry)
+            table = value.ToDictionary(Function(r) r.ID)
         End Set
     End Property
 
@@ -134,8 +134,8 @@ Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction
                                     Return text.Replace("&#x8;", "")
                                 End Function
                 )
-                If Not list.ContainsKey(.Entry) Then
-                    list(.Entry) = .ByRef
+                If Not list.ContainsKey(.ID) Then
+                    list(.ID) = .ByRef
                 End If
             End With
         Next

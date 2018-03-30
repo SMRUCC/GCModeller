@@ -89,8 +89,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         End Property
 
         Dim _refGeneOrthology As Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
-        Dim _refReactions As Dictionary(Of String, ReferenceReaction) =
-            New Dictionary(Of String, ReferenceReaction)
+        Dim _refReactions As New Dictionary(Of String, ReferenceReaction)
 
         Public Property [Class] As String
         Public Property Name As String
@@ -109,7 +108,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
                 If value.IsNullOrEmpty Then
                     _refReactions = New Dictionary(Of String, ReferenceReaction)
                 Else
-                    _refReactions = value.ToDictionary(Function(refRxn) refRxn.Entry)
+                    _refReactions = value.ToDictionary(Function(ref) ref.ID)
                 End If
             End Set
         End Property
