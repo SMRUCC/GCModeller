@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports sys = System.Math
 
 Namespace SVG
@@ -72,6 +73,12 @@ Namespace SVG
         <Extension>
         Public Function SVGPath(path As GraphicsPath) As path
             Return New path(path)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SVGPath(path As Path2D) As path
+            Return SVGPath(path.Path)
         End Function
 
         ''' <summary>
@@ -132,23 +139,39 @@ Namespace SVG
             Dim a#
             Dim b#
             Dim buffer As New List(Of Char)
-            Dim action As Char
+            Dim action As Char = ASCII.NUL
             Dim gdiPath As New Path2D
 
             Do While Not scanner.EndRead
-                ' Get current value and move forward 
-                ' the Pointer by one step.
+                ' Get current value and move forward the Pointer 
+                ' by one step.
                 c = ++scanner
 
                 If Char.IsLetter(c) Then
 
-                    If Not a.IsNaNImaginary OrElse Not b.IsNaNImaginary AndAlso action <> vbNullChar Then
+                    If (Not a.IsNaNImaginary OrElse Not b.IsNaNImaginary) AndAlso Not action = ASCII.NUL Then
                         Select Case action
                             Case "M"c
                                 Call gdiPath.MoveTo(a, b)
+                            Case "m"c
+                                Call gdiPath.MoveTo(a, b, relative:=True)
                             Case "L"c
                                 Call gdiPath.LineTo(a, b)
-                            Case "Z"c
+                            Case "l"c
+                                Call gdiPath.LineTo(a, b, relative:=True)
+                            Case "H"c
+                                ' 水平平行线
+                                ' 变X不变Y
+                                Call gdiPath.HorizontalTo(a)
+                            Case "h"c
+                                Call gdiPath.HorizontalTo(a, relative:=True)
+                            Case "V"c
+                                ' 垂直平行线
+                                ' 变Y不变X
+                                Call gdiPath.VerticalTo(a)
+                            Case "v"c
+                                Call gdiPath.VerticalTo(a, relative:=True)
+                            Case "Z"c, "z"c
                                 Call gdiPath.CloseAllFigures()
                             Case Else
                                 Throw New NotImplementedException($"Action ""{action}""@{path.d}")
@@ -174,6 +197,10 @@ Namespace SVG
 
                     buffer *= 0
 
+                ElseIf Char.IsDigit(c) Then
+                    buffer += c
+                Else
+                    Throw New NotImplementedException($"Unknown ""{c}""@{path.d}")
                 End If
             Loop
 
