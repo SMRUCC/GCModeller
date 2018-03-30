@@ -46,7 +46,13 @@
 
 Public Enum ChartTypes As Integer
     area
+    ''' <summary>
+    ''' 水平的条子
+    ''' </summary>
     bar
+    ''' <summary>
+    ''' 垂直的柱子
+    ''' </summary>
     column
     pie
     columnrange
