@@ -80,11 +80,11 @@ Namespace Assembly.KEGG.Archives.Xml
                 If __reactions.IsNullOrEmpty Then
                     _metaHash = New Dictionary(Of String, bGetObject.Reaction)
                 Else
-                    _metaHash = (From x As bGetObject.Reaction
+                    _metaHash = (From r As bGetObject.Reaction
                                  In __reactions
-                                 Select x
-                                 Group x By x.Entry Into Group) _
-                                      .ToDictionary(Function(x) x.Entry,
+                                 Select r
+                                 Group r By r.ID Into Group) _
+                                      .ToDictionary(Function(x) x.ID,
                                                     Function(x) x.Group.First)
                 End If
             End Set

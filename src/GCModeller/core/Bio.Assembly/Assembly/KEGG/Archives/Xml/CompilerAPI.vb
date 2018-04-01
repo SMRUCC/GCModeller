@@ -1,54 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::8eecfd2c7fb2aae775dd128359b175a4, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CompilerAPI
-    ' 
-    '         Function: __compilePathwayInfo, __getAllReactions, __getFiles, __isCat, __isClassCat
-    '                   (+3 Overloads) Compile, CompilePathwayInfo
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CompilerAPI
+' 
+'         Function: __compilePathwayInfo, __getAllReactions, __getFiles, __isCat, __isClassCat
+'                   (+3 Overloads) Compile, CompilePathwayInfo
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.Archives.Xml
 
@@ -60,7 +57,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Dim Pathways As PwyBriteFunc() = CompilePathwayInfo(KEGGPathways)
             Dim Moduless = (From path As String In __getFiles(KEGGModules) Select path.LoadXml(Of bGetObject.Module)()).ToArray
             Dim Reactions = (From path As String In __getFiles(KEGGReactions) Let data = path.LoadXml(Of bGetObject.Reaction)()
-                             Where Not data Is Nothing AndAlso Not String.IsNullOrEmpty(data.Entry)
+                             Where Not data Is Nothing AndAlso Not String.IsNullOrEmpty(data.ID)
                              Select data).ToArray
             Return Compile(Pathways, Moduless, Reactions, speciesCode)
         End Function
