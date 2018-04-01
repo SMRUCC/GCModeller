@@ -288,6 +288,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RadarChart.vb" />
     <Compile Include="Network\JSON\v4.vb" />
     <Compile Include="Network\htmlwidget\JSON.vb" />
     <Compile Include="Network\htmlwidget\BuildData.vb" />
