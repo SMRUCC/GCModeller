@@ -5,7 +5,9 @@ Friend Module ChartProfiles
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function profileBase(type As ChartTypes) As chart
-        Return New chart With {.type = type.Description}
+        Return New chart With {
+            .type = type.Description
+        }
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -48,5 +50,10 @@ Friend Module ChartProfiles
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function AreaSpline() As chart
         Return profileBase(ChartTypes.areaspline)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ColumnChart() As chart
+        Return profileBase(ChartTypes.column)
     End Function
 End Module

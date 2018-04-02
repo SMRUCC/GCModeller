@@ -45,6 +45,9 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
+Imports Line2D = Microsoft.VisualBasic.Imaging.Drawing2D.Shapes.Line
 
 Namespace Drawing2D
 
@@ -57,24 +60,101 @@ Namespace Drawing2D
 
         Dim last As PointF
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub MoveTo(x!, y!)
-            last = New PointF(x, y)
+        Public Sub MoveTo(x!, y!, Optional relative As Boolean = False)
+            If Not relative Then
+                last = New PointF(x, y)
+            Else
+                last = last.OffSet2D(x, y)
+            End If
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub MoveTo(location As PointF)
+        Public Sub MoveTo(location As PointF, Optional relative As Boolean = False)
             last = location
         End Sub
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub LineTo(x!, y!)
-            Call LineTo(New PointF(x, y))
+        Public Sub HorizontalTo(x!, Optional relative As Boolean = False)
+            If Not relative Then
+                Call LineTo(x, last.Y)
+            Else
+                Call LineTo(last.X + x, last.Y)
+            End If
+        End Sub
+
+        Public Sub VerticalTo(y!, Optional relative As Boolean = False)
+            If Not relative Then
+                Call LineTo(last.X, y)
+            Else
+                Call LineTo(last.X, last.Y + y)
+            End If
+        End Sub
+
+        Public Sub LineTo(x!, y!, Optional relative As Boolean = False)
+            If Not relative Then
+                Call LineTo(New PointF(x, y))
+            Else
+                Call LineTo(last.OffSet2D(x, y))
+            End If
         End Sub
 
         Public Sub LineTo(location As PointF)
             Call Path.AddLine(last, location)
             last = location
+        End Sub
+
+        ''' <summary>
+        ''' 三次贝塞曲线
+        ''' </summary>
+        ''' <param name="x1#">第一控制点X</param>
+        ''' <param name="y1#">第一控制点Y</param>
+        ''' <param name="x2#">第二控制点X</param>
+        ''' <param name="y2#">第二控制点Y</param>
+        ''' <param name="endX#">曲线结束点X</param>
+        ''' <param name="endY#">曲线结束点Y</param>
+        Public Sub CurveTo(x1#, y1#, x2#, y2#, endX#, endY#, Optional relative As Boolean = False)
+            If relative Then
+                With last.OffSet2D(endX, endY)
+                    Call Path.AddBezier(
+                        last, last.OffSet2D(x1, y1), last.OffSet2D(x2, y2), .ByRef
+                    )
+                    last = .ByRef
+                End With
+            Else
+                With New PointF(endX, endY)
+                    Call Path.AddBezier(
+                        last, New PointF(x1, y1), New PointF(x2, y2), .ByRef
+                    )
+                    last = .ByRef
+                End With
+            End If
+        End Sub
+
+        Public Sub SmoothCurveTo(x2#, y2#, endX#, endY#, Optional relative As Boolean = False)
+            If relative Then
+                With last.OffSet2D(endX, endY)
+                    Call Path.AddCurve({last, last.OffSet2D(x2, y2), .ByRef})
+                    last = .ByRef
+                End With
+            Else
+                With New PointF(endX, endY)
+                    Call Path.AddCurve({last, New PointF(x2, y2), .ByRef})
+                    last = .ByRef
+                End With
+            End If
+        End Sub
+
+        Public Sub QuadraticBelzier(x#, y#, endX#, endY#, Optional relative As Boolean = False)
+            If Not relative Then
+                With New PointF(endX, endY)
+                    Call Path.AddLines(Line2D.QuadraticBelzier(last, New PointF(x, y), .ByRef).ToArray)
+                    last = .ByRef
+                End With
+            Else
+                With last.OffSet2D(endX, endY)
+                    Call Path.AddLines(Line2D.QuadraticBelzier(last, last.OffSet2D(x, y), .ByRef).ToArray)
+                    last = .ByRef
+                End With
+            End If
         End Sub
 
         ''' <summary>
