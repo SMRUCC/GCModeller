@@ -81,7 +81,6 @@ Namespace PieChart
         Public Property allowPointSelect As Boolean
         Public Property cursor As String
         Public Property depth As String
-        Public Property dataLabels As dataLabels
         Public Property showInLegend As Boolean
     End Class
 
