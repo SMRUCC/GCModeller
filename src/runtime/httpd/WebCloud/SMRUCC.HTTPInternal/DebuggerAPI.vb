@@ -88,4 +88,10 @@ Public Module DebuggerAPI
     Public Function AsDebugRequest(args As IEnumerable(Of NamedValue(Of String))) As HttpRequest
         Return New HttpRequest(args)
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AsDebugRequest(args As IEnumerable(Of KeyValuePair(Of String, String))) As HttpRequest
+        Return args.AsNamedValueTuples.AsDebugRequest
+    End Function
 End Module
