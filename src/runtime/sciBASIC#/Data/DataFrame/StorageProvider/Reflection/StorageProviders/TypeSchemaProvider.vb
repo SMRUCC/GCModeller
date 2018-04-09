@@ -224,6 +224,8 @@ Namespace StorageProvider.Reflection
         ''' </summary>
         ''' <param name="[property]"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function IsKeyValuePair([property] As PropertyInfo) As Boolean
             Dim type As Type = [property].PropertyType
             Dim fullName As String = $"{type.Namespace }.{type.Name}"
@@ -297,6 +299,7 @@ Namespace StorageProvider.Reflection
             End If
         End Function
 
+        <Extension>
         Public Function GetMetaAttribute(type As Type) As Type
             If Not type.IsGenericType Then
                 If (type.Equals(GetType(Object))) OrElse type.BaseType.Equals(GetType(Object)) Then
