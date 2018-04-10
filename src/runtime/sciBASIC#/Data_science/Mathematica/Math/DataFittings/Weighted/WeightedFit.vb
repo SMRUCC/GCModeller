@@ -1,4 +1,7 @@
-﻿Public Class WeightedFit
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+Public Class WeightedFit : Implements IFitted
 
     ''' <summary>
     ''' FReg: Fisher F statistic for regression
@@ -7,10 +10,10 @@
     Public Property FisherF() As Double
 
     ''' <summary>
-    ''' RYSQ: Multiple correlation coefficient
+    ''' RYSQ: Multiple correlation coefficient (R2，相关系数)
     ''' </summary>
     ''' <returns></returns>
-    Public Property CorrelationCoefficient() As Double
+    Public Property CorrelationCoefficient As Double Implements IFitted.CorrelationCoefficient
 
     ''' <summary>
     ''' SDV: Standard deviation of errors
@@ -19,7 +22,7 @@
     Public Property StandardDeviation() As Double
 
     ''' <summary>
-    ''' Ycalc: Calculated values of Y
+    ''' Ycalc: Calculated values of Y.(根据所拟合的公式所计算出来的预测值)
     ''' </summary>
     ''' <returns></returns>
     Public Property CalculatedValues() As Double()
@@ -29,12 +32,6 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property Residuals() As Double()
-
-    ''' <summary>
-    ''' C: Coefficients
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property Coefficients() As Double()
 
     ''' <summary>
     ''' SEC: Std Error of coefficients
@@ -48,4 +45,16 @@
     ''' <returns></returns>
     Public Property VarianceMatrix() As Double(,)
 
+    Default Public ReadOnly Property GetY(x As Double) As Double Implements IFitted.GetY
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return Polynomial(x)
+        End Get
+    End Property
+
+    Public Property Polynomial As Polynomial Implements IFitted.Polynomial
+
+    Public Overrides Function ToString() As String
+        Return $"{Polynomial.ToString("F4")} @ R2={CorrelationCoefficient.ToString("F4")}"
+    End Function
 End Class

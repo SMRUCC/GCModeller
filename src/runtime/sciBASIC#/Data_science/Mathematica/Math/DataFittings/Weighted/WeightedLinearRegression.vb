@@ -1,15 +1,26 @@
-﻿''' <summary>
+﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+''' <summary>
 ''' ## An Algorithm for Weighted Linear Regression
 ''' 
 ''' > https://www.codeproject.com/Articles/25335/An-Algorithm-for-Weighted-Linear-Regression
 ''' </summary>
 Public Module WeightedLinearRegression
 
-    Public Function Regress(Y As Double(), X As Double(), W As Double()) As WeightedFit
-        Dim Xmatrix As Double(,) = New Double(0, X.Length - 1) {}
+    Public Function Regress(X#(), Y#(), W#(), Optional orderOfPolynomial% = 2) As WeightedFit
+        Dim Xmatrix#(,) = New Double(orderOfPolynomial, X.Length - 1) {}
+        Dim term#
+        Dim xx#
 
         For i As Integer = 0 To X.Length - 1
-            Xmatrix.SetValue(X(i), 0, i)
+            Xmatrix(0, i) = 1
+            term = X(i)
+            xx = term
+
+            For j As Integer = 1 To orderOfPolynomial
+                Xmatrix(j, i) = term
+                term *= xx
+            Next
         Next
 
         Return Regress(Y, Xmatrix, W)
@@ -110,7 +121,9 @@ Public Module WeightedLinearRegression
 
         Return New WeightedFit With {
             .CalculatedValues = Ycalc,
-            .Coefficients = C,
+            .Polynomial = New Polynomial With {
+                .Factors = C
+            },
             .CoefficientsStandardError = SEC,
             .CorrelationCoefficient = RYSQ,
             .FisherF = FReg,
