@@ -5,6 +5,23 @@
 ''' </summary>
 Public Module WeightedLinearRegression
 
+    Public Function Regress(Y As Double(), X As Double(), W As Double()) As WeightedFit
+        Dim Xmatrix As Double(,) = New Double(0, X.Length - 1) {}
+
+        For i As Integer = 0 To X.Length - 1
+            Xmatrix.SetValue(X(i), 0, i)
+        Next
+
+        Return Regress(Y, Xmatrix, W)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="Y">Y[j]   = j-th observed data point</param>
+    ''' <param name="X">X[i,j] = j-th value of the i-th independent varialble</param>
+    ''' <param name="W">W[j]   = j-th weight value</param>
+    ''' <returns></returns>
     Public Function Regress(Y As Double(), X As Double(,), W As Double()) As WeightedFit
         Dim M As Integer = Y.Length
         ' M = Number of data points
