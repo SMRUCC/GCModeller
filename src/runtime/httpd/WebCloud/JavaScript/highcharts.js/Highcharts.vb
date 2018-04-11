@@ -64,6 +64,11 @@ Public MustInherit Class Highcharts(Of T)
     ''' </summary>
     ''' <returns></returns>
     Public Property chart As chart
+    ''' <summary>
+    ''' 可以通过这个属性来自定义每一个系列的颜色
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property colors As String()
     Public Property title As title
     Public Property subtitle As title
     Public Property yAxis As Axis
