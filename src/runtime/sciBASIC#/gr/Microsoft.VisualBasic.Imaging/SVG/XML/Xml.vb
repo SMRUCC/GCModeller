@@ -98,29 +98,19 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports System.Xml
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports htmlNode = Microsoft.VisualBasic.MIME.Markup.HTML.XmlMeta.Node
 
 Namespace SVG.XML
 
     ''' <summary>
     ''' The basically SVG XML document node, it can be tweaks on the style by using CSS
     ''' </summary>
-    Public MustInherit Class node : Implements CSSLayer
+    Public MustInherit Class node : Inherits htmlNode
+        Implements CSSLayer
 
-        ''' <summary>
-        ''' CSS style definition <see cref="ICSSValue"/>.(请注意，假若是SVG对象则赋值这个属性无效)
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property style As String
-        ''' <summary>
-        ''' node class id, just like the id in HTML, you can also using this attribute to tweaks on the style by CSS.
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property [class] As String
-        <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property fill As String
         <XmlAttribute> Public Property stroke As String
 
@@ -234,6 +224,12 @@ Namespace SVG.XML
     Public Class polyline : Inherits node
 
         <XmlAttribute> Public Property points As String()
+        <XmlAttribute("marker-end")>
+        Public Property markerEnd As String
+
+        Public Overrides Function ToString() As String
+            Return points.JoinBy(" ")
+        End Function
 
         Public Shared Operator +(line As polyline, offset As PointF) As polyline
             ' Throw New NotImplementedException
@@ -250,6 +246,11 @@ Namespace SVG.XML
         <XmlAttribute> Public Property width As String
         <XmlAttribute> Public Property y As String
         <XmlAttribute> Public Property x As String
+
+#Region "圆角矩形"
+        Public Property rx As String
+        Public Property ry As String
+#End Region
 
         Sub New()
         End Sub
@@ -365,13 +366,5 @@ Namespace SVG.XML
             text.y += offset.Y
             Return text
         End Operator
-    End Class
-
-    ''' <summary>
-    ''' 在这个SVG对象之中所定义的CSS样式数据
-    ''' </summary>
-    Public Class CSSStyles
-        <XmlElement("style")> Public Property styles As XmlMeta.CSS()
-        <XmlAttribute> Public Property id As String
     End Class
 End Namespace

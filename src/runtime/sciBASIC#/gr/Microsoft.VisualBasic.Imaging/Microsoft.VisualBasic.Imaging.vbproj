@@ -507,6 +507,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SVG\CSS\Marker.vb" />
+    <Compile Include="SVG\CSS\Filter.vb" />
+    <Compile Include="SVG\CSS\Gradients.vb" />
     <Compile Include="SVG\CSS\ObjectStyle.vb" />
     <Compile Include="SVG\ModelBuilder.vb" />
     <Compile Include="SVG\SVGDataCache.vb" />
@@ -558,9 +561,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
