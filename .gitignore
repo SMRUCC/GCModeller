@@ -240,3 +240,4 @@ pip-log.txt
 *.ide-wal
 /src/runtime/.vs/installer
 /smartnucl_integrative/biodeepDB/METLINApp/App
+/src/Assembly/ProteoWizard.d/App
