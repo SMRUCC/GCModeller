@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::741317b791c127f38d64adebd1091751, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::22beac38a1208a092bfbce22a37ab6b6, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,15 @@
     ' 
     '         Properties: EntityList, Terms
     ' 
+    '         Function: ToString
+    ' 
     '     Class Reaction
     ' 
     '         Properties: [Class], [Module], Comments, CommonNames, Definition
-    '                     Entry, Enzyme, Equation, Orthology, Pathway
+    '                     Enzyme, Equation, ID, Orthology, Pathway
     '                     ReactionModel, Reversible
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetSubstrateCompounds, IsConnectWith, ToString
     ' 
     ' 

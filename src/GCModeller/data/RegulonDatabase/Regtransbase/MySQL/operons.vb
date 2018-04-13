@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c46568cddfe8d769de32eba66eacdae, data\RegulonDatabase\Regtransbase\MySQL\operons.vb"
+﻿#Region "Microsoft.VisualBasic::bc861b8358eb10705a7e1ea8b575d390, data\RegulonDatabase\Regtransbase\MySQL\operons.vb"
 
     ' Author:
     ' 
@@ -173,4 +173,3 @@ End Class
 
 
 End Namespace
-

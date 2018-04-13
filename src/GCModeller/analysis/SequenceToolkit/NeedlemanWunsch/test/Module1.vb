@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eed22f547d98418f2b01cf22fa6e51d7, analysis\SequenceToolkit\NeedlemanWunsch\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::8e2acdf58444a124a8d5c91f7a2140a5, analysis\SequenceToolkit\NeedlemanWunsch\test\Module1.vb"
 
     ' Author:
     ' 
@@ -88,4 +88,3 @@ Module Module1
         Pause()
     End Sub
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::634da6bd7e959f0d839cee91cc9b1062, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_instanceof.vb"
+﻿#Region "Microsoft.VisualBasic::3a91f269253dc3b08ad9498909f5e45a, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_instanceof.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

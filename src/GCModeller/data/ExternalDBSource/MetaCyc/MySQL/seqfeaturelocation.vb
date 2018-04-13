@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5146a833067204f1f3c3ae0af296bba, data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
+﻿#Region "Microsoft.VisualBasic::b1604f1ed9f7e66c42d16e862c23a6f8, data\ExternalDBSource\MetaCyc\MySQL\seqfeaturelocation.vb"
 
     ' Author:
     ' 
@@ -171,4 +171,3 @@ End Class
 
 
 End Namespace
-

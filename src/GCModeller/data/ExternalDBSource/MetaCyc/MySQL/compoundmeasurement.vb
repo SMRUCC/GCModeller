@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8e6e35d5824e0aabd193c3300a8a68b, data\ExternalDBSource\MetaCyc\MySQL\compoundmeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::8204d1945c176873f7296a0cc3af893c, data\ExternalDBSource\MetaCyc\MySQL\compoundmeasurement.vb"
 
     ' Author:
     ' 
@@ -175,4 +175,3 @@ End Class
 
 
 End Namespace
-

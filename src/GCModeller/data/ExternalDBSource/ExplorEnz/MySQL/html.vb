@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d339ef2075d9dc435ac3218ae390a78, data\ExternalDBSource\ExplorEnz\MySQL\html.vb"
+﻿#Region "Microsoft.VisualBasic::47ec5dba8e4d2075e570f97607a7b315, data\ExternalDBSource\ExplorEnz\MySQL\html.vb"
 
     ' Author:
     ' 
@@ -166,4 +166,3 @@ End Class
 
 
 End Namespace
-

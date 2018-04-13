@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8eea59fc19bf41b5db4963fd0dcfd309, data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence.vb"
+﻿#Region "Microsoft.VisualBasic::5af5f7de0dfb1b48e9b7a4120a205ff3, data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ End Class
 
 
 End Namespace
-

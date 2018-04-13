@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25179544757f955e6a647befe42aa2fd, data\Reactome\LocalMySQL\gk_current\translationalmodification.vb"
+﻿#Region "Microsoft.VisualBasic::8b5c906d8c681af26a5acfa1a39198c6, data\Reactome\LocalMySQL\gk_current\translationalmodification.vb"
 
     ' Author:
     ' 
@@ -152,4 +152,3 @@ End Class
 
 
 End Namespace
-

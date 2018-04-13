@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a81778da9507feb294455805675e9ab, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::acc435d8da0866f21d1af4d0d232bdaa, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,10 @@
     '         Properties: Address, Alphabets, IsConserved
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: EnumerateKeys, EnumerateValues, ToString
+    ' 
+    '         Sub: Assign
     ' 
     '     Structure PatternModel
     ' 

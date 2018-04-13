@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e577f94bd531dc5b98bee9fc15539ad1, data\Reactome\LocalMySQL\gk_current\externalontology.vb"
+﻿#Region "Microsoft.VisualBasic::0f4afb9c238e27f0608cf61edad4c901, data\Reactome\LocalMySQL\gk_current\externalontology.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ End Class
 
 
 End Namespace
-

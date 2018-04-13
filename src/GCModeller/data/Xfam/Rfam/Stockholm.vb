@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d097b75509258489fa3a07ebc84a7f, data\Xfam\Rfam\Stockholm.vb"
+﻿#Region "Microsoft.VisualBasic::1341386dbe41777e52db6773e6294f6d, data\Xfam\Rfam\Stockholm.vb"
 
     ' Author:
     ' 

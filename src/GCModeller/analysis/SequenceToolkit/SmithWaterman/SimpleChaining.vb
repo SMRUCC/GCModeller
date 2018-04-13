@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb1e3672a06781b32b239a10efdde82a, analysis\SequenceToolkit\SmithWaterman\SimpleChaining.vb"
+﻿#Region "Microsoft.VisualBasic::21f72c81262fc9354f5a9c6a0168c6b5, analysis\SequenceToolkit\SmithWaterman\SimpleChaining.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,16 @@
 
     ' Module SimpleChaining
     ' 
-    '     Function: chaining
+    '     Properties: FromAComparator
+    ' 
+    '     Function: Chaining
     ' 
     '     Sub: printLowerMatrix
+    '     Structure ComparatorHelper
+    ' 
+    '         Function: Compare
+    ' 
+    ' 
     ' 
     ' /********************************************************************************/
 

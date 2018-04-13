@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cd438a383dda9a01efb24db542d7f7e, data\ExternalDBSource\MetaCyc\MySQL\widtable.vb"
+﻿#Region "Microsoft.VisualBasic::3f0e807c4656cfd3c5b965133509e18e, data\ExternalDBSource\MetaCyc\MySQL\widtable.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

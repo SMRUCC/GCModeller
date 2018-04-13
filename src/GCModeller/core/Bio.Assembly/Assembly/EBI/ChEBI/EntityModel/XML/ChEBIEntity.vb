@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56d66d8dad289af97c9d40d3299e30eb, core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
+﻿#Region "Microsoft.VisualBasic::c3f41f12b541438399bc2385a345d0ce, core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,8 @@
     '                     smiles, status, Synonyms
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

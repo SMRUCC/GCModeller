@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a67b757222f446e88a544c9f62b5197, data\RegulonDatabase\RegulonDB\MySQL\method.vb"
+﻿#Region "Microsoft.VisualBasic::c3543a86687a191dd9cc18291cfc73fa, data\RegulonDatabase\RegulonDB\MySQL\method.vb"
 
     ' Author:
     ' 
@@ -156,4 +156,3 @@ End Class
 
 
 End Namespace
-

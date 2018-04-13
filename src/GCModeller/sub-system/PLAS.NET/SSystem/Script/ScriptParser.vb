@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f778aadf43cf6b1d4e1b2885070946e9, sub-system\PLAS.NET\SSystem\Script\ScriptParser.vb"
+﻿#Region "Microsoft.VisualBasic::bd5e8e5358a2a0501cf2d81689d490f2, sub-system\PLAS.NET\SSystem\Script\ScriptParser.vb"
 
     ' Author:
     ' 

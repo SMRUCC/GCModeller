@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b663bcb3d9156b59ef015e7c9be1bc5, data\Reactome\LocalMySQL\gk_current\evidencetype.vb"
+﻿#Region "Microsoft.VisualBasic::d74c6341e1efdf681938c7a49d7f5238, data\Reactome\LocalMySQL\gk_current\evidencetype.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ End Class
 
 
 End Namespace
-

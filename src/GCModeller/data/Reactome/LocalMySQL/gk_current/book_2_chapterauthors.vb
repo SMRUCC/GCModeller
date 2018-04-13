@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25477558e3528a766a454b80fc3e2e8a, data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
+﻿#Region "Microsoft.VisualBasic::7d6ffe6e18d1f22ea1d756fcf00a3056, data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

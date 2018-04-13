@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c7d64716abc8e9ca73f719400f527d4, data\ExternalDBSource\MetaCyc\MySQL\composgrpwidcompossequencewid.vb"
+﻿#Region "Microsoft.VisualBasic::76076ac9031f8e8617b160caa2238871, data\ExternalDBSource\MetaCyc\MySQL\composgrpwidcompossequencewid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

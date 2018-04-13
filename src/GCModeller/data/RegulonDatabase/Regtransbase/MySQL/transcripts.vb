@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16589daa448a690fa07f7e7dd3cf458d, data\RegulonDatabase\Regtransbase\MySQL\transcripts.vb"
+﻿#Region "Microsoft.VisualBasic::48a69ed7a023fb19163b8e6b1d015b7e, data\RegulonDatabase\Regtransbase\MySQL\transcripts.vb"
 
     ' Author:
     ' 
@@ -219,4 +219,3 @@ End Class
 
 
 End Namespace
-

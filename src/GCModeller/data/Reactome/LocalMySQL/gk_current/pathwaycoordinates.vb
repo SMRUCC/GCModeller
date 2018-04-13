@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::754047a67b9e54304d5adebf65bfc6a6, data\Reactome\LocalMySQL\gk_current\pathwaycoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::07a1fa585694f59f8aa04e4cc5b48901, data\Reactome\LocalMySQL\gk_current\pathwaycoordinates.vb"
 
     ' Author:
     ' 
@@ -168,4 +168,3 @@ End Class
 
 
 End Namespace
-

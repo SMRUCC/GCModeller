@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc5dfd1040c68e8b1691e67f652ab92f, engine\GCModeller\GUID\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::f179d84dc411823d18b9587946e8a944, engine\GCModeller\GUID\EnzymeClass.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,10 @@
     '         Properties: ECNumber, Handle
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     '     Interface IMappingEdge
     ' 
@@ -53,6 +56,8 @@
     '         Properties: Handle, MotifId
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

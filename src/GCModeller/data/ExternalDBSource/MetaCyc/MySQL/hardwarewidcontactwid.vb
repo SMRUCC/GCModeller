@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8eb5641a6fa6b6c39439637ec59bb537, data\ExternalDBSource\MetaCyc\MySQL\hardwarewidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::b0d20c839fb2beb4c1ac67c406001001, data\ExternalDBSource\MetaCyc\MySQL\hardwarewidcontactwid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

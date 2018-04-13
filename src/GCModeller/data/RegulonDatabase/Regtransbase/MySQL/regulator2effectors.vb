@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::804d2bbd8b5b8f68c2dbf279c7b0f4ec, data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
+﻿#Region "Microsoft.VisualBasic::ee0fdecdac84107f2ab1cf301c6f6fa7, data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

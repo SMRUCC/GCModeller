@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b55b4045209ab7cc4232278b4f7eda44, data\KEGG\LocalMySQL\reference.vb"
+﻿#Region "Microsoft.VisualBasic::b704384cd43fa9d3bd147fd89b3bedae, data\KEGG\LocalMySQL\reference.vb"
 
     ' Author:
     ' 
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

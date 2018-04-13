@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecd974d804db4de2dbfe68975d1fd6c6, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::b07156651511cb6f4d7c16f948e1206e, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: Handle, Samples, UniqueId
     ' 
     '         Function: GetRanges, ToCsv, ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bed61fc00597fd49d2ad5d6da4acf658, data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
+﻿#Region "Microsoft.VisualBasic::d6bea10cbc92ac4f4630237243e5e6dd, data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
 
     ' Author:
     ' 
@@ -165,4 +165,3 @@ End Class
 
 
 End Namespace
-

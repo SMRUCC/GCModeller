@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47d408d5b5b4c7e10513e293c8b15bfa, data\ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
+﻿#Region "Microsoft.VisualBasic::3e19ea392f21bb7a45557b5b5c5d403b, data\ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
 
     ' Author:
     ' 
@@ -172,4 +172,3 @@ End Class
 
 
 End Namespace
-

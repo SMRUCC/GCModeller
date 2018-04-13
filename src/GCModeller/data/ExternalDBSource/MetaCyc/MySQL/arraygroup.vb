@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dad6ddb6f28848192f95a9512bdd06dc, data\ExternalDBSource\MetaCyc\MySQL\arraygroup.vb"
+﻿#Region "Microsoft.VisualBasic::341ac735c24e31d1de9566a2eafbed3f, data\ExternalDBSource\MetaCyc\MySQL\arraygroup.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ End Class
 
 
 End Namespace
-

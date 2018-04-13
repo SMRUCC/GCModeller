@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c61a1cd093d67f7fda5343491f444d29, data\RegulonDatabase\Regtransbase\MySQL\dict_regulator_types.vb"
+﻿#Region "Microsoft.VisualBasic::3492abb4f69095dc5a409897524a2898, data\RegulonDatabase\Regtransbase\MySQL\dict_regulator_types.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ffbd1ddb7ae2e792456a926c6f671d2, data\ExternalDBSource\MetaCyc\MySQL\division.vb"
+﻿#Region "Microsoft.VisualBasic::fc29f677da12901ccb99bed83b1c22c4, data\ExternalDBSource\MetaCyc\MySQL\division.vb"
 
     ' Author:
     ' 
@@ -152,4 +152,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4622d32f365fc915229b8cb53ad8bc6, data\Reactome\LocalMySQL\gk_current\groupmodifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::f3bbcd9344326af3d8d4b029cd5c9ae3, data\Reactome\LocalMySQL\gk_current\groupmodifiedresidue.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ End Class
 
 
 End Namespace
-

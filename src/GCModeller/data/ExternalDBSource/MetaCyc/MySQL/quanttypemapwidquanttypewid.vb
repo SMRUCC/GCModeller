@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31a6013565185e6f766b12ac5867814d, data\ExternalDBSource\MetaCyc\MySQL\quanttypemapwidquanttypewid.vb"
+﻿#Region "Microsoft.VisualBasic::4100fe51490c897389e0e76d3b85ffb4, data\ExternalDBSource\MetaCyc\MySQL\quanttypemapwidquanttypewid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

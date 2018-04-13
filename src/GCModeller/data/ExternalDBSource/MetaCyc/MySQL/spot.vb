@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf8c3ea030e85dfdb1de49c5df912240, data\ExternalDBSource\MetaCyc\MySQL\spot.vb"
+﻿#Region "Microsoft.VisualBasic::e60b57cf9a5c78b67ff814bf51d111ca, data\ExternalDBSource\MetaCyc\MySQL\spot.vb"
 
     ' Author:
     ' 
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

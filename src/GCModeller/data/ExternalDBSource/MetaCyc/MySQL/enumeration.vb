@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b988f26dbf984e43ea9c0de91b7eb39, data\ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
+﻿#Region "Microsoft.VisualBasic::3ccb14dfb46451b8c60a6feac6d48a5b, data\ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
 
     ' Author:
     ' 
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-
