@@ -85,6 +85,10 @@ Namespace Output
             End Get
         End Property
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.ID = address
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

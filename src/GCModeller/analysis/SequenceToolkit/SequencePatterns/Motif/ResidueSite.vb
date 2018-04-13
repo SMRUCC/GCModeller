@@ -70,6 +70,10 @@ Namespace Motif
         ''' <returns></returns>
         <XmlAttribute> Public Property Bits As Double
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Site = address
+        End Sub
+
         ''' <summary>
         ''' ATGC -> TACG
         ''' </summary>

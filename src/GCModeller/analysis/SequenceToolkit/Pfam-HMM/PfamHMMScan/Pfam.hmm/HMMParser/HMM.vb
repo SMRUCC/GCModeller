@@ -120,6 +120,10 @@ Public Structure Node : Implements IAddressOf
     ''' <returns></returns>
     Public Property Address As Integer Implements IAddressOf.Address
 
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Me.Address = address
+    End Sub
+
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function

@@ -160,5 +160,8 @@ Namespace TrackDatas
 
         Protected MustOverride Function __trackData() As String
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.start = address
+        End Sub
     End Class
 End Namespace
