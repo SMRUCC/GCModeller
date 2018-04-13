@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b97900adbbe9cbc2282253e4e12f8615, WebCloud\SMRUCC.WebCloud.highcharts\Charts\AreaChart.vb"
+﻿#Region "Microsoft.VisualBasic::87b53c1b9eb76e4d00b10d99f5267814, WebCloud\JavaScript\highcharts.js\Charts\AreaChart.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,15 @@
 
     '     Class AreaSplineChart
     ' 
-    '         Function: ChartType
+    ' 
     ' 
     '     Class areasplineOptions
     ' 
     '         Properties: fillOpacity
+    ' 
+    '     Class areaOptions
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
