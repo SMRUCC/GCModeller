@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::393d968ae914f7afbf8de3ccae216c0a, WebCloud\SMRUCC.WebCloud.highcharts\Charts\ScatterChart.vb"
+﻿#Region "Microsoft.VisualBasic::e8e1993c8f1dcb32570955344edef96e, WebCloud\JavaScript\highcharts.js\Charts\ScatterChart.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@
     ' 
     '     Class markerOptions
     ' 
-    '         Properties: enabled
+    '         Properties: enabled, fillColor, lineColor, lineWidth
     ' 
     '     Class ScatterSerial
     ' 

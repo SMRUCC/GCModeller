@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc5190cea8f293ddc2a1f28f868ef4fb, data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::2c8acb1371ade17fddc10e9bcb571d9b, data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
 
     ' Author:
     ' 
@@ -179,4 +179,3 @@ End Class
 
 
 End Namespace
-

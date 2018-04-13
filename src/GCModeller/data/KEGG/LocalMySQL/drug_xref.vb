@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d69160fd066e5b23df02a881cea84f8f, data\KEGG\LocalMySQL\drug_xref.vb"
+﻿#Region "Microsoft.VisualBasic::d8d643071c4a93811d030cc602486d67, data\KEGG\LocalMySQL\drug_xref.vb"
 
     ' Author:
     ' 
@@ -140,4 +140,3 @@ End Class
 
 
 End Namespace
-

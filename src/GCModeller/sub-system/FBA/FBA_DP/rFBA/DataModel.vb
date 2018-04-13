@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d0719b761d41ef76b40815db677016, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::1b0814bab700f0531eb19458635ea30d, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,8 @@
     ' 
     '             Function: GetCoefficient
     ' 
+    '             Sub: Assign
+    ' 
     '         Class ObjectiveFunction
     ' 
     '             Properties: Direction, Factors
@@ -47,6 +49,8 @@
     '             Properties: Effectors, Handle, Identifier, RPKM
     ' 
     '             Function: ToString
+    ' 
+    '             Sub: Assign
     ' 
     '         Class CellSystem
     ' 

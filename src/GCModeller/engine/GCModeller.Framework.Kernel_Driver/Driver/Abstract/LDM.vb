@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e19b596596dec71c514cf43c940a7ab2, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::6b31b7e92e7a1cde2a3c79ed555bdd58, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
 
     ' Author:
     ' 
@@ -37,9 +37,13 @@
     ' 
     '     Function: get_ObjectHandle
     ' 
+    '     Sub: Assign
+    ' 
     ' Class Variable
     ' 
     '     Properties: Handle, UniqueId, Value
+    ' 
+    '     Sub: Assign
     ' 
     ' /********************************************************************************/
 

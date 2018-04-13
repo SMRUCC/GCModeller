@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::782812b0e50232d29ce5de0b271d0cd9, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidarraywid.vb"
+﻿#Region "Microsoft.VisualBasic::4bfd3c724fef1e322d8f18901a529d10, data\ExternalDBSource\MetaCyc\MySQL\arraymanufacturewidarraywid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

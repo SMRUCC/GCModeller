@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a935f06d224d4652c0e27d04f7df81ce, data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
+﻿#Region "Microsoft.VisualBasic::6c6b0ba68822ff3b5563fea80735bc24, data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
 
     ' Author:
     ' 
@@ -172,4 +172,3 @@ End Class
 
 
 End Namespace
-

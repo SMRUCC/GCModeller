@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9eedac0e9f47e900702e6761e397df21, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
+﻿#Region "Microsoft.VisualBasic::97eccf698f7e9f5e5a541b9de69119b5, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

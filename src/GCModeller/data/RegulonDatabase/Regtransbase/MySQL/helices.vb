@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2234fe5cf31230aa055ac4edf0fcac7, data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::c89bf781d18f5d143bd898b42c1a79fa, data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ End Class
 
 
 End Namespace
-

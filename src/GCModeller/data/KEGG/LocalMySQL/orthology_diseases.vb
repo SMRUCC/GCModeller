@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::deae93d180265e3d675021026caa9801, data\KEGG\LocalMySQL\orthology_diseases.vb"
+﻿#Region "Microsoft.VisualBasic::ca7eb75f645b538245f2f4fe785c7031, data\KEGG\LocalMySQL\orthology_diseases.vb"
 
     ' Author:
     ' 
@@ -149,4 +149,3 @@ End Class
 
 
 End Namespace
-

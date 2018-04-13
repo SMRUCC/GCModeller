@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7edfbe19967ac5b82d0ac5fb86096b79, WebCloud\SMRUCC.WebCloud.highcharts\Charts\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::8c5f0c71ed8f6807d92c70ec250b62b5, WebCloud\JavaScript\highcharts.js\Charts\PieChart.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     ' 
     '     Class pieOptions
     ' 
-    '         Properties: allowPointSelect, cursor, dataLabels, depth, showInLegend
+    '         Properties: allowPointSelect, cursor, depth, showInLegend
     ' 
     '     Class pieData
     ' 

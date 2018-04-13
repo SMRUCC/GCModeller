@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b8a1c94812c8457b5de375946181a94, data\KEGG\LocalMySQL\xref_ko2go.vb"
+﻿#Region "Microsoft.VisualBasic::b02e9ba789dad39e0d942b96eec1d3ab, data\KEGG\LocalMySQL\xref_ko2go.vb"
 
     ' Author:
     ' 
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42cfad3b3161aecc8aaa10d1fc14585a, data\ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
+﻿#Region "Microsoft.VisualBasic::5fa7966216120b1fa19671062b257904, data\ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
 
     ' Author:
     ' 
@@ -175,4 +175,3 @@ End Class
 
 
 End Namespace
-

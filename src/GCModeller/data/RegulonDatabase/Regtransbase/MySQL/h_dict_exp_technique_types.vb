@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62b18c3ac72b47645dfc53f33c77239a, data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_technique_types.vb"
+﻿#Region "Microsoft.VisualBasic::fa3bb8ad06e73fb8d73dbc3340a6dec6, data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_technique_types.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

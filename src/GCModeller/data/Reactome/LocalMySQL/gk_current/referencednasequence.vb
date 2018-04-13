@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8109d9676919015ce87f1baa2a5e6aad, data\Reactome\LocalMySQL\gk_current\referencednasequence.vb"
+﻿#Region "Microsoft.VisualBasic::db46fec394093ac56fd44da47b7efcf8, data\Reactome\LocalMySQL\gk_current\referencednasequence.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

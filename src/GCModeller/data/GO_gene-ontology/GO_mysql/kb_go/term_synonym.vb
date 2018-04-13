@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e9bd65da120c8c18b3ee1092a4780cc, data\GO_gene-ontology\GO_mysql\kb_go\term_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::92b8607f4c78777b1864097b1984d937, data\GO_gene-ontology\GO_mysql\kb_go\term_synonym.vb"
 
     ' Author:
     ' 
@@ -184,4 +184,3 @@ End Class
 
 
 End Namespace
-

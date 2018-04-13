@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::871987585c0159cd9bd2f09fccd7d374, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
+﻿#Region "Microsoft.VisualBasic::218252a83416605dfcff271c7e9c8a56, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: ID, RepeatLocis, Right, SpacerLocis, Start
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

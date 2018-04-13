@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91e5a06bca107c82c3fb160df025dbb6, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
+﻿#Region "Microsoft.VisualBasic::138344d1c48993483c5f4687d7c9c87e, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,10 @@
     '         Properties: Handle
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: CreateObject, TriggerTest
+    ' 
+    '         Sub: Assign
     ' 
     '     Class PeriodicTrigger
     ' 

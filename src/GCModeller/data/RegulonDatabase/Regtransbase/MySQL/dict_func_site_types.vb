@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::088ca6e5ea37642365fb99ce8ae6c00f, data\RegulonDatabase\Regtransbase\MySQL\dict_func_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::e89907aaffc67fdaaff44c2ad84e4f6f, data\RegulonDatabase\Regtransbase\MySQL\dict_func_site_types.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

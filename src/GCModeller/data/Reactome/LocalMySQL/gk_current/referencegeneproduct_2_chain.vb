@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::581578f4a0286570a55b8cb4f9cb3a53, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_chain.vb"
+﻿#Region "Microsoft.VisualBasic::35051c4d90bb22c5965abb767bc406e5, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_chain.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ End Class
 
 
 End Namespace
-

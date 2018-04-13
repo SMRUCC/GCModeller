@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1da26dd05b04edad05e1feacc72f78bb, data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
+﻿#Region "Microsoft.VisualBasic::ef28da78cf5c53954fae3565b4392de3, data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
 
     ' Author:
     ' 
@@ -175,4 +175,3 @@ End Class
 
 
 End Namespace
-

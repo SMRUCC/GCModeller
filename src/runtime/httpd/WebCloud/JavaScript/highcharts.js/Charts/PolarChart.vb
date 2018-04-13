@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6af6ab836725129ece23c411914cd3be, WebCloud\SMRUCC.WebCloud.highcharts\Charts\PolarChart.vb"
+﻿#Region "Microsoft.VisualBasic::3cb4df00d5ba55676293edcbe0c93cf5, WebCloud\JavaScript\highcharts.js\Charts\PolarChart.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Properties: pane
     ' 
-    '         Function: CreateEmptyChart
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc8d374529c5428f7d09607f54c73c2a, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_config.vb"
+﻿#Region "Microsoft.VisualBasic::bd1cc7c5d6ddc01a5d876aa14d88c12d, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_config.vb"
 
     ' Author:
     ' 
@@ -149,4 +149,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81a71510dab7c4c8789ad00c68de8ca5, data\Reactome\LocalMySQL\gk_current\edge.vb"
+﻿#Region "Microsoft.VisualBasic::0b553538ed86326cd424d364844c666c, data\Reactome\LocalMySQL\gk_current\edge.vb"
 
     ' Author:
     ' 
@@ -174,4 +174,3 @@ End Class
 
 
 End Namespace
-

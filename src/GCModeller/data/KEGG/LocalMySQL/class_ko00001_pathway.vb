@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31c29f14dc98a77acbcb39d42d0fa6df, data\KEGG\LocalMySQL\class_ko00001_pathway.vb"
+﻿#Region "Microsoft.VisualBasic::97cd63545c3520c9375f39bfa9b01073, data\KEGG\LocalMySQL\class_ko00001_pathway.vb"
 
     ' Author:
     ' 
@@ -151,4 +151,3 @@ End Class
 
 
 End Namespace
-

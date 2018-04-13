@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ced6018dc68d1733226cebc33235b1a3, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
+﻿#Region "Microsoft.VisualBasic::a9a6ace7a3563df9dbc24ce64ac145b9, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
 
     ' Author:
     ' 
@@ -214,4 +214,3 @@ Public Module SeedCluster
         Return clusters
     End Function
 End Module
-
