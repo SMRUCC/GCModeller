@@ -50,36 +50,38 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
-Public Module Pyramid
+Namespace Fractions
 
-    ''' <summary>
-    ''' 绘制金字塔图，用来表示占比的数据可视化
-    ''' </summary>
-    ''' <param name="data"></param>
-    ''' <param name="size"></param>
-    ''' <param name="padding$"></param>
-    ''' <param name="bg$"></param>
-    ''' <param name="legendBorder"></param>
-    ''' <param name="wp#"></param>
-    ''' <returns></returns>
-    Public Function Plot(data As IEnumerable(Of Fractions),
+    Public Module Pyramid
+
+        ''' <summary>
+        ''' 绘制金字塔图，用来表示占比的数据可视化
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="size"></param>
+        ''' <param name="padding$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="legendBorder"></param>
+        ''' <param name="wp#"></param>
+        ''' <returns></returns>
+        Public Function Plot(data As IEnumerable(Of FractionData),
                          Optional size As Size = Nothing,
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
                          Optional legendBorder As Stroke = Nothing,
                          Optional wp# = 0.8) As GraphicsData
 
-        Dim array As Fractions() =
+            Dim array As FractionData() =
             data _
             .OrderByDescending(Function(x) x.Percentage) _
             .ToArray
-        Dim margin As Padding = padding
+            Dim margin As Padding = padding
 
-        If size.IsEmpty Then
-            size = New Size(3000, 2000)
-        End If
+            If size.IsEmpty Then
+                size = New Size(3000, 2000)
+            End If
 
-        Dim plotInternal =
+            Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim height% = region.PlotRegion.Height
                 Dim width% = region.PlotRegion.Width * wp
@@ -88,7 +90,7 @@ Public Module Pyramid
                 Dim right! = (left + width)
                 Dim bottom! = region.PlotRegion.Bottom
 
-                For Each l As Fractions In array
+                For Each l As FractionData In array
                     Dim dh! = height * l.Percentage
                     Dim dw! = dh / tan_ab
                     ' b/| dh |\c
@@ -121,7 +123,7 @@ Public Module Pyramid
                 Dim top = margin.Top
                 Dim legends As New List(Of Legend)
 
-                For Each x As Fractions In data
+                For Each x As FractionData In data
                     legends += New Legend With {
                        .color = x.Color.RGBExpression,
                        .style = LegendStyles.Rectangle,
@@ -133,6 +135,7 @@ Public Module Pyramid
                 Call g.DrawLegends(New Point(left, top), legends, ,, legendBorder)
             End Sub
 
-        Return GraphicsPlots(size, margin, bg, plotInternal)
-    End Function
-End Module
+            Return GraphicsPlots(size, margin, bg, plotInternal)
+        End Function
+    End Module
+End Namespace

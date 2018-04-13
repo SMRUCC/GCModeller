@@ -88,8 +88,8 @@ Namespace Compiler.Components
                     Call InsertedList.Add(KEGG_Reaction)
                 Else '存在的话则添加KEGG.Reaction的标识号
                     For Each ReactionModel In LQuery
-                        Call Console.WriteLine("[KEGG_REACTION] {0} --> [METACYC_REACTION] {1} ................... {2}%", KEGG_Reaction.Entry, ReactionModel.Identifier, 100 * i / _KEGGReaction.Count)
-                        Call ReactionModel.GetDBLinks.AddEntry("KEGG.Reaction", KEGG_Reaction.Entry)
+                        Call Console.WriteLine("[KEGG_REACTION] {0} --> [METACYC_REACTION] {1} ................... {2}%", KEGG_Reaction.ID, ReactionModel.Identifier, 100 * i / _KEGGReaction.Count)
+                        Call ReactionModel.GetDBLinks.AddEntry("KEGG.Reaction", KEGG_Reaction.ID)
                     Next
                 End If
 
@@ -107,9 +107,9 @@ Namespace Compiler.Components
                 Dim EntryList = KEGGReaction.GetSubstrateCompounds
                 Dim LQuery = (From Entry As String In EntryList Let KEGGCompound = _EntryViews.GetByKeggEntry(Entry) Where Not KEGGCompound Is Nothing Select KEGGCompound).ToArray
                 If LQuery.Count = EntryList.Count Then '所有的需要的代谢底物都可以查找得到，则接下来判断相应的酶是否存在，这个过程是通过CARMEN的计算数据得来的
-                    Dim Enzymes = GetEnzyme(_Carmen, KEGGReaction.Entry)
+                    Dim Enzymes = GetEnzyme(_Carmen, KEGGReaction.ID)
                     If Not Enzymes.IsNullOrEmpty Then
-                        Dim NewModel As FileStream.MetabolismFlux = New FileStream.MetabolismFlux With {.Identifier = KEGGReaction.Entry, .UPPER_Bound = 100, .Enzymes = Enzymes, .CommonName = KEGGReaction.Comments}
+                        Dim NewModel As FileStream.MetabolismFlux = New FileStream.MetabolismFlux With {.Identifier = KEGGReaction.ID, .UPPER_Bound = 100, .Enzymes = Enzymes, .CommonName = KEGGReaction.Comments}
                         NewModel.Equation = KEGGReaction.Equation
                         NewModel.LOWER_Bound = If(KEGGReaction.Reversible, -100, 0)
                         Call _ModelLoader.MetabolismModel.Add(NewModel)

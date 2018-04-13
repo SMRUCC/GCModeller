@@ -78,7 +78,7 @@ Public Module UPGMATree
 
         Sub New(id%, data As Taxa(), size%, distance#)
             Me.ID = id
-            Me.Childs = data.Select(Function(x) CType(x, Tree(Of Value))).AsList
+            Me.Childs = data.Select(Function(x) CType(x, Tree(Of Value))).ToDictionary
             Me.Data = New Value With {
                 .size = size,
                 .distance = distance

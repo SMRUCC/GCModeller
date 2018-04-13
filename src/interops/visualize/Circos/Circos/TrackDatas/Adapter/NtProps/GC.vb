@@ -93,7 +93,7 @@ Namespace TrackDatas.NtProps
         <ExportAPI("Get.Genome.GC")>
         Public Function GetGCContentForGENOME(FASTA As FastaSeq, winSize As Integer, steps As Integer) As NASegment_GC()
             Dim NT As DNA() = NucleicAcid.CreateObject(FASTA.SequenceData).ToArray
-            Dim slideWins = NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
+            Dim slideWins = NT.CreateSlideWindows(winSize, offset:=steps)
             Dim LQuery As List(Of NASegment_GC) = LinqAPI.MakeList(Of NASegment_GC) <=
  _
                 From seg As SlideWindow(Of DNA)

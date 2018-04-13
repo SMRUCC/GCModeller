@@ -149,7 +149,7 @@ Namespace EngineSystem.ObjectModels.Module
         Public Function CreateHandle() As SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
             Return New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
                 .Handle = Handle,
-                .Identifier = Identifier
+                .ID = Identifier
             }
         End Function
     End Class

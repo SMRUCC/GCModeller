@@ -94,6 +94,10 @@ Namespace Runtime.MMU
             Return MMU.PageUnitView.View(Me)
         End Function
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Address = address
+        End Sub
+
         Public Class Any
 
             Public Overrides Function ToString() As String

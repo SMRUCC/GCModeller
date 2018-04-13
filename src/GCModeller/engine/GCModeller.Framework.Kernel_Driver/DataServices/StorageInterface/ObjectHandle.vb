@@ -51,7 +51,11 @@ Namespace DataStorage.FileModel
         Implements IAddressOf
         Implements INamedValue
 
-        Public Property Identifier As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Integer).Key
+        Public Property ID As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Integer).Key
         Public Property Handle As Integer Implements IAddressOf.Address, IKeyValuePairObject(Of String, Integer).Value
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Class
 End Namespace

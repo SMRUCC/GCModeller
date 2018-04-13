@@ -64,7 +64,7 @@ Public MustInherit Class Expression
     Public Overridable Function get_ObjectHandle() As DataStorage.FileModel.ObjectHandle Implements IDynamicsExpression(Of Double).get_ObjectHandle
         Return New Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
             .Handle = Handle,
-            .Identifier = Identifier
+            .ID = Identifier
         }
     End Function
 #End Region
@@ -77,6 +77,10 @@ Public MustInherit Class Expression
 
     Public Property Identifier As String Implements INamedValue.Key
     Public Property Handle As Integer Implements IAddressOf.Address
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Me.Handle = address
+    End Sub
 End Class
 
 ''' <summary>
@@ -109,4 +113,8 @@ Public MustInherit Class Variable : Implements IAddressOf
     ''' <returns></returns>
     ''' <remarks></remarks>
     <XmlAttribute> Public Property UniqueId As String Implements INamedValue.Key
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Me.Handle = address
+    End Sub
 End Class

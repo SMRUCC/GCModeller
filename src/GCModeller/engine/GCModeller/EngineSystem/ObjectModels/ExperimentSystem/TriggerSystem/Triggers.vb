@@ -103,6 +103,10 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem.Triggers
         End Function
 
         Public Property Handle As Integer Implements IAddressOf.Address
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Class
 
     Public Class PeriodicTrigger : Inherits TriggerBase

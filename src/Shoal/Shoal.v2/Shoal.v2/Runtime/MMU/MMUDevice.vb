@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter
+﻿Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.SCOM
 
 Namespace Runtime.MMU
@@ -202,7 +203,7 @@ Namespace Runtime.MMU
         Friend Sub Allocate(var As MMU.IPageUnit)
             Call __increaseMemory()
             MMU_CHUNKS(HeapSize) = var
-            var.Address = HeapSize
+            DirectCast(var, IAddressOf).Assign(HeapSize)
             _HeapSize += 1
         End Sub
 
