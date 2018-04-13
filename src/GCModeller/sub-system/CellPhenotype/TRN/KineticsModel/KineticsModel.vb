@@ -344,10 +344,14 @@ BASAL_EXPRESSION:
 
         Private Property __address As Integer Implements IAddressOf.Address
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.__address = address
+        End Sub
+
         Public Function CreateHandle() As ObjectHandle Implements IDynamicsExpression(Of Integer).get_ObjectHandle
             Return New ObjectHandle With {
                 .Handle = Handle,
-                .Identifier = Identifier
+                .ID = Identifier
             }
         End Function
 

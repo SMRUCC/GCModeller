@@ -107,8 +107,7 @@ Namespace NetworkModel.PfsNET
         ''' 
         <ExportAPI("Network.Creates")>
         Public Function CreateNetworkObject(<Parameter("From.Pathway")> fromPathway As XmlModel) As ______NETWORK__
-            Dim reactions As Dictionary(Of String, bGetObject.Reaction) =
-                fromPathway.Metabolome.ToDictionary(Function(r) r.Entry)
+            Dim reactions As Dictionary(Of String, bGetObject.Reaction) = fromPathway.Metabolome.ToDictionary(Function(r) r.ID)
             Dim rxnGeneRels = (From ezMap As EC_Mapping In fromPathway.EC_Mappings
                                Let rels As NetworkEdge() = __getRxnRels(ezMap.ECMaps, ezMap.locusId)
                                Select rels).ToVector
@@ -136,8 +135,8 @@ Namespace NetworkModel.PfsNET
                            Let flux As NetworkEdge() = (From r As bGetObject.Reaction
                                                         In nextRxn
                                                         Select New NetworkEdge With {
-                                                            .FromNode = rxn.Entry,
-                                                            .ToNode = r.Entry,
+                                                            .FromNode = rxn.ID,
+                                                            .ToNode = r.ID,
                                                             .Interaction = "Flux"}).ToArray
                            Select flux).ToVector
             Return New ______NETWORK__ With {
@@ -195,8 +194,8 @@ Namespace NetworkModel.PfsNET
             Dim rxnhash = (From x As bGetObject.Reaction
                            In FromPathway.Metabolome
                            Select x
-                           Group x By x.Entry Into Group) _
-                                .ToDictionary(Function(x) x.Entry,
+                           Group x By x.ID Into Group) _
+                                .ToDictionary(Function(x) x.ID,
                                               Function(x) x.Group.First)
 
             Dim ECMappings = (From item In FromPathway.EC_Mappings.AsParallel
@@ -235,7 +234,7 @@ Namespace NetworkModel.PfsNET
                      Let instance = edge_collection.First
                      Let modules = (From node In edge_collection Select node.item.Modules).ToVector.Distinct.ToArray
                      Let pathwaycollection = (From pathway In Pathways Where Not (From mid As String In modules Where pathway.IsContainsModule(mid) Select 1).ToArray.IsNullOrEmpty Select pathway.EntryId).ToArray
-                     Let coeffectReactions = {(From nn In ECMappings(instance.item.FromNode).reactions Select nn.Entry).ToArray, (From nn In ECMappings(instance.item.ToNode).reactions Select nn.Entry).ToArray}.Intersection
+                     Let coeffectReactions = {(From nn In ECMappings(instance.item.FromNode).reactions Select nn.ID).ToArray, (From nn In ECMappings(instance.item.ToNode).reactions Select nn.ID).ToArray}.Intersection
                      Select New Interaction With {
                          .FromNode = instance.item.FromNode,
                          .ToNode = instance.item.ToNode,
@@ -294,7 +293,7 @@ Namespace NetworkModel.PfsNET
         ''' 
         <ExportAPI("Export.Graph.Pathway")>
         Public Function ExportPathwayGraph(<Parameter("From.Pathway")> FromPathway As XmlModel, Optional Trim As Boolean = True) As Dictionary(Of String, ______NETWORK__)
-            Dim reactions = FromPathway.Metabolome.ToDictionary(Function(r) r.Entry)
+            Dim reactions = FromPathway.Metabolome.ToDictionary(Function(r) r.ID)
             Dim rxnGeneRels As NetworkEdge() = (From ezMap As EC_Mapping
                                                 In FromPathway.EC_Mappings.AsParallel
                                                 Select (From r As ReactionMaps
@@ -309,8 +308,8 @@ Namespace NetworkModel.PfsNET
                                             Select (From r As bGetObject.Reaction
                                                     In NextRxn
                                                     Select New NetworkEdge With {
-                                                        .FromNode = rxn.Entry,
-                                                        .ToNode = r.Entry,
+                                                        .FromNode = rxn.ID,
+                                                        .ToNode = r.ID,
                                                         .Interaction = "Flux"}).ToArray).ToArray.ToVector
 
             Dim List As Dictionary(Of String, ______NETWORK__) =

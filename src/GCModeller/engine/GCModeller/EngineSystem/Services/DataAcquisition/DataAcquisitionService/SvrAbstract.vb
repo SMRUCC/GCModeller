@@ -94,5 +94,9 @@ Namespace EngineSystem.Services.DataAcquisition.Services
             Me.Address = i
             Me.value = value
         End Sub
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Address = address
+        End Sub
     End Structure
 End Namespace

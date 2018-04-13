@@ -69,6 +69,10 @@ Namespace DataStorage.FileModel
             Return String.Format("[{0}] {1}   ", Handle, UniqueId) & String.Join(",", (From obj In Samples Select s = obj.ToString).ToArray)
         End Function
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>

@@ -138,7 +138,7 @@ Public Module ShellScriptAPI
         Dim Reaction = (From refRxn As ReferenceReaction In RefMap.Reactions
                         Let Orthology As String() = (From obj In RefMap.GetGeneOrthology(refRxn) Select obj.Key.Description).ToArray
                         Select (From xId As String In refRxn.Enzyme
-                                Select ID = String.Format("[{0}] {1}", xId, refRxn.Entry),
+                                Select ID = String.Format("[{0}] {1}", xId, refRxn.ID),
                                     DataModel = refRxn.ReactionModel,
                                     refRxnX = refRxn,
                                     EcNum = xId)).IteratesALL
@@ -151,7 +151,7 @@ Public Module ShellScriptAPI
                            New XGMML.Attribute With {
                                 .Name = "KEGG_ENTRY",
                                 .Type = ATTR_VALUE_TYPE_STRING,
-                                .Value = rxn.refRxnX.Entry
+                                .Value = rxn.refRxnX.ID
                            },
                            New XGMML.Attribute With {
                                 .Name = "Equation",

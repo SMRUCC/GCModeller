@@ -57,5 +57,9 @@ Namespace GridPBS
         Public Property Identifier As String Implements INamedValue.Key
         Public Property Quantity As Double
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
+
     End Structure
 End Namespace

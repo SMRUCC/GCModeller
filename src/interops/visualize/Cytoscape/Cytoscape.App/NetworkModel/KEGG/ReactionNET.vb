@@ -117,7 +117,7 @@ Namespace NetworkModel.KEGG
         Public Function BuildNET(source As IEnumerable(Of bGetObject.Reaction)) As FileStream.NetworkTables
             Dim cpHash = BuildCompoundHash(source)
             Dim nodes As New List(Of FileStream.Node)
-            Dim nodeTmp As FileStream.Node() = source.Select(Function(x) New FileStream.Node With {.ID = x.Entry, .NodeType = "Flux"})
+            Dim nodeTmp As FileStream.Node() = source.Select(Function(x) New FileStream.Node With {.ID = x.ID, .NodeType = "Flux"})
             Call nodes.AddRange(nodeTmp)
             nodeTmp = cpHash.Select(Function(x) New FileStream.Node With {
                                          .ID = x.Key,
@@ -139,8 +139,8 @@ Namespace NetworkModel.KEGG
             Dim source As Dictionary(Of String, bGetObject.Reaction()) = (From x As bGetObject.Reaction
                                                                           In LoadObjects(sourceDIR)
                                                                           Select x
-                                                                          Group x By x.Entry Into Group) _
-                                                                                .ToDictionary(Function(x) x.Entry,
+                                                                          Group x By x.ID Into Group) _
+                                                                                .ToDictionary(Function(x) x.ID,
                                                                                               Function(x) x.Group.ToArray)
             Dim mapsSource = (From x As String
                               In maps.Select(Function(xx) xx.ECMaps.Select(Function(xxx) xxx.Reactions)).IteratesALL.IteratesALL
@@ -157,8 +157,8 @@ Namespace NetworkModel.KEGG
             Dim LQuery = (From x In rxn
                           Let ldm = x.ReactionModel
                           Let s As Double = ldm.GetCoEfficient(met)
-                          Let from As String = If(s < 0, met, x.Entry)
-                          Let toNode As String = If(s < 0, x.Entry, met)
+                          Let from As String = If(s < 0, met, x.ID)
+                          Let toNode As String = If(s < 0, x.ID, met)
                           Let itr As String = If(ldm.Reversible, "Reversible", "Directed")
                           Select New FileStream.NetworkEdge With {
                               .FromNode = from,

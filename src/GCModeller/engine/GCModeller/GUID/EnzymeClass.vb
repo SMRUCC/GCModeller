@@ -79,6 +79,10 @@ Namespace EngineSystem.ObjectModels.PoolMappings
             ECNumber = [Class]
         End Sub
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
+
         Public Overrides Function ToString() As String
             Return String.Format("[{0}] {1}", Handle, Me.ECNumber)
         End Function
@@ -108,5 +112,9 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Structure
 End Namespace

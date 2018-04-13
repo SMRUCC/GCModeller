@@ -73,6 +73,10 @@ Namespace SequenceLogo
         ''' <returns></returns>
         Public Property Position As Integer Implements IAddressOf.Address
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Position = address
+        End Sub
+
         ''' <summary>
         ''' Display this site as a single alphabet, and this property is used 
         ''' for generates the motif string.

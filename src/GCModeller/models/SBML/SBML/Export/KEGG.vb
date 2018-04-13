@@ -96,7 +96,7 @@ Namespace ExportServices
             Dim equation As New Equation(rxn.Reactants, rxn.Products, allCompounds, rxn.reversible)
             Dim def As New Equation(rxn.Reactants, rxn.Products, rxn.reversible)
             Dim model As New bGetObject.Reaction With {
-                .Entry = rxn.id,
+                .ID = rxn.id,
                 .CommonNames = {rxn.name},
                 .Comments = rxn.Notes.Text,
                 .Equation = equation.ToString,

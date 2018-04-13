@@ -322,7 +322,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         ''' <remarks></remarks>
         Private Function __counts(Motif As MotifPM(), ns As DNA()) As Double
             Dim nl As Integer = ns.Length
-            Dim SlideWindows = Motif.CreateSlideWindows(slideWindowSize:=nl)
+            Dim SlideWindows = Motif.CreateSlideWindows(nl)
             Dim LQuery = (From n In SlideWindows
                           Let compare = (From i As Integer In ns.Sequence
                                          Let nn = n.Items(i).MostProperly
