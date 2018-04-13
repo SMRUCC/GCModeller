@@ -255,6 +255,10 @@ Namespace ComponentModel
 
         Public Property Index As Integer Implements IAddressOf.Address
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Index = address
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>

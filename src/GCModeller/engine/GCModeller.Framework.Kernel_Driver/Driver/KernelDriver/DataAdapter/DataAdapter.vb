@@ -74,7 +74,7 @@ Public Class DataAdapter(Of T, TDataSource As DataSourceHandler(Of T))
                       Let SampleValue As T() = (From data0Expr As TDataSource In sampleSource Select data0Expr.Value).ToArray
                       Let row = New DataStorage.FileModel.DataSerials(Of T) With {
                           .Handle = objHwnd.Handle,
-                          .UniqueId = objHwnd.Identifier,
+                          .UniqueId = objHwnd.ID,
                           .Samples = SampleValue
                       }
                       Select row).ToArray
