@@ -90,7 +90,10 @@ Namespace Compiler.Components
             For Each KEGGReaction In KEGGReactions
                 Dim LQuery = (From MetaCycReaction In MetaCycReactions.AsParallel Where _EuqationEquals.Equals(KEGGReaction.Equation, MetaCycEquation:=MetaCycReaction, Explicit:=False) Select MetaCycReaction).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call List.Add(New NamedVector(Of String) With {.name = KEGGReaction.Entry, .vector = (From item In LQuery Select item.Identifier).ToArray})
+                    Call List.Add(New NamedVector(Of String) With {
+                                  .name = KEGGReaction.ID,
+                                  .vector = (From item In LQuery Select item.Identifier).ToArray
+                               })
                 End If
             Next
 

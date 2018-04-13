@@ -160,7 +160,7 @@ Namespace Kernel.ObjectModels
 
         Public Overrides Function get_ObjectHandle() As ObjectHandle
             Return New ObjectHandle With {
-                .Identifier = Identifier,
+                .ID = Identifier,
                 .Handle = Handle
             }
         End Function
