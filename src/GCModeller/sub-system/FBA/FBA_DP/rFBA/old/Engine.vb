@@ -199,6 +199,10 @@ Namespace rFBA
             ''' <remarks></remarks>
             <XmlAttribute> Public Property MappingGeneId As String()
 
+            Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                Me.Handle = address
+            End Sub
+
             Protected Friend Function ApplyConstraint(Kernel As rFBA.Engine)
                 Throw New NotImplementedException
             End Function

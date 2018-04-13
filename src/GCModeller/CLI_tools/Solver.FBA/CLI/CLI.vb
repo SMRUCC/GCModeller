@@ -110,7 +110,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
                       Where Not isExists
                       Select x).ToArray
         For Each query In LQuery
-            Dim out As String = outDIR & "/" & query.Key.Entry.NormalizePathString(False) & ".xml"
+            Dim out As String = outDIR & "/" & query.Key.ID.NormalizePathString(False) & ".xml"
             Call query.Key.SaveAsXml(out)
         Next
 

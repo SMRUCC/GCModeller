@@ -86,6 +86,10 @@ Namespace EngineSystem.ObjectModels
 
         Public MustOverride ReadOnly Property TypeId As TypeIds
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Identifier
         End Function

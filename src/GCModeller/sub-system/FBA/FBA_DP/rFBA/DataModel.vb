@@ -115,6 +115,10 @@ Namespace rFBA
                 End If
             End Function
 
+            Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                Me.Handle = address
+            End Sub
+
             Public ReadOnly Property Substrates As String()
                 Get
                     Dim List As List(Of String) = New List(Of String)
@@ -145,6 +149,10 @@ Namespace rFBA
             ''' <returns></returns>
             ''' <remarks></remarks>
             Public Property Effectors As KeyValuePair(Of Integer, String)()
+
+            Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                Me.Handle = address
+            End Sub
 
             Public Overrides Function ToString() As String
                 Return Identifier

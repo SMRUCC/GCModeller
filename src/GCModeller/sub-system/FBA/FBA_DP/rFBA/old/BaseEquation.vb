@@ -82,7 +82,7 @@ Namespace rFBA
         End Property
 
         Public Overrides Function get_ObjectHandle() As Kernel_Driver.DataStorage.FileModel.ObjectHandle
-            Return New Kernel_Driver.DataStorage.FileModel.ObjectHandle With {.Handle = Handle, .Identifier = Identifier}
+            Return New Kernel_Driver.DataStorage.FileModel.ObjectHandle With {.Handle = Handle, .ID = Identifier}
         End Function
     End Class
 

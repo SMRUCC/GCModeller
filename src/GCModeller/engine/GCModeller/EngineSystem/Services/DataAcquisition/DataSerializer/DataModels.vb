@@ -161,5 +161,8 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
         Public Property Identifier As String Implements INamedValue.Key
         Public Property Handle As Integer Implements IAddressOf.Address
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Structure
 End Namespace

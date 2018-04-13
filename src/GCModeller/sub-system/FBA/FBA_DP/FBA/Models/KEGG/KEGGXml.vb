@@ -87,8 +87,8 @@ Namespace Models
             _model = model
             _reactions = (From x As bGetObject.Reaction In model.Metabolome
                           Select x
-                          Group x By x.Entry Into Group) _
-                                .ToDictionary(Function(x) x.Entry,
+                          Group x By x.ID Into Group) _
+                                .ToDictionary(Function(x) x.ID,
                                               Function(x) x.Group.First.ReactionModel)
 
             Dim array As String() = _reactions.Keys.ToArray
