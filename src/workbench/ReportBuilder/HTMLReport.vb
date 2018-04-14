@@ -1,7 +1,8 @@
-﻿Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Text
-Imports System.Runtime.CompilerServices
 
 Public Class HTMLReport
 
@@ -37,8 +38,8 @@ Public Class HTMLReport
         Return Me
     End Function
 
-    Sub New(folder As String)
-        Templates = (ls - l - r - {"*.html", "*.htm"} <= folder) _
+    Sub New(folder$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly)
+        Templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= folder) _
             .ToDictionary(Function(path) path.BaseName,
                           Function(path)
                               Return New TemplateHandler(path)
