@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05d4c277fd9e7f964847fecdc4b29d87, mime\text%html\HTML\Xml\Meta.vb"
+﻿#Region "Microsoft.VisualBasic::3f4ec9dd60360d84ae37f06989e41558, Data_science\Mathematica\Plot\Plots\Fractions\FractionData.vb"
 
     ' Author:
     ' 
@@ -31,63 +31,65 @@
 
     ' Summaries:
 
-    '     Class CSS
+    '     Class FractionData
     ' 
-    '         Properties: id, style, type
+    '         Properties: Color, Name, Percentage, Value
     ' 
-    '         Function: Generator, ToString
+    '         Function: GetValueLabel, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Linq
+Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace HTML.XmlMeta
+Namespace Fractions
 
     ''' <summary>
-    ''' Html之中的CSS样式
+    ''' 扇形/金字塔的数据模型
     ''' </summary>
-    Public Class CSS
+    Public Class FractionData : Implements INamedValue
 
         ''' <summary>
-        ''' ``text/css``
+        ''' 值范围为``[0, 1]``, 对象在整体中所占的百分比
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property type As String
-            Get
-                Return "text/css"
-            End Get
-            Set(value As String)
-                ' ReadOnly, Do Nothing
-            End Set
-        End Property
-
-        <XmlAttribute> Public Property id As String
+        Public Property Percentage As Double
         ''' <summary>
-        ''' 具体的CSS内容
+        ''' 对象的名称标签
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property style As String
+        Public Property Name As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' 扇形、金字塔梯形的填充颜色
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Color As Color
+        ''' <summary>
+        ''' 与占整体的百分比相对应的实际数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Value As Double
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
-        Public Shared Function Generator(classId As IEnumerable(Of String), attrs As Dictionary(Of String, String)) As String
-            Dim sb As New StringBuilder(String.Join(", ", classId.Select(Function(s) "." & s).ToArray))
-
-            Call sb.AppendLine("{")
-            For Each attr In attrs
-                Call sb.AppendLine($"   {attr.Key}: {attr.Value};")
-            Next
-            Call sb.AppendLine("}")
-
-            Return sb.ToString
+        Public Function GetValueLabel(type As ValueLabels) As String
+            Select Case type
+                Case ValueLabels.None
+                    Return Nothing
+                Case ValueLabels.Value
+                    Return Value.ToString("F" & 2)
+                Case ValueLabels.Percentage
+                    Return (Percentage * 100).ToString("F2") & "%"
+                Case Else
+                    Return Value
+            End Select
         End Function
     End Class
 End Namespace
