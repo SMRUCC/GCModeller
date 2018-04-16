@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6b55e82351685f55a6b353fea43b8b6, data\KEGG\LocalMySQL\data_compounds.vb"
+﻿#Region "Microsoft.VisualBasic::040288e51338f4b25896d4fbe0593773, data\KEGG\LocalMySQL\data_compounds.vb"
 
     ' Author:
     ' 
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

@@ -70,6 +70,10 @@ Namespace CytoscapeGraphView.XGMML
             End Get
         End Property
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.id = address
+        End Sub
+
         Public Overrides Function ToString() As String
             Dim array As String() = Attributes.Select(AddressOf Scripting.ToString)
             Return String.Format("{0} ""{1}""  ==> {2}", id, label, String.Join("; ", array))

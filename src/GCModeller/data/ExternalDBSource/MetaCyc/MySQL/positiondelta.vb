@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d19ca50c669d9ee4b077347c26c457c4, data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
+﻿#Region "Microsoft.VisualBasic::1c58e4573f12f7c6451c95c9bdecd98a, data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
 
     ' Author:
     ' 
@@ -159,4 +159,3 @@ End Class
 
 
 End Namespace
-

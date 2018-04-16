@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b51ba88418a67b084a55a42de39405d, models\SBML\SBML\Export\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::cac5a8d0c2aa9cb10948425653fb93ef, models\SBML\SBML\Export\KEGG.vb"
 
     ' Author:
     ' 
@@ -96,7 +96,7 @@ Namespace ExportServices
             Dim equation As New Equation(rxn.Reactants, rxn.Products, allCompounds, rxn.reversible)
             Dim def As New Equation(rxn.Reactants, rxn.Products, rxn.reversible)
             Dim model As New bGetObject.Reaction With {
-                .Entry = rxn.id,
+                .ID = rxn.id,
                 .CommonNames = {rxn.name},
                 .Comments = rxn.Notes.Text,
                 .Equation = equation.ToString,

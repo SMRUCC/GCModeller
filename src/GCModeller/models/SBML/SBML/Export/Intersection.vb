@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf747d89d5853353dca01a2af5ea0ab1, models\SBML\SBML\Export\Intersection.vb"
+﻿#Region "Microsoft.VisualBasic::881654b1c6e888656314e1fce40e1157, models\SBML\SBML\Export\Intersection.vb"
 
     ' Author:
     ' 
@@ -76,8 +76,8 @@ Namespace ExportServices
             Dim hash As Dictionary(Of String, Elements.Reaction) =
                 sbml.Model.listOfReactions.ToDictionary(Function(x) x.id)
             Dim out As Elements.Reaction() = (From x In LQuery
-                                              Let sbmlRxn As Elements.Reaction = hash(x.x.Key.Entry)
-                                              Let kgId As String = x.Key.Entry
+                                              Let sbmlRxn As Elements.Reaction = hash(x.x.Key.ID)
+                                              Let kgId As String = x.Key.ID
                                               Select __setNOTE(sbmlRxn, kgId)).ToArray
             Return out
         End Function

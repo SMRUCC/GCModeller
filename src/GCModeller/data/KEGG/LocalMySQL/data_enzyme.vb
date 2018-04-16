@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01c9627b541d6502b18783ba38d59b74, data\KEGG\LocalMySQL\data_enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::1abdadaa2d4fe1b70c2374256d764723, data\KEGG\LocalMySQL\data_enzyme.vb"
 
     ' Author:
     ' 
@@ -169,4 +169,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e19b596596dec71c514cf43c940a7ab2, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::6b31b7e92e7a1cde2a3c79ed555bdd58, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
 
     ' Author:
     ' 
@@ -37,9 +37,13 @@
     ' 
     '     Function: get_ObjectHandle
     ' 
+    '     Sub: Assign
+    ' 
     ' Class Variable
     ' 
     '     Properties: Handle, UniqueId, Value
+    ' 
+    '     Sub: Assign
     ' 
     ' /********************************************************************************/
 
@@ -64,7 +68,7 @@ Public MustInherit Class Expression
     Public Overridable Function get_ObjectHandle() As DataStorage.FileModel.ObjectHandle Implements IDynamicsExpression(Of Double).get_ObjectHandle
         Return New Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
             .Handle = Handle,
-            .Identifier = Identifier
+            .ID = Identifier
         }
     End Function
 #End Region
@@ -77,6 +81,10 @@ Public MustInherit Class Expression
 
     Public Property Identifier As String Implements INamedValue.Key
     Public Property Handle As Integer Implements IAddressOf.Address
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Me.Handle = address
+    End Sub
 End Class
 
 ''' <summary>
@@ -109,4 +117,8 @@ Public MustInherit Class Variable : Implements IAddressOf
     ''' <returns></returns>
     ''' <remarks></remarks>
     <XmlAttribute> Public Property UniqueId As String Implements INamedValue.Key
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Me.Handle = address
+    End Sub
 End Class

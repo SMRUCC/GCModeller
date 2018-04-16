@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad411b53026552d1a2726fb5cedc45c, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::4e4d881fc77d64386076dcdb0e058812, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,8 @@
     ' 
     '         Function: CalculatesBits, Hi, ToString
     ' 
+    '         Sub: Assign
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -72,6 +74,10 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <returns></returns>
         Public Property Position As Integer Implements IAddressOf.Address
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Position = address
+        End Sub
 
         ''' <summary>
         ''' Display this site as a single alphabet, and this property is used 

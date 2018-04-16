@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34abf0fc3e18d3b6ce5e9769242250d6, engine\GCTabular\Compiler\SabiorkKinetics.vb"
+﻿#Region "Microsoft.VisualBasic::0a2aa79c445587c2a27667026a6b3a5f, engine\GCTabular\Compiler\SabiorkKinetics.vb"
 
     ' Author:
     ' 
@@ -90,7 +90,10 @@ Namespace Compiler.Components
             For Each KEGGReaction In KEGGReactions
                 Dim LQuery = (From MetaCycReaction In MetaCycReactions.AsParallel Where _EuqationEquals.Equals(KEGGReaction.Equation, MetaCycEquation:=MetaCycReaction, Explicit:=False) Select MetaCycReaction).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call List.Add(New NamedVector(Of String) With {.name = KEGGReaction.Entry, .vector = (From item In LQuery Select item.Identifier).ToArray})
+                    Call List.Add(New NamedVector(Of String) With {
+                                  .name = KEGGReaction.ID,
+                                  .vector = (From item In LQuery Select item.Identifier).ToArray
+                               })
                 End If
             Next
 

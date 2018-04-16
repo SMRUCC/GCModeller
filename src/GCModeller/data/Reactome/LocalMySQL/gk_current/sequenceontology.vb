@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d87a01811f9a075e3a8384c4a2d99bd7, data\Reactome\LocalMySQL\gk_current\sequenceontology.vb"
+﻿#Region "Microsoft.VisualBasic::4d5c9c3ce13e7bb3737e2bd1f8b44d9f, data\Reactome\LocalMySQL\gk_current\sequenceontology.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e54d0d6c1fd4f6dfb0b14a7262a8e52, core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::a7ef2da3c24fc5453c6eab410568e0fa, core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
 
     ' Author:
     ' 
@@ -45,12 +45,16 @@
     ' 
     '         Function: ToString
     ' 
+    '         Sub: Assign
+    ' 
     '     Class Atom
     ' 
     '         Properties: Atom, Charge, Edit, Formula, index
     '                     M
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

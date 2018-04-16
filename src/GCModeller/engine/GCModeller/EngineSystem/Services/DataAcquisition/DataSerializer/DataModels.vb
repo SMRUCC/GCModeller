@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6c50eb846277105b22f211813d62f53, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::b7af023e46f4823dff0dcafc7e16af88, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,8 @@
     '         Properties: Handle, Identifier, InsertSQL
     ' 
     '         Function: GenerateSQL, GetHandles, ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/
@@ -161,5 +163,8 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
         Public Property Identifier As String Implements INamedValue.Key
         Public Property Handle As Integer Implements IAddressOf.Address
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Structure
 End Namespace

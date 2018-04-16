@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57cd4caf8d58b6971af66500740f5484, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\SvrAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::074cbeca49e2eea82a87feee676248aa, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\SvrAbstract.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,7 @@
     '         Properties: Address, value
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/
@@ -93,6 +94,10 @@ Namespace EngineSystem.Services.DataAcquisition.Services
         Sub New(i As Long, value As Double)
             Me.Address = i
             Me.value = value
+        End Sub
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Address = address
         End Sub
     End Structure
 End Namespace

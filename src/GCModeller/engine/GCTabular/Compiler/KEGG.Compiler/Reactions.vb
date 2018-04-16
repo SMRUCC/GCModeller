@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6f311030db183d0117300b5a1ad5eb2, engine\GCTabular\Compiler\KEGG.Compiler\Reactions.vb"
+﻿#Region "Microsoft.VisualBasic::c7f13b13fdc6c694f7e93b49681fae31, engine\GCTabular\Compiler\KEGG.Compiler\Reactions.vb"
 
     ' Author:
     ' 
@@ -88,7 +88,7 @@ Namespace KEGG.Compiler
                                       CompoundsDownloads As String,
                                       Logging As LogFile) As List(Of FileStream.MetabolismFlux)
 
-            Dim Models = KEGGReactions.ToDictionary(Function(item As Reaction) item.Entry)
+            Dim Models = KEGGReactions.ToDictionary(Function(item As Reaction) item.ID)
             Dim CARMEN = SMRUCC.genomics.Interops.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
             Dim LQuery = (From item As CARMEN.Reaction In CARMEN.AsParallel
                           Let Model = Models.__match(item, ReactionsDownloads)
@@ -156,7 +156,7 @@ Namespace KEGG.Compiler
                     LQuery = (From mRxn As Slots.Reaction In ReactionModels
                               Where SbmlModels.ContainsKey(mRxn.Identifier)
                               Select New Reaction With {
-                                  .Entry = mRxn.Identifier,
+                                  .ID = mRxn.Identifier,
                                   .Definition = mRxn.CommonName,
                                   .CommonNames = If(mRxn.Names.IsNullOrEmpty, Nothing, mRxn.Names.ToArray),
                                   .Comments = mRxn.Comment,
@@ -166,10 +166,10 @@ Namespace KEGG.Compiler
                 End If
 
                 For Each item In LQuery
-                    If Not Reactions.ContainsKey(item.Entry) Then
-                        Call Reactions.Add(item.Entry, New KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)(New List(Of String) From {Enzyme.ProteinId}, item))
+                    If Not Reactions.ContainsKey(item.ID) Then
+                        Call Reactions.Add(item.ID, New KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)(New List(Of String) From {Enzyme.ProteinId}, item))
                     Else
-                        Dim Target = Reactions(item.Entry)
+                        Dim Target = Reactions(item.ID)
                         Call Target.Key.Add(Enzyme.ProteinId)
                     End If
                 Next
@@ -223,7 +223,7 @@ Namespace KEGG.Compiler
                               Where Sbml.ContainsKey(item.Identifier)
                               Let SbmlModel = Sbml(item.Identifier)
                               Let KEGGDataModel = New SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction With {
-                                  .Entry = item.Identifier,
+                                  .ID = item.Identifier,
                                   .Definition = item.CommonName,
                                   .CommonNames = If(item.Names.IsNullOrEmpty, Nothing, item.Names.ToArray),
                                   .Comments = item.Comment,
@@ -240,7 +240,7 @@ Namespace KEGG.Compiler
                                        DownloadDir As String,
                                        ByRef DownloadList As List(Of FileStream.Metabolite), Logging As LogFile) As FileStream.MetabolismFlux
             Dim fluxModel As FileStream.MetabolismFlux = New FileStream.MetabolismFlux With {
-                .Identifier = Model.Entry,
+                .Identifier = Model.ID,
                 .CommonName = Model.Comments
             }
             Dim EquationModel = EquationBuilder.CreateObject(Model.Equation)
@@ -288,9 +288,10 @@ Download:
 
                         Dim Compound = If(MCQuery.IsNullOrEmpty, Nothing, MCQuery.First.Value)
 
-                        If Compound Is Nothing Then  '已经无法知晓代谢物的任何情况了，说明该反应过程可能是错误的也可能是通用底物的过程
-                            '则只能在编译器日志之中记录下当前的编号，然后将当前的反应过程删除
-                            Call Logging.WriteLine(String.Format("{0} is unable to recognized, reaction {1} [{2}] was deleted!", UniqueId, Model.Entry, Model.Equation), "GenerateModel()")
+                        If Compound Is Nothing Then
+                            ' 已经无法知晓代谢物的任何情况了，说明该反应过程可能是错误的也可能是通用底物的过程
+                            ' 则只能在编译器日志之中记录下当前的编号，然后将当前的反应过程删除
+                            Call Logging.WriteLine(String.Format("{0} is unable to recognized, reaction {1} [{2}] was deleted!", UniqueId, Model.ID, Model.Equation), "GenerateModel()")
                             Return Nothing
                         Else
                             IsKEGGReaction = False
@@ -331,7 +332,7 @@ Download:
             End If
 
             fluxModel.Enzymes = If(Enzymes.IsNullOrEmpty, Nothing, Enzymes.ToArray)
-            fluxModel.KEGGReaction = If(IsKEGGReaction, Model.Entry, "")
+            fluxModel.KEGGReaction = If(IsKEGGReaction, Model.ID, "")
             fluxModel.EnzymeClass = Model.Enzyme.First
 
             Return fluxModel

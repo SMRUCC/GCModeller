@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29d4cbf38eb79f62afee30b157706b56, data\Reactome\LocalMySQL\gk_current\reactioncoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::19395f1d7af72c3c6162c99b3c884fd4, data\Reactome\LocalMySQL\gk_current\reactioncoordinates.vb"
 
     ' Author:
     ' 
@@ -176,4 +176,3 @@ End Class
 
 
 End Namespace
-

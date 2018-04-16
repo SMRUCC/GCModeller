@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f2d9a07ef3335d1062853dba4705240, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
+﻿#Region "Microsoft.VisualBasic::01dda8b4a351bfe05c8d06cf42c4786a, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\visitor_stat.vb"
 
     ' Author:
     ' 
@@ -257,4 +257,3 @@ End Class
 
 
 End Namespace
-

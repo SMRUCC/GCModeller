@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aef75caec4bd7c6c48604102948e46c4, sub-system\FBA\FBA_DP\FBA\Models\KEGG\KEGGXml.vb"
+﻿#Region "Microsoft.VisualBasic::74c2100226347e98e08bb2889b96227b, sub-system\FBA\FBA_DP\FBA\Models\KEGG\KEGGXml.vb"
 
     ' Author:
     ' 
@@ -87,8 +87,8 @@ Namespace Models
             _model = model
             _reactions = (From x As bGetObject.Reaction In model.Metabolome
                           Select x
-                          Group x By x.Entry Into Group) _
-                                .ToDictionary(Function(x) x.Entry,
+                          Group x By x.ID Into Group) _
+                                .ToDictionary(Function(x) x.ID,
                                               Function(x) x.Group.First.ReactionModel)
 
             Dim array As String() = _reactions.Keys.ToArray

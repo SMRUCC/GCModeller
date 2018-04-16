@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::559c055b7970c534b37ac385b95d4749, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
+﻿#Region "Microsoft.VisualBasic::a1ac115842d0248777d436a8e0b6c12b, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,9 @@
 
     '     Class ObjectHandle
     ' 
-    '         Properties: Handle, Identifier
+    '         Properties: Handle, ID
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,7 +53,11 @@ Namespace DataStorage.FileModel
         Implements IAddressOf
         Implements INamedValue
 
-        Public Property Identifier As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Integer).Key
+        Public Property ID As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Integer).Key
         Public Property Handle As Integer Implements IAddressOf.Address, IKeyValuePairObject(Of String, Integer).Value
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
     End Class
 End Namespace

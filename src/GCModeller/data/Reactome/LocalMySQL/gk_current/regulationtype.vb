@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45253e0089594bfe1db791de5e62e1a7, data\Reactome\LocalMySQL\gk_current\regulationtype.vb"
+﻿#Region "Microsoft.VisualBasic::dbffe90042b9e6edd43490922d8f864d, data\Reactome\LocalMySQL\gk_current\regulationtype.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

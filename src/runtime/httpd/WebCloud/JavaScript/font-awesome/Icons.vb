@@ -1,3 +1,213 @@
+﻿#Region "Microsoft.VisualBasic::6330601dd4082f1461cda68e68136e03, WebCloud\JavaScript\font-awesome\Icons.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum icons
+    ' 
+    '     [Stop], _500px, AccessibleIcon, Accusoft, AddressBook
+    '     AddressCard, Adjust, Adn, Adversal, Affiliatetheme
+    '     Algolia, AlignCenter, AlignJustify, AlignLeft, AlignRight
+    '     Amazon, AmazonPay, Ambulance, AmericanSignLanguageInterpreting, Amilia
+    '     Anchor, Android, Angellist, AngleDoubleDown, AngleDoubleLeft
+    '     AngleDoubleRight, AngleDoubleUp, AngleDown, AngleLeft, AngleRight
+    '     AngleUp, Angrycreative, Angular, Apper, Apple
+    '     ApplePay, AppStore, AppStoreIos, Archive, ArrowAltCircleDown
+    '     ArrowAltCircleLeft, ArrowAltCircleRight, ArrowAltCircleUp, ArrowCircleDown, ArrowCircleLeft
+    '     ArrowCircleRight, ArrowCircleUp, ArrowDown, ArrowLeft, ArrowRight
+    '     ArrowsAlt, ArrowsAltH, ArrowsAltV, ArrowUp, AssistiveListeningSystems
+    '     Asterisk, Asymmetrik, At, Audible, AudioDescription
+    '     Autoprefixer, Avianex, Aviato, Aws, Backward
+    '     BalanceScale, Ban, BandAid, Bandcamp, Barcode
+    '     Bars, BaseballBall, BasketballBall, Bath, BatteryEmpty
+    '     BatteryFull, BatteryHalf, BatteryQuarter, BatteryThreeQuarters, Bed
+    '     Beer, Behance, BehanceSquare, Bell, BellSlash
+    '     Bicycle, Bimobject, Binoculars, BirthdayCake, Bitbucket
+    '     Bitcoin, Bity, Blackberry, BlackTie, Blind
+    '     Blogger, BloggerB, Bluetooth, BluetoothB, Bold
+    '     Bolt, Bomb, Book, Bookmark, BowlingBall
+    '     Box, Boxes, Braille, Briefcase, Btc
+    '     Bug, Building, Bullhorn, Bullseye, Buromobelexperte
+    '     Bus, Buysellads, Calculator, Calendar, CalendarAlt
+    '     CalendarCheck, CalendarMinus, CalendarPlus, CalendarTimes, Camera
+    '     CameraRetro, Car, CaretDown, CaretLeft, CaretRight
+    '     CaretSquareDown, CaretSquareLeft, CaretSquareRight, CaretSquareUp, CaretUp
+    '     CartArrowDown, CartPlus, CcAmazonPay, CcAmex, CcApplePay
+    '     CcDinersClub, CcDiscover, CcJcb, CcMastercard, CcPaypal
+    '     CcStripe, CcVisa, Centercode, Certificate, ChartArea
+    '     ChartBar, ChartLine, ChartPie, Check, CheckCircle
+    '     CheckSquare, Chess, ChessBishop, ChessBoard, ChessKing
+    '     ChessKnight, ChessPawn, ChessQueen, ChessRook, ChevronCircleDown
+    '     ChevronCircleLeft, ChevronCircleRight, ChevronCircleUp, ChevronDown, ChevronLeft
+    '     ChevronRight, ChevronUp, Child, Chrome, Circle
+    '     CircleNotch, Clipboard, ClipboardCheck, ClipboardList, Clock
+    '     Clone, ClosedCaptioning, Cloud, CloudDownloadAlt, Cloudscale
+    '     Cloudsmith, CloudUploadAlt, Cloudversify, Code, CodeBranch
+    '     Codepen, Codiepie, Coffee, Cog, Cogs
+    '     Columns, Comment, CommentAlt, Comments, Compass
+    '     Compress, Connectdevelop, Contao, Copy, Copyright
+    '     Cpanel, CreativeCommons, CreditCard, Crop, Crosshairs
+    '     Css3, Css3Alt, Cube, Cubes, Cut
+    '     Cuttlefish, DAndD, Dashcube, Database, Deaf
+    '     Delicious, Deploydog, Deskpro, Desktop, Deviantart
+    '     Digg, DigitalOcean, Discord, Discourse, Dna
+    '     Dochub, Docker, DollarSign, Dolly, DollyFlatbed
+    '     DotCircle, Download, Draft2digital, Dribbble, DribbbleSquare
+    '     Dropbox, Drupal, Dyalog, Earlybirds, Edge
+    '     Edit, Eject, Elementor, EllipsisH, EllipsisV
+    '     Ember, Empire, Envelope, EnvelopeOpen, EnvelopeSquare
+    '     Envira, Eraser, Erlang, Ethereum, Etsy
+    '     EuroSign, ExchangeAlt, Exclamation, ExclamationCircle, ExclamationTriangle
+    '     Expand, ExpandArrowsAlt, Expeditedssl, ExternalLinkAlt, ExternalLinkSquareAlt
+    '     Eye, EyeDropper, EyeSlash, Facebook, FacebookF
+    '     FacebookMessenger, FacebookSquare, FastBackward, FastForward, Fax
+    '     Female, FighterJet, File, FileAlt, FileArchive
+    '     FileAudio, FileCode, FileExcel, FileImage, FilePdf
+    '     FilePowerpoint, FileVideo, FileWord, Film, Filter
+    '     Fire, FireExtinguisher, Firefox, FirstAid, Firstdraft
+    '     FirstOrder, Flag, FlagCheckered, Flask, Flickr
+    '     Flipboard, Fly, Folder, FolderOpen, Font
+    '     FontAwesome, FontAwesomeAlt, FontAwesomeFlag, Fonticons, FonticonsFi
+    '     FootballBall, FortAwesome, FortAwesomeAlt, Forumbee, Forward
+    '     Foursquare, Freebsd, FreeCodeCamp, Frown, Futbol
+    '     Gamepad, Gavel, Gem, Genderless, GetPocket
+    '     Gg, GgCircle, Gift, Git, Github
+    '     GithubAlt, GithubSquare, Gitkraken, Gitlab, GitSquare
+    '     Gitter, GlassMartini, Glide, GlideG, Globe
+    '     Gofore, GolfBall, Goodreads, GoodreadsG, Google
+    '     GoogleDrive, GooglePlay, GooglePlus, GooglePlusG, GooglePlusSquare
+    '     GoogleWallet, GraduationCap, Gratipay, Grav, Gripfire
+    '     Grunt, Gulp, HackerNews, HackerNewsSquare, HandLizard
+    '     HandPaper, HandPeace, HandPointDown, HandPointer, HandPointLeft
+    '     HandPointRight, HandPointUp, HandRock, HandScissors, Handshake
+    '     HandSpock, Hashtag, Hdd, Heading, Headphones
+    '     Heart, Heartbeat, Hips, HireAHelper, History
+    '     HockeyPuck, Home, Hooli, Hospital, HospitalSymbol
+    '     Hotjar, Hourglass, HourglassEnd, HourglassHalf, HourglassStart
+    '     Houzz, HSquare, Html5, Hubspot, ICursor
+    '     IdBadge, IdCard, Image, Images, Imdb
+    '     Inbox, Indent, Industry, Info, InfoCircle
+    '     Instagram, InternetExplorer, Ioxhost, Italic, Itunes
+    '     ItunesNote, Jenkins, Joget, Joomla, Js
+    '     Jsfiddle, JsSquare, Key, Keyboard, Keycdn
+    '     Kickstarter, KickstarterK, Korvue, Language, Laptop
+    '     Laravel, Lastfm, LastfmSquare, Leaf, Leanpub
+    '     Lemon, Less, LevelDownAlt, LevelUpAlt, LifeRing
+    '     Lightbulb, Line, Link, Linkedin, LinkedinIn
+    '     Linode, Linux, LiraSign, List, ListAlt
+    '     ListOl, ListUl, LocationArrow, Lock, LockOpen
+    '     LongArrowAltDown, LongArrowAltLeft, LongArrowAltRight, LongArrowAltUp, LowVision
+    '     Lyft, Magento, Magic, Magnet, Male
+    '     Map, MapMarker, MapMarkerAlt, MapPin, MapSigns
+    '     Mars, MarsDouble, MarsStroke, MarsStrokeH, MarsStrokeV
+    '     Maxcdn, Medapps, Medium, MediumM, Medkit
+    '     Medrt, Meetup, Meh, Mercury, Microchip
+    '     Microphone, MicrophoneSlash, Microsoft, Minus, MinusCircle
+    '     MinusSquare, Mix, Mixcloud, Mizuni, Mobile
+    '     MobileAlt, Modx, Monero, MoneyBillAlt, Moon
+    '     Motorcycle, MousePointer, Music, Napster, Neuter
+    '     Newspaper, NintendoSwitch, Node, NodeJs, Npm
+    '     Ns8, Nutritionix, ObjectGroup, ObjectUngroup, Odnoklassniki
+    '     OdnoklassnikiSquare, Opencart, Openid, Opera, OptinMonster
+    '     Osi, Outdent, Page4, Pagelines, PaintBrush
+    '     Palfed, Pallet, Paperclip, PaperPlane, Paragraph
+    '     Paste, Patreon, Pause, PauseCircle, Paw
+    '     Paypal, PencilAlt, PenSquare, Percent, Periscope
+    '     Phabricator, PhoenixFramework, Phone, PhoneSquare, PhoneVolume
+    '     Php, PiedPiper, PiedPiperAlt, PiedPiperPp, Pills
+    '     Pinterest, PinterestP, PinterestSquare, Plane, Play
+    '     PlayCircle, Playstation, Plug, Plus, PlusCircle
+    '     PlusSquare, Podcast, PoundSign, PowerOff, Print
+    '     ProductHunt, Pushed, PuzzlePiece, Python, Qq
+    '     Qrcode, Question, QuestionCircle, Quidditch, Quinscape
+    '     Quora, QuoteLeft, QuoteRight, Random, Ravelry
+    '     React, Rebel, Recycle, Reddit, RedditAlien
+    '     RedditSquare, Redo, RedoAlt, RedRiver, Registered
+    '     Rendact, Renren, Reply, ReplyAll, Replyd
+    '     Resolving, Retweet, Road, Rocket, Rocketchat
+    '     Rockrms, Rss, RssSquare, RubleSign, RupeeSign
+    '     Safari, Sass, Save, Schlix, Scribd
+    '     Search, Searchengin, SearchMinus, SearchPlus, Sellcast
+    '     Sellsy, Server, Servicestack, Share, ShareAlt
+    '     ShareAltSquare, ShareSquare, ShekelSign, ShieldAlt, Ship
+    '     ShippingFast, Shirtsinbulk, ShoppingBag, ShoppingBasket, ShoppingCart
+    '     Shower, Signal, SignInAlt, SignLanguage, SignOutAlt
+    '     Simplybuilt, Sistrix, Sitemap, Skyatlas, Skype
+    '     Slack, SlackHash, SlidersH, Slideshare, Smile
+    '     Snapchat, SnapchatGhost, SnapchatSquare, Snowflake, Sort
+    '     SortAlphaDown, SortAlphaUp, SortAmountDown, SortAmountUp, SortDown
+    '     SortNumericDown, SortNumericUp, SortUp, Soundcloud, SpaceShuttle
+    '     Speakap, Spinner, Spotify, Square, SquareFull
+    '     StackExchange, StackOverflow, Star, StarHalf, Staylinked
+    '     Steam, SteamSquare, SteamSymbol, StepBackward, StepForward
+    '     Stethoscope, StickerMule, StickyNote, StopCircle, Stopwatch
+    '     Strava, StreetView, Strikethrough, Stripe, StripeS
+    '     Studiovinari, Stumbleupon, StumbleuponCircle, Subscript, Subway
+    '     Suitcase, Sun, Superpowers, Superscript, Supple
+    '     Sync, SyncAlt, Syringe, Table, Tablet
+    '     TabletAlt, TableTennis, TachometerAlt, Tag, Tags
+    '     Tasks, Taxi, Telegram, TelegramPlane, TencentWeibo
+    '     Terminal, TextHeight, TextWidth, Th, Themeisle
+    '     Thermometer, ThermometerEmpty, ThermometerFull, ThermometerHalf, ThermometerQuarter
+    '     ThermometerThreeQuarters, ThLarge, ThList, ThumbsDown, ThumbsUp
+    '     Thumbtack, TicketAlt, Times, TimesCircle, Tint
+    '     ToggleOff, ToggleOn, Trademark, Train, Transgender
+    '     TransgenderAlt, Trash, TrashAlt, Tree, Trello
+    '     Tripadvisor, Trophy, Truck, Tty, Tumblr
+    '     TumblrSquare, Tv, Twitch, Twitter, TwitterSquare
+    '     Typo3, Uber, Uikit, Umbrella, Underline
+    '     Undo, UndoAlt, Uniregistry, UniversalAccess, University
+    '     Unlink, Unlock, UnlockAlt, Untappd, Upload
+    '     Usb, User, UserCircle, UserMd, UserPlus
+    '     Users, UserSecret, UserTimes, Ussunnah, Utensils
+    '     UtensilSpoon, Vaadin, Venus, VenusDouble, VenusMars
+    '     Viacoin, Viadeo, ViadeoSquare, Viber, Video
+    '     Vimeo, VimeoSquare, VimeoV, Vine, Vk
+    '     Vnv, VolleyballBall, VolumeDown, VolumeOff, VolumeUp
+    '     Vuejs, Warehouse, Weibo, Weight, Weixin
+    '     Whatsapp, WhatsappSquare, Wheelchair, Whmcs, Wifi
+    '     WikipediaW, WindowClose, WindowMaximize, WindowMinimize, WindowRestore
+    '     Windows, WonSign, Wordpress, WordpressSimple, Wpbeginner
+    '     Wpexplorer, Wpforms, Wrench, Xbox, Xing
+    '     XingSquare, Yahoo, Yandex, YandexInternational, YCombinator
+    '     Yelp, YenSign, Yoast, Youtube, YoutubeSquare
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.ComponentModel
 
 Public Enum icons
@@ -2492,3 +2702,4 @@ Public Enum icons
     <Description("youtube-square")>
     YoutubeSquare
 End Enum
+

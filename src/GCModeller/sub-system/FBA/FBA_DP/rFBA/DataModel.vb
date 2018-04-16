@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d0719b761d41ef76b40815db677016, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::1b0814bab700f0531eb19458635ea30d, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,8 @@
     ' 
     '             Function: GetCoefficient
     ' 
+    '             Sub: Assign
+    ' 
     '         Class ObjectiveFunction
     ' 
     '             Properties: Direction, Factors
@@ -47,6 +49,8 @@
     '             Properties: Effectors, Handle, Identifier, RPKM
     ' 
     '             Function: ToString
+    ' 
+    '             Sub: Assign
     ' 
     '         Class CellSystem
     ' 
@@ -115,6 +119,10 @@ Namespace rFBA
                 End If
             End Function
 
+            Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                Me.Handle = address
+            End Sub
+
             Public ReadOnly Property Substrates As String()
                 Get
                     Dim List As List(Of String) = New List(Of String)
@@ -145,6 +153,10 @@ Namespace rFBA
             ''' <returns></returns>
             ''' <remarks></remarks>
             Public Property Effectors As KeyValuePair(Of Integer, String)()
+
+            Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+                Me.Handle = address
+            End Sub
 
             Public Overrides Function ToString() As String
                 Return Identifier

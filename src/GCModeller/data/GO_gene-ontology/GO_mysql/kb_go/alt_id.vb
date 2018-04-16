@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e65013a06fa2353be74c5e2618e5693b, data\GO_gene-ontology\GO_mysql\kb_go\alt_id.vb"
+﻿#Region "Microsoft.VisualBasic::73d7360eeda35f208160bd0fd4a251a2, data\GO_gene-ontology\GO_mysql\kb_go\alt_id.vb"
 
     ' Author:
     ' 
@@ -152,4 +152,3 @@ End Class
 
 
 End Namespace
-

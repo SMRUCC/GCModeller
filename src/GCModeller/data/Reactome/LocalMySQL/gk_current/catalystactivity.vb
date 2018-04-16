@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f9a80a8edf081621f32b11f632332a1, data\Reactome\LocalMySQL\gk_current\catalystactivity.vb"
+﻿#Region "Microsoft.VisualBasic::66edc8ca82d9c830af82cfe867639064, data\Reactome\LocalMySQL\gk_current\catalystactivity.vb"
 
     ' Author:
     ' 
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

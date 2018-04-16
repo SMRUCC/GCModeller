@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37ed44e168f5f3dfe5a85f7a147e328, analysis\ProteinTools\Protease\PeptideCutter.vb"
+﻿#Region "Microsoft.VisualBasic::07f056ff3df9a8000d6efab09207c1a4, analysis\ProteinTools\Protease\PeptideCutter.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Public Module PeptideCutter
         Next
     End Function
 End Module
-

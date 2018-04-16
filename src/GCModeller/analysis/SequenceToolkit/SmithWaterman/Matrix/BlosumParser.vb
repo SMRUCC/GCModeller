@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0ae55b6d3b4dd6da08c7ae3d8d5d1d4, analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
+﻿#Region "Microsoft.VisualBasic::1868a31ab18e89b44bec54451981b70e, analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
 
     ' Author:
     ' 
@@ -92,4 +92,3 @@ Public Module BlosumParser
         Return array
     End Function
 End Module
-

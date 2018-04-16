@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::871987585c0159cd9bd2f09fccd7d374, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
+﻿#Region "Microsoft.VisualBasic::218252a83416605dfcff271c7e9c8a56, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: ID, RepeatLocis, Right, SpacerLocis, Start
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/
@@ -84,6 +86,10 @@ Namespace Output
                 Return RepeatLocis.Last.Left + Len(RepeatLocis.Last.SequenceData)
             End Get
         End Property
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.ID = address
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

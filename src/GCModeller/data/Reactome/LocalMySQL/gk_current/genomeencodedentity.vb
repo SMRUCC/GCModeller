@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::390d16ff0698e7693a475c267b4b0610, data\Reactome\LocalMySQL\gk_current\genomeencodedentity.vb"
+﻿#Region "Microsoft.VisualBasic::5f3e8cd7a57ac63cced0d1140db3bd20, data\Reactome\LocalMySQL\gk_current\genomeencodedentity.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ End Class
 
 
 End Namespace
-

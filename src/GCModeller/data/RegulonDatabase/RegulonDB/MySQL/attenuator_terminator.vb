@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e139127803294aafb23ad6eee0b82965, data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
+﻿#Region "Microsoft.VisualBasic::f6c98ab2d651932355e95446d4eb8c5b, data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
 
     ' Author:
     ' 
@@ -156,4 +156,3 @@ End Class
 
 
 End Namespace
-

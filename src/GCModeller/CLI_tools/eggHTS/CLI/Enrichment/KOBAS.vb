@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a9ed77c4b315182518a9bad7540f75a, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::45c969bd74ac0ac58030cac795c30cf5, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Fractions
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -134,7 +135,7 @@ Partial Module CLI
                         .angleZ = 30,
                         .angleX = 30,
                         .angleY = -30,
-                        .offset = New Point(0, -100)
+                        .offset = New PointF(0, -100)
                 }).Save(out)
         Else
             Call profiles.Fractions(colors).Plot.Save(out)

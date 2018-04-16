@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff53d06ab9349609725620b10f531b95, engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
+﻿#Region "Microsoft.VisualBasic::1abc9838c0d7aef07df7c81c91d0ecc9, engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,8 @@
     ' 
     '         Properties: Handle, Identifier, Quantity
     ' 
+    '         Sub: Assign
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -56,6 +58,10 @@ Namespace GridPBS
         Public Property Handle As Integer Implements IAddressOf.Address
         Public Property Identifier As String Implements INamedValue.Key
         Public Property Quantity As Double
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
 
     End Structure
 End Namespace

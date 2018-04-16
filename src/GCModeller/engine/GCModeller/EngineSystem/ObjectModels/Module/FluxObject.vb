@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c737d892001322cebc264b5a996d5c57, engine\GCModeller\EngineSystem\ObjectModels\Module\FluxObject.vb"
+﻿#Region "Microsoft.VisualBasic::7fbea02bb66a926f5c32d4f6c2cc7a95, engine\GCModeller\EngineSystem\ObjectModels\Module\FluxObject.vb"
 
     ' Author:
     ' 
@@ -149,7 +149,7 @@ Namespace EngineSystem.ObjectModels.Module
         Public Function CreateHandle() As SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
             Return New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
                 .Handle = Handle,
-                .Identifier = Identifier
+                .ID = Identifier
             }
         End Function
     End Class

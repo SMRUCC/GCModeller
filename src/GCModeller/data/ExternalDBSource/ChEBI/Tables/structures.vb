@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3a5af9d4b88d2ba3d97d096f7a1cc9c, data\ExternalDBSource\ChEBI\Tables\structures.vb"
+﻿#Region "Microsoft.VisualBasic::3ab93684fbf8bb94da38540ccb7d7157, data\ExternalDBSource\ChEBI\Tables\structures.vb"
 
     ' Author:
     ' 
@@ -155,4 +155,3 @@ End Class
 
 
 End Namespace
-

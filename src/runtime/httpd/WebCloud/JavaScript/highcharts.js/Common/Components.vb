@@ -1,4 +1,107 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::35f9f6ec7d047922a2ad6a36fc6cb5b9, WebCloud\JavaScript\highcharts.js\Common\Components.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Axis
+    ' 
+    '     Properties: allowDecimals, categories, className, crosshair, dateTimeLabelFormats
+    '                 endOnTick, gridLineWidth, labels, max, min
+    '                 opposite, plotBands, showFirstLabel, showLastLabel, startOnTick
+    '                 tickInterval, title, type
+    ' 
+    ' Class dateTimeLabelFormats
+    ' 
+    '     Properties: month, year
+    ' 
+    ' Class Band
+    ' 
+    '     Properties: [to], color, from
+    ' 
+    ' Class legendOptions
+    ' 
+    '     Properties: align, backgroundColor, borderWidth, enabled, floating
+    '                 layout, reversed, shadow, verticalAlign, x
+    '                 y
+    ' 
+    ' Class title
+    ' 
+    '     Properties: align, enable, skew3d, text
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class tooltip
+    ' 
+    '     Properties: [shared], crosshairs, footerFormat, headerFormat, pointFormat
+    '                 useHTML, valueSuffix
+    ' 
+    ' Class labelOptions
+    ' 
+    '     Properties: connectorAllowed, formatter, overflow, rotation, skew3d
+    '                 style
+    ' 
+    ' Class styleOptions
+    ' 
+    '     Properties: color, fontFamily, fontSize
+    ' 
+    ' Class dataLabels
+    ' 
+    '     Properties: align, color, enabled, format, rotation
+    '                 style, y
+    ' 
+    ' Class responsiveOptions
+    ' 
+    '     Properties: rules
+    ' 
+    ' Class rule
+    ' 
+    '     Properties: chartOptions, condition
+    ' 
+    ' Class ruleConditions
+    ' 
+    '     Properties: maxWidth
+    ' 
+    ' Class chartOptions
+    ' 
+    '     Properties: legend
+    ' 
+    ' Class credits
+    ' 
+    '     Properties: enabled, href, text
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports Newtonsoft.Json
 
 Public Class Axis
@@ -141,3 +244,4 @@ Public Class credits
     ''' <returns></returns>
     Public Property text As String
 End Class
+

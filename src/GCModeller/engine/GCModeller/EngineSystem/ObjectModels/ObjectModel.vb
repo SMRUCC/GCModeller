@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f8766fccf2ec70a54b1547c6df55d8a, engine\GCModeller\EngineSystem\ObjectModels\ObjectModel.vb"
+﻿#Region "Microsoft.VisualBasic::8473d6ca162dfbd9d5aacce0d2c8c3f9, engine\GCModeller\EngineSystem\ObjectModels\ObjectModel.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: Handle, Identifier
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     '         Enum TypeIds
     ' 
     '             ActiveTransportationFlux, BasalExpression, CentralDogma, EntityCompound, EntityReactionModifier
@@ -85,6 +87,10 @@ Namespace EngineSystem.ObjectModels
         Public Overridable Property Handle As Integer Implements IAddressOf.Address
 
         Public MustOverride ReadOnly Property TypeId As TypeIds
+
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.Handle = address
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Identifier

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bea1f90f9fecc8f259b2baca920849df, CLI_tools\Solver.FBA\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::d4fba6ccd51fb333893104a672ef3dc3, CLI_tools\Solver.FBA\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -110,7 +110,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
                       Where Not isExists
                       Select x).ToArray
         For Each query In LQuery
-            Dim out As String = outDIR & "/" & query.Key.Entry.NormalizePathString(False) & ".xml"
+            Dim out As String = outDIR & "/" & query.Key.ID.NormalizePathString(False) & ".xml"
             Call query.Key.SaveAsXml(out)
         Next
 

@@ -138,7 +138,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
     <Group(CLI.Config_CLI)>
     Public Function SetMySQL(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
-            Call mysqli.RunConfig(
+            Call MySqliHelper.RunConfig(
                 Sub(uri)
                     MySQLExtensions.MySQL = uri
                 End Sub)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49728598fdfaf18b2b341e564126ca1d, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::beefdaddc387208c83432453db637e74, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
 
     ' Author:
     ' 
@@ -74,7 +74,7 @@ Public Class DataAdapter(Of T, TDataSource As DataSourceHandler(Of T))
                       Let SampleValue As T() = (From data0Expr As TDataSource In sampleSource Select data0Expr.Value).ToArray
                       Let row = New DataStorage.FileModel.DataSerials(Of T) With {
                           .Handle = objHwnd.Handle,
-                          .UniqueId = objHwnd.Identifier,
+                          .UniqueId = objHwnd.ID,
                           .Samples = SampleValue
                       }
                       Select row).ToArray
