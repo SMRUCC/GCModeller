@@ -137,12 +137,12 @@ Public Module Javascript
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Sub WriteHighchartsHTML(template As StringBuilder, name$, javascript$, div$, Optional style$ = "height: 450px")
+    Public Sub WriteHighchartsHTML(template As StringBuilder, name$, javascript$, div$, Optional style$ = "height: 450px;")
         Call template.Replace(name, javascript.GetHtmlViewer(div, style))
     End Sub
 
     <Extension>
-    Public Function GetHtmlViewer(javascript$, div$, Optional style$ = "height: 450px") As String
+    Public Function GetHtmlViewer(javascript$, div$, Optional style$ = "width:100%; height: 450px;") As String
         Return sprintf(
             <p>
                 <div id=<%= div %> style=<%= style %>></div>
