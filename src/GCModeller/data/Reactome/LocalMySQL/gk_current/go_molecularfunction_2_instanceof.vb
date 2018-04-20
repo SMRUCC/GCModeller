@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13cecf89368658610e776d7f7fec7f29, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_instanceof.vb"
+﻿#Region "Microsoft.VisualBasic::c271c47a187ab5e752602498490002b6, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_instanceof.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

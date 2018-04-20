@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293119e0ba38246ad78daef027b19279, sub-system\CellPhenotype\TRN\KineticsModel\KineticsModel.vb"
+﻿#Region "Microsoft.VisualBasic::01463a2524e4c27aa82766cd168f0c7c, sub-system\CellPhenotype\TRN\KineticsModel\KineticsModel.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '         Function: CreateHandle, Evaluate, InternalGetMostPossibleAppearState, Regulators_DynamicsRegulation, Regulators_SiteSpecificDynamicsRegulations
     '                   SetConfigs, ToString
     ' 
-    '         Sub: InternalFactorDecays, set_Mutation
+    '         Sub: Assign, InternalFactorDecays, set_Mutation
     ' 
     ' 
     ' /********************************************************************************/

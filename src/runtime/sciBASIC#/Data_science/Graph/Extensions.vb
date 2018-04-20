@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16733df755f642b827c77f884b4bfdb6, Data_science\Graph\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4e7f4939a0d34d8ea930c27f40a71899, Data_science\Graph\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Module Extensions
     ' 
-    '     Function: Add, CreateGraph, DefaultSteps, Grid, Reverse
+    '     Function: Add, BacktrackingRoot, CreateGraph, DefaultSteps, Grid
+    '               Reverse, VisitTree
     ' 
     ' /********************************************************************************/
 
@@ -61,7 +62,11 @@ Public Module Extensions
 
         For Each name As String In path
             ' 如果路径不存在是会报出键名没有找到的错误的
-            node = node.Childs(name)
+            If Not node.Childs.ContainsKey(name) Then
+                Throw New EntryPointNotFoundException("entry=" & name)
+            Else
+                node = node.Childs(name)
+            End If
         Next
 
         Return node

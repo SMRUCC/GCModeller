@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fa2fd2e1fce75c832f1173158e23c39, data\ExternalDBSource\MetaCyc\MySQL\bioassaytuple.vb"
+﻿#Region "Microsoft.VisualBasic::2dc33967303ce0a8b6eb7c63c087b26d, data\ExternalDBSource\MetaCyc\MySQL\bioassaytuple.vb"
 
     ' Author:
     ' 
@@ -160,4 +160,3 @@ End Class
 
 
 End Namespace
-

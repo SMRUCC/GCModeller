@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a14bb30ab96bcaaf4b8a388fb46f0df5, data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
+﻿#Region "Microsoft.VisualBasic::499afaac3adf4b89c26c18eda52414d5, data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
 
     ' Author:
     ' 
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

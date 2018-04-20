@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5ddc6add523bbaa6733ddd74d3e2094, gr\Microsoft.VisualBasic.Imaging\SVG\XML\SVG.vb"
+﻿#Region "Microsoft.VisualBasic::a62c155f43573716a7a1e9de7c794ca1, gr\Microsoft.VisualBasic.Imaging\SVG\XML\SVG.vb"
 
 ' Author:
 ' 
@@ -33,11 +33,11 @@
 
 '     Class SVGXml
 ' 
-'         Properties: circles, defs, enable_background, height, id
-'                     images, Layers, lines, overflow, path
-'                     polygon, polyline, rect, space, style
-'                     texts, title, transform, version, viewBox
-'                     width, WriterComment
+'         Properties: circles, defs, desc, enable_background, height
+'                     id, images, Layers, lines, overflow
+'                     path, polygon, polyline, rect, space
+'                     style, texts, title, transform, version
+'                     viewBox, width, WriterComment
 ' 
 '         Constructor: (+2 Overloads) Sub New
 '         Function: AddLayer, GetSVGXml, (+2 Overloads) SaveAsXml, Size, TryLoad
@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging.SVG.CSS
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.Text
+Imports htmlNode = Microsoft.VisualBasic.MIME.Markup.HTML.XmlMeta.Node
 
 Namespace SVG.XML
 
@@ -66,7 +67,7 @@ Namespace SVG.XML
     ''' <summary>
     ''' The svg vector graphics in Xml document format.
     ''' </summary>
-    <XmlRoot("svg", [Namespace]:=SVGWriter.Xmlns)> Public Class SVGXml
+    <XmlRoot("svg", [Namespace]:=SVGWriter.Xmlns)> Public Class SVGXml : Inherits htmlNode
         Implements ISaveHandle
         Implements ICanvas
 
@@ -91,7 +92,6 @@ Namespace SVG.XML
 
         <XmlAttribute> Public Property width As String
         <XmlAttribute> Public Property height As String
-        <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property version As String
         <XmlAttribute> Public Property viewBox As String()
         <XmlAttribute> Public Property overflow As String
@@ -121,8 +121,11 @@ Namespace SVG.XML
         ''' SVG对象也会在这里面定义CSS
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个属性会和<see cref="htmlNode.style"/>在进行XML序列化的时候产生冲突？
+        ''' </remarks>
         <XmlElement("style")>
-        Public Shadows Property style As XmlMeta.CSS
+        Public Property styleCSS As XmlMeta.CSS
 
         <XmlElement("image")>
         Public Property images As Image() Implements ICanvas.images

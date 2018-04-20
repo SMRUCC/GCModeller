@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d6aa2ec26c8c3d6cfd01b0c46ab81ce, data\ExternalDBSource\MetaCyc\MySQL\designelementmapping.vb"
+﻿#Region "Microsoft.VisualBasic::7381a8d7b404c5a1cbfb28ad8ee7e717, data\ExternalDBSource\MetaCyc\MySQL\designelementmapping.vb"
 
     ' Author:
     ' 
@@ -146,4 +146,3 @@ End Class
 
 
 End Namespace
-

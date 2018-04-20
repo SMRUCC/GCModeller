@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3f78ef6c2d18cc01f7b4963c45826de, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb"
+﻿#Region "Microsoft.VisualBasic::6b523eac6f2e432d00a10a8ca5a2be33, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

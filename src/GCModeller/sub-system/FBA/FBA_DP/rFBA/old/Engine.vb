@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::413dcad4b1d1696d31b335f277160be8, sub-system\FBA\FBA_DP\rFBA\old\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::3bc4783eafa8a30f568c43e9525c4b77, sub-system\FBA\FBA_DP\rFBA\old\Engine.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,8 @@
     '             Properties: Boundaries, FluxName, Handle, MappingGeneId, Reversible
     ' 
     '             Function: ApplyConstraint
+    ' 
+    '             Sub: Assign
     ' 
     ' 
     ' 

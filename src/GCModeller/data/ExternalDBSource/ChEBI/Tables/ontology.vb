@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a96da3d5aab1ef9f7717d82151099c4, data\ExternalDBSource\ChEBI\Tables\ontology.vb"
+﻿#Region "Microsoft.VisualBasic::585d63638ef77342b77ec6306e362a93, data\ExternalDBSource\ChEBI\Tables\ontology.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

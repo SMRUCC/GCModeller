@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8a64bd8983cf77b13cac14f61b66a08, analysis\ProteinTools\Protease\CleavageRule.vb"
+﻿#Region "Microsoft.VisualBasic::ad2d8436389daffae0400c0ddb120e06, analysis\ProteinTools\Protease\CleavageRule.vb"
 
     ' Author:
     ' 
@@ -90,4 +90,3 @@ Public Class CleavageRule
         Yield P2C Or Any
     End Function
 End Class
-

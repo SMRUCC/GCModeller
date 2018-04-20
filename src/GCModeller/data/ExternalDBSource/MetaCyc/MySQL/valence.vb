@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fd56431b0d89bb4fcb43085ebe526fd, data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
+﻿#Region "Microsoft.VisualBasic::cfecb957bd491c9f04770eee1ae88ee3, data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ End Class
 
 
 End Namespace
-

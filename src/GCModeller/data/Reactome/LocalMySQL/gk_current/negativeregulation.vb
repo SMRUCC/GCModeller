@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb44e9e8e506f3d1696f829b5ee74050, data\Reactome\LocalMySQL\gk_current\negativeregulation.vb"
+﻿#Region "Microsoft.VisualBasic::56b1a2ee971deb3004f9d5750e22d610, data\Reactome\LocalMySQL\gk_current\negativeregulation.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ End Class
 
 
 End Namespace
-

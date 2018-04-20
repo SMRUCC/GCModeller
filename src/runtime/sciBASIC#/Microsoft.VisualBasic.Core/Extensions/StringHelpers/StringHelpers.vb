@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61a329b0193769065b97bbb8e07259c, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::d9919454fe1a215a4e5618fd34162153, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -39,8 +39,8 @@
     '               CreateBuilder, DistinctIgnoreCase, EqualsAny, First, FormatString
     '               FormatZero, GetBetween, GetEMails, GetStackValue, GetString
     '               (+2 Overloads) GetTagValue, GetURLs, IgnoreCase, InStrAny, (+2 Overloads) Intersection
-    '               IsEmptyStringVector, IsNullOrEmpty, JoinBy, Located, Lookup
-    '               lTokens, (+2 Overloads) Match, Matches, MatchPattern, (+2 Overloads) MaxLengthString
+    '               IsEmptyStringVector, IsNullOrEmpty, JoinBy, LineTokens, Located
+    '               Lookup, (+2 Overloads) Match, Matches, MatchPattern, (+2 Overloads) MaxLengthString
     '               Parts, RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull
     '               SaveTo, (+2 Overloads) Split, SplitBy, StringEmpty, StringHashCode
     '               StringReplace, StringSplit, StripBlank, Strips, TextEquals
@@ -583,7 +583,7 @@ Public Module StringHelpers
 
         Do While pos > 0
             n += 1
-            pos = InStr(pos, text, phrase, method)
+            pos = InStr(pos + 1, text, phrase, method)
         Loop
 
         Return n

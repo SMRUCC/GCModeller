@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18dca1f0bf3872f74bcd76a78a65cd6d, data\Reactome\LocalMySQL\gk_current\stableidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::1b114c90c58a0d320334ce1b48235b3e, data\Reactome\LocalMySQL\gk_current\stableidentifier.vb"
 
     ' Author:
     ' 
@@ -168,4 +168,3 @@ End Class
 
 
 End Namespace
-

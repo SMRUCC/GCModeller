@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2c793006c85a1824198c73ff9634572, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::e8b93402ac88d1518d31c55094d78f2a, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f777216c3927f0aefd8a3d415910cf19, data\ExternalDBSource\MetaCyc\MySQL\dataset.vb"
+﻿#Region "Microsoft.VisualBasic::dc9753e8538ee48509bebb362c35573d, data\ExternalDBSource\MetaCyc\MySQL\dataset.vb"
 
     ' Author:
     ' 
@@ -171,4 +171,3 @@ End Class
 
 
 End Namespace
-

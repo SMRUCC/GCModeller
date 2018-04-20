@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad411b53026552d1a2726fb5cedc45c, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::4e4d881fc77d64386076dcdb0e058812, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: Alphabets, AsChar, Bits, Position
     ' 
     '         Function: CalculatesBits, Hi, ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

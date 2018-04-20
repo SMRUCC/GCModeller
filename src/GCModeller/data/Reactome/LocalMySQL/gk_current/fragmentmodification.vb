@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45f034a800e87d392d0d17759b216540, data\Reactome\LocalMySQL\gk_current\fragmentmodification.vb"
+﻿#Region "Microsoft.VisualBasic::2cd1360b042578308b65f2861ce992d7, data\Reactome\LocalMySQL\gk_current\fragmentmodification.vb"
 
     ' Author:
     ' 
@@ -149,4 +149,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c1c1753190d3e33a22fd5f2e80c3250, analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::7518e982f1e6f4e54400583197e5700a, analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Public Class DNAMatrix : Inherits Blosum
         End Select
     End Function
 End Class
-

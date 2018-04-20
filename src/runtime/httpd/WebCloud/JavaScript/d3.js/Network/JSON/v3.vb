@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12a845ad2f2a4742d2267a7546af923, WebCloud\SMRUCC.WebCloud.d3js\Network\Json.vb"
+﻿#Region "Microsoft.VisualBasic::e9c45af00c17dcc94ac5b96cbe5ed6c7, WebCloud\JavaScript\d3.js\Network\JSON\v3.vb"
 
     ' Author:
     ' 
@@ -37,24 +37,26 @@
     ' 
     '         Function: ToString
     ' 
-    '     Structure out
+    '         Structure out
     ' 
-    '         Properties: links, nodes
+    '             Properties: links, nodes
     ' 
-    '         Function: ToString
+    '             Function: ToString
     ' 
-    '     Class node
+    '         Class node
     ' 
-    '         Properties: Address, color, group, name, size
-    '                     type
+    '             Properties: color, group, ID, name, size
+    '                         type, value
     ' 
-    '         Function: ToString
+    '             Function: ToString
     ' 
-    '     Class link
+    '             Sub: Assign
     ' 
-    '         Properties: source, target, value
+    '         Class link
     ' 
-    '         Function: ToString
+    '             Properties: source, target, value
+    ' 
+    '             Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

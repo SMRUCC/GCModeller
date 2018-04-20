@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72cd7af26e94fde647bbab951207cc83, WebCloud\SMRUCC.WebCloud.highcharts\Charts\ChartTypes.vb"
+﻿#Region "Microsoft.VisualBasic::7dde580fecdffb37ac598b3f054f66f3, WebCloud\JavaScript\highcharts.js\ChartTypes.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Enum ChartTypes
     ' 
     '     area, areaspline, bar, column, columnrange
-    '     pie
+    '     pie, variwide
     ' 
     '  
     ' 

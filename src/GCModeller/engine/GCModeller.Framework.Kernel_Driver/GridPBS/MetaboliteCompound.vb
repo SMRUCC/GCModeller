@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff53d06ab9349609725620b10f531b95, engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
+﻿#Region "Microsoft.VisualBasic::1abc9838c0d7aef07df7c81c91d0ecc9, engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
 
     ' Author:
     ' 
@@ -34,6 +34,8 @@
     '     Structure MetaboliteCompound
     ' 
     '         Properties: Handle, Identifier, Quantity
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba03075b1601fb004f031c6ed96c497d, data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
+﻿#Region "Microsoft.VisualBasic::e09b477445e3e056656002b73292ee59, data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

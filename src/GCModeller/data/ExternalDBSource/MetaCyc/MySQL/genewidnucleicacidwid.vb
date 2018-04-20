@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc2627dd050094193d06b92696f6dc6c, data\ExternalDBSource\MetaCyc\MySQL\genewidnucleicacidwid.vb"
+﻿#Region "Microsoft.VisualBasic::fc90bc8476ab64fcf76995fe450ca244, data\ExternalDBSource\MetaCyc\MySQL\genewidnucleicacidwid.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ End Class
 
 
 End Namespace
-

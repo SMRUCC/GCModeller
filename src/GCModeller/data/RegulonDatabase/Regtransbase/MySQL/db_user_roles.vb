@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cde3a15265a9404e32c027d68508a183, data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
+﻿#Region "Microsoft.VisualBasic::d3daa236be305f8f5f1bf2ba00817199, data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
 
     ' Author:
     ' 
@@ -142,4 +142,3 @@ End Class
 
 
 End Namespace
-

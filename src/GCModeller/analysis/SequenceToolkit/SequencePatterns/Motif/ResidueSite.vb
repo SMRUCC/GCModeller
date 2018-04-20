@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74cf0095cc8febc6b2e0f6584b6d79ff, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::4ac0ac174d2f77ef94225dbe185a3f2b, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,10 @@
     '         Properties: AsChar, Bits, PWM, Site
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __toChar, Complement, ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

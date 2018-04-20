@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6693ba90bf818d3fa2f598d33721520, data\RegulonDatabase\RegulonDB\MySQL\transcription_unit.vb"
+﻿#Region "Microsoft.VisualBasic::99dfba239341a1378310aa32105980c5, data\RegulonDatabase\RegulonDB\MySQL\transcription_unit.vb"
 
     ' Author:
     ' 
@@ -156,4 +156,3 @@ End Class
 
 
 End Namespace
-

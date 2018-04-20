@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbd6174fef44e8be8db325bf6867e74f, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::de3e74514c1c45631a06cf3d9ea70bf9, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 
@@ -111,4 +111,3 @@ Public Module ProbabilityScanner
             .ToArray
     End Function
 End Module
-

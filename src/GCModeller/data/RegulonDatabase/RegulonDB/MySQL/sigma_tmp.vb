@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b724992d95f16c96b675d3bf0221b4b, data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::ba31547765d5506aa9e640c0dca24a4a, data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
 
     ' Author:
     ' 
@@ -162,4 +162,3 @@ End Class
 
 
 End Namespace
-

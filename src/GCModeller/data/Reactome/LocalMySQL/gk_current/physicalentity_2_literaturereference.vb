@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa990b09e2bffa3c46e64d42908b9c91, data\Reactome\LocalMySQL\gk_current\physicalentity_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::54e632f46c46f87e6b91757024c029c2, data\Reactome\LocalMySQL\gk_current\physicalentity_2_literaturereference.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@ End Class
 
 
 End Namespace
-

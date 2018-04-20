@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e419ba8cf69c975699b573a4180d952, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMM.vb"
+﻿#Region "Microsoft.VisualBasic::3e62cbd077c62253ec352de6a30e6357, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMM.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,8 @@
     '     Properties: Address, Insert, Match, StateTransitions
     ' 
     '     Function: ToString
+    ' 
+    '     Sub: Assign
     ' 
     ' /********************************************************************************/
 

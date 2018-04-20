@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7962393e4bc2ac5893d37efe0f35359f, data\Reactome\LocalMySQL\gk_current\polymer.vb"
+﻿#Region "Microsoft.VisualBasic::2543ccdb5cefe538f08f0fe62165ca97, data\Reactome\LocalMySQL\gk_current\polymer.vb"
 
     ' Author:
     ' 
@@ -165,4 +165,3 @@ End Class
 
 
 End Namespace
-

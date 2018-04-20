@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad0f57e7d7d51d5986746add3e8bce81, data\ExternalDBSource\MetaCyc\MySQL\taxon.vb"
+﻿#Region "Microsoft.VisualBasic::ce7bfe5dae401aebaadd53d6a065a9e5, data\ExternalDBSource\MetaCyc\MySQL\taxon.vb"
 
     ' Author:
     ' 
@@ -183,4 +183,3 @@ End Class
 
 
 End Namespace
-

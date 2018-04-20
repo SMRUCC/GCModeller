@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a163dee148e352b7ea6d273be31d802b, data\ExternalDBSource\ChEBI\Tables\comments.vb"
+﻿#Region "Microsoft.VisualBasic::3e309d64fb0a673c00f57cd6a70c97b9, data\ExternalDBSource\ChEBI\Tables\comments.vb"
 
     ' Author:
     ' 
@@ -159,4 +159,3 @@ End Class
 
 
 End Namespace
-

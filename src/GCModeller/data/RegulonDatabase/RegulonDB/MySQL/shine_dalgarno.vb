@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25b3642b5bc4825d412e930d7b20979a, data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::61868565ff96bb2dbb3cb7ae7df9cf1e, data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
 
     ' Author:
     ' 
@@ -162,4 +162,3 @@ End Class
 
 
 End Namespace
-

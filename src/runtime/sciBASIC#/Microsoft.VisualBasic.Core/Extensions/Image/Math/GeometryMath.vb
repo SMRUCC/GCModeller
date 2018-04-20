@@ -1,64 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::0d7628a480f03c9b018528c12fbae40a, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeometryMath.vb"
+﻿#Region "Microsoft.VisualBasic::f337cb2a20c4d8bc4b7a0a851569ce96, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeometryMath.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module GeometryMath
-' 
-'         Function: (+4 Overloads) IntersectionOf
-'         Enum Intersection
-' 
-'             Containment, Intersection, None, Tangent
-' 
-' 
-' 
-'  
-' 
-' 
-' 
-'     Structure Line
-' 
-'         Properties: X1, X2, Y1, Y2
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'     Structure Polygon
-' 
-'         Properties: Length
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: GetEnumerator, IEnumerable_GetEnumerator
-' 
-' 
-' /********************************************************************************/
+    '     Module GeometryMath
+    ' 
+    '         Function: (+4 Overloads) IntersectionOf
+    ' 
+    '     Enum Intersection
+    ' 
+    '         Containment, Intersection, None, Tangent
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -239,7 +225,92 @@ Namespace Imaging.Math2D
             '  (4) Apply the discovered position to line A-B in the original coordinate system.
             Return Intersection.Intersection
         End Function
+
+        ''' <summary>
+        ''' 获取角度所指向的象限位置
+        ''' </summary>
+        ''' <param name="degree"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function QuadrantRegion(degree As Double) As QuadrantRegions
+            If degree > 360 Then
+                degree = degree Mod 360
+            ElseIf degree < -360 Then
+                degree = degree Mod 360
+            End If
+
+            If (degree >= -90 AndAlso degree < 0) OrElse (degree >= 270 AndAlso degree < 360) Then
+                Return QuadrantRegions.RightTop
+            ElseIf (degree >= -180 AndAlso degree < -90) OrElse (degree >= 180 AndAlso degree < 270) Then
+                Return QuadrantRegions.LeftTop
+            ElseIf (degree >= -270 AndAlso degree < -180) OrElse (degree >= 90 AndAlso degree < 180) Then
+                Return QuadrantRegions.LeftBottom
+            Else
+                Return QuadrantRegions.RightBottom
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 获取坐标点相对于原点<paramref name="origin"/>的象限位置
+        ''' </summary>
+        ''' <param name="origin"></param>
+        ''' <param name="p"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function QuadrantRegion(origin As PointF, p As PointF) As QuadrantRegions
+            If p.X > origin.X AndAlso p.Y < origin.Y Then
+                Return QuadrantRegions.RightTop
+            ElseIf p.X = origin.X AndAlso p.Y < origin.Y Then
+                Return QuadrantRegions.YTop
+            ElseIf p.x < origin.X AndAlso p.Y < origin.Y Then
+                Return QuadrantRegions.LeftTop
+            ElseIf p.X < origin.X AndAlso p.Y = origin.Y Then
+                Return QuadrantRegions.XLeft
+            ElseIf p.X < origin.X AndAlso p.Y > origin.Y Then
+                Return QuadrantRegions.LeftBottom
+            ElseIf p.X = origin.X AndAlso p.Y > origin.Y Then
+                Return QuadrantRegions.YBottom
+            ElseIf p.X > origin.X AndAlso p.Y > origin.Y Then
+                Return QuadrantRegions.RightBottom
+            ElseIf p.X > origin.X AndAlso p.Y = origin.Y Then
+                Return QuadrantRegions.XRight
+            Else
+                Return QuadrantRegions.Origin
+            End If
+        End Function
     End Module
+
+    ''' <summary>
+    ''' 请注意，视图上面的象限的位置和计算机之中的象限是反过来的
+    ''' </summary>
+    Public Enum QuadrantRegions
+
+        ''' <summary>
+        ''' 重叠在一起
+        ''' </summary>
+        Origin = 0
+
+        ''' <summary>
+        ''' quadrant 1 = 0,90 ~ -90,0 ~ 270,360
+        ''' </summary>
+        RightTop
+        YTop
+        ''' <summary>
+        ''' quadrant 2 = 90,180 ~ -180,-90 ~ 180,270
+        ''' </summary>
+        LeftTop
+        XLeft
+        ''' <summary>
+        ''' quadrant 3 = 180,270 ~ -270,-180 ~ 90,180 
+        ''' </summary>
+        LeftBottom
+        YBottom
+        ''' <summary>
+        ''' quadrant 4 = 270,360 ~ -270, -360 ~ 0, 90
+        ''' </summary>
+        RightBottom
+        XRight
+    End Enum
 
     ''' <summary>
     ''' 几何体之间的关系类型

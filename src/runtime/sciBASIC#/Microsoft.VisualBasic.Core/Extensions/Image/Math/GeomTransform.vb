@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce3286597f13a22c582fa83f6d88ba5f, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::6324907a193becbb1383e939c9bf4d67, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,10 @@
 
     '     Module GeomTransform
     ' 
-    '         Function: Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset, (+4 Overloads) Centre
-    '                   CircleRectangle, (+4 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter, (+2 Overloads) InRegion
-    '                   MirrorX, MirrorY, (+5 Overloads) OffSet2D, Offsets, (+2 Overloads) Scale
-    '                   SquareSize
+    '         Function: Angle, Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset
+    '                   (+4 Overloads) Centre, CircleRectangle, (+4 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter
+    '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+5 Overloads) OffSet2D, Offsets
+    '                   (+2 Overloads) Scale, SquareSize
     ' 
     ' 
     ' /********************************************************************************/
@@ -77,6 +77,21 @@ Namespace Imaging.Math2D
         <Extension>
         Public Function Area(rect As Rectangle) As Double
             Return rect.Width * rect.Height
+        End Function
+
+        ''' <summary>
+        ''' left,top -> right, top -> right, bottom -> left, bottom
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function ShapePoints(rect As RectangleF) As IEnumerable(Of PointF)
+            With rect
+                Yield New PointF(.Left, .Top)
+                Yield New PointF(.Right, .Top)
+                Yield New PointF(.Right, .Bottom)
+                Yield New PointF(.Left, .Bottom)
+            End With
         End Function
 
         ''' <summary>

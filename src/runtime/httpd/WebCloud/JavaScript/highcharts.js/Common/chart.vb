@@ -1,112 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::36b876db3b95e8c46cbc736f5509bd09, WebCloud\SMRUCC.WebCloud.highcharts\Common\chart.vb"
+﻿#Region "Microsoft.VisualBasic::12a083a8799ea7f275f4d829d1fb7df4, WebCloud\JavaScript\highcharts.js\Common\chart.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class chart
-' 
-'     Properties: inverted, margin, options3d, polar, renderTo
-'                 type, zoomType
-' 
-'     Function: BarChart3D, PieChart3D, ToString
-' 
-' Class Axis
-' 
-'     Properties: allowDecimals, categories, className, crosshair, dateTimeLabelFormats
-'                 endOnTick, gridLineWidth, labels, max, min
-'                 opposite, plotBands, showFirstLabel, showLastLabel, startOnTick
-'                 tickInterval, title, type
-' 
-' Class dateTimeLabelFormats
-' 
-'     Properties: month, year
-' 
-' Class Band
-' 
-'     Properties: [to], color, from
-' 
-' Class legendOptions
-' 
-'     Properties: align, backgroundColor, borderWidth, enabled, floating
-'                 layout, reversed, shadow, verticalAlign, x
-'                 y
-' 
-' Class title
-' 
-'     Properties: align, enable, skew3d, text
-' 
-'     Function: ToString
-' 
-' Class tooltip
-' 
-'     Properties: [shared], footerFormat, headerFormat, pointFormat, useHTML
-'                 valueSuffix
-' 
-' Class labelOptions
-' 
-'     Properties: connectorAllowed, formatter, overflow, skew3d, style
-' 
-' Class lambda
-' 
-'     Properties: func
-' 
-' Class styleOptions
-' 
-'     Properties: fontSize
-' 
-' Class dataLabels
-' 
-'     Properties: enabled, format
-' 
-' Class responsiveOptions
-' 
-'     Properties: rules
-' 
-' Class rule
-' 
-'     Properties: chartOptions, condition
-' 
-' Class ruleConditions
-' 
-'     Properties: maxWidth
-' 
-' Class chartOptions
-' 
-'     Properties: legend
-' 
-' Class credits
-' 
-'     Properties: enabled
-' 
-' /********************************************************************************/
+    ' Class chart
+    ' 
+    '     Properties: BarChart3D, ColumnChart, height, inverted, margin
+    '                 options3d, PieChart3D, plotBackgroundColor, plotBorderWidth, plotShadow
+    '                 polar, PolarChart, reflow, renderTo, showAxes
+    '                 type, VariWide, width, zoomType
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

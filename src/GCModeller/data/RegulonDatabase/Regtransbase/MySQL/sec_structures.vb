@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d379607df9188455ec93413b7b3b4059, data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
+﻿#Region "Microsoft.VisualBasic::8c1028d090fb87c4021dbe9b769b04d7, data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
 
     ' Author:
     ' 
@@ -199,4 +199,3 @@ End Class
 
 
 End Namespace
-

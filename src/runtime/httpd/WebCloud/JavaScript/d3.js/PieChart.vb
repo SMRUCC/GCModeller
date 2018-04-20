@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b40c11c81946c90a59c12de9a63e176, WebCloud\SMRUCC.WebCloud.d3js\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::7b40c11c81946c90a59c12de9a63e176, WebCloud\JavaScript\d3.js\PieChart.vb"
 
     ' Author:
     ' 
