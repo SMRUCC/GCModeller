@@ -131,7 +131,8 @@ Namespace CommandLine
                 Optional argv$ = "",
                 Optional environment As IEnumerable(Of ValueTuple) = Nothing,
                 Optional FolkNew As Boolean = False,
-                Optional stdRedirect$ = "")
+                Optional stdRedirect$ = "",
+                Optional stdin$ = Nothing)
 
             If Not String.IsNullOrEmpty(stdRedirect) Then
                 _TempRedirect = stdRedirect.CLIPath
@@ -151,7 +152,7 @@ Namespace CommandLine
             End If
 
             Bin = file
-            argv = $"{argv} > {_TempRedirect}"
+            argv = $"{argv.TrimNewLine(" ")} > {_TempRedirect}"
             CLIArguments = argv
 
             ' 系统可能不会自动创建文件夹，则需要在这里使用这个方法来手工创建，
@@ -161,9 +162,9 @@ Namespace CommandLine
             Call "".SaveTo(_TempRedirect)
 
             If App.IsMicrosoftPlatform Then
-                shellScript = ScriptingExtensions.Cmd(file, argv, environment, FolkNew)
+                shellScript = ScriptingExtensions.Cmd(file, argv, environment, FolkNew, stdin)
             Else
-                shellScript = ScriptingExtensions.Bash(file, argv, environment, FolkNew)
+                shellScript = ScriptingExtensions.Bash(file, argv, environment, FolkNew, stdin)
             End If
 
             Call $"""{file.ToFileURL}"" {argv}".__DEBUG_ECHO

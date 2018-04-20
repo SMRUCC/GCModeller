@@ -82,4 +82,6 @@ Public Class seriesOptions
     Public Property type As String
     Public Property borderWidth As Double?
     Public Property dataLabels As dataLabels
+    Public Property label As labelOptions
+    Public Property pointStart As String
 End Class

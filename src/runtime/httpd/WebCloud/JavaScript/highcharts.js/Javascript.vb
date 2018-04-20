@@ -142,10 +142,10 @@ Public Module Javascript
     End Sub
 
     <Extension>
-    Public Function GetHtmlViewer(javascript$, div$, Optional style$ = "width:100%; height: 450px;") As String
+    Public Function GetHtmlViewer(javascript$, div$, Optional style$ = "width:100%; height: 450px;", Optional class$ = "") As String
         Return sprintf(
             <p>
-                <div id=<%= div %> style=<%= style %>></div>
+                <div id=<%= div %> class=<%= [class] %> style=<%= style %>></div>
                 <script type="text/javascript">
                     %s
                 </script>
