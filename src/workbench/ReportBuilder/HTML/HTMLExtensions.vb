@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' </summary>
 ''' 
 <Package("GCModeller.HTML.ReportBuiulder", Publisher:="amethyst.asuka@gcmodeller.org")>
-Public Module HTML
+Public Module HTMLExtensions
 
     Public Const BR As String = "<br />"
 
