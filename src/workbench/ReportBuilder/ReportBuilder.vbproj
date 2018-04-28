@@ -267,10 +267,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HTMLReport.vb" />
+    <Compile Include="HTML\TemplateHandler.vb" />
+    <Compile Include="HTML\HTMLReport.vb" />
     <Compile Include="EMailMsg.vb" />
     <Compile Include="Navigation.vb" />
-    <Compile Include="HTML.vb" />
+    <Compile Include="HTML\HTMLExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
