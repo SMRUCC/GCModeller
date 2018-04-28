@@ -78,7 +78,7 @@ Partial Module CLI
                Usage:="/Prot_Motifs.PfamString /in <RegPrecise.Download_DIR> [/fasta <RegPrecise.fasta> /out <pfam-string.csv>]")>
     Public Function ProtMotifToPfamString(args As CommandLine) As Integer
         Dim files As String() = LinqAPI.Exec(Of String) <= From dr As String
-                                                           In ls - l - lsDIR << args.OpenHandle("/in")
+                                                           In ls - l - lsDIR <= args("/in")
                                                            Select ls - l - wildcards("*.json") <= dr
         Dim RegPrecise = (From fa As FASTA.FastaSeq
                           In New FASTA.StreamIterator(args.GetValue("/fasta", $"{args - "/in"}/RegPrecise.fasta")).ReadStream
