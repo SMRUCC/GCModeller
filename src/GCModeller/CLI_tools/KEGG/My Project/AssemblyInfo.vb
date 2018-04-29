@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("tools utilis for KEGG database DBGET API")>
-<Assembly: AssemblyDescription("tools utilis for KEGG database DBGET API")>
+<Assembly: AssemblyTitle("CLI tools utilis for KEGG database DBGET API")>
+<Assembly: AssemblyDescription("CLI tools utilis for KEGG database DBGET API")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2014")>
