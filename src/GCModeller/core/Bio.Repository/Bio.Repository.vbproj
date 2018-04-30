@@ -305,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KEGG\KEGGOrthology\OrganismModel.vb" />
+    <Compile Include="KEGG\ReactionRepository\ReactionLink.vb" />
     <Compile Include="KEGG\ReactionRepository\CompoundRepository.vb" />
     <Compile Include="KEGG\ReactionRepository\RepositoryExtensions.vb" />
     <Compile Include="KEGG\ReactionRepository\ReactionRepository.vb" />

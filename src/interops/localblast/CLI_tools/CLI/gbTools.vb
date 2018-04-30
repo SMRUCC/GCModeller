@@ -167,8 +167,8 @@ Partial Module CLI
     <Group(CLIGrouping.GenbankTools)>
     Public Function CopyPTT(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
-        Dim EXPORT As String = args.GetValue("/out", inDIR & "-Copy/")
-        Dim PTTs As IEnumerable(Of String) = ls - l - r - wildcards("*.ptt") <= inDIR
+        Dim EXPORT As String = args("/out") Or (inDIR & "-Copy/")
+        Dim PTTs As IEnumerable(Of String) = ls - l - r - "*.ptt" <= inDIR
 
         For Each file As String In PTTs
             Dim title As String = file.ReadFirstLine
@@ -185,8 +185,8 @@ Partial Module CLI
                Usage:="/Copy.Fasta /imports <DIR> [/type <faa,fna,ffn,fasta,...., default:=faa> /out <DIR>]")>
     Public Function CopyFasta(args As CommandLine) As Integer
         Dim in$ = args <= "/imports"
-        Dim type$ = args.GetValue("/type", "faa")
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & "." & type)
+        Dim type$ = args("/type") Or "faa"
+        Dim out As String = args("/out") Or ([in].TrimDIR & "." & type)
 
         type = "*." & type
 
@@ -205,11 +205,11 @@ Partial Module CLI
     <ExportAPI("/Merge.faa", Usage:="/Merge.faa /in <DIR> /out <out.fasta>")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function MergeFaa(args As CommandLine) As Integer
-        Dim inDIR As String = args - "/in"
-        Dim out As String = args.GetValue("/out", inDIR & "/faa.fasta")
+        Dim inDIR As String = args <= "/in"
+        Dim out As String = args("/out") Or (inDIR & "/faa.fasta")
         Dim fasta As New FastaFile
 
-        For Each file As String In ls - l - r - wildcards("*.faa") << FileHandles.OpenHandle(inDIR)
+        For Each file As String In ls - l - r - "*.faa" <= inDIR
             fasta.AddRange(FastaFile.Read(file))
         Next
 
