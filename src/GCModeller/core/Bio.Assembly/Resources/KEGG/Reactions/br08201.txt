@@ -3343,6 +3343,7 @@ E        R09500  Dimethyl sulfide + 2 Ferricytochrome c2 + H2O <=> Dimethyl sulf
 D      1.8.2.5
 E        R11606  Sulfite + Hydrogen sulfide + 2 Ferricytochrome c3 <=> Thiosulfate + 2 Ferrocytochrome c3
 D      1.8.2.6
+E        R11971  [SoxY protein]-S-disulfanyl-L-cysteine + 6 Ferricytochrome c + 3 H2O <=> [SoxY protein]-S-sulfosulfanyl-L-cysteine + 6 Ferrocytochrome c + 6 H+
 C    1.8.3  With oxygen as acceptor
 D      1.8.3.1
 E        R00533  Sulfite + Oxygen + H2O <=> Sulfate + Hydrogen peroxide
@@ -4114,6 +4115,7 @@ E        R11594  L-Proline + 2-Oxoglutarate + Oxygen <=> cis-4-Hydroxy-L-proline
 D      1.14.11.57
 E        R01252  L-Proline + 2-Oxoglutarate + Oxygen <=> Hydroxyproline + Succinate + CO2
 D      1.14.11.58
+E        R11948  Ornithine lipid + 2-Oxoglutarate + Oxygen <=> 2-Hydroxyornithine lipid + Succinate + CO2
 D      1.14.11.59
 E        R08972  DIBOA-glucoside + 2-Oxoglutarate + Oxygen <=> TRIBOA-glucoside + Succinate + CO2
 D      1.14.11.-
@@ -4833,7 +4835,7 @@ E        R01452  Cholesterol + Oxygen + NADPH + H+ <=> Cholesterol-5alpha,6alpha
 E        R01453  Cholesterol + Oxygen + NADPH + H+ <=> Cholesterol-5beta,6beta-epoxide + NADP+ + H2O
 E        R02356  Estrone + H+ + Oxygen + NADPH <=> 16alpha-Hydroxyestrone + NADP+ + H2O
 E        R02383  Tyramine + Oxygen + NADH + H+ <=> Dopamine + NAD+ + H2O
-E        R02550  Benzyl alcohol + Oxidized ferredoxin + H2O <=> Toluene + Oxygen + Reduced ferredoxin
+E        R02550  Benzyl alcohol + 2 Oxidized ferredoxin + H2O <=> Toluene + Oxygen + 2 Reduced ferredoxin + 2 H+
 E        R02829  Nitrile + Oxygen + NADPH + H+ <=> Cyanohydrin + NADP+ + H2O
 E        R03408  Dehydroepiandrosterone + H+ + Oxygen + NADPH <=> 16alpha-Hydroxydehydroepiandrosterone + NADP+ + H2O
 E        R03560  Toluene + Oxygen + NADPH + H+ <=> o-Cresol + NADP+ + H2O
@@ -4848,12 +4850,8 @@ E        R04982  2-Hexaprenyl-6-methoxyphenol + Oxygen <=> 2-Hexaprenyl-6-methox
 E        R04984  2-Hexaprenyl-3-methyl-6-methoxy-1,4-benzoquinone + Oxygen + NADPH + H+ <=> 2-Hexaprenyl-3-methyl-5-hydroxy-6-methoxy-1,4-benzoquinone + NADP+ + H2O
 E        R04987  2-Octaprenylphenol + Oxygen + NADPH + H+ <=> 2-Octaprenyl-6-hydroxyphenol + NADP+ + H2O
 E        R04989  2-Octaprenyl-6-methoxyphenol + Oxygen + NADPH <=> 2-Octaprenyl-6-methoxy-1,4-benzoquinone + NADP+ + H2O
-E        R05266  p-Cymene + Oxygen + NADH + H+ <=> p-Cumic alcohol + NAD+ + H2O
 E        R05281  Toluene-4-sulfonate + Oxygen + NADH + H+ <=> 4-Sulfobenzyl alcohol + NAD+ + H2O
-E        R05288  p-Xylene + Oxygen + NADH + H+ <=> 4-Methylbenzyl alcohol + NAD+ + H2O
 E        R05418  2,4,5-Trichlorophenoxyacetic acid + Oxygen + NADH + H+ <=> 2,4,5-Trichlorophenol + Glyoxylate + NAD+ + H2O
-E        R05442  o-Xylene + Oxygen + NADH + H+ <=> 2-Methylbenzyl alcohol + NAD+ + H2O
-E        R05443  m-Xylene + Oxygen + NADH + H+ <=> 3-Methylbenzyl alcohol + NAD+ + H2O
 E        R05448  2,6-Dichlorophenol + Oxygen + NADH + H+ <=> 2,6-Dichlorohydroquinone + NAD+ + H2O
 E        R05450  2-Hydroxyphenylacetate + Oxygen + NADH + H+ <=> Homogentisate + NAD+ + H2O
 E        R05653  Phenanthrene + Oxygen + NADH + H+ <=> Phenanthrene-9,10-oxide + H2O + NAD+
@@ -5002,6 +5000,7 @@ E        R11107  Aminopyrrolnitrin + 2 NADPH + 2 Oxygen + 2 H+ <=> Pyrrolnitrin 
 E        R11197  4-Hydroxyisophthalate + Oxygen + NADH + H+ <=> 3,4-Dihydroxybenzoate + H2O + NAD+ + CO2
 E        R11198  4-Hydroxyisophthalate + Oxygen + NADPH + H+ <=> 3,4-Dihydroxybenzoate + H2O + NADP+ + CO2
 E        R11904  Acetylhydrazine + NADPH + H+ + Oxygen <=> Hepatotoxins + NADP+ + H2O
+E        R11978  ent-2alpha-Hydroxyisokaurene + Oxygen + NADPH + H+ <=> ent-2alpha,3alpha-Dihydroxyisokaurene + H2O + NADP+
 C    1.14.14  With reduced flavin or flavoprotein as one donor, and incorporation of one atom of oxygen into the other donor
 D      1.14.14.1
 E        R04122  [Reduced NADPH---hemoprotein reductase] + Alkane + Oxygen <=> [Oxidized NADPH---hemoprotein reductase] + ROH + H2O
@@ -5265,17 +5264,38 @@ D      1.14.14.57
 E        R07205  Taurochenodeoxycholate + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Taurohyocholate + [Oxidized NADPH---hemoprotein reductase] + H2O
 E        R07206  Lithocholic acid + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Hyodeoxycholate + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.58
+E        R10562  (E,E)-Geranyllinalool + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> (E,E)-4,8,12-Trimethyltrideca-1,3,7,11-tetraene + But-3-en-2-one + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
 D      1.14.14.59
+E        R11949  Nerolidol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> (3E)-4,8-Dimethylnona-1,3,7-triene + But-3-en-2-one + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
 D      1.14.14.60
+E        R11951  Ferruginol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 11-Hydroxyferruginol + [Oxidized NADPH---hemoprotein reductase] + H2O
+E        R11988  Sugiol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 11-Hydroxysugiol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.61
+E        R11973  11-Hydroxyferruginol + 3 [Reduced NADPH---hemoprotein reductase] + 3 Oxygen <=> Carnosic acid + 3 [Oxidized NADPH---hemoprotein reductase] + 4 H2O
+E        R11989  Ferruginol + 3 [Reduced NADPH---hemoprotein reductase] + 3 Oxygen <=> Pisiferic acid + 3 [Oxidized NADPH---hemoprotein reductase] + 4 H2O
 D      1.14.14.62
+E        R11974  Ferruginol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Salviol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.63
+E        R11975  beta-Amyrin + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Maniladiol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.64
+E        R11976  beta-Amyrin + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Daturadiol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.65
+E        R11977  Ferruginol + 2 [Reduced NADPH---hemoprotein reductase] + 2 Oxygen <=> Sugiol + 2 [Oxidized NADPH---hemoprotein reductase] + 3 H2O
+E        R11990  11-Hydroxyferruginol + 2 [Reduced NADPH---hemoprotein reductase] + 2 Oxygen <=> 11-Hydroxysugiol + 2 [Oxidized NADPH---hemoprotein reductase] + 3 H2O
 D      1.14.14.66
+E        R08997  Demethylsuberosin + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Marmesin + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.67
+E        R11979  11-Hydroxysugiol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 11,20-Dihydroxysugiol + [Oxidized NADPH---hemoprotein reductase] + H2O
+E        R11987  11-Hydroxyferruginol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 11,20-Dihydroxyferruginol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.68
+E        R11980  9beta-Pimara-7,15-diene + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 9beta-Pimara-7,15-diene-3beta-ol + [Oxidized NADPH---hemoprotein reductase] + H2O
 D      1.14.14.69
+E        R11981  ent-Cassa-12,15-diene + 3 [Reduced NADPH---hemoprotein reductase] + 3 Oxygen <=> ent-3beta-Hydroxycassa-12,15-dien-2-one + 3 [Oxidized NADPH---hemoprotein reductase] + 4 H2O
+E        R11982  ent-Cassa-12,15-diene + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> ent-Cassa-12,15-dien-2beta-ol + [Oxidized NADPH---hemoprotein reductase] + H2O
+E        R11983  ent-Cassa-12,15-dien-2beta-ol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> ent-Cassa-12,15-dien-2-one + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
+E        R11984  ent-Cassa-12,15-dien-2-one + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> ent-3beta-Hydroxycassa-12,15-dien-2-one + [Oxidized NADPH---hemoprotein reductase] + H2O
+E        R11985  ent-Cassa-12,15-dien-2beta-ol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> ent-Cassa-12,15-diene-2beta,3beta-diol + [Oxidized NADPH---hemoprotein reductase] + H2O
+E        R11986  ent-Cassa-12,15-diene-2beta,3beta-diol + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> ent-3beta-Hydroxycassa-12,15-dien-2-one + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
 D      1.14.14.-
 E        R05446  2,5-Dichlorohydroquinone + FADH2 + Oxygen <=> 5-Chloro-2-hydroxy-p-benzoquinone + FAD + H2O + Cl-
 E        R05447  2,4,5-Trichlorophenol + FADH2 + Oxygen <=> 2,5-Dichloro-p-benzoquinone + FAD + H2O + Cl-
@@ -5345,10 +5365,10 @@ E        R07409  Choline + Oxygen + 2 Reduced ferredoxin + 2 H+ <=> Betaine alde
 D      1.14.15.8
 E        R09587  Progesterone + Reduced ferredoxin + Oxygen <=> 15beta-Hydroxyprogesterone + Oxidized ferredoxin + H2O
 D      1.14.15.9
-E        R07525  Spirilloxanthin + 2 Oxygen + 2 Reduced ferredoxin <=> 2-Ketospirilloxanthin + 3 H2O + 2 Oxidized ferredoxin
-E        R07526  2-Ketospirilloxanthin + 2 Oxygen + 2 Reduced ferredoxin <=> 2,2'-Diketospirilloxanthin + 3 H2O + 2 Oxidized ferredoxin
-E        R07537  Spheroidene + 2 Oxygen + 2 Reduced ferredoxin <=> Spheroidenone + 3 H2O + 2 Oxidized ferredoxin
-E        R07538  Hydroxyspheroidene + 2 Oxygen + 2 Reduced ferredoxin <=> Hydroxyspheroidenone + 3 H2O + 2 Oxidized ferredoxin
+E        R07525  Spirilloxanthin + 2 Oxygen + 4 Reduced ferredoxin + 4 H+ <=> 2-Ketospirilloxanthin + 3 H2O + 4 Oxidized ferredoxin
+E        R07526  2-Ketospirilloxanthin + 2 Oxygen + 4 Reduced ferredoxin + 4 H+ <=> 2,2'-Diketospirilloxanthin + 3 H2O + 4 Oxidized ferredoxin
+E        R07537  Spheroidene + 2 Oxygen + 4 Reduced ferredoxin + 4 H+ <=> Spheroidenone + 3 H2O + 4 Oxidized ferredoxin
+E        R07538  Hydroxyspheroidene + 2 Oxygen + 4 Reduced ferredoxin + 4 H+ <=> Hydroxyspheroidenone + 3 H2O + 4 Oxidized ferredoxin
 D      1.14.15.10
 E        R10047  (+)-Camphor + Putidaredoxin + Oxygen <=> (+)-6-endo-Hydroxycamphor + Oxidized putidaredoxin + H2O
 D      1.14.15.11
@@ -5402,7 +5422,12 @@ E        R07570  3-Hydroxyechinenone + 2 Reduced ferredoxin + H+ + Oxygen <=> Ad
 E        R07572  Phoenicoxanthin + 2 Reduced ferredoxin + H+ + Oxygen <=> Astaxanthin + 2 Oxidized ferredoxin + H2O
 E        R07851  alpha-Cryptoxanthin + 2 Reduced ferredoxin + H+ + Oxygen <=> Lutein + 2 Oxidized ferredoxin + H2O
 D      1.14.15.25
+E        R05266  p-Cymene + Oxygen + 2 Reduced ferredoxin + 2 H+ <=> p-Cumic alcohol + 2 Oxidized ferredoxin + H2O
 D      1.14.15.26
+E        R02550  Benzyl alcohol + 2 Oxidized ferredoxin + H2O <=> Toluene + Oxygen + 2 Reduced ferredoxin + 2 H+
+E        R05288  p-Xylene + Oxygen + 2 Reduced ferredoxin + 2 H+ <=> 4-Methylbenzyl alcohol + 2 Oxidized ferredoxin + H2O
+E        R05443  m-Xylene + Oxygen + 2 Reduced ferredoxin + 2 H+ <=> 3-Methylbenzyl alcohol + 2 Oxidized ferredoxin + H2O
+E        R05442  o-Xylene + Oxygen + 2 Reduced ferredoxin + 2 H+ <=> 2-Methylbenzyl alcohol + 2 Oxidized ferredoxin + H2O
 D      1.14.15.-
 E        R05564  2 Atrazine + Oxygen <=> 2 Deisopropylatrazine + 2 Acetone
 E        R05565  2 Atrazine + Oxygen <=> 2 Deethylatrazine + 2 Acetaldehyde
@@ -5575,6 +5600,7 @@ E        R11813  2-(L-Cystein-S-yl)-2-(1H-indol-3-yl)acetonitrile + 2 [Reduced N
 E        R11814  2-(L-Cystein-S-yl)-2-(1H-indol-3-yl)acetonitrile + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> (R)-Dihydrocamalexate + Hydrogen cyanide + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
 E        R11815  (R)-Dihydrocamalexate + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Camalexin + CO2 + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
 D      1.14.19.53
+E        R11952  Retinol + 2 Reduced adrenal ferredoxin + 2 H+ + Oxygen <=> all-trans-3,4-Didehydroretinol + 2 Oxidized adrenal ferredoxin + 2 H2O
 D      1.14.19.-
 E        R07861  (9Z,12Z,15Z)-Octadecatrienoic acid + Reduced acceptor + Oxygen <=> Stearidonic acid + Acceptor + 2 H2O
 E        R08440  4'-O-Methylnorbelladine + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> N-Demethylnarwedine + [Oxidized NADPH---hemoprotein reductase] + 2 H2O
@@ -5780,7 +5806,6 @@ E        R09460  16-Hydroxypalmitate + NADPH + Oxygen + H+ <=> 10,16-Dihydroxyhe
 E        R09461  9,10-Dihydroxystearate + NADPH + Oxygen + H+ <=> 9,10,18-Trihydroxystearate + NADP+ + H2O
 E        R09761  Castasterone <=> 26-Hydroxycastasterone
 E        R09762  Brassinolide <=> 26-Hydroxybrassinolide
-E        R10562  (E,E)-Geranyllinalool + NADPH + Oxygen + H+ <=> (E,E)-4,8,12-Trimethyltrideca-1,3,7,11-tetraene + But-3-en-2-one + NADP+ + 2 H2O
 E        R10669  6-Deoxocastasterone + 2 Oxygen + 2 [Reduced NADPH---hemoprotein reductase] <=> Castasterone + 3 H2O + 2 [Oxidized NADPH---hemoprotein reductase]
 E        R10682  6-Deoxocastasterone + 3 Oxygen + 3 [Reduced NADPH---hemoprotein reductase] <=> Brassinolide + 4 H2O + 3 [Oxidized NADPH---hemoprotein reductase]
 E        R10683  6-Deoxotyphasterol + 3 Oxygen + 3 [Reduced NADPH---hemoprotein reductase] <=> 7-Oxatyphasterol + 4 H2O + 3 [Oxidized NADPH---hemoprotein reductase]
@@ -6752,7 +6777,7 @@ E        R06687  13-Deoxycarminomycin + S-Adenosyl-L-methionine <=> 13-Deoxydaun
 D      2.1.1.293
 E        R10588  S-Adenosyl-L-methionine + 6-Hydroxytryprostatin B <=> S-Adenosyl-L-homocysteine + Tryprostatin A
 D      2.1.1.294
-E        R10658  S-Adenosyl-L-methionine + 3-O-Phospho-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)-[alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)]n-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-GlcNAc-diphospho-ditrans,octacis-undecaprenol <=> S-Adenosyl-L-homocysteine + 3-O-Methylphospho-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-[alpha-D-Man-(1->2)-alpha-D-Man-(1->2)-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)]n-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-GlcNAc-diphospho-ditrans,octacis-undecaprenol
+E        R10658  S-Adenosyl-L-methionine + 3-O-Phospho-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)-[alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)]n-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-GlcNAc-diphospho-ditrans,octacis-undecaprenol <=> S-Adenosyl-L-homocysteine + 3-O-Methylphospho-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)-[alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->2)-alpha-D-Man-(1->2)]n-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-Man-(1->3)-alpha-D-GlcNAc-diphospho-ditrans,octacis-undecaprenol
 D      2.1.1.295
 E        R07501  2-Methyl-6-phytylquinol + S-Adenosyl-L-methionine <=> 2,3-Dimethyl-5-phytylquinol + S-Adenosyl-L-homocysteine
 E        R10709  S-Adenosyl-L-methionine + 2-Methyl-6-solanyl-1,4-benzoquinol <=> S-Adenosyl-L-homocysteine + Plastoquinol-9
@@ -6873,7 +6898,9 @@ E        R11934  2 S-Adenosyl-L-methionine + Norbaeocystin <=> 2 S-Adenosyl-L-ho
 E        R11935  S-Adenosyl-L-methionine + Norbaeocystin <=> S-Adenosyl-L-homocysteine + Baeocystin
 E        R11936  S-Adenosyl-L-methionine + Baeocystin <=> S-Adenosyl-L-homocysteine + Psilocybin
 D      2.1.1.346
+E        R11953  S-Adenosyl-L-methionine + Adenine in U6 snRNA <=> S-Adenosyl-L-homocysteine + N6-Methyladenine in U6 snRNA
 D      2.1.1.347
+E        R11954  S-Adenosyl-L-methionine + (+)-Kolavelool <=> S-Adenosyl-L-homocysteine + (+)-O-Methylkolavelool
 D      2.1.1.-
 E        R01159  L-Histidine + S-Adenosyl-L-methionine <=> N(pi)-Methyl-L-histidine + S-Adenosyl-L-homocysteine
 E        R02671  3-Hydroxyanthranilate + S-Adenosyl-L-methionine <=> 3-Methoxyanthranilate + S-Adenosyl-L-homocysteine
@@ -7014,6 +7041,8 @@ D      2.1.4.2
 E        R03477  L-Arginine + 1-Amino-1-deoxy-scyllo-inositol 4-phosphate <=> L-Ornithine + 1-Guanidino-1-deoxy-scyllo-inositol 4-phosphate
 C    2.1.5  Methylenetransferases
 D      2.1.5.1
+E        R11955  Sesamin + Tetrahydrofolate <=> (+)-Demethylpiperitol + 5,10-Methylenetetrahydrofolate
+E        R11956  (+)-Demethylpiperitol + Tetrahydrofolate <=> (+)-Didemethylpinoresinol + 5,10-Methylenetetrahydrofolate
 C    2.1.-  Transferring one-carbon groups
 D      2.1.-.-
 B  2.2  Transferring aldehyde or ketonic groups
@@ -7784,6 +7813,7 @@ E        R04316  Acetyl-CoA + Ribosomal-protein L-alanine <=> CoA + Ribosomal-pr
 D      2.3.1.267
 E        R04316  Acetyl-CoA + Ribosomal-protein L-alanine <=> CoA + Ribosomal-protein N-acetyl-L-alanine
 D      2.3.1.268
+E        R11957  Ethanol + Acetyl-CoA <=> Ethyl acetate + CoA
 D      2.3.1.-
 E        R00454  L-Lysine + Acetyl-CoA <=> N6-Acetyl-L-lysine + CoA
 E        R01624  Acetyl-CoA + Acyl-carrier protein <=> CoA + Acetyl-[acyl-carrier protein]
@@ -7984,6 +8014,7 @@ E        R08870  3-(Hydrohydroxyphosphoryl)pyruvate + Acetyl-CoA + H2O <=> 2-Pho
 D      2.3.3.19
 E        R11708  Acetyl-CoA + H2O + 3-Phosphonopyruvate <=> (R)-2-(Phosphonomethyl)malate + CoA
 D      2.3.3.20
+E        R11958  2 Acyl-CoA + H2O <=> (R)-2-Alkyl-3-oxoalkanoate + 2 CoA
 D      2.3.3.-
 E        R08331  2-Oxoadipate + Acetyl-CoA + H2O <=> (R)-(Homo)2-citrate + CoA
 E        R08332  2-Oxopimelate + Acetyl-CoA + H2O <=> (R)-(Homo)3-citrate + CoA
@@ -8894,7 +8925,9 @@ E        R11938  2 GDP-mannose + alpha-D-Mannosyl-(1-3)-N-acetyl-alpha-D-glucosa
 D      2.4.1.350
 E        R11939  UDP-glucose + Mogrol <=> Mogroside IE + UDP
 D      2.4.1.351
+E        R11972  UDP-L-rhamnose + alpha-D-Galacturonosyl-[(1->2)-alpha-L-rhamnosyl-(1->4)-alpha-D-galacturonosyl]n <=> UDP + [(1->2)-alpha-L-Rhamnosyl-(1->4)-alpha-D-galacturonosyl]n
 D      2.4.1.352
+E        R11959  2-O-(alpha-D-Glucopyranosyl)-D-glycerate + Orthophosphate <=> D-Glucose 1-phosphate + D-Glycerate
 D      2.4.1.-
 E        R00506  UDP-alpha-D-galactose + Galactan <=> Galactan + UDP
 E        R00887  GDP-mannose + Mannan(n) <=> GDP + Mannan(n+1)
@@ -9876,6 +9909,10 @@ E        R10908  (S)-Ureidoglycine + Glyoxylate <=> Glycine + Oxalureate
 D      2.6.1.113
 E        R08714  Putrescine + Pyruvate <=> 4-Aminobutyraldehyde + L-Alanine
 D      2.6.1.114
+E        R11960  L-Glutamate + FMN + Oxygen + H2O + 3 Acceptor <=> 2-Oxoglutarate + 8-Amino-8-demethylriboflavin 5'-phosphate + CO2 + 3 Reduced acceptor
+E        R11961  FMN + Oxygen <=> 8-Demethyl-8-formylriboflavin 5'-phosphate + H2O
+E        R11962  8-Demethyl-8-formylriboflavin 5'-phosphate + H2O + Acceptor <=> 8-Carboxy-8-demethylriboflavin 5'-phosphate + Reduced acceptor
+E        R11963  L-Glutamate + 8-Carboxy-8-demethylriboflavin 5'-phosphate + H2O + 2 Acceptor <=> 2-Oxoglutarate + 8-Amino-8-demethylriboflavin 5'-phosphate + CO2 + 2 Reduced acceptor
 D      2.6.1.-
 E        R00493  L-Aspartate + 2-Oxo acid <=> alpha-Amino acid + Oxaloacetate
 E        R04051  3-Phosphonopyruvate + L-Glutamate <=> 2-Amino-3-phosphonopropanoate + 2-Oxoglutarate
@@ -10910,6 +10947,7 @@ E        R03595  ATP + Hydrogen selenide + H2O <=> AMP + Selenophosphoric acid +
 D      2.7.9.4
 D      2.7.9.5
 D      2.7.9.6
+E        R11964  ATP + Rifampicin + H2O <=> AMP + 21-Phosphorifampicin + Orthophosphate
 D      2.7.9.-
 E        R05625  Phenol + ATP + H2O <=> Phenolic phosphate + AMP + Orthophosphate
 C    2.7.10  Protein-tyrosine kinases
@@ -11013,8 +11051,7 @@ C    2.8.1  Sulfurtransferases
 D      2.8.1.1
 E        R01931  Thiosulfate + Cyanide ion <=> Sulfite + Thiocyanate
 D      2.8.1.2
-E        R03106  Hydrogen cyanide + Mercaptopyruvate <=> Thiocyanate + Pyruvate
-E        R03105  Mercaptopyruvate + Sulfite <=> Thiosulfate + Pyruvate
+E        R03105  Mercaptopyruvate + Thioredoxin <=> Hydrogen sulfide + Pyruvate + Thioredoxin disulfide
 D      2.8.1.3
 E        R01875  Thiosulfate + 2 Glutathione + H+ <=> Sulfite + Glutathione disulfide + Hydrogen sulfide
 D      2.8.1.4
@@ -11516,6 +11553,7 @@ E        R11540  Poly(ethylene terephthalate)(n) + H2O <=> Poly(ethylene terepht
 D      3.1.1.102
 E        R11541  4-(2-Hydroxyethoxycarbonyl)benzoate + H2O <=> Terephthalate + Ethylene glycol
 D      3.1.1.103
+E        R11965  Wall teichoic acid + n H2O <=> Wall teichoic acid + n D-Alanine
 D      3.1.1.-
 E        R02368  Retinyl palmitate + H2O <=> Retinol + Hexadecanoic acid
 E        R02427  D-Xylonolactone + H2O <=> D-Xylonate
@@ -14323,6 +14361,7 @@ D      3.13.1.6
 E        R11523  [Sulfur-carrier protein]-Gly-NH-CH2-C(O)-S-L-cysteine <=> [Sulfur-carrier protein]-Gly-Gly-L-Cys
 E        R11524  [Sulfur-carrier protein]-Gly-Gly-L-Cys + H2O <=> L-Cysteine + Sulfur-carrier protein
 D      3.13.1.7
+E        R10535  Carbonyl sulfide + H2O <=> CO2 + Hydrogen sulfide
 B  3.-  
 C    3.-.-  
 D      3.-.-.-
@@ -15780,6 +15819,8 @@ E        R05758  threo-3-Hydroxy-L-aspartate <=> Oxaloacetate + Ammonia
 D      4.3.1.17
 E        R00220  L-Serine <=> Pyruvate + Ammonia
 E        R00590  L-Serine <=> Dehydroalanine + H2O
+E        R11099  2-Iminopropanoate + H2O <=> Pyruvate + Ammonia
+E        R11100  Dehydroalanine <=> 2-Iminopropanoate
 E        R06131  alpha-Amino acid <=> 2-Oxo acid + Ammonia
 D      4.3.1.18
 E        R00221  D-Serine <=> Pyruvate + Ammonia
@@ -17384,6 +17425,7 @@ E        R01734  Dimethylbenzimidazole <=> Riboflavin
 E        R01798  Arachidonyl-CoA + CDP-acylglycerol <=> CoA + CDP-diacylglycerol
 E        R01854  RCH2NH2 + H2O + Acceptor <=> Aldehyde + Ammonia + Reduced acceptor
 E        R01913  Pyridoxine <=> 1-Deoxy-D-xylulose + 4-Hydroxy-L-threonine
+E        R01952  Palmitoyl-CoA + Glycoprotein <=> CoA + N-Palmitoylglycoprotein
 E        R01981  D-Galacturonate + NAD+ + H2O <=> D-Galactarate + NADH + H+
 E        R01984  D-Galacturonate <=> D-Galacturonolactone + H2O
 E        R02008  (6E)-8-Oxogeranial <=> Iridodial
@@ -18561,7 +18603,6 @@ E        R11069  Terpentetriene <=> Terpentecin
 E        R11091  2,6-Dichloro-p-benzoquinone + NADH + H+ <=> 2,6-Dichlorohydroquinone + NAD+
 E        R11092  2,5-Dichloro-p-benzoquinone + NADH + H+ <=> 2,5-Dichlorohydroquinone + NAD+
 E        R11093  5-Chloro-2-hydroxy-p-benzoquinone + NADH + H+ <=> 5-Chloro-1,2,4-trihydroxybenzene + NAD+
-E        R11100  Dehydroalanine <=> 2-Iminopropanoate
 E        R11105  7-Chloro-L-tryptophan + Oxygen <=> Monodechloroaminopyrrolnitrin + CO2 + 2 H2O
 E        R11112  Diploptene + S-Adenosyl-L-methionine + Reduced acceptor <=> Adenosylhopane + L-Methionine + Acceptor
 E        R11113  Adenosylhopane + H2O <=> Ribosylhopane + Adenine
@@ -18679,5 +18720,5 @@ E        R11909  Isonicotinoyl radical + NADP+ <=> Isonicotinoyl-NADP adduct
 !
 #<hr>
 #<b>[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 29, 2018
+#Last updated: April 24, 2018
 #<br>KEGG REACTION identifiers (R numbers) with EC number assignments
