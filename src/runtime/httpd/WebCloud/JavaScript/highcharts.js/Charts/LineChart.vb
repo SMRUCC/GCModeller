@@ -63,8 +63,6 @@ Namespace LineChart
 
     Public Class lineOptions : Inherits seriesOptions
 
-        Public Property label As labelOptions
-        Public Property pointStart As Object
         Public Property stacking As String
         ''' <summary>
         ''' 这个属性可能是逻辑值或者数值，所以在这里使用字符串来兼容
