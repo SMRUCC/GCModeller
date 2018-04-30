@@ -1,45 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::5eae52afd612965458f3e15c33290cf5, Shared\InternalApps_CLI\Apps\RegPrecise.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class RegPrecise
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -48,10 +6,20 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: ..\bin\RegPrecise.exe
 
-' ====================================================
-' SMRUCC genomics GCModeller Programs Profiles Manager
-' ====================================================
 ' 
+'  // 
+'  // SMRUCC genomics GCModeller Programs Profiles Manager
+'  // 
+'  // VERSION:   1.0.0.*
+'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // 
+' 
+' 
+' 
+' 
+' SYNOPSIS
+' Settings command [/argument argument-value...] [/@set environment-variable=value...]
 ' 
 ' All of the command that available in this program has been list below:
 ' 
@@ -734,4 +702,3 @@ Public Function siRNAMaps([in] As String, hits As String, Optional out As String
 End Function
 End Class
 End Namespace
-

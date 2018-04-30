@@ -1,45 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::63e3f8760810c227c15c34c5a78a783b, Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class KEGG_tools
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -48,11 +6,21 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: ..\bin\KEGG_tools.exe
 
-' ====================================================
-' SMRUCC genomics GCModeller Programs Profiles Manager
-' ====================================================
 ' 
-' KEGG web services API tools.
+'  // 
+'  // SMRUCC genomics GCModeller Programs Profiles Manager
+'  // 
+'  // VERSION:   1.0.0.*
+'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // 
+' 
+' 
+'  KEGG web services API tools.
+' 
+' 
+' SYNOPSIS
+' Settings command [/argument argument-value...] [/@set environment-variable=value...]
 ' 
 ' All of the command that available in this program has been list below:
 ' 
@@ -503,15 +471,17 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /dump.kegg.maps /htext &lt;htext.txt> [/out &lt;save_dir>]
+''' /dump.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
 ''' ```
 ''' Dumping the KEGG maps database for human species.
 ''' </summary>
 '''
-Public Function DumpKEGGMaps(htext As String, Optional out As String = "") As Integer
+Public Function DumpKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/dump.kegg.maps")
     Call CLI.Append(" ")
-    Call CLI.Append("/htext " & """" & htext & """ ")
+    If Not htext.StringEmpty Then
+            Call CLI.Append("/htext " & """" & htext & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -1047,4 +1017,3 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
-
