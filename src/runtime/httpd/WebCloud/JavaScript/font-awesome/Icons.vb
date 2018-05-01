@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6330601dd4082f1461cda68e68136e03, WebCloud\JavaScript\font-awesome\Icons.vb"
+﻿#Region "Microsoft.VisualBasic::2e4978b3d639c05e11a6cc6083334412, WebCloud\JavaScript\font-awesome\Icons.vb"
 
     ' Author:
     ' 
@@ -2702,4 +2702,3 @@ Public Enum icons
     <Description("youtube-square")>
     YoutubeSquare
 End Enum
-

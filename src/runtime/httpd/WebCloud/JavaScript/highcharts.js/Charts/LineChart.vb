@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb2c7fc440d4fbc61e495e830f28ed39, WebCloud\JavaScript\highcharts.js\Charts\LineChart.vb"
+﻿#Region "Microsoft.VisualBasic::9ff71f649f12a785091cd6d1a1edda06, WebCloud\JavaScript\highcharts.js\Charts\LineChart.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class lineOptions
     ' 
-    '         Properties: label, pointInterval, pointStart, stacking
+    '         Properties: pointInterval, stacking
     ' 
     '     Class LineChart
     ' 
@@ -63,8 +63,6 @@ Namespace LineChart
 
     Public Class lineOptions : Inherits seriesOptions
 
-        Public Property label As labelOptions
-        Public Property pointStart As Object
         Public Property stacking As String
         ''' <summary>
         ''' 这个属性可能是逻辑值或者数值，所以在这里使用字符串来兼容

@@ -1,45 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::e1c97196aecc96aba58cb27b8b326335, Shared\InternalApps_CLI\Apps\eggHTS.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class eggHTS
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -48,13 +6,23 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: ..\bin\eggHTS.exe
 
-' ====================================================
-' SMRUCC genomics GCModeller Programs Profiles Manager
-' ====================================================
 ' 
-' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg.
-' You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir=
-' for download the custom KO classification set.
+'  // 
+'  // SMRUCC genomics GCModeller Programs Profiles Manager
+'  // 
+'  // VERSION:   1.0.0.*
+'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // 
+' 
+' 
+'  Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg.
+'  You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir=
+'  for download the custom KO classification set.
+' 
+' 
+' SYNOPSIS
+' Settings command [/argument argument-value...] [/@set environment-variable=value...]
 ' 
 ' All of the command that available in this program has been list below:
 ' 
@@ -236,7 +204,7 @@ Namespace GCModellerApps
 
 ''' <summary>
 ''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg.
-''' You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.
+''' You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&amp;format=htext&amp;filedir= for download the custom KO classification set.
 ''' </summary>
 '''
 Public Class eggHTS : Inherits InteropService
@@ -2412,4 +2380,3 @@ Public Function Update2UniprotMappedID([in] As String, mapping As String, Option
 End Function
 End Class
 End Namespace
-

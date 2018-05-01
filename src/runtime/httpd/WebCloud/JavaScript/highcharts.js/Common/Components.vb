@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35f9f6ec7d047922a2ad6a36fc6cb5b9, WebCloud\JavaScript\highcharts.js\Common\Components.vb"
+﻿#Region "Microsoft.VisualBasic::7d9309b1ad7f02d2b2c4846fc9e46a24, WebCloud\JavaScript\highcharts.js\Common\Components.vb"
 
     ' Author:
     ' 
@@ -100,7 +100,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Newtonsoft.Json
 
@@ -244,4 +243,3 @@ Public Class credits
     ''' <returns></returns>
     Public Property text As String
 End Class
-
