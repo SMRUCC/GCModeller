@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03f87e52520793e2fd6ffa95c970c8b8, WebCloud\JavaScript\highcharts.js\Common\ChartProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::5f8e10cda5a282a01157c0c86167cf9c, WebCloud\JavaScript\highcharts.js\Common\ChartProfiles.vb"
 
     ' Author:
     ' 
@@ -99,4 +99,3 @@ Friend Module ChartProfiles
         Return profileBase(ChartTypes.column)
     End Function
 End Module
-
