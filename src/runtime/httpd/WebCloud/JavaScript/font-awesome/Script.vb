@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e136654721d3b3f8ec14a88872daba, WebCloud\JavaScript\font-awesome\Script.vb"
+﻿#Region "Microsoft.VisualBasic::de5add963434f36353cce1ad5a71b990, WebCloud\JavaScript\font-awesome\Script.vb"
 
     ' Author:
     ' 
@@ -85,4 +85,3 @@ Public Module VBScript
         End With
     End Function
 End Module
-

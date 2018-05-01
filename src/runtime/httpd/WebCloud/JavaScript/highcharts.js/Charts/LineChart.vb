@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb2c7fc440d4fbc61e495e830f28ed39, WebCloud\JavaScript\highcharts.js\Charts\LineChart.vb"
+﻿#Region "Microsoft.VisualBasic::9ff71f649f12a785091cd6d1a1edda06, WebCloud\JavaScript\highcharts.js\Charts\LineChart.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class lineOptions
     ' 
-    '         Properties: label, pointInterval, pointStart, stacking
+    '         Properties: pointInterval, stacking
     ' 
     '     Class LineChart
     ' 
