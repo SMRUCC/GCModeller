@@ -1,52 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29fd11b019a57179f9441d0474d7f243, RDotNET\Graphics\Rectangle.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    '     Structure Rectangle
-    ' 
-    '         Properties: Bottom, Height, Left, Location, Right
-    '                     Size, Top, Width, X, Y
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) Equals, GetHashCode
-    '         Operators: <>, =
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Namespace Graphics
-
     Public Structure Rectangle
         Implements IEquatable(Of Rectangle)
         Private m_height As Double
@@ -72,8 +24,8 @@ Namespace Graphics
             Get
                 Return Me.m_x
             End Get
-            Set(value As Double)
-                Me.m_x = Value
+            Set
+                Me.m_x = value
             End Set
         End Property
 
@@ -81,8 +33,8 @@ Namespace Graphics
             Get
                 Return Me.m_y
             End Get
-            Set(value As Double)
-                Me.m_y = Value
+            Set
+                Me.m_y = value
             End Set
         End Property
 
@@ -90,8 +42,8 @@ Namespace Graphics
             Get
                 Return Me.m_width
             End Get
-            Set(value As Double)
-                Me.m_width = Value
+            Set
+                Me.m_width = value
             End Set
         End Property
 
@@ -99,8 +51,8 @@ Namespace Graphics
             Get
                 Return Me.m_height
             End Get
-            Set(value As Double)
-                Me.m_height = Value
+            Set
+                Me.m_height = value
             End Set
         End Property
 
@@ -132,9 +84,9 @@ Namespace Graphics
             Get
                 Return New Point(X, Y)
             End Get
-            Set(value As Point)
-                X = Value.X
-                Y = Value.Y
+            Set
+                X = value.X
+                Y = value.Y
             End Set
         End Property
 
@@ -142,15 +94,15 @@ Namespace Graphics
             Get
                 Return New Size(Width, Height)
             End Get
-            Set(value As Size)
-                Width = Value.Width
-                Height = Value.Height
+            Set
+                Width = value.Width
+                Height = value.Height
             End Set
         End Property
 
 #Region "IEquatable<Rectangle> Members"
 
-        Public Overloads Function Equals(other As Rectangle) As Boolean Implements IEquatable(Of RDotNet.Graphics.Rectangle).Equals
+        Public Overloads Function Equals(other As Rectangle) As Boolean Implements IEquatable(Of Rectangle).Equals
             Return (Me = other)
         End Function
 
