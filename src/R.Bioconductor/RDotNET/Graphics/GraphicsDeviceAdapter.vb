@@ -1,56 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::95053d35a53e344d0fb8f87797e76251, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    '     Class GraphicsDeviceAdapter
-    ' 
-    '         Properties: Engine
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Capture, ConfirmNewFrame, GetEvent, GetFunction, GetInterruptsPending
-    '                   GetInterruptsSuspended, GetLocation, (+2 Overloads) GetPoints, MeasureWidth
-    ' 
-    '         Sub: Activate, Alloc, ChangeMode, Clip, Close
-    '              Deactivate, (+2 Overloads) Dispose, DrawCircle, DrawLine, DrawPath
-    '              DrawPolygon, DrawPolyline, DrawRaster, DrawRectangle, DrawText
-    '              EventHelper, FreeAll, GetMetricInfo, Kill, NewPage
-    '              Resize, SetEngine, SetInterruptsSuspended, SetMethod
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports RDotNet.Graphics.Internals
 Imports System.Collections.Generic
 Imports System.Linq
@@ -60,7 +7,6 @@ Namespace Graphics
 
     Friend Class GraphicsDeviceAdapter
         Implements IDisposable
-
         Private ReadOnly device As IGraphicsDevice
         Private ReadOnly delegateHandles As List(Of GCHandle)
         Private description As DeviceDescription
@@ -150,24 +96,24 @@ Namespace Graphics
         End Function
 
         Private Sub SetMethod()
-            Dim activate__1 = DirectCast(AddressOf Activate, _DevDesc_activate)
-            Alloc(activate__1)
-            Me.description.SetMethod("activate", activate__1)
+            Dim activate = DirectCast(AddressOf Me.Activate, _DevDesc_activate)
+            Alloc(activate)
+            Me.description.SetMethod("activate", activate)
             Dim cap = DirectCast(AddressOf Capture, _DevDesc_cap)
             Alloc(cap)
             Me.description.SetMethod("cap", cap)
             Dim circle = DirectCast(AddressOf DrawCircle, _DevDesc_circle)
             Alloc(circle)
             Me.description.SetMethod("circle", circle)
-            Dim clip__2 = DirectCast(AddressOf Clip, _DevDesc_clip)
-            Alloc(clip__2)
-            Me.description.SetMethod("clip", clip__2)
-            Dim close__3 = DirectCast(AddressOf Close, _DevDesc_close)
-            Alloc(close__3)
-            Me.description.SetMethod("close", close__3)
-            Dim deactivate__4 = DirectCast(AddressOf Deactivate, _DevDesc_deactivate)
-            Alloc(deactivate__4)
-            Me.description.SetMethod("deactivate", deactivate__4)
+            Dim clip = DirectCast(AddressOf Me.Clip, _DevDesc_clip)
+            Alloc(clip)
+            Me.description.SetMethod("clip", clip)
+            Dim close = DirectCast(AddressOf Me.Close, _DevDesc_close)
+            Alloc(close)
+            Me.description.SetMethod("close", close)
+            Dim deactivate = DirectCast(AddressOf Me.Deactivate, _DevDesc_deactivate)
+            Alloc(deactivate)
+            Me.description.SetMethod("deactivate", deactivate)
             Dim line = DirectCast(AddressOf DrawLine, _DevDesc_line)
             Alloc(line)
             Me.description.SetMethod("line", line)
@@ -180,9 +126,9 @@ Namespace Graphics
             Dim mode = DirectCast(AddressOf ChangeMode, _DevDesc_mode)
             Alloc(mode)
             Me.description.SetMethod("mode", mode)
-            Dim newPage__5 = DirectCast(AddressOf NewPage, _DevDesc_newPage)
-            Alloc(newPage__5)
-            Me.description.SetMethod("newPage", newPage__5)
+            Dim newPage = DirectCast(AddressOf Me.NewPage, _DevDesc_newPage)
+            Alloc(newPage)
+            Me.description.SetMethod("newPage", newPage)
             Dim path = DirectCast(AddressOf DrawPath, _DevDesc_path)
             Alloc(path)
             Me.description.SetMethod("path", path)
@@ -216,12 +162,12 @@ Namespace Graphics
             Dim newFrameConfirm = DirectCast(AddressOf ConfirmNewFrame, _DevDesc_newFrameConfirm)
             Alloc(newFrameConfirm)
             Me.description.SetMethod("newFrameConfirm", newFrameConfirm)
-            Dim getEvent__6 = DirectCast(AddressOf GetEvent, _DevDesc_getEvent)
-            Alloc(getEvent__6)
-            Me.description.SetMethod("getEvent", getEvent__6)
-            Dim eventHelper__7 = DirectCast(AddressOf EventHelper, _DevDesc_eventHelper)
-            Alloc(eventHelper__7)
-            Me.description.SetMethod("eventHelper", eventHelper__7)
+            Dim getEvent = DirectCast(AddressOf Me.GetEvent, _DevDesc_getEvent)
+            Alloc(getEvent)
+            Me.description.SetMethod("getEvent", getEvent)
+            Dim eventHelper = DirectCast(AddressOf Me.EventHelper, _DevDesc_eventHelper)
+            Alloc(eventHelper)
+            Me.description.SetMethod("eventHelper", eventHelper)
         End Sub
 
         Private Sub Alloc(d As [Delegate])
@@ -256,7 +202,14 @@ Namespace Graphics
         End Sub
 
         Private Sub Close(dd As IntPtr)
-            Me.device.OnClosed(Me.description)
+            device.OnClosed(description)
+            ClearDevDesc()
+        End Sub
+
+        Private Sub ClearDevDesc()
+            Dim geDevDesc = CType(Marshal.PtrToStructure(gdd, GetType(GEDevDesc)), GEDevDesc)
+            geDevDesc.dev = IntPtr.Zero
+            Marshal.StructureToPtr(geDevDesc, gdd, False)
         End Sub
 
         Private Function ConfirmNewFrame(dd As IntPtr) As Boolean
@@ -329,19 +282,19 @@ Namespace Graphics
             Me.device.DrawRectangle(rectangle, context, Me.description)
         End Sub
 
-        Private Sub DrawPath(x As IntPtr, y As IntPtr, npoly As Integer, nper As IntPtr, winding As Boolean, gc As IntPtr, _
-            dd As IntPtr)
+        Private Sub DrawPath(x As IntPtr, y As IntPtr, npoly As Integer, nper As IntPtr, winding As Boolean, gc As IntPtr,
+        dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim points = GetPoints(x, y, npoly, nper)
             Me.device.DrawPath(points, winding, context, Me.description)
         End Sub
 
-        Private Sub DrawRaster(raster As IntPtr, w As Integer, h As Integer, x As Double, y As Double, width As Double, _
-            height As Double, rot As Double, interpolate As Boolean, gc As IntPtr, dd As IntPtr)
+        Private Sub DrawRaster(raster As IntPtr, w As Integer, h As Integer, x As Double, y As Double, width As Double,
+        height As Double, rot As Double, interpolate As Boolean, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim output = New Raster(w, h)
-            For i As Integer = 0 To w - 1
-                For j As Integer = 0 To h - 1
+            For i = 0 To w - 1
+                For j = 0 To h - 1
                     output(i, j) = Color.FromUInt32(CUInt(Marshal.ReadInt32(raster)))
                     raster = IntPtr.Add(raster, 4)
                 Next
@@ -351,7 +304,7 @@ Namespace Graphics
         End Sub
 
         Private Function Capture(dd As IntPtr) As IntPtr
-            Dim raster As Graphics.Raster = Me.device.Capture(Me.description)
+            Dim raster As Raster = Me.device.Capture(Me.description)
             Return Engine.CreateIntegerMatrix(raster).DangerousGetHandle()
         End Function
 
@@ -360,8 +313,8 @@ Namespace Graphics
             Return Me.device.MeasureWidth(str, context, Me.description)
         End Function
 
-        Private Sub DrawText(x As Double, y As Double, str As String, rot As Double, hadj As Double, gc As IntPtr, _
-            dd As IntPtr)
+        Private Sub DrawText(x As Double, y As Double, str As String, rot As Double, hadj As Double, gc As IntPtr,
+        dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Me.device.DrawText(str, New Point(x, y), rot, hadj, context, Me.description)
         End Sub
@@ -375,19 +328,19 @@ Namespace Graphics
 
         Private Function GetPoints(n As Integer, x As IntPtr, y As IntPtr) As IEnumerable(Of Point)
             Return Enumerable.Range(0, n).[Select](Function(index)
-                                                             Dim offset = 8 * index
-                                                             Dim px = Utility.ReadDouble(x, offset)
-                                                             Dim py = Utility.ReadDouble(y, offset)
-                                                             Return New Point(px, py)
-
-                                                         End Function)
+                                                       Dim offset = 8 * index
+                                                       Dim px = Utility.ReadDouble(x, offset)
+                                                       Dim py = Utility.ReadDouble(y, offset)
+                                                       Return New Point(px, py)
+                                                   End Function)
         End Function
 
         Private Iterator Function GetPoints(x As IntPtr, y As IntPtr, npoly As Integer, nper As IntPtr) As IEnumerable(Of IEnumerable(Of Point))
             If Not Engine.IsRunning Then
                 Throw New InvalidOperationException()
             End If
-            For index As Integer = 0 To npoly - 1
+
+            For index = 0 To npoly - 1
                 Dim offset = 4 * index
                 Dim n = Marshal.ReadInt32(nper, offset)
                 Yield GetPoints(n, x, y)
