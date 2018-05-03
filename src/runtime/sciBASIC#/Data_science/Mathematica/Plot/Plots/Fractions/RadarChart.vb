@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::b346d34a07b26b83e3409f308a17696d, Data_science\Mathematica\Plot\Plots\Fractions\RadarChart.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RadarChart
-    ' 
-    '         Function: Plot
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RadarChart
+' 
+'         Function: Plot
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
@@ -63,6 +64,27 @@ Namespace Fractions
 
     Public Module RadarChart
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="serials"></param>
+        ''' <param name="size$"></param>
+        ''' <param name="margin$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="regionFill$"></param>
+        ''' <param name="serialColorSchema$"></param>
+        ''' <param name="colorAlpha%"></param>
+        ''' <param name="axisRange"></param>
+        ''' <param name="shapeBorderWidth!"></param>
+        ''' <param name="pointRadius!"></param>
+        ''' <param name="labelFontCSS$"></param>
+        ''' <param name="axisStrokeStyle$"></param>
+        ''' <param name="spline%">
+        ''' 如果这个参数设置为``False``的话，那么项目之间的连接将会直接使用直线进行连接
+        ''' 这个函数参数的默认值为``True``程序会使用两个相邻的项目的坐标点中间的平均值
+        ''' 处作为贝塞尔曲线的控制点进行插值曲线化处理
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function Plot(serials As NamedValue(Of FractionData())(),
                              Optional size$ = "3000,2700",
@@ -73,10 +95,10 @@ Namespace Fractions
                              Optional colorAlpha% = 120,
                              Optional axisRange As DoubleRange = Nothing,
                              Optional shapeBorderWidth! = 10,
-                             Optional pointRadius! = 25,
+                             Optional pointRadius! = 35,
                              Optional labelFontCSS$ = CSSFont.Win7VeryVeryLarge,
                              Optional axisStrokeStyle$ = Stroke.HighlightStroke,
-                             Optional spline% = 0) As GraphicsData
+                             Optional spline As Boolean = True) As GraphicsData
 
             Dim serialColors As Color() = Designer.GetColors(serialColorSchema) _
                                                   .Select(Function(c) c.Alpha(colorAlpha)) _
@@ -111,6 +133,8 @@ Namespace Fractions
                     Dim r#
                     Dim alpha! = -90
                     Dim shape As New List(Of PointF)
+                    Dim polarShape As New List(Of PolarPoint)
+                    Dim axisPoints As New List(Of PointF)
                     Dim f As FractionData
                     Dim value#
                     Dim color As Color
@@ -185,6 +209,8 @@ Namespace Fractions
                         color = serialColors(i)
                         pen = borderPens(i)
                         shape *= 0
+                        polarShape *= 0
+                        axisPoints *= 0
                         alpha = -90
 
                         With serial.Value.ToDictionary
@@ -197,13 +223,62 @@ Namespace Fractions
                                     value = f.Value
                                 End If
 
+                                ' 通过计算出每一个坐标轴的半径值和角度转换为笛卡尔坐标系的坐标点
+                                ' 然后构成雷达图之中的喷涂路径
                                 r = axisRange.ScaleMapping(value, radius)
-                                shape += (r, alpha).ToCartesianPoint.OffSet2D(center)
+                                ' 在这里只添加极坐标点，方便后面的贝塞尔曲线插值处理
+                                polarShape += (r, alpha)
+                                axisPoints += (r, alpha).ToCartesianPoint.OffSet2D(center)
                                 alpha += dDegree
                             Next
 
-                            If spline > 0 Then
-                                shape = shape.CubicSpline(spline).AsList
+                            If spline Then
+                                ' 使用AB两个坐标轴的中间夹角处作为控制点
+                                ' 控制点的值为AB两个点的平均值
+                                ' 使用滑窗进行计算
+                                Dim avg#
+                                Dim centerAngle!
+                                Dim adjacent = (polarShape + polarShape(0)).SlideWindows(winSize:=2).ToArray
+                                Dim control As PointF
+                                Dim c1, c2 As PointF
+
+                                shape *= 0
+
+                                For Each between As SlideWindow(Of PolarPoint) In adjacent
+                                    avg = between.Average(Function(p) p.Radius)
+                                    If between.Index = adjacent.Length - 1 Then
+                                        ' 2018-5-3
+                                        '
+                                        ' 由于雷达图的绘制是从-90度开始的，所以-90度相当于0，270度相当于360
+                                        ' 因为最后一个滑窗为240度左右回到原点-90度
+                                        ' 所以直接计算平均值的话会出现 (240 + -90) / 2 = 70 的错误
+                                        '
+                                        ' 需要进行额外处理
+                                        centerAngle = (270 + between.First.Angle) / 2
+                                    Else
+                                        centerAngle = between.Average(Function(p) p.Angle)
+                                    End If
+                                    ' 得到中间的这个控制点
+                                    control = (avg, centerAngle).ToCartesianPoint.OffSet2D(center)
+                                    ' 进行贝塞尔曲线插值
+                                    c1 = between.First.Point.OffSet2D(center)
+                                    c2 = between.Last.Point.OffSet2D(center)
+
+                                    shape += c1
+
+                                    With New BezierCurve(c1, control, c2, 3).BezierPoints
+                                        .RemoveFirst
+                                        .Pop()
+                                        shape += .AsEnumerable
+                                    End With
+
+                                    shape += c2
+                                Next
+                            Else
+                                shape = polarShape.Select(Function(p)
+                                                              Return p.Point.OffSet2D(center)
+                                                          End Function) _
+                                                  .AsList
                             End If
 
                             ' 填充区域
@@ -214,9 +289,19 @@ Namespace Fractions
                                 Call g.ShapeGlow(.ByRef, color.Light(0.75), shapeBorderWidth * 3)
                                 Call g.FillPath(New SolidBrush(color), .ByRef)
                                 Call g.DrawPath(pen, .ByRef)
+
+#If DEBUG Then
+                                Dim debugFont As New Font(FontFace.MicrosoftYaHeiUI, 12)
+
+                                For Each point In shape
+                                    Call g.DrawString(point.ToString, debugFont, Brushes.Gray, point)
+                                Next
+#End If
                             End With
 
-                            For Each point As PointF In shape
+                            ' color = color.Dark(0.05)
+
+                            For Each point As PointF In axisPoints
                                 Call g.DrawCircle(point, pointRadius, New SolidBrush(color))
                             Next
                         End With
