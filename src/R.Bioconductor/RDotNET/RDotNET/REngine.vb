@@ -49,8 +49,8 @@ Public Class REngine
         Me.m_id = id
         Me.m_isRunning = False
         Me.Disposed = False
-        Me.EnableLock = True
         ' See https://rdotnet.codeplex.com/workitem/113; it seems wise to enable it by default.
+        Me.EnableLock = False
         Me.AutoPrint = True
     End Sub
 
@@ -60,14 +60,6 @@ Public Class REngine
     ''' </summary>
     ''' <remarks>Thanks to gchapman for proposing the fix. See https://rdotnet.codeplex.com/workitem/67 for details</remarks>
     Public Property EnableLock() As Boolean
-        Get
-            Return m_EnableLock
-        End Get
-        Set
-            m_EnableLock = Value
-        End Set
-    End Property
-    Private m_EnableLock As Boolean
 
     ''' <summary>
     ''' Gets whether this instance is running.
