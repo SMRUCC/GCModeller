@@ -52,7 +52,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DocumentationFile>Test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -131,17 +131,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="E:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
-      <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
-      <Name>RDotNet.Extensions.Bioinformatics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RDotNET.Extensions.VisualBasic\RDotNet.Extensions.VisualBasic.vbproj">
+    <ProjectReference Include="..\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
-      <Name>RDotNet.Extensions.VisualBasic</Name>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
