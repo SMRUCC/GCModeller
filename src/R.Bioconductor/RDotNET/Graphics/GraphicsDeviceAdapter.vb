@@ -313,8 +313,7 @@ Namespace Graphics
             Return Me.device.MeasureWidth(str, context, Me.description)
         End Function
 
-        Private Sub DrawText(x As Double, y As Double, str As String, rot As Double, hadj As Double, gc As IntPtr,
-        dd As IntPtr)
+        Private Sub DrawText(x As Double, y As Double, str As String, rot As Double, hadj As Double, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Me.device.DrawText(str, New Point(x, y), rot, hadj, context, Me.description)
         End Sub
@@ -343,7 +342,9 @@ Namespace Graphics
             For index = 0 To npoly - 1
                 Dim offset = 4 * index
                 Dim n = Marshal.ReadInt32(nper, offset)
+
                 Yield GetPoints(n, x, y)
+
                 Dim pointOffset = 8 * n
                 x = IntPtr.Add(x, pointOffset)
                 y = IntPtr.Add(y, pointOffset)
