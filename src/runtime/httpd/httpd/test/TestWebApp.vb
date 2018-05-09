@@ -22,7 +22,7 @@ Public Class ClassTestWebApp : Inherits WebApp
             }
         End If
 
-        Call response.WriteJSON(args, indent:=True)
+        Call response.WriteJSON(args, indent:=False)
 
         Return True
     End Function

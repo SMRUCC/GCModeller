@@ -174,7 +174,7 @@ Namespace AppEngine.APIMethods.Arguments
         ''' <typeparam name="T"></typeparam>
         ''' <param name="obj"></param>
         Public Sub WriteJSON(Of T)(obj As T, Optional indent As Boolean = False)
-            Dim json As String = obj.GetJson(indent:=True)
+            Dim json As String = obj.GetJson(indent:=indent)
             Dim bytes As Byte() = TextEncodings.UTF8WithoutBOM.GetBytes(json)
 
             If Not __writeData Then
