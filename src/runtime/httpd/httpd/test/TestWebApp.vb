@@ -16,6 +16,12 @@ Public Class ClassTestWebApp : Inherits WebApp
     Public Function testGET(request As HttpRequest, response As HttpResponse) As Integer
         Dim args = request.URLParameters.ToDictionary
 
+        If args.IsNullOrEmpty Then
+            args = New Dictionary(Of String, String) From {
+                {"test", "test response data"}
+            }
+        End If
+
         Call response.WriteJSON(args, indent:=True)
 
         Return True
