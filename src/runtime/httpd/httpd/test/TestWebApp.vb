@@ -13,7 +13,7 @@ Public Class ClassTestWebApp : Inherits WebApp
 
     <ExportAPI("/test/get.vbs")>
     <[GET]>
-    Public Function testGET(request As HttpRequest, response As HttpResponse) As Integer
+    Public Function testGET(request As HttpRequest, response As HttpResponse) As Boolean
         Dim args = request.URLParameters.ToDictionary
 
         If args.IsNullOrEmpty Then
