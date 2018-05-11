@@ -230,6 +230,9 @@ Namespace Core
             ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
                 HandlePOSTRequest()
 
+            ElseIf http_method.Equals("PUT", StringComparison.OrdinalIgnoreCase) Then
+                HandlePOSTRequest()
+
             Else
                 ' Dim msg As String = $"Unsupport {NameOf(http_method)}:={http_method}"
                 ' Call msg.__DEBUG_ECHO
