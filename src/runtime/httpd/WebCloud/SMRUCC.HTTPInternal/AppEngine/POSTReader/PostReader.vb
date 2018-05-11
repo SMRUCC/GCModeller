@@ -143,11 +143,7 @@ Namespace AppEngine.POSTParser
                        InputStream.Length
                     )
 
-                    If Not Files.ContainsKey([sub].FileName) Then
-                        Files.Add([sub].FileName, New List(Of HttpPostedFile))
-                    End If
-
-                    Files([sub].FileName) += [sub]
+                    Files("file") = New List(Of HttpPostedFile) From {[sub]}
                 Else
                     ' probably is a jquery post
                     Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
