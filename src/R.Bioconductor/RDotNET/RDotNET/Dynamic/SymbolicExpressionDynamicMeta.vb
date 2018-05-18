@@ -33,9 +33,9 @@ Namespace Dynamic
 		''' <param name="indexerNameType"></param>
 		''' <returns></returns>
 		Protected Overloads Function BindGetMember(Of RType, BType)(binder As GetMemberBinder, indexerNameType As Type()) As DynamicMetaObject
-			Dim instance As ConstantExpression
-			Dim name As ConstantExpression
-			BuildInstanceAndName(Of RType)(binder, instance, name)
+            Dim instance As ConstantExpression = Nothing
+            Dim name As ConstantExpression = Nothing
+            BuildInstanceAndName(Of RType)(binder, instance, name)
 			Dim indexer As PropertyInfo = GetType(RType).GetProperty("Item", indexerNameType)
 			Dim [call] As IndexExpression = System.Linq.Expressions.Expression.[Property](instance, indexer, name)
 			Return CreateDynamicMetaObject(Of BType)([call])
@@ -70,9 +70,9 @@ Namespace Dynamic
 				Return MyBase.BindGetMember(binder)
 			End If
 
-			Dim instance As ConstantExpression
-			Dim name As ConstantExpression
-			BuildInstanceAndName(Of SymbolicExpression)(binder, instance, name)
+            Dim instance As ConstantExpression = Nothing
+            Dim name As ConstantExpression = Nothing
+            BuildInstanceAndName(Of SymbolicExpression)(binder, instance, name)
 			Dim getAttribute As MethodInfo = GetType(SymbolicExpression).GetMethod("GetAttribute")
 			Dim [call] As MethodCallExpression = System.Linq.Expressions.Expression.[Call](instance, getAttribute, name)
 			Return CreateDynamicMetaObject(Of SymbolicExpression)([call])

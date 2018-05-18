@@ -1,4 +1,3 @@
-Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Reflection
 
@@ -9,8 +8,9 @@ Friend Delegate Sub Map(from As DataFrameRow, [to] As Object)
 ''' </summary>
 <AttributeUsage(AttributeTargets.[Class], Inherited := False, AllowMultiple := False)> _
 Public Class DataFrameRowAttribute
-	Inherits Attribute
-	Private ReadOnly cache As Dictionary(Of Type, Map)
+    Inherits Attribute
+
+    Private ReadOnly cache As Dictionary(Of Type, Map)
 
 	''' <summary>
 	''' Initializes a new instance.
@@ -21,8 +21,9 @@ Public Class DataFrameRowAttribute
 
 	Friend Function Convert(Of TRow As {Class, New})(row As DataFrameRow) As TRow
 		Dim rowType = GetType(TRow)
-		Dim map As Map
-		If Not Me.cache.TryGetValue(rowType, map) Then
+        Dim map As Map = Nothing
+
+        If Not Me.cache.TryGetValue(rowType, map) Then
 			map = CreateMap(rowType)
 			Me.cache.Add(rowType, map)
 		End If
@@ -32,12 +33,18 @@ Public Class DataFrameRowAttribute
 	End Function
 
 	Private Shared Function CreateMap(rowType As Type) As Map
-        Dim tuples = (From [property] In rowType.GetProperties() Let attribute = DirectCast([property].GetCustomAttributes(GetType(DataFrameColumnAttribute), True).SingleOrDefault(), DataFrameColumnAttribute) Where attribute IsNot Nothing Select System.Tuple.Create(attribute, [property].GetSetMethod())).ToArray()
+        Dim tuples = (From [property] As PropertyInfo
+                      In rowType.GetProperties()
+                      Let attribute = DirectCast([property].GetCustomAttributes(GetType(DataFrameColumnAttribute), True).SingleOrDefault(), DataFrameColumnAttribute)
+                      Where attribute IsNot Nothing
+                      Select System.Tuple.Create(attribute, [property].GetSetMethod())).ToArray()
+
         Return Sub(from, [to]) Call Map(from, [to], tuples)
     End Function
 
 	Private Shared Sub Map(from As DataFrameRow, [to] As Object, tuples As Tuple(Of DataFrameColumnAttribute, MethodInfo)())
-		Dim names = from.DataFrame.ColumnNames
+        Dim names = from.DataFrame.ColumnNames
+
         For Each t In tuples
             Dim attribute = t.Item1
             Dim setter = t.Item2

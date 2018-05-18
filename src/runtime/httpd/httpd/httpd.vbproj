@@ -60,7 +60,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeep_xcms\biodeep\application\Biodeep\Task\mz_biodeep.backend\App\</OutputPath>
+    <OutputPath>test\bin\</OutputPath>
     <DocumentationFile>httpd.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
@@ -528,7 +528,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="test.vb" />
     <Compile Include="Program\CLI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
