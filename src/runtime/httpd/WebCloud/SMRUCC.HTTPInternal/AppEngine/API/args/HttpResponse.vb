@@ -64,8 +64,8 @@ Namespace AppEngine.APIMethods.Arguments
 
     Public Class HttpResponse : Implements IDisposable
 
-        ReadOnly response As StreamWriter
-        ReadOnly writeFailed As Action(Of String)
+        Friend ReadOnly response As StreamWriter
+        Friend ReadOnly writeFailed As Action(Of String)
 
         Sub New(rep As StreamWriter, write404 As Action(Of String))
             response = rep

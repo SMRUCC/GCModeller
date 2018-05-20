@@ -241,3 +241,5 @@ pip-log.txt
 /src/runtime/.vs/installer
 /smartnucl_integrative/biodeepDB/METLINApp/App
 /src/Assembly/ProteoWizard.d/App
+*.dtbcache
+/plot
