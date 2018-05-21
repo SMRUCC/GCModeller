@@ -28,6 +28,11 @@ Namespace AppEngine
             Call session.GetJson.SaveTo(GetSessionPath(id:=session.ID))
         End Sub
 
+        ''' <summary>
+        ''' 得到session json文件的文件路径
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
         Public Function GetSessionPath(id As String) As String
             Dim dir$ = App.ProductSharedDIR & "/Sessions"
             Dim path$ = $"{dir}/{id}.json"
@@ -58,6 +63,10 @@ Namespace AppEngine
                 Table(name) = value
             End Set
         End Property
+
+        Public Sub SetValue(key$, value$)
+            Item(key) = value
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"[{ID} => {Table.Keys.ToArray.GetJson}]"
