@@ -1,6 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Runtime.MMU.PageMapping
 
@@ -49,8 +47,8 @@ Namespace Runtime.MMU.PageMapping
         Public Function Convertable(sourceType As Type) As Boolean
             Dim convertType As Type = Me.TypeOf
             Dim YON As Boolean =
-                StringBuilders.ContainsKey(convertType) AndAlso
-                StringBuilders.ContainsKey(sourceType)
+                DataFramework.StringBuilders.ContainsKey(convertType) AndAlso
+                DataFramework.StringBuilders.ContainsKey(sourceType)
             Return YON
         End Function
     End Class
