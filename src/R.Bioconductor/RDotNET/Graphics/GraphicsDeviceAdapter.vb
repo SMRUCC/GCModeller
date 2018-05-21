@@ -1,7 +1,6 @@
-Imports RDotNet.Graphics.Internals
-Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Runtime.InteropServices
+Imports RDotNet.Graphics.Internals
 
 Namespace Graphics
 

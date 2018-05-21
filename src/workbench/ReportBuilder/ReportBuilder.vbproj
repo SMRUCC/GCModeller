@@ -267,6 +267,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTML\BuilderHelpers.vb" />
     <Compile Include="HTML\TemplateHandler.vb" />
     <Compile Include="HTML\HTMLReport.vb" />
     <Compile Include="EMailMsg.vb" />

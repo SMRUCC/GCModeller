@@ -11,7 +11,7 @@ MySql database field attributes notes in this development document:
 > + **UN**: Unsigned;
 > + **ZF**: Zero Fill
 
-Generate time: 3/16/2018 10:37:29 PM<br />
+Generate time: 2018/5/21 16:54:20<br />
 By: ``mysqli.vb`` reflector tool ([https://github.com/xieguigang/mysqli.vb](https://github.com/xieguigang/mysqli.vb))
 
 <div style="page-break-after: always;"></div>
@@ -28,13 +28,16 @@ GO_term的主编号和次级编号之间的关系
 |alt_id|Int64 (10)|``NN``, ``PK``||
 |name|Text ()||The name field in the go_term|
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `alt_id` (
   `id` int(10) unsigned NOT NULL,
   `alt_id` int(10) unsigned NOT NULL,
   `name` mediumtext COMMENT 'The name field in the go_term',
   PRIMARY KEY (`id`,`alt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的主编号和次级编号之间的关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的主编号和次级编号之间的关系';
 ```
 
 
@@ -54,6 +57,9 @@ CREATE TABLE `alt_id` (
 |term_id|Int64 (10)|``NN``, ``PK``|与当前的term发生互做关系的另外的一个partner term的编号|
 |name|VarChar (45)||发生关系的term的名字|
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `dag_relationship` (
   `id` int(10) unsigned NOT NULL COMMENT '当前的term编号',
@@ -62,7 +68,7 @@ CREATE TABLE `dag_relationship` (
   `term_id` int(10) unsigned NOT NULL COMMENT '与当前的term发生互做关系的另外的一个partner term的编号',
   `name` varchar(45) DEFAULT NULL COMMENT '发生关系的term的名字',
   PRIMARY KEY (`id`,`term_id`,`relationship_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='由GO_term之间的相互关系所构成的有向无环图Directed Acyclic Graph（DAG）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='由GO_term之间的相互关系所构成的有向无环图Directed Acyclic Graph（DAG）';
 ```
 
 
@@ -85,6 +91,9 @@ GO_term的具体的定义内容
 |is_obsolete|Int32 (4)|``NN``|0 为 False, 1 为 True|
 |comment|Text ()|||
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `go_terms` (
   `id` int(10) unsigned NOT NULL COMMENT '其实就是将term编号之中的``GO:``前缀给删除了而得到的一个数字',
@@ -97,7 +106,7 @@ CREATE TABLE `go_terms` (
   `comment` longtext,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的具体的定义内容';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的具体的定义内容';
 ```
 
 
@@ -114,13 +123,16 @@ CREATE TABLE `go_terms` (
 |id|Int64 (10)|``AI``, ``NN``, ``PK``||
 |name|Text ()|``NN``||
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `relation_names` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举所有的关系的名称';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举所有的关系的名称';
 ```
 
 
@@ -137,13 +149,16 @@ CREATE TABLE `relation_names` (
 |id|Int64 (10)|``NN``, ``PK``||
 |namespace|Text ()|``NN``|这个表里面只有三个值|
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `term_namespace` (
   `id` int(10) unsigned zerofill NOT NULL,
   `namespace` tinytext NOT NULL COMMENT '这个表里面只有三个值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举三个命名空间';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举三个命名空间';
 ```
 
 
@@ -163,6 +178,9 @@ GO_term的同义词表
 |type|VarChar (45)||EXACT []  表示完全一样<br />RELATED [EC:3.1.27.3] 表示和xxxx有关联，其中EC编号为本表之中的object字段 |
 |object|VarChar (45)||type所指向的类型，可以会为空|
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `term_synonym` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增编号',
@@ -172,7 +190,7 @@ CREATE TABLE `term_synonym` (
   `object` varchar(45) DEFAULT NULL COMMENT 'type所指向的类型，可以会为空',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的同义词表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的同义词表';
 ```
 
 
@@ -191,6 +209,9 @@ GO_term与外部数据库之间的相互关联
 |external_id|VarChar (45)|``NN``, ``PK``|外部数据库编号|
 |comment|Text ()|||
 
+
+#### SQL Declare
+
 ```SQL
 CREATE TABLE `xref` (
   `go_id` int(10) unsigned NOT NULL,
@@ -198,7 +219,7 @@ CREATE TABLE `xref` (
   `external_id` varchar(45) NOT NULL COMMENT '外部数据库编号',
   `comment` longtext,
   PRIMARY KEY (`go_id`,`external_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term与外部数据库之间的相互关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term与外部数据库之间的相互关联';
 ```
 
 
