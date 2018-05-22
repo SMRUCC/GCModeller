@@ -75,12 +75,12 @@ Public Module RSDPdensity
 
     <Extension>
     Public Function RSDPdensity(points As IEnumerable(Of PointF),
-                                Optional size$ = "1200,1000",
-                                Optional padding$ = g.DefaultPadding,
+                                Optional size$ = "1800,1600",
+                                Optional padding$ = g.DefaultUltraLargePadding,
                                 Optional bg$ = "white",
                                 Optional schema$ = "Jet",
                                 Optional RSD# = 1,
-                                Optional lineStroke$ = Stroke.AxisGridStroke) As GraphicsData
+                                Optional lineStroke$ = "stroke: lightgray; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
         Call $"{NameOf(P_threshold)}={P_threshold}".__DEBUG_ECHO
 
@@ -115,9 +115,12 @@ Public Module RSDPdensity
             Return DensityPlot.Plot(
                 .ByRef,
                 size, padding, bg, schema, levels:=100,
+                ptSize:=10,
                 ablines:=ablines,
                 labX:="RSD", labY:="-log10(P.value)",
+                legendTitleFontCSS:=CSSFont.Win7Large,
                 htmlLabel:=False,
+                legendWidth:=200,
                 xMax:=xMax,
                 yMin:=0,
                 xMin:=-0.25) ' 做出来的图不从零开始可能会比较好一些
