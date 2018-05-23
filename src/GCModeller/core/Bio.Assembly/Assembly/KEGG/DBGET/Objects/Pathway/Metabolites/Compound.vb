@@ -1,56 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::30828824861da77a8152fa0487a37383, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Compound
-    ' 
-    '         Properties: [Module], CHEBI, CommonNames, DbLinks, Entry
-    '                     Enzyme, ExactMass, Formula, MolWeight, Pathway
-    '                     PUBCHEM, reactionId, Remarks
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetModules, GetPathways
-    '                   ToString
-    ' 
-    '         Sub: DownloadKCF, DownloadStructureImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Compound
+' 
+'         Properties: [Module], CHEBI, CommonNames, DbLinks, Entry
+'                     Enzyme, ExactMass, Formula, MolWeight, Pathway
+'                     PUBCHEM, reactionId, Remarks
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetModules, GetPathways
+'                   ToString
+' 
+'         Sub: DownloadKCF, DownloadStructureImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -60,7 +61,8 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    Public Class Compound : Implements ICompoundObject
+    Public Class Compound : Inherits XmlDataModel
+        Implements ICompoundObject
 
         Public Const xmlns_kegg$ = "http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id"
 
