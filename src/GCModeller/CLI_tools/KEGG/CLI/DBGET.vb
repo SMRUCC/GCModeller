@@ -83,7 +83,8 @@ Partial Module CLI
     <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
-              Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, then you can using this option for downloads the complete compounds data in the KEGG database.")>
+              Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
+              then you can using this option for downloads the complete compounds data in the KEGG database.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./KEGG_cpd/"
