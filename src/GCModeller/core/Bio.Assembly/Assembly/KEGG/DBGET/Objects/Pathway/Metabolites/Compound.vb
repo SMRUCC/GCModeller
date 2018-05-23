@@ -108,6 +108,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Set
         End Property
 
+        Public Property KCF As String
+        Public Property Image As String
+
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces
 
