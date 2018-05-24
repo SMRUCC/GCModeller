@@ -184,8 +184,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Dim t$() = html.DivInternals
             Dim LQuery As DBLink() = t _
-                .SlideWindows(2, 2) _
-                .Select(Function(s) TryParse(s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim, s(1))) _
+                .SlideWindows(winSize:=2, offset:=2) _
+                .Where(Function(w) w.Length >= 2) _
+                .Select(Function(s)
+                            Return s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim.TryParse(s(1))
+                        End Function) _
                 .IteratesALL _
                 .ToArray
             Return New DBLinks(LQuery)
@@ -207,11 +210,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             DBName = If(String.IsNullOrEmpty(LQuery), DBName, LQuery)
 
-            Return IDs.Select(
-                Function(ID$) New DBLink With {
-                    .DBName = DBName,
-                    .Entry = ID
-                }).ToArray
+            Return IDs.Select(Function(ID$)
+                                  Return New DBLink With {
+                                      .DBName = DBName,
+                                      .Entry = ID
+                                  }
+                              End Function) _
+                      .ToArray
         End Function
 
         Friend Function GetCommonNames(str$) As String()
