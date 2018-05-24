@@ -182,15 +182,28 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return Nothing
             End If
 
-            Dim t$() = html.DivInternals
+            Dim t$() = html.GetTablesHTML
+            'Dim LQuery As DBLink() = t _
+            '    .SlideWindows(winSize:=2, offset:=2) _
+            '    .Where(Function(w) w.Length >= 2) _
+            '    .Select(Function(s)
+            '                Return s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim.TryParse(s(1))
+            '            End Function) _
+            '    .IteratesALL _
+            '    .ToArray
             Dim LQuery As DBLink() = t _
-                .SlideWindows(winSize:=2, offset:=2) _
-                .Where(Function(w) w.Length >= 2) _
-                .Select(Function(s)
-                            Return s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim.TryParse(s(1))
+                .Select(Function(linkTable)
+                            Dim tr = linkTable.GetRowsHTML(0)
+                            Dim tuple = tr.GetColumnsHTML
+                            Dim name = tuple(0).StripHTMLTags(True).Trim(":"c, " "c)
+                            Dim id$ = tuple.ElementAtOrDefault(1) _
+                                           .StripHTMLTags(True) _
+                                           .Trim
+
+                            Return New DBLink(name, id)
                         End Function) _
-                .IteratesALL _
                 .ToArray
+
             Return New DBLinks(LQuery)
         End Function
 
