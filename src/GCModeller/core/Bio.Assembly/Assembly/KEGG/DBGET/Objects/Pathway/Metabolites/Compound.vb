@@ -201,5 +201,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 _DBLinks.AddEntry(New DBLink With {.DBName = "PUBCHEM", .Entry = value})
             End Set
         End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetLinkDbRDF(compound As Compound) As IEnumerable(Of LinkDB.Relationship)
+            If InStr(compound.Entry, ":") > 0 Then
+                Return LinkDB.Relationship.GetLinkDb(compound.Entry)
+            Else
+                Return LinkDB.Relationship.GetLinkDb($"cpd:{compound.Entry}")
+            End If
+        End Function
     End Class
 End Namespace
