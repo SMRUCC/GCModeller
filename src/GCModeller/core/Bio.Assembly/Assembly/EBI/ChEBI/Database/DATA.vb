@@ -60,18 +60,19 @@ Namespace Assembly.EBI.ChEBI
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="DIR$">``*.xml`` chebi online data cache</param>
+        ''' <param name="repository$">``*.xml`` chebi online data cache</param>
         ''' <returns></returns>
-        Public Function ScanLoad(DIR$) As Dictionary(Of Long, ChEBIEntity)
+        Public Function ScanLoad(repository As String) As Dictionary(Of Long, ChEBIEntity)
             Dim list As New Dictionary(Of Long, ChEBIEntity)
 
-            For Each path As String In (ls - l - r - "*.xml" <= DIR)
-                Dim data = path.LoadXml(Of ChEBIEntity())
+            For Each path As String In (ls - l - r - "*.xml" <= repository)
+                Dim compound = path.LoadXml(Of ChEBIEntity)
 
-                For Each x As ChEBIEntity In data.SafeQuery
-                    Dim id = CLng(Val(x.chebiId.Split(":"c).Last))
-                    If Not list.ContainsKey(id) Then
-                        list.Add(id, x)
+                For Each ID As String In compound.IDlist
+                    Dim int_id = CLng(Val(ID.Split(":"c).Last))
+
+                    If Not list.ContainsKey(int_id) Then
+                        list.Add(int_id, compound)
                     End If
                 Next
             Next

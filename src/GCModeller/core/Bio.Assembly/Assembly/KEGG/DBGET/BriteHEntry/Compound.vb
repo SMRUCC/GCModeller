@@ -377,7 +377,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Call gl.GetXml.SaveTo(xml)
                 End If
             Else
-                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(entryID)
+                Dim cpd As bGetObject.Compound = MetaboliteDBGET.DownloadCompound(entryID)
 
                 If cpd.IsNullOrEmpty Then
                     Call $"[{entryID}] is not exists in the kegg!".Warning
@@ -505,7 +505,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Continue For
                 End If
 
-                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(EntryId)
+                Dim cpd As bGetObject.Compound = MetaboliteDBGET.DownloadCompound(EntryId)
 
                 If cpd Is Nothing Then
                     Call $"[{entry.ToString}] is not exists in the kegg!".Warning

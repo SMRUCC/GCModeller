@@ -52,7 +52,7 @@ Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Table
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    Partial Module MetabolitesDBGet
+    Partial Module MetaboliteDBGET
 
         Const ChEBI$ = NameOf(ChEBI) & "_unclassified"
 
@@ -101,7 +101,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Thread.Sleep(1000)
                     End If
 
-                    Dim cpd As Compound = MetabolitesDBGet.DownloadCompound(acc.ACCESSION_NUMBER)
+                    Dim cpd As Compound = MetaboliteDBGET.DownloadCompound(acc.ACCESSION_NUMBER)
 
                     If cpd Is Nothing Then
                         ' 没有下载成功
