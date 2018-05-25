@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::9bc1c6c6ec41e47aa2aaa0db0402ee0d, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Compound
-    ' 
-    '         Properties: [Class], Category, Entry, Order, SubCategory
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
-    '                   Lipids, LoadFile
-    ' 
-    '         Sub: __downloadsInternal, WorkspaceCleanup
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Compound
+' 
+'         Properties: [Class], Category, Entry, Order, SubCategory
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
+'                   Lipids, LoadFile
+' 
+'         Sub: __downloadsInternal, WorkspaceCleanup
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,10 +53,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -375,18 +377,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Call gl.GetXml.SaveTo(xml)
                 End If
             Else
-                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(entryID)
+                Dim cpd As bGetObject.Compound = MetaboliteDBGET.DownloadCompound(entryID)
 
                 If cpd.IsNullOrEmpty Then
                     Call $"[{entryID}] is not exists in the kegg!".Warning
                     Return False
                 Else
-                    Call cpd.GetXml.SaveTo(xml)
-
                     If structInfo Then
-                        Call cpd.DownloadKCF(xml.TrimSuffix & ".KCF")
-                        Call cpd.DownloadStructureImage(xml.TrimSuffix & ".gif")
+                        Dim KCF$ = App.GetAppSysTempFile(".txt", App.PID)
+                        Dim gif = App.GetAppSysTempFile(".gif", App.PID)
+
+                        ' Call cpd.DownloadKCF(xml.TrimSuffix & ".KCF")
+                        ' Call cpd.DownloadStructureImage(xml.TrimSuffix & ".gif")
+
+                        Call cpd.DownloadKCF(KCF)
+                        Call cpd.DownloadStructureImage(gif)
+
+                        If KCF.FileExists Then
+                            cpd.KCF = KCF.ReadAllText
+                        End If
+                        If gif.FileExists Then
+                            cpd.Image = FastaSeq.SequenceLineBreak(200, New DataURI(gif).ToString)
+                        End If
                     End If
+
+                    Call cpd.GetXml.SaveTo(xml)
                 End If
             End If
 
@@ -490,7 +505,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Continue For
                 End If
 
-                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(EntryId)
+                Dim cpd As bGetObject.Compound = MetaboliteDBGET.DownloadCompound(EntryId)
 
                 If cpd Is Nothing Then
                     Call $"[{entry.ToString}] is not exists in the kegg!".Warning

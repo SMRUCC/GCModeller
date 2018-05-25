@@ -389,6 +389,7 @@ D      C20086  Crotalase
 D      C20087  Crotalocytin
 D      C20088  Echistatin
 D      C20089  Gabonase
+D      C21791  Rhodocytin
 B  Spider venoms
 C    Agatoxins
 D      C20090  Toxin omega-Aga-IA
@@ -443,6 +444,6 @@ D      C20061  Ritterazine A
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: August 1, 2014
+#Last updated: March 13, 2018
 #<br>Food and Agriculture Organization: <a href="http://www.fao.org/docrep/007/y5486e/y5486e00.htm">Marine Biotoxins</a>
 #<br><br><a href="/kegg-bin/get_htext?jp08009.keg">&raquo; Japanese version</a>

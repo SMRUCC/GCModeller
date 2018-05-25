@@ -85,6 +85,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return DownloadFrom(url:=String.Format(URL, ID))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Function GetLinkDbRDF(glycan As Glycan) As IEnumerable(Of LinkDB.Relationship)
+            If InStr(glycan.Entry, ":") > 0 Then
+                Return LinkDB.Relationship.GetLinkDb(glycan.Entry)
+            Else
+                Return LinkDB.Relationship.GetLinkDb($"gl:{glycan.Entry}")
+            End If
+        End Function
+
         Public Overloads Shared Function DownloadFrom(url As String) As Glycan
             Dim html As New WebForm(url)
             Dim base As Compound = html.ParseCompound
