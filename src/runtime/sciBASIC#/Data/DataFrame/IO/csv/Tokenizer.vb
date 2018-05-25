@@ -121,7 +121,17 @@ Namespace IO
                             ' 也有可能是 "" 转义 为单个 "
                             Dim lastQuot = (temp > 0 AndAlso temp.Last <> quot)
 
-                            If (peek = delimiter OrElse buffer.EndRead) AndAlso lastQuot Then
+                            If temp = 0 AndAlso peek = delimiter Then
+
+                                ' openStack意味着前面已经出现一个 " 了
+                                ' 这里又出现了一个 " 并且下一个字符为分隔符
+                                ' 则说明是 "", 当前的cell内容是一个空字符串
+                                tokens += ""
+                                temp *= 0
+                                buffer += 1
+                                openStack = False
+
+                            ElseIf (peek = delimiter OrElse buffer.EndRead) AndAlso lastQuot Then
 
                                 ' 下一个字符为分隔符，则结束这个token
                                 tokens += New String(temp).Replace(doubleQuot, quot)
@@ -129,6 +139,7 @@ Namespace IO
                                 ' 跳过下一个分隔符，因为已经在这里判断过了
                                 buffer += 1
                                 openStack = False
+
                             Else
                                 ' 不是，则继续添加
                                 temp += c
