@@ -52,7 +52,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG
 
@@ -82,19 +81,17 @@ Namespace Assembly.KEGG
                 Dim k = id.GetTagValue(":")
 
                 If Not table.ContainsKey(k.Name) Then
-                    table.Add(
-                        k.Name,
-                        New List(Of String))
+                    table(k.Name) = New List(Of String)
                 End If
 
                 Call table(k.Name).AddRange(k.Value.Split)
             Next
 
-            Dim out As Dictionary(Of String, String()) =
-                table.ToDictionary(
-                Function(k) k.Key,
-                Function(k) k.Value.ToArray)
-
+            Dim out As Dictionary(Of String, String()) = table _
+                .ToDictionary(Function(k) k.Key,
+                              Function(k)
+                                  Return k.Value.ToArray
+                              End Function)
             Return out
         End Function
 
@@ -107,7 +104,12 @@ Namespace Assembly.KEGG
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function DirectGetChEBI(cpd As DBGET.bGetObject.Compound) As String()
-            Return cpd.DbLinks.Where(Function(s) s.DBName.TextEquals("ChEBI")).Select(Function(l) l.Entry).ToArray
+            Return cpd.DbLinks _
+                      .Where(Function(s)
+                                 Return s.DBName.TextEquals("ChEBI")
+                             End Function) _
+                      .Select(Function(l) l.Entry) _
+                      .ToArray
         End Function
 
         ''' <summary>
