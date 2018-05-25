@@ -92,9 +92,10 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function QueryChEBI(chebiID$, localCache$, Optional ByRef hitCache As Boolean = False) As ChEBIEntity()
+            ' 因为后面如果下载数据的话，保存文件的时候是按照前三位生成文件夹的，所以在这里使用文件名进行所有文件夹的扫描
             Dim path$ =
                 localCache _
-                .TheFile($"{chebiID}.XML", SearchOption.SearchAllSubDirectories) ' 因为后面如果下载数据的话，保存文件的时候是按照前三位生成文件夹的，所以在这里使用文件名进行所有文件夹的扫描
+                .TheFile($"{chebiID}.XML", SearchOption.SearchAllSubDirectories)
 
             If path Is Nothing Then
                 path = localCache & $"/{chebiID}.XML"

@@ -473,13 +473,11 @@ C    FA0708 Fatty acyl adenylates
 D      C13825  O-Hexanoyl-adnosine monophosphate
 B  FA08 Fatty amides
 C    FA0801 Primary amides
-D      C01842  Pentanamide
 D      C13831  Dodecanamide
-D      C13846  Octadecanamide
-C    FA0802 N-acyl amides
 D      C01842  Pentanamide
-D      C13831  Dodecanamide
 D      C13846  Octadecanamide
+C    FA0802 N-acyl amines
+D      C12271  N-(5Z,8Z,11Z,14Z-Eicosatetraenoyl)-dopamine
 C    FA0803 Fatty acyl homoserine lactones
 D      C11837  N-Butyrylhomoserine lactone
 D      C11839  N-(3-Oxohexanoyl)homoserine lactone
@@ -488,10 +486,10 @@ D      C11841  N-(3-Oxooctanoyl)homoserine lactone
 D      C11842  N-(3-(S)-Hydroxybutyryl)homoserine lactone
 D      C11844  N-Heptanoylhomoserine lactone
 D      C11845  N-(3-Hydroxy-7-cis-tetradecenoyl)homoserine lactone
-C    FA0804 N-acyl ethanolamides (endocannabinoids)
-D      C11695  N-(5Z,8Z,11Z,14Z-icosatetraenoyl)-ethanolamide
-D      C13828  N-(8Z,11Z,14Z-icosatrienoyl)-ethanolamide
-D      C13829  N-(7Z,10Z,13Z,16Z-docosatetraenoyl)-ethanolamide
+C    FA0804 N-acyl ethanolamines (endocannabinoids)
+D      C11695  N-(5Z,8Z,11Z,14Z-Eicosatetraenoyl)-ethanolamine
+D      C13828  N-(8Z,11Z,14Z-Eicosatrienoyl)-ethanolamine
+D      C13829  N-(7Z,10Z,13Z,16Z-docosatetraenoyl)-ethanolamine
 B  FA09 Fatty nitriles
 C    C13832  4Z,7Z,10Z-Octadecatrienenitrile
 B  FA10 Fatty ethers
@@ -2808,5 +2806,5 @@ B  PK00 Other Polyketides
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 17, 2017
+#Last updated: April 4, 2018
 #<br>Classification based on <a href="http://www.lipidmaps.org/">LIPID MAPS</a> [ <a href="http://www.ncbi.nlm.nih.gov/pubmed/15722563,19098281">pubmed</a> ]
