@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.FileIO
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace HTML
@@ -38,6 +39,11 @@ Namespace HTML
             Next
 
             Return Me
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Replace(find$, value As XElement) As HTMLReport
+            Return Replace(find, value.ToString)
         End Function
 
         Sub New(folder$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly)

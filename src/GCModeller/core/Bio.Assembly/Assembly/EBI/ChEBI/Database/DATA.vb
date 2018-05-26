@@ -60,18 +60,19 @@ Namespace Assembly.EBI.ChEBI
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="DIR$">``*.xml`` chebi online data cache</param>
+        ''' <param name="repository$">``*.xml`` chebi online data cache</param>
         ''' <returns></returns>
-        Public Function ScanLoad(DIR$) As Dictionary(Of Long, ChEBIEntity)
+        Public Function ScanLoad(repository As String) As Dictionary(Of Long, ChEBIEntity)
             Dim list As New Dictionary(Of Long, ChEBIEntity)
 
-            For Each path As String In (ls - l - r - "*.xml" <= DIR)
-                Dim data = path.LoadXml(Of ChEBIEntity())
+            For Each path As String In (ls - l - r - "*.xml" <= repository)
+                Dim compound = path.LoadXml(Of ChEBIEntity)
 
-                For Each x As ChEBIEntity In data.SafeQuery
-                    Dim id = CLng(Val(x.chebiId.Split(":"c).Last))
-                    If Not list.ContainsKey(id) Then
-                        list.Add(id, x)
+                For Each ID As String In compound.IDlist
+                    Dim int_id = CLng(Val(ID.Split(":"c).Last))
+
+                    If Not list.ContainsKey(int_id) Then
+                        list.Add(int_id, compound)
                     End If
                 Next
             Next
@@ -119,25 +120,38 @@ Namespace Assembly.EBI.ChEBI
         End Function
 
         ''' <summary>
-        ''' 
+        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="AccessionTypeNames"/>
         ''' </summary>
         ''' <param name="chebi"></param>
-        ''' <param name="type$">
-        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="AccessionTypeNames"/>
-        ''' </param>
         ''' <returns></returns>
-        <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type$) As NamedValue(Of String)()
+        <Extension> Public Function GetXrefID(chebi As ChEBIEntity) As Func(Of String, NamedValue(Of String)())
             Dim registryNumbers = chebi.RegistryNumbersSearchModel
 
-            If registryNumbers.ContainsKey(type) Then
-                Return registryNumbers(type)
-            Else
-                Return Nothing
-            End If
+            Return Function(type)
+                       If registryNumbers.ContainsKey(type) Then
+                           Return registryNumbers(type)
+                       Else
+                           Return Nothing
+                       End If
+                   End Function
         End Function
 
+        ''' <summary>
+        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="AccessionTypeNames"/>
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <returns></returns>
+        <Extension> Public Function GetXrefIDByType(chebi As ChEBIEntity) As Func(Of AccessionTypes, NamedValue(Of String)())
+            Dim fromStringType = chebi.GetXrefID
+
+            Return Function(type)
+                       Return fromStringType(AccessionTypeNames(type))
+                   End Function
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type As AccessionTypes) As NamedValue(Of String)()
-            Return chebi.GetXrefID(AccessionTypeNames(type))
+            Return chebi.GetXrefID()(AccessionTypeNames(type))
         End Function
 
         Public ReadOnly Property AccessionTypeNames As Dictionary(Of AccessionTypes, String) =

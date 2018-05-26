@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::bac3236c5d24e1832838d6af19d42566, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module MetabolitesDBGet
-    ' 
-    '         Function: __parseNamedData, DownloadCompound, DownloadCompoundFrom, FetchTo, GetCommonNames
-    '                   GetDBLinks, LoadCompoundObject, MatchByName, ParseCompound, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module MetabolitesDBGet
+' 
+'         Function: __parseNamedData, DownloadCompound, DownloadCompoundFrom, FetchTo, GetCommonNames
+'                   GetDBLinks, LoadCompoundObject, MatchByName, ParseCompound, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -53,7 +54,7 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    Public Module MetabolitesDBGet
+    Public Module MetaboliteDBGET
 
         <Extension>
         Public Function MatchByName(compound As Compound, name$) As Boolean
@@ -182,12 +183,28 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return Nothing
             End If
 
-            Dim t$() = html.DivInternals
+            Dim t$() = html.GetTablesHTML
+            'Dim LQuery As DBLink() = t _
+            '    .SlideWindows(winSize:=2, offset:=2) _
+            '    .Where(Function(w) w.Length >= 2) _
+            '    .Select(Function(s)
+            '                Return s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim.TryParse(s(1))
+            '            End Function) _
+            '    .IteratesALL _
+            '    .ToArray
             Dim LQuery As DBLink() = t _
-                .SlideWindows(2, 2) _
-                .Select(Function(s) TryParse(s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim, s(1))) _
-                .IteratesALL _
+                .Select(Function(linkTable)
+                            Dim tr = linkTable.GetRowsHTML(0)
+                            Dim tuple = tr.GetColumnsHTML
+                            Dim name = tuple(0).StripHTMLTags(True).Trim(":"c, " "c)
+                            Dim id$ = tuple.ElementAtOrDefault(1) _
+                                           .StripHTMLTags(True) _
+                                           .Trim
+
+                            Return New DBLink(name, id)
+                        End Function) _
                 .ToArray
+
             Return New DBLinks(LQuery)
         End Function
 
@@ -207,11 +224,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             DBName = If(String.IsNullOrEmpty(LQuery), DBName, LQuery)
 
-            Return IDs.Select(
-                Function(ID$) New DBLink With {
-                    .DBName = DBName,
-                    .Entry = ID
-                }).ToArray
+            Return IDs.Select(Function(ID$)
+                                  Return New DBLink With {
+                                      .DBName = DBName,
+                                      .Entry = ID
+                                  }
+                              End Function) _
+                      .ToArray
         End Function
 
         Friend Function GetCommonNames(str$) As String()
@@ -247,6 +266,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Else
                 Return xml.LoadXml(Of Compound)(stripInvalidsCharacter:=True)
             End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ScanLoad(repository As String) As IEnumerable(Of Compound)
+            Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadCompoundObject)
         End Function
     End Module
 End Namespace
