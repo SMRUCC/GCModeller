@@ -93,6 +93,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property [Module] As NamedValue()
         Public Property Remarks As String()
         Public Property Enzyme As String()
+        Public Property [Class] As String
 
         Protected Friend _DBLinks As DBLinks
 

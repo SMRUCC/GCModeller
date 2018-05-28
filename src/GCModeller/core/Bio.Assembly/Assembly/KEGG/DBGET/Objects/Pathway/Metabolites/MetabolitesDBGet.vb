@@ -269,8 +269,26 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ScanLoad(repository As String) As IEnumerable(Of Compound)
-            Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadCompoundObject)
+        Public Function ScanLoad(repository$, Optional rewriteClass As Boolean = False) As IEnumerable(Of Compound)
+            If rewriteClass Then
+                repository = repository.GetDirectoryFullPath
+
+                Return (ls - l - r - "*.Xml" <= repository) _
+                    .Select(Function(path)
+                                Dim compound As Compound = path.LoadCompoundObject
+                                Dim class$ = path.GetFullPath _
+                                                 .Replace(repository, "") _
+                                                 .Split("/"c) _
+                                                 .Take(2) _
+                                                 .JoinBy("/")
+
+                                compound.Class = [class]
+
+                                Return compound
+                            End Function)
+            Else
+                Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadCompoundObject)
+            End If
         End Function
     End Module
 End Namespace
