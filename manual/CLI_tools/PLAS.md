@@ -1,7 +1,7 @@
 ---
 title: PLAS
 tags: [maunal, tools]
-date: 5/28/2018 9:05:08 PM
+date: 5/28/2018 9:20:25 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -29,9 +29,11 @@ All of the command that available in this program has been list below:
 <h3 id="Compile"> 1. Compile</h3>
 
 Compile a script file or sbml file into the plas model file.
+
 **Prototype**: ``PLAS.CLI::Int32 Compile(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 PLAS compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]
 ```
@@ -42,9 +44,11 @@ PLAS compile -i "/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-react
 <h3 id="Run"> 2. Run</h3>
 
 run a model file of the biochemical network system.
+
 **Prototype**: ``PLAS.CLI::Int32 Run(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 PLAS run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]
 ```

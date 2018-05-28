@@ -66,6 +66,7 @@ Namespace Scripting
             Dim view As ActiveViews = type.GetCustomAttribute(Of ActiveViews)
 
             Call sb.AppendLine($"**Decalre**:  _{type.FullName}_")
+            Call sb.AppendLine()
             Call sb.AppendLine("Example: ")
 
             If view Is Nothing Then

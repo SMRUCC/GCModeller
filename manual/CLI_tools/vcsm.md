@@ -1,7 +1,7 @@
 ---
 title: vcsm
 tags: [maunal, tools]
-date: 5/28/2018 9:05:12 PM
+date: 5/28/2018 9:20:28 PM
 ---
 # virtualcell simulations host [version 2.6.0.255]
 > 
@@ -33,36 +33,44 @@ All of the command that available in this program has been list below:
 <h3 id="Experiment.Whole_Genome_Mutation"> 1. Experiment.Whole_Genome_Mutation</h3>
 
 shell parameter is the shoal shell application program file location.
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::Int32 WholeGenomeMutation(System.String, Double, System.String)``
 
 ###### Usage
+
 ```bash
 vcsm
 ```
 <h3 id="Experiment.Whole_Genome_Mutation2"> 2. Experiment.Whole_Genome_Mutation2</h3>
 
 shell parameter is the shoal shell application program file location. this command is required the GCML format model file.
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::Int32 WholeGenomeMutationFromGCML(System.String, Double, System.String)``
 
 ###### Usage
+
 ```bash
 vcsm
 ```
 <h3 id="load.model.csv_tabular"> 3. load.model.csv_tabular</h3>
 
 The csv_tabular format model file is the alternative format of the GCModeller virtual cell modle, as the GCModeller only support the GCML xml file as the modelling data source, so that you should using this command to load the csv_tabular format model file as the GCML format.
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller LoadCsv(System.String, Microsoft.VisualBasic.ApplicationServices.Debugging.Logging.LogFile, Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 vcsm
 ```
 <h3 id="registry"> 4. registry</h3>
 
 
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::Int32 RegistryModule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 vcsm registry <assembly_file>
 ```
@@ -73,9 +81,11 @@ vcsm resistry /home/xieguigang/gcmodeller/models/plas.dll
 <h3 id="run"> 5. run</h3>
 
 
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::Int32 Run(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 vcsm run -i <model_file> -mysql <mysql_connection_string> [-f <gcml/csv_tabular> -t <time> -metabolism <assembly_path> -expression <assembly_path>]
 ```
@@ -159,9 +169,11 @@ T/TRUE/F/FALSE
 <h3 id="unregistry"> 6. unregistry</h3>
 
 
+
 **Prototype**: ``LANS.SystemsBiology.GCModeller.CommandLines::Int32 UnRegistry(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 vcsm unregistry <assembly_file>
 ```

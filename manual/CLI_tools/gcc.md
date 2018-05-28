@@ -1,7 +1,7 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 5/28/2018 9:05:05 PM
+date: 5/28/2018 9:20:22 PM
 ---
 # GCModeller [version 1.0.0.0]
 > gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
@@ -30,18 +30,22 @@ All of the command that available in this program has been list below:
 <h3 id="-add_replacement"> 1. -add_replacement</h3>
 
 
+
 **Prototype**: ``gcc.CLI::Int32 AddNewPair(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc -add_replacement -old <old_value> -new <new_value>
 ```
 <h3 id="-add_rule"> 2. -add_rule</h3>
 
 
+
 **Prototype**: ``gcc.CLI::Int32 AddRule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc -add_rule -rulefile <path> -db <datadir> -model <path> [-grep <scriptText>]
 ```
@@ -79,9 +83,11 @@ If null then the system will using the MeatCyc database unique-id parsing method
 <h3 id="compile_metacyc"> 3. compile_metacyc</h3>
 
 compile a metacyc database into a gcml(genetic clock markup language) model file.
+
 **Prototype**: ``gcc.CLI::Int32 CompileMetaCyc(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc compile_metacyc -i <data_dir> -o <output_file>
 ```

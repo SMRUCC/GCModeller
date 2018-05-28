@@ -1,7 +1,7 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 5/28/2018 9:05:10 PM
+date: 5/28/2018 9:20:26 PM
 ---
 # GCModeller [version 1.0.0.0]
 > GCModeller configuration console.
@@ -53,9 +53,11 @@ All of the command that available in this program has been list below:
 <h3 id="/dev"> 1. /dev</h3>
 
 Generates Apps CLI visualbasic reference source code.
+
 **Prototype**: ``GCModeller.Configuration.CLI::Int32 CLIDevelopment(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 Settings /dev [/out <DIR>]
 ```
@@ -72,6 +74,7 @@ The generated VisualBasic source file output directory location.
 ##### Accepted Types
 ###### /out
 **Decalre**:  _System.String_
+
 Example: 
 ```json
 "System.String"
@@ -80,9 +83,11 @@ Example:
 <h3 id="/set.mysql"> 2. /set.mysql</h3>
 
 Setting up the mysql connection parameters
+
 **Prototype**: ``GCModeller.Configuration.CLI::Int32 SetMySQL(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 Settings /set.mysql /test
 ```
@@ -100,6 +105,7 @@ If this boolean argument is set, then the program will testing for the mysqli co
 ##### Accepted Types
 ###### /test
 **Decalre**:  _System.Boolean_
+
 Example: 
 ```json
 true
@@ -108,9 +114,11 @@ true
 <h3 id="Set"> 3. Set</h3>
 
 Setting up the configuration data node.
+
 **Prototype**: ``GCModeller.Configuration.CLI::Int32 Set(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 Settings Set <varName> <value>
 ```
@@ -131,6 +139,7 @@ The variable name in the GCModeller configuration file.
 ##### Accepted Types
 ###### <varName>
 **Decalre**:  _System.String_
+
 Example: 
 ```json
 "System.String"
@@ -139,9 +148,11 @@ Example:
 <h3 id="var"> 4. var</h3>
 
 Gets the settings value.
+
 **Prototype**: ``GCModeller.Configuration.CLI::Int32 ViewVar(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 Settings var [varName] [/value]
 ```
@@ -166,6 +177,7 @@ If this argument is presented, then this settings program will only output the v
 ##### Accepted Types
 ###### /value
 **Decalre**:  _System.Boolean_
+
 Example: 
 ```json
 true

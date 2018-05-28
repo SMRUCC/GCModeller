@@ -1,7 +1,7 @@
 ---
 title: venn
 tags: [maunal, tools]
-date: 5/28/2018 9:05:12 PM
+date: 5/28/2018 9:20:28 PM
 ---
 # GCModeller [version 1.3.11.2]
 > Tools for creating venn diagram model for the R program and venn diagram visualize drawing.
@@ -32,9 +32,11 @@ The R language API tools for invoke the venn diagram plot.
 <h3 id=".Draw"> 1. .Draw</h3>
 
 Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.
+
 **Prototype**: ``VennDiagramTools.CLI::Int32 VennDiagramA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 venn .Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]
 ```
