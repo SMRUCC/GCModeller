@@ -285,6 +285,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
                                 compound.Class = [class]
 
+                                If [class].Split("/"c).First.MatchPattern("Unknown", RegexICSng) Then
+                                    compound.Class = "Unknown"
+                                End If
+
                                 Return compound
                             End Function)
             Else
