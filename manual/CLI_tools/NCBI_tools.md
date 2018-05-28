@@ -1,7 +1,7 @@
 ---
 title: NCBI_tools
 tags: [maunal, tools]
-date: 5/28/2018 9:20:25 PM
+date: 5/28/2018 9:30:26 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis, genbank database, and sequence query tools.
@@ -424,7 +424,7 @@ This parameter will be disabled when ``/expression`` is presents.
 ```
 ##### Accepted Types
 ###### /in
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json

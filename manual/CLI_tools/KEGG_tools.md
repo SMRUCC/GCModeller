@@ -1,7 +1,7 @@
 ---
 title: KEGG_tools
 tags: [maunal, tools]
-date: 5/28/2018 9:20:22 PM
+date: 5/28/2018 9:30:23 PM
 ---
 # GCModeller [version 3.0.854.0]
 > KEGG web services API tools.
@@ -199,7 +199,7 @@ The circle radius size of the KEGG compound that rendering on the output pathway
 ```
 ##### Accepted Types
 ###### /list
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json
@@ -313,7 +313,7 @@ The 3 characters kegg organism code, example as: "xcb" is stands for organism "X
 ```
 ##### Accepted Types
 ###### /sp
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json

@@ -1,7 +1,7 @@
 ---
 title: metaProfiler
 tags: [maunal, tools]
-date: 5/28/2018 9:20:24 PM
+date: 5/28/2018 9:30:25 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -295,7 +295,7 @@ metaProfiler /Relative_abundance.barplot /in <dataset.csv> [/group <sample_group
 ```
 ##### Accepted Types
 ###### /take
-**Decalre**:  _System.Int32_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Int32</a>_
 
 Example: 
 ```json

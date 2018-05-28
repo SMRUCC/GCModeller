@@ -1,7 +1,7 @@
 ---
 title: eggHTS
 tags: [maunal, tools]
-date: 5/28/2018 9:20:21 PM
+date: 5/28/2018 9:30:21 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -355,7 +355,7 @@ Example:
 ```
 
 ###### /size
-**Decalre**:  _System.Drawing.Size_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.size(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.Size</a>_
 
 Example: 
 ```json
@@ -406,7 +406,7 @@ The steps for generates the histogram test data.
 ```
 ##### Accepted Types
 ###### /type
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -414,7 +414,7 @@ Example:
 ```
 
 ###### /step
-**Decalre**:  _System.Single_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.single(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Single</a>_
 
 Example: 
 ```json
@@ -727,7 +727,7 @@ Example:
 ```
 
 ###### /size
-**Decalre**:  _System.Drawing.Size_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.size(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.Size</a>_
 
 Example: 
 ```json
@@ -738,7 +738,7 @@ Example:
 ```
 
 ###### /KO.class
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -746,7 +746,7 @@ true
 ```
 
 ###### /is.matrix
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -754,7 +754,7 @@ true
 ```
 
 ###### /row.labels.geneName
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -941,7 +941,7 @@ Example:
 ```
 
 ###### /ORF
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1094,7 +1094,7 @@ Using for enrichment term result filters, default is p.value less than or equals
 ```
 ##### Accepted Types
 ###### /p.value
-**Decalre**:  _System.Double_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.double(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Double</a>_
 
 Example: 
 ```json
@@ -1247,7 +1247,7 @@ Set the color of all of the labels, bars, class labels on this chart plot output
 ```
 ##### Accepted Types
 ###### /size
-**Decalre**:  _System.Drawing.Size_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.size(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.Size</a>_
 
 Example: 
 ```json
@@ -1258,7 +1258,7 @@ Example:
 ```
 
 ###### /displays
-**Decalre**:  _System.Int32_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Int32</a>_
 
 Example: 
 ```json
@@ -1266,7 +1266,7 @@ Example:
 ```
 
 ###### /bubble
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1274,7 +1274,7 @@ true
 ```
 
 ###### /gray
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1560,7 +1560,7 @@ If this option is presented in the CLI input, then the significant test from the
 ```
 ##### Accepted Types
 ###### /skip.significant.test
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1637,7 +1637,7 @@ Maps user custom ID to uniprot ID. A tsv file with format: ``<customID><TAB><uni
 ```
 ##### Accepted Types
 ###### /colors
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json
@@ -1954,7 +1954,7 @@ All of the Y sample value greater than this quantile value will be removed. By d
 ```
 ##### Accepted Types
 ###### /field.pi
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1962,7 +1962,7 @@ Example:
 ```
 
 ###### /field.mw
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1970,7 +1970,7 @@ Example:
 ```
 
 ###### /size
-**Decalre**:  _System.Drawing.Size_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.size(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.Size</a>_
 
 Example: 
 ```json
@@ -1980,7 +1980,7 @@ Example:
 }
 ```
 
-**Decalre**:  _System.Drawing.SizeF_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.sizef(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.SizeF</a>_
 
 Example: 
 ```json
@@ -1991,7 +1991,7 @@ Example:
 ```
 
 ###### /pt.size
-**Decalre**:  _System.Double_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.double(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Double</a>_
 
 Example: 
 ```json
@@ -1999,7 +1999,7 @@ Example:
 ```
 
 ###### /quantile.removes
-**Decalre**:  _System.Double_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.double(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Double</a>_
 
 Example: 
 ```json
@@ -2463,7 +2463,7 @@ Example:
 ```
 
 ###### /list
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json
@@ -2473,7 +2473,7 @@ Example:
 ```
 
 ###### /iTraq
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -2933,7 +2933,7 @@ Example:
 ```
 
 ###### /sp
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -3024,7 +3024,7 @@ Plot GO term their label will be alignment on right. default is alignment left i
 ```
 ##### Accepted Types
 ###### /size
-**Decalre**:  _System.Drawing.Size_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.drawing.size(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Drawing.Size</a>_
 
 Example: 
 ```json
@@ -3155,7 +3155,7 @@ If this flag was presented, that means the input sample data is the Perseus anal
 ```
 ##### Accepted Types
 ###### /Perseus
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

@@ -1,7 +1,7 @@
 ---
 title: Cytoscape
 tags: [maunal, tools]
-date: 5/28/2018 9:20:21 PM
+date: 5/28/2018 9:30:21 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Cytoscape model generator and visualization tools utils for GCModeller
@@ -420,7 +420,7 @@ Example:
 ```
 
 ###### /generic
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

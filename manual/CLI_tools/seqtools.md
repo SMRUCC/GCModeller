@@ -1,7 +1,7 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 5/28/2018 9:20:26 PM
+date: 5/28/2018 9:30:27 PM
 ---
 # GCModeller [version 3.0.2456.4506]
 > Sequence operation utilities
@@ -503,7 +503,7 @@ AAGCGAACAAATGTTCTATA
 ```
 
 ###### /mp
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -819,7 +819,7 @@ AAGCGAACAAATGTTCTATA
 ```
 
 ###### /out
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -932,7 +932,7 @@ Search for the mirror palindrome loci sites.
 ```
 ##### Accepted Types
 ###### /mirror
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1106,7 +1106,7 @@ this parameter indicates that which column will be used for gets the locus_tag d
 ```
 ##### Accepted Types
 ###### /reverse
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1114,7 +1114,7 @@ true
 ```
 
 ###### /field
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1407,7 +1407,7 @@ AAGCGAACAAATGTTCTATA
 ```
 
 ###### /ref
-**Decalre**:  _System.Int32_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Int32</a>_
 
 Example: 
 ```json
@@ -1415,7 +1415,7 @@ Example:
 ```
 
 ###### /pure
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

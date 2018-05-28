@@ -1,7 +1,7 @@
 ---
 title: GCModeller
 tags: [maunal, tools]
-date: 5/28/2018 9:20:22 PM
+date: 5/28/2018 9:30:22 PM
 ---
 # GCModeller [version 1.0.2.3]
 > 
@@ -409,7 +409,7 @@ Put these directory path in the item order of:
 ```
 ##### Accepted Types
 ###### /toplog
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json

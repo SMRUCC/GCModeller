@@ -1,7 +1,7 @@
 ---
 title: RNA-seq
 tags: [maunal, tools]
-date: 5/28/2018 9:20:26 PM
+date: 5/28/2018 9:30:27 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 

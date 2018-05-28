@@ -1,7 +1,7 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 5/28/2018 9:20:26 PM
+date: 5/28/2018 9:30:28 PM
 ---
 # GCModeller [version 1.0.0.0]
 > GCModeller configuration console.
@@ -73,7 +73,7 @@ The generated VisualBasic source file output directory location.
 ```
 ##### Accepted Types
 ###### /out
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -104,7 +104,7 @@ If this boolean argument is set, then the program will testing for the mysqli co
 ```
 ##### Accepted Types
 ###### /test
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -138,7 +138,7 @@ The variable name in the GCModeller configuration file.
 ```
 ##### Accepted Types
 ###### <varName>
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -176,7 +176,7 @@ If this argument is presented, then this settings program will only output the v
 ```
 ##### Accepted Types
 ###### /value
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

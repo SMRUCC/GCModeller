@@ -1,7 +1,7 @@
 ---
 title: MEME
 tags: [maunal, tools]
-date: 5/28/2018 9:20:23 PM
+date: 5/28/2018 9:30:25 PM
 ---
 # GCModeller [version 1.34.0.2]
 > A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial genome.

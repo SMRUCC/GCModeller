@@ -1,7 +1,7 @@
 ---
 title: localblast
 tags: [maunal, tools]
-date: 5/28/2018 9:20:23 PM
+date: 5/28/2018 9:30:25 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Wrapper tools for the ncbi blast+ program and the blast output data analysis program. 
@@ -262,7 +262,7 @@ The 2taxid data source is comes from gi2taxid, by default is acc2taxid.
 ```
 ##### Accepted Types
 ###### /gi2taxid
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -527,7 +527,7 @@ Only output the first hit result for each query as best?
 ```
 ##### Accepted Types
 ###### /best
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -595,7 +595,7 @@ Only export the top best blastn alignment hit?
 ```
 ##### Accepted Types
 ###### /in
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -611,7 +611,7 @@ null
 ```
 
 ###### /best
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -682,7 +682,7 @@ Fasta sequence short title, which is just only contains locus_tag
 ```
 ##### Accepted Types
 ###### /simple
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -713,7 +713,7 @@ If this parameter is specific as True, then this function will try using geneNam
 ```
 ##### Accepted Types
 ###### /geneName
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -795,14 +795,14 @@ Using the parallel edition?? If GCModeller running in a 32bit environment, do no
 ```
 ##### Accepted Types
 ###### /key
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
 "System.String"
 ```
 
-**Decalre**:  _System.String[]_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string[](v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String[]</a>_
 
 Example: 
 ```json
@@ -812,7 +812,7 @@ Example:
 ```
 
 ###### /p
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -995,7 +995,7 @@ AAGCGAACAAATGTTCTATA
 ```
 
 ###### /blast+
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1003,7 +1003,7 @@ Example:
 ```
 
 ###### /out
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1011,7 +1011,7 @@ Example:
 ```
 
 ###### /evalue
-**Decalre**:  _System.Double_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.double(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Double</a>_
 
 Example: 
 ```json
@@ -1019,7 +1019,7 @@ Example:
 ```
 
 ###### /all
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1085,7 +1085,7 @@ Example:
 ```
 
 ###### /fill.empty
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json
@@ -1163,7 +1163,7 @@ If the fasta sequence source is comes from the KEGG database, and you want to re
 ```
 ##### Accepted Types
 ###### /in
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1171,7 +1171,7 @@ Example:
 ```
 
 ###### /out
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -1179,7 +1179,7 @@ Example:
 ```
 
 ###### /trim-KEGG
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

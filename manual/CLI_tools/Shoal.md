@@ -1,7 +1,7 @@
 ---
 title: Shoal
 tags: [maunal, tools]
-date: 5/28/2018 9:20:27 PM
+date: 5/28/2018 9:30:28 PM
 ---
 # ShoalShell [version 1.2.258.2033]
 > This module define the shoal commandlines for the command line interpreter.

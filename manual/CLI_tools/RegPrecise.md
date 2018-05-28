@@ -1,7 +1,7 @@
 ---
 title: RegPrecise
 tags: [maunal, tools]
-date: 5/28/2018 9:20:26 PM
+date: 5/28/2018 9:30:27 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -191,7 +191,7 @@ Example:
 ```
 
 ###### /name
-**Decalre**:  _System.String_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.String</a>_
 
 Example: 
 ```json
@@ -349,7 +349,7 @@ Example:
 ```
 
 ###### /null-regprecise
-**Decalre**:  _System.Boolean_
+**Decalre**:  _<a href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1">System.Boolean</a>_
 
 Example: 
 ```json

@@ -1,7 +1,7 @@
 ---
 title: venn
 tags: [maunal, tools]
-date: 5/28/2018 9:20:28 PM
+date: 5/28/2018 9:30:29 PM
 ---
 # GCModeller [version 1.3.11.2]
 > Tools for creating venn diagram model for the R program and venn diagram visualize drawing.
