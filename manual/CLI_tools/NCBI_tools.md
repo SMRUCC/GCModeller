@@ -1,7 +1,7 @@
 ---
 title: NCBI_tools
 tags: [maunal, tools]
-date: 5/28/2018 8:37:23 PM
+date: 5/28/2018 8:57:16 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis, genbank database, and sequence query tools.

@@ -1,7 +1,7 @@
 ---
 title: GCModeller CLI Tools
 tags: [manual, tools]
-date: 5/28/2018 8:37:27 PM
+date: 5/28/2018 8:57:20 PM
 ---
 
 All of the available GCModeller CLI tools are listed below:
@@ -10,6 +10,7 @@ All of the available GCModeller CLI tools are listed below:
 + [CARMEN](./CARMEN.html)
 + [Circos](./Circos.html)
 + [Cytoscape](./Cytoscape.html)
++ [eggHTS](./eggHTS.html)
 + [FBA](./FBA.html)
 + [gcc](./gcc.html)
 + [GCModeller](./GCModeller.html)
@@ -17,6 +18,7 @@ All of the available GCModeller CLI tools are listed below:
 + [link](./link.html)
 + [localblast](./localblast.html)
 + [MEME](./MEME.html)
++ [metaProfiler](./metaProfiler.html)
 + [mpl](./mpl.html)
 + [NCBI_tools](./NCBI_tools.html)
 + [PhenoTree](./PhenoTree.html)

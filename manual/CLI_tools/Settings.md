@@ -1,7 +1,7 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 5/28/2018 8:37:25 PM
+date: 5/28/2018 8:57:18 PM
 ---
 # GCModeller [version 1.0.0.0]
 > GCModeller configuration console.
