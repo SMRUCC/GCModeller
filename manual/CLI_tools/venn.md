@@ -1,7 +1,7 @@
 ---
 title: venn
 tags: [maunal, tools]
-date: 11/24/2016 2:54:30 AM
+date: 5/28/2018 9:30:29 PM
 ---
 # GCModeller [version 1.3.11.2]
 > Tools for creating venn diagram model for the R program and venn diagram visualize drawing.
@@ -10,15 +10,19 @@ date: 11/24/2016 2:54:30 AM
 
 **Venn Diagram Data Visualization**<br/>
 _Venn Diagram Data Visualization_<br/>
-Copyright © LANS Engineering Workstation 2013
+Copyright Â© LANS Engineering Workstation 2013
 
-**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/venn.exe<br/>
-**Root namespace**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI``<br/>
+**Module AssemblyName**: venn<br/>
+**Root namespace**: ``VennDiagramTools.CLI``<br/>
 
 
 All of the command that available in this program has been list below:
 
-##### Generic function API list
+##### 1. R plot API
+
+The R language API tools for invoke the venn diagram plot.
+
+
 |Function API|Info|
 |------------|----|
 |[.Draw](#.Draw)|Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.|
@@ -28,11 +32,13 @@ All of the command that available in this program has been list below:
 <h3 id=".Draw"> 1. .Draw</h3>
 
 Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.
-**Prototype**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI::Int32 VennDiagramA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+**Prototype**: ``VennDiagramTools.CLI::Int32 VennDiagramA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
-venn .Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs> -rbin <r_bin_directory>]
+venn .Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]
 ```
 ###### Example
 ```bash
@@ -46,22 +52,7 @@ The csv data source file for drawing the venn diagram graph.
 
 ###### Example
 ```bash
--i /home/xieguigang/Desktop/genomes.csv
-```
-##### [-t]
-Optional, the venn diagram title text
-
-###### Example
-```bash
--t genome-compared
-```
-##### [-o]
-Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then
-the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.
-
-###### Example
-```bash
--o ~/Desktop/xcc8004.tiff
+-i <term_string>
 ```
 ##### [-s]
 Optional, the profile settings for the partitions in the venn diagram, each partition profile data is
@@ -71,7 +62,22 @@ from the column values and apply for each partition a randomize color.
 
 ###### Example
 ```bash
--s "Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD"
+-s <file/directory>
+```
+##### [-t]
+Optional, the venn diagram title text
+
+###### Example
+```bash
+-t <term_string>
+```
+##### [-o]
+Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then
+the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.
+
+###### Example
+```bash
+-o <term_string>
 ```
 ##### [-rbin]
 Optional, Set up the r bin path for drawing the venn diagram, if this switch value is not specific by the user then
@@ -83,5 +89,5 @@ get the venn diagram directly from this program.
 
 ###### Example
 ```bash
--rbin C:\\R\\bin\\
+-rbin <term_string>
 ```

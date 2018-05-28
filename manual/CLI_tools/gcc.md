@@ -1,7 +1,7 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 11/24/2016 2:54:06 AM
+date: 5/28/2018 9:30:22 PM
 ---
 # GCModeller [version 1.0.0.0]
 > gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
@@ -9,10 +9,10 @@ date: 11/24/2016 2:54:06 AM
 <!--more-->
 
 **GCModeller Modelling console and model compiler**<br/>
-_GCModeller Modelling console and model compiler (GCModeller????????)_<br/>
-Copyright � ???????????? 2013
+_GCModeller Modelling console and model compiler (GCModeller模型文件编译工具)_<br/>
+Copyright © 蓝思生物信息工程师工作站 2013
 
-**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/gcc.exe<br/>
+**Module AssemblyName**: gcc<br/>
 **Root namespace**: ``gcc.CLI``<br/>
 
 
@@ -30,18 +30,22 @@ All of the command that available in this program has been list below:
 <h3 id="-add_replacement"> 1. -add_replacement</h3>
 
 
+
 **Prototype**: ``gcc.CLI::Int32 AddNewPair(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc -add_replacement -old <old_value> -new <new_value>
 ```
 <h3 id="-add_rule"> 2. -add_rule</h3>
 
 
+
 **Prototype**: ``gcc.CLI::Int32 AddRule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc -add_rule -rulefile <path> -db <datadir> -model <path> [-grep <scriptText>]
 ```
@@ -79,9 +83,11 @@ If null then the system will using the MeatCyc database unique-id parsing method
 <h3 id="compile_metacyc"> 3. compile_metacyc</h3>
 
 compile a metacyc database into a gcml(genetic clock markup language) model file.
+
 **Prototype**: ``gcc.CLI::Int32 CompileMetaCyc(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 gcc compile_metacyc -i <data_dir> -o <output_file>
 ```

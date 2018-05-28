@@ -66,8 +66,6 @@ Namespace CommandLine.ManView
     ''' </summary>
     Module SDKManual
 
-        Public ReadOnly Property DocPath As String = $"{App.ExecutablePath.TrimSuffix}.md"
-
         ''' <summary>
         ''' 这个是用于在终端上面显示的无格式的文本输出
         ''' </summary>
@@ -101,7 +99,8 @@ Namespace CommandLine.ManView
                 From api As SeqValue(Of APIEntryPoint)
                 In CLI.APIList.SeqIterator(offset:=1)
                 Let index As String = api.i & ".   "
-                Select index & api.value.HelpInformation
+                Let info As String = api.value.HelpInformation
+                Select index & info
 
             Call New IndexedManual(pages, title).ShowManual()
 
@@ -129,7 +128,7 @@ Namespace CommandLine.ManView
             Call sb.AppendLine(assm.AssemblyCopyright)
             Call sb.AppendLine()
 
-            Call sb.AppendLine($"**Module AssemblyName**: {type.Assembly.Location.ToFileURL}<br/>")
+            Call sb.AppendLine($"**Module AssemblyName**: {type.Assembly.Location.BaseName}<br/>")
             Call sb.AppendLine($"**Root namespace**: ``{App.Type.FullName}``<br/>")
 
             Dim helps As ExceptionHelp = type.GetAttribute(Of ExceptionHelp)
@@ -255,7 +254,7 @@ Namespace CommandLine.ManView
                                     End If
                                 Else
                                     Call sb.AppendLine(
-                                        $"|[{API.Name}](#{API.Name})|{API.Info}|")
+                                        $"|[{API.Name}](#{API.Name})|{API.Info.LineTokens.JoinBy("<br />")}|")
                                 End If
                             Next
 
