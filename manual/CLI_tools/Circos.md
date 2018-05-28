@@ -1,7 +1,7 @@
 ---
 title: Circos
 tags: [maunal, tools]
-date: 5/28/2018 8:32:32 PM
+date: 5/28/2018 8:37:18 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Tools for generates the circos drawing model file for the circos perl script.

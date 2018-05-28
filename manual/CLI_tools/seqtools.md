@@ -1,7 +1,7 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 5/28/2018 8:32:36 PM
+date: 5/28/2018 8:37:25 PM
 ---
 # GCModeller [version 3.0.2456.4506]
 > Sequence operation utilities

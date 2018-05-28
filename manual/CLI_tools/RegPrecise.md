@@ -1,7 +1,7 @@
 ---
 title: RegPrecise
 tags: [maunal, tools]
-date: 5/28/2018 8:32:36 PM
+date: 5/28/2018 8:37:24 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
