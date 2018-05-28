@@ -1,7 +1,7 @@
 ---
 title: vcsm
 tags: [maunal, tools]
-date: 5/28/2018 8:57:19 PM
+date: 5/28/2018 9:05:12 PM
 ---
 # virtualcell simulations host [version 2.6.0.255]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:19 PM
 _virtualcell simulations host_<br/>
 Copyright © Lans Corp. 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/vcsm.exe<br/>
+**Module AssemblyName**: vcsm<br/>
 **Root namespace**: ``LANS.SystemsBiology.GCModeller.CommandLines``<br/>
 
 

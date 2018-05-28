@@ -1,7 +1,7 @@
 ---
 title: Circos
 tags: [maunal, tools]
-date: 5/28/2018 8:57:12 PM
+date: 5/28/2018 9:05:04 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Tools for generates the circos drawing model file for the circos perl script.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:12 PM
 _Circos CLI interface Utility_<br/>
 Copyright ©  2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Circos.exe<br/>
+**Module AssemblyName**: Circos<br/>
 **Root namespace**: ``Circos_CLITools.CLI``<br/>
 
 

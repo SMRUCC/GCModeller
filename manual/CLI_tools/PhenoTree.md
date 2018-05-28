@@ -1,7 +1,7 @@
 ---
 title: PhenoTree
 tags: [maunal, tools]
-date: 5/28/2018 8:57:16 PM
+date: 5/28/2018 9:05:08 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Cellular phenotype analysis tools.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:16 PM
 __<br/>
 Copyright ©  2016
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/PhenoTree.exe<br/>
+**Module AssemblyName**: PhenoTree<br/>
 **Root namespace**: ``PhenoTree.CLI``<br/>
 
 

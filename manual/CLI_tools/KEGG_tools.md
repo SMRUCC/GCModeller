@@ -1,7 +1,7 @@
 ---
 title: KEGG_tools
 tags: [maunal, tools]
-date: 5/28/2018 8:57:14 PM
+date: 5/28/2018 9:05:06 PM
 ---
 # GCModeller [version 3.0.854.0]
 > KEGG web services API tools.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:14 PM
 _CLI tools utilis for KEGG database DBGET API_<br/>
 Copyright © xie.guigang@gmail.com 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/KEGG_tools.exe<br/>
+**Module AssemblyName**: KEGG_tools<br/>
 **Root namespace**: ``KEGG_tools.CLI``<br/>
 
 

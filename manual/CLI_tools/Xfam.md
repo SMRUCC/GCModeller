@@ -1,7 +1,7 @@
 ---
 title: Xfam
 tags: [maunal, tools]
-date: 5/28/2018 8:57:20 PM
+date: 5/28/2018 9:05:13 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Xfam Tools (Pfam, Rfam, iPfam)
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:20 PM
 _Xfam Tools (Pfam, Rfam, iPfam)_<br/>
 Copyright © xie.guigang@gcmodeller.org 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Xfam.exe<br/>
+**Module AssemblyName**: Xfam<br/>
 **Root namespace**: ``Xfam.CLI``<br/>
 
 

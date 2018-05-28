@@ -1,7 +1,7 @@
 ---
 title: PLAS
 tags: [maunal, tools]
-date: 5/28/2018 8:57:16 PM
+date: 5/28/2018 9:05:08 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:16 PM
 __<br/>
 Copyright © LANS Engineering Workstation 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/PLAS.exe<br/>
+**Module AssemblyName**: PLAS<br/>
 **Root namespace**: ``PLAS.CLI``<br/>
 
 

@@ -1,7 +1,7 @@
 ---
 title: link
 tags: [maunal, tools]
-date: 5/28/2018 8:57:15 PM
+date: 5/28/2018 9:05:06 PM
 ---
 # ProteinInteraction [version 1.0.0.0]
 > Tools for analysis the protein interaction relationship.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:15 PM
 __<br/>
 Copyright © 蓝思生物信息工程师工作站 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/link.exe<br/>
+**Module AssemblyName**: link<br/>
 **Root namespace**: ``ProteinTools.Interactions.CLI``<br/>
 
 

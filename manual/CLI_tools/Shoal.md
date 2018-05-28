@@ -1,7 +1,7 @@
 ---
 title: Shoal
 tags: [maunal, tools]
-date: 5/28/2018 8:57:18 PM
+date: 5/28/2018 9:05:11 PM
 ---
 # ShoalShell [version 1.2.258.2033]
 > This module define the shoal commandlines for the command line interpreter.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:18 PM
 _*.shl_<br/>
 Copyright © xie.guigang@gmail.com 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Shoal.exe<br/>
+**Module AssemblyName**: Shoal<br/>
 **Root namespace**: ``Microsoft.VisualBasic.Shoal.CLI``<br/>
 
 

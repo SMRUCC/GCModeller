@@ -1,7 +1,7 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 5/28/2018 8:57:17 PM
+date: 5/28/2018 9:05:10 PM
 ---
 # GCModeller [version 3.0.2456.4506]
 > Sequence operation utilities
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:17 PM
 _Sequence search tools and sequence operation tools_<br/>
 Copyright © xie.guigang@gcmodeller.org 2018
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/seqtools.exe<br/>
+**Module AssemblyName**: seqtools<br/>
 **Root namespace**: ``seqtools.Utilities``<br/>
 
 ------------------------------------------------------------

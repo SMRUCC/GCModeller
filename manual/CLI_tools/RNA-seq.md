@@ -1,7 +1,7 @@
 ---
 title: RNA-seq
 tags: [maunal, tools]
-date: 5/28/2018 8:57:17 PM
+date: 5/28/2018 9:05:09 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:17 PM
 __<br/>
 Copyright ©  2016
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/RNA-seq.exe<br/>
+**Module AssemblyName**: RNA-seq<br/>
 **Root namespace**: ``RNA_seq.CLI``<br/>
 
 

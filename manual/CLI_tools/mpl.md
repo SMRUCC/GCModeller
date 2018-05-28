@@ -1,7 +1,7 @@
 ---
 title: mpl
 tags: [maunal, tools]
-date: 5/28/2018 8:57:16 PM
+date: 5/28/2018 9:05:07 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:16 PM
 _Motif Parallel Alignment Tools_<br/>
 Copyright © gcmodeller.org 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/mpl.exe<br/>
+**Module AssemblyName**: mpl<br/>
 **Root namespace**: ``xMPAlignment.CLI``<br/>
 
 

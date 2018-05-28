@@ -1,7 +1,7 @@
 ---
 title: Cytoscape
 tags: [maunal, tools]
-date: 5/28/2018 8:57:13 PM
+date: 5/28/2018 9:05:04 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Cytoscape model generator and visualization tools utils for GCModeller
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:13 PM
 _Cytoscape model generator and visualization tools utils_<br/>
 Copyright © GPL3 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Cytoscape.exe<br/>
+**Module AssemblyName**: Cytoscape<br/>
 **Root namespace**: ``xCytoscape.CLI``<br/>
 
 ------------------------------------------------------------

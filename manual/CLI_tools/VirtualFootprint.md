@@ -1,7 +1,7 @@
 ---
 title: VirtualFootprint
 tags: [maunal, tools]
-date: 5/28/2018 8:57:19 PM
+date: 5/28/2018 9:05:13 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:19 PM
 _VirtualFootprint gene expression regulation network reconstruct tools_<br/>
 Copyright © http://services.gcmodeller.org 2016
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/VirtualFootprint.exe<br/>
+**Module AssemblyName**: VirtualFootprint<br/>
 **Root namespace**: ``xVirtualFootprint.CLI``<br/>
 
 

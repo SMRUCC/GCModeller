@@ -1,7 +1,7 @@
 ---
 title: GCModeller
 tags: [maunal, tools]
-date: 5/28/2018 8:57:14 PM
+date: 5/28/2018 9:05:06 PM
 ---
 # GCModeller [version 1.0.2.3]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:14 PM
 _GCModeller administer cli console_<br/>
 Copyright © 蓝思生物信息工程师工作站 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/GCModeller.exe<br/>
+**Module AssemblyName**: GCModeller<br/>
 **Root namespace**: ``xGCModeller.CLI``<br/>
 
 

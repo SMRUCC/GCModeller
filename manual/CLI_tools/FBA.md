@@ -1,7 +1,7 @@
 ---
 title: FBA
 tags: [maunal, tools]
-date: 5/28/2018 8:57:13 PM
+date: 5/28/2018 9:05:05 PM
 ---
 # GCModeller [version 1.1.24.3]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:13 PM
 _FBA(Flux Balance Analysis) Model Solver_<br/>
 Copyright © xie.guigang@gmail.com. 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/FBA.exe<br/>
+**Module AssemblyName**: FBA<br/>
 **Root namespace**: ``FBA.CLI``<br/>
 
 

@@ -1,7 +1,7 @@
 ---
 title: CARMEN
 tags: [maunal, tools]
-date: 5/28/2018 8:57:12 PM
+date: 5/28/2018 9:05:03 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:12 PM
 __<br/>
 Copyright ©  2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/CARMEN.exe<br/>
+**Module AssemblyName**: CARMEN<br/>
 **Root namespace**: ``CARMENTools.CLI``<br/>
 
 

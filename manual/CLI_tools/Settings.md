@@ -1,7 +1,7 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 5/28/2018 8:57:18 PM
+date: 5/28/2018 9:05:10 PM
 ---
 # GCModeller [version 1.0.0.0]
 > GCModeller configuration console.
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:18 PM
 _SMRUCC genomics GCModeller Programs Profiles Manager_<br/>
 Copyright © SMRUCC genomics. 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Settings.exe<br/>
+**Module AssemblyName**: Settings<br/>
 **Root namespace**: ``GCModeller.Configuration.CLI``<br/>
 
 ------------------------------------------------------------

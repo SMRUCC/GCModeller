@@ -1,7 +1,7 @@
 ---
 title: eggHTS
 tags: [maunal, tools]
-date: 5/28/2018 8:57:13 PM
+date: 5/28/2018 9:05:05 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -13,7 +13,7 @@ date: 5/28/2018 8:57:13 PM
 _eggHTS: Proteomics data analysis toolkit_<br/>
 Copyright © I@xieguigang.me 2017
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/eggHTS.exe<br/>
+**Module AssemblyName**: eggHTS<br/>
 **Root namespace**: ``eggHTS.CLI``<br/>
 
 

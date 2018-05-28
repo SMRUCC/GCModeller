@@ -1,7 +1,7 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 5/28/2018 8:57:14 PM
+date: 5/28/2018 9:05:05 PM
 ---
 # GCModeller [version 1.0.0.0]
 > gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:14 PM
 _GCModeller Modelling console and model compiler (GCModeller模型文件编译工具)_<br/>
 Copyright © 蓝思生物信息工程师工作站 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/gcc.exe<br/>
+**Module AssemblyName**: gcc<br/>
 **Root namespace**: ``gcc.CLI``<br/>
 
 

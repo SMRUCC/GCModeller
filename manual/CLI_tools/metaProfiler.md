@@ -1,7 +1,7 @@
 ---
 title: metaProfiler
 tags: [maunal, tools]
-date: 5/28/2018 8:57:15 PM
+date: 5/28/2018 9:05:07 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -12,7 +12,7 @@ date: 5/28/2018 8:57:15 PM
 _Metagenome/Microbiome assembly analysis CLI tool_<br/>
 Copyright © SMRUCC 2017
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/metaProfiler.exe<br/>
+**Module AssemblyName**: metaProfiler<br/>
 **Root namespace**: ``metaProfiler.CLI``<br/>
 
 

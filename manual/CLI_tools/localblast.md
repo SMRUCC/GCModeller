@@ -1,7 +1,7 @@
 ---
 title: localblast
 tags: [maunal, tools]
-date: 5/28/2018 8:57:15 PM
+date: 5/28/2018 9:05:07 PM
 ---
 # GCModeller [version 1.0.0.0]
 > Wrapper tools for the ncbi blast+ program and the blast output data analysis program. 
@@ -13,7 +13,7 @@ date: 5/28/2018 8:57:15 PM
 _NCBI localblast_<br/>
 Copyright © GPL3 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/localblast.exe<br/>
+**Module AssemblyName**: localblast<br/>
 **Root namespace**: ``NCBI.localblast.CLI``<br/>
 
 ------------------------------------------------------------
