@@ -278,6 +278,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                                 Dim compound As Compound = path.LoadCompoundObject
                                 Dim class$ = path.GetFullPath _
                                                  .Replace(repository, "") _
+                                                 .Trim("/"c) _
                                                  .Split("/"c) _
                                                  .Take(2) _
                                                  .JoinBy("/")
