@@ -1,7 +1,7 @@
 ---
 title: PLAS
 tags: [maunal, tools]
-date: 11/24/2016 2:54:16 AM
+date: 5/28/2018 9:30:26 PM
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -10,9 +10,9 @@ date: 11/24/2016 2:54:16 AM
 
 **PLAS**<br/>
 __<br/>
-Copyright © LANS Engineering Workstation 2013
+Copyright Â© LANS Engineering Workstation 2013
 
-**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/PLAS.exe<br/>
+**Module AssemblyName**: PLAS<br/>
 **Root namespace**: ``PLAS.CLI``<br/>
 
 
@@ -29,9 +29,11 @@ All of the command that available in this program has been list below:
 <h3 id="Compile"> 1. Compile</h3>
 
 Compile a script file or sbml file into the plas model file.
+
 **Prototype**: ``PLAS.CLI::Int32 Compile(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 PLAS compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]
 ```
@@ -42,9 +44,11 @@ PLAS compile -i "/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-react
 <h3 id="Run"> 2. Run</h3>
 
 run a model file of the biochemical network system.
+
 **Prototype**: ``PLAS.CLI::Int32 Run(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
+
 ```bash
 PLAS run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]
 ```
@@ -60,14 +64,14 @@ The file path of the input model file that will be run on the PLAS program.
 
 ###### Example
 ```bash
--i /home/xieguigang/proj/xcc8004.sbml
+-i <term_string>
 ```
 ##### -o
 The file path of the output data file for the calculation.
 
 ###### Example
 ```bash
--o /home/xieguigang/Desktop/xcc8004.csv
+-o <term_string>
 ```
 ##### [-f]
 This parameter specific that the file format of the model file which will be run on the PLAS program.
@@ -77,7 +81,7 @@ sbml - The input file is a sbml model file, it needs to be compiled to a PLAS mo
 
 ###### Example
 ```bash
--f model
+-f <term_string>
 ```
 ##### [-chart]
 Optional, This switch specific that PLAS displaying a chart windows after the calculation or not, default is F for not displaying.
@@ -86,5 +90,5 @@ F - (False) not display a chart window after the calculation.
 
 ###### Example
 ```bash
--chart /home/xieguigang/proj/xcc8004.sbml
+-chart <term_string>
 ```

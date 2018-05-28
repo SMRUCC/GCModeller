@@ -89,7 +89,7 @@ Namespace Compiler.Components
                             Continue For
                         End If
 
-                        Dim Compound = MetabolitesDBGet.DownloadCompound(KEGGCompound.ACCESSION_NUMBER)
+                        Dim Compound = MetaboliteDBGET.DownloadCompound(KEGGCompound.ACCESSION_NUMBER)
 
                         metabolite.KEGGCompound = Compound.Entry
                         metabolite.MolWeight = Compound.MolWeight

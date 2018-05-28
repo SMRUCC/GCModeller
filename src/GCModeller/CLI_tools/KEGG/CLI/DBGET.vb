@@ -103,7 +103,7 @@ Partial Module CLI
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
         If accs.FileExists(True) Then
-            failures += MetabolitesDBGet.CompleteUsingChEBI(save, accs, updates)
+            failures += MetaboliteDBGET.CompleteUsingChEBI(save, accs, updates)
         End If
         Return failures.SaveTo(save & "/failures.txt").CLICode
     End Function
