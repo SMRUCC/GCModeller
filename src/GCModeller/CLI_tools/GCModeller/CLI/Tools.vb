@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::332cc1a69846c3b65235009b0c2d5aaa, CLI_tools\GCModeller\CLI\Tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: InitManuals, List, LocatedAppData, PlotStripBlank, ScanTableTemplates
-    '               SearchFasta, StripNullColumns
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: InitManuals, List, LocatedAppData, PlotStripBlank, ScanTableTemplates
+'               SearchFasta, StripNullColumns
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -149,20 +150,24 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/init.manuals", Usage:="/init.manuals")>
+    <ExportAPI("/init.manuals", Usage:="/init.manuals [/out <directory, default=./>]")>
     <Group(CLIGrouping.GCModellerAppTools)>
     Public Function InitManuals(args As CommandLine) As Integer
         Dim execs As IEnumerable(Of String) = ls - l - wildcards("*.exe") <= App.HOME
-        Dim tools As String() =
-            LinqAPI.Exec(Of String) <= From exe As String
-                                       In execs
-                                       Let def As Type = GetCLIMod(exe)
-                                       Where Not def Is Nothing
-                                       Select exe
-        For Each app As String In tools
-            Call New IORedirectFile(app, "man --file").Run()
+        Dim output$ = args("/out") Or "./"
+        Dim tools$() = LinqAPI.Exec(Of String) _
+ _
+            () <= From exe As String
+                  In execs
+                  Let def As Type = GetCLIMod(exe)
+                  Where Not def Is Nothing
+                  Select exe
 
-            Dim path As String = Microsoft.VisualBasic.App.HOME & "/" & app.BaseName & ".md"
+        For Each app As String In tools
+            Call New IORedirectFile(app, $"man --file /out {output.CLIPath}").Run()
+
+            Dim path$ = output & "/" & app.BaseName & ".md"
+
             If Not path.FileExists Then
                 Continue For
             End If
@@ -193,9 +198,7 @@ date: {Now.ToString}
             Call sb.AppendLine($"+ [{app.BaseName}](./{app.BaseName}.html)")
         Next
 
-        Call sb.SaveTo(App.HOME & "/index.md")
-
-        Return 0
+        Return sb.SaveTo(output & "/index.md").CLICode
     End Function
 
     <ExportAPI("/Search.Fasta",
