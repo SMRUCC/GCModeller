@@ -70,7 +70,8 @@ Public Module [Imports]
     Public Function ImportsUniProt(db As IEnumerable(Of entry),
                                    getTerm As Func(Of entry, String()),
                                    define As GetClusterTerms,
-                                   Optional genomeName$ = Nothing) As Genome
+                                   Optional genomeName$ = Nothing,
+                                   Optional outputAll As Boolean = False) As Genome
 
         Dim clusters As New Dictionary(Of String, List(Of String))
 
@@ -96,8 +97,15 @@ Public Module [Imports]
         Next
 
         Return New Genome With {
-            .Name = genomeName,
-            .Clusters = clusters _
+            .name = genomeName,
+            .clusters = clusters _
+                .Where(Function(c)
+                           If outputAll Then
+                               Return True
+                           Else
+                               Return c.Value.Count > 0
+                           End If
+                       End Function) _
                 .Select(Function(c)
                             Dim geneIDs$() = c.Value _
                                               .Distinct _

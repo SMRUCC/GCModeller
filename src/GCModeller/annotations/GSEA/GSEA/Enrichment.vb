@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
@@ -12,11 +13,14 @@ Public Module Enrichment
     <Extension>
     Public Iterator Function Enrichment(genome As Genome,
                                         list As IEnumerable(Of String),
+                                        Optional outputAll As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
 
-        Dim genes% = Aggregate cluster
-                     In genome.clusters
-                     Into Sum(cluster.Members.Length)
+        Dim genes% = genome.clusters _
+                           .Select(Function(c) c.Members) _
+                           .IteratesALL _
+                           .Distinct _
+                           .Count
         Dim doProgress As Action(Of String)
         Dim progress As ProgressBar = Nothing
         Dim tick As New ProgressProvider(genome.clusters.Length)
@@ -46,11 +50,17 @@ Public Module Enrichment
 
                 Call doProgress(cluster.ID)
 
+                If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
+                    Continue For
+                End If
+
                 Yield New EnrichmentResult With {
-                    .Term = cluster.ID,
-                    .Enriched = enriched,
-                    .Pvalue = pvalue,
-                    .Score = score
+                    .term = cluster.ID,
+                    .geneIDs = enriched,
+                    .pvalue = pvalue,
+                    .score = score,
+                    .cluster = b,
+                    .enriched = $"{a}/{c}"
                 }
             Next
         End With

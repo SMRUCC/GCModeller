@@ -9,12 +9,12 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Module Module1
 
     Sub Main()
-        '  Call modelBuildTest()
+        ' Call modelBuildTest()
         Call enrichmentTest()
     End Sub
 
     Sub enrichmentTest()
-        Dim background = "./test_model.Xml".LoadXml(Of Genome)
+        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml".LoadXml(Of Genome)
         Dim list$() = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_TCS.txt" _
             .IterateAllLines _
             .Select(Function(l) l.Split.First) _
@@ -29,7 +29,7 @@ Module Module1
             list = list.Select(Function(id) .ByRef(id)).IteratesALL.ToArray
         End With
 
-        Dim result = background.Enrichment(list).ToArray
+        Dim result = background.Enrichment(list).FDRCorrection.ToArray
 
         Call result.SaveTo("./result.csv")
     End Sub
@@ -39,7 +39,7 @@ Module Module1
         Dim uniprot = UniProtXML.EnumerateEntries("P:\uniprot-taxonomy%3A314565.xml")
         Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetGOTerms, define:=go)
 
-        Call model.GetXml.SaveTo("./test_model.Xml")
+        Call model.GetXml.SaveTo("E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml")
 
         Pause()
     End Sub
