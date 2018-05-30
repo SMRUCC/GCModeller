@@ -27,6 +27,7 @@ Module Module1
                                      End Function,
                                      Function(prot) prot.accessions)
             list = list.Select(Function(id) .ByRef(id)).IteratesALL.ToArray
+            list.SaveTo("./uniprot.txt")
         End With
 
         Dim result = background.Enrichment(list).FDRCorrection.ToArray
