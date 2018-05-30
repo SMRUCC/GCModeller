@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -13,7 +14,11 @@ Public Class Cluster : Implements INamedValue
     ''' 代谢途径的编号或者其他的标识符
     ''' </summary>
     ''' <returns></returns>
-    Public Property Name As String Implements IKeyedEntity(Of String).Key
+    <XmlAttribute>
+    Public Property ID As String Implements IKeyedEntity(Of String).Key
+    Public Property names As String
+    <XmlText>
+    Public Property description As String
 
     ''' <summary>
     ''' 当前的这个聚类之中的基因列表
@@ -36,7 +41,7 @@ Public Class Cluster : Implements INamedValue
     End Function
 
     Public Overrides Function ToString() As String
-        Return Name
+        Return ID
     End Function
 End Class
 
@@ -46,8 +51,8 @@ End Class
 Public Class Genome : Inherits XmlDataModel
     Implements INamedValue
 
-    Public Property Name As String Implements IKeyedEntity(Of String).Key
-    Public Property Clusters As Cluster()
+    Public Property name As String Implements IKeyedEntity(Of String).Key
+    Public Property clusters As Cluster()
 
     Public Overrides Function ToString() As String
         Return Name

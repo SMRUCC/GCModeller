@@ -125,7 +125,9 @@ Namespace DAG
         Public Function Family(id As String) As IEnumerable(Of InheritsChain)
             Dim term As TermNode = __DAG(id)
 
-            If term Is Nothing OrElse term.is_a.IsNullOrEmpty Then
+            If term Is Nothing Then
+                Return {}
+            ElseIf term.is_a.IsNullOrEmpty Then
                 Dim break As New InheritsChain With {
                     .Route = New List(Of TermNode) From {term}
                 }

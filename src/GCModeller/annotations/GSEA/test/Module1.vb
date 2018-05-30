@@ -14,7 +14,7 @@ Module Module1
         Dim uniprot = UniProtXML.EnumerateEntries("P:\uniprot-taxonomy%3A314565.xml")
         Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetGOTerms, define:=go)
 
-        Call model.GetXml.SaveTo("./test.Xml")
+        Call model.GetXml.SaveTo("./test_model.Xml")
 
         Pause()
     End Sub

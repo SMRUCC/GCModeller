@@ -104,7 +104,7 @@ Public Module [Imports]
                                               .ToArray
 
                             Return New Cluster With {
-                                .Name = c.Key,
+                                .ID = c.Key,
                                 .Members = geneIDs
                             }
                         End Function) _

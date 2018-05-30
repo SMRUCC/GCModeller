@@ -25,7 +25,7 @@ Public Module Enrichment
                 Dim score# = a / b
 
                 Yield New EnrichmentResult With {
-                    .Term = cluster.Name,
+                    .Term = cluster.ID,
                     .Enriched = enriched,
                     .Pvalue = pvalue,
                     .Score = score
