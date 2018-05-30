@@ -26,7 +26,7 @@ Public Module Enrichment
             progress = New ProgressBar("Do enrichment...")
             doProgress = Sub(id)
                              ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
-                             progress.SetProgress(tick.StepProgress, $"")
+                             progress.SetProgress(tick.StepProgress, ETA)
                          End Sub
         Else
             doProgress = Sub()
