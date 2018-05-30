@@ -810,6 +810,7 @@
     <Compile Include="Extensions\Image\Math\Models\Line.vb" />
     <Compile Include="Extensions\IO\StreamHelper.vb" />
     <Compile Include="Extensions\IO\SerializationIO.vb" />
+    <Compile Include="Extensions\Math\NumberEqualityComparer.vb" />
     <Compile Include="Extensions\Math\Information\Entropy.vb" />
     <Compile Include="Extensions\Math\Information\UncheckHelpers.vb" />
     <Compile Include="Extensions\Math\StatisticsMathExtensions\Average.vb" />
@@ -822,6 +823,7 @@
     <Compile Include="Extensions\WebServices\Multipart.vb" />
     <Compile Include="Extensions\WebServices\Http\DataURI.vb" />
     <Compile Include="Language\Value\ByRefValueExtensions.vb" />
+    <Compile Include="Language\Value\DefaultValue\BooleanAssert.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="CommandLine\CLI\Scripting.vb" />
     <Compile Include="CommandLine\InteropService\Abstract.vb" />

@@ -117,15 +117,22 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
-        Public Function Family(id$) As IEnumerable(Of InheritsChain)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id$"><see cref="Term.id"/></param>
+        ''' <returns></returns>
+        Public Function Family(id As String) As IEnumerable(Of InheritsChain)
             Dim term As TermNode = __DAG(id)
 
-            If term.is_a.IsNullOrEmpty Then
-                Return {
-                    New InheritsChain With {
-                        .Route = New List(Of TermNode) From {term}
-                    }
+            If term Is Nothing Then
+                Return {}
+            ElseIf term.is_a.IsNullOrEmpty Then
+                Dim break As New InheritsChain With {
+                    .Route = New List(Of TermNode) From {term}
                 }
+
+                Return {break}
             Else
                 Dim routes As New List(Of InheritsChain)
 
