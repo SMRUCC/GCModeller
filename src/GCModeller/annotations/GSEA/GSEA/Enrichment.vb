@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
 
 ''' <summary>
@@ -9,13 +10,32 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
 Public Module Enrichment
 
     <Extension>
-    Public Iterator Function Enrichment(genome As Genome, list As IEnumerable(Of String)) As IEnumerable(Of EnrichmentResult)
-        With list.ToArray
-            Dim genes% = Aggregate cluster
-                         In genome.Clusters
-                         Into Sum(cluster.Members.Length)
+    Public Iterator Function Enrichment(genome As Genome,
+                                        list As IEnumerable(Of String),
+                                        Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
 
-            For Each cluster In genome.Clusters
+        Dim genes% = Aggregate cluster
+                     In genome.clusters
+                     Into Sum(cluster.Members.Length)
+        Dim doProgress As Action(Of String)
+        Dim progress As ProgressBar = Nothing
+        Dim tick As New ProgressProvider(genome.clusters.Length)
+        Dim ETA$
+
+        If showProgress Then
+            progress = New ProgressBar("Do enrichment...")
+            doProgress = Sub(id)
+                             ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
+                             progress.SetProgress(tick.StepProgress, $"")
+                         End Sub
+        Else
+            doProgress = Sub()
+                             ' Do Nothing
+                         End Sub
+        End If
+
+        With list.ToArray
+            For Each cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef).ToArray
                 Dim a% = enriched.Length
                 Dim b% = cluster.Members.Length
@@ -23,6 +43,8 @@ Public Module Enrichment
                 Dim d% = genes
                 Dim pvalue# = F.FisherPvalue(a, b, c, d)
                 Dim score# = a / b
+
+                Call doProgress(cluster.ID)
 
                 Yield New EnrichmentResult With {
                     .Term = cluster.ID,
@@ -32,6 +54,10 @@ Public Module Enrichment
                 }
             Next
         End With
+
+        If Not progress Is Nothing Then
+            progress.Dispose()
+        End If
     End Function
 
     <Extension>
