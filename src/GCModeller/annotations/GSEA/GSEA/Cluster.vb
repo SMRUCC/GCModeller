@@ -3,9 +3,21 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
+''' <summary>
+''' 主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果
+''' </summary>
 Public Class Cluster : Implements INamedValue
 
+    ''' <summary>
+    ''' 代谢途径的编号或者其他的标识符
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Name As String Implements IKeyedEntity(Of String).Key
+
+    ''' <summary>
+    ''' 当前的这个聚类之中的基因列表
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Members As String()
         Get
             Return index.Objects
@@ -27,6 +39,9 @@ Public Class Cluster : Implements INamedValue
     End Function
 End Class
 
+''' <summary>
+''' 假设基因组是有许多个功能聚类的集合构成的
+''' </summary>
 Public Class Genome : Implements INamedValue
 
     Public Property Name As String Implements IKeyedEntity(Of String).Key

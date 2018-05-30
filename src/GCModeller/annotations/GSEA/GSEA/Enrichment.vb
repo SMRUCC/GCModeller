@@ -3,6 +3,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
 
+''' <summary>
+''' 基于Fisher Extract test算法的富集分析
+''' </summary>
 Public Module Enrichment
 
     <Extension>
