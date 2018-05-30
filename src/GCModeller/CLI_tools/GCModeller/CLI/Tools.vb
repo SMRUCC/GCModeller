@@ -74,9 +74,13 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Scan.templates")>
-    <Usage("/Scan.templates")>
+    <Usage("/Scan.templates /out <directory, default=""~/Templates"">")>
     Public Function ScanTableTemplates(args As CommandLine) As Integer
-        Call TemplateHelper.ScanTemplates(App.HOME, Settings.Templates.TemplateFolder, throwEx:=False)
+        Call TemplateHelper.ScanTemplates(
+            DIR:=App.HOME,
+            save:=args("/out") Or Settings.Templates.TemplateFolder,
+            throwEx:=False
+        )
         Return 0
     End Function
 
