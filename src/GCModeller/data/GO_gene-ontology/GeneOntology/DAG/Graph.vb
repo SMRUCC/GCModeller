@@ -117,7 +117,12 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
-        Public Function Family(id$) As IEnumerable(Of InheritsChain)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id$"><see cref="Term.id"/></param>
+        ''' <returns></returns>
+        Public Function Family(id As String) As IEnumerable(Of InheritsChain)
             Dim term As TermNode = __DAG(id)
 
             If term.is_a.IsNullOrEmpty Then

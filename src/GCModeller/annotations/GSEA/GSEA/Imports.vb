@@ -1,16 +1,20 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
 ''' 进行富集计算分析所需要的基因组背景模型的导入模块
 ''' </summary>
 Public Module [Imports]
 
+    Public Delegate Function GetClusterTerms(geneID As String) As String()
+
     <Extension>
-    Public Function KEGGClusters(maps As IEnumerable(Of Map)) As Func(Of String, String())
+    Public Function KEGGClusters(maps As IEnumerable(Of Map)) As GetClusterTerms
         Dim clusters = maps.Select(Function(m)
                                        Return m.Areas.Select(Function(a) a.IDVector) _
                                                      .IteratesALL _
@@ -37,6 +41,24 @@ Public Module [Imports]
                End Function
     End Function
 
+    <Extension>
+    Public Function GOClusters(GO_terms As IEnumerable(Of Term)) As GetClusterTerms
+        Dim tree As New Graph(GO_terms)
+        Dim parentPopulator = Iterator Function(termID As String) As IEnumerable(Of String)
+                                  Dim chains = tree.Family(termID).ToArray
+
+                                  For Each route In chains
+                                      For Each node In route.Route
+                                          Yield node.GO_term.id
+                                      Next
+                                  Next
+                              End Function
+
+        Return Function(termID)
+                   Return parentPopulator(termID).ToArray
+               End Function
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -47,7 +69,7 @@ Public Module [Imports]
     <Extension>
     Public Function ImportsUniProt(db As IEnumerable(Of entry),
                                    getTerm As Func(Of entry, String()),
-                                   define As Func(Of String, String()),
+                                   define As GetClusterTerms,
                                    Optional genomeName$ = Nothing) As Genome
 
         Dim clusters As New Dictionary(Of String, List(Of String))
@@ -59,7 +81,7 @@ Public Module [Imports]
             If terms.IsNullOrEmpty Then
                 clusterNames = {"NA"}
             Else
-                clusterNames = terms.Select(define) _
+                clusterNames = terms.Select(Function(geneID) define(geneID)) _
                                     .IteratesALL _
                                     .ToArray
             End If
