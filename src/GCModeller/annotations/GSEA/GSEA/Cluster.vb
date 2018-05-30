@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -42,7 +43,8 @@ End Class
 ''' <summary>
 ''' 假设基因组是有许多个功能聚类的集合构成的
 ''' </summary>
-Public Class Genome : Implements INamedValue
+Public Class Genome : Inherits XmlDataModel
+    Implements INamedValue
 
     Public Property Name As String Implements IKeyedEntity(Of String).Key
     Public Property Clusters As Cluster()

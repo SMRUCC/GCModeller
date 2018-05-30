@@ -130,7 +130,7 @@ Public Module [Imports]
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function UniProtGOTerms() As Func(Of entry, String())
+    Public Function UniProtGetGOTerms() As Func(Of entry, String())
         Return getTermInternal("GO")
     End Function
 End Module
