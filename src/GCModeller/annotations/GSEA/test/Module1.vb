@@ -11,7 +11,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Module Module1
 
     Sub Main()
-        Call KEGGmodelBuildTest()
+        '  Call KEGGmodelBuildTest()
         ' Call modelBuildTest()
         Call enrichmentTest()
     End Sub
@@ -23,7 +23,7 @@ Module Module1
             .Select(Function(l) l.Split.First) _
             .ToArray
 
-        With UniProtXML.EnumerateEntries("P:\uniprot-taxonomy%3A314565.xml") _
+        With UniProtXML.EnumerateEntries("E:\GCModeller\src\GCModeller\annotations\GSEA\uniprot-taxonomy%3A314565.xml") _
                        .Where(Function(prot) prot.Xrefs.ContainsKey("KEGG")) _
                        .ToDictionary(Function(prot)
                                          Return prot.Xrefs!KEGG.First.id.Split(":"c).Last
@@ -33,9 +33,12 @@ Module Module1
             list.SaveTo("./uniprot.txt")
         End With
 
-        Dim result = background.Enrichment(list).FDRCorrection.ToArray
+        ' Dim result = background.Enrichment(list).FDRCorrection.ToArray
 
-        Call result.SaveTo("./result.csv")
+        'Call result.SaveTo("./result.csv")
+        Dim result = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml".LoadXml(Of Genome).Enrichment(list).FDRCorrection.ToArray
+
+        Call result.SaveTo("./result_KO.csv")
     End Sub
 
     Sub modelBuildTest()
