@@ -111,4 +111,26 @@ Public Module [Imports]
                 .ToArray
         }
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function UniProtGetKOTerms() As Func(Of entry, String())
+        Return getTermInternal("KO")
+    End Function
+
+    Private Function getTermInternal(type As String) As Func(Of entry, String())
+        Return Function(protein)
+                   If protein.Xrefs.ContainsKey(type) Then
+                       Return protein.Xrefs(type) _
+                           .Select(Function(ref) ref.id) _
+                           .ToArray
+                   Else
+                       Return {}
+                   End If
+               End Function
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function UniProtGOTerms() As Func(Of entry, String())
+        Return getTermInternal("GO")
+    End Function
 End Module
