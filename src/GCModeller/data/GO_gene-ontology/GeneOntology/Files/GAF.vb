@@ -419,13 +419,12 @@ Public Class GAF
     End Function
 
     Public Shared Function Load(path As String) As GAF()
-        Dim strLines As String() =
-            LinqAPI.Exec(Of String) <=
+        Dim strLines As String() = LinqAPI.Exec(Of String) _
  _
-            From strLine As String
-            In IO.File.ReadLines(path)
-            Where strLine.First <> "!"c
-            Select strLine
+            () <= From strLine As String
+                  In IO.File.ReadLines(path)
+                  Where strLine.First <> "!"c
+                  Select strLine
 
         Dim schemaBufs =
             From x As SchemaMaps.BindProperty(Of Field)
@@ -433,11 +432,14 @@ Public Class GAF
             Select x
             Order By x.Field.Index Ascending
 
-        Dim ClassSchema = schemaBufs.Select(Function(x) DirectCast(x.member, PropertyInfo)).ToArray
-        Dim LQuery As GAF() = LinqAPI.Exec(Of GAF) <=
-            From strLine As String
-            In strLines
-            Select Load(strLine, ClassSchema)
+        Dim classSchema = schemaBufs _
+            .Select(Function(x) DirectCast(x.member, PropertyInfo)) _
+            .ToArray
+        Dim LQuery As GAF() = LinqAPI.Exec(Of GAF) _
+ _
+            () <= From strLine As String
+                  In strLines
+                  Select Load(strLine, classSchema)
 
         Return LQuery
     End Function

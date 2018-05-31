@@ -1,9 +1,15 @@
 ﻿Public Class EnrichmentResult
 
-    Public Property Term As String
-    Public Property Enriched As String()
-    Public Property Score As Double
-    Public Property Pvalue As Double
+    Public Property term As String
+    Public Property geneIDs As String()
+    Public Property score As Double
+    Public Property pvalue As Double
     Public Property FDR As Double
+    Public Property cluster As Integer
+    Public Property enriched As String
+
+    Public Overrides Function ToString() As String
+        Return term
+    End Function
 
 End Class
