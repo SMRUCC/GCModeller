@@ -1,14 +1,17 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Module Module1
 
     Sub Main()
+        '  Call KEGGmodelBuildTest()
         ' Call modelBuildTest()
         Call enrichmentTest()
     End Sub
@@ -20,7 +23,7 @@ Module Module1
             .Select(Function(l) l.Split.First) _
             .ToArray
 
-        With UniProtXML.EnumerateEntries("P:\uniprot-taxonomy%3A314565.xml") _
+        With UniProtXML.EnumerateEntries("E:\GCModeller\src\GCModeller\annotations\GSEA\uniprot-taxonomy%3A314565.xml") _
                        .Where(Function(prot) prot.Xrefs.ContainsKey("KEGG")) _
                        .ToDictionary(Function(prot)
                                          Return prot.Xrefs!KEGG.First.id.Split(":"c).Last
@@ -30,9 +33,12 @@ Module Module1
             list.SaveTo("./uniprot.txt")
         End With
 
-        Dim result = background.Enrichment(list).FDRCorrection.ToArray
+        ' Dim result = background.Enrichment(list).FDRCorrection.ToArray
 
-        Call result.SaveTo("./result.csv")
+        'Call result.SaveTo("./result.csv")
+        Dim result = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml".LoadXml(Of Genome).Enrichment(list).FDRCorrection.ToArray
+
+        Call result.SaveTo("./result_KO.csv")
     End Sub
 
     Sub modelBuildTest()
@@ -41,6 +47,17 @@ Module Module1
         Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetGOTerms, define:=go)
 
         Call model.GetXml.SaveTo("E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml")
+
+        Pause()
+    End Sub
+
+    Sub KEGGmodelBuildTest()
+        Dim kegg = (ls - l - r - "*.Xml" <= "D:\GCModeller-CAD-blueprint\KGML\maps").Select(AddressOf LoadXml(Of Map))
+        Dim uniprot = UniProtXML.EnumerateEntries("E:\GCModeller\src\GCModeller\annotations\GSEA\uniprot-taxonomy%3A314565.xml")
+        Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetKOTerms, define:=GSEA.KEGGClusters(kegg))
+
+
+        Call model.GetXml.SaveTo("E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml")
 
         Pause()
     End Sub
