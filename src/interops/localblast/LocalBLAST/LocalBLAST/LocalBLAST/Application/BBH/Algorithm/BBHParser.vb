@@ -64,7 +64,7 @@ Namespace LocalBLAST.Application.BBH
     Public Module BBHParser
 
         <Extension>
-        Private Function __hash(source As IEnumerable(Of BestHit),
+        Private Function hashSet(source As IEnumerable(Of BestHit),
                                 identities As Double,
                                 coverage As Double) As Dictionary(Of String, Dictionary(Of String, BestHit))
 
@@ -99,8 +99,8 @@ Namespace LocalBLAST.Application.BBH
                                        Optional identities As Double = -1,
                                        Optional coverage As Double = -1) As BiDirectionalBesthit()
 
-            Dim sHash As Dictionary(Of String, Dictionary(Of String, BestHit)) = bhSvQ.__hash(identities, coverage)
-            Dim qHash As Dictionary(Of String, Dictionary(Of String, BestHit)) = bhQvS.__hash(identities, coverage)
+            Dim sHash As Dictionary(Of String, Dictionary(Of String, BestHit)) = bhSvQ.hashSet(identities, coverage)
+            Dim qHash As Dictionary(Of String, Dictionary(Of String, BestHit)) = bhQvS.hashSet(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)
 
             VBDebugger.Mute = True
@@ -121,12 +121,14 @@ Namespace LocalBLAST.Application.BBH
                                 result += New BiDirectionalBesthit With {.QueryName = qId}
                             Else
                                 Dim subject = sHash(hit.HitName)(qId)
+
                                 result += New BiDirectionalBesthit With {
                                     .QueryName = qId,
                                     .HitName = hit.HitName,
                                     .Identities = Math.Max(hit.identities, subject.identities),
                                     .Length = hit.length_hit,
-                                    .Positive = Math.Max(hit.Positive, subject.Positive)
+                                    .Positive = Math.Max(hit.Positive, subject.Positive),
+                                    .Description = subject.description
                                 }
                             End If
                         End If

@@ -222,6 +222,7 @@ Partial Module CLI
     <ExportAPI("/bbh.EXPORT",
                Info:="Export bbh mapping result from the blastp raw output.",
                Usage:="/bbh.EXPORT /query <query.blastp_out> /subject <subject.blast_out> [/trim /out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
+    <LastUpdated("2018-6-3 22:32:00")>
     <Group(CLIGrouping.BBHTools)>
     Public Function BBHExportFile(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -246,15 +247,19 @@ Partial Module CLI
     ''' <returns></returns>
     Private Function __sbhHelper(out As String, coverage As Double, identities As Double, trim As Boolean) As BestHit()
         Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(out)
+        Dim sbh = queryOUT.ExportAllBestHist(coverage, identities)
 
         If trim Then
             Dim script As TextGrepMethod = TextGrepScriptEngine _
                 .Compile("tokens ' ' first") _
                 .PipelinePointer
-            Call queryOUT.Grep(script, script)
+
+            For Each hit As BestHit In sbh
+                hit.QueryName = script(hit.QueryName)
+                hit.HitName = script(hit.HitName)
+            Next
         End If
 
-        Dim sbh = queryOUT.ExportAllBestHist(coverage, identities)
         Return sbh
     End Function
 
