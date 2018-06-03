@@ -1,4 +1,4 @@
-Imports RDotNet.Dynamic
+﻿Imports RDotNet.Dynamic
 Imports RDotNet.Internals
 Imports RDotNet.Utilities
 Imports System.Diagnostics
@@ -249,10 +249,11 @@ Public Class SymbolicExpression
 	''' </summary>
 	''' <returns></returns>
 	Protected Overrides Function ReleaseHandle() As Boolean
-		If IsProtected Then
-			Unpreserve()
-		End If
-		Return True
+        If IsProtected Then
+            ' 2018-6-4 没有影响？？
+            ' Unpreserve()
+        End If
+        Return True
 	End Function
 
 	''' <summary>
