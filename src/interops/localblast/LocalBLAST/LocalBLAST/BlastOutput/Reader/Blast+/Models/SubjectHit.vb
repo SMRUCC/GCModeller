@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -142,11 +143,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Protected Const PAIRWISE$ = "Query\s+\d+\s+.+?\s+\d+.+?Sbjct\s+\d+\s+.+?\s+\d+"
 
         Public Shared Function TryParse(text As String) As SubjectHit
-            Dim name As String = Strings.Split(text, "Length=").First.TrimNewLine
+            Dim name$ = Strings.Split(text, "Length=").First.TrimNewLine
             Dim l As Long = CLng(text.Match("Length=\d+").RegexParseDouble)
-
-            Dim strHsp$() = Regex.Matches(
-                text, PAIRWISE, RegexICSng).ToArray
+            Dim strHsp$() = r.Matches(text, PAIRWISE, RegexICSng).ToArray
 
             Dim hit As New SubjectHit With {
                 .Score = Score.TryParse(Of Score)(text),
@@ -158,18 +157,20 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return hit
         End Function
 
-        Protected Shared Function ParseHitSegments(TextLines As String()) As HitSegment()
-            Dim Hsp As HitSegment() = New HitSegment(TextLines.Length - 1) {}
+        Protected Shared Function ParseHitSegments(textLines As String()) As HitSegment()
+            Dim hsp As HitSegment() = New HitSegment(textLines.Length - 1) {}
 
-            For i As Integer = 0 To TextLines.Length - 1
-                Dim buffer As String() =
-                    LinqAPI.Exec(Of String) <= From s As String
-                                               In TextLines(i).LineTokens
-                                               Select s.Replace(vbCr, "")
-                Hsp(i) = HitSegment.TryParse(buffer)
+            For i As Integer = 0 To textLines.Length - 1
+                Dim buffer$() = LinqAPI.Exec(Of String) _
+ _
+                    () <= From s As String
+                          In textLines(i).LineTokens
+                          Select s.Replace(vbCr, "")
+
+                hsp(i) = HitSegment.TryParse(buffer)
             Next
 
-            Return Hsp
+            Return hsp
         End Function
     End Class
 End Namespace
