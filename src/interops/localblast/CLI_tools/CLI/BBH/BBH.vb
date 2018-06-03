@@ -119,7 +119,7 @@ Partial Module CLI
 
     <ExportAPI("/sbh2bbh")>
     <Description("Export bbh result from the sbh pairs.")>
-    <Usage("/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
+    <Usage("/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /query.pattern <default=""-""> /hit.pattern <default=""-""> /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
     <Argument("/identities", True, CLITypes.Double,
               Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
     <Argument("/coverage", True, CLITypes.Double,
@@ -135,7 +135,7 @@ Partial Module CLI
         Dim trim As Boolean = args.GetBoolean("/trim")  ' 使用空格分隔query/hit名称，取第一个token
         Dim qsbh As IEnumerable(Of BestHit) = qvs.LoadCsv(Of BestHit)
         Dim ssbh As IEnumerable(Of BestHit) = svq.LoadCsv(Of BestHit)
-        Dim all As Boolean = args.GetBoolean("/all")
+        Dim all$ = If(args.GetBoolean("/all"), "all", "")
 
         If trim Then
             For Each x As BestHit In qsbh.JoinIterates(ssbh)
@@ -144,9 +144,41 @@ Partial Module CLI
             Next
         End If
 
+        Dim qpattern$ = args("/query.pattern") Or "-"
+        Dim hpattern$ = args("/hit.pattern") Or "-"
+
+        If Not qpattern = "-" Then
+            Dim script As TextGrepMethod = TextGrepScriptEngine _
+                .Compile(qpattern) _
+                .PipelinePointer
+
+            script = TextGrepScriptEngine.EnsureNotEmpty(script)
+
+            For Each x In qsbh
+                x.QueryName = script(x.QueryName)
+            Next
+            For Each x In ssbh
+                x.HitName = script(x.HitName)
+            Next
+        End If
+        If Not hpattern = "-" Then
+            Dim script As TextGrepMethod = TextGrepScriptEngine _
+                .Compile(hpattern) _
+                .PipelinePointer
+
+            script = TextGrepScriptEngine.EnsureNotEmpty(script)
+
+            For Each x In qsbh
+                x.HitName = script(x.HitName)
+            Next
+            For Each x In ssbh
+                x.QueryName = script(x.QueryName)
+            Next
+        End If
+
         Dim bbh As BiDirectionalBesthit()
 
-        If all Then
+        If Not all.StringEmpty Then
             bbh = BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage)
         Else
             bbh = BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage) _
@@ -173,7 +205,7 @@ Partial Module CLI
                 .ToArray
         End If
 
-        Dim out$ = (args <= "/out") Or (qvs.TrimSuffix & $"{If(all, "-all", "")},{identities},{coverage}.bbh.csv").AsDefault
+        Dim out$ = (args <= "/out") Or (qvs.TrimSuffix & $"{all},{identities},{coverage}.bbh.csv").AsDefault
         Return bbh.SaveTo(out).CLICode
     End Function
 
