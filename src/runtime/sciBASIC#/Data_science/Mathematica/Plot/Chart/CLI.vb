@@ -71,7 +71,7 @@ Module CLI
         Dim in$ = args("/in")
         Dim n% = args("/n") Or 5
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.kmeans.csv"
-        Dim data As DataSet() = DataSet.LoadDataSet([in])
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
         Dim clusters As IEnumerable(Of EntityClusterModel) =
             data _
             .ToKMeansModels _
