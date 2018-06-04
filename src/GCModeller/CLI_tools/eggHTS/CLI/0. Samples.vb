@@ -301,7 +301,7 @@ Partial Module CLI
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _
             .RemovesYOutlier(q:=quantileRemoves)
         }.Plot(size:=size,
-               padding:=g.DefaultLargerPadding,
+               padding:="padding:100px 100px 150px 200px;",
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
@@ -316,7 +316,9 @@ Partial Module CLI
                    .width = 2
                },
                htmlLabel:=False,
-               densityColor:=color.TextEquals("density"))
+               densityColor:=color.TextEquals("density"),
+               tickFontStyle:=CSSFont.Win7LargeBold,
+               labelFontStyle:=CSSFont.Win7Large)
 
         Return res.Save(out).CLICode
     End Function
