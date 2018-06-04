@@ -135,6 +135,8 @@ Namespace NativeLibrary.DynamicInterop
             Return GetFunction(Of TDelegate)(GetType(TDelegate).Name)
         End Function
 
+        ' Shared stackSize% = 10000
+
         ''' <summary>
         ''' Creates the delegate function for the specified function defined in the DLL.
         ''' </summary>
@@ -154,9 +156,20 @@ Namespace NativeLibrary.DynamicInterop
                     Throw New InvalidCastException()
                 End If
                 Dim [function] As IntPtr = GetFunctionAddress(entryPoint)
+
                 If [function] = IntPtr.Zero Then
                     throwEntryPointNotFound(entryPoint)
+                Else
+                    '                    If stackSize > 0 Then
+                    '                        stackSize -= 1
+                    '                    Else
+                    '#If DEBUG Then
+                    '                        Call "StackOverflow when release R_server handle.".Warning
+                    '#End If
+                    '                        Return Nothing
+                    '                    End If
                 End If
+
                 Dim dFunc = TryCast(Marshal.GetDelegateForFunctionPointer([function], delegateType), TDelegate)
                 delegateFunctionPointers(entryPoint) = dFunc
                 Return dFunc

@@ -1,4 +1,4 @@
-Imports RDotNet.Dynamic
+﻿Imports RDotNet.Dynamic
 Imports RDotNet.Internals
 Imports RDotNet.Utilities
 Imports System.Diagnostics
@@ -228,29 +228,32 @@ Public Class SymbolicExpression
 	''' </summary>
 	''' <seealso cref="Preserve"/>
 	Public Sub Unpreserve()
-		If Not IsInvalid AndAlso IsProtected Then
-			If Engine.EnableLock Then
-				SyncLock lockObject
-					Me.GetFunction(Of R_ReleaseObject)()(handle)
-					
+        If Not IsInvalid AndAlso IsProtected Then
+            On Error Resume Next
 
-				End SyncLock
-			Else
-				Me.GetFunction(Of R_ReleaseObject)()(handle)
-			End If
-			Me.m_isProtected = False
-		End If
-	End Sub
+            If Engine.EnableLock Then
+                SyncLock lockObject
+                    Call GetFunction(Of R_ReleaseObject)()(handle)
+                End SyncLock
+            Else
+                ' 2018-6-4 Process is terminated due to StackOverflowException. ???
+                Call GetFunction(Of R_ReleaseObject)()(handle)
+            End If
+
+            Me.m_isProtected = False
+        End If
+    End Sub
 
 	''' <summary>
 	''' Release the handle on the symbolic expression, i.e. tells R to decrement the reference count to the expression in unmanaged memory
 	''' </summary>
 	''' <returns></returns>
 	Protected Overrides Function ReleaseHandle() As Boolean
-		If IsProtected Then
-			Unpreserve()
-		End If
-		Return True
+        If IsProtected Then
+            ' 2018-6-4 没有影响？？
+            ' Unpreserve()
+        End If
+        Return True
 	End Function
 
 	''' <summary>
