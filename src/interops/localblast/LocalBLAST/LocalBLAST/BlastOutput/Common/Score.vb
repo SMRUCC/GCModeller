@@ -181,7 +181,9 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Dim items = lines _
                 .Select(Function(l) l.Trim.Split(","c)) _
                 .IteratesALL _
+                .Where(Function(s) Not s.StringEmpty) _
                 .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
+                .Where(Function(t) Not Strings.Trim(t.Name).StringEmpty) _
                 .ToDictionary _
                 .FlatTable
 
@@ -199,7 +201,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         End Function
 
         Public Shared Function TryParse(Of T As {New, Score})(text$, Optional ByRef table As Dictionary(Of String, String) = Nothing) As T
-            Dim items = ScoreTable(text)
+            Dim items = TryCatch(Function() ScoreTable(text), text)
             Dim score$ = items!Score
 
             table = items
@@ -210,7 +212,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
             Return New T With {
                 .Expect = items!Expect,
-                .Method = items!Method,
+                .Method = items.TryGetValue("Method"),
                 .Gaps = Percentage.TryParse(items!Gaps),
                 .Identities = Percentage.TryParse(items!Identities),
                 .Positives = Percentage.TryParse(items!Positives),

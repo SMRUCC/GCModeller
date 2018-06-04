@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -134,42 +135,61 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 Return New SubjectHit() {}
             End If
 
-            Dim Tokens = Regex.Split(text, "^>", RegexOptions.Multiline).Skip(1).ToArray
-            Dim LQuery As SubjectHit() = Tokens.Select(AddressOf SubjectHit.TryParse).ToArray
+            Dim tokens = r.Split(text, "^>", RegexOptions.Multiline) _
+                          .Skip(1) _
+                          .ToArray
+            Dim LQuery As SubjectHit() = tokens _
+                .Select(AddressOf SubjectHit.TryParse) _
+                .IteratesALL _
+                .ToArray
             Return LQuery
         End Function
 
         Protected Const PAIRWISE$ = "Query\s+\d+\s+.+?\s+\d+.+?Sbjct\s+\d+\s+.+?\s+\d+"
 
-        Public Shared Function TryParse(text As String) As SubjectHit
-            Dim name As String = Strings.Split(text, "Length=").First.TrimNewLine
+        ''' <summary>
+        ''' 一个subject可能会出现不止一种的最佳比对结果
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function TryParse(text As String) As IEnumerable(Of SubjectHit)
+            Dim name$ = Strings.Split(text, "Length=").First.TrimNewLine
             Dim l As Long = CLng(text.Match("Length=\d+").RegexParseDouble)
 
-            Dim strHsp$() = Regex.Matches(
-                text, PAIRWISE, RegexICSng).ToArray
+            ' 上面解析完了subject的基本信息之后，在这里解析多个比对结果的情况
+            Dim parts = Strings.Split(text, "Score =") _
+                               .Select(Function(p) "Score =" & p) _
+                               .ToArray
 
-            Dim hit As New SubjectHit With {
-                .Score = Score.TryParse(Of Score)(text),
-                .Name = name,
-                .Length = l,
-                .Hsp = ParseHitSegments(strHsp)
-            }
+            ' 第一部分是subject的基本信息部分
+            ' 所以需要进行跳过
+            For Each part As String In parts.Skip(1)
+                Dim hsp$() = r.Matches(part, PAIRWISE, RegexICSng).ToArray
+                Dim hit As New SubjectHit With {
+                    .Score = Score.TryParse(Of Score)(part),
+                    .Name = name,
+                    .Length = l,
+                    .Hsp = ParseHitSegments(hsp)
+                }
 
-            Return hit
+                Yield hit
+            Next
         End Function
 
-        Protected Shared Function ParseHitSegments(TextLines As String()) As HitSegment()
-            Dim Hsp As HitSegment() = New HitSegment(TextLines.Length - 1) {}
+        Protected Shared Function ParseHitSegments(textLines As String()) As HitSegment()
+            Dim hsp As HitSegment() = New HitSegment(textLines.Length - 1) {}
 
-            For i As Integer = 0 To TextLines.Length - 1
-                Dim buffer As String() =
-                    LinqAPI.Exec(Of String) <= From s As String
-                                               In TextLines(i).LineTokens
-                                               Select s.Replace(vbCr, "")
-                Hsp(i) = HitSegment.TryParse(buffer)
+            For i As Integer = 0 To textLines.Length - 1
+                Dim buffer$() = LinqAPI.Exec(Of String) _
+ _
+                    () <= From s As String
+                          In textLines(i).LineTokens
+                          Select s.Replace(vbCr, "")
+
+                hsp(i) = HitSegment.TryParse(buffer)
             Next
 
-            Return Hsp
+            Return hsp
         End Function
     End Class
 End Namespace
