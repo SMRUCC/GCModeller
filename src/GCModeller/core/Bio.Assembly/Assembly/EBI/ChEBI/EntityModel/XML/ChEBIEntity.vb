@@ -64,7 +64,7 @@ Namespace Assembly.EBI.ChEBI.XML
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
     ''' return节点之中的数据
     ''' </remarks>
-    Public Class ChEBIEntity : Inherits XmlDataModel
+    Public Class ChEBIEntity ' : Inherits XmlDataModel
         Implements INamedValue
         Implements IMolecule
         Implements IAddressOf
@@ -136,7 +136,7 @@ Namespace Assembly.EBI.ChEBI.XML
             Return chebiAsciiName
         End Function
 
-        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
             Throw New NotImplementedException()
         End Sub
     End Class
