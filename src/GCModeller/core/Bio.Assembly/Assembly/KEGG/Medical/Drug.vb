@@ -87,6 +87,27 @@ Namespace Assembly.KEGG.Medical
         Public Property Interaction As NamedValue(Of String)()
         Public Property Source As String()
 
+        Public ReadOnly Property CompoundID As String
+            Get
+                If Remarks.IsNullOrEmpty Then
+                    Return ""
+                End If
+
+                Dim table = Remarks _
+                    .Select(Function(s)
+                                Return s.GetTagValue(":", trim:=True)
+                            End Function) _
+                    .ToDictionary() _
+                    .FlatTable
+
+                If table.ContainsKey("Same as") AndAlso table("Same as").first = "C"c Then
+                    Return table("Same as")
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return GetJson
         End Function
