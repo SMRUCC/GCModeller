@@ -64,6 +64,30 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Mass As String
         Public Property Orthology As KeyValuePair()
 
+        Public ReadOnly Property CompoundId As String()
+            Get
+                If Remarks.IsNullOrEmpty Then
+                    Return {}
+                End If
+
+                Dim sameAs$ = Remarks.Select(Function(s)
+                                                 Return s.GetTagValue(":"c, trim:=True)
+                                             End Function) _
+                                     .Where(Function(t) t.Name = "Same as") _
+                                     .FirstOrDefault _
+                                     .Value
+
+                If sameAs.StringEmpty Then
+                    Return {}
+                Else
+                    Return sameAs.Split _
+                                 .Select(AddressOf Trim) _
+                                 .Where(Function(id) id.First = "C"c) _
+                                 .ToArray
+                End If
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
