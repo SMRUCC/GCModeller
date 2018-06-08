@@ -64,10 +64,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Mass As String
         Public Property Orthology As KeyValuePair()
 
-        Public ReadOnly Property CompoundId As String
+        Public ReadOnly Property CompoundId As String()
             Get
                 If Remarks.IsNullOrEmpty Then
-                    Return ""
+                    Return {}
                 End If
 
                 Dim sameAs$ = Remarks.Select(Function(s)
@@ -78,12 +78,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                                      .Value
 
                 If sameAs.StringEmpty Then
-                    Return ""
+                    Return {}
                 Else
                     Return sameAs.Split _
                                  .Select(AddressOf Trim) _
                                  .Where(Function(id) id.First = "C"c) _
-                                 .FirstOrDefault
+                                 .ToArray
                 End If
             End Get
         End Property

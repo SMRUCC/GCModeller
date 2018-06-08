@@ -87,10 +87,10 @@ Namespace Assembly.KEGG.Medical
         Public Property Interaction As NamedValue(Of String)()
         Public Property Source As String()
 
-        Public ReadOnly Property CompoundID As String
+        Public ReadOnly Property CompoundID As String()
             Get
                 If Remarks.IsNullOrEmpty Then
-                    Return ""
+                    Return {}
                 End If
 
                 Dim table = Remarks _
@@ -100,10 +100,15 @@ Namespace Assembly.KEGG.Medical
                     .ToDictionary() _
                     .FlatTable
 
-                If table.ContainsKey("Same as") AndAlso table("Same as").first = "C"c Then
-                    Return table("Same as")
+                If table.ContainsKey("Same as") Then
+                    ' 可能会对应多个Compound
+                    Return table("Same as") _
+                        .Split _
+                        .Select(AddressOf Trim) _
+                        .Where(Function(id) id.First = "C"c) _
+                        .ToArray
                 Else
-                    Return ""
+                    Return {}
                 End If
             End Get
         End Property
