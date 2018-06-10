@@ -128,7 +128,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <summary>
         ''' 执行批量数据查询
         ''' </summary>
-        ''' <param name="chebiIDlist$"></param>
+        ''' <param name="chebiIDlist$">编号列表是不带有``CHEBI:``前缀的chebi物质编号</param>
         ''' <param name="localCache$"></param>
         ''' <param name="failures$"></param>
         ''' <returns></returns>
