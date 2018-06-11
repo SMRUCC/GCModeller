@@ -169,7 +169,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Private Shared Function __geneHash(mods As PathwayBrief()) As Dictionary(Of String, PathwayBrief())
             Dim LQuery = (From x As PathwayBrief In mods
                           Let genes As String() = x.GetPathwayGenes
-                          Where Not StringHelpers.IsNullOrEmpty(genes)
+                          Where Not genes.IsNullOrEmpty
                           Select (From g As String
                                   In genes
                                   Select g,
