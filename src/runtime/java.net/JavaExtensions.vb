@@ -25,8 +25,8 @@ Public Module JavaExtensions
     '    Return splitArray
     'End Function
 
-    <Extension> Public Function Size(Of T)(list As Generic.IEnumerable(Of T)) As Integer
-        If list.IsNullOrEmpty Then
+    <Extension> Public Function Size(Of T)(list As IEnumerable(Of T)) As Integer
+        If list Is Nothing Then
             Return 0
         End If
 

@@ -136,7 +136,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
             Dim strPathwayIds As String()
 
-            If Not pathwayIds.IsNullOrEmpty Then
+            If Not pathwayIds Is Nothing Then
                 strPathwayIds = LinqAPI.Exec(Of String) <= From id As String
                                                            In pathwayIds
                                                            Let value As String = id.ToString.ToUpper
@@ -254,7 +254,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         Public Function CreateList(pathwaydata As IEnumerable(Of ComponentModel.PathwayBrief), Optional pathwayIds As IEnumerable(Of String) = Nothing) As String()
             Dim strPathwayIds As String()
 
-            If Not pathwayIds.IsNullOrEmpty Then
+            If Not pathwayIds Is Nothing Then
                 strPathwayIds = LinqAPI.Exec(Of String) <=
                     From pId As String
                     In pathwayIds
@@ -308,7 +308,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
             Dim expIds As String()
 
-            If Experiments.IsNullOrEmpty Then
+            If Experiments Is Nothing Then
                 expIds = Chipdata.LstExperiments
             Else
                 expIds = LinqAPI.Exec(Of String) <=

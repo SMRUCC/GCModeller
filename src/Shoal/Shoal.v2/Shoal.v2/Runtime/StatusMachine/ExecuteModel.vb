@@ -601,7 +601,7 @@ Namespace Runtime
             Microsoft.VisualBasic.FileIO.FileSystem.CurrentDirectory = Path
             Call ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.CdTemp()
 
-            If Not ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate.IsNullOrEmpty Then
+            If Not ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate.Count = 0 Then
                 Dim sbr As StringBuilder = New StringBuilder()
                 Dim NameMaxLen As Integer = (From name As String
                                              In ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate.Keys

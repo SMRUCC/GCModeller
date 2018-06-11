@@ -36,7 +36,7 @@ Namespace Runtime.DeviceDriver
         End Function
 
         Private Shared Function WriteObjectCollection(data As Generic.IEnumerable(Of Object)) As Object()
-            If data.IsNullOrEmpty Then
+            If data Is Nothing Then
                 Call Console.WriteLine("    = null array")
             End If
 
@@ -44,8 +44,8 @@ Namespace Runtime.DeviceDriver
             Return data.ToArray
         End Function
 
-        Private Shared Function WriteStringCollection(data As Generic.IEnumerable(Of String)) As String()
-            If data.IsNullOrEmpty Then
+        Private Shared Function WriteStringCollection(data As IEnumerable(Of String)) As String()
+            If data Is Nothing Then
                 Call Console.WriteLine("    = null array")
             End If
 

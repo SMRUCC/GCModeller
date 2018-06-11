@@ -80,7 +80,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Dim Match As String = Regex.Match(line, Parameter.MATCHED, RegexOptions.Singleline).Value
             Dim Tokens As String() = Match.LineTokens
 
-            If Tokens.IsNullOrEmpty OrElse StringHelpers.IsNullOrEmpty(Tokens) Then
+            If Tokens.IsNullOrEmpty OrElse Tokens.IsNullOrEmpty Then
 NULL:           Call $"[{line}] ===> {NameOf(Tokens)}:=null".__DEBUG_ECHO
                 Return New Parameter() {New Parameter, New Parameter}
             ElseIf Tokens.Length >= 6 Then

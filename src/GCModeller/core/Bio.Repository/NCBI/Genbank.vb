@@ -383,8 +383,7 @@ Public Class GenbankIndex : Implements IKeyedEntity(Of String), INamedValue
 
     Public Function Gbk(DIR As String) As GBFF.File
         Dim path As String = $"{DIR}/{Me.DIR}/"
-        Dim files As IEnumerable(Of String) =
-            ls - l - r - wildcards("*.gb", "*.gbk") <= path
+        Dim files = (ls - l - r - wildcards("*.gb", "*.gbk") <= path).ToArray
 
         If files.IsNullOrEmpty Then
             Return Nothing

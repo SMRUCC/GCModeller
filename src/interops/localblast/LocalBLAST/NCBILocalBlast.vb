@@ -96,7 +96,7 @@ Public Module NCBILocalBlast
                           Where Not InternalIntegrityCheck
                           Select InternalIntegrityCheck
 
-        Return isIntegrity.IsNullOrEmpty
+        Return Not isIntegrity.Any
     End Function
 
     <Extension>

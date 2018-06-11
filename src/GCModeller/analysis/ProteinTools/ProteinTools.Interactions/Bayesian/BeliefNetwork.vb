@@ -148,7 +148,7 @@ Public Class BeliefNetwork
     End Function
 
     Private Shared Function Convert(BlockWidth As Integer, Seq As String) As Integer()
-        If Seq.IsNullOrEmpty Then
+        If Seq.StringEmpty Then
             Return GenerateBlankVector(BlockWidth)
         Else
             Dim result = (From residue As Char
