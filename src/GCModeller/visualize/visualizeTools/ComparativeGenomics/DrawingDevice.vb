@@ -56,7 +56,7 @@ Namespace ComparativeGenomics
             Dim Left, Height As Integer
             Dim gDrawHeight As Integer = 85
 
-            If Model.Genome1.IsNullOrEmpty OrElse Model.Genome2.IsNullOrEmpty Then
+            If Model.Genome1 Is Nothing OrElse Model.Genome2 Is Nothing Then
                 Call Console.WriteLine()
             End If
 

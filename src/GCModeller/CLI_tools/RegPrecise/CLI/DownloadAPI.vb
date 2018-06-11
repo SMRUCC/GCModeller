@@ -263,7 +263,7 @@ Imports SMRUCC.genomics.SequenceModel
         Dim queries As IEnumerable(Of String) = ls - l - r - wildcards("query.txt") << FileHandles.OpenHandle(sourceDIR)
 
         For Each query As String In queries
-            If query.ParentPath.EnumerateFiles("*.fasta", "*.fsa", "*.fa").IsNullOrEmpty Then
+            If Not query.ParentPath.EnumerateFiles("*.fasta", "*.fsa", "*.fa").Any Then
                 Continue For
             End If
 

@@ -61,7 +61,7 @@ Public Module KEGG
                                   Pfam As IEnumerable(Of Xfam.Pfam.PfamString.PfamString)) As FamilyPfam
         Pfam = (From x As Xfam.Pfam.PfamString.PfamString
                 In Pfam.AsParallel
-                Where Not StringHelpers.IsNullOrEmpty(x.PfamString)
+                Where Not x.PfamString.IsNullOrEmpty
                 Select x).AsList
         Dim dict As Dictionary(Of String, String) = KEGG.Select(Function(x) SequenceDump.TitleParser(x.Title)) _
             .ToDictionary(Function(x) x.Key,
@@ -70,7 +70,7 @@ Public Module KEGG
                                                                          Function(x) x.SequenceData)
         Dim LQuery = (From x In Pfam
                       Let family As String() = dict(x.ProteinId).Split("/"c)
-                      Where Not StringHelpers.IsNullOrEmpty(family)
+                      Where Not family.IsNullOrEmpty
                       Select (From subX As String
                               In family
                               Select stringPfam = PfamString.CreateObject(x),'.InvokeSet(NameOf(PfamString.SequenceData), seqDict(x.ProteinId)),

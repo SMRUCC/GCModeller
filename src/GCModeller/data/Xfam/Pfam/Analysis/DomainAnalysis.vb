@@ -84,7 +84,7 @@ Public Module DomainAnalysis
                                      <Parameter("KEGG.Reactions")>
                                      Optional KEGG_Reactions As IEnumerable(Of bGetObject.Reaction) = Nothing) As EnzymeClass()
         Dim Annotations As EnzymeClass() = InvokeAnnotations(Expasy, data)
-        If Not KEGG_Reactions.IsNullOrEmpty Then
+        If Not KEGG_Reactions Is Nothing Then
             Annotations = InvokeKEGGAnnotations(Annotations, KEGG_Reactions)
         End If
 
