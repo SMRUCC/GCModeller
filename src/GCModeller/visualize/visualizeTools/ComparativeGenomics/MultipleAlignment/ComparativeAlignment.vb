@@ -555,7 +555,7 @@ POSITIONNING:
                                <Parameter("Offset.Ignored")> Optional IgnoreOffset As Boolean = False,
                                <Parameter("Using.List.Id.As.Name")> Optional UsingColumnHeadersAsName As Boolean = False) As DrawingModel
 
-            If ColumnList.IsNullOrEmpty Then
+            If ColumnList Is Nothing OrElse Not ColumnList.Any Then
                 ColumnList = DF.HeadTitles
             End If
 

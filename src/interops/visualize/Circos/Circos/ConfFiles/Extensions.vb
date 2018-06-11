@@ -72,7 +72,7 @@ Namespace Configurations
                 Call sb.AppendLine($"{IndentBlanks}{strLine}")
             Next
 
-            If Not inserts.IsNullOrEmpty Then
+            If Not inserts Is Nothing AndAlso inserts.Any Then
                 Call sb.AppendLine()
 
                 For Each item In inserts

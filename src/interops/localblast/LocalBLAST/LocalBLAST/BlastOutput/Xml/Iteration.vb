@@ -63,7 +63,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
         <XmlArray("Iteration_stat")> Public Property Stat As Statistics()
 
         Public Function GrepQuery(method As TextGrepMethod) As Integer
-            If Not QueryDef.IsNullOrEmpty Then
+            If Not QueryDef.StringEmpty Then
                 QueryDef = method(QueryDef)
             Else
                 QueryDef = "Unknown"

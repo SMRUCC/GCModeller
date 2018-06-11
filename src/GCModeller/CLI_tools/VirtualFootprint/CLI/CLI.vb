@@ -95,10 +95,13 @@ Module CLI
                          Select sId).ToArray
         Next
 
-        source = LinqAPI.MakeList(Of RegPreciseRegulon) <= From x As RegPreciseRegulon
-                                                           In source
-                                                           Where Not StringHelpers.IsNullOrEmpty(x.Members)
-                                                           Select x
+        source = LinqAPI.MakeList(Of RegPreciseRegulon) _
+ _
+            () <= From x As RegPreciseRegulon
+                  In source
+                  Where Not x.Members.IsNullOrEmpty
+                  Select x
+
         Return source.SaveTo(out).CLICode
     End Function
 

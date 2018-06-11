@@ -70,7 +70,7 @@ Namespace HTML
 
             Dim TempShell = ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate
 
-            If Not TempShell.IsNullOrEmpty Then
+            If Not TempShell Is Nothing AndAlso TempShell.Count > 0 Then
 
                 Call sBuilder.AppendLine()
                 Call sBuilder.AppendLine(String.Format("    {0} Temp Shell Command(s) available in current work directory" & vbCrLf, TempShell.Count))

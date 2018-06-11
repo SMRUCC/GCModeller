@@ -98,7 +98,7 @@ Public Module ExtensionsAPI
                                                     PTT As PTT,
                                                     Optional selects As IEnumerable(Of Name) = Nothing) As Connection()
 
-        If Not selects.IsNullOrEmpty Then
+        If Not selects Is Nothing Then
             Dim filters = (From x As Name In selects Select x.Loci, x).ToArray
             footprints = (From x As PredictedRegulationFootprint
                               In footprints

@@ -53,7 +53,7 @@ Public Module ConsoleReport
 
     <ExportAPI("Prints")>
     <Extension> Public Function Print(dat As IEnumerable(Of SearchingModel.CRISPR)) As String
-        If dat.IsNullOrEmpty Then
+        If Not dat.Any Then
             Return ""
         Else
             Return dat.__print

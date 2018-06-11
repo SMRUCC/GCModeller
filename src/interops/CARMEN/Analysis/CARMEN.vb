@@ -86,7 +86,7 @@ Public Module CARMEN
 
         If EnzymaticOnly Then
             Dim LQuery = (From rxn As Reaction In list
-                          Where Not StringHelpers.IsNullOrEmpty(rxn.lstGene)
+                          Where Not rxn.lstGene.IsNullOrEmpty
                           Select rxn).ToArray
             Return LQuery
         Else

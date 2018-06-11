@@ -189,7 +189,7 @@ Namespace PfamString
 
         <ExportAPI("GET.Domain.Ids"), Extension>
         Public Function CreateDomainID(Domains As IEnumerable(Of ProteinModel.DomainObject)) As String()
-            If Domains.IsNullOrEmpty Then
+            If Domains Is Nothing Then
                 Return New String() {}
             End If
 
@@ -200,7 +200,7 @@ Namespace PfamString
 
         <ExportAPI("GET.Distributes"), Extension>
         Public Function CreateDistruction(Domains As IEnumerable(Of ProteinModel.DomainObject)) As String()
-            If Domains.IsNullOrEmpty Then
+            If Domains Is Nothing Then
                 Return New String() {}
             End If
 

@@ -511,7 +511,7 @@ different with the ideogram configuration document was not included in the circo
 
         If Not highlightsTrack.IsNullOrEmpty Then
             If highlightsTrack.Length = 1 AndAlso
-                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
+                Not highlightsTrack.First.Highlights.Count = 0 Then
 
                 Dim htrack As HighLight = highlightsTrack(Scan0)
                 htrack.r0 = "0.86r"
@@ -520,7 +520,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddTrack(htrack)
             Else
                 For Each circle As HighLight In highlightsTrack
-                    If circle.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.Count = 0 Then
                         Continue For
                     End If
                     Call doc.AddTrack(circle)
@@ -531,8 +531,7 @@ different with the ideogram configuration document was not included in the circo
         highlightsTrack = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
 
         If Not highlightsTrack.IsNullOrEmpty Then
-            If highlightsTrack.Length = 1 AndAlso
-                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
+            If highlightsTrack.Length = 1 AndAlso highlightsTrack.First.Highlights.Count > 0 Then
 
                 Dim hTrack As HighLight = highlightsTrack(Scan0)
                 hTrack.r0 = "0.82r"
@@ -543,7 +542,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddTrack(hTrack)
             Else
                 For Each circle In highlightsTrack
-                    If circle.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.Count = 0 Then
                         Continue For
                     End If
                     Call doc.AddTrack(circle)

@@ -102,7 +102,7 @@ Namespace NetworkModel
                             In modulesGenes
                             Let lstName As String() = (From pathway As NamedVector(Of String)
                                                        In pathwayGenes
-                                                       Where Not pathway.vector.Union([module].vector).IsNullOrEmpty
+                                                       Where pathway.vector.Union([module].vector).Any
                                                        Select pathway.name).ToArray
                             Select New NamedVector(Of String)([module].name, lstName)).ToArray
             Dim rows = (From i As Integer In itemList.Count.Sequence

@@ -187,7 +187,7 @@ Namespace Output
             out += {"Position", "Repeats", "Spacer Sequence", "Repeat Length", "Spacer Length"}
             out += {""}
 
-            If dat.IsNullOrEmpty Then
+            If Not dat.Any Then
                 Return out
             End If
 

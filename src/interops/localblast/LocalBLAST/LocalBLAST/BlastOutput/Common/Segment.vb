@@ -126,15 +126,15 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
         Public Shared Function TryParse(Text As String) As Segment
             Dim Numbers = Regex.Matches(Text, "\d+")
-            Dim Tokens As String() = Text.Split
+            Dim tokens As String() = Text.Split
             Dim sg As New Segment With {
                 .Left = Numbers(0).Value.RegexParseDouble,
                 .Right = Numbers(1).Value.RegexParseDouble
             }
 
-            For i As Integer = Tokens.Count - 1 To 1 Step -1
-                If Not Tokens(i).IsNullOrEmpty AndAlso Tokens(i).RegexParseDouble = 0.0R Then
-                    sg.SequenceData = Tokens(i)
+            For i As Integer = tokens.Count - 1 To 1 Step -1
+                If Not tokens(i).StringEmpty AndAlso tokens(i).RegexParseDouble = 0.0R Then
+                    sg.SequenceData = tokens(i)
                     Exit For
                 End If
             Next
