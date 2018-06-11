@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::1abf0d40eb9b6c6dc4b822e9187b798d, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DBLinkManager
-    ' 
-    '         Properties: CHEBI, IsEmpty, PUBCHEM
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: CreateFromMetaCycFormat, CreateObject, ToString
-    '         Class DBLink
-    ' 
-    '             Properties: AccessionId, attributes, DBName
-    ' 
-    '             Function: CreateObject, GetFormatValue, GetMetaCycFormatValue, GetUniprotId, ToString
-    '                       TryParse, TryParseMetaCycDBLink
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DBLinkManager
+' 
+'         Properties: CHEBI, IsEmpty, PUBCHEM
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: CreateFromMetaCycFormat, CreateObject, ToString
+'         Class DBLink
+' 
+'             Properties: AccessionId, attributes, DBName
+' 
+'             Function: CreateObject, GetFormatValue, GetMetaCycFormatValue, GetUniprotId, ToString
+'                       TryParse, TryParseMetaCycDBLink
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@ Imports System.Text.RegularExpressions
 Imports System.Text
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.MetaCyc.Schema
 
@@ -102,16 +103,7 @@ Namespace Assembly.MetaCyc.Schema
             End Function
 
             Public Shared Function GetUniprotId(DBLinks As Generic.IEnumerable(Of DBLink)) As String
-                If DBLinks.IsNullOrEmpty Then
-                    Return ""
-                End If
-
-                Dim LQuery = (From DBLink In DBLinks Where String.Equals("UNIPROT", DBLink.DBName) Select DBLink.AccessionId).ToArray
-                If LQuery.IsNullOrEmpty Then
-                    Return ""
-                Else
-                    Return LQuery.First
-                End If
+                Return (From DBLink In DBLinks.SafeQuery Where String.Equals("UNIPROT", DBLink.DBName) Select DBLink.AccessionId).FirstOrDefault
             End Function
 
             ''' <summary>

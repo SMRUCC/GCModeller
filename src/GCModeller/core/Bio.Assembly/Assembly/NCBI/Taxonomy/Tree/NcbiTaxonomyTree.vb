@@ -506,16 +506,17 @@ Namespace Assembly.NCBI.Taxonomy
             '    >>> len(taxids_leaves_escherichia_genus)
             '    3382
             '"""
-            Dim children As IEnumerable(Of Integer) = Taxonomy(taxid).children
+            Dim children = Taxonomy(taxid).children
 
             If children.IsNullOrEmpty Then
                 Return {taxid} ' # In case of the taxid has no child
             End If
 
-            Dim out = LinqAPI.Exec(Of Integer) <=
-                From child As Integer
-                In children'.AsParallel
-                Select GetLeaves(child) ' Else taxid
+            Dim out = LinqAPI.Exec(Of Integer) _
+ _
+                () <= From child As Integer
+                      In children'.AsParallel
+                      Select GetLeaves(child) ' Else taxid
 
             Return out
         End Function

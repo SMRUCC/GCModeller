@@ -121,7 +121,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                                     Select GO
                                     Group GO By GO.locusId Into Group)
                         Let EC As String() = (From s In GG.Group Select s.EC).IteratesALL.Distinct.ToArray
-                        Where Not StringHelpers.IsNullOrEmpty(EC)
+                        Where Not EC.IsNullOrEmpty
                         Select GG.locusId,
                             EC).ToArray
             Dim LQuery = (From Gene In gLst

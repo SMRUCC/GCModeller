@@ -102,7 +102,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Public Shared Function __innerParser(str As String()) As KEYWORDS
             Call __trimHeadKey(str)
 
-            If StringHelpers.IsNullOrEmpty(str) OrElse String.Equals(str.First, ".") Then
+            If str.IsNullOrEmpty OrElse String.Equals(str.First, ".") Then
                 Return New KEYWORDS With {
                     .KeyWordList = New List(Of String)
                 }
