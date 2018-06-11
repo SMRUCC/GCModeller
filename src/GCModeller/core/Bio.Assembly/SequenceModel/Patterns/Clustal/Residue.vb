@@ -89,7 +89,7 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="levels"></param>
         ''' <returns></returns>
         Public Shared Function FromAlign(aln As IEnumerable(Of FastaSeq), Optional block As Double = 1.0R, Optional levels As Integer = 10) As SRChain()
-            If aln.IsNullOrEmpty Then
+            If aln Is Nothing Then
                 Return New SRChain() {}
             Else
                 Try

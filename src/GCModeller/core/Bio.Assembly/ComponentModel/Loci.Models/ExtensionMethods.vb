@@ -149,17 +149,20 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         <Extension>
         Public Function FragmentAssembly(source As IEnumerable(Of Location), lenOffset As Integer) As Location()
-            If source.IsNullOrEmpty Then
+            If source Is Nothing Then
                 Return New Location() {}
             End If
 
-            If source.Count = 1 Then
-                Return source.ToArray
-            Else
-                Return __assembly(source, lenOffset)
-            End If
+            With source.ToArray
+                If .Length = 1 Then
+                    Return .ByRef
+                Else
+                    Return .__assembly(lenOffset)
+                End If
+            End With
         End Function
 
+        <Extension>
         Private Function __assembly(source As IEnumerable(Of Location), lenOffset As Integer) As Location()
             Dim lstLoci As New List(Of Location)
             Dim current As Location
