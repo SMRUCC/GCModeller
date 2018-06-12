@@ -125,7 +125,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
         End Function
 
         Public Function Grep(method As TextGrepMethod) As Integer
-            If Not Id.IsNullOrEmpty Then
+            If Not Id.StringEmpty Then
                 Id = method(Id)
             Else
                 Id = "Unknown"

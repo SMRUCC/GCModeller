@@ -147,7 +147,7 @@ Namespace NetworkModel.KEGG
                               Where source.ContainsKey(x)
                               Select source(x)).IteratesALL
             Dim rxns = (From x In source.Values.IteratesALL
-                        Where StringHelpers.IsNullOrEmpty(x.Enzyme)
+                        Where x.Enzyme.IsNullOrEmpty
                         Select x).Join(mapsSource).ToArray
             Dim net As FileStream.NetworkTables = BuildNET(rxns)
             Return net

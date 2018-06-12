@@ -478,7 +478,7 @@ Namespace FileStream.IO
 
             On Error Resume Next
 
-            If data.IsNullOrEmpty Then
+            If data.Empty Then
                 Call Console.WriteLine("Model Data is NULL!  ""{0}""", File)
             End If
 

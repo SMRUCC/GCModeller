@@ -139,7 +139,7 @@ Namespace Interpreter.Linker.APIHandler
 
         Public Function CanDelegateCalling(paras As Object()) As Boolean
 
-            If Parameters.IsNullOrEmpty Then
+            If Parameters Is Nothing OrElse Parameters.Count = 0 Then
                 Return True
             ElseIf ParameterCounts > paras.Length Then '可能有可选参数
                 Dim p As KeyValuePair(Of String, ParameterWithAlias)() =

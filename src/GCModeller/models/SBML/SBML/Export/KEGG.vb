@@ -88,7 +88,7 @@ Namespace ExportServices
             Dim props As New FluxPropReader(rxn.Notes)
 
             If filterNonEnzyme Then
-                If Not StringHelpers.IsNullOrEmpty(props.ECNumber) Then
+                If Not props.ECNumber.IsNullOrEmpty Then
                     Return Nothing
                 End If
             End If

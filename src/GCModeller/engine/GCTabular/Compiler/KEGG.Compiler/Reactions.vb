@@ -331,7 +331,7 @@ Download:
                 fluxModel.p_Dynamics_K_1 = 1
             End If
 
-            fluxModel.Enzymes = If(Enzymes.IsNullOrEmpty, Nothing, Enzymes.ToArray)
+            fluxModel.Enzymes = If(Enzymes.Empty, Nothing, Enzymes.ToArray)
             fluxModel.KEGGReaction = If(IsKEGGReaction, Model.ID, "")
             fluxModel.EnzymeClass = Model.Enzyme.First
 

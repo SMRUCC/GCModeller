@@ -114,7 +114,7 @@ Namespace DataStorage.FileModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function SampleCounts(Of T)(data As IEnumerable(Of DataSerials(Of T))) As Integer
-            If data.IsNullOrEmpty Then
+            If data Is Nothing Then
                 Return 0
             End If
             Return data.First.Samples.DataCounts

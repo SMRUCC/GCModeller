@@ -85,7 +85,7 @@ Partial Module CLI
             Dim first = operons.First
 
             For Each x As RegPreciseOperon In operons
-                If Not first.Operon.Intersect(x.Operon).IsNullOrEmpty Then
+                If Not first.Operon.Intersect(x.Operon).ToArray.IsNullOrEmpty Then
                     temp += x
                 End If
             Next
