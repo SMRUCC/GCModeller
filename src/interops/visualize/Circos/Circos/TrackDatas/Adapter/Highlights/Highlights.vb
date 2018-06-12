@@ -63,7 +63,7 @@ Namespace TrackDatas.Highlights
             "(at least should parts of the genes in the genome have COG assigned value)."
 
         Protected Sub __throwSourceNullEx(Of T)(source As IEnumerable(Of T))
-            If source.IsNullOrEmpty Then
+            If source Is Nothing OrElse Not source.Any Then
                 Dim exMsg As String =
                     $"{Me.GetType.FullName}, data Is null!" &
                     vbCrLf &

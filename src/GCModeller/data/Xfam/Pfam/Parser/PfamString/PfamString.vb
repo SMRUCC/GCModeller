@@ -149,7 +149,7 @@ Namespace PfamString
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetDomainData(ordered As Boolean) As ProteinModel.DomainObject()
-            If StringHelpers.IsNullOrEmpty(PfamString) Then
+            If PfamString.IsNullOrEmpty Then
                 Return New ProteinModel.DomainObject() {}
             End If
 

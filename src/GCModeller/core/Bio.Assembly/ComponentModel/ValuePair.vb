@@ -54,7 +54,7 @@ Namespace ComponentModel
     Public Module KeyValuePairExtensions
 
         Public Function Format_Prints(data As IEnumerable(Of KeyValuePair)) As String
-            If data.IsNullOrEmpty Then
+            If data Is Nothing Then
                 Return ""
             End If
 

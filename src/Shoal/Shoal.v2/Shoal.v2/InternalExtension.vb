@@ -186,12 +186,12 @@ Public Module InternalExtension
     <ExportAPI("source",
                Info:="Call the external script file in the shoal shell scripting, you can get the returns value from the 'Return' command.",
                Usage:="source <script_file> [argumentsName argumentValue]")>
-    Public Function Source(path As String, Optional args As Generic.IEnumerable(Of KeyValuePair(Of String, Object)) = Nothing) As Object
+    Public Function Source(path As String, Optional args As IEnumerable(Of KeyValuePair(Of String, Object)) = Nothing) As Object
         Dim Environment As New Runtime.ScriptEngine()
         Dim requiredCwork As Boolean = Not (InStr(path, "http://", CompareMethod.Text) > 0 OrElse InStr(path, "https://", CompareMethod.Text) > 0)  ' url 无法切换路径
         Dim currentWork As String = My.Computer.FileSystem.CurrentDirectory
 
-        If Not args.IsNullOrEmpty Then
+        If Not args Is Nothing Then
             For Each item As KeyValuePair(Of String, Object) In args
                 Call Environment.MMUDevice.InitLocals(item.Key, item.Value, "string")
             Next

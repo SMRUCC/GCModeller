@@ -140,8 +140,7 @@ Statistics as Topic",
         '''
         <ExportAPI("PfamString.Equals", Info:="MPAlignment algorithm")>
         Public Function AltEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString, highlyScoringThreshold As Double) As AlignmentOutput
-            If StringHelpers.IsNullOrEmpty(Protein_1.PfamString) OrElse
-                StringHelpers.IsNullOrEmpty(Protein_2.PfamString) Then  '两个蛋白质没有任何的结构域，则无法做进一步判断是否到底相等
+            If Protein_1.PfamString.IsNullOrEmpty OrElse Protein_2.PfamString.IsNullOrEmpty Then  '两个蛋白质没有任何的结构域，则无法做进一步判断是否到底相等
                 Return New AlignmentOutput With {
                     .ProteinQuery = Protein_1,
                     .ProteinSbjct = Protein_2,

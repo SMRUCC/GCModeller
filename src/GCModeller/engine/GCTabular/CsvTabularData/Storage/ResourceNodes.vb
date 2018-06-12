@@ -164,7 +164,7 @@ Namespace FileStream.XmlFormat
             Me.TypeId = GetType(T).FullName
             Dim f As Boolean
 
-            If data.IsNullOrEmpty Then
+            If data.Empty Then
                 f = InternalWriteEmptyFile(Path, TypeId)
             Else
                 f = data.SaveTo(Path, False)

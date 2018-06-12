@@ -94,7 +94,7 @@ Namespace ContextModel
         Sub New(genome As IEnumerable(Of T), Optional name$ = "unnamed")
             featureTags = genome _
                 .GroupBy(Function(g)
-                             If g.Feature.IsNullOrEmpty Then
+                             If g.Feature.StringEmpty Then
                                  Return "-"
                              Else
                                  Return g.Feature
