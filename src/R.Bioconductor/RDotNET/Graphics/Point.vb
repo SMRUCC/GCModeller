@@ -1,31 +1,13 @@
 Namespace Graphics
-    Public Structure Point
-        Implements IEquatable(Of Point)
-        Private m_x As Double
-        Private m_y As Double
+    Public Structure Point : Implements IEquatable(Of Point)
 
         Public Sub New(x As Double, y As Double)
-            Me.m_x = x
-            Me.m_y = y
+            _X = x
+            _Y = y
         End Sub
 
         Public Property X() As Double
-            Get
-                Return Me.m_x
-            End Get
-            Set
-                Me.m_x = value
-            End Set
-        End Property
-
         Public Property Y() As Double
-            Get
-                Return Me.m_y
-            End Get
-            Set
-                Me.m_y = value
-            End Set
-        End Property
 
 #Region "IEquatable<Point> Members"
 

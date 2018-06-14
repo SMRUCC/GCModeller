@@ -766,14 +766,6 @@ Public Class REngine
     ''' </summary>
     ''' <value><c>true</c> if auto print; otherwise, <c>false</c>.</value>
     Public Property AutoPrint() As Boolean
-        Get
-            Return m_AutoPrint
-        End Get
-        Set
-            m_AutoPrint = Value
-        End Set
-    End Property
-    Private m_AutoPrint As Boolean
 
     Private Function GetVisible() As Boolean
         Dim symbol = DangerousGetHandle("R_Visible")
