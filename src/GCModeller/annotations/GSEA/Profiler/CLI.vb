@@ -51,7 +51,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/GSEA")>
-    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> /uniprot <uniprot.XML> [/out <out.csv>]")>
+    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> /uniprot <uniprot.XML> [/hide.progress /out <out.csv>]")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
@@ -82,7 +82,10 @@ Public Module CLI
             .Distinct _
             .ToArray
         Dim result As EnrichmentResult() = background _
-            .Enrichment(convertGeneSet) _
+            .Enrichment(
+                list:=convertGeneSet,
+                showProgress:=Not args.IsTrue("/hide.progress")
+            ) _
             .FDRCorrection _
             .ToArray
 
