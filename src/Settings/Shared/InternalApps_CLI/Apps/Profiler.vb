@@ -26,6 +26,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '  /GO.clusters:     
 '  /GSEA:            
+'  /id.converts:     
 '  /KO.clusters:     
 ' 
 ' 
@@ -70,21 +71,40 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> /uniprot &lt;uniprot.XML> [/hide.progress /out &lt;out.csv>]
+''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /out &lt;out.csv>]
 ''' ```
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, uniprot As String, Optional out As String = "", Optional hide_progress As Boolean = False) As Integer
+Public Function EnrichmentTest(background As String, geneSet As String, Optional out As String = "", Optional hide_progress As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
     Call CLI.Append("/geneSet " & """" & geneSet & """ ")
-    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
     If hide_progress Then
         Call CLI.Append("/hide.progress ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /id.converts /uniprot &lt;uniprot.XML> /geneSet &lt;geneSet.txt> [/out &lt;converts.txt>]
+''' ```
+''' </summary>
+'''
+Public Function IDconverts(uniprot As String, geneSet As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/id.converts")
+    Call CLI.Append(" ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/geneSet " & """" & geneSet & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 
