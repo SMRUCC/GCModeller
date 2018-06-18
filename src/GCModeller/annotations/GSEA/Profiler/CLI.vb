@@ -24,7 +24,7 @@ Public Module CLI
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_KO.XML"
         Dim kegg = (ls - l - r - "*.Xml" <= maps).Select(AddressOf LoadXml(Of Map))
         Dim entries = UniProtXML.EnumerateEntries(uniprot)
-        Dim model As Genome = GSEA.ImportsUniProt(
+        Dim model As Background = GSEA.ImportsUniProt(
             entries,
             getTerm:=GSEA.UniProtGetKOTerms,
             define:=GSEA.KEGGClusters(kegg)
@@ -41,7 +41,7 @@ Public Module CLI
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO.XML"
         Dim go = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
         Dim entries = UniProtXML.EnumerateEntries(uniprot)
-        Dim model As Genome = GSEA.Imports.ImportsUniProt(
+        Dim model As Background = GSEA.Imports.ImportsUniProt(
             entries,
             getTerm:=GSEA.UniProtGetGOTerms,
             define:=go
@@ -54,7 +54,7 @@ Public Module CLI
     <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> /uniprot <uniprot.XML> [/out <out.csv>]")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
-        Dim background = backgroundXML.LoadXml(Of Genome)
+        Dim background = backgroundXML.LoadXml(Of Background)
         Dim list$ = args("/geneset")
         Dim geneSet$() = list _
             .IterateAllLines _
