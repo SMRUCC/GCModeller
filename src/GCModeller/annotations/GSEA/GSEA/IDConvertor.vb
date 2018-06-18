@@ -17,12 +17,19 @@ Public Class IDConvertor
                         Return type
                     End Function) _
             .ToArray
+        Dim id$
         Dim converts As NamedVector(Of String)
 
         For Each entry As entry In entries
             For Each parser In parsers
+                id = parser.Maps(entry)
+
+                If id.StringEmpty Then
+                    Continue For
+                End If
+
                 converts = New NamedVector(Of String) With {
-                    .name = parser.Maps(entry),
+                    .name = id,
                     .vector = entry.accessions
                 }
                 typesID(parser.Key).Add(converts)

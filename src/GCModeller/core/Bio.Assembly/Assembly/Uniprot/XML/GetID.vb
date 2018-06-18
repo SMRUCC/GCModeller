@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::e84f6e88cffb691b55088eb18341175c, core\Bio.Assembly\Assembly\UniProt\XML\GetID.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GetIDs
-    ' 
-    ' 
-    '         Enum IDTypes
-    ' 
-    '             Accession, EMBL, KEGG, LocusTag, ORF
-    '             RefSeq
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: (+2 Overloads) GetID, ParseType
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GetIDs
+' 
+' 
+'         Enum IDTypes
+' 
+'             Accession, EMBL, KEGG, LocusTag, ORF
+'             RefSeq
+' 
+' 
+' 
+'  
+' 
+'     Function: (+2 Overloads) GetID, ParseType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.Uniprot.XML
 
@@ -78,7 +79,7 @@ Namespace Assembly.Uniprot.XML
         Dim parser As New MapsHelper(Of IDTypes)(map:=EnumParser(Of IDTypes)(), [default]:=IDTypes.Accession)
 
         Public Iterator Function EnumerateParsers() As IEnumerable(Of Map(Of IDTypes, Func(Of entry, String)))
-            For Each type As IDTypes In [Enums](Of IDTypes)()
+            For Each type As IDTypes In [Enums](Of IDTypes)().Where(Function(t) t <> IDTypes.NA)
                 Yield New Map(Of IDTypes, Func(Of entry, String)) With {
                     .Key = type,
                     .Maps = .Key.GetID()
@@ -118,11 +119,17 @@ Namespace Assembly.Uniprot.XML
                            End Function
                 Case IDTypes.LocusTag
                     Return Function(prot As entry)
-                               Return prot.gene("ordered locus").FirstOrDefault
+                               If prot.gene Is Nothing Then
+                                   Return Nothing
+                               Else
+                                   Return prot _
+                                       .gene("ordered locus") _
+                                       .DefaultFirst
+                               End If
                            End Function
                 Case IDTypes.ORF
                     Return Function(prot As entry)
-                               Return prot.gene.ORF.FirstOrDefault
+                               Return prot.gene?.ORF?.FirstOrDefault
                            End Function
                 Case IDTypes.RefSeq
                     Return Function(prot As entry)
