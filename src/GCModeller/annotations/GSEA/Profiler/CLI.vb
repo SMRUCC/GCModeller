@@ -50,23 +50,22 @@ Public Module CLI
         Return model.GetXml.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/GSEA")>
-    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> /uniprot <uniprot.XML> [/hide.progress /out <out.csv>]")>
-    Public Function EnrichmentTest(args As CommandLine) As Integer
-        Dim backgroundXML$ = args("/background")
-        Dim background = backgroundXML.LoadXml(Of Background)
+    <ExportAPI("/id.converts")>
+    <Usage("/id.converts /uniprot <uniprot.XML> /geneSet <geneSet.txt> [/out <converts.txt>]")>
+    Public Function IDconverts(args As CommandLine) As Integer
+        Dim uniprot$ = args <= "/uniprot"
         Dim list$ = args("/geneset")
+        Dim out$ = args("/out") Or $"{list.TrimSuffix}_uniprot.txt"
         Dim geneSet$() = list _
             .IterateAllLines _
             .Select(Function(l)
                         Return Strings.Trim(l).Split.First
                     End Function) _
             .ToArray
-        Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
 
         ' 先推测一下是否是uniprot编号？
         ' 如果不是，则会需要进行编号转换操作
-        Dim convertor As New IDConvertor(UniProtXML.EnumerateEntries(args <= "/uniprot"))
+        Dim convertor As New IDConvertor(UniProtXML.EnumerateEntries(uniprot))
         Dim type As IDTypes = convertor.GetType(geneSet)
 
         If type = IDTypes.NA Then
@@ -81,19 +80,37 @@ Public Module CLI
             .IteratesALL _
             .Distinct _
             .ToArray
-        Dim result As EnrichmentResult() = background _
-            .Enrichment(
-                list:=convertGeneSet,
-                showProgress:=Not args.IsTrue("/hide.progress")
-            ) _
-            .FDRCorrection _
-            .ToArray
 
         Call converts _
             .Select(Function(c)
                         Return $"{c.name}{ASCII.TAB}{c.vector.JoinBy(",")}"
                     End Function) _
             .FlushAllLines(out.TrimSuffix & ".converts.txt")
+        Call convertGeneSet.FlushAllLines(out)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/GSEA")>
+    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /out <out.csv>]")>
+    Public Function EnrichmentTest(args As CommandLine) As Integer
+        Dim backgroundXML$ = args("/background")
+        Dim background = backgroundXML.LoadXml(Of Background)
+        Dim list$ = args("/geneset")
+        Dim geneSet$() = list _
+            .IterateAllLines _
+            .Select(Function(l)
+                        Return Strings.Trim(l).Split.First
+                    End Function) _
+            .ToArray
+        Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
+        Dim result As EnrichmentResult() = background _
+            .Enrichment(
+                list:=geneSet,
+                showProgress:=Not args.IsTrue("/hide.progress")
+            ) _
+            .FDRCorrection _
+            .ToArray
 
         Return result.SaveTo(out).CLICode
     End Function
