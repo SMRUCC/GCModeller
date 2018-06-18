@@ -70,11 +70,11 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> /uniprot &lt;uniprot.XML> [/out &lt;out.csv>]
+''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> /uniprot &lt;uniprot.XML> [/hide.progress /out &lt;out.csv>]
 ''' ```
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, uniprot As String, Optional out As String = "") As Integer
+Public Function EnrichmentTest(background As String, geneSet As String, uniprot As String, Optional out As String = "", Optional hide_progress As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -82,6 +82,9 @@ Public Function EnrichmentTest(background As String, geneSet As String, uniprot 
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If hide_progress Then
+        Call CLI.Append("/hide.progress ")
     End If
 
 
