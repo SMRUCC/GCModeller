@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -84,6 +85,12 @@ Public Module CLI
             .Enrichment(convertGeneSet) _
             .FDRCorrection _
             .ToArray
+
+        Call converts _
+            .Select(Function(c)
+                        Return $"{c.name}{ASCII.TAB}{c.vector.JoinBy(",")}"
+                    End Function) _
+            .FlushAllLines(out.TrimSuffix & ".converts.txt")
 
         Return result.SaveTo(out).CLICode
     End Function
