@@ -145,10 +145,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
       <Project>{3e195df1-9feb-44d5-904b-15626bbe74d7}</Project>
       <Name>Math.Statistics</Name>

@@ -58,7 +58,9 @@ Namespace Assembly.Uniprot.XML
 
     Public Module GetIDs
 
-        Public Enum IDTypes
+        Public Enum IDTypes As Integer
+            NA = -1
+
             ''' <summary>
             ''' Uniprot accession ID
             ''' </summary>
