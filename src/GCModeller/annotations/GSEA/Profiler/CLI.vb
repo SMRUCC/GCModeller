@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -64,14 +66,22 @@ Public Module CLI
         ' 先推测一下是否是uniprot编号？
         ' 如果不是，则会需要进行编号转换操作
         Dim convertor As New IDConvertor(UniProtXML.EnumerateEntries(args <= "/uniprot"))
+        Dim type As IDTypes = convertor.GetType(geneSet)
 
-        If Not convertor.GetType(geneSet) = IDTypes.Accession Then
-            ' 需要进行编号转换
-
+        If type = IDTypes.NA Then
+            Throw New NotSupportedException(geneSet.GetJson)
         End If
 
+        Dim converts As NamedVector(Of String)() = convertor _
+            .Converts(geneSet, type) _
+            .ToArray
+        Dim convertGeneSet$() = converts _
+            .Select(Function(c) c.vector) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
         Dim result As EnrichmentResult() = background _
-            .Enrichment(geneSet) _
+            .Enrichment(convertGeneSet) _
             .FDRCorrection _
             .ToArray
 
