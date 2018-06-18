@@ -77,6 +77,15 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         Dim parser As New MapsHelper(Of IDTypes)(map:=EnumParser(Of IDTypes)(), [default]:=IDTypes.Accession)
 
+        Public Iterator Function EnumerateParsers() As IEnumerable(Of Map(Of IDTypes, Func(Of entry, String)))
+            For Each type As IDTypes In [Enums](Of IDTypes)()
+                Yield New Map(Of IDTypes, Func(Of entry, String)) With {
+                    .Key = type,
+                    .Maps = .Key.GetID()
+                }
+            Next
+        End Function
+
         Public Function ParseType(type$) As IDTypes
             Return parser(LCase(type))
         End Function

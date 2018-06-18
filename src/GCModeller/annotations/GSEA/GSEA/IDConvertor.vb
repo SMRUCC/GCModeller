@@ -1,13 +1,33 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Public Class IDConvertor
 
-    ReadOnly typesID As New Dictionary(Of IDTypes, NamedVector(Of String)())
+    ''' <summary>
+    ''' ``{typeID => uniprot accessions}``
+    ''' </summary>
+    ReadOnly typesID As New Dictionary(Of IDTypes, Dictionary(Of NamedVector(Of String)))
 
     Sub New(entries As IEnumerable(Of entry))
+        Dim parsers = GetIDs.EnumerateParsers _
+            .Select(Function(type)
+                        typesID.Add(type.Key, New Dictionary(Of NamedVector(Of String)))
+                        Return type
+                    End Function) _
+            .ToArray
+        Dim converts As NamedVector(Of String)
 
+        For Each entry As entry In entries
+            For Each parser In parsers
+                converts = New NamedVector(Of String) With {
+                    .name = parser.Maps(entry),
+                    .vector = entry.accessions
+                }
+                typesID(parser.Key).Add(converts)
+            Next
+        Next
     End Sub
 
     ''' <summary>
@@ -23,8 +43,8 @@ Public Class IDConvertor
                 Dim idType As IDTypes = type.Key
                 Dim i% = 0
 
-                For Each [set] As NamedVector(Of String) In idSets
-                    If [set].vector.Any(Function(id) id.IsOneOfA(.ByRef)) Then
+                For Each [set] As NamedVector(Of String) In idSets.Values
+                    If [set].name.IsOneOfA(.ByRef) Then
                         If i >= n Then
                             Return idType
                         Else
@@ -54,6 +74,13 @@ Public Class IDConvertor
             Next
         End If
 
+        Dim typeIDSets = Me.typesID(type)
 
+        For Each id As String In geneSet
+            Yield New NamedVector(Of String) With {
+                .name = id,
+                .vector = typeIDSets(.name).vector
+            }
+        Next
     End Function
 End Class
