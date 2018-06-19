@@ -325,27 +325,57 @@ Namespace API
         End Function
 
         ''' <summary>
-        ''' writes an external representation of R objects to the specified file. The objects can be read back from the file at a later date by using the function load or attach (or data in some cases).
+        ''' writes an external representation of R objects to the specified file. The objects can be read 
+        ''' back from the file at a later date by using the function load or attach (or data in some cases).
+        ''' (这个函数是安全的函数，假若文件夹不存在的话，这个函数会自动创建文件夹)
         ''' </summary>
         ''' <param name="objects">the names of the objects to be saved (as symbols or character strings).</param>
-        ''' <param name="file$">a (writable binary-mode) connection or the name of the file where the data will be saved (when tilde expansion is done). Must be a file name for save.image or version = 1.</param>
-        ''' <param name="ascii">if TRUE, an ASCII representation of the data is written. The default value of ascii is FALSE which leads to a binary file being written. If NA and version >= 2, a different ASCII representation is used which writes double/complex numbers as binary fractions.</param>
-        ''' <param name="version$">the workspace format version to use. NULL specifies the current default format. The version used from R 0.99.0 to R 1.3.1 was version 1. The default format as from R 1.4.0 is version 2.</param>
+        ''' <param name="file$">a (writable binary-mode) connection or the name of the file where the data 
+        ''' will be saved (when tilde expansion is done). Must be a file name for save.image or version = 1.</param>
+        ''' <param name="ascii">if TRUE, an ASCII representation of the data is written. The default 
+        ''' value of ascii is FALSE which leads to a binary file being written. If NA and version >= 2, a 
+        ''' different ASCII representation is used which writes double/complex numbers as binary fractions.</param>
+        ''' <param name="version$">the workspace format version to use. NULL specifies the current default format.
+        ''' The version used from R 0.99.0 to R 1.3.1 was version 1. The default format as from R 1.4.0 is version 2.</param>
         ''' <param name="envir$">environment to search for objects to be saved.</param>
-        ''' <param name="compress$">logical or character string specifying whether saving to a named file is to use compression. TRUE corresponds to gzip compression, and character strings "gzip", "bzip2" or "xz" specify the type of compression. Ignored when file is a connection and for workspace format version 1.</param>
-        ''' <param name="compression_level$">integer: the level of compression to be used. Defaults to 6 for gzip compression and to 9 for bzip2 or xz compression.</param>
+        ''' <param name="compress$">logical or character string specifying whether saving to a named file is 
+        ''' to use compression. TRUE corresponds to gzip compression, and character strings "gzip", "bzip2" 
+        ''' or "xz" specify the type of compression. Ignored when file is a connection and for workspace 
+        ''' format version 1.</param>
+        ''' <param name="compression_level$">integer: the level of compression to be used. Defaults to 6 
+        ''' for gzip compression and to 9 for bzip2 or xz compression.</param>
         ''' <param name="eval_promises">logical: should objects which are promises be forced before saving?</param>
-        ''' <param name="precheck">logical: should the existence of the objects be checked before starting to save (and in particular before opening the file/connection)? Does not apply to version 1 saves.</param>
+        ''' <param name="precheck">logical: should the existence of the objects be checked before starting 
+        ''' to save (and in particular before opening the file/connection)? Does not apply to version 1 saves.</param>
         ''' <remarks>
-        ''' The names of the objects specified either as symbols (or character strings) in ... or as a character vector in list are used to look up the objects from environment envir. By default promises are evaluated, but if eval.promises = FALSE promises are saved (together with their evaluation environments). (Promises embedded in objects are always saved unevaluated.)
-        ''' All R platforms use the XDR (bigendian) representation Of C ints And doubles In binary save-d files, And these are portable across all R platforms.
-        ''' ASCII saves used To be useful For moving data between platforms but are now mainly Of historical interest. They can be more compact than binary saves where compression Is Not used, but are almost always slower To both read And write: binary saves compress much better than ASCII ones. Further, Decimal ASCII saves may Not restore Double/complex values exactly, And what value Is restored may depend On the R platform.
-        ''' Default values For the ascii, compress, safe And version arguments can be modified With the "save.defaults" Option (used both by save And save.image), see also the 'Examples’ section. If a "save.image.defaults" option is set it is used in preference to "save.defaults" for function save.image (which allows this to have different defaults). In addition, compression_level can be part of the "save.defaults" option.
-        ''' A connection that Is Not already open will be opened In mode "wb". Supplying a connection which Is open And Not In binary mode gives an Error.
+        ''' The names of the objects specified either as symbols (or character strings) in ... or as a 
+        ''' character vector in list are used to look up the objects from environment envir. By default 
+        ''' promises are evaluated, but if eval.promises = FALSE promises are saved (together with their 
+        ''' evaluation environments). (Promises embedded in objects are always saved unevaluated.)
+        ''' All R platforms use the XDR (bigendian) representation Of C ints And doubles In binary saved 
+        ''' files, And these are portable across all R platforms.
+        ''' ASCII saves used To be useful For moving data between platforms but are now mainly Of historical 
+        ''' interest. They can be more compact than binary saves where compression Is Not used, but are 
+        ''' almost always slower To both read And write: binary saves compress much better than ASCII ones. 
+        ''' Further, Decimal ASCII saves may Not restore Double/complex values exactly, And what value Is 
+        ''' restored may depend On the R platform.
+        ''' Default values For the ascii, compress, safe And version arguments can be modified With the 
+        ''' "save.defaults" Option (used both by save And save.image), see also the 'Examples’ section. 
+        ''' If a "save.image.defaults" option is set it is used in preference to "save.defaults" for function 
+        ''' save.image (which allows this to have different defaults). In addition, compression_level can be 
+        ''' part of the "save.defaults" option.
+        ''' A connection that Is Not already open will be opened In mode "wb". Supplying a connection which 
+        ''' Is open And Not In binary mode gives an Error.
         ''' 
         ''' ###### Compression
-        ''' Large files can be reduced considerably In size by compression. A particular 46MB R Object was saved As 35MB without compression In 2 seconds, 22MB With gzip compression In 8 secs, 19MB With bzip2 compression In 13 secs And 9.4MB With xz compression In 40 secs. The load times were 1.3, 2.8, 5.5 And 5.7 seconds respectively. These results are indicative, but the relative performances Do depend On the actual file: xz compressed unusually well here.
-        ''' It Is possible to compress later (with gzip, bzip2 Or xz) a file saved with compress = FALSE: the effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
+        ''' Large files can be reduced considerably In size by compression. A particular 46MB R Object was 
+        ''' saved As 35MB without compression In 2 seconds, 22MB With gzip compression In 8 secs, 19MB With 
+        ''' bzip2 compression In 13 secs And 9.4MB With xz compression In 40 secs. The load times were 1.3, 
+        ''' 2.8, 5.5 And 5.7 seconds respectively. These results are indicative, but the relative performances 
+        ''' Do depend On the actual file: xz compressed unusually well here.
+        ''' It Is possible to compress later (with gzip, bzip2 Or xz) a file saved with compress = FALSE: the 
+        ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
+        ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
         Public Sub save(objects As IEnumerable(Of String),
                         file$,
@@ -356,6 +386,9 @@ Namespace API
                         Optional compression_level% = 6,
                         Optional eval_promises As Boolean = True,
                         Optional precheck As Boolean = True)
+
+            Call file.ParentPath.MkDIR
+
             SyncLock R
                 With R
                     .call = $"save({objects.JoinBy(", ")}, 
