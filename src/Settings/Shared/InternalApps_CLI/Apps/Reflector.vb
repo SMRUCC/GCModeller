@@ -109,12 +109,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' --reflects /sql &lt;sql_path/std_in> [-o &lt;output_path> /namespace &lt;namespace> --language &lt;php/visualbasic, default=visualbasic> /split /auto_increment.disable]
+''' --reflects /sql &lt;sql_path/std_in> [-o &lt;output_path> /namespace &lt;namespace> --language &lt;php/visualbasic, default=visualbasic> /split]
 ''' ```
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>
 '''
-Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False, Optional auto_increment_disable As Boolean = False) As Integer
+Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--reflects")
     Call CLI.Append(" ")
     Call CLI.Append("/sql " & """" & sql & """ ")
@@ -129,9 +129,6 @@ Public Function ReflectsConvert(sql As String, Optional o As String = "", Option
     End If
     If split Then
         Call CLI.Append("/split ")
-    End If
-    If auto_increment_disable Then
-        Call CLI.Append("/auto_increment.disable ")
     End If
 
 

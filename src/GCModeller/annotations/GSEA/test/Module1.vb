@@ -17,7 +17,7 @@ Module Module1
     End Sub
 
     Sub enrichmentTest()
-        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml".LoadXml(Of Genome)
+        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml".LoadXml(Of Background)
         Dim list$() = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_TCS.txt" _
             .IterateAllLines _
             .Select(Function(l) l.Split.First) _
@@ -36,7 +36,7 @@ Module Module1
         ' Dim result = background.Enrichment(list).FDRCorrection.ToArray
 
         'Call result.SaveTo("./result.csv")
-        Dim result = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml".LoadXml(Of Genome).Enrichment(list).FDRCorrection.ToArray
+        Dim result = "E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml".LoadXml(Of Background).Enrichment(list).FDRCorrection.ToArray
 
         Call result.SaveTo("./result_KO.csv")
     End Sub
@@ -44,7 +44,7 @@ Module Module1
     Sub modelBuildTest()
         Dim go = GSEA.Imports.GOClusters(GO_OBO.Open("E:\GCModeller-repo\GO\go.obo"))
         Dim uniprot = UniProtXML.EnumerateEntries("P:\uniprot-taxonomy%3A314565.xml")
-        Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetGOTerms, define:=go)
+        Dim model As Background = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetGOTerms, define:=go)
 
         Call model.GetXml.SaveTo("E:\GCModeller\src\GCModeller\annotations\GSEA\xcb.Xml")
 
@@ -54,7 +54,7 @@ Module Module1
     Sub KEGGmodelBuildTest()
         Dim kegg = (ls - l - r - "*.Xml" <= "D:\GCModeller-CAD-blueprint\KGML\maps").Select(AddressOf LoadXml(Of Map))
         Dim uniprot = UniProtXML.EnumerateEntries("E:\GCModeller\src\GCModeller\annotations\GSEA\uniprot-taxonomy%3A314565.xml")
-        Dim model As Genome = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetKOTerms, define:=GSEA.KEGGClusters(kegg))
+        Dim model As Background = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetKOTerms, define:=GSEA.KEGGClusters(kegg))
 
 
         Call model.GetXml.SaveTo("E:\GCModeller\src\GCModeller\annotations\GSEA\xcb_KO.Xml")

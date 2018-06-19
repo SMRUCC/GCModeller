@@ -16,7 +16,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 ' 
 ' 
-'  < metaProfiler.CLI >
 ' 
 ' 
 ' SYNOPSIS
@@ -90,7 +89,7 @@ Namespace GCModellerApps
 
 
 ''' <summary>
-''' metaProfiler.CLI
+'''
 ''' </summary>
 '''
 Public Class metaProfiler : Inherits InteropService

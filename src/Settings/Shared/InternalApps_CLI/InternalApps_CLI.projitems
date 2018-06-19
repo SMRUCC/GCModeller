@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MEME.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\metaProfiler.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\NCBI_tools.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\Profiler.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Reflector.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\RegPrecise.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\seqtools.vb" />

@@ -28,6 +28,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '  /COG.profiling.plot:                   Plots the COGs category statics profiling of the target genome
 '                                         from the COG annotation file.
+'  /Converts:                             
 '  /DEPs.takes.values:                    
 '  /DEPs.union:                           
 '  /Exocarta.Hits:                        
@@ -249,6 +250,25 @@ Public Function COGCatalogProfilingPlot([in] As String, Optional size As String 
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Converts /in &lt;GSEA.terms.csv> [/out &lt;result.terms.csv>]
+''' ```
+''' </summary>
+'''
+Public Function Converts([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Converts")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
