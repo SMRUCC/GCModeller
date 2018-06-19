@@ -366,6 +366,10 @@
       <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
       <Name>GO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\annotations\GSEA\GSEA\GSEA.vbproj">
+      <Project>{DB374D72-08F4-4B27-8168-B90785F71BDC}</Project>
+      <Name>GSEA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\annotations\KEGG\KEGG.vbproj">
       <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
       <Name>KEGG</Name>

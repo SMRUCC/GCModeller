@@ -1,52 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::d0f27cbaf204546cbc919c6c49eadb6a, RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module base
-    ' 
-    '         Properties: colnames, length, names, rownames
-    ' 
-    '         Function: (+4 Overloads) c, cbind, dataframe, library, list
-    '                   load, ls, (+2 Overloads) matrix, rbind, rep
-    '                   require, summary, vector, warning
-    ' 
-    '         Sub: __setNames, rm, save, suppressWarnings
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module base
+' 
+'         Properties: colnames, length, names, rownames
+' 
+'         Function: (+4 Overloads) c, cbind, dataframe, library, list
+'                   load, ls, (+2 Overloads) matrix, rbind, rep
+'                   require, summary, vector, warning
+' 
+'         Sub: __setNames, rm, save, suppressWarnings
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -224,6 +226,18 @@ Namespace API
                 End With
             End SyncLock
         End Sub
+
+        Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String)) As String
+            Dim list$ = base.list
+
+            SyncLock R
+                With R
+                    Call x.DoEach(Sub(obj) .call = $"{list}[[""{obj.Key}""]] = {FUN(obj)}")
+                End With
+            End SyncLock
+
+            Return list
+        End Function
 
         ''' <summary>
         ''' ###### load {base}
@@ -457,12 +471,13 @@ Namespace API
         ''' </summary>
         ''' <param name="objects$">objects, possibly named.(对象的名称列表)</param>
         ''' <returns></returns>
-        Public Function list(ParamArray objects$()) As String
+        Public Function list(ParamArray objects As ArgumentReference()) As String
             Dim var$ = App.NextTempName
+            Dim assigns = objects.Select(Function(f) f.Expression).ToArray
 
             SyncLock R
                 With R
-                    .call = $"{var} <- list({objects.JoinBy(", ")})"
+                    .call = $"{var} <- list({assigns.JoinBy(", ")});"
                 End With
             End SyncLock
 

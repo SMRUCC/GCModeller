@@ -11,7 +11,7 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
 Public Module Enrichment
 
     <Extension>
-    Public Iterator Function Enrichment(genome As Genome,
+    Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
                                         Optional outputAll As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)

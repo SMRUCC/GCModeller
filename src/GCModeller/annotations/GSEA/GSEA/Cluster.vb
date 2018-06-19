@@ -48,13 +48,14 @@ End Class
 ''' <summary>
 ''' 假设基因组是有许多个功能聚类的集合构成的
 ''' </summary>
-Public Class Genome : Inherits XmlDataModel
+<XmlRoot("background", [Namespace]:="http://gcmodeller.org/GSEA/background.xml")>
+Public Class Background : Inherits XmlDataModel
     Implements INamedValue
 
     Public Property name As String Implements IKeyedEntity(Of String).Key
     Public Property clusters As Cluster()
 
     Public Overrides Function ToString() As String
-        Return Name
+        Return name
     End Function
 End Class

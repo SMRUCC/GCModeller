@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::d5fa1892862170d71fa9838fd1eeed96, CLI_tools\eggHTS\CLI\Enrichment\3. EnrichmentAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Backgrounds, EnrichmentTermFilter, GoEnrichment, Term2Genes
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Backgrounds, EnrichmentTermFilter, GoEnrichment, Term2Genes
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -169,6 +171,19 @@ Partial Module CLI
         Dim terms = [in].LoadCsv(Of EnrichmentTerm)
         Dim r As New Regex(filter, RegexICSng)
         Dim result = terms.Where(Function(t) r.Match(t.Term).Success).ToArray
+        Return result.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Converts")>
+    <Usage("/Converts /in <GSEA.terms.csv> [/out <result.terms.csv>]")>
+    Public Function Converts(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}_converts.csv"
+        Dim result As EnrichmentTerm() = [in] _
+            .LoadCsv(Of EnrichmentResult) _
+            .Converts() _
+            .ToArray
+
         Return result.SaveTo(out).CLICode
     End Function
 End Module

@@ -1431,16 +1431,22 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /sbh2bbh /qvs &lt;qvs.sbh.csv> /svq &lt;svq.sbh.csv> [/trim /identities &lt;-1> /coverage &lt;-1> /all /out &lt;bbh.csv>]
+''' /sbh2bbh /qvs &lt;qvs.sbh.csv> /svq &lt;svq.sbh.csv> [/trim /query.pattern &lt;default="-"> /hit.pattern &lt;default="-"> /identities &lt;-1> /coverage &lt;-1> /all /out &lt;bbh.csv>]
 ''' ```
 ''' Export bbh result from the sbh pairs.
 ''' </summary>
 '''
-Public Function BBHExport2(qvs As String, svq As String, Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional trim As Boolean = False, Optional all As Boolean = False) As Integer
+Public Function BBHExport2(qvs As String, svq As String, Optional query_pattern As String = "-", Optional hit_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional trim As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/sbh2bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/qvs " & """" & qvs & """ ")
     Call CLI.Append("/svq " & """" & svq & """ ")
+    If Not query_pattern.StringEmpty Then
+            Call CLI.Append("/query.pattern " & """" & query_pattern & """ ")
+    End If
+    If Not hit_pattern.StringEmpty Then
+            Call CLI.Append("/hit.pattern " & """" & hit_pattern & """ ")
+    End If
     If Not identities.StringEmpty Then
             Call CLI.Append("/identities " & """" & identities & """ ")
     End If
