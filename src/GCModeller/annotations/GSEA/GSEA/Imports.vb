@@ -71,7 +71,7 @@ Public Module [Imports]
                                    getTerm As Func(Of entry, String()),
                                    define As GetClusterTerms,
                                    Optional genomeName$ = Nothing,
-                                   Optional outputAll As Boolean = False) As Genome
+                                   Optional outputAll As Boolean = False) As Background
 
         Dim clusters As New Dictionary(Of String, List(Of String))
 
@@ -96,7 +96,7 @@ Public Module [Imports]
             Next
         Next
 
-        Return New Genome With {
+        Return New Background With {
             .name = genomeName,
             .clusters = clusters _
                 .Where(Function(c)

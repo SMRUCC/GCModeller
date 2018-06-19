@@ -104,6 +104,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDConvertor.vb" />
     <Compile Include="Imports.vb" />
     <Compile Include="EnrichmentResult.vb" />
     <Compile Include="Cluster.vb" />

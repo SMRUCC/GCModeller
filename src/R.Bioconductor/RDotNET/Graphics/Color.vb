@@ -6,31 +6,19 @@ Namespace Graphics
     ''' 32-bit color of ABGR model.
     ''' </summary>
     <StructLayout(LayoutKind.Sequential)>
-    Public Structure Color
-        Implements IEquatable(Of Color)
-        Private m_red As Byte
-        Private m_green As Byte
-        Private m_blue As Byte
-        Private m_alpha As Byte
+    Public Structure Color : Implements IEquatable(Of Color)
 
         ''' <summary>
         ''' Gets and sets the alpha value.
         ''' </summary>
         Public Property Alpha() As Byte
-            Get
-                Return Me.m_alpha
-            End Get
-            Set
-                Me.m_alpha = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' Gets the opaque value.
         ''' </summary>
         Public ReadOnly Property Opaque() As Byte
             Get
-                Return CByte(Byte.MaxValue - Me.m_alpha)
+                Return CByte(Byte.MaxValue - _Alpha)
             End Get
         End Property
 
@@ -38,44 +26,23 @@ Namespace Graphics
         ''' Gets and sets the red value.
         ''' </summary>
         Public Property Red() As Byte
-            Get
-                Return Me.m_red
-            End Get
-            Set
-                Me.m_red = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' Gets and sets the green value.
         ''' </summary>
         Public Property Green() As Byte
-            Get
-                Return Me.m_green
-            End Get
-            Set
-                Me.m_green = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' Gets and sets the blue value.
         ''' </summary>
         Public Property Blue() As Byte
-            Get
-                Return Me.m_blue
-            End Get
-            Set
-                Me.m_blue = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' Gets whether the point is transparent.
         ''' </summary>
         Public ReadOnly Property IsTransparent() As Boolean
             Get
-                Return Me.m_alpha = 0
+                Return _Alpha = 0
             End Get
         End Property
 

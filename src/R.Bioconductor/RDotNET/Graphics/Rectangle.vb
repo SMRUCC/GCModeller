@@ -1,60 +1,25 @@
 Namespace Graphics
-    Public Structure Rectangle
-        Implements IEquatable(Of Rectangle)
-        Private m_height As Double
-        Private m_width As Double
-        Private m_x As Double
-        Private m_y As Double
+
+    Public Structure Rectangle : Implements IEquatable(Of Rectangle)
 
         Public Sub New(x As Double, y As Double, width As Double, height As Double)
-            Me.m_x = x
-            Me.m_y = y
-            Me.m_width = width
-            Me.m_height = height
+            _X = x
+            _Y = y
+            _Width = width
+            _Height = height
         End Sub
 
         Public Sub New(location As Point, size As Size)
-            Me.m_x = location.X
-            Me.m_y = location.Y
-            Me.m_width = size.Width
-            Me.m_height = size.Height
+            _X = location.X
+            _Y = location.Y
+            _Width = size.Width
+            _Height = size.Height
         End Sub
 
         Public Property X() As Double
-            Get
-                Return Me.m_x
-            End Get
-            Set
-                Me.m_x = value
-            End Set
-        End Property
-
         Public Property Y() As Double
-            Get
-                Return Me.m_y
-            End Get
-            Set
-                Me.m_y = value
-            End Set
-        End Property
-
         Public Property Width() As Double
-            Get
-                Return Me.m_width
-            End Get
-            Set
-                Me.m_width = value
-            End Set
-        End Property
-
         Public Property Height() As Double
-            Get
-                Return Me.m_height
-            End Get
-            Set
-                Me.m_height = value
-            End Set
-        End Property
 
         Public ReadOnly Property Left() As Double
             Get
@@ -85,8 +50,8 @@ Namespace Graphics
                 Return New Point(X, Y)
             End Get
             Set
-                X = value.X
-                Y = value.Y
+                X = Value.X
+                Y = Value.Y
             End Set
         End Property
 
@@ -95,8 +60,8 @@ Namespace Graphics
                 Return New Size(Width, Height)
             End Get
             Set
-                Width = value.Width
-                Height = value.Height
+                Width = Value.Width
+                Height = Value.Height
             End Set
         End Property
 
