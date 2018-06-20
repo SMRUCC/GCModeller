@@ -115,7 +115,6 @@ Public Class Axis
     Public Property categories As String()
     Public Property startOnTick As Boolean?
     Public Property endOnTick As Boolean?
-    Public Property enabled As Boolean?
     Public Property showLastLabel As Boolean?
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?

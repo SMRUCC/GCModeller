@@ -63,6 +63,16 @@ Public Class ExtendedEngine : Inherits REngine
     End Property
 
     ''' <summary>
+    ''' 将一个变量的结果值赋值给另外一个变量
+    ''' </summary>
+    ''' <param name="name"></param>
+    Default Public WriteOnly Property Assign(name As String) As String
+        Set(value As String)
+            [call] = $"{name} <- {value}"
+        End Set
+    End Property
+
+    ''' <summary>
     ''' 返回一个逻辑值类型的变量指针
     ''' </summary>
     ''' <param name="object$">An object from a formally defined class.</param>
