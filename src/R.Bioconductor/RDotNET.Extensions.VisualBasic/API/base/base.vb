@@ -227,6 +227,20 @@ Namespace API
             End SyncLock
         End Sub
 
+        ''' <summary>
+        ''' lapply returns a list of the same length as X, each element of which is the result of applying 
+        ''' <paramref name="FUN"/> to the corresponding element of X.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x">
+        ''' a vector (atomic or list) or an expression object. Other objects (including classed objects) will 
+        ''' be coerced by ``base::as.list``.
+        ''' </param>
+        ''' <param name="FUN">
+        ''' the function to be applied to each element of X: see ‘Details’. In the case of functions like +, 
+        ''' %*%, the function name must be backquoted or quoted.
+        ''' </param>
+        ''' <returns></returns>
         Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String)) As String
             Dim list$ = base.list
 
@@ -302,11 +316,24 @@ Namespace API
         ''' When invoked with no argument inside a function, ls returns the names of 
         ''' the function's local variables: this is useful in conjunction with browser.
         ''' </summary>
-        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. Although called name for back compatibility, in fact this argument can specify the environment in any form; see the ‘Details’ section.</param>
-        ''' <param name="pos$">an alternative argument to name for specifying the environment as a position in the search list. Mostly there for back compatibility.</param>
-        ''' <param name="allnames">a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.</param>
-        ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
-        ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
+        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. 
+        ''' Although called name for back compatibility, in fact this argument can specify the environment in any form; see the 
+        ''' ``Details`` section.</param>
+        ''' <param name="pos$">
+        ''' an alternative argument to name for specifying the environment as a position in the search list. Mostly there for 
+        ''' back compatibility.
+        ''' </param>
+        ''' <param name="allnames">
+        ''' a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.
+        ''' </param>
+        ''' <param name="pattern$">
+        ''' an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard 
+        ''' patterns to regular expressions.
+        ''' </param>
+        ''' <param name="sorted">
+        ''' logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ``ls()``
+        ''' may take most of the time.
+        ''' </param>
         ''' <returns></returns>
         Public Function ls(Optional name$ = Nothing,
                            Optional pos$ = "-1L",
