@@ -126,6 +126,8 @@ Namespace AppEngine.APIMethods.Arguments
 
         End Sub
 
+        Public Property AccessControlAllowOrigin As String
+
         Public Sub WriteHeader(content_type$, Length&)
             ' this is the successful HTTP response line
             response.WriteLine("HTTP/1.0 200 OK")
@@ -133,8 +135,14 @@ Namespace AppEngine.APIMethods.Arguments
             response.WriteLine("Accept-Ranges: bytes")
             response.WriteLine("Content-Length: " & Length)
             response.WriteLine("Content-Type: " & content_type)
+            response.WriteLine("X-Powered-By: Microsoft VisualBasic")
 
-            response.WriteLine("") ' this terminates the HTTP headers.. everything after this is HTTP body..
+            If Not AccessControlAllowOrigin.StringEmpty Then
+                response.WriteLine("Access-Control-Allow-Origin: " & AccessControlAllowOrigin)
+            End If
+
+            ' this terminates the HTTP headers.. everything after this is HTTP body..
+            response.WriteLine("")
             response.Flush()
         End Sub
 
@@ -144,13 +152,18 @@ Namespace AppEngine.APIMethods.Arguments
             ' these are the HTTP headers...          
             response.WriteLine("Content-Type: " & content_type)
             response.WriteLine("Connection: close")
+
+            If Not AccessControlAllowOrigin.StringEmpty Then
+                response.WriteLine("Access-Control-Allow-Origin: " & AccessControlAllowOrigin)
+            End If
+
             ' ..add your own headers here if you like
 
             Call content.WriteHeader(response)
 
             response.WriteLine("X-Powered-By: Microsoft VisualBasic")
-            response.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
+            response.WriteLine("")
 
             response.Flush()
         End Sub
