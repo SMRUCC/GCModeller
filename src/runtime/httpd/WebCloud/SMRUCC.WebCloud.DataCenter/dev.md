@@ -11,7 +11,7 @@ MySql database field attributes notes in this development document:
 > + **UN**: Unsigned;
 > + **ZF**: Zero Fill
 
-Generate time: 2018/5/23 13:16:18<br />
+Generate time: 3/16/2018 10:32:32 PM<br />
 By: ``mysqli.vb`` reflector tool ([https://github.com/xieguigang/mysqli.vb](https://github.com/xieguigang/mysqli.vb))
 
 <div style="page-break-after: always;"></div>
@@ -29,9 +29,6 @@ The analysis application that running the task
 |description|Text ()||功能的详细描述|
 |catagory|VarChar (45)||功能分类|
 
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `app` (
   `uid` int(11) NOT NULL,
@@ -40,7 +37,7 @@ CREATE TABLE `app` (
   `catagory` varchar(45) DEFAULT NULL COMMENT '功能分类',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The analysis application that running the task';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The analysis application that running the task';
 ```
 
 
@@ -61,9 +58,6 @@ CREATE TABLE `app` (
 |active|Int64 (11)|``NN``|1(active) OR 0(inactive)|
 |add_time|DateTime ()|``NN``||
 
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `subscription` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -76,7 +70,7 @@ CREATE TABLE `subscription` (
   UNIQUE KEY `uid_UNIQUE` (`uid`),
   KEY `fk_subscription_app1_idx` (`app`),
   CONSTRAINT `fk_subscription_app1` FOREIGN KEY (`app`) REFERENCES `app` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='向订阅了网站更新的用户发送产品的更新信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='向订阅了网站更新的用户发送产品的更新信息';
 ```
 
 
@@ -95,9 +89,6 @@ CREATE TABLE `subscription` (
 |set_time|DateTime ()|``NN``||
 |set_by|VarChar (128)|||
 
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `sys_config` (
   `variable` varchar(128) NOT NULL,
@@ -105,7 +96,7 @@ CREATE TABLE `sys_config` (
   `set_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `set_by` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`variable`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统设置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统设置';
 ```
 
 
@@ -125,9 +116,6 @@ CREATE TABLE `sys_config` (
 |details|Text ()|``NN``||
 |app|Int64 (11)|``NN``|如果这个字段不为-1，则表示更新的内容为某一个app的内容更新|
 
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `sys_updates` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -137,7 +125,7 @@ CREATE TABLE `sys_updates` (
   `app` int(11) NOT NULL DEFAULT '-1' COMMENT '如果这个字段不为-1，则表示更新的内容为某一个app的内容更新',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站更新记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站更新记录';
 ```
 
 
@@ -159,9 +147,6 @@ Task executing errors log
 |stack-trace|VarChar (45)|``NN``||
 |solved|Int64 (11)|``NN``|这个bug是否已经解决了？ 默认是0未解决，1为已经解决了|
 
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `task_errors` (
   `uid` int(11) NOT NULL,
@@ -175,7 +160,7 @@ CREATE TABLE `task_errors` (
   KEY `fk_task_errors_app1_idx` (`app`),
   CONSTRAINT `error_task` FOREIGN KEY (`app`) REFERENCES `task_pool` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_task_errors_app1` FOREIGN KEY (`app`) REFERENCES `app` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Task executing errors log';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Task executing errors log';
 ```
 
 
@@ -202,11 +187,6 @@ CREATE TABLE `task_errors` (
 |app|Int64 (11)|``NN``|The task app id|
 |parameters|Text ()|``NN``|使用json保存着当前的这个任务对象的所有的构造函数所需要的参数信息|
 
-<div style="page-break-after: always;"></div>
-
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `task_pool` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -226,7 +206,7 @@ CREATE TABLE `task_pool` (
   UNIQUE KEY `uid_UNIQUE` (`uid`),
   KEY `fk_task_pool_app1_idx` (`app`),
   CONSTRAINT `fk_task_pool_app1` FOREIGN KEY (`app`) REFERENCES `app` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个数据表之中只存放已经完成的用户任务信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个数据表之中只存放已经完成的用户任务信息';
 ```
 
 
@@ -251,11 +231,6 @@ CREATE TABLE `task_pool` (
 |data|Text ()||additional data notes|
 |app|Int64 (11)|``NN``, ``PK``|用户所访问的url所属的app的编号|
 
-<div style="page-break-after: always;"></div>
-
-
-#### SQL Declare
-
 ```SQL
 CREATE TABLE `visitor_stat` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -272,7 +247,7 @@ CREATE TABLE `visitor_stat` (
   UNIQUE KEY `uid_UNIQUE` (`uid`),
   KEY `fk_visitor_stat_app1_idx` (`app`),
   CONSTRAINT `fk_visitor_stat_app1` FOREIGN KEY (`app`) REFERENCES `app` (`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
 

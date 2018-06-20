@@ -174,9 +174,7 @@ Namespace Core
 
             ' we probably shouldn't be using a streamwriter for all output from handlers either
             ' 2017-3-25 使用utf8来尝试解决中文乱码问题
-            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()), TextEncodings.UTF8WithoutBOM) With {
-                .NewLine = vbCrLf
-            }
+            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()), Encoding.UTF8)
 
             Try
                 Call __processInvoker()
@@ -228,9 +226,6 @@ Namespace Core
                 handleGETRequest()
 
             ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
-                HandlePOSTRequest()
-
-            ElseIf http_method.Equals("PUT", StringComparison.OrdinalIgnoreCase) Then
                 HandlePOSTRequest()
 
             Else
@@ -390,8 +385,8 @@ Namespace Core
             End Try
         End Sub
 
-        Public Const VBS$ = "microsoft-visualbasic-servlet(*.vbs)"
-        Public Const XPoweredBy$ = "X-Powered-By: " & VBS
+        Const PoweredBy$ = "microsoft-visualbasic-servlet(*.vbs)"
+        Const XPoweredBy$ = "X-Powered-By: " & PoweredBy
 
         Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
@@ -422,7 +417,7 @@ Namespace Core
             '        </settings>
             ' </system.net>
             ' </configuration>
-            Call outputStream.WriteLine()
+            Call outputStream.Write(vbCrLf)
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             Call outputStream.Flush()
         End Sub

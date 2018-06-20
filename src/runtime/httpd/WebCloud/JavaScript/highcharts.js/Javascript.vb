@@ -110,8 +110,7 @@ Public Module Javascript
         Return trim.ToString
     End Function
 
-    ' "\Date(1527142912686-0700)\"
-    Const JSONDateTime$ = "[""]\\/Date\(\d+([+-]\d+)*\)\\/[""]"
+    Const JSONDateTime$ = "[""]\\/Date\(\d+[+]\d+\)\\/[""]"
 
     <Extension>
     Public Function FixDate(json As String) As String

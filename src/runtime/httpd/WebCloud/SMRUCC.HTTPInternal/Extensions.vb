@@ -1,56 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::f3cecb224ef6e7d67cf777922d01e022, WebCloud\SMRUCC.HTTPInternal\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Extensions
-' 
-'     Function: FaviconZip
-' 
-'     Sub: FailureMsg, SuccessMsg, TransferBinary
-' 
-' Structure JsonResponse
-' 
-'     Properties: code, message
-' 
-'     Function: ToString
-' 
-' /********************************************************************************/
+    ' Module Extensions
+    ' 
+    '     Function: FaviconZip
+    ' 
+    '     Sub: FailureMsg, SuccessMsg, TransferBinary
+    ' 
+    ' Structure JsonResponse
+    ' 
+    '     Properties: code, message
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -76,15 +75,11 @@ Public Module Extensions
 
         Using reader As New FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)
             Call out.WriteHeader(MIMEtype, reader.Length)
-            Call reader.CopyTo(destination:=out.response.BaseStream)
 
-            ' .NET <= v3.5
-
-            'Dim read As Value(Of Integer) = 0
-
-            'Do While (read = reader.Read(buffer, Scan0, buffer.Length)) > 0
-            '    Call out.Write(buffer, 0, read)
-            'Loop
+            Do While reader.Position <= reader.Length
+                Call reader.Read(buffer, Scan0, buffer.Length)
+                Call out.Write(buffer)
+            Loop
         End Using
     End Sub
 

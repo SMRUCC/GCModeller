@@ -62,10 +62,11 @@ Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace AppEngine.APIMethods.Arguments
 
-    Public Class HttpResponse : Implements IDisposable
+    Public Class HttpResponse
+        Implements IDisposable
 
-        Friend ReadOnly response As StreamWriter
-        Friend ReadOnly writeFailed As Action(Of String)
+        ReadOnly response As StreamWriter
+        ReadOnly writeFailed As Action(Of String)
 
         Sub New(rep As StreamWriter, write404 As Action(Of String))
             response = rep
@@ -96,8 +97,7 @@ Namespace AppEngine.APIMethods.Arguments
         End Sub
 
         Public Sub WriteHTML(html As String)
-            ' 如果writeData是True，则说明在这之前已经写了其他数据，就不写http头部了
-            If Not __writeHTML AndAlso Not __writeData Then
+            If Not __writeHTML AndAlso Not __writeData Then  ' 如果writeData是True，则说明在这之前已经写了其他数据，就不写http头部了
                 __writeHTML = writeSuccess()
             End If
             Call response.WriteLine(html)
@@ -133,10 +133,8 @@ Namespace AppEngine.APIMethods.Arguments
             response.WriteLine("Accept-Ranges: bytes")
             response.WriteLine("Content-Length: " & Length)
             response.WriteLine("Content-Type: " & content_type)
-            response.WriteLine(HttpProcessor.XPoweredBy)
 
-            ' this terminates the HTTP headers.. everything after this is HTTP body..
-            response.WriteLine()
+            response.WriteLine("") ' this terminates the HTTP headers.. everything after this is HTTP body..
             response.Flush()
         End Sub
 
@@ -150,10 +148,10 @@ Namespace AppEngine.APIMethods.Arguments
 
             Call content.WriteHeader(response)
 
-            response.WriteLine(HttpProcessor.XPoweredBy)
-
+            response.WriteLine("X-Powered-By: Microsoft VisualBasic")
+            response.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
-            response.WriteLine()
+
             response.Flush()
         End Sub
 
@@ -173,8 +171,8 @@ Namespace AppEngine.APIMethods.Arguments
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="obj"></param>
-        Public Sub WriteJSON(Of T)(obj As T, Optional indent As Boolean = False)
-            Dim json As String = obj.GetJson(indent:=indent)
+        Public Sub WriteJSON(Of T)(obj As T)
+            Dim json As String = obj.GetJson
             Dim bytes As Byte() = TextEncodings.UTF8WithoutBOM.GetBytes(json)
 
             If Not __writeData Then

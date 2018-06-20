@@ -102,19 +102,15 @@ Namespace AppEngine.POSTParser
         Public ReadOnly Property Form As New NameValueCollection
         Public ReadOnly Property Files As New Dictionary(Of String, List(Of HttpPostedFile))
 
-        Sub New(input As MemoryStream, contentType As String, encoding As Encoding, Optional fileName$ = Nothing)
+        Sub New(input As MemoryStream, contentType As String, encoding As Encoding)
             Me.InputStream = input
             Me.ContentType = contentType
             Me.ContentEncoding = encoding
 
-            Call LoadMultiPart(fileName)
+            Call LoadMultiPart()
         End Sub
 
-        ''' <summary>
-        ''' GetSubStream returns a 'copy' of the InputStream with Position set to 0.
-        ''' </summary>
-        ''' <param name="stream"></param>
-        ''' <returns></returns>
+        ' GetSubStream returns a 'copy' of the InputStream with Position set to 0.
         Private Shared Function GetSubStream(stream As Stream) As Stream
             Dim other As MemoryStream = DirectCast(stream, MemoryStream)
             Return New MemoryStream(other.GetBuffer(), 0, CInt(other.Length), False, True)
@@ -123,34 +119,15 @@ Namespace AppEngine.POSTParser
         ''' <summary>
         ''' Loads the data on the form for multipart/form-data
         ''' </summary>
-        Private Sub LoadMultiPart(fileName As String)
+        Private Sub LoadMultiPart()
             Dim boundary As String = GetParameter(ContentType, "; boundary=")
 
             If boundary Is Nothing Then
+                ' probably is a jquery post
+                Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
+                Dim s As String = ContentEncoding.GetString(byts)
 
-                ' 在这里可能存在两种情况：
-                ' 一种是jquery POST
-                ' 另外的一种就是只有单独的一个文件的POST上传，
-                ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
-
-                If DirectCast(InputStream, MemoryStream).Length >= 2048 Then
-                    ' 是一个单独的文件
-                    Dim [sub] As New HttpPostedFile(
-                       fileName,
-                       ContentType,
-                       InputStream,
-                       Scan0,
-                       InputStream.Length
-                    )
-
-                    Files("file") = New List(Of HttpPostedFile) From {[sub]}
-                Else
-                    ' probably is a jquery post
-                    Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
-                    Dim s As String = ContentEncoding.GetString(byts)
-
-                    _Form = s.PostUrlDataParser
-                End If
+                _Form = s.PostUrlDataParser
             Else
                 Call __loadMultiPart(boundary)
             End If
