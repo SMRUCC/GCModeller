@@ -414,7 +414,18 @@ Namespace API
                         Optional eval_promises As Boolean = True,
                         Optional precheck As Boolean = True)
 
-            Call file.ParentPath.MkDIR
+            If file.DirectoryExists Then
+
+                ' 2018-6-21
+                ' 如果在指定的位置存在一个同名的文件夹，将会产生
+                ' can not open the connection的错误
+                '
+                ' 在这里给出错误信息
+                Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
+
+            Else
+                Call file.ParentPath.MkDIR
+            End If
 
             SyncLock R
                 With R
