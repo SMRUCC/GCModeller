@@ -163,14 +163,6 @@ Namespace Platform
             Call __finally(request, success)
         End Sub
 
-        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData As MemoryStream)
-            Dim request As New HttpPOSTRequest(p, inputData)
-            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
-            Dim success As Boolean = AppManager.InvokePOST(request, response)
-
-            Call __finally(request, success)
-        End Sub
-
         ''' <summary>
         ''' GET
         ''' </summary>

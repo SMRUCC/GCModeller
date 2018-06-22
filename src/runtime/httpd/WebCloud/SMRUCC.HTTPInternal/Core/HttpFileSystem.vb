@@ -482,9 +482,5 @@ Namespace Core
             Call msg.__DEBUG_ECHO
             Call p.writeFailure(msg)
         End Sub
-
-        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData As MemoryStream)
-            Throw New NotImplementedException()
-        End Sub
     End Class
 End Namespace
