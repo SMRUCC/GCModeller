@@ -319,7 +319,7 @@ l;
     ''' <param name="df"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8) As String
+    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8WithoutBOM) As String
         Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
         Dim var$ = App.NextTempName
 
