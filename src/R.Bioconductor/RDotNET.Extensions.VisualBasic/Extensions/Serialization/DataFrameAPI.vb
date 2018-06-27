@@ -69,7 +69,8 @@ Public Module DataFrameAPI
     ''' <param name="table"></param>
     ''' <param name="tableName"></param>
     ''' <param name="skipFirst">
-    ''' If the first column is the rows name, and you don't want these names, then you should set this as TRUE to skips this data.
+    ''' If the first column is the rows name, and you don't want these names, then you should set this as 
+    ''' ``TRUE`` to skips this data.
     ''' </param>
     <Extension>
     Public Sub PushAsTable(table As IO.File, tableName As String, Optional skipFirst As Boolean = True)
@@ -88,11 +89,18 @@ Public Module DataFrameAPI
             End If
         Next
 
-        Dim sb As New StringBuilder()
-        Dim colNames As String = RScripts.c(table.First.Skip(If(skipFirst, 1, 0)).ToArray)
+        Dim sb As ScriptBuilder = "
+            {$tableName} <- matrix(c({$matrix}),ncol={$ncol},byrow=TRUE);
+            colnames({$tableName}) <- {$colNames}
+        "
+        Dim colNames$ = RScripts.c(table.First.Skip(If(skipFirst, 1, 0)).ToArray)
 
-        sb.AppendLine($"{tableName} <- matrix(c({matrix.JoinBy(",")}),ncol={ncol},byrow=TRUE);")
-        sb.AppendLine($"colnames({tableName}) <- {colNames}")
+        With sb
+            !tableName = tableName
+            !matrix = matrix.JoinBy(",")
+            !ncol = ncol
+            !colNames = colNames
+        End With
 
         SyncLock R
             With R
@@ -109,6 +117,7 @@ Public Module DataFrameAPI
     ''' n = c(2, 3, 5) 
     ''' s = c("aa", "bb", "cc") 
     ''' b = c(TRUE, FALSE, TRUE) 
+    ''' 
     ''' df = data.frame(n, s, b)       # df Is a data frame
     ''' 
     ''' # df
@@ -132,6 +141,10 @@ Public Module DataFrameAPI
 
         df = New IO.File(df.Skip(1))
         types = types Or New Dictionary(Of String, Type)().AsDefault
+
+        ' 转换为data.frame的原理：
+        ' 将csv对象之中的每一列都转换为相应的向量列
+        ' 然后再使用data.frame(n, s, b)即可转换为data.frame对象
 
         SyncLock R
             With R
@@ -300,7 +313,7 @@ l;
 
     ''' <summary>
     ''' Write the ``vb.net`` csv dataframe into the R server memory through file IO.
-    ''' (函数所返回来的字符串值为临时变量的名称)
+    ''' (函数所返回来的字符串值为临时变量的名称，这个函数适用于很大的csv文件)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="df"></param>
