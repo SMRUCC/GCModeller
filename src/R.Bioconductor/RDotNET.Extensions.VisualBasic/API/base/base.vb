@@ -614,7 +614,15 @@ Namespace API
         ''' <returns></returns>
         Public Function list(ParamArray objects As ArgumentReference()) As String
             Dim var$ = App.NextTempName
-            Dim assigns = objects.Select(Function(f) f.Expression).ToArray
+            Dim assigns$() = objects _
+                .Select(Function(f)
+                            Return f.Expression(
+                                null:=NULL,
+                                stringEscaping:=AddressOf EscapingHelper.R_Escaping,
+                                isVar:=AddressOf base.exists
+                            )
+                        End Function) _
+                .ToArray
 
             SyncLock R
                 With R
