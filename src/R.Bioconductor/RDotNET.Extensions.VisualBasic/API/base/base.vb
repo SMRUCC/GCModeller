@@ -598,7 +598,12 @@ Namespace API
         ''' 输入的<paramref name="list"/>将不会被转义，即输出由一系列变量所生成的一个集合
         ''' </param>
         ''' <returns></returns>
-        Public Function c(list As String(), Optional stringVector As Boolean = True) As String
+        Public Function c(list$(), Optional stringVector As Boolean = True) As String
+            ' c() == NULL in R
+            If list.IsNullOrEmpty Then
+                Return NULL
+            End If
+
             If stringVector Then
                 Return c(list.Select(AddressOf Rstring), recursive:=False)
             Else
