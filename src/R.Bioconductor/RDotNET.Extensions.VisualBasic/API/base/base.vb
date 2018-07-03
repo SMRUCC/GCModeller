@@ -49,6 +49,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -178,20 +179,89 @@ Namespace API
         ''' For a matrix or array this is either NULL or a character vector of non-zero length 
         ''' equal to the appropriate dimension.
         ''' </returns>
-        Public Property rownames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As String()
+        Public Property rownames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As StringVector
             Get
                 SyncLock R
                     With R
                         Dim s As SymbolicExpression = .Evaluate($"rownames({x}, do.NULL = {doNULL.λ}, prefix = {Rstring(prefix)})")
                         Dim namelist$() = s.ToStrings
+
                         Return namelist
                     End With
                 End SyncLock
             End Get
-            Set(value As String())
-                Call x.__setNames(value, "rownames")
+            Set(value As StringVector)
+                If value.IsSingle AndAlso base.exists(value.First) Then
+                    SyncLock R
+                        With R
+                            value = .Evaluate(value.First) _
+                                .AsCharacter _
+                                .ToArray
+                        End With
+                    End SyncLock
+                End If
+
+                Call x.__setNames(value.ToArray, "rownames")
             End Set
         End Property
+
+        ''' <summary>
+        ''' Look for an R object of the given name and possibly return it
+        ''' </summary>
+        ''' <param name="x$">a variable name (given as a character string).</param>
+        ''' <param name="where%">where to look for the object (see the details section); 
+        ''' if omitted, the function will search as if the name of the object appeared 
+        ''' unquoted in an expression.</param>
+        ''' <param name="envir$">an alternative way to specify an environment to look in, 
+        ''' but it is usually simpler to just use the where argument.</param>
+        ''' <param name="frame$">a frame in the calling list. Equivalent to giving where 
+        ''' as ``sys.frame(frame)``.</param>
+        ''' <param name="mode$">the mode or type of object sought: see the ‘Details’ section.
+        ''' </param>
+        ''' <param name="[inherits]">should the enclosing frames of the environment be searched?
+        ''' </param>
+        ''' <returns>
+        ''' Logical, true if and only if an object of the correct name and mode is found.
+        ''' </returns>
+        ''' <remarks>
+        ''' The where argument can specify the environment in which to look for the 
+        ''' object in any of several ways: as an integer (the position in the search 
+        ''' list); as the character string name of an element in the search list; 
+        ''' or as an environment (including using sys.frame to access the currently 
+        ''' active function calls). The envir argument is an alternative way to specify 
+        ''' an environment, but is primarily there for back compatibility.
+        ''' This Function looks To see If the name x has a value bound To it In the 
+        ''' specified environment. If Inherits Is True And a value Is Not found For 
+        ''' x In the specified environment, the enclosing frames Of the environment 
+        ''' are searched until the name x Is encountered. See environment And the 'R 
+        ''' Language Definition’ manual for details about the structure of environments 
+        ''' and their enclosures.
+        ''' Warning: Inherits = TRUE Is the default behaviour for R but Not for S.
+        ''' If mode Is specified Then only objects of that type are sought. The mode 
+        ''' may specify one of the collections "numeric" And "function" (see mode): 
+        ''' Any member Of the collection will suffice. (This Is True even If a member 
+        ''' Of a collection Is specified, so for example mode = "special" will seek 
+        ''' any type of function.)
+        ''' </remarks>
+        Public Function exists(x$,
+                               Optional where% = -1,
+                               Optional envir$ = "",
+                               Optional frame$ = NULL,
+                               Optional mode$ = "any",
+                               Optional [inherits] As Boolean = True) As Boolean
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)},
+       inherits = {[inherits].λ});"
+
+                    Return .Evaluate(var) _
+                           .AsLogical _
+                           .First
+                End With
+            End SyncLock
+        End Function
 
         ''' <summary>
         ''' Template for invoke set names function in R language
@@ -414,7 +484,18 @@ Namespace API
                         Optional eval_promises As Boolean = True,
                         Optional precheck As Boolean = True)
 
-            Call file.ParentPath.MkDIR
+            If file.DirectoryExists Then
+
+                ' 2018-6-21
+                ' 如果在指定的位置存在一个同名的文件夹，将会产生
+                ' can not open the connection的错误
+                '
+                ' 在这里给出错误信息
+                Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
+
+            Else
+                Call file.ParentPath.MkDIR
+            End If
 
             SyncLock R
                 With R
@@ -517,7 +598,12 @@ Namespace API
         ''' 输入的<paramref name="list"/>将不会被转义，即输出由一系列变量所生成的一个集合
         ''' </param>
         ''' <returns></returns>
-        Public Function c(list As String(), Optional stringVector As Boolean = True) As String
+        Public Function c(list$(), Optional stringVector As Boolean = True) As String
+            ' c() == NULL in R
+            If list.IsNullOrEmpty Then
+                Return NULL
+            End If
+
             If stringVector Then
                 Return c(list.Select(AddressOf Rstring), recursive:=False)
             Else
@@ -533,7 +619,15 @@ Namespace API
         ''' <returns></returns>
         Public Function list(ParamArray objects As ArgumentReference()) As String
             Dim var$ = App.NextTempName
-            Dim assigns = objects.Select(Function(f) f.Expression).ToArray
+            Dim assigns$() = objects _
+                .Select(Function(f)
+                            Return f.Expression(
+                                null:=NULL,
+                                stringEscaping:=AddressOf EscapingHelper.R_Escaping,
+                                isVar:=AddressOf base.exists
+                            )
+                        End Function) _
+                .ToArray
 
             SyncLock R
                 With R
