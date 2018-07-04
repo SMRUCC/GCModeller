@@ -118,6 +118,12 @@ Public Module RSystem
         End If
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Rvar(name As String) As var
+        Return New var(name)
+    End Function
+
     ''' <summary>
     ''' Parses and returns the ‘DESCRIPTION’ file of a package.
     ''' </summary>
