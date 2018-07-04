@@ -385,8 +385,8 @@ Namespace Core
             End Try
         End Sub
 
-        Const PoweredBy$ = "microsoft-visualbasic-servlet(*.vbs)"
-        Const XPoweredBy$ = "X-Powered-By: " & PoweredBy
+        Public Const PlatformName$ = "microsoft-visualbasic-servlet(*.vbs)"
+        Public Const XPoweredBy$ = "X-Powered-By: " & PlatformName
 
         Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
