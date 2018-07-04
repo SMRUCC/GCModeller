@@ -104,6 +104,7 @@
 Imports Newtonsoft.Json
 
 Public Class Axis
+
     Public Property type As String
     Public Property allowDecimals As Boolean?
     Public Property className As String
@@ -115,11 +116,12 @@ Public Class Axis
     Public Property categories As String()
     Public Property startOnTick As Boolean?
     Public Property endOnTick As Boolean?
-    Public Property enabled As Boolean?
     Public Property showLastLabel As Boolean?
     Public Property gridLineWidth As Boolean?
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
+    Public Property enabled As Boolean?
+
     ''' <summary>
     ''' 逻辑值或者一个实数
     ''' </summary>

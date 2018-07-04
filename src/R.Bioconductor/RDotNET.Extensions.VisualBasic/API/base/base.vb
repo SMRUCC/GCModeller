@@ -49,6 +49,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -178,20 +179,89 @@ Namespace API
         ''' For a matrix or array this is either NULL or a character vector of non-zero length 
         ''' equal to the appropriate dimension.
         ''' </returns>
-        Public Property rownames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As String()
+        Public Property rownames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As StringVector
             Get
                 SyncLock R
                     With R
                         Dim s As SymbolicExpression = .Evaluate($"rownames({x}, do.NULL = {doNULL.λ}, prefix = {Rstring(prefix)})")
                         Dim namelist$() = s.ToStrings
+
                         Return namelist
                     End With
                 End SyncLock
             End Get
-            Set(value As String())
-                Call x.__setNames(value, "rownames")
+            Set(value As StringVector)
+                If value.IsSingle AndAlso base.exists(value.First) Then
+                    SyncLock R
+                        With R
+                            value = .Evaluate(value.First) _
+                                .AsCharacter _
+                                .ToArray
+                        End With
+                    End SyncLock
+                End If
+
+                Call x.__setNames(value.ToArray, "rownames")
             End Set
         End Property
+
+        ''' <summary>
+        ''' Look for an R object of the given name and possibly return it
+        ''' </summary>
+        ''' <param name="x$">a variable name (given as a character string).</param>
+        ''' <param name="where%">where to look for the object (see the details section); 
+        ''' if omitted, the function will search as if the name of the object appeared 
+        ''' unquoted in an expression.</param>
+        ''' <param name="envir$">an alternative way to specify an environment to look in, 
+        ''' but it is usually simpler to just use the where argument.</param>
+        ''' <param name="frame$">a frame in the calling list. Equivalent to giving where 
+        ''' as ``sys.frame(frame)``.</param>
+        ''' <param name="mode$">the mode or type of object sought: see the ‘Details’ section.
+        ''' </param>
+        ''' <param name="[inherits]">should the enclosing frames of the environment be searched?
+        ''' </param>
+        ''' <returns>
+        ''' Logical, true if and only if an object of the correct name and mode is found.
+        ''' </returns>
+        ''' <remarks>
+        ''' The where argument can specify the environment in which to look for the 
+        ''' object in any of several ways: as an integer (the position in the search 
+        ''' list); as the character string name of an element in the search list; 
+        ''' or as an environment (including using sys.frame to access the currently 
+        ''' active function calls). The envir argument is an alternative way to specify 
+        ''' an environment, but is primarily there for back compatibility.
+        ''' This Function looks To see If the name x has a value bound To it In the 
+        ''' specified environment. If Inherits Is True And a value Is Not found For 
+        ''' x In the specified environment, the enclosing frames Of the environment 
+        ''' are searched until the name x Is encountered. See environment And the 'R 
+        ''' Language Definition’ manual for details about the structure of environments 
+        ''' and their enclosures.
+        ''' Warning: Inherits = TRUE Is the default behaviour for R but Not for S.
+        ''' If mode Is specified Then only objects of that type are sought. The mode 
+        ''' may specify one of the collections "numeric" And "function" (see mode): 
+        ''' Any member Of the collection will suffice. (This Is True even If a member 
+        ''' Of a collection Is specified, so for example mode = "special" will seek 
+        ''' any type of function.)
+        ''' </remarks>
+        Public Function exists(x$,
+                               Optional where% = -1,
+                               Optional envir$ = "",
+                               Optional frame$ = NULL,
+                               Optional mode$ = "any",
+                               Optional [inherits] As Boolean = True) As Boolean
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)},
+       inherits = {[inherits].λ});"
+
+                    Return .Evaluate(var) _
+                           .AsLogical _
+                           .First
+                End With
+            End SyncLock
+        End Function
 
         ''' <summary>
         ''' Template for invoke set names function in R language
@@ -227,6 +297,20 @@ Namespace API
             End SyncLock
         End Sub
 
+        ''' <summary>
+        ''' lapply returns a list of the same length as X, each element of which is the result of applying 
+        ''' <paramref name="FUN"/> to the corresponding element of X.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x">
+        ''' a vector (atomic or list) or an expression object. Other objects (including classed objects) will 
+        ''' be coerced by ``base::as.list``.
+        ''' </param>
+        ''' <param name="FUN">
+        ''' the function to be applied to each element of X: see ‘Details’. In the case of functions like +, 
+        ''' %*%, the function name must be backquoted or quoted.
+        ''' </param>
+        ''' <returns></returns>
         Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String)) As String
             Dim list$ = base.list
 
@@ -302,11 +386,24 @@ Namespace API
         ''' When invoked with no argument inside a function, ls returns the names of 
         ''' the function's local variables: this is useful in conjunction with browser.
         ''' </summary>
-        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. Although called name for back compatibility, in fact this argument can specify the environment in any form; see the ‘Details’ section.</param>
-        ''' <param name="pos$">an alternative argument to name for specifying the environment as a position in the search list. Mostly there for back compatibility.</param>
-        ''' <param name="allnames">a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.</param>
-        ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
-        ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
+        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. 
+        ''' Although called name for back compatibility, in fact this argument can specify the environment in any form; see the 
+        ''' ``Details`` section.</param>
+        ''' <param name="pos$">
+        ''' an alternative argument to name for specifying the environment as a position in the search list. Mostly there for 
+        ''' back compatibility.
+        ''' </param>
+        ''' <param name="allnames">
+        ''' a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.
+        ''' </param>
+        ''' <param name="pattern$">
+        ''' an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard 
+        ''' patterns to regular expressions.
+        ''' </param>
+        ''' <param name="sorted">
+        ''' logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ``ls()``
+        ''' may take most of the time.
+        ''' </param>
         ''' <returns></returns>
         Public Function ls(Optional name$ = Nothing,
                            Optional pos$ = "-1L",
@@ -325,27 +422,57 @@ Namespace API
         End Function
 
         ''' <summary>
-        ''' writes an external representation of R objects to the specified file. The objects can be read back from the file at a later date by using the function load or attach (or data in some cases).
+        ''' writes an external representation of R objects to the specified file. The objects can be read 
+        ''' back from the file at a later date by using the function load or attach (or data in some cases).
+        ''' (这个函数是安全的函数，假若文件夹不存在的话，这个函数会自动创建文件夹)
         ''' </summary>
         ''' <param name="objects">the names of the objects to be saved (as symbols or character strings).</param>
-        ''' <param name="file$">a (writable binary-mode) connection or the name of the file where the data will be saved (when tilde expansion is done). Must be a file name for save.image or version = 1.</param>
-        ''' <param name="ascii">if TRUE, an ASCII representation of the data is written. The default value of ascii is FALSE which leads to a binary file being written. If NA and version >= 2, a different ASCII representation is used which writes double/complex numbers as binary fractions.</param>
-        ''' <param name="version$">the workspace format version to use. NULL specifies the current default format. The version used from R 0.99.0 to R 1.3.1 was version 1. The default format as from R 1.4.0 is version 2.</param>
+        ''' <param name="file$">a (writable binary-mode) connection or the name of the file where the data 
+        ''' will be saved (when tilde expansion is done). Must be a file name for save.image or version = 1.</param>
+        ''' <param name="ascii">if TRUE, an ASCII representation of the data is written. The default 
+        ''' value of ascii is FALSE which leads to a binary file being written. If NA and version >= 2, a 
+        ''' different ASCII representation is used which writes double/complex numbers as binary fractions.</param>
+        ''' <param name="version$">the workspace format version to use. NULL specifies the current default format.
+        ''' The version used from R 0.99.0 to R 1.3.1 was version 1. The default format as from R 1.4.0 is version 2.</param>
         ''' <param name="envir$">environment to search for objects to be saved.</param>
-        ''' <param name="compress$">logical or character string specifying whether saving to a named file is to use compression. TRUE corresponds to gzip compression, and character strings "gzip", "bzip2" or "xz" specify the type of compression. Ignored when file is a connection and for workspace format version 1.</param>
-        ''' <param name="compression_level$">integer: the level of compression to be used. Defaults to 6 for gzip compression and to 9 for bzip2 or xz compression.</param>
+        ''' <param name="compress$">logical or character string specifying whether saving to a named file is 
+        ''' to use compression. TRUE corresponds to gzip compression, and character strings "gzip", "bzip2" 
+        ''' or "xz" specify the type of compression. Ignored when file is a connection and for workspace 
+        ''' format version 1.</param>
+        ''' <param name="compression_level$">integer: the level of compression to be used. Defaults to 6 
+        ''' for gzip compression and to 9 for bzip2 or xz compression.</param>
         ''' <param name="eval_promises">logical: should objects which are promises be forced before saving?</param>
-        ''' <param name="precheck">logical: should the existence of the objects be checked before starting to save (and in particular before opening the file/connection)? Does not apply to version 1 saves.</param>
+        ''' <param name="precheck">logical: should the existence of the objects be checked before starting 
+        ''' to save (and in particular before opening the file/connection)? Does not apply to version 1 saves.</param>
         ''' <remarks>
-        ''' The names of the objects specified either as symbols (or character strings) in ... or as a character vector in list are used to look up the objects from environment envir. By default promises are evaluated, but if eval.promises = FALSE promises are saved (together with their evaluation environments). (Promises embedded in objects are always saved unevaluated.)
-        ''' All R platforms use the XDR (bigendian) representation Of C ints And doubles In binary save-d files, And these are portable across all R platforms.
-        ''' ASCII saves used To be useful For moving data between platforms but are now mainly Of historical interest. They can be more compact than binary saves where compression Is Not used, but are almost always slower To both read And write: binary saves compress much better than ASCII ones. Further, Decimal ASCII saves may Not restore Double/complex values exactly, And what value Is restored may depend On the R platform.
-        ''' Default values For the ascii, compress, safe And version arguments can be modified With the "save.defaults" Option (used both by save And save.image), see also the 'Examples’ section. If a "save.image.defaults" option is set it is used in preference to "save.defaults" for function save.image (which allows this to have different defaults). In addition, compression_level can be part of the "save.defaults" option.
-        ''' A connection that Is Not already open will be opened In mode "wb". Supplying a connection which Is open And Not In binary mode gives an Error.
+        ''' The names of the objects specified either as symbols (or character strings) in ... or as a 
+        ''' character vector in list are used to look up the objects from environment envir. By default 
+        ''' promises are evaluated, but if eval.promises = FALSE promises are saved (together with their 
+        ''' evaluation environments). (Promises embedded in objects are always saved unevaluated.)
+        ''' All R platforms use the XDR (bigendian) representation Of C ints And doubles In binary saved 
+        ''' files, And these are portable across all R platforms.
+        ''' ASCII saves used To be useful For moving data between platforms but are now mainly Of historical 
+        ''' interest. They can be more compact than binary saves where compression Is Not used, but are 
+        ''' almost always slower To both read And write: binary saves compress much better than ASCII ones. 
+        ''' Further, Decimal ASCII saves may Not restore Double/complex values exactly, And what value Is 
+        ''' restored may depend On the R platform.
+        ''' Default values For the ascii, compress, safe And version arguments can be modified With the 
+        ''' "save.defaults" Option (used both by save And save.image), see also the 'Examples’ section. 
+        ''' If a "save.image.defaults" option is set it is used in preference to "save.defaults" for function 
+        ''' save.image (which allows this to have different defaults). In addition, compression_level can be 
+        ''' part of the "save.defaults" option.
+        ''' A connection that Is Not already open will be opened In mode "wb". Supplying a connection which 
+        ''' Is open And Not In binary mode gives an Error.
         ''' 
         ''' ###### Compression
-        ''' Large files can be reduced considerably In size by compression. A particular 46MB R Object was saved As 35MB without compression In 2 seconds, 22MB With gzip compression In 8 secs, 19MB With bzip2 compression In 13 secs And 9.4MB With xz compression In 40 secs. The load times were 1.3, 2.8, 5.5 And 5.7 seconds respectively. These results are indicative, but the relative performances Do depend On the actual file: xz compressed unusually well here.
-        ''' It Is possible to compress later (with gzip, bzip2 Or xz) a file saved with compress = FALSE: the effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
+        ''' Large files can be reduced considerably In size by compression. A particular 46MB R Object was 
+        ''' saved As 35MB without compression In 2 seconds, 22MB With gzip compression In 8 secs, 19MB With 
+        ''' bzip2 compression In 13 secs And 9.4MB With xz compression In 40 secs. The load times were 1.3, 
+        ''' 2.8, 5.5 And 5.7 seconds respectively. These results are indicative, but the relative performances 
+        ''' Do depend On the actual file: xz compressed unusually well here.
+        ''' It Is possible to compress later (with gzip, bzip2 Or xz) a file saved with compress = FALSE: the 
+        ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
+        ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
         Public Sub save(objects As IEnumerable(Of String),
                         file$,
@@ -356,6 +483,20 @@ Namespace API
                         Optional compression_level% = 6,
                         Optional eval_promises As Boolean = True,
                         Optional precheck As Boolean = True)
+
+            If file.DirectoryExists Then
+
+                ' 2018-6-21
+                ' 如果在指定的位置存在一个同名的文件夹，将会产生
+                ' can not open the connection的错误
+                '
+                ' 在这里给出错误信息
+                Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
+
+            Else
+                Call file.ParentPath.MkDIR
+            End If
+
             SyncLock R
                 With R
                     .call = $"save({objects.JoinBy(", ")}, 
@@ -457,7 +598,12 @@ Namespace API
         ''' 输入的<paramref name="list"/>将不会被转义，即输出由一系列变量所生成的一个集合
         ''' </param>
         ''' <returns></returns>
-        Public Function c(list As String(), Optional stringVector As Boolean = True) As String
+        Public Function c(list$(), Optional stringVector As Boolean = True) As String
+            ' c() == NULL in R
+            If list.IsNullOrEmpty Then
+                Return NULL
+            End If
+
             If stringVector Then
                 Return c(list.Select(AddressOf Rstring), recursive:=False)
             Else
@@ -473,7 +619,15 @@ Namespace API
         ''' <returns></returns>
         Public Function list(ParamArray objects As ArgumentReference()) As String
             Dim var$ = App.NextTempName
-            Dim assigns = objects.Select(Function(f) f.Expression).ToArray
+            Dim assigns$() = objects _
+                .Select(Function(f)
+                            Return f.Expression(
+                                null:=NULL,
+                                stringEscaping:=AddressOf EscapingHelper.R_Escaping,
+                                isVar:=AddressOf base.exists
+                            )
+                        End Function) _
+                .ToArray
 
             SyncLock R
                 With R

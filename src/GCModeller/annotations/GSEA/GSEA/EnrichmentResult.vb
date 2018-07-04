@@ -1,6 +1,8 @@
 ﻿Public Class EnrichmentResult
 
     Public Property term As String
+    Public Property name As String
+    Public Property description As String
     Public Property geneIDs As String()
     Public Property score As Double
     Public Property pvalue As Double

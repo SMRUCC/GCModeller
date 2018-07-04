@@ -73,6 +73,14 @@ Namespace API.as
         End Function
     End Module
 
+    ''' <summary>
+    ''' ## The R Base Package
+    ''' 
+    ''' This package contains the basic functions which let R function as a language: arithmetic, input/output, 
+    ''' basic programming support, etc. Its contents are available through inheritance from any environment.
+    ''' 
+    ''' For a complete list of functions, use ``library(help = "base")``.
+    ''' </summary>
     Public Module base
 
         ''' <summary>
