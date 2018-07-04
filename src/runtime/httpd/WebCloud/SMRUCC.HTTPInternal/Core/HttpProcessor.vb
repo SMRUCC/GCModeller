@@ -385,6 +385,9 @@ Namespace Core
             End Try
         End Sub
 
+        ''' <summary>
+        ''' VB server script
+        ''' </summary>
         Public Const PlatformName$ = "microsoft-visualbasic-servlet(*.vbs)"
         Public Const XPoweredBy$ = "X-Powered-By: " & PlatformName
 
@@ -398,8 +401,8 @@ Namespace Core
             ' ..add your own headers here if you like
 
             ' Call content.WriteHeader(outputStream)
-
             Call outputStream.WriteLine(XPoweredBy)
+
             ' 2018-1-31 
             ' The server committed a protocol violation. 
             ' Section = ResponseHeader  
