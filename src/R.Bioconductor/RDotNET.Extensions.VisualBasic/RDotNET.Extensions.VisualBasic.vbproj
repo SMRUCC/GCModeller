@@ -297,6 +297,7 @@
     <Compile Include="API\utils\write.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="Extensions\Serialization\csvHandle.vb" />
     <Compile Include="Extensions\Serialization\WriteMemoryInternal.vb" />
     <Compile Include="Extensions\Serialization\rda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
