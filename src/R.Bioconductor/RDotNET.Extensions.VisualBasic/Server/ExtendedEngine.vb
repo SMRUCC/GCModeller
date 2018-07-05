@@ -46,6 +46,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 
@@ -139,7 +140,7 @@ Public Class ExtendedEngine : Inherits REngine
     End Sub
 
     Public Shared Function MyDefault() As DefaultValue(Of ExtendedEngine)
-        Return RSystem.R.asdefault
+        Return RSystem.R.AsDefault
     End Function
 
     Friend Shared Function __init(id$, Optional dll$ = Nothing) As ExtendedEngine
