@@ -118,7 +118,7 @@ Public Class RScriptInvoke
     ''' <returns></returns>
     Public Function Invoke(Of T As Class)() As T
         Dim raw As RDotNET.SymbolicExpression = R.Evaluate([Call])
-        Dim result As T = Serialization.S4Object(Of T)(raw)
+        Dim result As T = SerializationExtensions.S4Object(Of T)(raw)
         Return result
     End Function
 End Class
