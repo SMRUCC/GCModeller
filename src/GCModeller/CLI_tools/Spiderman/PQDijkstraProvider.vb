@@ -77,7 +77,7 @@ Namespace PathRoutes
 
         <ExportAPI("PathRoutes.Compute")>
         Public Shared Function ComputePath(provider As PQDijkstraProvider, start As String, ends As String, Optional ignores As Generic.IEnumerable(Of Object) = Nothing) As NodeAttributes()
-            If ignores.IsNullOrEmpty Then
+            If ignores Is Nothing Then
                 Return provider.Compute(start, ends)
             Else
                 Return provider.Compute(start, ends, (From obj In ignores Let strValue As String = obj.ToString Select strValue).ToArray)

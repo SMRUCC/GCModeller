@@ -105,7 +105,7 @@ Namespace Models.rFBA
             Dim LQuery = (From x As Level2.Elements.Reaction
                           In Me._fluxs.Values.AsParallel
                           Let enzymeLocus As String() = New FluxPropReader(x.Notes).GENE_ASSOCIATION
-                          Where Not StringHelpers.IsNullOrEmpty(enzymeLocus)
+                          Where Not enzymeLocus.IsNullOrEmpty
                           Select x.id,
                               enzymes = New [Set](enzymeLocus))
             Dim inSet As New [Set](locus)
