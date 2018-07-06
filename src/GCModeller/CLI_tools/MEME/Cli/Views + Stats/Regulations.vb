@@ -109,7 +109,7 @@ Partial Module CLI
 
         For Each type In modRegulators.ToArray
             Dim lst = modRegulators(type.Key).Distinct.AsList
-            If lst.IsNullOrEmpty OrElse StringHelpers.IsNullOrEmpty(lst) Then
+            If lst.IsNullOrEmpty OrElse lst.IsNullOrEmpty Then
                 Call modRegulators.Remove(type.Key)
             Else
                 modRegulators(type.Key) = lst

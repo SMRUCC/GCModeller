@@ -178,7 +178,7 @@ Partial Module CLI
             Call modRegulators.Add(cls.Type, lstRegulators.Distinct.AsList)
         Next
 
-        Dim removes = (From x In modRegulators Where StringHelpers.IsNullOrEmpty(x.Value) Select x.Key)
+        Dim removes = (From x In modRegulators Where x.Value.IsNullOrEmpty Select x.Key)
         For Each nameMode As String In removes
             Call modRegulators.Remove(nameMode)
         Next

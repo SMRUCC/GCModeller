@@ -156,7 +156,7 @@ Default is not, default checks right side and left side.")>
         Dim subjectFile As String = args("/subject")
         Dim query = queryFile.LoadCsv(Of PfamString)
         Dim subject = (From x As PfamString In subjectFile.LoadCsv(Of PfamString)
-                       Where Not StringHelpers.IsNullOrEmpty(x.PfamString)
+                       Where Not x.PfamString.IsNullOrEmpty
                        Select x, proteinId = x.ProteinId.Split(":"c).Last
                        Group By proteinId Into Group) _
                             .ToDictionary(Function(x) x.proteinId,

@@ -471,7 +471,7 @@ Partial Module CLI
     End Function
 
     Private Function __extract(site As MastSites, genes As IEnumerable(Of TabularFormat.ComponentModels.GeneBrief)) As MastSites()
-        If genes.IsNullOrEmpty Then
+        If genes Is Nothing Then
             Return {site}
         End If
 
@@ -777,7 +777,7 @@ Partial Module CLI
                             Group reg By reg.Family Into Group).ToArray
         Dim pfamHash = (From x As Pfam.PfamString.PfamString
                         In pfam.LoadCsv(Of Pfam.PfamString.PfamString)
-                        Where Not StringHelpers.IsNullOrEmpty(x.PfamString)
+                        Where Not x.PfamString.IsNullOrEmpty
                         Select x
                         Group x By x.ProteinId Into Group) _
                              .ToDictionary(Function(x) x.ProteinId,

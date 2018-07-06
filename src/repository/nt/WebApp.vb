@@ -121,7 +121,7 @@ Public Class RepositoryWebApp : Inherits WebApp
         Dim id$
 
         SyncLock __uid
-            id = (+__uid).FormatZero("00000")
+            id = (++__uid).FormatZero("00000")
         End SyncLock
 
         SyncLock __tasks
