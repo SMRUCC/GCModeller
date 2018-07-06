@@ -204,7 +204,7 @@ Public Class SMARTDB
     Private Shared ReadOnly FilledEmptys As String() = New String() {"", "", ""}
 
     Private Shared Function Generate(Protein As Protein) As RowObject
-        If Protein.ID.IsNullOrEmpty Then
+        If Protein.ID.StringEmpty Then
             Return Nothing
         End If
 

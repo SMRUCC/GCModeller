@@ -156,8 +156,8 @@ Partial Module CLI
                            .LocusId = sid}).ToArray
         Familys = (From x As Family.AnnotationOut
                    In Familys
-                   Where Not StringHelpers.IsNullOrEmpty(x.PfamString) AndAlso
-                       Not StringHelpers.IsNullOrEmpty(x.Family)
+                   Where Not x.PfamString.IsNullOrEmpty AndAlso
+                       Not x.Family.IsNullOrEmpty
                    Select x).ToArray
         Return Familys.SaveTo(out).CLICode
     End Function

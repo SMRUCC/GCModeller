@@ -88,7 +88,7 @@ READ_CDD_DIR:
         Dim input = args("/in").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Domains = (From x As Pfam.PfamString.PfamString
                        In input
-                       Where Not StringHelpers.IsNullOrEmpty(x.Domains)
+                       Where Not x.Domains Is Nothing OrElse x.Domains.Length = 0
                        Select x.Domains.Select(Function(name) name.Split(":"c).First)).ToArray.Unlist.Distinct.ToArray
 
         Domains = (From name As String In Domains Select name Order By name Ascending).ToArray

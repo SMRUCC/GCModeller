@@ -85,7 +85,7 @@ Namespace Models
             If forceEnzymeRev Then
                 For Each x In Me._fluxs.Values
                     Dim props As New FluxPropReader(x.Notes)
-                    If Not StringHelpers.IsNullOrEmpty(props.GENE_ASSOCIATION) Then
+                    If Not props.GENE_ASSOCIATION.IsNullOrEmpty Then
                         x.reversible = True
                     End If
                 Next

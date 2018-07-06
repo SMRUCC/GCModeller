@@ -530,7 +530,7 @@ Public Module PhenotypeRegulations
         End If
 
         '计算野生型的数据
-        If GeneIDList.IsNullOrEmpty OrElse Factor = 1.0R OrElse Factor < 0 Then
+        If GeneIDList Is Nothing OrElse Factor = 1.0R OrElse Factor < 0 Then
             Dim ScriptFile As String = "./KernelDriver.shl"
 
             Const BATCH_SCRIPT_ARGVS As String = """{0}"" Footprints ""{1}"" Model ""{2}"" Conf ""{3}"" Kernel.Cycles {4} Dir.Export_Result ""{5}"""

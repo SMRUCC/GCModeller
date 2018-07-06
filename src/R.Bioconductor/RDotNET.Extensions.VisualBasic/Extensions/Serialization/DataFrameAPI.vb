@@ -51,10 +51,29 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNET.Extensions.VisualBasic.Serialization
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
 
 Public Module DataFrameAPI
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="R">R engine</param>
+    ''' <param name="var$">Variable name</param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function csv(R As ExtendedEngine, var$) As csvHandle
+        Return New csvHandle(
+            path:=App.GetAppSysTempFile(".csv", App.PID),
+            var:=var,
+            append:=False,
+            encoding:=TextEncodings.UTF8WithoutBOM
+        )
+    End Function
 
     <Extension>
     Public Function PushAsTable(table As IO.File, Optional skipFirst As Boolean = True) As String
