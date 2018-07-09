@@ -597,6 +597,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program\DebuggerToolkit.vb" />
     <Compile Include="test.vb" />
     <Compile Include="Program\CLI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
