@@ -41,12 +41,13 @@ Partial Module CLI
                        End With
                    End Function) _
             .ToDictionary _
-            .FlatTable
+            .FlatTable _
+            .NameValueCollection
 
         VBDebugger.ForceSTDError = True
 
         Using out As StreamWriter = args.OpenStreamOutput("/out")
-
+            Call out.WriteLine(url.POST(argv))
         End Using
 
         Return 0
