@@ -193,7 +193,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
         ''' </summary>
         ''' <returns></returns>
-        Public Function Lipids() As Compound()
+        Public Shared Function Lipids() As Compound()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Return Compound.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
         End Function

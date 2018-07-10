@@ -67,6 +67,8 @@ Namespace AppEngine.APIMethods.Arguments
         Friend ReadOnly response As StreamWriter
         Friend ReadOnly writeFailed As Action(Of String)
 
+        Public Property AccessControlAllowOrigin As String
+
         Sub New(rep As StreamWriter, write404 As Action(Of String))
             response = rep
             writeFailed = write404
@@ -135,6 +137,10 @@ Namespace AppEngine.APIMethods.Arguments
             response.WriteLine("Content-Type: " & content_type)
             response.WriteLine(HttpProcessor.XPoweredBy)
 
+            If Not AccessControlAllowOrigin.StringEmpty Then
+                response.WriteLine("Access-Control-Allow-Origin: " & AccessControlAllowOrigin)
+            End If
+
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             response.WriteLine()
             response.Flush()
@@ -147,6 +153,10 @@ Namespace AppEngine.APIMethods.Arguments
             response.WriteLine("Content-Type: " & content_type)
             response.WriteLine("Connection: close")
             ' ..add your own headers here if you like
+
+            If Not AccessControlAllowOrigin.StringEmpty Then
+                response.WriteLine("Access-Control-Allow-Origin: " & AccessControlAllowOrigin)
+            End If
 
             Call content.WriteHeader(response)
 

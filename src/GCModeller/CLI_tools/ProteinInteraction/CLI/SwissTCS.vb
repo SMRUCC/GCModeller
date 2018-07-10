@@ -181,8 +181,7 @@ Partial Module CLI
     End Function
 
     Private Function __contactTrace(HisK As Pfam.PfamString.PfamString, RR As Pfam.PfamString.PfamString, CrossTalk As CrossTalks) As Pfam.PfamString.PfamString
-        If StringHelpers.IsNullOrEmpty(HisK.PfamString) OrElse
-            StringHelpers.IsNullOrEmpty(RR.PfamString) Then
+        If HisK.PfamString.IsNullOrEmpty OrElse RR.PfamString.IsNullOrEmpty Then
             Return Nothing
         End If
 
