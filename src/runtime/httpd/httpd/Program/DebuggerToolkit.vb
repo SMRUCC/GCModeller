@@ -46,8 +46,8 @@ Partial Module CLI
 
         VBDebugger.ForceSTDError = True
 
-        Using out As StreamWriter = args.OpenStreamOutput("/out")
-            Call out.WriteLine(url.POST(argv))
+        Using out As StreamWriter = args.OpenStreamOutput("/out", Encodings.UTF8WithoutBOM)
+            Call out.WriteLine(url.POST(argv, contentEncoding:=Encodings.UTF8))
         End Using
 
         Return 0
