@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
@@ -45,6 +46,8 @@ Partial Module CLI
             .NameValueCollection
 
         VBDebugger.ForceSTDError = True
+
+        Call argv.ToDictionary.GetJson.__DEBUG_ECHO
 
         Using out As StreamWriter = args.OpenStreamOutput("/out", Encodings.UTF8WithoutBOM)
             Call out.WriteLine(url.POST(argv, contentEncoding:=Encodings.UTF8))
