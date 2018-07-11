@@ -37,12 +37,12 @@ Public Class SyntenyRegion
     ''' <param name="maps"></param>
     ''' <param name="cutoff">[0, 1]</param>
     ''' <returns></returns>
-    Public Shared Iterator Function PopulateRegions(maps As IEnumerable(Of BlastnMapping), Optional cutoff# = 0.25) As IEnumerable(Of SyntenyRegion)
+    Public Shared Iterator Function PopulateRegions(maps As IEnumerable(Of IMapping), Optional cutoff# = 0.25) As IEnumerable(Of SyntenyRegion)
         Dim blastn = maps.ToArray
-        Dim qSize%() = blastn.Select(Function(n) {n.QueryLeft, n.QueryRight}).IteratesALL.AsRange.Sequence.ToArray
-        Dim sSize%() = blastn.Select(Function(n) {n.ReferenceLeft, n.ReferenceRight}).IteratesALL.AsRange.Sequence.ToArray
-        Dim sortQ = blastn.OrderBy(Function(n) n.QueryLeft).ToArray
-        Dim sortS = blastn.OrderBy(Function(n) n.ReferenceLeft).ToArray
+        Dim qSize%() = blastn.Select(Function(n) {n.Qstart, n.Qstop}).IteratesALL.AsRange.Sequence.ToArray
+        Dim sSize%() = blastn.Select(Function(n) {n.Sstart, n.Sstop}).IteratesALL.AsRange.Sequence.ToArray
+        Dim sortQ = blastn.OrderBy(Function(n) n.Qstart).ToArray
+        Dim sortS = blastn.OrderBy(Function(n) n.Sstart).ToArray
         Dim smithwaterMan As New GSW(Of Integer)(
             qSize, sSize,
             Function(q, s)
