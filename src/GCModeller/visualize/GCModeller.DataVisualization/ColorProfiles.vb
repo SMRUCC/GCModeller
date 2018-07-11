@@ -73,7 +73,6 @@ Public Class ColorProfiles
         Return String.Join(__describ, ColorProfiles.Count, _defaultColor.ToString)
     End Function
 
-    Const __describ As String =
-        "{0} color(s) in the rendering profile, default color is ""{1}"""
+    Const __describ$ = "{0} color(s) in the rendering profile, default color is ""{1}"""
 
 End Class
