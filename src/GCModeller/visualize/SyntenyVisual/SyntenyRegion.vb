@@ -10,6 +10,7 @@ Public Class SyntenyRegion
 
     Public Property query As DoubleRange
     Public Property subject As DoubleRange
+    Public Property score As Double
 
     Public Iterator Function Translate(genomeSize As (query&, subject&), plotRegion As RectangleF) As IEnumerable(Of PointF)
         Dim qY = plotRegion.Top
@@ -34,9 +35,9 @@ Public Class SyntenyRegion
     ''' 在这里会使用SmithWater-Man算法将blastn独立的基因比对结果链接为更加宽泛的同源区域
     ''' </summary>
     ''' <param name="maps"></param>
-    ''' <param name="schema$"></param>
+    ''' <param name="cutoff">[0, 1]</param>
     ''' <returns></returns>
-    Public Shared Iterator Function PopulateRegions(maps As IEnumerable(Of BlastnMapping), Optional schema$ = "Set2:c8") As IEnumerable(Of SyntenyRegion)
+    Public Shared Iterator Function PopulateRegions(maps As IEnumerable(Of BlastnMapping), Optional cutoff# = 0.25) As IEnumerable(Of SyntenyRegion)
         Dim blastn = maps.ToArray
         Dim qSize%() = blastn.Select(Function(n) {n.QueryLeft, n.QueryRight}).IteratesALL.AsRange.Sequence.ToArray
         Dim sSize%() = blastn.Select(Function(n) {n.ReferenceLeft, n.ReferenceRight}).IteratesALL.AsRange.Sequence.ToArray
@@ -73,6 +74,15 @@ Public Class SyntenyRegion
             Function(x)
                 Return "-"c
             End Function)
+
+        ' match的位置就是基因组上面的坐标位置
+        For Each map In smithwaterMan.Matches(cutoff * smithwaterMan.MaxScore)
+            Yield New SyntenyRegion With {
+                .query = {map.FromA, map.ToA},
+                .subject = {map.FromB, map.ToB},
+                .score = map.Score
+            }
+        Next
     End Function
 
     Private Shared Iterator Function rangeSelector(maps As BlastnMapping(), x%, getX As Func(Of BlastnMapping, Integer)) As IEnumerable(Of BlastnMapping)
