@@ -6,7 +6,7 @@ Module test
 
     Sub Main()
         Dim data = "E:\2018-7-10\高粱对比筛选结果.csv".LoadCsv(Of align)
-
+        Dim regions =  
     End Sub
 End Module
 
