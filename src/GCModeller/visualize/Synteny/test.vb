@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
 Module test
 
@@ -9,19 +10,19 @@ Module test
     End Sub
 End Module
 
-Public Class align
+Public Class align : Implements IMapping
 
-    Public Property Qseqid As String
-    Public Property Sseid As String
+    Public Property Qseqid As String Implements IMapping.Qname
+    Public Property Sseid As String Implements IMapping.Sname
     Public Property indent As Double
     Public Property mismatch As Double
     Public Property qlength As Double
     Public Property length As Double
     Public Property Si As Double
-    Public Property qstart As Integer
-    Public Property qend As Integer
-    Public Property sstart As Integer
-    Public Property send As Integer
+    Public Property qstart As Integer Implements IMapping.Qstart
+    Public Property qend As Integer Implements IMapping.Qstop
+    Public Property sstart As Integer Implements IMapping.Sstart
+    Public Property send As Integer Implements IMapping.Sstop
     Public Property evlaue As Double
 
     <Column("bit-score")>
