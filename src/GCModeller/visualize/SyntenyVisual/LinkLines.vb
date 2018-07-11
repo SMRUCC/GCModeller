@@ -71,7 +71,6 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
