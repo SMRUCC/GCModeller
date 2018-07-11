@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
 Public Class SyntenyRegion
 
@@ -25,5 +26,9 @@ Public Class SyntenyRegion
         Yield New PointF(posX(++i), qY)
         Yield New PointF(posX(++i), sY)
         Yield New PointF(posX(++i), sY)
+    End Function
+
+    Public Shared Iterator Function PopulateRegions(maps As IEnumerable(Of BlastnMapping), Optional schema$ = "Set2:c8") As IEnumerable(Of SyntenyRegion)
+
     End Function
 End Class
