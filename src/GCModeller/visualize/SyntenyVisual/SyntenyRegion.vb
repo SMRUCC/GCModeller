@@ -42,10 +42,12 @@ Public Module SyntenyRegionExtensions
     ''' <param name="maps"></param>
     ''' <param name="cutoff">[0, 1]</param>
     ''' <returns></returns>
-    Public Iterator Function PopulateRegions(Of Map As {IMapping, Class, New})(maps As IEnumerable(Of Map), Optional cutoff# = 0.25) As IEnumerable(Of SyntenyRegion)
+    ''' 
+    <Extension>
+    Public Iterator Function PopulateRegions(Of Map As {IMapping, Class, New})(maps As IEnumerable(Of Map), Optional cutoff# = 0.25, Optional stepOffset As (q%, s%) = Nothing) As IEnumerable(Of SyntenyRegion)
         Dim blastn = maps.ToArray
-        Dim qSize%() = blastn.Select(Function(n) {n.Qstart, n.Qstop}).IteratesALL.AsRange.Sequence.ToArray
-        Dim sSize%() = blastn.Select(Function(n) {n.Sstart, n.Sstop}).IteratesALL.AsRange.Sequence.ToArray
+        Dim qSize%() = blastn.Select(Function(n) {n.Qstart, n.Qstop}).IteratesALL.AsRange.Sequence(stepOffset.q).ToArray
+        Dim sSize%() = blastn.Select(Function(n) {n.Sstart, n.Sstop}).IteratesALL.AsRange.Sequence(stepOffset.s).ToArray
         Dim sortQ = blastn.OrderBy(Function(n) n.Qstart).ToArray
         Dim sortS = blastn.OrderBy(Function(n) n.Sstart).ToArray
         Dim scoreProvider As ISimilarity(Of Integer) =

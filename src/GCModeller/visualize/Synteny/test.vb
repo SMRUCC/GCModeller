@@ -1,12 +1,15 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 
 Module test
 
     Sub Main()
         Dim data = "E:\2018-7-10\高粱对比筛选结果.csv".LoadCsv(Of align)
-        Dim regions =  
+        Dim regions = data.PopulateRegions(stepOffset:=(1, 500)).ToArray
+
+        Pause()
     End Sub
 End Module
 
