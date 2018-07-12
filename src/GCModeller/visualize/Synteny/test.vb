@@ -13,7 +13,9 @@ Module test
         Dim a = "E:\2018-7-10\高粱对比筛选结果.csv".LoadCsv(Of align)
         Dim b = "E:\2018-7-10\玉米比对筛选结果.csv".LoadCsv(Of align)
         Dim data = TupleMapping(a, b).ToArray
-        Dim regions = data.PopulateRegions(stepOffset:=(5000, 5000)).ToArray
+        '  Dim regions = data.PopulateRegions(stepOffset:=(5000, 5000)).ToArray
+
+        Call data.SaveTo("./dddd.csv")
 
         Pause()
     End Sub
