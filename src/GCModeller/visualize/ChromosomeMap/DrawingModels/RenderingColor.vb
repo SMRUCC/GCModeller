@@ -43,6 +43,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel
 
@@ -79,8 +80,7 @@ Namespace DrawingModels
                                     colorProfiles.TryGetValue(
                                         CStr(c),
                                         [default]:=defaultCOG_color), SolidBrush).Color) _
-                                .ToArray _
-                                .NeutralizeColor
+                                .Average
                             gene.Color = New SolidBrush(neuColor)
                         Else
                             gene.Color = colorProfiles.TryGetValue(

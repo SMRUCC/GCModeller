@@ -55,10 +55,22 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' </summary>
 Public Module Javascript
 
+    ''' <summary>
+    ''' 在这里输出的日期格式都被统一为``\/Date(1198908717056)\/``.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="obj"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NewtonsoftJsonWriter(Of T)(obj As T) As String
-        Return JsonConvert.SerializeObject(obj, Formatting.Indented, settings:=New JsonSerializerSettings With {.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat})
+        Return JsonConvert.SerializeObject(
+            obj,
+            Formatting.Indented,
+            settings:=New JsonSerializerSettings With {
+                .DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+            }
+        )
     End Function
 
     ''' <summary>
@@ -69,7 +81,7 @@ Public Module Javascript
     ''' <param name="chart">highcharts.js data model.</param>
     ''' <returns></returns>
     <Extension>
-    Public Function WriteJavascript(Of S)(container$, chart As Highcharts(Of S)) As String
+    Public Function WriteJavascript(Of S)(container$, chart As Highcharts(Of S), Optional UTCdate As Boolean = True) As String
         Dim knownTypes As Type() = {
             GetType(String),
             GetType(Double),
@@ -83,12 +95,33 @@ Public Module Javascript
         '    .FixDate
         Dim JSON$ = chart _
             .NewtonsoftJsonWriter _
-            .FixDate _
+            .FixDate(UTCdate) _
             .RemoveJsonNullItems _
             .RemoveTrailingComma _
             .RemovesEmptyLine
         Dim javascript$ = $"Highcharts.chart('{container}', {LambdaWriter.StripLambda(JSON)});"
         Return javascript
+    End Function
+
+    Const MicrosoftDatePattern$ = "[""]\\/Date\(\d+(.\d+)?\)\\/[""]"
+
+    <Extension>
+    Public Function FixDate(json$, UTCdate As Boolean) As String
+        If Not UTCdate Then
+            Return json
+        Else
+            Dim dates$() = r.Matches(json, MicrosoftDatePattern, RegexICSng).ToArray
+            Dim sb As New StringBuilder(json)
+
+            For Each d As String In dates
+                Dim [date] As Date = d.LoadObject(Of Date)
+                Dim UTC$ = $"Date.UTC({[date].Year}, {[date].Month}, {[date].Day})"
+
+                Call sb.Replace(d, UTC)
+            Next
+
+            Return sb.ToString
+        End If
     End Function
 
     <Extension>
@@ -108,23 +141,6 @@ Public Module Javascript
         Next
 
         Return trim.ToString
-    End Function
-
-    Const JSONDateTime$ = "[""]\\/Date\(\d+[+]\d+\)\\/[""]"
-
-    <Extension>
-    Public Function FixDate(json As String) As String
-        Dim dates$() = r.Matches(json, JSONDateTime, RegexICSng).ToArray
-        Dim sb As New StringBuilder(json)
-
-        For Each d As String In dates
-            Dim [date] As Date = d.LoadObject(Of Date)
-            Dim UTC$ = $"Date.UTC({[date].Year}, {[date].Month}, {[date].Day})"
-
-            Call sb.Replace(d, UTC)
-        Next
-
-        Return sb.ToString
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

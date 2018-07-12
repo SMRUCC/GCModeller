@@ -54,7 +54,7 @@ Module CLI
         Usage:=":: <scriptline>",
         Example:="shoal :: ""hello world!"" -> msgbox title ""This is a hello world tesing example!""")>
     Public Function Shell(scriptLine As CommandLine.CommandLine) As Integer
-        Dim strLine As String = Mid(scriptLine.CLICommandArgvs, 3).Trim
+        Dim strLine As String = Mid(scriptLine.cli, 3).Trim
         If Not String.IsNullOrEmpty(strLine) Then
             strLine = strLine.GetString(wrapper:="""")
         Else
