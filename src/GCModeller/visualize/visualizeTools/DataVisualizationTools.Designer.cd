@@ -1,380 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.ChromesomeDrawingModel" Collapsed="true">
-    <Position X="31.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AABEAIAAAAAAIAAEAAABAAAAAAAAAAAgAAAABAAEAAA=</HashCode>
-      <FileName>ChromosomeMap\ChromesomeDrawingModel.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.PlasmidAnnotation" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="36.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAgAAKAAEgAAAQAAAEIAAABACIQBgIhQQUhCAACAJAA=</HashCode>
-      <FileName>ChromosomeMap\ChromesomeDrawingModel.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.Site">
-    <Position X="13.25" Y="0.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAEAAAAAEAAAAAAAAAACgCAAAAAIAA=</HashCode>
-      <FileName>ChromosomeMap\DrawingModels\Multation.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.MultationPointData">
-    <Position X="1.75" Y="3.5" Width="8.75" />
-    <Compartments>
-      <Compartment Name="Nested Types" Collapsed="false" />
-    </Compartments>
-    <NestedTypes>
-      <Enum Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.MultationPointData.MutationTypes">
-        <TypeIdentifier>
-          <NewMemberFileName>ChromosomeMap\DrawingModels\Multation.vb</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAgAAAAAgAAACAAAAAAAAACAAAAAQAACAAAgAA=</HashCode>
-      <FileName>ChromosomeMap\DrawingModels\Multation.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.SegmentObject">
-    <Position X="1.5" Y="12.75" Width="8.25" />
-    <Compartments>
-      <Compartment Name="Nested Types" Collapsed="false" />
-    </Compartments>
-    <NestedTypes>
-      <Delegate Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.SegmentObject.__TextAlignment" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>ChromosomeMap\DrawingModels\SegmentObject.vb</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAiAAAQAABgAgAEAAIAAAAAAAAAAAAAIAAIAAAIQAg=</HashCode>
-      <FileName>ChromosomeMap\DrawingModels\SegmentObject.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.MotifSite">
-    <Position X="11.25" Y="3.5" Width="5.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAIAFAAAAAAAAAAAAAAAAAAgAAABAA=</HashCode>
-      <FileName>ChromosomeMap\FootPrintMap\MotifSite.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.Loci">
-    <Position X="17.75" Y="3.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAEAAIAAEAAAAAAAAAIAAAAgAAAAAA=</HashCode>
-      <FileName>ChromosomeMap\FootPrintMap\MotifSite.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.Conf" Collapsed="true">
-    <Position X="35" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAEAAAEAECgAIAEABAAAAKAAACAgAAFAAAQAAAMQACA=</HashCode>
-      <FileName>ChromosomeMap\Configurations.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeGenomics.DrawingDevice" Collapsed="true">
-    <Position X="38.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\DrawingDevice.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeGenomics.DrawingModel" Collapsed="true">
-    <Position X="31.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAEAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ConfigCommon">
-    <Position X="12.5" Y="16.5" Width="5.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAEAgAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ConfigCommon.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.MapModelCommon">
-    <Position X="11.25" Y="8.5" Width="5.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAABBhAAAAAAQCAAAABAAAAAAgAACgCAgAAAAAQ=</HashCode>
-      <FileName>MapModelCommon.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ExpressionMatrix.Configuration">
-    <Position X="14" Y="19.25" Width="4.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ExpressionMatrix\Configuration.vb</FileName>
-    </TypeIdentifier>
+  <Class Name="SMRUCC.genomics.Visualize.MapModelCommon" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.GeneticClock.ColorRender" Collapsed="true">
-    <Position X="33.25" Y="0.5" Width="1.5" />
+    <Position X="11.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAABAAAAACEQAQAAAYAAAAAkAIIAAAAAAAAAgQ=</HashCode>
       <FileName>GeneticClockDiagram\ColorRender.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.GeneticClock.DrawingDevice" Collapsed="true">
-    <Position X="31.5" Y="1.5" Width="1.5" />
+    <Position X="14.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GeneticClockDiagram\DrawingDevice.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.PlasmidMap.DrawingDevice" Collapsed="true">
-    <Position X="33.25" Y="1.5" Width="1.5" />
+    <Position X="16.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PlasmidMap\DrawingDevice.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.PlasmidMap.PlasmidMapDrawingModel" Collapsed="true">
-    <Position X="38.5" Y="2.5" Width="1.5" />
+    <Position X="14.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PlasmidMap\PlasmidMap.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.PlasmidMap.DrawingModels.SegmentObject" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="33.25" Y="3.5" Width="1.5" />
+    <Position X="16.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAARAhAEAgAAACIAAoAAAAAAAEAACBCIgAAABQA=</HashCode>
       <FileName>PlasmidMap\SegmentObject.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.TSSs">
-    <Position X="24.5" Y="3.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAEAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
-      <FileName>ChromosomeMap\FootPrintMap\TSSs.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.Configurations" Collapsed="true">
-    <Position X="11.75" Y="19.25" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>ChromosomeMap\Configurations.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingDevice" Collapsed="true">
-    <Position X="35" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>RAAYAIACBAAEAGBAABALAEAACAEBAAAACBAAAgAUAAA=</HashCode>
-      <FileName>ChromosomeMap\DrawingDevice.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComponentModel.DrawingDevice" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="36.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAEAAAAAAAEAEAAABEAAAAAkgAAAAA=</HashCode>
-      <FileName>ChromosomeMap\FootPrintMap\ColorProfiles.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap.RegulationMotifSite" Collapsed="true">
-    <Position X="31.5" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAAgAAAAAgAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ChromosomeMap\FootPrintMap\RegulationMotifSite.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeGenomics.GenomeModel" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="33.25" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QAAAAAAAAAAAAFAEAAAAAABAAAQCAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeGenomics.GeneLink">
-    <Position X="0.5" Y="18.5" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEgAAAIAEAAIAAAAAAAAAAgAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeGenomics.GeneObject">
-    <Position X="10.5" Y="12.75" Width="15.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAIBAgAEAAAEAAAAAAABAAAAAAAAAQQAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\GeneObject.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeAlignment.DrawingModel" Collapsed="true">
-    <Position X="38.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAAAAAAAAgAAAQIAAgIAQAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.ComparativeAlignment.Orthology">
-    <Position X="1.25" Y="21.25" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.Visualize.GeneticClock.DopplerEffect" Collapsed="true">
-    <Position X="36.75" Y="0.5" Width="1.5" />
+    <Position X="13" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GeneticClockDiagram\DopplerEffect.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.My.MySettings" Collapsed="true">
-    <Position X="35" Y="2.5" Width="1.5" />
+    <Position X="13" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Struct Name="SMRUCC.genomics.Visualize.ComparativeAlignment.ColorLegend" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="31.5" Y="9" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAABAACAAAAAEAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\DrawingModel.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Struct>
-  <Module Name="SMRUCC.genomics.Visualize.ChromosomeMap.ChromesomeMapAPI" Collapsed="true">
-    <Position X="33.25" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>CAgAACgACAAEIECBSAQiIACAAAAAAgAoAAAAIAAAAhE=</HashCode>
-      <FileName>ChromosomeMap\ChromesomeMapAPI.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ComparativeGenomics.ShellScriptAPI" Collapsed="true">
-    <Position X="38.5" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAYAAIAAAAEAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\ShellScriptAPI.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ComparativeAlignment.ComparativeAlignment" Collapsed="true">
-    <Position X="36.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAABAAAgEIAAAAAAAAgAAAAAAAAEAAAAAAAAJAIA=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ComparativeAlignment.LargeGenomeComparing" Collapsed="true">
-    <Position X="33.25" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAEIAJAAAAAIgAAAAAAAAEAAAAACAAAAAg=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb</FileName>
-    </TypeIdentifier>
-  </Module>
   <Module Name="SMRUCC.genomics.Visualize.RegulationSerials" Collapsed="true">
-    <Position X="35" Y="6.75" Width="1.5" />
+    <Position X="11.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAEAACAAAQAAAAAABAAAAEAAAIAAAQAQAA=</HashCode>
       <FileName>GeneticClockDiagram\RegulationSerials.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ExpressionMatrix.MatrixDrawing" Collapsed="true">
-    <Position X="35" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAEAAAAAAAAAAAAAAAAEACAAAAQAAIAA=</HashCode>
-      <FileName>ExpressionMatrix\Matrix.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ExpressionMatrix.ShellScriptAPI" Collapsed="true">
-    <Position X="33.25" Y="7.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQQAAAAAAAAAAQAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>ExpressionMatrix\ShellScriptAPI.vb</FileName>
-    </TypeIdentifier>
-  </Module>
   <Module Name="SMRUCC.genomics.Visualize.GeneticClock.ShellScriptAPI" Collapsed="true">
-    <Position X="31.5" Y="7.75" Width="1.5" />
+    <Position X="14.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAEAAAAEAAAAAAAAAAAAAQAAAiEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GeneticClockDiagram\ShellScriptAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.BlastVisualize" Collapsed="true">
-    <Position X="31.5" Y="4.75" Width="1.5" />
+    <Position X="11.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIQQCAkCAACAAAAAgAAAAAAAAGAUAAAIAEAYAQ=</HashCode>
+      <HashCode>AAAAACIQQCAkCAACAAAAAgAAAAAAAAGAUAAAIAEAYAQ=</HashCode>
       <FileName>NCBIBlastResult\BlastVisualize.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.VennBesthit" Collapsed="true">
-    <Position X="38.5" Y="7.75" Width="1.5" />
+    <Position X="13" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
       <FileName>NCBIBlastResult\VennBesthit.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.PlasmidMap.ShellScriptAPI" Collapsed="true">
-    <Position X="35" Y="7.75" Width="1.5" />
+    <Position X="16.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
       <FileName>PlasmidMap\ShellScriptAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.ModelColorExtensions" Collapsed="true">
-    <Position X="31.5" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgAAAAAA=</HashCode>
-      <FileName>ChromosomeMap\DrawingModels\RenderingColor.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI" Collapsed="true">
-    <Position X="38.5" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAAAQCAABAAAAAAIAAAAAAAAgAAgAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\ModelAPI.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ComparativeAlignment.MetaAPI" Collapsed="true">
-    <Position X="36.75" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ComparativeGenomics\MultipleAlignment\MetaAPI.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.ConfigurationCommon" Collapsed="true">
-    <Position X="38.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ConfigurationCommon.vb</FileName>
-    </TypeIdentifier>
-  </Module>
   <Module Name="SMRUCC.genomics.Visualize.GCPlot" Collapsed="true">
-    <Position X="31.5" Y="5.75" Width="1.5" />
+    <Position X="14.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GC.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.TextureResourceLoader" Collapsed="true">
-    <Position X="36.75" Y="7.75" Width="1.5" />
+    <Position X="11.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAA=</HashCode>
       <FileName>TextureResourceLoader.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.My.Resources.Resources" Collapsed="true">
-    <Position X="36.75" Y="6.75" Width="1.5" />
+    <Position X="13" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.My.MySettingsProperty" Collapsed="true">
-    <Position X="33.25" Y="6.75" Width="1.5" />
+    <Position X="16.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.ColorSchema" Collapsed="true">
-    <Position X="35" Y="4.75" Width="1.5" />
+    <Position X="13" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAAAACAAAEAAAEAAAA=</HashCode>
       <FileName>NCBIBlastResult\ColorSchema.vb</FileName>
