@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization.StringVector
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports base = Microsoft.VisualBasic.Strings
 
 Public Module iTraqSample
 
@@ -299,8 +300,8 @@ Public Module iTraqSample
         Dim formulas As NamedValue(Of Formula)() = combines _
             .Select(Function(combine)
                         Dim labelA$ = combine.a, labelB$ = combine.b
-                        Dim swapA = Strings.InStr(labelA, "/" & C) = 0
-                        Dim swapB = Strings.InStr(labelB, "/" & C) = 0
+                        Dim swapA = base.InStr(labelA, "/" & C) = 0
+                        Dim swapB = base.InStr(labelB, "/" & C) = 0
                         Dim formula As Formula =
                             Function(A, B)
                                 Dim AC# = A(labelA), BC# = B(labelB)
