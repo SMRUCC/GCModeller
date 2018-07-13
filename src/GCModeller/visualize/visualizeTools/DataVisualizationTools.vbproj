@@ -212,18 +212,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComparativeGenomics\ModelAPI.vb" />
-    <Compile Include="ComparativeGenomics\MultipleAlignment\MetaAPI.vb" />
-    <Compile Include="ComparativeGenomics\MultipleAlignment\DrawingModel.vb" />
-    <Compile Include="ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb" />
-    <Compile Include="ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb" />
     <Compile Include="GeneticClockDiagram\RegulationSerials.vb" />
-    <Compile Include="ComparativeGenomics\ShellScriptAPI.vb" />
-    <Compile Include="ComparativeGenomics\DrawingModel.vb" />
-    <Compile Include="ComparativeGenomics\DrawingDevice.vb" />
-    <Compile Include="ComparativeGenomics\GeneObject.vb" />
-    <Compile Include="ExpressionMatrix\Matrix.vb" />
-    <Compile Include="ExpressionMatrix\ShellScriptAPI.vb" />
     <Compile Include="GeneticClockDiagram\DopplerEffect.vb" />
     <Compile Include="GeneticClockDiagram\DrawingDevice.vb" />
     <Compile Include="GeneticClockDiagram\ShellScriptAPI.vb" />
