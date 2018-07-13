@@ -55,6 +55,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' 绘制很多个基因组之间的共线性关系可视化
+''' </summary>
 Public Class DrawingModel
 
     Public Property margin As Size
