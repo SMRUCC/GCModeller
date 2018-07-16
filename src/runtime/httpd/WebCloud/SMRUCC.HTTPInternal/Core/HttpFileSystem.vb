@@ -168,6 +168,10 @@ Namespace Core
                 End Select
             End If
 
+            If Not size.StringEmpty Then
+                Call $"MAX_POST_SIZE={size} ({MAX_POST_SIZE} bytes)".__INFO_ECHO
+            End If
+
             If cache Then
                 _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
                 '    .ToDictionary(Function(x) x.Key.ToLower,
