@@ -42,7 +42,9 @@ Public Module SyntenyRegionExtensions
     ''' <param name="maps"></param>
     ''' <param name="cutoff">[0, 1]</param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' 如果基因组很大的话，这个函数的工作效率会非常低，这个函数只适合生成小基因组之间的绘图模型
+    ''' </remarks>
     <Extension>
     Public Iterator Function PopulateRegions(Of Map As {IMapping, Class, New})(maps As IEnumerable(Of Map), Optional cutoff# = 0.25, Optional stepOffset As (q%, s%) = Nothing) As IEnumerable(Of SyntenyRegion)
         Dim blastn = maps.ToArray

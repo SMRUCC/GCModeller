@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::c9a61a0124ca748db501a8906ed87779, CLI_tools\RNA-seq\CLI\gast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ClusterOTU, ContactsRef, ExportSSUBatch, ExportSSURefs, ExportToMegan
-    '               gastInvoke, ImportsRefFromNt, MergeLabels, RankStatics, StateNames
-    '     Class LabelData
-    ' 
-    '         Properties: label, Name, value
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ClusterOTU, ContactsRef, ExportSSUBatch, ExportSSURefs, ExportToMegan
+'               gastInvoke, ImportsRefFromNt, MergeLabels, RankStatics, StateNames
+'     Class LabelData
+' 
+'         Properties: label, Name, value
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -139,8 +140,8 @@ Partial Module CLI
 
             For Each fa As FastaSeq In (From x As FastaSeq
                                           In list
-                                          Select x
-                                          Group x By x.Title.Split.First Into Group) _
+                                        Select x
+                                        Group x By x.Title.Split.First Into Group) _
                                                .Select(Function(x) x.Group.First)
 
                 Call writer.Write(fa.SequenceData)
@@ -243,7 +244,7 @@ Partial Module CLI
         Dim label As String = args.GetValue("/label", NameOf(LabelData.label))
         Dim iname As String = args.GetValue("/name", NameOf(LabelData.Name))
         Dim value As String = args.GetValue("/value", NameOf(LabelData.value))
-        Dim maps As New Dictionary(Of String, String) From {
+        Dim maps As New NameMapping From {
             {label, NameOf(LabelData.label)},
             {iname, NameOf(LabelData.Name)},
             {value, NameOf(LabelData.value)}
