@@ -74,7 +74,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="args"><see cref="CommandLine.CLICommandArgvs"></see></param>
+    ''' <param name="args"><see cref="CommandLine.cli"></see></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public MustOverride Function PreCompile(args As CommandLine) As Integer

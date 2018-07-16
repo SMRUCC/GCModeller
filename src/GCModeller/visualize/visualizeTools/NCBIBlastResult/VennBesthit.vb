@@ -1,59 +1,85 @@
 ﻿#Region "Microsoft.VisualBasic::e410c3824c385f7123af1706c44a6c39, visualize\visualizeTools\NCBIBlastResult\VennBesthit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module VennBesthit
-    ' 
-    '         Function: InvokeDrawing
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module VennBesthit
+' 
+'         Function: InvokeDrawing
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.Visualize.ExpressionMatrix
 
 Namespace NCBIBlastResult
 
     <Package("Venn.Besthit", Publisher:="xie.guigang@live.com")>
     Public Module VennBesthit
+
+        Const ALPHABET As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="dat">数据必须是已经去除掉了重复的</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function CreateAlphabetTagSerials(dat As String()) As Dictionary(Of String, String)
+            If dat.Count <= 26 Then
+                Return (From I As Integer In dat.Sequence Let s As String = dat(I) Select Tag = ALPHABET(I).ToString, s).ToArray.ToDictionary(Function(item) item.s, Function(item) item.Tag)
+            Else
+                Dim ChunkBuffer = dat.CreateSlideWindows(26)
+                Dim list = New List(Of KeyValuePair(Of String, String))
+                Dim prefix As String = ""
+
+                For i As Integer = 0 To ChunkBuffer.Count - 1
+                    dat = ChunkBuffer(i).Items
+                    Call list.AddRange((From j As Integer In dat.Sequence Let s As String = dat(j) Select New KeyValuePair(Of String, String)(s, prefix & ALPHABET(j).ToString)).ToArray)
+                    prefix &= ALPHABET(i)
+                Next
+
+                Return list.ToDictionary(Function(item) item.Key, elementSelector:=Function(item) item.Value)
+            End If
+        End Function
 
         Dim Margin As Integer = 100
 
@@ -101,7 +127,7 @@ Namespace NCBIBlastResult
             Next
 
             Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
-            Dim table = MatrixDrawing.CreateAlphabetTagSerials(bh.hits.First.Hits.Select(Function(h) h.tag).ToArray)
+            Dim table = CreateAlphabetTagSerials(bh.hits.First.Hits.Select(Function(h) h.tag).ToArray)
             Dim maxIdLength = (From hits As HitCollection
                                In list
                                Let mat = {

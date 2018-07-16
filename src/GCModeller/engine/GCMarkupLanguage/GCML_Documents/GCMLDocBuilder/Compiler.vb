@@ -73,7 +73,7 @@ Namespace Builder
         ''' <remarks></remarks>
         Public Overrides Function PreCompile(Path As CommandLine) As Integer
             Dim SBML As Level2.XmlFile =
-                Level2.XmlFile.Load(Path.CLICommandArgvs & "/metabolic-reactions.sbml")
+                Level2.XmlFile.Load(Path.cli & "/metabolic-reactions.sbml")
             Dim Compartments As Dictionary(Of String, Integer) =
                 New Dictionary(Of String, Integer)
 
@@ -95,7 +95,7 @@ Namespace Builder
                 MyBase.CompiledModel.Metabolism.Metabolites(i).Compartment = Compartments(MyBase.CompiledModel.Metabolism.Metabolites(i).Compartment)
             Next
             MyBase.CompiledModel.Metabolism.MetabolismNetwork = (From e In SBML.Model.listOfReactions.AsParallel Select GCML_Documents.XmlElements.Metabolism.Reaction.CastTo(e, MyBase.CompiledModel)).AsList
-            MyClass.MetaCyc = DatabaseLoadder.CreateInstance(MetaCycDir:=Path.CLICommandArgvs)
+            MyClass.MetaCyc = DatabaseLoadder.CreateInstance(MetaCycDir:=Path.cli)
 
             Call Trim(Model:=MyBase.CompiledModel, StringList:=Me.StringReplacements)
 

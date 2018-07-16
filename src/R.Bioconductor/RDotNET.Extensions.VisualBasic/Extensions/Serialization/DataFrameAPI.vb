@@ -43,7 +43,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
@@ -318,7 +318,7 @@ l;
     ''' <typeparam name="T"></typeparam>
     ''' <param name="var"></param>
     ''' <returns></returns>
-    <Extension> Public Function AsDataFrame(Of T As Class)(var As var, Optional maps As Dictionary(Of String, String) = Nothing) As T()
+    <Extension> Public Function AsDataFrame(Of T As Class)(var As var, Optional maps As NameMapping = Nothing) As T()
         Dim tmp$ = App.GetAppSysTempFile
         Dim out As T()
 

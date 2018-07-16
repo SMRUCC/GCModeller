@@ -1603,6 +1603,32 @@ Public Module Extensions
         End If
     End Function
 
+    ''' <summary>
+    ''' Alias of the linq function <see cref="Enumerable.Range"/>
+    ''' </summary>
+    ''' <param name="range"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Iterator Public Function Sequence(range As IntRange, Optional stepOffset% = 1) As IEnumerable(Of Integer)
+        If stepOffset = 0 Then
+            stepOffset = 1
+#If DEBUG Then
+            Call $"step_offset is ZERO! This will caused a infinity loop, using default step `1`!".Warning
+#End If
+        End If
+
+        For i As Integer = range.Min To range.Max Step stepOffset
+            Yield i
+        Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AsRange(ints As IEnumerable(Of Integer)) As IntRange
+        Return New IntRange(ints)
+    End Function
+
     <Extension> Public Iterator Function LongSeq(Of T)(source As IEnumerable(Of T), Optional offset% = 0) As IEnumerable(Of Long)
         If source Is Nothing Then
             Return

@@ -53,22 +53,34 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace LocalBLAST.Application
 
+    Public Interface IMapping
+
+        Property Qname As String
+        Property Sname As String
+
+        Property Qstart As Integer
+        Property Qstop As Integer
+        Property Sstart As Integer
+        Property Sstop As Integer
+    End Interface
+
     ''' <summary>
     ''' Blastn Mapping for fastaq
     ''' </summary>
     Public Class BlastnMapping : Inherits Contig
         Implements IMap
+        Implements IMapping
 
         ''' <summary>
         ''' The name of the reads query
         ''' </summary>
         ''' <returns></returns>
-        <Column("Reads.Query")> Public Property ReadQuery As String Implements IMap.Key
+        <Column("Reads.Query")> Public Property ReadQuery As String Implements IMap.Key, IMapping.Qname
         ''' <summary>
         ''' The name of the reference genome sequence.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Reference As String Implements IMap.Maps
+        Public Property Reference As String Implements IMap.Maps, IMapping.Sname
         ''' <summary>
         ''' Length of <see cref="ReadQuery"/>
         ''' </summary>
@@ -142,10 +154,10 @@ Namespace LocalBLAST.Application
         End Property
 #End Region
 
-        <Column("Left(Query)")> Public Property QueryLeft As Integer
-        <Column("Right(Query)")> Public Property QueryRight As Integer
-        <Column("Left(Reference)")> Public Property ReferenceLeft As Integer
-        <Column("Right(Reference)")> Public Property ReferenceRight As Integer
+        <Column("Left(Query)")> Public Property QueryLeft As Integer Implements IMapping.Qstart
+        <Column("Right(Query)")> Public Property QueryRight As Integer Implements IMapping.Qstop
+        <Column("Left(Reference)")> Public Property ReferenceLeft As Integer Implements IMapping.Sstart
+        <Column("Right(Reference)")> Public Property ReferenceRight As Integer Implements IMapping.Sstop
 
         'Public Property Lambda As Double
         'Public Property K As Double

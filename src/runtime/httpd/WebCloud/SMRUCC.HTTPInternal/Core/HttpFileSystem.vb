@@ -66,6 +66,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
@@ -75,6 +76,7 @@ Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 Imports fs = Microsoft.VisualBasic.FileIO.FileSystem
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Core
 
@@ -102,6 +104,7 @@ Namespace Core
         ReadOnly _cacheMode As Boolean
         ReadOnly _cacheUpdate As UpdateThread
         ReadOnly _defaultFavicon As Byte() = My.Resources.favicon.UnzipStream.ToArray
+        ReadOnly MAX_POST_SIZE%
 
         Public Function AddMappings(DIR As String, url As String) As Boolean
             url = url & "/index.html"
@@ -140,6 +143,34 @@ Namespace Core
             App.CurrentDirectory = root
             _virtualMappings = New Dictionary(Of String, String)
             RequestStream = requestResource Or defaultResource
+
+            Dim size$ = App.GetVariable("MAX_POST_SIZE")
+
+            If size.StringEmpty Then
+                size = 128 * 1024 * 1024
+            ElseIf size.IsPattern("\d+") Then
+                MAX_POST_SIZE = Val(size)
+            ElseIf size.IsPattern("\d+\s*[GMK]?B", RegexICSng) Then
+                Dim value# = size.Match("\d+")
+                Dim unit$ = r.Replace(size, "\d+", "").Trim
+
+                Select Case unit.ToLower
+                    Case "b"
+                        MAX_POST_SIZE = (value)
+                    Case "kb"
+                        MAX_POST_SIZE = (value.TagUnit(ByteSize.KB) = ByteSize.B)
+                    Case "mb"
+                        MAX_POST_SIZE = (value.TagUnit(ByteSize.MB) = ByteSize.B)
+                    Case "gb"
+                        MAX_POST_SIZE = (value.TagUnit(ByteSize.GB) = ByteSize.B)
+                    Case Else
+                        Throw New InvalidExpressionException($"MAX_POST_SIZE={size}")
+                End Select
+            End If
+
+            If Not size.StringEmpty Then
+                Call $"MAX_POST_SIZE={size} ({MAX_POST_SIZE} bytes)".__INFO_ECHO
+            End If
 
             If cache Then
                 _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
@@ -472,7 +503,7 @@ Namespace Core
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function __httpProcessor(client As TcpClient) As HttpProcessor
-            Return New HttpProcessor(client, Me) With {
+            Return New HttpProcessor(client, Me, MAX_POST_SIZE) With {
                 ._404Page = AddressOf __request404
             }
         End Function
