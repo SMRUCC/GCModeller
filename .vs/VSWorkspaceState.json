@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\interops\\localblast",
-    "\\src\\interops\\localblast\\CLI_tools",
-    "\\src\\interops\\localblast\\CLI_tools\\CLI"
+    "\\src"
   ],
   "SelectedNode": "\\src\\GCModeller.sln",
   "PreviewInSolutionExplorer": false
