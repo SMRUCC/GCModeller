@@ -65,17 +65,17 @@ Public Class OTUTable : Inherits DataSet
     ''' <param name="table$"></param>
     ''' <returns></returns>
     Public Shared Function LoadSample(table$, Optional ID$ = "OTU_ID") As OTUTable()
-        Dim fieldMaps As New Dictionary(Of String, String) From {
-            {ID, NameOf(OTUTable.ID)}
-        }
-
         If table.ReadFirstLine.Count(ASCII.TAB) > 1 Then
             ' tsv文件
             Return table _
                 .ReadAllLines _
-                .ImportsTsv(Of OTUTable)(fieldMaps)
+                .ImportsTsv(Of OTUTable)({
+                    {ID, NameOf(OTUTable.ID)}
+                })
         Else
-            Return table.LoadCsv(Of OTUTable)(maps:=fieldMaps)
+            Return table.LoadCsv(Of OTUTable)(maps:={
+                {ID, NameOf(OTUTable.ID)}
+            })
         End If
     End Function
 

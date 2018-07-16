@@ -74,7 +74,7 @@ Public Class ColorMgr
 
     Public ReadOnly Property [Default] As Color
         Get
-            Return __colorMaps.__default
+            Return __colorMaps.Default
         End Get
     End Property
 
@@ -94,7 +94,7 @@ Public Class ColorMgr
         If __entityMaps.ContainsKey(id) Then
             Return __colorMaps.GetValue(__entityMaps(id).map)
         Else
-            Return __colorMaps.__default
+            Return __colorMaps.Default
         End If
     End Function
 

@@ -1,45 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::c0cb273ac21d77f8984642f3083f8076, CLI_tools\ProteinInteraction\CLI\STRING.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: StringNetwork, STRINGSelects
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: StringNetwork, STRINGSelects
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -48,16 +47,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
-Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID
-Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.Assembly.MiST2
 Imports SMRUCC.genomics.Data.STRING
-Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
 Partial Module CLI
@@ -70,16 +61,14 @@ Partial Module CLI
         Dim links As String = args("/links")
         Dim maps As String = args("/maps")
         Dim key As String = args.GetValue("/key", "GeneId")
-        Dim mapsKey As New Dictionary(Of String, String) From {
-            {key, NameOf(EntityObject.ID)}
-        }
-        Dim mapNames As Dictionary(Of String, String) =
-            entrez_gene_id_vs_string.BuildMapsFromFile(maps)
+        Dim mapNames As Dictionary(Of String, String) = entrez_gene_id_vs_string.BuildMapsFromFile(maps)
 
         If [in].FileExists Then
             Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".STRING.Csv")
             Dim result As EntityObject() = linksDetail.Selects(
-                [in].LoadCsv(Of EntityObject)(maps:=mapsKey),
+                [in].LoadCsv(Of EntityObject)(maps:={
+                    {key, NameOf(EntityObject.ID)}
+                }),
                 linksDetail.LoadFile(links),
                 mapNames).ToArray
 
@@ -89,7 +78,10 @@ Partial Module CLI
             Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".STRING_selects/")
 
             For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:=mapsKey)
+                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(
+                    maps:={
+                        {key, NameOf(EntityObject.ID)}
+                    })
                 Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
                 result = linksDetail.Selects(result, net, mapNames).ToArray

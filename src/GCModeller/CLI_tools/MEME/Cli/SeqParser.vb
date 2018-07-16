@@ -304,8 +304,7 @@ Partial Module CLI
         Dim DOOR As String = args("/DOOR")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".Log2Seq-{factor}.fa/")
-        Dim map As Dictionary(Of String, String) = New Dictionary(Of String, String) From {{GetLocusMapName(inFile), NameOf(ResultData.locus_tag)}}
-        Dim data As IEnumerable(Of ResultData) = inFile.LoadCsv(Of ResultData)(maps:=map)
+        Dim data As IEnumerable(Of ResultData) = inFile.LoadCsv(Of ResultData)(maps:={{GetLocusMapName(inFile), NameOf(ResultData.locus_tag)}})
         Dim DEGs As String() = (From x As ResultData
                                 In data.AsParallel
                                 Where Not String.IsNullOrEmpty((From exp In x.dataExpr0

@@ -115,14 +115,13 @@ Public Module CLI
         Dim [in] As String = args("/in")
         Dim links As String = args("/links")
         Dim key As String = args.GetValue("/key", "GeneId")
-        Dim mapsKey As New Dictionary(Of String, String) From {
-            {key, NameOf(EntityObject.ID)}
-        }
 
         If [in].FileExists Then
             Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".BioGRID.Csv")
             Dim result As EntityObject() = BioGRID.API.Selects(
-                [in].LoadCsv(Of EntityObject)(maps:=mapsKey),
+                [in].LoadCsv(Of EntityObject)(maps:={
+                    {key, NameOf(EntityObject.ID)}
+                }),
                 BioGRID.LoadAllmiTab(links)).ToArray
 
             Return result.SaveTo(out).CLICode
@@ -131,7 +130,9 @@ Public Module CLI
             Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".BioGRID_selects/")
 
             For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:=mapsKey)
+                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:={
+                    {key, NameOf(EntityObject.ID)}
+                })
                 Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
                 result = BioGRID.API.Selects(result, net).ToArray
