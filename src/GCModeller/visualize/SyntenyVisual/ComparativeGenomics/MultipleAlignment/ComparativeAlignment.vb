@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::1835b50c368d5da5bc0c2ce6429f774b, visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ComparativeAlignment
-    ' 
-    '         Function: __internalFilter, __invokeDrawing, BuildModel, BuildMultipleAlignmentModel, CreateColor
-    '                   InvokeDrawing, TCSVisualization
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ComparativeAlignment
+' 
+'         Function: __internalFilter, __invokeDrawing, BuildModel, BuildMultipleAlignmentModel, CreateColor
+'                   InvokeDrawing, TCSVisualization
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
@@ -61,8 +62,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
-Imports SMRUCC.genomics.Visualize.ComparativeGenomics
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
 
 Namespace ComparativeAlignment
 
@@ -345,13 +345,15 @@ Namespace ComparativeAlignment
                                                  .IteratesALL _
                                                  .COGsColorBrush(, COGColors)
             Dim LQuery As GenomeModel() =
-                loadPTT.Select(Function(x) ModelAPI.CreateObject(x.GeneObjects,
+                loadPTT.Select(Function(x)
+                                   Return ComparativeGenomics.ModelAPI.CreateObject(x.GeneObjects,
                                                                   x.Length,
                                                                   x.Title,
                                                                   __getId:=Function(g) g.Synonym,
-                                                                  COGsColor:=COGsBrush)) ' 将PTT文件之中的所有数据都转换为模型数据
+                                                                  COGsColor:=COGsBrush)
+                               End Function) ' 将PTT文件之中的所有数据都转换为模型数据
             Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing
-            Dim QueryModel As GenomeModel = ModelAPI.CreateObject(Query_anno.ToArray, Query_nt, COGsColor:=QueryCOGs)
+            Dim QueryModel As GenomeModel = ComparativeGenomics.ModelAPI.CreateObject(Query_anno.ToArray, Query_nt, COGsColor:=QueryCOGs)
             Dim QueryIDList As String() = queryBBH.First.BBH.Select(Function(x) x.QueryName)
 
             For Each Color As KeyValuePair(Of String, Brush) In QueryCOGs
@@ -611,8 +613,8 @@ REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String)
                                    S_ID,
                                    Ptt = TabularFormat.PTT.Load(path)).ToArray
 
-            Model.Query = ModelAPI.CreateObject(QueryPtt, COGsColor:=Nothing)
-            Model.aligns = (From Genome In SubjectsPtt Select ModelAPI.CreateObject(Genome.Ptt, COGsColor:=Nothing)).ToArray
+            Model.Query = ComparativeGenomics.ModelAPI.CreateObject(QueryPtt, COGsColor:=Nothing)
+            Model.aligns = (From Genome In SubjectsPtt Select ComparativeGenomics.ModelAPI.CreateObject(Genome.Ptt, COGsColor:=Nothing)).ToArray
 
             If UsingColumnHeadersAsName Then
                 Dim TempList = ColumnList.AsList
