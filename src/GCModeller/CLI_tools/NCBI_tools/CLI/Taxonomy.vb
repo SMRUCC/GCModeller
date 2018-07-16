@@ -458,8 +458,8 @@ Partial Module CLI
         Dim giFieldName = args("/field.gi")
         Dim out As String = args.GetValue("/out", dataFile.TrimSuffix & "-taxonomy.csv")
         Dim data As EntityObject() =
-            dataFile _
-            .LoadCsv(Of EntityObject)(maps:=New Dictionary(Of String, String) From {
+            dataFile.LoadCsv(Of EntityObject)(
+            maps:={
                 {giFieldName, NameOf(EntityObject.ID)}
             })
         Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =

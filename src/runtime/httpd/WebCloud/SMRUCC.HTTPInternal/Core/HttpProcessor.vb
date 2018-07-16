@@ -1,58 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::d94ad16d202e28581a37324086281520, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpProcessor
-    ' 
-    '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
-    '                     IsWWWRoot, Out
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __streamReadLine, parseRequest, ToString
-    ' 
-    '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
-    '              WriteLine, (+2 Overloads) writeSuccess
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpProcessor
+' 
+'         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
+'                     IsWWWRoot, Out
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __streamReadLine, parseRequest, ToString
+' 
+'         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
+'              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+'              WriteLine, (+2 Overloads) writeSuccess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -103,11 +102,12 @@ Namespace Core
         ''' 10MB
         ''' </summary>
         ''' <remarks></remarks>
-        Const MAX_POST_SIZE As Integer = 128 * 1024 * 1024
+        ReadOnly MAX_POST_SIZE% = 128 * 1024 * 1024
 
-        Public Sub New(s As TcpClient, srv As HttpServer)
-            Me.socket = s
+        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%)
+            Me.socket = socket
             Me.srv = srv
+            Me.MAX_POST_SIZE = MAX_POST_SIZE
         End Sub
 
         ''' <summary>
@@ -321,8 +321,8 @@ Namespace Core
 
         Public BUF_SIZE As Integer = 4096
 
-        Public Const ContentLengthTooLarge As String = "POST Content-Length({0}) too big for this simple server"
-        Public Const ContentLength As String = "Content-Length"
+        Public Const packageTooLarge$ = "POST Content-Length({0}) too big for this simple server"
+        Public Const ContentLength$ = "Content-Length"
 
         ''' <summary>
         ''' This post data processing just reads everything into a memory stream.
@@ -344,7 +344,7 @@ Namespace Core
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
 
                 If content_len > MAX_POST_SIZE Then
-                    Throw New Exception(String.Format(ContentLengthTooLarge, content_len))
+                    Throw New Exception(String.Format(packageTooLarge, content_len))
                 End If
 
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}

@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::7c51afb42ee5f46425aabbe6f4f365c0, visualize\Cytoscape\CLI_tool\CLI\Phenotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __clusterFastCommon, __clusteringCommon, __expends, __getMaxMods, __getMaxRelates
-    '               __getMods, __merges, BuildTreeNET, BuildTreeNET_DEGs, BuildTreeNET_KEGGModules
-    '               BuildTreeNET_KEGGPathways, BuildTreeNET_MergeRegulons, BuildTreeNETCOGs, BuildTreeNetTF, ClusterMatrix
-    '               FastCluster, MotifCluster, MotifClusterSites, rFBATreeCluster, TreeCluster
-    ' 
-    '     Sub: __briefTrim
-    '     Class FamilyHit
-    ' 
-    '         Properties: Family, HitName, QueryName
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __clusterFastCommon, __clusteringCommon, __expends, __getMaxMods, __getMaxRelates
+'               __getMods, __merges, BuildTreeNET, BuildTreeNET_DEGs, BuildTreeNET_KEGGModules
+'               BuildTreeNET_KEGGPathways, BuildTreeNET_MergeRegulons, BuildTreeNETCOGs, BuildTreeNetTF, ClusterMatrix
+'               FastCluster, MotifCluster, MotifClusterSites, rFBATreeCluster, TreeCluster
+' 
+'     Sub: __briefTrim
+'     Class FamilyHit
+' 
+'         Properties: Family, HitName, QueryName
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
@@ -194,11 +195,11 @@ Partial Module CLI
         Dim source As AnnotationModel() = files.Select(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         Dim result As Dictionary(Of String, EntityClusterModel) =
             source.Select(Function(x)
-                               Return New EntityClusterModel With {
-                                   .ID = x.Uid,
-                                   .Properties = New Dictionary(Of String, Double)
-                               }
-                           End Function) _
+                              Return New EntityClusterModel With {
+                                  .ID = x.Uid,
+                                  .Properties = New Dictionary(Of String, Double)
+                              }
+                          End Function) _
                   .ToDictionary(Function(x) x.ID)
 
         If nClusters >= source.Length Then
@@ -393,10 +394,10 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Tree.Csv")
         Dim map As String = args("/Locus.Map")
-        Dim maps As Dictionary(Of String, String) = Nothing
+        Dim maps As NameMapping = Nothing
 
         If Not String.IsNullOrEmpty(map) Then  ' 提升对其他的数据源的兼容性
-            maps = New Dictionary(Of String, String) From {{map, NameOf(EntityClusterModel.ID)}}
+            maps = {{map, NameOf(EntityClusterModel.ID)}}
         End If
 
         Dim inEntity = inMAT.LoadCsv(Of EntityClusterModel)(maps:=maps)
@@ -460,13 +461,13 @@ Partial Module CLI
         Dim LQuery =
             LinqAPI.MakeList(Of EntityClusterModel) <= From x As EntityClusterModel
                                               In source
-                                              Let cuts As Dictionary(Of String, Double) = (
-                                                  From p
-                                                  In x.Properties
-                                                  Where Math.Abs(p.Value) >= cut
-                                                  Let mapId As String = maps(p.Key)
-                                                  Select New KeyValuePair(Of String, Double)(mapId, p.Value)).ToDictionary(True)
-                                              Select setValue(x, cuts)
+                                                       Let cuts As Dictionary(Of String, Double) = (
+                                                           From p
+                                                           In x.Properties
+                                                           Where Math.Abs(p.Value) >= cut
+                                                           Let mapId As String = maps(p.Key)
+                                                           Select New KeyValuePair(Of String, Double)(mapId, p.Value)).ToDictionary(True)
+                                                       Select setValue(x, cuts)
         Return LQuery
     End Function
 
