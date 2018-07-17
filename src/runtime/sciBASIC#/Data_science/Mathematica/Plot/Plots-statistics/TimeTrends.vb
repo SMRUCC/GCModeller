@@ -8,11 +8,15 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 
 Public Module TimeTrends
 
@@ -33,8 +37,10 @@ Public Module TimeTrends
     <Extension>
     Public Function Plot(data As IEnumerable(Of TimePoint),
                          Optional size$ = "3600,2400",
-                         Optional padding$ = g.DefaultPadding,
+                         Optional padding$ = Canvas.Resolution2K.PaddingWithRightLegend,
                          Optional bg$ = "white",
+                         Optional title$ = "Time trends",
+                         Optional subTitle$ = "Time trends chart",
                          Optional lineWidth! = 20,
                          Optional lineColor$ = "darkblue",
                          Optional pointSize! = 30,
@@ -47,7 +53,12 @@ Public Module TimeTrends
                          Optional cubicSplineExpected% = 25,
                          Optional valueLabelFormat$ = "G2",
                          Optional valueLabelFontCSS$ = CSSFont.Win7VeryVeryLarge,
-                         Optional tickLabelFontCSS$ = CSSFont.Win7VeryLarge) As GraphicsData
+                         Optional tickLabelFontCSS$ = CSSFont.Win7VeryLarge,
+                         Optional titleFontCSS$ = CSSFont.Win7UltraLarge,
+                         Optional subTitleFontCSS$ = CSSFont.Win7VeryVeryLarge,
+                         Optional dateFormat As Func(Of Date, String) = Nothing) As GraphicsData
+
+        Static shortDateString As New DefaultValue(Of Func(Of Date, String))(Function(d) d.ToShortDateString)
 
         Dim dates = data.OrderBy(Function(d) d.date).ToArray
         Dim timer As TimeRange = dates _
@@ -66,6 +77,9 @@ Public Module TimeTrends
 
         Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelFontCSS)
         Dim tickLabelFont As Font = CSSFont.TryParse(tickLabelFontCSS)
+        Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
+        Dim subTitleFont As Font = CSSFont.TryParse(subTitleFontCSS)
+
         Dim lineStyle As New Pen(lineColor.TranslateColor, lineWidth)
         Dim axisPen As Pen = Stroke.TryParse(axisStrokeCSS).GDIObject
         Dim yTickPen As Pen = Stroke.TryParse(yTickStrokeCSS).GDIObject
@@ -74,6 +88,7 @@ Public Module TimeTrends
             .TranslateColor _
             .Alpha(255 * rangeOpacity)
         Dim pointBrush As New SolidBrush(pointColor.TranslateColor)
+
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim yScaler = region.YScaler(yTicks)
@@ -85,6 +100,7 @@ Public Module TimeTrends
                 Dim labelSize As SizeF
                 Dim labelText$
 
+                ' 绘制Y坐标轴
                 For Each yVal As Double In yTicks
                     y = yScaler(yVal)
                     labelText = yVal
@@ -96,6 +112,31 @@ Public Module TimeTrends
                          y:=y - labelSize.Height / 2
                     )
                 Next
+
+                ' 绘制X坐标轴
+                Call g.DrawLine(axisPen, rect.Left, rect.Bottom, rect.Right, rect.Bottom)
+
+                With New GraphicsText(DirectCast(g, GDICanvas).Graphics)
+
+                    dateFormat = dateFormat Or shortDateString
+
+                    ' 绘制X坐标轴日期标签
+                    For Each tickDate As Date In timer.Ticks
+                        labelText = dateFormat(tickDate)
+                        labelSize = g.MeasureString(labelText, tickLabelFont)
+                        x = xScaler(tickDate)
+                        x = x - labelSize.Width / 2
+                        y = rect.Bottom + labelSize.Width
+
+                        .DrawString(s:=labelText,
+                                    font:=tickLabelFont,
+                                    brush:=Brushes.Black,
+                                    point:=New PointF(x, y),
+                                    angle:=-45.0!
+                         )
+                        g.DrawLine(axisPen, CInt(x), CInt(y), CInt(x), rect.Bottom)
+                    Next
+                End With
 
                 rangePoly = (New List(Of PointF), New List(Of PointF))
 
@@ -174,6 +215,44 @@ Public Module TimeTrends
                 For Each label As Label In labels
                     Call g.DrawString(label.text, valueLabelFont, Brushes.Black, label.X, label.Y)
                 Next
+
+                labelSize = g.MeasureString(title, titleFont)
+                x = rect.Left + (rect.Width - labelSize.Width) / 2
+                y = rect.Top / 2 - labelSize.Height / 2
+
+                g.DrawString(title, titleFont, Brushes.Black, x, y)
+
+                labelSize = g.MeasureString(subTitle, subTitleFont)
+                x = rect.Left + (rect.Width - labelSize.Width) / 2
+                y = y + labelSize.Height * 1.25
+
+                g.DrawString(subTitle, subTitleFont, Brushes.Black, x, y)
+
+                Dim legends As Legend() = {
+                    New Legend With {
+                        .color = lineColor,
+                        .fontstyle = valueLabelFontCSS,
+                        .style = LegendStyles.SolidLine,
+                        .title = "Average"
+                    },
+                    New Legend With {
+                        .color = rangeColor,
+                        .fontstyle = valueLabelFontCSS,
+                        .style = LegendStyles.RoundRectangle,
+                        .title = "[min, max]"
+                    }
+                }
+
+                x = rect.Right + 5
+                y = rect.Top + rect.Height / 3
+
+                Call g.DrawLegends(
+                    topLeft:=New Point(x, y),
+                    legends:=legends,
+                    regionBorder:=New Stroke With {
+                        .dash = DashStyle.Solid, .fill = "black", .width = 5
+                    }
+                )
             End Sub
 
         Return g.GraphicsPlots(
