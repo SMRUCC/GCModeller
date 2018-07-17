@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9716dbdde19318f5939c82a397444de2, core\Bio.Assembly\Query\MatchContext.vb"
+﻿#Region "Microsoft.VisualBasic::9716dbdde19318f5939c82a397444de2, Bio.Assembly\Query\MatchContext.vb"
 
     ' Author:
     ' 

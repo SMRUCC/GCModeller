@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5404799d0d658e031ac8d682cf9a9b6d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb"
+﻿#Region "Microsoft.VisualBasic::5404799d0d658e031ac8d682cf9a9b6d, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb"
 
     ' Author:
     ' 

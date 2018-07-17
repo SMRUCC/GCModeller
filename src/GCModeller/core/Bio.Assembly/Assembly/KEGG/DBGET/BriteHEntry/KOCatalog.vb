@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c96e7f05590a393184acf1b5709c4aef, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::c96e7f05590a393184acf1b5709c4aef, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb"
 
     ' Author:
     ' 

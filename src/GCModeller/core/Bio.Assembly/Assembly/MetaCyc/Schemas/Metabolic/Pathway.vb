@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4b202890333f35483815a9ad7f56616, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Metabolic\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c4b202890333f35483815a9ad7f56616, Bio.Assembly\Assembly\MetaCyc\Schemas\Metabolic\Pathway.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af7bb14a92e274e66271fd9da4e38510, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
+﻿#Region "Microsoft.VisualBasic::af7bb14a92e274e66271fd9da4e38510, Bio.Assembly\Assembly\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
 
     ' Author:
     ' 

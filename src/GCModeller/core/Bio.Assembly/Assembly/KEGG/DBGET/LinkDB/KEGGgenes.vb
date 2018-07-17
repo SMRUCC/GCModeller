@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cc6d6980946ed1f1e80f8f4fde50618, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
+﻿#Region "Microsoft.VisualBasic::0cc6d6980946ed1f1e80f8f4fde50618, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
 
     ' Author:
     ' 

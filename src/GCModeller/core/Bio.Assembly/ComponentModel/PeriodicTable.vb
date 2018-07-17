@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad680aaa9ee39f2003c31cff062ba176, core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
+﻿#Region "Microsoft.VisualBasic::ad680aaa9ee39f2003c31cff062ba176, Bio.Assembly\ComponentModel\PeriodicTable.vb"
 
     ' Author:
     ' 

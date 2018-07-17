@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fbe22ec271dfda77320cf25bc4cba08, core\Bio.Assembly\Assembly\NCBI\Taxonomy\TaxidMaps.vb"
+﻿#Region "Microsoft.VisualBasic::1fbe22ec271dfda77320cf25bc4cba08, Bio.Assembly\Assembly\NCBI\Taxonomy\TaxidMaps.vb"
 
     ' Author:
     ' 

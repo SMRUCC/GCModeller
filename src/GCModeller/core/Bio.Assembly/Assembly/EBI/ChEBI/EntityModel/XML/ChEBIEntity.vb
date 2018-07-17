@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3f41f12b541438399bc2385a345d0ce, core\Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
+﻿#Region "Microsoft.VisualBasic::5225865499966b74e6c59de2f95d07f2, Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
 
     ' Author:
     ' 

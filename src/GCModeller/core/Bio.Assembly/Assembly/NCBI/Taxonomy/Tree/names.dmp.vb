@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d23f502b5ad99a2ff6a133be464608a5, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
+﻿#Region "Microsoft.VisualBasic::d23f502b5ad99a2ff6a133be464608a5, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
 
     ' Author:
     ' 
