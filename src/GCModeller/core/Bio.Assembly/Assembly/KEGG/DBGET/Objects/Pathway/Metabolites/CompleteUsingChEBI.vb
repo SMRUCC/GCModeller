@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af9a38d620bb475dc840f1e9df0b8485, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
+﻿#Region "Microsoft.VisualBasic::6b1923687029b4684a56bff41d0070e7, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Module MetabolitesDBGet
+    '     Module MetaboliteDBGET
     ' 
     '         Function: CompleteUsingChEBI
     ' 

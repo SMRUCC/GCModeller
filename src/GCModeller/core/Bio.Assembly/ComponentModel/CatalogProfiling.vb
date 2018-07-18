@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67df7d2d210c2c5543f0bb4705b5724e, core\Bio.Assembly\ComponentModel\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::67df7d2d210c2c5543f0bb4705b5724e, Bio.Assembly\ComponentModel\CatalogProfiling.vb"
 
     ' Author:
     ' 

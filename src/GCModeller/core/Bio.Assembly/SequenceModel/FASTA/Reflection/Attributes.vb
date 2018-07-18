@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70d8485b07ca919c8204ef8fbce6d8b6, core\Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::70d8485b07ca919c8204ef8fbce6d8b6, Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
 
     ' Author:
     ' 

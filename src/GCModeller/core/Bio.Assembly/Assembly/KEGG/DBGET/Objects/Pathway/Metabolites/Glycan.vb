@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53c257bfeeed62f0a6744843e48dfbcb, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::dda6e8933aa12a61191122b811fa2e7e, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,10 @@
 
     '     Class Glycan
     ' 
-    '         Properties: Composition, Mass, Orthology
+    '         Properties: Composition, CompoundId, Mass, Orthology
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: __parseOrthology, Download, DownloadFrom, ToCompound
+    '         Function: __parseOrthology, Download, DownloadFrom, GetLinkDbRDF, ToCompound
     ' 
     ' 
     ' /********************************************************************************/

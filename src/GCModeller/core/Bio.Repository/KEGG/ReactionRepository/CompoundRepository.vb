@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a6926794d3949e70a878ec3b28038e9, core\Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
+﻿#Region "Microsoft.VisualBasic::0a6926794d3949e70a878ec3b28038e9, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
     ' Author:
     ' 

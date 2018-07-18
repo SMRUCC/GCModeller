@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::067fb370537ab7b1931129e036403db9, core\Bio.Assembly\Assembly\DOMINE\Database.vb"
+﻿#Region "Microsoft.VisualBasic::067fb370537ab7b1931129e036403db9, Bio.Assembly\Assembly\DOMINE\Database.vb"
 
     ' Author:
     ' 

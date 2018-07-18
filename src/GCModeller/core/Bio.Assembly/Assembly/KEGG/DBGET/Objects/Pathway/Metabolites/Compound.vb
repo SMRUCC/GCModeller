@@ -1,51 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::30828824861da77a8152fa0487a37383, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::0340bbf3fd11fb37fa3a1563bc6c1d23, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Compound
-' 
-'         Properties: [Module], CHEBI, CommonNames, DbLinks, Entry
-'                     Enzyme, ExactMass, Formula, MolWeight, Pathway
-'                     PUBCHEM, reactionId, Remarks
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetModules, GetPathways
-'                   ToString
-' 
-'         Sub: DownloadKCF, DownloadStructureImage
-' 
-' 
-' /********************************************************************************/
+    '     Class Compound
+    ' 
+    '         Properties: [Class], [Module], CHEBI, CommonNames, DbLinks
+    '                     Entry, Enzyme, ExactMass, Formula, Image
+    '                     KCF, MolWeight, Pathway, PUBCHEM, reactionId
+    '                     Remarks
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules
+    '                   GetPathways, ToString
+    ' 
+    '         Sub: DownloadKCF, DownloadStructureImage
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

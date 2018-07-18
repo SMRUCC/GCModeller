@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8016bc8f9638c6fbf8e635df38518ca1, core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
+﻿#Region "Microsoft.VisualBasic::8016bc8f9638c6fbf8e635df38518ca1, Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fca95d9f3e54637e7c901686c5cb812d, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+﻿#Region "Microsoft.VisualBasic::fca95d9f3e54637e7c901686c5cb812d, Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
     ' Author:
     ' 
