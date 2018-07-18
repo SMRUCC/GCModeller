@@ -1,4 +1,50 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::e213d5379e13e80c01cffc6da7ee1fc5, Data_science\Mathematica\Plot\Plots-statistics\TimeTrends.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module TimeTrends
+    ' 
+    '     Function: Plot
+    '     Structure TimePoint
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
@@ -36,8 +82,8 @@ Public Module TimeTrends
 
     <Extension>
     Public Function Plot(data As IEnumerable(Of TimePoint),
-                         Optional size$ = "3600,2400",
-                         Optional padding$ = Canvas.Resolution2K.PaddingWithRightLegend,
+                         Optional size$ = "3800,2400",
+                         Optional padding$ = Canvas.Resolution2K.PaddingWithTopTitleAndRightLegend,
                          Optional bg$ = "white",
                          Optional title$ = "Time trends",
                          Optional subTitle$ = "Time trends chart",
@@ -46,6 +92,7 @@ Public Module TimeTrends
                          Optional pointSize! = 30,
                          Optional pointColor$ = "blue",
                          Optional rangeColor$ = "skyblue",
+                         Optional titleColor$ = "gray",
                          Optional rangeOpacity! = 0.45,
                          Optional rangeStroke$ = "stroke: darkblue; stroke-width: 1px; stroke-dash: solid;",
                          Optional axisStrokeCSS$ = Stroke.AxisStroke,
@@ -56,7 +103,11 @@ Public Module TimeTrends
                          Optional tickLabelFontCSS$ = CSSFont.Win7VeryLarge,
                          Optional titleFontCSS$ = CSSFont.Win7UltraLarge,
                          Optional subTitleFontCSS$ = CSSFont.Win7VeryVeryLarge,
-                         Optional dateFormat As Func(Of Date, String) = Nothing) As GraphicsData
+                         Optional legendTitleFont$ = CSSFont.Win7VeryLarge,
+                         Optional dateFormat As Func(Of Date, String) = Nothing,
+                         Optional legendTitle$ = "Trends",
+                         Optional legendRangeTitle$ = "[min, max]",
+                         Optional legendTitleColor$ = "black") As GraphicsData
 
         Static shortDateString As New DefaultValue(Of Func(Of Date, String))(Function(d) d.ToShortDateString)
 
@@ -87,6 +138,7 @@ Public Module TimeTrends
         Dim rgColor As Color = rangeColor _
             .TranslateColor _
             .Alpha(255 * rangeOpacity)
+        Dim titleBrush As Brush = titleColor.GetBrush
         Dim pointBrush As New SolidBrush(pointColor.TranslateColor)
 
         Dim plotInternal =
@@ -126,14 +178,18 @@ Public Module TimeTrends
                         labelSize = g.MeasureString(labelText, tickLabelFont)
                         x = xScaler(tickDate)
                         x = x - labelSize.Width / 2
-                        y = rect.Bottom + labelSize.Width
+                        y = rect.Bottom + labelSize.Width * (3 / 4)
 
                         .DrawString(s:=labelText,
                                     font:=tickLabelFont,
                                     brush:=Brushes.Black,
                                     point:=New PointF(x, y),
-                                    angle:=-45.0!
+                                    angle:=-35.0!
                          )
+
+                        x = xScaler(tickDate)
+                        y = rect.Bottom + labelSize.Height / 2
+
                         g.DrawLine(axisPen, CInt(x), CInt(y), CInt(x), rect.Bottom)
                     Next
                 End With
@@ -220,26 +276,26 @@ Public Module TimeTrends
                 x = rect.Left + (rect.Width - labelSize.Width) / 2
                 y = rect.Top / 2 - labelSize.Height / 2
 
-                g.DrawString(title, titleFont, Brushes.Black, x, y)
+                g.DrawString(title, titleFont, titleBrush, x, y)
 
                 labelSize = g.MeasureString(subTitle, subTitleFont)
                 x = rect.Left + (rect.Width - labelSize.Width) / 2
                 y = y + labelSize.Height * 1.25
 
-                g.DrawString(subTitle, subTitleFont, Brushes.Black, x, y)
+                g.DrawString(subTitle, subTitleFont, titleBrush, x, y)
 
                 Dim legends As Legend() = {
                     New Legend With {
                         .color = lineColor,
-                        .fontstyle = valueLabelFontCSS,
+                        .fontstyle = legendTitleFont,
                         .style = LegendStyles.SolidLine,
-                        .title = "Average"
+                        .title = legendTitle
                     },
                     New Legend With {
                         .color = rangeColor,
-                        .fontstyle = valueLabelFontCSS,
+                        .fontstyle = legendTitleFont,
                         .style = LegendStyles.RoundRectangle,
-                        .title = "[min, max]"
+                        .title = legendRangeTitle
                     }
                 }
 
@@ -251,7 +307,8 @@ Public Module TimeTrends
                     legends:=legends,
                     regionBorder:=New Stroke With {
                         .dash = DashStyle.Solid, .fill = "black", .width = 5
-                    }
+                    },
+                    titleBrush:=legendTitleColor.GetBrush
                 )
             End Sub
 
@@ -262,3 +319,4 @@ Public Module TimeTrends
         )
     End Function
 End Module
+
