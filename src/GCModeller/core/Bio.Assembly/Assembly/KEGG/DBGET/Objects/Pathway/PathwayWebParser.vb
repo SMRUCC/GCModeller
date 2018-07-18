@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::551dcb32d52332924b19b907f80e48d4, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
+﻿#Region "Microsoft.VisualBasic::551dcb32d52332924b19b907f80e48d4, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
 
     ' Author:
     ' 

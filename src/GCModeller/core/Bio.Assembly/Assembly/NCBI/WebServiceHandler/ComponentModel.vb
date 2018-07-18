@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db41bad8a478c9d555814700ec942fa, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\ComponentModel.vb"
+﻿#Region "Microsoft.VisualBasic::4db41bad8a478c9d555814700ec942fa, Bio.Assembly\Assembly\NCBI\WebServiceHandler\ComponentModel.vb"
 
     ' Author:
     ' 

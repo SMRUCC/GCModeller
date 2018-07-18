@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c6819d253a7975d2ebe3e066b685913, core\Bio.Assembly\Assembly\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6c6819d253a7975d2ebe3e066b685913, Bio.Assembly\Assembly\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 

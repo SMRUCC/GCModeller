@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f760c9de66e3eb398dae78f8b5f07f84, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::f760c9de66e3eb398dae78f8b5f07f84, Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
 
     ' Author:
     ' 

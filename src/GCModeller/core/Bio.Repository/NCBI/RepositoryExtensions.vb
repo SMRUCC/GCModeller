@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b81b97f8625643f934b2762295902820, core\Bio.Repository\NCBI\RepositoryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b81b97f8625643f934b2762295902820, Bio.Repository\NCBI\RepositoryExtensions.vb"
 
     ' Author:
     ' 

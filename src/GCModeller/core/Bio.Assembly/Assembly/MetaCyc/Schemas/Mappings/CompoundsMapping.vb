@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::973f5830822dad82da637860317e6d65, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
+﻿#Region "Microsoft.VisualBasic::973f5830822dad82da637860317e6d65, Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
 
     ' Author:
     ' 

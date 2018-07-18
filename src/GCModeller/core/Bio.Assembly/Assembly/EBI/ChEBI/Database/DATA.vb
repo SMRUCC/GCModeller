@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0169e1b8da070c9ecca9764f0430671f, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::3b210d0c80876917df2033f5e5dfc386, Bio.Assembly\Assembly\EBI\ChEBI\Database\DATA.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: AccessionTypeNames
     ' 
-    '         Function: BuildEntitysFromTsv, (+2 Overloads) GetXrefID, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel, ScanLoad
-    '                   SystematicName
+    '         Function: BuildEntitysFromTsv, (+2 Overloads) GetXrefID, GetXrefIDByType, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel
+    '                   ScanLoad, SystematicName
     ' 
     ' 
     ' /********************************************************************************/

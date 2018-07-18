@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af776d6389a071227a639f2475724faf, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
+﻿#Region "Microsoft.VisualBasic::af776d6389a071227a639f2475724faf, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
 
     ' Author:
     ' 

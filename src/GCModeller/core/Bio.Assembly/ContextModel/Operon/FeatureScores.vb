@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49603908a46b69bbd9f1bfa077abcefd, core\Bio.Assembly\ContextModel\Operon\FeatureScores.vb"
+﻿#Region "Microsoft.VisualBasic::49603908a46b69bbd9f1bfa077abcefd, Bio.Assembly\ContextModel\Operon\FeatureScores.vb"
 
     ' Author:
     ' 

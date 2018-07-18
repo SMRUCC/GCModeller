@@ -1,52 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::e56f8614b8a1ef389bfcba9da7b5bfb6, Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1cf593bcd0b9c19784ce4be926897c39, Data\DataFrame\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Extensions
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: (+4 Overloads) AsDataSource, AsLinq, (+3 Overloads) DataFrame, GetLocusMapName, (+3 Overloads) LoadCsv
-'               LoadDblVector, LoadStream, LoadTsv, SaveDataSet, (+2 Overloads) SaveTable
-'               (+7 Overloads) SaveTo, TabExport, ToCsvDoc
-' 
-'     Sub: Cable, ForEach
-'     Structure __loadHelper
-' 
-'         Function: LoadObject
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module Extensions
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: (+4 Overloads) AsDataSource, AsLinq, (+3 Overloads) DataFrame, GetLocusMapName, (+3 Overloads) LoadCsv
+    '               LoadDblVector, LoadStream, LoadTsv, SaveDataSet, (+2 Overloads) SaveTable
+    '               (+7 Overloads) SaveTo, TabExport, ToCsvDoc
+    ' 
+    '     Sub: Cable, ForEach
+    '     Structure __loadHelper
+    ' 
+    '         Function: LoadObject
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -93,8 +93,8 @@ Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function LoadTsv(Of T As Class)(path As DefaultString) As T()
-        Return path.DefaultValue.LoadTsv(Of T)
+    Public Function LoadTsv(Of T As Class)(path As DefaultString, Optional encoding As Encoding = Nothing) As T()
+        Return path.DefaultValue.LoadTsv(Of T)(encoding)
     End Function
 
     ''' <summary>
