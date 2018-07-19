@@ -148,6 +148,7 @@ Namespace Core
 
             If size.StringEmpty Then
                 size = 128 * 1024 * 1024
+                MAX_POST_SIZE = size
             ElseIf size.IsPattern("\d+") Then
                 MAX_POST_SIZE = Val(size)
             ElseIf size.IsPattern("\d+\s*[GMK]?B", RegexICSng) Then
