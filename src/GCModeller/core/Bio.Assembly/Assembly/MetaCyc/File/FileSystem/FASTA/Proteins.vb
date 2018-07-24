@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::435edf8ab64d1799a393500e25194f4d, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb"
+﻿#Region "Microsoft.VisualBasic::435edf8ab64d1799a393500e25194f4d, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb"
 
     ' Author:
     ' 

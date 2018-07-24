@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::603720ce45d10e45baa4bcf2a4e53bcd, core\Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
+﻿#Region "Microsoft.VisualBasic::603720ce45d10e45baa4bcf2a4e53bcd, Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
 
     ' Author:
     ' 

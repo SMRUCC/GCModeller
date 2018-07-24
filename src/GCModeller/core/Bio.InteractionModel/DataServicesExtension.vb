@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe7da575ac52dd6f302efae98d844424, core\Bio.InteractionModel\DataServicesExtension.vb"
+﻿#Region "Microsoft.VisualBasic::fe7da575ac52dd6f302efae98d844424, Bio.InteractionModel\DataServicesExtension.vb"
 
     ' Author:
     ' 

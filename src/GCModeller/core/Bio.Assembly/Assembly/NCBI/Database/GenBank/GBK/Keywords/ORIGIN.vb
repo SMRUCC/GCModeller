@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c75e887f5799cbcd5000a4044fbe560, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
+﻿#Region "Microsoft.VisualBasic::3c75e887f5799cbcd5000a4044fbe560, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
 
     ' Author:
     ' 

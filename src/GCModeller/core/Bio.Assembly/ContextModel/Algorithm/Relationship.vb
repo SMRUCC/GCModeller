@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77a7d95af5b37e8b9ed70b90d14b0a0d, core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::77a7d95af5b37e8b9ed70b90d14b0a0d, Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
 
     ' Author:
     ' 

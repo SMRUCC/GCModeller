@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::156479c6b365b339d2f22ed52afe62c5, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
+﻿#Region "Microsoft.VisualBasic::156479c6b365b339d2f22ed52afe62c5, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
     ' Author:
     ' 

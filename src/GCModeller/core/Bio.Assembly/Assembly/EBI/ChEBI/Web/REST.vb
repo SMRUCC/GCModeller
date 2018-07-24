@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b73ed2a653b9d0554d31dbeebc3156d, core\Bio.Assembly\Assembly\EBI\ChEBI\Web\REST.vb"
+﻿#Region "Microsoft.VisualBasic::2b73ed2a653b9d0554d31dbeebc3156d, Bio.Assembly\Assembly\EBI\ChEBI\Web\REST.vb"
 
     ' Author:
     ' 

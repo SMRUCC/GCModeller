@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b057e3de9107c335fac6ea0efe70c00, core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::7b057e3de9107c335fac6ea0efe70c00, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\AminoAcid.vb"
 
     ' Author:
     ' 

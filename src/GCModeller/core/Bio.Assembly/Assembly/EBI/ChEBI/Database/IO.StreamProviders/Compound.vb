@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e53e9e4e14788f11d0d8a947d51627d2, core\Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::e53e9e4e14788f11d0d8a947d51627d2, Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
 
     ' Author:
     ' 
