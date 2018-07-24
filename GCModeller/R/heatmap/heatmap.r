@@ -117,7 +117,7 @@ plotDEPs <- function(csv,
 
 library(pheatmap)
 
-plot.pheatmap <- function(csv, size = c(2000,3000)) {
+plot.pheatmap <- function(csv, size = c(2000,3000), scale = "row") {
 
 	data <- read.csv(file=csv, comment.char="#", row.names=1);
 	
@@ -133,7 +133,7 @@ plot.pheatmap <- function(csv, size = c(2000,3000)) {
 	tryCatch({
 	
 		pheatmap(data, 
-			scale         = "row",
+			scale         = scale,
 			show_rownames = FALSE,
 			cluster_cols  = FALSE);
 		
