@@ -246,37 +246,38 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 如果结果表格之中的编号是包含有注释信息的完整的fasta头，则会需要使用这个工具来将其中的编号取出来
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Samples.IDlist")>
     <Description("Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.")>
-    <Usage("/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
-    <Argument("/Perseus", True, CLITypes.Boolean,
-              AcceptTypes:={GetType(Boolean)},
-              Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
+    <Usage("/Samples.IDlist /in <samples.csv> [/uniprot /out <out.list.txt>]")>
     Public Function GetIDlistFromSampleTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim isPerseus As Boolean = args.GetBoolean("/Perseus")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
-        Dim list$()
-        Dim isShotgun As Boolean = args.GetBoolean("/shotgun")
+        Dim isUniProt As Boolean = args("/uniprot")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.geneIDs.txt"
 
-        If isPerseus Then
-            list = {}
-        ElseIf isShotgun Then
-            Dim pair$ = args <= "/pair"
-            Dim pairData As EntityObject() = If(
-                pair.FileExists(True),
-                EntityObject.LoadDataSet(pair).ToArray,
-                {})
-            Dim input = EntityObject.LoadDataSet([in])
+        ' 假设第一列总是ID编号的数据
+        Dim list = csv.Load([in]) _
+                      .Column(Scan0) _
+                      .ToArray
 
-            list = input.Values("UniprotID") _
-                .JoinIterates(pairData.Values("UniprotID")) _
-                .Distinct _
+        If isUniProt Then
+            list = list _
+                .Select(Function(header)
+                            Return header.Split("|"c).ElementAtOrDefault(1)
+                        End Function) _
+                .Where(AddressOf NotEmpty) _
                 .ToArray
-            out = [in].TrimSuffix & "-" & pair.BaseName(allowEmpty:=True) & ".geneIDs.txt"
         Else
-            Dim table = EntityObject.LoadDataSet([in])
-            list$ = table.Keys(distinct:=True)
+            list = list _
+                .Select(Function(header)
+                            Return header.Split(" "c).FirstOrDefault
+                        End Function) _
+                .Where(AddressOf NotEmpty) _
+                .ToArray
         End If
 
         Return list.SaveTo(out, Encodings.ASCII.CodePage).CLICode
