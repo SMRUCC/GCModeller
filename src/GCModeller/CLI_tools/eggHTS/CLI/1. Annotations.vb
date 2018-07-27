@@ -254,31 +254,31 @@ Partial Module CLI
     <ExportAPI("/Samples.IDlist")>
     <Description("Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.")>
     <Usage("/Samples.IDlist /in <samples.csv> [/uniprot /out <out.list.txt>]")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function GetIDlistFromSampleTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim isUniProt As Boolean = args("/uniprot")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.geneIDs.txt"
+        Dim outCsv$ = out.TrimSuffix & ".csv"
 
         ' 假设第一列总是ID编号的数据
-        Dim list = csv.Load([in]) _
-                      .Column(Scan0) _
-                      .ToArray
+        Dim table As csv = csv.Load([in])
+        Dim list As New List(Of String)
 
-        If isUniProt Then
-            list = list _
-                .Select(Function(header)
-                            Return header.Split("|"c).ElementAtOrDefault(1)
-                        End Function) _
-                .Where(AddressOf NotEmpty) _
-                .ToArray
-        Else
-            list = list _
-                .Select(Function(header)
-                            Return header.Split(" "c).FirstOrDefault
-                        End Function) _
-                .Where(AddressOf NotEmpty) _
-                .ToArray
-        End If
+        For Each row In table.Skip(1)
+            Dim id$ = row(Scan0)
+
+            If isUniProt Then
+                id = id.Split("|"c).ElementAtOrDefault(1)
+            Else
+                id = id.Split(" "c).FirstOrDefault
+            End If
+
+            row(Scan0) = id
+            list += id
+        Next
+
+        Call table.Save(outCsv,)
 
         Return list.SaveTo(out, Encodings.ASCII.CodePage).CLICode
     End Function
