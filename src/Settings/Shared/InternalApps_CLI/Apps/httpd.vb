@@ -25,6 +25,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /GET:                Tools for http get request the content of a specific url.
+'  /POST:               
 '  /run.dll:            
 '  /Stress.Testing:     Using Ctrl + C to stop the stress testing.
 ' 
@@ -70,6 +71,31 @@ Public Function [GET](url As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/GET")
     Call CLI.Append(" ")
     Call CLI.Append("/url " & """" & url & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /POST /url &lt;url, /std_in> [[/args1 value1 /args2 value2, ...] /out &lt;file/std_out>]
+''' ```
+''' </summary>
+'''
+Public Function POST(url As String, Optional __args1 As String = "", Optional args2 As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/POST")
+    Call CLI.Append(" ")
+    Call CLI.Append("/url " & """" & url & """ ")
+    If Not __args1.StringEmpty Then
+            Call CLI.Append("[/args1 " & """" & __args1 & """ ")
+    End If
+    If Not args2.StringEmpty Then
+            Call CLI.Append("/args2 " & """" & args2 & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

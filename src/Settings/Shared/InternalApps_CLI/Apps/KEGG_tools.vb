@@ -36,7 +36,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
 '  /Dump.sp:                                
-'  /Enrichment.Map.Render:                  
+'  /Enrichment.Map.Render:                  Rendering kegg pathway map for enrichment analysis result
+'                                           in local.
 '  /Fasta.By.Sp:                            
 '  /Get.prot_motif:                         
 '  /Gets.prot_motif:                        
@@ -517,6 +518,7 @@ End Function
 ''' ```
 ''' /Enrichment.Map.Render /url &lt;url> [/repo &lt;pathwayMap.repository> /out &lt;out.png>]
 ''' ```
+''' Rendering kegg pathway map for enrichment analysis result in local.
 ''' </summary>
 '''
 Public Function EnrichmentMapRender(url As String, Optional repo As String = "", Optional out As String = "") As Integer
