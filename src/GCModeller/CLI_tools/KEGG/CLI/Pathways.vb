@@ -80,6 +80,8 @@ Partial Module CLI
 
     <ExportAPI("/Enrichment.Map.Render")>
     <Usage("/Enrichment.Map.Render /url <url> [/repo <pathwayMap.repository> /out <out.png>]")>
+    <Description("Rendering kegg pathway map for enrichment analysis result in local.")>
+    <Argument("/repo", True, CLITypes.File, Description:="A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.")>
     Public Function EnrichmentMapRender(args As CommandLine) As Integer
         Dim url$ = args <= "/url"
         Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
