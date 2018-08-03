@@ -54,7 +54,6 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
