@@ -176,7 +176,7 @@ Partial Module CLI
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
         Dim DEPs$ = args <= "/DEPs"
         Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
-        Dim render As LocalRender = LocalRender.FromRepository(repo)
+        Dim render As LocalRender = LocalRender.FromRepository(repo, True)
 
         If Not DEPs.FileExists(True) Then
             ' 不存在DEP的数据的时候，默认将所有的term都按照url的参数进行染色
@@ -221,7 +221,7 @@ Partial Module CLI
             ' 如果是使用默认的repository的话，还需要通过uniprot注释转换为KO编号
             ' 因为默认的repository是参考的pathway图，基因都是使用KO来表示的
             For Each gene As entry In KO
-                Dim KO_id = gene.Xrefs("KO").First.id
+                Dim KO_id As String = gene.Xrefs("KO").First.id
 
                 gene.accessions _
                     .DoEach(Sub(id)
@@ -243,7 +243,10 @@ Partial Module CLI
                 pvalue:=pvalue,
                 color:=Function(id)
                            Return colors.TryGetValue(id, default:="lightgreen")
-                       End Function
+                       End Function,
+                translateKO:=Function(id)
+                                 Return translateKO.TryGetValue(id, [default]:=id)
+                             End Function
             )
         End If
 

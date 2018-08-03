@@ -62,11 +62,26 @@ Namespace Assembly.KEGG.WebServices
     Public Class LocalRender : Implements IEnumerable(Of Map)
 
         ReadOnly mapTable As Dictionary(Of String, Map)
+        ReadOnly digitMapID As Boolean
 
-        Sub New(maps As IEnumerable(Of NamedValue(Of Map)))
-            mapTable = maps.ToDictionary(
-                Function(map) map.Name,
-                Function(pathway) pathway.Value)
+        ''' <summary>
+        ''' 因为KEGG的对应物种的pathway map都是来自于标准的pathway map
+        ''' 所以他们的数字id都是一样的，在这里会将id解析为数字id
+        ''' </summary>
+        ''' <param name="maps"></param>
+        Sub New(maps As IEnumerable(Of NamedValue(Of Map)), Optional digitID As Boolean = False)
+            mapTable = maps _
+                .ToDictionary(Function(map)
+                                  If Not digitID Then
+                                      Return map.Name
+                                  Else
+                                      Return map.Name.Match("\d+")
+                                  End If
+                              End Function,
+                              Function(pathway)
+                                  Return pathway.Value
+                              End Function)
+            digitMapID = digitID
         End Sub
 
         ''' <summary>
@@ -95,7 +110,7 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <param name="repo$"></param>
         ''' <returns></returns>
-        Public Shared Function FromRepository(repo$) As LocalRender
+        Public Shared Function FromRepository(repo$, Optional digitID As Boolean = False) As LocalRender
             Dim maps = (ls - l - r - "*.XML" <= repo) _
                 .Select(Function(path$)
                             Return New NamedValue(Of Map) With {
@@ -104,7 +119,7 @@ Namespace Assembly.KEGG.WebServices
                                 .Description = path
                             }
                         End Function)
-            Return New LocalRender(maps)
+            Return New LocalRender(maps, digitID)
         End Function
 
         ''' <summary>

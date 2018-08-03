@@ -56,7 +56,7 @@ Public Module KEGGPathwayMap
     ''' <summary>
     ''' 在这个函数之中会使用<paramref name="color"/>对url进行重新编码
     ''' </summary>
-    ''' <param name="render"></param>
+    ''' <param name="render">应该是数字id来存储的</param>
     ''' <param name="terms"></param>
     ''' <param name="export$"></param>
     ''' <param name="color">The default color brush is blue.</param>
@@ -65,12 +65,14 @@ Public Module KEGGPathwayMap
     <Extension>
     Public Function LocalRendering(render As LocalRender, terms As IEnumerable(Of IKEGGTerm), export$,
                                    Optional color As Func(Of String, String) = Nothing,
+                                   Optional translateKO As Func(Of String, String) = Nothing,
                                    Optional pvalue# = 0.05) As String()
 
         '' <summary>
         '' The default color brush is blue 
         '' </summary>
         Static blue As New DefaultValue(Of Func(Of String, String))(Function() "blue")
+        Static noTranslate As New DefaultValue(Of Func(Of String, String))(Function(id) id)
 
         Dim all As IKEGGTerm()
         Dim failures As New List(Of String)
@@ -84,6 +86,7 @@ Public Module KEGGPathwayMap
         End If
 
         color = color Or blue
+        translateKO = translateKO Or noTranslate
 
         Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
@@ -94,11 +97,11 @@ Public Module KEGGPathwayMap
                 Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
                 Dim query = URLEncoder.URLParser(term.Link)
                 Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
-                    .Name = query.Name,
+                    .Name = query.Name.Match("\d+"),
                     .Value = query.Value _
                          .Select(Function(gene)
                                      Return New NamedValue(Of String) With {
-                                          .Name = gene.Name,
+                                          .Name = translateKO(gene.Name),
                                           .Value = color(gene.Name)
                                      }
                                  End Function) _
