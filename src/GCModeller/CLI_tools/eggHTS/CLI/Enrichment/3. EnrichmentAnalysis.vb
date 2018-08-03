@@ -160,6 +160,50 @@ Partial Module CLI
 
     End Function
 
+    <ExportAPI("/KEGG.Enrichment.PathwayMap.Render")>
+    <Group(CLIGroups.Enrichment_CLI)>
+    <Usage("/KEGG.Enrichment.PathwayMap.Render /in <enrichment.csv> [/repo <maps.directory> /DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+    <Description("KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.")>
+    Public Function KEGGEnrichmentPathwayMapLocal(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}-KEGG_enrichment_pathwayMaps/"
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
+        Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        Dim DEPs$ = args <= "/DEPs"
+
+        If Not DEPs.FileExists(True) Then
+            Call KEGGPathwayMap.KOBAS_visualize(
+                data,
+                EXPORT:=out,
+                pvalue:=pvalue)
+        Else
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs) _
+                .SplitID _
+                .UserCustomMaps(args <= "/map")
+
+            ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
+            Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
+            Dim mapID = uniprot _
+                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .ToDictionary(Function(gene) gene.Key,
+                              Function(gene)
+                                  Return gene.Value _
+                                      .Xrefs("KEGG") _
+                                      .Select(Function(x) x.id) _
+                                      .ToArray
+                              End Function)
+            Dim isDEP As Func(Of EntityObject, Boolean) =
+                Function(gene)
+                    Return True = gene("is.DEP").ParseBoolean
+                End Function
+            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
+
+            Call data.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+        End If
+
+        Return 0
+    End Function
+
     <ExportAPI("/Enrichment.Term.Filter",
                Info:="Filter the specific term result from the analysis output by using pattern keyword",
                Usage:="/Enrichment.Term.Filter /in <enrichment.csv> /filter <key-string> [/out <out.csv>]")>

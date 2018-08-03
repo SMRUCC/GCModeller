@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::3ce90227d4c941f0dd8ac1b4a3f7f11e, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module KEGGPathwayMap
-    ' 
-    '     Function: KOBAS_DEPs, KOBAS_visualize, MapImageInvalid, PSum
-    ' 
-    ' /********************************************************************************/
+' Module KEGGPathwayMap
+' 
+'     Function: KOBAS_DEPs, KOBAS_visualize, MapImageInvalid, PSum
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -43,13 +43,69 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module KEGGPathwayMap
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="render"></param>
+    ''' <param name="terms"></param>
+    ''' <param name="export$"></param>
+    ''' <param name="color">The default color brush is blue.</param>
+    ''' <param name="pvalue#"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function LocalRendering(render As LocalRender, terms As IEnumerable(Of IKEGGTerm), export$,
+                                   Optional color As Func(Of String, String) = Nothing,
+                                   Optional pvalue# = 0.05) As String()
+
+        '' <summary>
+        '' The default color brush is blue 
+        '' </summary>
+        Static blue As New DefaultValue(Of Func(Of String, String))(Function() "blue")
+
+        Dim all As IKEGGTerm()
+        Dim failures As New List(Of String)
+
+        If pvalue > 0 Then
+            all = terms _
+                .Where(Function(t) t.Pvalue <= pvalue) _
+                .ToArray
+        Else
+            all = terms.ToArray
+        End If
+
+        color = color Or blue
+
+        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
+            Dim tick As New ProgressProvider(all.Length)
+            Dim ETA$
+
+            For Each term As IKEGGTerm In all
+                Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+                Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+
+                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
+                    Call render.Rendering(term.Link).SaveAs(path)
+                Else
+                    failures += term.ID
+                End If
+
+                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                progress.SetProgress(tick.StepProgress, details:=ETA)
+            Next
+        End Using
+
+        Return failures
+    End Function
 
     ''' <summary>
     ''' 函数返回失败的term的ID编号
@@ -76,7 +132,7 @@ Public Module KEGGPathwayMap
 
             For Each term As IKEGGTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-                Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
+                Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}.png"
 
                 If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
                     Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
@@ -93,6 +149,11 @@ Public Module KEGGPathwayMap
         Return failures
     End Function
 
+    ''' <summary>
+    ''' 判断图片是否被损坏？
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function MapImageInvalid(path$) As Boolean
         Try

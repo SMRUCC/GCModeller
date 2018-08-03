@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::8235e23586ccf129a8b38d49f902ef3a, Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class LocalRender
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
-    '                   IteratesMapNames, (+2 Overloads) Rendering
-    ' 
-    '         Sub: renderCompound, renderGenes
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class LocalRender
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
+'                   IteratesMapNames, (+2 Overloads) Rendering
+' 
+'         Sub: renderCompound, renderGenes
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -132,6 +133,14 @@ Namespace Assembly.KEGG.WebServices
             Next
         End Function
 
+        ''' <summary>
+        ''' 解析url之中的数据，将指定的基因按照给定的颜色进行高亮显示
+        ''' </summary>
+        ''' <param name="url$"></param>
+        ''' <param name="font"></param>
+        ''' <param name="textColor$"></param>
+        ''' <param name="scale$"></param>
+        ''' <returns></returns>
         Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white", Optional scale$ = "1,1") As Image
             With URLEncoder.URLParser(url)
                 Return Rendering(.Name, .Value, font, textColor, scale)
@@ -157,16 +166,14 @@ Namespace Assembly.KEGG.WebServices
             Dim pen As Brush = textColor.GetBrush
             Dim scaleFactor As SizeF = scale.FloatSizeParser
 
-            If font Is Nothing Then
-                font = New Font(FontFace.SimSun, 10, FontStyle.Regular)
-            End If
+            Static SimSum As DefaultValue(Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
             Using g As Graphics2D = pathway _
                 .GetImage _
                 .CreateCanvas2D(directAccess:=True)
 
-                Call renderGenes(g, font, pen, pathway, scaleFactor, nodes)
-                Call renderCompound(g, font, pathway, scaleFactor, nodes)
+                Call renderGenes(g, font Or SimSum, pen, pathway, scaleFactor, nodes)
+                Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes)
 
                 Return g
             End Using
