@@ -46,13 +46,16 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics.Mappings
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
@@ -164,18 +167,25 @@ Partial Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     <Usage("/KEGG.Enrichment.PathwayMap.Render /in <enrichment.csv> [/repo <maps.directory> /DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
     <Description("KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.")>
+    <Argument("/repo", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(Map)},
+              Description:="If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.")>
     Public Function KEGGEnrichmentPathwayMapLocal(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}-KEGG_enrichment_pathwayMaps/"
         Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
         Dim DEPs$ = args <= "/DEPs"
+        Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
+        Dim render As LocalRender = LocalRender.FromRepository(repo)
 
         If Not DEPs.FileExists(True) Then
-            Call KEGGPathwayMap.KOBAS_visualize(
+            ' 不存在DEP的数据的时候，默认将所有的term都按照url的参数进行染色
+            Call KEGGPathwayMap.LocalRendering(
+                render,
                 data,
-                EXPORT:=out,
-                pvalue:=pvalue)
+                export:=out,
+                pvalue:=pvalue
+            )
         Else
             Dim DEPgenes = EntityObject.LoadDataSet(DEPs) _
                 .SplitID _
@@ -198,7 +208,15 @@ Partial Module CLI
                 End Function
             Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
 
-            Call data.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+            Call KEGGPathwayMap.LocalRendering(
+                render,
+                data,
+                export:=out,
+                pvalue:=pvalue,
+                color:=Function(id)
+                           Return colors.TryGetValue(id, default:="lightgreen")
+                       End Function
+            )
         End If
 
         Return 0
