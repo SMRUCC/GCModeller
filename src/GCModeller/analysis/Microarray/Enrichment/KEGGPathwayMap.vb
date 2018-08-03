@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Public Module KEGGPathwayMap
 
     ''' <summary>
-    ''' 
+    ''' 在这个函数之中会使用<paramref name="color"/>对url进行重新编码
     ''' </summary>
     ''' <param name="render"></param>
     ''' <param name="terms"></param>
@@ -92,9 +92,21 @@ Public Module KEGGPathwayMap
             For Each term As IKEGGTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+                Dim query = URLEncoder.URLParser(term.Link)
+                Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
+                    .Name = query.Name,
+                    .Value = query.Value _
+                         .Select(Function(gene)
+                                     Return New NamedValue(Of String) With {
+                                          .Name = gene.Name,
+                                          .Value = color(gene.Name)
+                                     }
+                                 End Function) _
+                         .ToArray
+                }.KEGGURLEncode()
 
                 If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
-                    Call render.Rendering(term.Link).SaveAs(path)
+                    Call render.Rendering(url).SaveAs(path)
                 Else
                     failures += term.ID
                 End If
