@@ -204,9 +204,37 @@ Partial Module CLI
                               End Function)
             Dim isDEP As Func(Of EntityObject, Boolean) =
                 Function(gene)
-                    Return True = gene("is.DEP").ParseBoolean
+                    If gene.Properties.ContainsKey("is.DEP") Then
+                        Return True = gene("is.DEP").ParseBoolean
+                    Else
+                        Return True
+                    End If
                 End Function
             Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
+            Dim translateKO As New Dictionary(Of String, String)
+            Dim KO = uniprot.Values _
+                .Where(Function(gene)
+                           Return gene.Xrefs.ContainsKey("KO")
+                       End Function) _
+                .ToArray
+
+            ' 如果是使用默认的repository的话，还需要通过uniprot注释转换为KO编号
+            ' 因为默认的repository是参考的pathway图，基因都是使用KO来表示的
+            For Each gene As entry In KO
+                Dim KO_id = gene.Xrefs("KO").First.id
+
+                gene.accessions _
+                    .DoEach(Sub(id)
+                                translateKO(id) = KO_id
+                            End Sub)
+
+                If gene.Xrefs.ContainsKey("KEGG") Then
+                    gene.Xrefs("KEGG") _
+                        .DoEach(Sub(id)
+                                    translateKO(id.id) = KO_id
+                                End Sub)
+                End If
+            Next
 
             Call KEGGPathwayMap.LocalRendering(
                 render,
