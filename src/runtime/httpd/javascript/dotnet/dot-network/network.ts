@@ -8,12 +8,12 @@
         return document.getElementsByTagName(tagName);
     }
 
-    function load(): canvasSettings {
+    function load(): networkCanvasSettings {
         var nodes = getTag("script");
         var n: number = nodes.length;
         var last = nodes[n - 1];
 
-        return <canvasSettings>{
+        return <networkCanvasSettings>{
             l: n,
             z: <number><any>readAttr(<HTMLElement>last, "zIndex", "-1"),
             o: <number><any>readAttr(<HTMLElement>last, "opacity", "0.5"),
@@ -51,7 +51,7 @@
     var r;
     var t: dot[] = [];
     var n;
-    var s: canvasSettings = load();
+    var s: networkCanvasSettings = load();
     var m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || (<any>window).mozRequestAnimationFrame || (<any>window).oRequestAnimationFrame || (<any>window).msRequestAnimationFrame || function (i) {
         window.setTimeout(i, 1000 / 45)
     }
@@ -94,7 +94,7 @@
     }
 }
 
-class canvasSettings {
+class networkCanvasSettings {
     public l: number;
     public z: number;
     public o: number;
