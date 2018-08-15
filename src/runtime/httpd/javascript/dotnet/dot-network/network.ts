@@ -101,3 +101,5 @@ class canvasSettings {
     public c: string;
     public n: number;
 }
+
+network.run();
