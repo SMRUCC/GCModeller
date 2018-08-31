@@ -1,51 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::89184f1e43920f7c189ef22d92376a8e, CLI_tools\KEGG\CLI\Pathways.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Compile, CompoundMapRender, PathwayGeneList
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Compile, CompoundMapRender, PathwayGeneList
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
@@ -74,6 +76,22 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
         Dim pathway As Pathway = [in].LoadXml(Of Pathway)
         Return pathway.GetPathwayGenes.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Enrichment.Map.Render")>
+    <Usage("/Enrichment.Map.Render /url <url> [/repo <pathwayMap.repository> /out <out.png>]")>
+    <Description("Rendering kegg pathway map for enrichment analysis result in local.")>
+    <Argument("/repo", True, CLITypes.File, Description:="A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.")>
+    Public Function EnrichmentMapRender(args As CommandLine) As Integer
+        Dim url$ = args <= "/url"
+        Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
+        Dim query = URLEncoder.URLParser(url)
+        Dim out$ = args("/out") Or $"./{query.Name}.png"
+        Dim render As LocalRender = LocalRender.FromRepository(repo)
+
+        Return render.Rendering(query.Name, query.Value) _
+                     .SaveAs(out, ImageFormats.Png) _
+                     .CLICode
     End Function
 
     <ExportAPI("/Compound.Map.Render")>

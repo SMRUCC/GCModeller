@@ -46,13 +46,16 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics.Mappings
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
@@ -158,6 +161,96 @@ Partial Module CLI
     <Group(CLIGroups.ClusterProfiler)>
     Public Function GoEnrichment(args As CommandLine) As Integer
 
+    End Function
+
+    <ExportAPI("/KEGG.Enrichment.PathwayMap.Render")>
+    <Group(CLIGroups.Enrichment_CLI)>
+    <Usage("/KEGG.Enrichment.PathwayMap.Render /in <enrichment.csv> [/repo <maps.directory> /DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+    <Description("KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.")>
+    <Argument("/repo", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(Map)},
+              Description:="If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.")>
+    Public Function KEGGEnrichmentPathwayMapLocal(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}-KEGG_enrichment_pathwayMaps/"
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
+        Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        Dim DEPs$ = args <= "/DEPs"
+        Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
+        Dim render As LocalRender = LocalRender.FromRepository(repo, True)
+
+        If Not DEPs.FileExists(True) Then
+            ' 不存在DEP的数据的时候，默认将所有的term都按照url的参数进行染色
+            Call KEGGPathwayMap.LocalRendering(
+                render,
+                data,
+                export:=out,
+                pvalue:=pvalue
+            )
+        Else
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs) _
+                .SplitID _
+                .UserCustomMaps(args <= "/map")
+
+            ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
+            Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
+            Dim mapID = uniprot _
+                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .ToDictionary(Function(gene) gene.Key,
+                              Function(gene)
+                                  Return gene.Value _
+                                      .Xrefs("KEGG") _
+                                      .Select(Function(x) x.id) _
+                                      .ToArray
+                              End Function)
+            Dim isDEP As Func(Of EntityObject, Boolean) =
+                Function(gene)
+                    If gene.Properties.ContainsKey("is.DEP") Then
+                        Return True = gene("is.DEP").ParseBoolean
+                    Else
+                        Return True
+                    End If
+                End Function
+            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
+            Dim translateKO As New Dictionary(Of String, String)
+            Dim KO = uniprot.Values _
+                .Where(Function(gene)
+                           Return gene.Xrefs.ContainsKey("KO")
+                       End Function) _
+                .ToArray
+
+            ' 如果是使用默认的repository的话，还需要通过uniprot注释转换为KO编号
+            ' 因为默认的repository是参考的pathway图，基因都是使用KO来表示的
+            For Each gene As entry In KO
+                Dim KO_id As String = gene.Xrefs("KO").First.id
+
+                gene.accessions _
+                    .DoEach(Sub(id)
+                                translateKO(id) = KO_id
+                            End Sub)
+
+                If gene.Xrefs.ContainsKey("KEGG") Then
+                    gene.Xrefs("KEGG") _
+                        .DoEach(Sub(id)
+                                    translateKO(id.id) = KO_id
+                                End Sub)
+                End If
+            Next
+
+            Call KEGGPathwayMap.LocalRendering(
+                render,
+                data,
+                export:=out,
+                pvalue:=pvalue,
+                color:=Function(id)
+                           Return colors.TryGetValue(id, default:="lightgreen")
+                       End Function,
+                translateKO:=Function(id)
+                                 Return translateKO.TryGetValue(id, [default]:=id)
+                             End Function
+            )
+        End If
+
+        Return 0
     End Function
 
     <ExportAPI("/Enrichment.Term.Filter",

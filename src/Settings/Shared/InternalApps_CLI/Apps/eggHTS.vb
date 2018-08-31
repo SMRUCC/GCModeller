@@ -47,9 +47,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Perseus.Table.annotations:            
 '  /pfamstring.enrichment:                
 '  /protein.annotations.shotgun:          
-'  /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
-'                                         and using this ID list for downlaods the uniprot annotation
-'                                         data.
 '  /UniProt.IDs:                          
 '  /Uniprot.Mappings:                     Retrieve the uniprot annotation data by using ID mapping operations.
 '  /UniRef.map.organism:                  
@@ -95,6 +92,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /proteins.Go.plot:                     ProteinGroups sample data go profiling plot from the uniprot
 '                                           annotation data.
 '    /proteins.KEGG.plot:                   KEGG function catalog profiling plot of the TP sample.
+'    /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
+'                                           and using this ID list for downlaods the uniprot annotation
+'                                           data.
 '    /Species.Normalization:                
 '    /UniRef.UniprotKB:                     
 '    /update.uniprot.mapped:                
@@ -2146,26 +2146,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Samples.IDlist /in &lt;samples.csv> [/Perseus /shotgun /pair &lt;samples2.csv> /out &lt;out.list.txt>]
+''' /Samples.IDlist /in &lt;samples.csv> [/uniprot /out &lt;out.list.txt>]
 ''' ```
 ''' Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.
 ''' </summary>
 '''
-Public Function GetIDlistFromSampleTable([in] As String, Optional pair As String = "", Optional out As String = "", Optional perseus As Boolean = False, Optional shotgun As Boolean = False) As Integer
+Public Function GetIDlistFromSampleTable([in] As String, Optional out As String = "", Optional uniprot As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Samples.IDlist")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not pair.StringEmpty Then
-            Call CLI.Append("/pair " & """" & pair & """ ")
-    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
-    If perseus Then
-        Call CLI.Append("/perseus ")
-    End If
-    If shotgun Then
-        Call CLI.Append("/shotgun ")
+    If uniprot Then
+        Call CLI.Append("/uniprot ")
     End If
 
 
