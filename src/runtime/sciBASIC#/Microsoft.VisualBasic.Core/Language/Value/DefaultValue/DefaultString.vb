@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c30f8fbaee95d4d7155e221f4a9faac6, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
+﻿#Region "Microsoft.VisualBasic::a0ab2f7dbebf55773faefbb14e551b3e, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\DefaultString.vb"
 
     ' Author:
     ' 
@@ -90,11 +90,11 @@ Namespace Language.Default
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadJson(Of T)() As T
             If DefaultValue.FileExists Then
-                Return DefaultValue.ReadAllText.LoadObject(Of T)
+                Return DefaultValue.ReadAllText.LoadJSON(Of T)
             ElseIf DefaultValue.StringEmpty Then
                 Return Nothing
             Else
-                Return DefaultValue.LoadObject(Of T)
+                Return DefaultValue.LoadJSON(Of T)
             End If
         End Function
 

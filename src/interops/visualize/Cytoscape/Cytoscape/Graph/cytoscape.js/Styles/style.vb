@@ -72,7 +72,7 @@ Namespace CytoscapeGraphView.Cyjs.style
         Public Shared Function Load(path$) As Dictionary(Of JSON)
             Return path _
                 .ReadAllText _
-                .LoadObject(Of JSON()) _
+                .LoadJSON(Of JSON()) _
                 .ToDictionary
         End Function
     End Class

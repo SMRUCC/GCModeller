@@ -215,11 +215,11 @@ Public Module MetabolicComplementation
         Dim Ainput$() = genome _
             .Data _
             !Essential_nutrients _
-            .LoadObject(Of String())
+            .LoadJSON(Of String())
         Dim Aoutput$() = genome _
             .Data _
             !Secondary_metabolite _
-            .LoadObject(Of String())
+            .LoadJSON(Of String())
 
         For Each member As Node In graph.nodes _
             .Where(Function(n)
@@ -231,7 +231,7 @@ Public Module MetabolicComplementation
 
             ' 通过查看A和B的输入输出端点是否有重合来了解二者是否存在营养互补的关系
             ' A input vs B output
-            Dim Boutput = B!Secondary_metabolite.LoadObject(Of String())
+            Dim Boutput = B!Secondary_metabolite.LoadJSON(Of String())
 
             With Ainput.Intersect(Boutput).ToArray
                 If Not .IsNullOrEmpty Then
@@ -245,7 +245,7 @@ Public Module MetabolicComplementation
             End With
 
             ' A output vs B input
-            Dim Binput = B!Essential_nutrients.LoadObject(Of String())
+            Dim Binput = B!Essential_nutrients.LoadJSON(Of String())
 
             With Binput.Intersect(Aoutput).ToArray
                 If Not .IsNullOrEmpty Then

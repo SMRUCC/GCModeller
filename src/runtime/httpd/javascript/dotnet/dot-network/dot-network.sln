@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27906.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "dot-network", "dot-network.njsproj", "{0F75A6DD-829B-4CEB-9A45-CE6AD6A5A21C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F75A6DD-829B-4CEB-9A45-CE6AD6A5A21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F75A6DD-829B-4CEB-9A45-CE6AD6A5A21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F75A6DD-829B-4CEB-9A45-CE6AD6A5A21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F75A6DD-829B-4CEB-9A45-CE6AD6A5A21C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A26EDE6-9B5B-4939-8F15-5433C3A32269}
+	EndGlobalSection
+EndGlobal

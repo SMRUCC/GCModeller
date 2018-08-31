@@ -68,7 +68,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PfamString.Csv")
-        Dim motifs As Protein() = [in].ReadAllText.LoadObject(Of Protein())
+        Dim motifs As Protein() = [in].ReadAllText.LoadJSON(Of Protein())
         Dim lenHash As Dictionary(Of String, Integer) = PTT.GeneObjects.ToDictionary(Function(x) x.Synonym, Function(x) x.Length)
         Dim PfamString As PfamString() = motifs.ToPfamString(lenHash, 0.00001).ToArray
         Return PfamString.SaveTo(out)
@@ -89,7 +89,7 @@ Partial Module CLI
         Dim PfamString As PfamString() =
             LinqAPI.Exec(Of PfamString) <= From json As String In files
                                            Let doc As String = json.ReadAllText
-                                           Select doc.LoadObject(Of Protein()).ToPfamString(RegPrecise, 0.00001)
+                                           Select doc.LoadJSON(Of Protein()).ToPfamString(RegPrecise, 0.00001)
         Dim out As String = args.GetValue("/out", (args - "/in").TrimEnd("/"c).TrimEnd("\"c) & ".PfamString.Csv")
         Return PfamString.SaveTo(out)
     End Function

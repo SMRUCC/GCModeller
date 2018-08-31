@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ca845975cf1c62aaa66fa2a1df996d0, Microsoft.VisualBasic.Core\Extensions\IO\SerializationIO.vb"
+﻿#Region "Microsoft.VisualBasic::7a765edf1bb9fdcc491562405755fbd8, Microsoft.VisualBasic.Core\Extensions\IO\SerializationIO.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@ Public Module SerializationIO
             Case "", "txt"
                 Return path.IterateAllLines
             Case "json"
-                Return path.LoadObject(Of String())
+                Return path.LoadJSON(Of String())
             Case "xml"
                 Return path.LoadXml(Of String())
             Case Else
