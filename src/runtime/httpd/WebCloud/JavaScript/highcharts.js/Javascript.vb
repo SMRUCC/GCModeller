@@ -114,7 +114,7 @@ Public Module Javascript
             Dim sb As New StringBuilder(json)
 
             For Each d As String In dates
-                Dim [date] As Date = d.LoadObject(Of Date)
+                Dim [date] As Date = d.LoadJSON(Of Date)
                 Dim UTC$ = $"Date.UTC({[date].Year}, {[date].Month}, {[date].Day})"
 
                 Call sb.Replace(d, UTC)

@@ -110,7 +110,7 @@ Namespace v10
 
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
             Dim json$ = path.ReadAllText
-            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of IntegerMatrix)
+            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of IntegerMatrix)
             Return biom
         End Function
     End Class
@@ -122,7 +122,7 @@ Namespace v10
 
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
             Dim json$ = path.ReadAllText
-            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of FloatMatrix)
+            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of FloatMatrix)
             Return biom
         End Function
     End Class
@@ -134,7 +134,7 @@ Namespace v10
 
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
             Dim json$ = path.ReadAllText
-            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of StringMatrix)
+            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of StringMatrix)
             Return biom
         End Function
     End Class
