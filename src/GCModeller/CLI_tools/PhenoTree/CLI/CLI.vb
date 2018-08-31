@@ -174,7 +174,7 @@ Public Module CLI
         Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
         '  Dim term2gene$ = GO_anno.PushAsTable(False)
         ' Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
-        Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityClusterModel()))
+        Dim clusters = [in].ReadAllText.LoadJSON(Of Dictionary(Of String, EntityClusterModel()))
 
         For Each cluster In clusters.Values
             Dim genes$() = cluster.Select(Function(g) g.ID.Split.First).Distinct.ToArray

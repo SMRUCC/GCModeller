@@ -43,7 +43,7 @@ Namespace AppEngine
             Dim path$ = GetSessionPath(id)
 
             If path.FileExists Then
-                Return path.LoadObject(Of Session)
+                Return path.LoadJSON(Of Session)
             Else
                 Return New Session
             End If

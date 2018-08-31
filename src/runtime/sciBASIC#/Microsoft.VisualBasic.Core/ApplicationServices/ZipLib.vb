@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1059edf8091d229eea055260c61080e, Microsoft.VisualBasic.Core\ApplicationServices\ZipLib.vb"
+﻿#Region "Microsoft.VisualBasic::deb1548b976b5697cd1caf690e60f98c, Microsoft.VisualBasic.Core\ApplicationServices\ZipLib.vb"
 
     ' Author:
     ' 
@@ -300,10 +300,16 @@ Namespace ApplicationServices
                                     Optional compression As CompressionLevel = CompressionLevel.Optimal,
                                     Optional flatDirectory As Boolean = False)
 
-            Dim rel$ = DIR Or "".AsDefault(Function() flatDirectory)
+            ' 2018-7-28 如果rel是空字符串
+            ' 那么再压缩函数之中只会将文件名作为entry，即实现无文件树的效果
+            ' 反之会使用相对路径生成文件树，即树状的非flat结构
+            Dim rel$ = DIR Or "".When(flatDirectory)
+
+            If Not rel.StringEmpty Then
+                rel = rel.GetDirectoryFullPath
+            End If
 
             Call saveZip.ParentPath.MkDIR
-            Call rel.SetValue(AddressOf GetDirectoryFullPath)
             Call (ls - l - r - "*.*" <= DIR) _
                 .AddToArchive(
                     archiveFullName:=saveZip,

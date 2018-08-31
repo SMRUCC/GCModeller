@@ -36,6 +36,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
 '  /Dump.sp:                                
+'  /Enrichment.Map.Render:                  Rendering kegg pathway map for enrichment analysis result
+'                                           in local.
 '  /Fasta.By.Sp:                            
 '  /Get.prot_motif:                         
 '  /Gets.prot_motif:                        
@@ -502,6 +504,29 @@ Public Function DumpOrganisms(Optional res As String = "", Optional out As Strin
     Call CLI.Append(" ")
     If Not res.StringEmpty Then
             Call CLI.Append("/res " & """" & res & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Enrichment.Map.Render /url &lt;url> [/repo &lt;pathwayMap.repository> /out &lt;out.png>]
+''' ```
+''' Rendering kegg pathway map for enrichment analysis result in local.
+''' </summary>
+'''
+Public Function EnrichmentMapRender(url As String, Optional repo As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Enrichment.Map.Render")
+    Call CLI.Append(" ")
+    Call CLI.Append("/url " & """" & url & """ ")
+    If Not repo.StringEmpty Then
+            Call CLI.Append("/repo " & """" & repo & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")

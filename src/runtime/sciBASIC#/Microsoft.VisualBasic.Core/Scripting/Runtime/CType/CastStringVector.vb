@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdd7e2cc739502aa21f7d26ff59d4f06, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\CastStringVector.vb"
+﻿#Region "Microsoft.VisualBasic::8d7bea30a0d39cfc65e11f09283dfaa4, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\CastStringVector.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module CastStringVector
     ' 
-    '         Function: AsBoolean, AsCharacter, AsColor, (+2 Overloads) AsDouble, AsGeneric
+    '         Function: AsBoolean, (+3 Overloads) AsCharacter, AsColor, (+2 Overloads) AsDouble, AsGeneric
     '                   AsInteger, (+2 Overloads) AsNumeric, AsSingle, AsType
     ' 
     ' 
@@ -60,6 +60,26 @@ Namespace Scripting.Runtime
             Return values.ToDictionary(
                 Function(x) x.Key,
                 Function(x) CStr(x.Value))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsCharacter(values As IEnumerable(Of Double), Optional negPrefix As Boolean = False, Optional format$ = "G4") As IEnumerable(Of String)
+            Return values _
+                .SafeQuery _
+                .Select(Function(d)
+                            If d > 0 AndAlso negPrefix Then
+                                Return " " & d.ToString(format)
+                            Else
+                                Return d.ToString(format)
+                            End If
+                        End Function)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsCharacter(Of T)(values As IEnumerable(Of T), Optional null$ = "") As IEnumerable(Of String)
+            Return values.SafeQuery.Select(Function(o) Scripting.ToString(o, null))
         End Function
 
         ''' <summary>

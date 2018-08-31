@@ -73,7 +73,7 @@ Namespace Network.htmlwidget
 
         Public Function BuildGraph(html$) As NetGraphData
             Dim json$ = BuildData.ParseHTML(html)
-            Dim data As htmlwidget.NetGraph = json.LoadObject(Of htmlwidget.JSON).x
+            Dim data As htmlwidget.NetGraph = json.LoadJSON(Of htmlwidget.JSON).x
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::657b4b8b01381177facdf7e309c0362a, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
+﻿#Region "Microsoft.VisualBasic::026d81b30776414e1c808425e252f6aa, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
 
     ' Author:
     ' 
@@ -566,7 +566,7 @@ Public Class BinaryDataReader
         Return New SeekTask(BaseStream, offset, origin)
     End Function
 
-    ' ---- METHODS (PRIVATE) --------------------------------------------------------------------------------------
+#Region "METHODS (PRIVATE)"
 
     Private Function ReadMultiple(Of T)(count As Integer, readFunc As Func(Of T)) As T()
         Dim values As T() = New T(count - 1) {}
@@ -644,6 +644,7 @@ Public Class BinaryDataReader
         End While
         Return New Decimal(intValues)
     End Function
+#End Region
 
     Public Overrides Function ToString() As String
         Return $"[{Position}/{Length}] {Encoding.ToString}"

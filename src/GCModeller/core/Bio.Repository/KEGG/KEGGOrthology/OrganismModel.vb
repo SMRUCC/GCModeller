@@ -104,7 +104,7 @@ Public Class OrganismModel
     ''' <param name="directory"></param>
     ''' <returns></returns>
     Public Shared Function CreateModel(directory As String) As OrganismModel
-        Dim organism As OrganismInfo = (directory & "/kegg.json").LoadObject(Of OrganismInfo)
+        Dim organism As OrganismInfo = (directory & "/kegg.json").LoadJSON(Of OrganismInfo)
         Dim model As Pathway() = (ls - l - r - "*.Xml" <= directory) _
             .Select(AddressOf LoadXml(Of Pathway)) _
             .ToArray

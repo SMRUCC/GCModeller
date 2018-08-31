@@ -1,0 +1,13 @@
+{
+  "name": "biodeep-msmsviewer",
+  "version": "0.0.0",
+  "description": "biodeepMSMSViewer",
+  "main": "App.js",
+  "author": {
+    "name": ""
+  },
+  "devDependencies": {
+    "@types/node": "^8.10.22"
+  },
+  "dependencies": {}
+}

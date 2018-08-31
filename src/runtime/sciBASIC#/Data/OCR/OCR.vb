@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f55d7cdb7989564ab3adbe57c32cf364, Data\OCR\OCR.vb"
+﻿#Region "Microsoft.VisualBasic::bedb57243843e70d9a9c426704b21f4a, Data\OCR\OCR.vb"
 
     ' Author:
     ' 
@@ -67,7 +67,7 @@ Public Module OCR
     ''' 将图片按照指定的方向投影为亮度向量
     ''' </summary>
     ''' <param name="view"></param>
-    ''' <param name="horizontal"></param>
+    ''' <param name="horizontal">当这个参数为真的时候，表示按照X轴进行投影，反之则是按照Y轴进行投影操作</param>
     ''' <param name="background"></param>
     ''' <returns></returns>
     ''' 

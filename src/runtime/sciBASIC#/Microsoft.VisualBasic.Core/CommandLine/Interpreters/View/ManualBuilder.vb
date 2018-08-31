@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c699bc9019711f804c65a69292fd44d, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\ManualBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::f32829cd8ec40319d48da8c0ab0411dd, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\ManualBuilder.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
@@ -317,7 +318,7 @@ Namespace CommandLine.ManView
                                 End Function) _
                         .ToArray
 
-                    Call table.Print
+                    Call table.Print(New StreamWriter(Console.OpenStandardOutput))
                 End If
 
                 If bool Then

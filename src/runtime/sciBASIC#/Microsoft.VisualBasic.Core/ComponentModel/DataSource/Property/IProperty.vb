@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::faf8d8d87803f5da3911f172d5fc2a64, Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\IProperty.vb"
+﻿#Region "Microsoft.VisualBasic::9323d6cc7d0a0aa572c751ef79fd2eab, Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\IProperty.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,10 @@
     ' 
     '         Sub: SetValue
     ' 
+    '     Interface IDynamicMeta
+    ' 
+    '         Properties: Properties
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -61,5 +65,18 @@ Namespace ComponentModel.DataSourceModel
         ''' <param name="target"></param>
         ''' <param name="value"></param>
         Sub SetValue(target As Object, value As Object)
+    End Interface
+
+    ''' <summary>
+    ''' Abstracts for the dynamics property.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    Public Interface IDynamicMeta(Of T)
+
+        ''' <summary>
+        ''' Properties
+        ''' </summary>
+        ''' <returns></returns>
+        Property Properties As Dictionary(Of String, T)
     End Interface
 End Namespace

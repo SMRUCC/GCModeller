@@ -146,7 +146,7 @@ Partial Module CLI
 
         Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
 
-        With infoJSON.LoadObject(Of OrganismInfo)
+        With infoJSON.LoadJSON(Of OrganismInfo)
             Dim assembly$ = .DataSource _
                             .Where(Function(d)
                                        Return InStr(d.text, "https://www.ncbi.nlm.nih.gov/assembly/", CompareMethod.Text) > 0
