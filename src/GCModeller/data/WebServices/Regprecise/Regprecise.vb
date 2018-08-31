@@ -235,7 +235,7 @@ The template program in perl that can be run to access several of the web servic
 ")> SMRUCC.genomics.Data.Regprecise.WebServices.JSON.regulog
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulog?regulogId={regulogId}"
             Dim retData As String = __getRequest(url)
-            Dim retValue As regulog = retData.LoadObject(Of regulog)
+            Dim retValue As regulog = retData.LoadJSON(Of regulog)
             Return retValue
         End Function
 
@@ -288,7 +288,7 @@ The template program in perl that can be run to access several of the web servic
 <li>pathway - metabolic pathway or biological process controlled by regulator</li>")> JSON.regulon
             Dim url As String = $"http://regprecise.lbl.gov/Services/rest/regulon?regulonId={regulonId}"
             Dim retData As String = __getRequest(url)
-            Dim retValue As JSON.regulon = retData.LoadObject(Of JSON.regulon)
+            Dim retValue As JSON.regulon = retData.LoadJSON(Of JSON.regulon)
             Return retValue
         End Function
 

@@ -178,7 +178,7 @@ Partial Module CLI
         End If
 
         If out.FileExists Then
-            result = New Dictionary(Of Protein)(out.ReadAllText.LoadObject(Of Protein()))
+            result = New Dictionary(Of Protein)(out.ReadAllText.LoadJSON(Of Protein()))
         End If
 
         For Each locusId As String In locus.locusId
@@ -195,7 +195,7 @@ Partial Module CLI
             Dim prot As Protein
 
             If tmp.FileExists Then
-                prot = tmp.ReadAllText.LoadObject(Of Protein)
+                prot = tmp.ReadAllText.LoadJSON(Of Protein)
                 If Not prot.Domains.IsNullOrEmpty Then
                     result += prot
                     Continue For

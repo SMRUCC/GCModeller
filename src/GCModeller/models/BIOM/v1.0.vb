@@ -259,7 +259,7 @@ Namespace v10
 
         Public Shared Function LoadFile(path$) As Json(Of T)
             Dim json$ = path.ReadAllText
-            Dim biom As Json(Of T) = JsonContract.EnsureDate(json, "date").LoadObject(Of Json(Of T))
+            Dim biom As Json(Of T) = JsonContract.EnsureDate(json, "date").LoadJSON(Of Json(Of T))
             Return biom
         End Function
     End Class
