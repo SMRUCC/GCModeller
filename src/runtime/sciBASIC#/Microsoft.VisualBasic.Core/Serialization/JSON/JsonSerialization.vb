@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::25431f4764ee19e3b48884fe81142ae9, Microsoft.VisualBasic.Core\Serialization\JSON\JsonSerialization.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module JsonContract
-    ' 
-    '         Function: EnsureDate, GetJson, GetObjectJson, LoadJsonFile, LoadJSONObject
-    '                   (+3 Overloads) LoadObject, MatrixJson, RemoveJsonNullItems, WriteLargeJson
-    ' 
-    '         Sub: writeJsonInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module JsonContract
+' 
+'         Function: EnsureDate, GetJson, GetObjectJson, LoadJsonFile, LoadJSONObject
+'                   (+3 Overloads) LoadObject, MatrixJson, RemoveJsonNullItems, WriteLargeJson
+' 
+'         Sub: writeJsonInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -108,7 +108,7 @@ Namespace Serialization.JSON
                 Dim settings As New DataContractJsonSerializerSettings With {
                     .UseSimpleDictionaryFormat = True,
                     .SerializeReadOnlyTypes = True,
-                    .KnownTypes = knownTypes _
+                    .knownTypes = knownTypes _
                         .SafeQuery _
                         .ToArray
                 }
@@ -213,10 +213,10 @@ Namespace Serialization.JSON
         ''' 从文本文件或者文本内容之中进行JSON反序列化
         ''' </summary>
         ''' <param name="json">This string value can be json text or json file path.</param>
-        <Extension> Public Function LoadObject(Of T)(json$,
-                                                     Optional simpleDict As Boolean = True,
-                                                     Optional throwEx As Boolean = True,
-                                                     Optional ByRef exception As Exception = Nothing) As T
+        <Extension> Public Function LoadJSON(Of T)(json$,
+                                                   Optional simpleDict As Boolean = True,
+                                                   Optional throwEx As Boolean = True,
+                                                   Optional ByRef exception As Exception = Nothing) As T
             Dim text$ = json.SolveStream(Encodings.UTF8)
             Dim value As Object = text.LoadObject(GetType(T), simpleDict, throwEx, exception)
             Dim obj As T = DirectCast(value, T)
@@ -234,7 +234,7 @@ Namespace Serialization.JSON
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function LoadObject(Of T As New)(json As XElement, Optional simpleDict As Boolean = True) As T
-            Return json.Value.LoadObject(Of T)(simpleDict:=simpleDict)
+            Return json.Value.LoadJSON(Of T)(simpleDict:=simpleDict)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
