@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e20ebf789813fbf19867990055a073ec, mime\text%yaml\1.2\Syntax\YamlVersion.vb"
+﻿#Region "Microsoft.VisualBasic::ccc47b4f6bc0c39bf547dc900bb01675, CLI_tools\ForEach\Program.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,43 @@
 
     ' Summaries:
 
-    '     Class YamlVersion
+    ' Module Program
     ' 
-    '         Function: ToString
-    ' 
+    '     Function: Main
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Syntax
+Imports Microsoft.VisualBasic.CommandLine
 
-    Public Class YamlVersion
+Module Program
 
-        Public Major As String
-        Public Minor As String
+    ' foreach [*.txt] do cli_tool command_argvs
+    ' 使用 $file 作为文件路径的占位符
 
-        Public Overrides Function ToString() As String
-            Return $"{Major}.{Minor}"
-        End Function
-    End Class
-End Namespace
+    Public Function Main() As Integer
+        Dim filter$ = ""
+        Dim argv$() = App.CommandLine.Tokens
+        Dim appName$
+        Dim cli$
+
+        If argv(1).TextEquals("do") Then
+            filter = argv(0)
+            appName = argv(2)
+            cli = CLITools.Join(argv.Skip(3))
+        ElseIf argv(0).TextEquals("do") Then
+            filter = "*.*"
+            appName = argv(1)
+            cli = CLITools.Join(argv.Skip(2))
+        Else
+            Throw New NotImplementedException()
+        End If
+
+        For Each file As String In App.CurrentDirectory.EnumerateFiles(filter)
+            Call App.Shell(appName, cli.Replace("$file", file)).Run()
+        Next
+
+        Return 0
+    End Function
+End Module

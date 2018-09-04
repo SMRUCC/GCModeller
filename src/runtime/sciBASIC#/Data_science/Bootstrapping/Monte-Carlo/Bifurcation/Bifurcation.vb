@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd6751f51f1b9cfe26be35047a8a1d34, Data_science\Bootstrapping\Monte-Carlo\Bifurcation\Bifurcation.vb"
+﻿#Region "Microsoft.VisualBasic::1b77cc38cfaa6ce58bdf6ede328bdbaf, Data_science\Bootstrapping\Monte-Carlo\Bifurcation\Bifurcation.vb"
 
     ' Author:
     ' 
@@ -165,7 +165,7 @@ Namespace MonteCarlo
                 Dim datas As Dictionary(Of String, Double()) =
                     (+cluster) _
                     .Select(Function(x) x.uid) _
-                    .Select(Function(s) s.LoadObject(Of Dictionary(Of String, Double))) _
+                    .Select(Function(s) s.LoadJSON(Of Dictionary(Of String, Double))) _
                     .IteratesALL _
                     .GroupBy(Function(x) x.Key) _
                     .ToDictionary(Function(k) k.Key,
