@@ -100,7 +100,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
 
     Private Function cyjsAsGraph(cyjs As String) As Graph
         Dim jsonText As String = IO.File.ReadAllText(cyjs)
-        Dim json As Cyjs.Cyjs = (jsonText).LoadObject(Of Cyjs.Cyjs)
+        Dim json As Cyjs.Cyjs = (jsonText).LoadJSON(Of Cyjs.Cyjs)
         Return json.ToGraphModel
     End Function
 
