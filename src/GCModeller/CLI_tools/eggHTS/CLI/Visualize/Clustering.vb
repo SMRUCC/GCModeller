@@ -66,8 +66,13 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Partial Module CLI
 
     <ExportAPI("/DEP.kmeans.scatter2D")>
-    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1800,1800> /pt.size <radius pixels, default=15> /schema <default=clusters> /out <out.png>]")>
     <Group(CLIGroups.DataVisualize_cli)>
+    <Argument("/sampleinfo", False, CLITypes.File, PipelineTypes.undefined,
+              AcceptTypes:={GetType(SampleInfo)},
+              Extensions:="*.csv",
+              Description:="This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
+                            and the corresponding ``sample_name`` data is the data for plot on the X or Y axis.")>
     Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -77,6 +82,7 @@ Partial Module CLI
         Dim clusterData As EntityClusterModel() = [in].LoadCsv(Of EntityClusterModel).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
         Dim tlog# = args.GetValue("/t.log", -1.0R)
+        Dim ptSize! = args("/pt.size") Or 15.0!
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityClusterModel In clusterData
@@ -98,7 +104,7 @@ Partial Module CLI
         Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
         Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
 
-        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema) _
+        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema, pointSize:=ptSize) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _
