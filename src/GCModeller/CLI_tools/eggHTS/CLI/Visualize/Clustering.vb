@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::fb74cbdc8da001af6f85ac39f74fee61, CLI_tools\eggHTS\CLI\Visualize\Clustering.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DEPHeatmap3D, DEPKmeansScatter2D, MatrixClustering, PfamStringEnrichment
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DEPHeatmap3D, DEPKmeansScatter2D, MatrixClustering, PfamStringEnrichment
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -66,7 +67,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Partial Module CLI
 
     <ExportAPI("/DEP.kmeans.scatter2D")>
-    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1800,1800> /pt.size <radius pixels, default=15> /schema <default=clusters> /out <out.png>]")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <2500,2200> /pt.size <radius pixels, default=15> /schema <default=clusters> /out <out.png>]")>
     <Group(CLIGroups.DataVisualize_cli)>
     <Argument("/sampleinfo", False, CLITypes.File, PipelineTypes.undefined,
               AcceptTypes:={GetType(SampleInfo)},
@@ -76,7 +77,7 @@ Partial Module CLI
     Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim size$ = (args <= "/size") Or "2500,2200".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
         Dim clusterData As EntityClusterModel() = [in].LoadCsv(Of EntityClusterModel).ToArray
@@ -104,7 +105,11 @@ Partial Module CLI
         Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
         Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
 
-        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema, pointSize:=ptSize) _
+        Return Kmeans.Scatter2D(clusterData, (A, B), size,
+                                schema:=schema,
+                                pointSize:=ptSize,
+                                padding:=g.DefaultUltraLargePadding
+            ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _
