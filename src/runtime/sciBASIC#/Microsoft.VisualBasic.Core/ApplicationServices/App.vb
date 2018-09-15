@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5248cd842756919b1cf29ee3aba8af91, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::b14a89069c0c2e1f25a3d93771706930, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -423,10 +423,6 @@ Public Module App
 
     Sub New()
         ' On Error Resume Next ' 在Linux服务器上面不起作用？？？
-
-        Call FileIO.FileSystem.CreateDirectory(AppSystemTemp)
-        Call FileIO.FileSystem.CreateDirectory(App.HOME & "/Resources/")
-
         PreviousDirectory = App.StartupDirectory
 
 #Region "公共模块内的所有的文件路径初始化"
@@ -456,6 +452,13 @@ Public Module App
 
         End Try
 #End Region
+
+        If App.HOME.StringEmpty Then
+            App.HOME = System.IO.Directory.GetCurrentDirectory
+        End If
+
+        Call FileIO.FileSystem.CreateDirectory(AppSystemTemp)
+        Call FileIO.FileSystem.CreateDirectory(App.HOME & "/Resources/")
 
         ' 2018-08-14 因为经过测试发现text encoding模块会优先于命令行参数设置模块的初始化的加载
         ' 所以会导致环境变量为空
@@ -617,7 +620,7 @@ Public Module App
             s = CLangStringFormatProvider.ReplaceMetaChars(s)
         End If
 
-        Call InnerQueue.AddToQueue(
+        Call My.InnerQueue.AddToQueue(
             Sub()
                 Call Console.WriteLine(s)
             End Sub)
@@ -625,7 +628,7 @@ Public Module App
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub println()
-        Call InnerQueue.AddToQueue(AddressOf Console.WriteLine)
+        Call My.InnerQueue.AddToQueue(AddressOf Console.WriteLine)
     End Sub
 
     Public Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (process As IntPtr, minimumWorkingSetSize As Integer, maximumWorkingSetSize As Integer) As Integer
@@ -679,7 +682,7 @@ Public Module App
     '''
     <ExportAPI("Pause", Info:="Pause the console program.")>
     Public Sub Pause(Optional prompted$ = "Press any key to continute...")
-        Call InnerQueue.WaitQueue()
+        Call My.InnerQueue.WaitQueue()
         Call Console.WriteLine(prompted)
 
         ' 2018-6-26 如果不是命令行程序的话，可能会因为没有地方进行输入而导致程序在这里停止运行
@@ -1017,7 +1020,7 @@ Public Module App
     <SecuritySafeCritical> Public Function Exit%(Optional state% = 0)
         App._Running = False
 
-        Call InnerQueue.WaitQueue()
+        Call My.InnerQueue.WaitQueue()
         Call App.StopGC()
         Call __GCThread.Dispose()
         Call Environment.Exit(state)
@@ -1402,14 +1405,14 @@ Public Module App
 
         ' 在这里等待终端的内部线程输出工作完毕，防止信息的输出错位
 
-        Call Terminal.WaitQueue()
+        Call My.InnerQueue.WaitQueue()
         Call Console.WriteLine()
 
         For Each hook As Action In __exitHooks
             Call hook()
         Next
 
-        Call Terminal.WaitQueue()
+        Call My.InnerQueue.WaitQueue()
         Call Console.WriteLine()
 
 #If DEBUG Then
