@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e748018cf16c4dc5803abb5243d7fb50, www\Microsoft.VisualBasic.NETProtocol\NETProtocol\Protocols\UserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6ee56d8722edd275561a1800d02b3f76, www\Microsoft.VisualBasic.NETProtocol\NETProtocol\Protocols\UserAPI.vb"
 
     ' Author:
     ' 
@@ -70,8 +70,7 @@ Namespace NETProtocol.Protocols
             GetData
         End Enum
 
-        Public ReadOnly Property ProtocolEntry As Long =
-            New Protocol(GetType(Protocols)).EntryPoint
+        Public ReadOnly Property ProtocolEntry As Long = New Protocol(GetType(Protocols)).EntryPoint
 
         ''' <summary>
         ''' 在服务器端调用得到用户的唯一标识符
@@ -87,7 +86,7 @@ Namespace NETProtocol.Protocols
         Public Function InitUser(remote As IPEndPoint, uid As String) As InitPOSTBack
             Dim req = RequestStream.CreateProtocol(ProtocolEntry, Protocols.InitUser, uid)
             Dim rep = New AsynInvoke(remote).SendMessage(req)
-            Dim args = rep.LoadObject(AddressOf JSON.LoadObject(Of InitPOSTBack))
+            Dim args = rep.LoadObject(AddressOf JSON.LoadJSON(Of InitPOSTBack))
             args.Portal.IPAddress = remote.IPAddress ' 服务器端偷懒了
             Return args
         End Function

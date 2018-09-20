@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abee9575c4515a40b3135744eeeb4304, www\Microsoft.VisualBasic.NETProtocol\NETProtocol\AppServer\PushAPI\UserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7fae2b386d04473cb976576c6c0ecf64, www\Microsoft.VisualBasic.NETProtocol\NETProtocol\AppServer\PushAPI\UserAPI.vb"
 
     ' Author:
     ' 
@@ -125,7 +125,7 @@ Namespace NETProtocol.PushAPI
         ''' <returns></returns>
         <Protocol(Protocols.UserAPI.Protocols.GetData)>
         Private Function __getData(CA As Long, request As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
-            Dim id = request.LoadObject(Of Protocols.UserId)(AddressOf JSON.LoadObject)
+            Dim id = request.LoadObject(Of Protocols.UserId)(AddressOf JSON.LoadJSON)
             If Not IsValid(id) Then
                 Return NetResponse.RFC_FORBIDDEN
             End If

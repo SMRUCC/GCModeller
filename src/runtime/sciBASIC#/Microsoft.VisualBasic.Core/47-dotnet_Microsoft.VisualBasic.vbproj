@@ -865,6 +865,7 @@
     <Compile Include="ApplicationServices\Debugger\Exception\ExceptionData.vb" />
     <Compile Include="ApplicationServices\VBDev\AssemblyInfo.vb" />
     <Compile Include="ApplicationServices\VBDev\Ngen\Registry.vb" />
+    <Compile Include="ApplicationServices\VBDev\Signature\CodeSign.vb" />
     <Compile Include="ApplicationServices\VBDev\Signature\VBCodeSignature.vb" />
     <Compile Include="ApplicationServices\VBDev\Signature\LicenseInfo.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Extensions\APIExtensions2.vb" />
@@ -881,6 +882,9 @@
     <Compile Include="ComponentModel\DataSource\DefaultAttribute.vb" />
     <Compile Include="ComponentModel\DataSource\Property\GenericProperty.vb" />
     <Compile Include="ComponentModel\File\XmlDataModel.vb" />
+    <Compile Include="ComponentModel\Ranges\Selector\IntTag.vb" />
+    <Compile Include="ComponentModel\Ranges\Selector\SelectorExtensions.vb" />
+    <Compile Include="ComponentModel\Ranges\Selector\NumericTagged.vb" />
     <Compile Include="ComponentModel\Ranges\Unit.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\Indexing.vb" />
     <Compile Include="Extensions\Collection\ByteStreamExtensions.vb" />
@@ -979,7 +983,7 @@
     <Compile Include="Extensions\IO\CopyDirectory.vb" />
     <Compile Include="Extensions\Math\StatisticsMathExtensions\DataSample.vb" />
     <Compile Include="ComponentModel\Ranges\Sequence.vb" />
-    <Compile Include="ComponentModel\Ranges\IndexSelector.vb" />
+    <Compile Include="ComponentModel\Ranges\Selector\IndexSelector.vb" />
     <Compile Include="ComponentModel\Ranges\Extensions.vb" />
     <Compile Include="ComponentModel\Ranges\RangeList.vb" />
     <Compile Include="ComponentModel\Ranges\RangeModel\IRanges.vb" />
@@ -1107,7 +1111,7 @@
     <Compile Include="Scripting\ScriptBuilder.vb" />
     <Compile Include="ApplicationServices\Terminal\InteractiveIODevice\Shell.vb" />
     <Compile Include="ApplicationServices\Terminal\PipelineCLI.vb" />
-    <Compile Include="ApplicationServices\Terminal\InnerQueue.vb" />
+    <Compile Include="My\InnerQueue.vb" />
     <Compile Include="ApplicationServices\Terminal\InteractiveIODevice\TerminalExtensions.vb" />
     <Compile Include="ApplicationServices\Terminal\PrintAsTable.vb" />
     <Compile Include="ApplicationServices\Terminal\ProgressBar\AbstractBar.vb" />
