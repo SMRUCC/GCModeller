@@ -1,55 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::8a37df07c652bb4ae3af9007b27110bb, Restarter\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: RestartByInterval, RestartByTime
-    ' 
-    '     Sub: Main, Restart
-    ' 
-    ' Class Ini
-    ' 
-    '     Properties: CLI, DefaultFile, Exe
-    ' 
-    '     Function: Load
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: RestartByInterval, RestartByTime
+' 
+'     Sub: Main, Restart
+' 
+' Class Ini
+' 
+'     Properties: CLI, DefaultFile, Exe
+' 
+'     Function: Load
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Triggers
@@ -125,7 +124,7 @@ Public Class Ini
 
     Public Shared Function Load() As Ini
         If DefaultFile.FileExists Then
-            Return DefaultFile.ReadAllText.LoadObject(Of Ini)
+            Return DefaultFile.ReadAllText.LoadJSON(Of Ini)
         Else
             Dim ini As New Ini With {
                 .CLI = "Put the CLI argument at here",
