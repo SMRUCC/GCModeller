@@ -81,9 +81,14 @@ Public Class Reader : Inherits CellularModules
                     .ToDictionary(Function(m) m.value,
                                   Function(i) offsets(i))
             }
+            offset = offset - 8
 
             If index = 0 Then
                 Exit Do
+            Else
+                ' offset chain block
+                Call stream.Seek(offset, SeekOrigin.Begin)
+                Call offset.SetValue(stream.ReadInt64)
             End If
         Loop
 
