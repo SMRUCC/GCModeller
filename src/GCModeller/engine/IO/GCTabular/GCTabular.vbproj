@@ -48,7 +48,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -186,7 +186,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -278,6 +278,7 @@
     <Compile Include="Compiler\KEGG.Compiler\Reactions.vb" />
     <Compile Include="Compiler\KEGG.Compiler\Compiler.vb" />
     <Compile Include="Compiler\KEGG.Compiler\Compound.vb" />
+    <Compile Include="Xlsx.vb" />
     <Compile Include="PolynomialFit.vb" />
     <Compile Include="Compiler\MergeSabiork.vb" />
     <Compile Include="TranscriptRegulation.vb" />
@@ -329,69 +330,69 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Network.GraphTheory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
+    <ProjectReference Include="..\..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
+    <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
       <Name>STRING-db</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\Networks\STRING\STRING.vbproj">
+    <ProjectReference Include="..\..\..\models\Networks\STRING\STRING.vbproj">
       <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}</Project>
       <Name>STRING</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
+    <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\interops\CARMEN\CARMEN.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\CARMEN\CARMEN.vbproj">
       <Project>{5af62b58-443a-419e-90fe-0e8dafa71a51}</Project>
       <Name>CARMEN</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
+    <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+    <ProjectReference Include="..\..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
+    <ProjectReference Include="..\..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
-      <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
-      <Name>GCMarkupLanguage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
+    <ProjectReference Include="..\..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
       <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
+      <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
+      <Name>GCMarkupLanguage</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
