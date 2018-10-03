@@ -147,13 +147,13 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TSSsTools", "GCModeller\ana
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProteinTools.Family", "GCModeller\analysis\ProteinTools\ProteinTools.Family\ProteinTools.Family.vbproj", "{F5FC5F93-F929-496F-9CF9-8607203B9545}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCMarkupLanguage", "GCModeller\engine\GCMarkupLanguage\GCMarkupLanguage.vbproj", "{1EE7910D-9171-426F-B874-B935E633C419}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCMarkupLanguage", "GCModeller\engine\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj", "{1EE7910D-9171-426F-B874-B935E633C419}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCModeller.ModellingEngine", "GCModeller\engine\GCModeller\GCModeller.ModellingEngine.vbproj", "{8384AC6E-A7F6-40F0-A9A0-F995C2106843}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCModeller.Framework.Kernel_Driver", "GCModeller\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj", "{73D186DC-0557-4ED0-9EC7-428240E04517}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCTabular", "GCModeller\engine\GCTabular\GCTabular.vbproj", "{804EB81C-493A-49EF-95A9-DBF800FA4A08}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GCTabular", "GCModeller\engine\IO\GCTabular\GCTabular.vbproj", "{804EB81C-493A-49EF-95A9-DBF800FA4A08}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NCBI.BioSystems", "GCModeller\models\ncbi-BioSystems\NCBI.BioSystems.vbproj", "{C78B848E-B5BD-49B4-AA62-01D5C0DE6B16}"
 EndProject
@@ -502,6 +502,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GSEA", "GCModeller\annotations\GSEA\GSEA\GSEA.vbproj", "{DB374D72-08F4-4B27-8168-B90785F71BDC}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Profiler", "GCModeller\annotations\GSEA\Profiler\Profiler.vbproj", "{F680A759-33BF-451B-A1A6-05BAD5D67BBA}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Raw", "GCModeller\engine\IO\Raw\Raw.vbproj", "{07CC0292-9EDA-4E02-BF0D-043391C99F07}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -16784,6 +16786,90 @@ Global
 		{F680A759-33BF-451B-A1A6-05BAD5D67BBA}.Yilia-Release_x64|x64.Build.0 = Release|x64
 		{F680A759-33BF-451B-A1A6-05BAD5D67BBA}.Yilia-Release_x64|x86.ActiveCfg = Release|Any CPU
 		{F680A759-33BF-451B-A1A6-05BAD5D67BBA}.Yilia-Release_x64|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep_UNIX_x64|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biodeep|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x86.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|Any CPU.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|x64.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|x64.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|x86.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|x86.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|x64.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|x64.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|x86.ActiveCfg = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.docs|x86.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.GCModeller(UNIX-Release_X64)|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.installer_x64|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Publish|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Release|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.sciBASIC.NET-test-release|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Surveillance-of-infectious-diseases|x86.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|Any CPU.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|x64.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|x64.Build.0 = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|x86.ActiveCfg = Release|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Yilia-Release_x64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -17033,6 +17119,7 @@ Global
 		{ADEAFBBD-06C0-4E53-B985-1AE8978F54AA} = {04E8ABCF-08A7-4F56-89FF-4FFAB0F3CFD3}
 		{DB374D72-08F4-4B27-8168-B90785F71BDC} = {2CD3AC60-B843-4A10-936E-920D02213ED3}
 		{F680A759-33BF-451B-A1A6-05BAD5D67BBA} = {AB809E3E-ECF5-4B99-AE30-821F93976AED}
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07} = {C4DE4B01-4118-4068-BD02-65F8579AE386}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
