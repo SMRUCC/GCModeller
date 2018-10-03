@@ -1,10 +1,10 @@
 ﻿Imports System.IO
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Linq
 Imports [Module] = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 
 ''' <summary>
@@ -60,6 +60,16 @@ Public Class Raw : Implements IDisposable
 
 #End Region
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Protected Function GetModules() As PropertyInfo()
+        Return GetType(Raw) _
+            .GetProperties(PublicProperty) _
+            .Where(Function(prop)
+                       Return prop.PropertyType Is GetType(Index(Of String))
+                   End Function) _
+            .ToArray
+    End Function
+
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' To detect redundant calls
 
@@ -94,52 +104,19 @@ Public Class Raw : Implements IDisposable
 
 End Class
 
-''' <summary>
-''' 写数据模块
-''' </summary>
-Public Class Writer : Inherits Raw
+Public Class Reader : Inherits Raw
 
-    ReadOnly stream As BinaryDataWriter
+    ReadOnly stream As BinaryDataReader
 
-    Sub New(output As Stream)
-        stream = New BinaryDataWriter(output, Encodings.UTF8WithoutBOM)
+    Sub New(input As Stream)
+        stream = New BinaryDataReader(input)
     End Sub
 
-    ''' <summary>
-    ''' 将编号列表写入的原始文件之中
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function Init() As Writer
-        Dim modules As PropertyInfo() = GetType(Raw) _
-            .GetProperties(PublicProperty) _
-            .Where(Function(prop)
-                       Return prop.PropertyType Is GetType(Index(Of String))
-                   End Function) _
-            .ToArray
+    Public Function LoadIndex() As Reader
 
-        Call stream.Seek(0, SeekOrigin.Begin)
-        Call stream.Write(Raw.Magic, BinaryStringFormat.NoPrefixOrTermination)
+    End Function
 
-        ' 二进制文件的结构为 
-        '
-        ' - string 模块名称字符串，最开始为长度整形数
-        ' - integer 有多少个编号
-        ' - string ZERO 使用零结尾的编号字符串
-        '
-        For Each [module] As PropertyInfo In modules
-            Dim modAttr = [module].GetCustomAttribute(Of [Module])
-            Dim modAttrEmpty = modAttr Is Nothing OrElse modAttr.Name.StringEmpty
-            Dim name$ = modAttr.Name Or [module].Name.When(modAttrEmpty)
-            Dim list$() = DirectCast([module].GetValue(Me), Index(Of String)).Objects
+    Public Function Read(time#, module$) As Double()
 
-            Call stream.Write(name, BinaryStringFormat.DwordLengthPrefix)
-            Call stream.Write(list.Length)
-
-            For Each id As String In list
-                Call stream.Write(id, BinaryStringFormat.ZeroTerminated)
-            Next
-        Next
-
-        Return Me
     End Function
 End Class
