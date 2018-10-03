@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{07CC0292-9EDA-4E02-BF0D-043391C99F07}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Raw</RootNamespace>
-    <AssemblyName>Raw</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Raw.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Raw.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>

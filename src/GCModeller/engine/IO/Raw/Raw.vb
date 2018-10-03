@@ -121,14 +121,16 @@ Public Class Writer : Inherits Raw
         Call stream.Write(Raw.Magic, BinaryStringFormat.NoPrefixOrTermination)
 
         ' 二进制文件的结构为 
+        '
         ' - string 模块名称字符串，最开始为长度整形数
         ' - integer 有多少个编号
         ' - string ZERO 使用零结尾的编号字符串
-        For Each [mod] As PropertyInfo In modules
-            Dim modAttr = [mod].GetCustomAttribute(Of [Module])
+        '
+        For Each [module] As PropertyInfo In modules
+            Dim modAttr = [module].GetCustomAttribute(Of [Module])
             Dim modAttrEmpty = modAttr Is Nothing OrElse modAttr.Name.StringEmpty
-            Dim name$ = modAttr.Name Or [mod].Name.When(modAttrEmpty)
-            Dim list$() = DirectCast([mod].GetValue(Me), Index(Of String)).Objects
+            Dim name$ = modAttr.Name Or [module].Name.When(modAttrEmpty)
+            Dim list$() = DirectCast([module].GetValue(Me), Index(Of String)).Objects
 
             Call stream.Write(name, BinaryStringFormat.DwordLengthPrefix)
             Call stream.Write(list.Length)
