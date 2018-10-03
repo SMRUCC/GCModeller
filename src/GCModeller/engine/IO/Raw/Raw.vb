@@ -8,7 +8,7 @@ Imports [Module] = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMa
 ''' <summary>
 ''' The sandbox engine output raw data file format
 ''' </summary>
-Public Class Raw : Implements IDisposable
+Public MustInherit Class CellularModules : Implements IDisposable
 
     Public Const Magic$ = "GCModeller"
 
@@ -63,7 +63,7 @@ Public Class Raw : Implements IDisposable
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Function GetModules() As PropertyInfo()
-        Return GetType(Raw) _
+        Return GetType(CellularModules) _
             .GetProperties(PublicProperty) _
             .Where(Function(prop)
                        Return prop.PropertyType Is GetType(Index(Of String))

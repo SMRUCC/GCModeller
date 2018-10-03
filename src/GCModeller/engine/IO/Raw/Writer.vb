@@ -10,7 +10,7 @@ Imports Microsoft.VisualBasic.Text
 ''' <summary>
 ''' 写数据模块
 ''' </summary>
-Public Class Writer : Inherits Raw
+Public Class Writer : Inherits CellularModules
 
     ReadOnly stream As BinaryDataWriter
 
@@ -31,7 +31,7 @@ Public Class Writer : Inherits Raw
         Dim modules As Dictionary(Of String, PropertyInfo) = Me.GetModuleReader
 
         Call stream.Seek(0, SeekOrigin.Begin)
-        Call stream.Write(Raw.Magic, BinaryStringFormat.NoPrefixOrTermination)
+        Call stream.Write(CellularModules.Magic, BinaryStringFormat.NoPrefixOrTermination)
 
         Call Me.modules.Clear()
         Call Me.moduleIndex.Clear()

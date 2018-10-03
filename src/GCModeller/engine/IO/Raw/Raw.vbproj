@@ -85,6 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.vb" />
     <Compile Include="Reader.vb" />
     <Compile Include="Writer.vb" />
     <Compile Include="Raw.vb" />
