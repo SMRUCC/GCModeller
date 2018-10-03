@@ -1,51 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::e9a6b43c72fa29b574faf9a937ba41e5, test\DEBUG_MAIN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DEBUG_MAIN
-    ' 
-    '     Sub: Main, ReadDatabase
-    ' 
-    ' /********************************************************************************/
+' Module DEBUG_MAIN
+' 
+'     Sub: Main, ReadDatabase
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -72,10 +70,10 @@ Module DEBUG_MAIN
         Dim GFF As GFF.GFFTable = GFFTable.LoadDocument(path)
 
         Dim Fasta As New FASTA.FastaFile(path)
-        Dim nt As New FASTA.FastaToken(path)
+        Dim nt As New FASTA.FastaSeq(path)
 
-        nt = FastaToken.Load(path)
-        nt = FastaToken.LoadNucleotideData(path)
+        nt = FastaSeq.Load(path)
+        nt = FastaSeq.LoadNucleotideData(path)
     End Sub
 
     Sub Main()
@@ -101,7 +99,7 @@ Module DEBUG_MAIN
         Pause()
 
 
-        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetabolitesDBGet.DownloadCompoundFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
+        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetaboliteDBGET.DownloadCompoundFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
 
         ' Call "http://www.kegg.jp/dbget-bin/www_bget?gl:G00112".GET.SaveTo("x:\gl_Test.html")
 
@@ -174,7 +172,7 @@ Module DEBUG_MAIN
 
         Dim dddasdad = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.htext.ko00001
 
-        Dim nt As New FastaToken("H:\Xanthomonas_campestris_8004_uid15\CP000050.fna")
+        Dim nt As New FastaSeq("H:\Xanthomonas_campestris_8004_uid15\CP000050.fna")
 
         Dim sss = nt.CutSequenceLinear(NucleotideLocation.Parse("1434841..1435203"))
         sss = nt.CutSequenceLinear(NucleotideLocation.Parse("complement(14113..14883)"))
