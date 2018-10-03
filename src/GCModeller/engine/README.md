@@ -5,3 +5,4 @@ The is the GCModeller virtual cell engine, still under the development progress
 
 ``GCMarkupLanguage`` and ``GCTabular`` just two kinds of file format for GCModeller simulation engine input. They can convert to each other in a very easy way by using GCModeller model utils app.
 
+![](docs/workflow.png)
