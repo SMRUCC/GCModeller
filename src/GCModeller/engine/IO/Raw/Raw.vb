@@ -12,6 +12,9 @@ Public Class Raw : Implements IDisposable
 
     Public Const Magic$ = "GCModeller"
 
+    Protected ReadOnly modules As New Dictionary(Of String, Index(Of String))
+    Protected ReadOnly moduleIndex As New Index(Of String)
+
 #Region "Cellular Modules"
 
     ''' <summary>
@@ -66,6 +69,20 @@ Public Class Raw : Implements IDisposable
                        Return prop.PropertyType Is GetType(Index(Of String))
                    End Function) _
             .ToArray
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Protected Function GetModuleReader() As Dictionary(Of String, PropertyInfo)
+        Return GetModules _
+            .ToDictionary(Function(prop)
+                              Dim modAttr = prop.GetAttribute(Of [Module])
+
+                              If modAttr Is Nothing OrElse modAttr.Name.StringEmpty Then
+                                  Return prop.Name
+                              Else
+                                  Return modAttr.Name
+                              End If
+                          End Function)
     End Function
 
 #Region "IDisposable Support"

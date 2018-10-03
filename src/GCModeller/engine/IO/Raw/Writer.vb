@@ -2,10 +2,10 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports [Module] = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 
 ''' <summary>
 ''' 写数据模块
@@ -13,8 +13,6 @@ Imports [Module] = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMa
 Public Class Writer : Inherits Raw
 
     ReadOnly stream As BinaryDataWriter
-    ReadOnly modules As New Dictionary(Of String, Index(Of String))
-    ReadOnly moduleIndex As New Index(Of String)
 
     ''' <summary>
     ''' 写在文件最末尾的，用于建立二叉树索引？
@@ -30,7 +28,7 @@ Public Class Writer : Inherits Raw
     ''' </summary>
     ''' <returns></returns>
     Public Function Init() As Writer
-        Dim modules As PropertyInfo() = Me.GetModules
+        Dim modules As Dictionary(Of String, PropertyInfo) = Me.GetModuleReader
 
         Call stream.Seek(0, SeekOrigin.Begin)
         Call stream.Write(Raw.Magic, BinaryStringFormat.NoPrefixOrTermination)
@@ -44,11 +42,10 @@ Public Class Writer : Inherits Raw
         ' - integer 有多少个编号
         ' - string ZERO 使用零结尾的编号字符串
         '
-        For Each [module] As PropertyInfo In modules
-            Dim modAttr = [module].GetCustomAttribute(Of [Module])
-            Dim modAttrEmpty = modAttr Is Nothing OrElse modAttr.Name.StringEmpty
-            Dim name$ = modAttr.Name Or [module].Name.When(modAttrEmpty)
-            Dim list$() = DirectCast([module].GetValue(Me), Index(Of String)).Objects
+        For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
+            Dim name$ = [module].Name
+            Dim index As Index(Of String) = [module].Value.GetValue(Me)
+            Dim list$() = index.Objects
 
             Call stream.Write(name, BinaryStringFormat.DwordLengthPrefix)
             Call stream.Write(list.Length)
@@ -57,7 +54,7 @@ Public Class Writer : Inherits Raw
                 Call stream.Write(id, BinaryStringFormat.ZeroTerminated)
             Next
 
-            Call Me.modules.Add(name, [module].GetValue(Me))
+            Call Me.modules.Add(name, index)
             Call Me.moduleIndex.Add(name)
         Next
 
