@@ -1,9 +1,7 @@
-﻿Imports System.IO
-Imports System.Reflection
+﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Linq
 Imports [Module] = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 
@@ -21,42 +19,42 @@ Public Class Raw : Implements IDisposable
     ''' </summary>
     ''' <returns></returns>
     <[Module]("Message-RNA")>
-    Public ReadOnly Property mRNAId As Index(Of String)
+    Public Property mRNAId As Index(Of String)
     ''' <summary>
     ''' 由基因转录出来的其他的RNA分子的编号列表
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <[Module]("Component-RNA")>
-    Public ReadOnly Property RNAId As Index(Of String)
+    Public Property RNAId As Index(Of String)
     ''' <summary>
     ''' 由mRNA翻译出来的多肽链的Id列表
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <[Module]("Polypeptide")>
-    Public ReadOnly Property Polypeptide As Index(Of String)
+    Public Property Polypeptide As Index(Of String)
     ''' <summary>
     ''' 由一条或者多条多肽链修饰之后得到的最终的蛋白质的编号列表
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <[Module]("Protein")>
-    Public ReadOnly Property Proteins As Index(Of String)
+    Public Property Proteins As Index(Of String)
     ''' <summary>
     ''' 代谢物列表
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <[Module]("Metabolite")>
-    Public ReadOnly Property Metabolites As Index(Of String)
+    Public Property Metabolites As Index(Of String)
     ''' <summary>
     ''' 反应过程编号列表
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <[Module]("Reaction-Flux")>
-    Public ReadOnly Property Reactions As Index(Of String)
+    Public Property Reactions As Index(Of String)
 
 #End Region
 
@@ -102,21 +100,4 @@ Public Class Raw : Implements IDisposable
     End Sub
 #End Region
 
-End Class
-
-Public Class Reader : Inherits Raw
-
-    ReadOnly stream As BinaryDataReader
-
-    Sub New(input As Stream)
-        stream = New BinaryDataReader(input)
-    End Sub
-
-    Public Function LoadIndex() As Reader
-
-    End Function
-
-    Public Function Read(time#, module$) As Double()
-
-    End Function
 End Class
