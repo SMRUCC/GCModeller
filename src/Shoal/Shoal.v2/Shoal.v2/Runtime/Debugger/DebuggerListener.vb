@@ -11,7 +11,7 @@ Namespace Runtime.Debugging
     ''' <remarks></remarks>
     Public Class DebuggerListener : Implements System.IDisposable
 
-        Dim _DebuggerListener As TcpSynchronizationServicesSocket
+        Dim _DebuggerListener As TcpServicesSocket
         Dim _InternalMessageSender As AsynInvoke
         Dim pid As Integer
         Dim DebuggerProcess As IORedirect
@@ -39,7 +39,7 @@ Namespace Runtime.Debugging
 
         Private Sub InternalStartListener()
             Try
-RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(AddressOf __protocol, LocalPort)
+RESTART:        _DebuggerListener = New TcpServicesSocket(AddressOf __protocol, LocalPort)
                 Call _DebuggerListener.Run()
             Catch ex As Exception
                 Call Console.WriteLine(ex.ToString)

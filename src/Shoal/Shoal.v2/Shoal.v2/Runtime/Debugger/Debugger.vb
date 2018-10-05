@@ -24,7 +24,7 @@ Namespace Runtime.Debugging
         ''' 监听来自于IDE的控制命令
         ''' </summary>
         ''' <remarks></remarks>
-        Dim ReadListenerServices As TcpSynchronizationServicesSocket
+        Dim ReadListenerServices As TcpServicesSocket
 
         Public ReadOnly Property DebuggerExit As Boolean
 
@@ -57,7 +57,7 @@ Namespace Runtime.Debugging
         End Sub
 
         Private Sub __startListen()
-            ReadListenerServices = New TcpSynchronizationServicesSocket(AddressOf __internalProtocol, GetFirstAvailablePort)
+            ReadListenerServices = New TcpServicesSocket(AddressOf __internalProtocol, GetFirstAvailablePort)
             Try
 RESTART:        ReadListenerServices.Run()
             Catch ex As Exception
