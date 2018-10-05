@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e484400d34d0bb87d3a522421c9210c8, Microsoft.VisualBasic.Core\Language\API.vb"
+﻿#Region "Microsoft.VisualBasic::68e6067ff81fe2ca8a3d99f6ef7a5788, Microsoft.VisualBasic.Core\Language\API.vb"
 
     ' Author:
     ' 
@@ -59,7 +59,7 @@ Namespace Language
         ''' The default value assertor. If target object assert result is nothing or empty, then this function will returns True.
         ''' </summary>
         Friend ReadOnly defaultAssert As New DefaultValue(Of Assert(Of Object)) With {
-            .Value = AddressOf ExceptionHandler.Default,
+            .Value = AddressOf ExceptionHandle.Default,
             .assert = Function(assert)
                           Return assert Is Nothing
                       End Function
