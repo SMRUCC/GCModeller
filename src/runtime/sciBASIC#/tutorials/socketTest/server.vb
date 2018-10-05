@@ -40,7 +40,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports Microsoft.VisualBasic.Text
 
 <Protocol(GetType(Protocols.Test))>
 Public Class server : Inherits ServerModule
@@ -53,9 +55,21 @@ Public Class server : Inherits ServerModule
         Call ex.PrintException
     End Sub
 
+    ''' <summary>
+    ''' protocol C will returns a not implemented error code
+    ''' </summary>
+    ''' <returns></returns>
     Protected Overrides Function ProtocolHandler() As ProtocolHandler
         Return New ProtocolHandler(Me)
     End Function
 
+    <Protocol(Protocols.Test.A)>
+    Private Function handleA(request As RequestStream, RemoteAddress As System.Net.IPEndPoint) As RequestStream
+        Return RequestStream.CreatePackage(request.GetString(UTF8WithoutBOM) & "  Hello world")
+    End Function
 
+    <Protocol(Protocols.Test.B)>
+    Private Function handleB(request As RequestStream, RemoteAddress As System.Net.IPEndPoint) As RequestStream
+        Return RequestStream.SystemProtocol(RequestStream.Protocols.InvalidCertificates, "Mismatched!")
+    End Function
 End Class

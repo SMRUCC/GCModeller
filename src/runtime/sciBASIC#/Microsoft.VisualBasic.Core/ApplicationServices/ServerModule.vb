@@ -1,5 +1,11 @@
-﻿Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 Imports Microsoft.VisualBasic.Net.Tcp
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 Namespace ApplicationServices
 
@@ -8,15 +14,26 @@ Namespace ApplicationServices
     ''' </summary>
     Public MustInherit Class ServerModule : Implements IDisposable
 
+        ''' <summary>
+        ''' Tcp socket
+        ''' </summary>
         Protected socket As TcpServicesSocket
 
-        Sub New(port%)
+        ''' <summary>
+        ''' Create a new server module based on a tcp server socket.
+        ''' </summary>
+        ''' <param name="port">The listen port of the tcp socket.</param>
+        Sub New(port As Integer)
             socket = New TcpServicesSocket(port, AddressOf LogException) With {
                 .Responsehandler = ProtocolHandler()
             }
         End Sub
 
         Protected MustOverride Sub LogException(ex As Exception)
+        ''' <summary>
+        ''' Generally, using a <see cref="Protocol"/> attribute using reflection way is recommended.
+        ''' </summary>
+        ''' <returns></returns>
         Protected MustOverride Function ProtocolHandler() As ProtocolHandler
 
         Public Overridable Function Run() As Integer
@@ -55,5 +72,36 @@ Namespace ApplicationServices
             ' GC.SuppressFinalize(Me)
         End Sub
 #End Region
+    End Class
+
+    Public Class ProtocolInvoker(Of T As {IComparable, IFormattable, IConvertible})
+
+        Public ReadOnly Property Protocol As New Protocol(GetType(T))
+        Public ReadOnly Property TcpRequest As TcpRequest
+        Public ReadOnly Property TextEncoding As DefaultValue(Of Encoding)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(hostName$, remotePort%, Optional encoding As Encodings = Encodings.UTF8WithoutBOM)
+            TcpRequest = New TcpRequest(hostName, remotePort)
+            TextEncoding = encoding.CodePage
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function SendMessage(protocol As T, message$, Optional textEncoding As Encoding = Nothing) As RequestStream
+            Return SendMessage(protocol, (textEncoding Or Me.TextEncoding).GetBytes(message))
+        End Function
+
+        Public Function SendMessage(protocol As T, data As Byte()) As RequestStream
+            Dim category& = Me.Protocol.EntryPoint
+            Dim protocolL& = CLng(CObj(protocol))
+            Dim message As New RequestStream(category, protocolL, data)
+
+            Return TcpRequest.SendMessage(message)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function SendMessage(Of V As {New, Class})(protocol As T, data As V) As RequestStream
+            Return SendMessage(protocol, data.GetJson)
+        End Function
     End Class
 End Namespace
