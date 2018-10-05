@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b1b155e1cfd594954ce800298624e87, Microsoft.VisualBasic.Core\Net\Protocol\Streams\String.vb"
+﻿#Region "Microsoft.VisualBasic::910ee6437347dc3d1bb75b508f99c772, Microsoft.VisualBasic.Core\Net\Protocol\Streams\String.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text
+Imports BufferArray = System.Array
 
 Namespace Net.Protocols.Streams
 
@@ -65,7 +66,7 @@ Namespace Net.Protocols.Streams
             End Set
         End Property
 
-        Dim _encoding As System.Text.Encoding
+        Dim _encoding As Encoding
 
         Sub New()
         End Sub
@@ -79,7 +80,7 @@ Namespace Net.Protocols.Streams
             _encoding = encoding
 
             If _encoding Is Nothing Then
-                _encoding = System.Text.Encoding.UTF8
+                _encoding = Encoding.UTF8
             End If
         End Sub
 
@@ -100,7 +101,7 @@ Namespace Net.Protocols.Streams
             Dim buffer As Byte() = New Byte(s.Length) {}
 
             buffer(Scan0) = CType(Encoding, Byte)
-            Call System.Array.ConstrainedCopy(s, Scan0, buffer, 1, s.Length)
+            Call BufferArray.ConstrainedCopy(s, Scan0, buffer, 1, s.Length)
 
             Return buffer
         End Function

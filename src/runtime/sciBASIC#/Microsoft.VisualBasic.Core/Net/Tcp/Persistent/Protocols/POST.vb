@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8687013e2c7274304023ee22d27ff6c1, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Protocols\POST.vb"
+﻿#Region "Microsoft.VisualBasic::614fa76c2c5dbda1d1ba5baa07bacfb6, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Protocols\POST.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Protocols
 
-Namespace Net.Persistent.Application.Protocols
+Namespace Net.Tcp.Persistent.Application.Protocols
 
     Public Class LogonPOST
         <XmlAttribute> Public Property USER_ID As Long

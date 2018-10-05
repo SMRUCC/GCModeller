@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ade484641c419093f3a268a5bfc01292, Microsoft.VisualBasic.Core\Net\Protocol\Streams\ArrayAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::caea15ee86f20fc11ef8717b7b145706, Microsoft.VisualBasic.Core\Net\Protocol\Streams\ArrayAbstract.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace Net.Protocols.Streams.Array
 
@@ -51,8 +53,8 @@ Namespace Net.Protocols.Streams.Array
         <XmlAttribute("T")>
         Public Overridable Property Values As T()
 
-        Protected ReadOnly __serialization As Func(Of T, Byte())
-        Protected ReadOnly __deserialization As Func(Of Byte(), T)
+        Protected ReadOnly serialization As IGetBuffer(Of T)
+        Protected ReadOnly deserialization As IGetObject(Of T)
 
         ''' <summary>
         ''' 由于这个模块是专门应用于服务器端的数据交换的模块，所以稳定性优先，
@@ -61,17 +63,19 @@ Namespace Net.Protocols.Streams.Array
         ''' <param name="index"></param>
         ''' <returns></returns>
         Default Public Property value(index As Integer) As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Values.ElementAtOrDefault(index)
             End Get
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As T)
                 Call Values.Set(index, value)
             End Set
         End Property
 
-        Sub New(serialize As Func(Of T, Byte()), load As Func(Of Byte(), T))
-            __serialization = serialize
-            __deserialization = load
+        Sub New(serialize As IGetBuffer(Of T), load As IGetObject(Of T))
+            serialization = serialize
+            deserialization = load
         End Sub
     End Class
 End Namespace

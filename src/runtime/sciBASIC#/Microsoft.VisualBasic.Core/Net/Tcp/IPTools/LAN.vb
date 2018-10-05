@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f4c293959bc11f735c0f8fb4e0dee63, Microsoft.VisualBasic.Core\Net\Tcp\IPTools\LAN.vb"
+﻿#Region "Microsoft.VisualBasic::ac6fa9843f259d583fe5a375834efa04, Microsoft.VisualBasic.Core\Net\Tcp\IPTools\LAN.vb"
 
     ' Author:
     ' 
@@ -45,12 +45,10 @@
 
 #End Region
 
-Imports System.Collections.Generic
-Imports System.Collections
-Imports System.Runtime.InteropServices
-Imports System.Runtime.InteropServices.Marshal
 Imports System.Net
 Imports System.Net.NetworkInformation
+Imports System.Runtime.InteropServices
+Imports System.Runtime.InteropServices.Marshal
 
 Namespace Net
 

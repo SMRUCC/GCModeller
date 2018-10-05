@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3728bf6c5165e561867ae1e8e7b9791, Microsoft.VisualBasic.Core\Net\Protocol\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::b2f8c9d441a0591e8929fc9125115f2c, Microsoft.VisualBasic.Core\Net\Protocol\Abstract.vb"
 
     ' Author:
     ' 
@@ -37,8 +37,6 @@
     ' 
     '     Class RawStream
     ' 
-    '         Properties: _rawStreamType
-    ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: GetRawStream
     '         Operators: <=, >=
@@ -48,7 +46,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Net.Protocols
 
@@ -98,7 +96,7 @@ Namespace Net.Protocols
             Return DirectCast(value, TRawStream)
         End Function
 
-        Protected Shared ReadOnly Property _rawStreamType As Type = GetType(Byte())
+        Protected Shared ReadOnly _rawStreamType As Type = GetType(Byte())
 
         Public Const INT64 As Integer = 8
         ''' <summary>
@@ -128,7 +126,7 @@ Namespace Net.Protocols
         ''' ]]>
         Public Shared Operator <=(addr As String, raw As RawStream) As RequestStream
             Dim ep As New IPEndPoint(addr)
-            Dim invoke As New AsynInvoke(ep)
+            Dim invoke As New TcpRequest(ep)
             Dim rep As RequestStream = New RequestStream(invoke.SendMessage(raw.Serialize))
             Return rep
         End Operator

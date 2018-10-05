@@ -1,10 +1,10 @@
-﻿Imports Microsoft.VisualBasic.Scripting.ShoalShell.Configuration
-Imports Microsoft.VisualBasic.Net
+﻿Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Net.Tcp
 Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Terminal.STDIO__
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Configuration
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM
-Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Terminal.STDIO__
 
 Namespace Runtime.Debugging
 
@@ -19,7 +19,7 @@ Namespace Runtime.Debugging
         ''' 主动向IDE发送调试消息
         ''' </summary>
         ''' <remarks></remarks>
-        Dim __tcpClient As AsynInvoke
+        Dim __tcpClient As TcpRequest
         ''' <summary>
         ''' 监听来自于IDE的控制命令
         ''' </summary>
@@ -35,7 +35,7 @@ Namespace Runtime.Debugging
         ''' <param name="DebugListenerPort">IDE调试监听器<see cref="ShoalShell.Runtime.Debugging.DebuggerListener"></see>的监听端口号</param>
         Sub New(ScriptEngine As ShoalShell.Runtime.ScriptEngine, DebugListenerPort As Integer)
             Call MyBase.New(Config.Default.SettingsData)
-            __tcpClient = New Net.AsynInvoke("127.0.0.1", DebugListenerPort)
+            __tcpClient = New TcpRequest("127.0.0.1", DebugListenerPort)
             Call $"Shoal debugger listeners at  127.0.0.1:{ DebugListenerPort}".__DEBUG_ECHO
             Call RunTask(AddressOf __startListen)
             Call Threading.Thread.Sleep(100)

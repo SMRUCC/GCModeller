@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::425602775d495e8ec5dd00e9b590b6a5, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\MMFProtocol\Pipeline\API.vb"
+﻿#Region "Microsoft.VisualBasic::3cb2b985d6842151b781445429322b32, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\MMFProtocol\Pipeline\API.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Parallel.MMFProtocol.Pipeline
 
@@ -70,7 +71,7 @@ Namespace Parallel.MMFProtocol.Pipeline
             New Protocol(GetType(API.Protocols)).EntryPoint
 
         Public Function Delete(var As String, Optional port As Integer = API.PeplinePort) As Boolean
-            Dim invoke As New Net.AsynInvoke("127.0.0.1", port)
+            Dim invoke As New TcpRequest("127.0.0.1", port)
             Dim action As New RequestStream(API.Protocol, Protocols.Destroy, var)
             Dim resp As RequestStream = invoke.SendMessage(action)
             Return resp.Protocol = HTTP_RFC.RFC_OK
@@ -86,7 +87,7 @@ Namespace Parallel.MMFProtocol.Pipeline
             Dim buf As Byte() = value.Serialize
             Dim chunkSize As Long = buf.Length
             Dim ref As String = $"{var}:{chunkSize}"
-            Dim invoke As New Net.AsynInvoke("127.0.0.1", port)
+            Dim invoke As New TcpRequest("127.0.0.1", port)
             Dim action As New RequestStream(API.Protocol, Protocols.Allocation, ref)
             Dim resp As RequestStream = invoke.SendMessage(action)
             Dim writer As New MapStream.MSWriter(var, chunkSize)

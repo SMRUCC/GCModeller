@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cf6bfbe8ac9a573295ebf6651784622, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\MMFProtocol\Pipeline\Pipeline.vb"
+﻿#Region "Microsoft.VisualBasic::b0f12490536f283a929877085408362f, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\MMFProtocol\Pipeline\Pipeline.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Parallel.MMFProtocol.Pipeline
 
@@ -56,12 +57,12 @@ Namespace Parallel.MMFProtocol.Pipeline
 
         ReadOnly _sockets As SortedDictionary(Of String, MapStream.MSWriter) =
             New SortedDictionary(Of String, MapStream.MSWriter)
-        ReadOnly _netSocket As Net.TcpServicesSocket
+        ReadOnly _netSocket As TcpServicesSocket
         ReadOnly _protocols As Net.Abstract.IProtocolHandler
 
         Sub New(Optional port As Integer = API.PeplinePort)
             _protocols = New ProtocolHandler(Me)
-            _netSocket = New Net.TcpServicesSocket(port)
+            _netSocket = New TcpServicesSocket(port)
             _netSocket.Responsehandler = AddressOf _protocols.HandleRequest
 
             Call Parallel.RunTask(AddressOf _netSocket.Run)

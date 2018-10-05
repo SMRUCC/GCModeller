@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5771f069fbbe23677c5f6ba25bd494cd, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\WorkSocket.vb"
+﻿#Region "Microsoft.VisualBasic::36d4332e1d6366fd267fc4302584ae9f, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\WorkSocket.vb"
 
     ' Author:
     ' 
@@ -42,10 +42,11 @@
 #End Region
 
 Imports System.Net.Sockets
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.Net.Abstract
 Imports Microsoft.VisualBasic.Net.Protocols
 
-Namespace Net.Persistent.Socket
+Namespace Net.Tcp.Persistent.Socket
 
     ''' <summary>
     ''' 长连接之中只是进行消息的发送处理，并不保证数据能够被接收到

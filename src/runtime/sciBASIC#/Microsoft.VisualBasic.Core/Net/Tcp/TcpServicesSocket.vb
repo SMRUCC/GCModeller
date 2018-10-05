@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a14afd1eaf9f6cac5a8187e3a560ceb, Microsoft.VisualBasic.Core\Net\Tcp\TcpServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::a194f3d2f3805399fb991da7477949e0, Microsoft.VisualBasic.Core\Net\Tcp\TcpServicesSocket.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Abstract
@@ -60,7 +61,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports TcpEndPoint = System.Net.IPEndPoint
 
-Namespace Net
+Namespace Net.Tcp
 
     ''' <summary>
     ''' Socket listening object which is running at the server side asynchronous able multiple threading.
@@ -75,7 +76,7 @@ Namespace Net
 #Region "INTERNAL FIELDS"
 
         Dim _threadEndAccept As Boolean = True
-        Dim _exceptionHandle As Abstract.ExceptionHandler
+        Dim _exceptionHandle As ExceptionHandler
         Dim _servicesSocket As Socket
 
 #End Region
