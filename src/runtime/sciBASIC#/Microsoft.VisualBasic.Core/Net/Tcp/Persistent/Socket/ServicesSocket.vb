@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::41cebfeb7eeda56b58e9c563d951777a, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Network\Tcp\Persistent\Socket\ServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::8abcbe2572367258e2a270aa8a3831eb, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\ServicesSocket.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ServicesSocket
-' 
-'         Properties: Connections, IsShutdown, LocalPort, Running
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: Run
-' 
-'         Sub: __acceptSocket, __initSocket, __initSocketThread, __runHost, AcceptCallback
-'              Run, WaitForRunning
-'         Delegate Sub
-' 
-'             Properties: AcceptCallbackHandleInvoke
-' 
-'             Sub: __socketCleanup, (+2 Overloads) Dispose, ForceCloseHandle
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Class ServicesSocket
+    ' 
+    '         Properties: Connections, IsShutdown, LocalPort, Running
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: Run
+    ' 
+    '         Sub: __acceptSocket, __initSocket, __initSocketThread, __runHost, AcceptCallback
+    '              Run, WaitForRunning
+    '         Delegate Sub
+    ' 
+    '             Properties: AcceptCallbackHandleInvoke
+    ' 
+    '             Sub: __socketCleanup, (+2 Overloads) Dispose, ForceCloseHandle
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -123,10 +123,10 @@ Namespace Net.Persistent.Socket
         ''' <summary>
         ''' 消息处理的方法接口： Public Delegate Function DataResponseHandler(str As String, RemotePort As Integer) As String
         ''' </summary>
-        ''' <param name="LocalPort">监听的本地端口号，假若需要进行端口映射的话，则可以在<see cref="Run"></see>方法之中设置映射的端口号</param>
+        ''' <param name="localPort">监听的本地端口号，假若需要进行端口映射的话，则可以在<see cref="Run"></see>方法之中设置映射的端口号</param>
         ''' <remarks></remarks>
-        Sub New(Optional LocalPort As Integer = 11000, Optional exHandler As Abstract.ExceptionHandler = Nothing)
-            Me._LocalPort = LocalPort
+        Sub New(Optional localPort% = 11000, Optional exHandler As Abstract.ExceptionHandler = Nothing)
+            Me._LocalPort = localPort
             Me._exceptionHandle = exHandler Or DefaultHandler
         End Sub
 
@@ -186,8 +186,8 @@ Namespace Net.Persistent.Socket
         Private Sub __acceptSocket()
             _threadEndAccept = False
 
-            Dim Callback As New AsyncCallback(AddressOf AcceptCallback)
-            Call _socketListener.BeginAccept(Callback, _socketListener)
+            Dim callback As New AsyncCallback(AddressOf AcceptCallback)
+            Call _socketListener.BeginAccept(callback, _socketListener)
         End Sub
 
         ''' <summary>
