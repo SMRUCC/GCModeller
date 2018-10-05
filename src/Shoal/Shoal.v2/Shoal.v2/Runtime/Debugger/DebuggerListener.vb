@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Runtime.Debugging
 
@@ -12,7 +12,7 @@ Namespace Runtime.Debugging
     Public Class DebuggerListener : Implements System.IDisposable
 
         Dim _DebuggerListener As TcpServicesSocket
-        Dim _InternalMessageSender As AsynInvoke
+        Dim _InternalMessageSender As TcpRequest
         Dim pid As Integer
         Dim DebuggerProcess As IORedirect
         Dim LocalPort As Integer = GetFirstAvailablePort()
@@ -66,7 +66,7 @@ RESTART:        _DebuggerListener = New TcpServicesSocket(AddressOf __protocol, 
 
             If Message.MessageType = DebuggerMessage.MessageTypes.CTRL_DEBUGGER_INIT_INFO AndAlso Not DebuggerStarted Then
                 DebuggerStarted = True
-                _InternalMessageSender = New AsynInvoke("127.0.0.1", Val(Message.Message))
+                _InternalMessageSender = New TcpRequest("127.0.0.1", Val(Message.Message))
                 Return NetResponse.RFC_OK
             End If
 
