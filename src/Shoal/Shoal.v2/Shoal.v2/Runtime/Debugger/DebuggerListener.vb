@@ -53,7 +53,7 @@ RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(Address
             Loop
         End Sub
 
-        Private Function __protocol(uid As Long, request As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
+        Private Function __protocol(request As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
             Dim str As String = request.GetUTF8String
 
             Call Console.WriteLine(str)

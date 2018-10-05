@@ -77,7 +77,7 @@ RESTART:        ReadListenerServices.Run()
             _RunningScript = False
         End Sub
 
-        Private Function __internalProtocol(uid As Long, request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
+        Private Function __internalProtocol(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
             Dim strMessage As String = request.GetUTF8String
             Dim data As DebuggerMessage = strMessage.LoadFromXml(Of DebuggerMessage)(False)
 
