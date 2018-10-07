@@ -339,6 +339,10 @@
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
       <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Model\Model.vbproj">
+      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
