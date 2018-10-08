@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Runtime.Debugging
 
@@ -11,8 +11,8 @@ Namespace Runtime.Debugging
     ''' <remarks></remarks>
     Public Class DebuggerListener : Implements System.IDisposable
 
-        Dim _DebuggerListener As TcpSynchronizationServicesSocket
-        Dim _InternalMessageSender As AsynInvoke
+        Dim _DebuggerListener As TcpServicesSocket
+        Dim _InternalMessageSender As TcpRequest
         Dim pid As Integer
         Dim DebuggerProcess As IORedirect
         Dim LocalPort As Integer = GetFirstAvailablePort()
@@ -39,7 +39,7 @@ Namespace Runtime.Debugging
 
         Private Sub InternalStartListener()
             Try
-RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(AddressOf __protocol, LocalPort)
+RESTART:        _DebuggerListener = New TcpServicesSocket(AddressOf __protocol, LocalPort)
                 Call _DebuggerListener.Run()
             Catch ex As Exception
                 Call Console.WriteLine(ex.ToString)
@@ -53,7 +53,7 @@ RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(Address
             Loop
         End Sub
 
-        Private Function __protocol(uid As Long, request As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
+        Private Function __protocol(request As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
             Dim str As String = request.GetUTF8String
 
             Call Console.WriteLine(str)
@@ -66,7 +66,7 @@ RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(Address
 
             If Message.MessageType = DebuggerMessage.MessageTypes.CTRL_DEBUGGER_INIT_INFO AndAlso Not DebuggerStarted Then
                 DebuggerStarted = True
-                _InternalMessageSender = New AsynInvoke("127.0.0.1", Val(Message.Message))
+                _InternalMessageSender = New TcpRequest("127.0.0.1", Val(Message.Message))
                 Return NetResponse.RFC_OK
             End If
 
