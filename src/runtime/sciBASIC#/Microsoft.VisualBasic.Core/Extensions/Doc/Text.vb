@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4278b5386f70eda368205bde0429048d, Microsoft.VisualBasic.Core\Extensions\Doc\Text.vb"
+﻿#Region "Microsoft.VisualBasic::243918f741f53ae83ee2e8a2417225cf, Microsoft.VisualBasic.Core\Extensions\Doc\Text.vb"
 
     ' Author:
     ' 
@@ -139,8 +139,11 @@ Public Module TextDoc
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function SaveJson(Of T)(obj As T, path$, Optional encoding As Encoding = Nothing) As Boolean
-        Return obj.GetJson.SaveTo(path, encoding)
+    Public Function SaveJson(Of T)(obj As T, path$,
+                                   Optional encoding As Encoding = Nothing,
+                                   Optional indent As Boolean = False) As Boolean
+
+        Return obj.GetJson(indent:=indent).SaveTo(path, encoding)
     End Function
 
     ''' <summary>
