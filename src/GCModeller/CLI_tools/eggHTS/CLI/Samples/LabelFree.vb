@@ -117,6 +117,17 @@ Partial Module CLI
         End With
     End Function
 
+    <ExportAPI("/labelFree.matrix")>
+    <Usage("/labelFree.matrix /in <*.csv/*.xlsx> [/intensity /uniprot <uniprot.Xml> /organism <scientificName> /out <out.csv>]")>
+    Public Function LabelFreeMatrix(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim isIntensity As Boolean = args("/intensity")
+        Dim uniprot$ = args("/uniprot")
+        Dim organism$ = args("/organism")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{If(isIntensity, "intensity", "iBAQ")}.csv"
+
+    End Function
+
     <ExportAPI("/labelFree.t.test")>
     <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /design <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
     Public Function labelFreeTtest(args As CommandLine) As Integer
