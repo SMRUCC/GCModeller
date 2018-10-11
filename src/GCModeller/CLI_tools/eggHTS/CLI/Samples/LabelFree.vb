@@ -1,54 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::aedaf1b44c450033df41852cb3fd7a0c, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: labelFreeTtest, MajorityProteinIDs, PerseusStatics, PerseusTable
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: labelFreeTtest, MajorityProteinIDs, PerseusStatics, PerseusTable
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Office.Excel
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Partial Module CLI
 
@@ -87,7 +90,7 @@ Partial Module CLI
         Dim in$ = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
         Dim data As Perseus() = [in].LoadTsv(Of Perseus)
-        Dim csv As New IO.File
+        Dim csv As New csv
 
         Call csv.AppendLine({"MS/MS", CStr(Perseus.TotalMSDivideMS(data))})
         Call csv.AppendLine({"Peptides", CStr(Perseus.TotalPeptides(data))})
@@ -118,13 +121,36 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/labelFree.matrix")>
-    <Usage("/labelFree.matrix /in <*.csv/*.xlsx> [/intensity /uniprot <uniprot.Xml> /organism <scientificName> /out <out.csv>]")>
+    <Usage("/labelFree.matrix /in <*.csv/*.xlsx> [/sheet <default=proteinGroups> /intensity /uniprot <uniprot.Xml> /organism <scientificName> /out <out.csv>]")>
     Public Function LabelFreeMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim isIntensity As Boolean = args("/intensity")
         Dim uniprot$ = args("/uniprot")
         Dim organism$ = args("/organism")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{If(isIntensity, "intensity", "iBAQ")}.csv"
+        Dim table As EntityObject() = EntityObject _
+            .LoadDataSet([in].ReadTableAuto(args("/sheet") Or "proteinGroups")) _
+            .ToArray
+
+        If uniprot.FileExists Then
+            Return table.matrixByUniprot(uniprot, organism, isIntensity) _
+                        .SaveTo(out) _
+                        .CLICode
+        Else
+            ' 没有额外的信息，则尝试使用内部的注释信息来完成
+            Return table.matrixByInternal(isIntensity) _
+                        .SaveTo(out) _
+                        .CLICode
+        End If
+    End Function
+
+    <Extension>
+    Private Function matrixByInternal(table As EntityObject(), isIntensity As Boolean) As DataSet()
+
+    End Function
+
+    <Extension>
+    Private Function matrixByUniprot(table As EntityObject(), xml$, organism$, isIntensity As Boolean) As DataSet()
 
     End Function
 
