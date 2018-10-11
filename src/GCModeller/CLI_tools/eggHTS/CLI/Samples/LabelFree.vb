@@ -173,7 +173,7 @@ Partial Module CLI
                                  Dim id As String = getID(x)
                                  Dim data = x.Properties _
                                      .Where(Function(c)
-                                                Return InStr(c.Key, "Intensity ") > 0
+                                                Return InStr(c.Key, keyPrefix) > 0
                                             End Function) _
                                      .ToDictionary _
                                      .AsNumeric
