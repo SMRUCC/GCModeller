@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Office.Excel
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -146,7 +147,44 @@ Partial Module CLI
 
     <Extension>
     Private Function matrixByInternal(table As EntityObject(), isIntensity As Boolean) As DataSet()
+        Dim getID As Func(Of EntityObject, String)
 
+        If table(0).Properties.ContainsKey("Fasta headers") Then
+            getID = Function(x)
+                        Dim headerID = x("Fasta headers").Split("|"c).ElementAtOrDefault(1)
+
+                        If headerID.StringEmpty Then
+                            Return x.ID.StringSplit("\s*;\s*")(0)
+                        Else
+                            Return headerID
+                        End If
+                    End Function
+        Else
+            getID = Function(x) x.ID.StringSplit("\s*;\s*")(0)
+        End If
+
+        Return table.ExtractMatrix(getID, isIntensity)
+    End Function
+
+    <Extension>
+    Private Function ExtractMatrix(table As EntityObject(), getID As Func(Of EntityObject, String), isIntensity As Boolean) As DataSet()
+        Dim keyPrefix$ = "iBAQ " Or "Intensity ".When(isIntensity)
+        Dim projectDataSet = Function(x As EntityObject) As DataSet
+                                 Dim id As String = getID(x)
+                                 Dim data = x.Properties _
+                                     .Where(Function(c)
+                                                Return InStr(c.Key, "Intensity ") > 0
+                                            End Function) _
+                                     .ToDictionary _
+                                     .AsNumeric
+
+                                 Return New DataSet With {
+                                     .ID = id,
+                                     .Properties = data
+                                 }
+                             End Function
+
+        Return table.Select(projectDataSet).ToArray
     End Function
 
     <Extension>
