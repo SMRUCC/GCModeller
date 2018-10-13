@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55006a6e193cd46daa35facb6bd94937, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Protocols\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::758cc9918a9da55982bf9c28321da545, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Protocols\Protocol.vb"
 
     ' Author:
     ' 
@@ -132,9 +132,7 @@ Namespace Net.Tcp.Persistent.Application.Protocols
                 .Message = Message,
                 .USER_ID = USER_ID
             }
-            Return New RequestStream(EntryPoint, Protocols.Broadcast, post.Serialize) With {
-                .uid = USER_ID
-            }
+            Return New RequestStream(EntryPoint, Protocols.Broadcast, post.Serialize)
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e44aee8874f54cb5fde833f9594f3e66, Microsoft.VisualBasic.Core\Net\Protocol\Reflection\ProtocolInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::aa6e139f0db4826a5ae49e31cb42da81, Microsoft.VisualBasic.Core\Net\Protocol\Reflection\ProtocolInvoker.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,10 @@
 
     ' Summaries:
 
-    '     Class __protocolInvoker
+    '     Class ProtocolInvoker
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: InvokeProtocol0, InvokeProtocol1, InvokeProtocol2, InvokeProtocol3, ToString
+    '         Function: InvokeProtocol0, InvokeProtocol1, InvokeProtocol2, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,46 +47,39 @@ Imports Microsoft.VisualBasic.Win32
 
 Namespace Net.Protocols.Reflection
 
-    Friend Class __protocolInvoker
+    ''' <summary>
+    ''' Working in server side
+    ''' </summary>
+    Friend Class ProtocolInvoker
 
-        ReadOnly obj As Object, Method As MethodInfo
+        ReadOnly obj As Object
+        ReadOnly method As MethodInfo
 
-        Sub New(obj As Object, Method As MethodInfo)
+        Sub New(obj As Object, method As MethodInfo)
             Me.obj = obj
-            Me.Method = Method
+            Me.method = method
         End Sub
 
         Public Function InvokeProtocol0(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
-            Dim value = Method.Invoke(obj, Nothing)
+            Dim value = method.Invoke(obj, Nothing)
             Dim data = DirectCast(value, RequestStream)
             Return data
         End Function
 
         Public Function InvokeProtocol1(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
-            Dim value = Method.Invoke(obj, {})
+            Dim value = method.Invoke(obj, {request})
             Dim data = DirectCast(value, RequestStream)
             Return data
         End Function
 
         Public Function InvokeProtocol2(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
-            Dim value = Method.Invoke(obj, {request})
-            Dim data = DirectCast(value, RequestStream)
-            Return data
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="request"></param>
-        ''' <param name="remoteDevice"></param>
-        ''' <returns></returns>
-        Public Function InvokeProtocol3(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
             Try
-                Dim value = Method.Invoke(obj, {request, remoteDevice})
+                Dim value = method.Invoke(obj, {request, remoteDevice})
                 Dim data = DirectCast(value, RequestStream)
+
                 Return data
             Catch ex As Exception
-                ex = New Exception(Method.FullName, ex)
+                ex = New Exception(method.FullName, ex)
 
                 If WindowsServices.Initialized Then
                     Call ServicesLogs.LogException(ex)
@@ -98,7 +91,7 @@ Namespace Net.Protocols.Reflection
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{obj.ToString} -> {Method.Name}"
+            Return $"{obj.ToString} -> {method.Name}"
         End Function
     End Class
 End Namespace

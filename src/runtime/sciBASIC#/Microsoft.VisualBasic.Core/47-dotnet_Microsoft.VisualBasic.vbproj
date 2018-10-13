@@ -897,6 +897,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationServices\Parallel\MMFProtocol\MMFSocket.vb" />
     <Compile Include="ApplicationServices\ServerModule.vb" />
     <Compile Include="ApplicationServices\Debugger\VisualStudioPreviews.vb" />
     <Compile Include="ApplicationServices\Debugger\Exception\ExceptionData.vb" />
@@ -1475,7 +1476,7 @@
     <Compile Include="Text\IO\TextFileEncodingDetector.vb" />
     <Compile Include="ComponentModel\Settings\SimpleConfig.vb" />
     <Compile Include="Extensions\IO\PathSearchTool.vb" />
-    <Compile Include="ComponentModel\Href.vb" />
+    <Compile Include="Text\Xml\Models\Href.vb" />
     <Compile Include="ComponentModel\DataSource\SchemaMaps\DataSource.vb" />
     <Compile Include="ComponentModel\DataStructures\Enumerable\IEnumerable.vb" />
     <Compile Include="Text\Xml\Models\ValueTuples\ValuePair.vb" />
@@ -1498,7 +1499,6 @@
     <Compile Include="ApplicationServices\LanguageHelper\LanguageHelper.vb" />
     <Compile Include="ApplicationServices\Debugger\Logging\LogFile\LogFile.vb" />
     <Compile Include="Extensions\Extensions.vb" />
-    <Compile Include="ApplicationServices\Parallel\MMFProtocol\MMFSocket.vb" />
     <Compile Include="ApplicationServices\Parallel\MMFProtocol\ProcessLock.vb" />
     <Compile Include="ApplicationServices\Terminal\STDIO__\Shell.vb" />
     <Compile Include="ApplicationServices\Terminal\STDIO__\I_ConsoleDeviceHandle.vb" />

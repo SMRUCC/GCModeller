@@ -569,7 +569,11 @@ Namespace FileStream.XmlFormat
 
         Private Shared Function InternalCheckNull(ByRef argv As HrefLink, resourceId As String, comments As String, savefile As String) As HrefLink
             If argv Is Nothing Then
-                argv = New HrefLink With {.ResourceId = resourceId, .Annotations = comments, .Value = savefile}
+                argv = New HrefLink With {
+                    .ResourceId = resourceId,
+                    .Comment = comments,
+                    .Value = savefile
+                }
             End If
             Return argv
         End Function

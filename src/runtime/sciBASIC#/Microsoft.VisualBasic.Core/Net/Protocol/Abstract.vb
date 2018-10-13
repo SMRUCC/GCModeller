@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2f8c9d441a0591e8929fc9125115f2c, Microsoft.VisualBasic.Core\Net\Protocol\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::6f35238d4e079cd2d617b33b2fcecd44, Microsoft.VisualBasic.Core\Net\Protocol\Abstract.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,9 @@
     ' 
     '         Function: Serialize
     ' 
+    '     Delegate Sub
+    ' 
+    ' 
     '     Class RawStream
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -42,10 +45,12 @@
     '         Operators: <=, >=
     ' 
     ' 
+    ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Net.Tcp
 
 Namespace Net.Protocols
@@ -60,6 +65,8 @@ Namespace Net.Protocols
         ''' <returns></returns>
         Function Serialize() As Byte()
     End Interface
+
+    Public Delegate Sub ProcessMessagePush(message As RequestStream)
 
     ''' <summary>
     ''' 原始串流的基本模型，这个流对象应该具备有两个基本的方法：
@@ -91,9 +98,10 @@ Namespace Net.Protocols
         ''' <typeparam name="TRawStream"></typeparam>
         ''' <param name="rawStream"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetRawStream(Of TRawStream As RawStream)(rawStream As Byte()) As TRawStream
-            Dim value As Object = Activator.CreateInstance(GetType(TRawStream), {rawStream})
-            Return DirectCast(value, TRawStream)
+            Return Activator.CreateInstance(GetType(TRawStream), {rawStream})
         End Function
 
         Protected Shared ReadOnly _rawStreamType As Type = GetType(Byte())
@@ -119,15 +127,14 @@ Namespace Net.Protocols
         ''' <returns></returns>
         ''' <![CDATA[
         '''
-        ''' Dim rep As RequestStream =
-        '''    "127.0.0.1:80" <= New RequestStream With {
-        '''           ...
-        '''     }
+        ''' Dim rep As RequestStream = "127.0.0.1:80" <= New RequestStream With {
+        '''     ...
+        ''' }
         ''' ]]>
         Public Shared Operator <=(addr As String, raw As RawStream) As RequestStream
             Dim ep As New IPEndPoint(addr)
             Dim invoke As New TcpRequest(ep)
-            Dim rep As RequestStream = New RequestStream(invoke.SendMessage(raw.Serialize))
+            Dim rep As New RequestStream(invoke.SendMessage(raw.Serialize))
             Return rep
         End Operator
 

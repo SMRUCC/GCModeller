@@ -119,9 +119,15 @@ Public Module Extensions
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' 按照<see cref="SampleGroup.sample_group"/>进行分组，读取出每一个分组之中的
+    ''' <see cref="SampleGroup.sample_name"/>
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
+    Public Function ToCategory(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T)) As Dictionary(Of NamedCollection(Of String))
         Return sampleInfo _
             .GroupBy(Function(sample) sample.sample_group) _
             .Select(Function(group)
@@ -135,7 +141,7 @@ Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
+    Public Function SampleNames(sampleInfo As IEnumerable(Of SampleGroup)) As String()
         Return sampleInfo _
             .Select(Function(sample) sample.sample_name) _
             .ToArray

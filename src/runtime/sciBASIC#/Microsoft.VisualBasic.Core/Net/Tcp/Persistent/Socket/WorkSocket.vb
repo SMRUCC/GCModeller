@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36d4332e1d6366fd267fc4302584ae9f, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\WorkSocket.vb"
+﻿#Region "Microsoft.VisualBasic::d2c9a815a23622c9e4141f970511d85b, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\WorkSocket.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Class WorkSocket
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: PushMessage, ReadCallback
+    '         Sub: (+2 Overloads) PushMessage, ReadCallback
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Net.Sockets
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.Net.Abstract
 Imports Microsoft.VisualBasic.Net.Protocols
@@ -84,6 +85,11 @@ Namespace Net.Tcp.Persistent.Socket
             Catch ex As Exception
                 Call ForceCloseHandle(Me)
             End Try
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub PushMessage(message As String)
+            Call PushMessage(New RequestStream(message))
         End Sub
     End Class
 End Namespace

@@ -324,7 +324,7 @@ Namespace FileStream.IO
             My.Computer.FileSystem.CurrentDirectory = PreWork
         End Sub
 
-        Private Function LoadData(Of T As Class)(Href As Microsoft.VisualBasic.ComponentModel.Href) As T
+        Private Function LoadData(Of T As Class)(Href As Href) As T
             If Not Href Is Nothing Then
                 Dim path = Href.GetFullPath(ModelParentDIR)
                 Return If(FileIO.FileSystem.FileExists(path), path.LoadXml(Of T), Nothing)
@@ -333,7 +333,7 @@ Namespace FileStream.IO
             End If
         End Function
 
-        Private Function LoadCsvData(Of T As Class)(Href As Microsoft.VisualBasic.ComponentModel.Href) As List(Of T)
+        Private Function LoadCsvData(Of T As Class)(Href As Href) As List(Of T)
             If Href Is Nothing Then
                 Call Console.WriteLine("Href of type {0} is null....", GetType(T).FullName)
                 Return New List(Of T)
@@ -442,7 +442,7 @@ Namespace FileStream.IO
             Return True
         End Function
 
-        Private Sub Copy(ByRef href As Microsoft.VisualBasic.ComponentModel.Href, Dir As String)
+        Private Sub Copy(ByRef href As Href, Dir As String)
             If href Is Nothing Then
                 Return
             End If
@@ -463,15 +463,18 @@ Namespace FileStream.IO
             Call FileIO.FileSystem.CopyFile(href.Value, Path) : href.Value = Path
         End Sub
 
-        Private Function SaveData(Of T As Class)(File As String, obj As T) As Microsoft.VisualBasic.ComponentModel.Href
+        Private Function SaveData(Of T As Class)(File As String, obj As T) As Href
             If FileIO.FileSystem.FileExists(File) Then
                 Call FileIO.FileSystem.DeleteFile(File, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
             End If
             Call obj.GetXml.SaveTo(File)
-            Return New Microsoft.VisualBasic.ComponentModel.Href With {.Value = File}
+
+            Return New Href With {
+                .Value = File
+            }
         End Function
 
-        Private Function SaveCsvData(Of T As Class)(File As String, data As IEnumerable(Of T)) As Microsoft.VisualBasic.ComponentModel.Href
+        Private Function SaveCsvData(Of T As Class)(File As String, data As IEnumerable(Of T)) As Href
             If FileIO.FileSystem.FileExists(File) Then
                 Call FileIO.FileSystem.DeleteFile(File, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
             End If
@@ -483,7 +486,9 @@ Namespace FileStream.IO
             End If
 
             Call data.SaveTo(File, False)
-            Return New Microsoft.VisualBasic.ComponentModel.Href With {.Value = File}
+            Return New Href With {
+                .Value = File
+            }
         End Function
     End Class
 End Namespace
