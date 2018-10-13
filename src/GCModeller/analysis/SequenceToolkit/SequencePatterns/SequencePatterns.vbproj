@@ -185,7 +185,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SMRUCC.genomics.Analysis.SequenceTools.MSA, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -314,6 +313,10 @@
     <ProjectReference Include="..\MotifScanner\MotifScanner.vbproj">
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
       <Name>MotifScanner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSA\MSA.vbproj">
+      <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
+      <Name>MSA</Name>
     </ProjectReference>
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
       <Project>{49219b69-7958-4bdb-b72b-9b72d7902a28}</Project>
