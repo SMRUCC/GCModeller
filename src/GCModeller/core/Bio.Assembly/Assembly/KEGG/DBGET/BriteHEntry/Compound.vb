@@ -270,6 +270,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         ''' <summary>
         ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
+        ''' (gif图片是以base64编码放在XML文件里面的)
         ''' 
         ''' + ``br08001``  Compounds with biological roles
         ''' + ``br08002``  Lipids
@@ -352,6 +353,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         ''' <summary>
         ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
+        ''' gif图片是以base64编码放在XML文件里面的
         ''' </summary>
         ''' <param name="entryID$"></param>
         ''' <param name="saveDIR$"></param>

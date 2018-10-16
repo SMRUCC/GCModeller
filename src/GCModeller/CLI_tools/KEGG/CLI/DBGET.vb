@@ -78,6 +78,11 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' gif图片是以base64编码放在XML文件里面的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API")>
     <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
