@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::fc729420a3e63d0a661470dad477db51, CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
-    '               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
-    '               proteinEXPORT, ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2
-    '               UniprotMappings, UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
+'               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
+'               proteinEXPORT, ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2
+'               UniprotMappings, UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -462,7 +462,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
-    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /label.right /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /label.right /colors <default=Set1:c6> /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
     <Argument("/GO", True, CLITypes.File,
               Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
     <Argument("/level", True, CLITypes.Integer,
@@ -523,7 +523,7 @@ Partial Module CLI
                                size:=size,
                                axisTitle:="Number Of Proteins",
                                labelAlignmentRight:=labelRight,
-                               valueFormat:="F0") _
+                               valueFormat:="F0", colorSchema:=args("colors") Or DefaultColorSchema) _
             .Save(out & $"/plot.png")
 
         Return 0
@@ -535,7 +535,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -586,7 +586,8 @@ Partial Module CLI
                              tick:=tick,
                              axisTitle:="Number Of Proteins",
                              labelRightAlignment:=labelRight,
-                             valueFormat:="F0") _
+                             valueFormat:="F0",
+                             colorSchema:=args("/colors") Or DefaultColorSchema) _
                .Save(out & "/plot.png")
 
         Return 0

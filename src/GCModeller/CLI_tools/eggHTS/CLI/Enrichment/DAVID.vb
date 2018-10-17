@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::4eda661bff3f924b0f3293283e540e88, CLI_tools\eggHTS\CLI\Enrichment\DAVID.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DAVID_GOplot, DAVID_KEGGPathwayMap, DAVID_KEGGplot, SplitDAVID
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DAVID_GOplot, DAVID_KEGGPathwayMap, DAVID_KEGGplot, SplitDAVID
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -53,6 +54,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
@@ -63,7 +65,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = (args <= "/out") Or [in].ParentPath.AsDefault
 
-        With SMRUCC.genomics.Analysis.Microarray.DAVID.Load(in$)
+        With Microarray.DAVID.Load(in$)
             Call .SelectGoTerms.SaveTo($"{out}/GO_enrichment.csv")
             Call .SelectKEGGPathway.SaveTo($"{out}/KEGG_enrichment.csv")
         End With
@@ -72,7 +74,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
-    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /p.value <default=0.05> /tick 1 /out <out.png>]")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /colors <default=Set1:c6> /size <default=1200,1000> /p.value <default=0.05> /tick 1 /out <out.png>]")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -100,13 +102,14 @@ Partial Module CLI
             .KEGGEnrichmentPlot(size:=size,
                                 KEGG:=KEGG_PATH,
                                 tick:=tick,
-                                pvalue:=pvalue) _
-            .Save(out) _
-            .CLICode
+                                pvalue:=pvalue,
+                                colorSchema:=args("/colors") Or DefaultColorSchema
+            ).Save(out) _
+             .CLICode
     End Function
 
     <ExportAPI("/GO.enrichment.DAVID")>
-    <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /size <default=1200,1000> /tick 1 /p.value <0.05> /out <out.png>]")>
+    <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /colors <default=Set1:c6> /size <default=1200,1000> /tick 1 /p.value <0.05> /out <out.png>]")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_GOplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -120,9 +123,12 @@ Partial Module CLI
         Dim GOterms = table.SelectGoTerms
 
         Return GOterms _
-            .EnrichmentPlot(size, tick:=tick, pvalue:=pvalue) _
-            .Save(out) _
-            .CLICode
+            .EnrichmentPlot(size,
+                            tick:=tick,
+                            pvalue:=pvalue,
+                            colorSchema:=args("/colors") Or DefaultColorSchema
+            ).Save(out) _
+             .CLICode
     End Function
 
     ''' <summary>
