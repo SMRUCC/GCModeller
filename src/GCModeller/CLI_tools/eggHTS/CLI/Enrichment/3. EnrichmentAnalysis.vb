@@ -61,8 +61,8 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Partial Module CLI
 
-    <ExportAPI("/Term2genes",
-               Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
+    <ExportAPI("/Term2genes")>
+    <Usage("/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
     <Group(CLIGroups.ClusterProfiler)>
     Public Function Term2Genes(args As CommandLine) As Integer
         Dim [in] = args <= "/in"

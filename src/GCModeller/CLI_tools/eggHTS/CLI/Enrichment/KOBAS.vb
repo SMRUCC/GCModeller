@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::45c969bd74ac0ac58030cac795c30cf5, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: GO_cellularLocationPlot, GO_enrichmentPlot, KEGG_enrichment, KEGGEnrichmentPathwayMap, KOBASaddORFsource
-    '               KOBASSplit, RetriveEnrichmentGeneInfo
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: GO_cellularLocationPlot, GO_enrichmentPlot, KEGG_enrichment, KEGGEnrichmentPathwayMap, KOBASaddORFsource
+'               KOBASSplit, RetriveEnrichmentGeneInfo
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
@@ -150,7 +151,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot")>
-    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
@@ -185,6 +186,14 @@ Partial Module CLI
     <Argument("/gray", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -223,7 +232,8 @@ Partial Module CLI
                     terms, pvalue, size,
                     tick,
                     gray, labelRight,
-                    top:=displays)
+                    top:=displays,
+                    colorSchema:=args("/colors") Or DefaultColorSchema)
             End If
         End If
 
@@ -232,7 +242,15 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.plot",
                Info:="Bar plots of the KEGG enrichment analysis result.",
-               Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+               Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -247,7 +265,9 @@ Partial Module CLI
             size, pvalue,
             gray:=gray,
             labelRightAlignment:=labelRight,
-            tick:=tick)
+            tick:=tick,
+            colorSchema:=args("/colors") Or DefaultColorSchema
+        )
 
         Return plot.Save(out).CLICode
     End Function

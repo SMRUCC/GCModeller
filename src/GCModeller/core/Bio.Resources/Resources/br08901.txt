@@ -1,10 +1,5 @@
 +C	Map number
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Pathway Maps</h2>
-#<!---
-#ENTRY       br08901
-#NAME        Pathway
-#DEFINITION  KEGG pathway maps
-#--->
 !
 A<b>Metabolism</b>
 B  Global and overview maps
@@ -105,6 +100,8 @@ C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00540  Lipopolysaccharide biosynthesis
 C    00550  Peptidoglycan biosynthesis
 C    00511  Other glycan degradation
+C    00571  Lipoarabinomannan (LAM) biosynthesis
+C    00572  Arabinogalactan biosynthesis - Mycobacterium
 B  Metabolism of cofactors and vitamins
 C    00730  Thiamine metabolism
 C    00740  Riboflavin metabolism
@@ -132,6 +129,7 @@ C    00281  Geraniol degradation
 C    01052  Type I polyketide structures
 C    00522  Biosynthesis of 12-, 14- and 16-membered macrolides
 C    01051  Biosynthesis of ansamycins
+C    01059  Biosynthesis of enediyne antibiotics
 C    01056  Biosynthesis of type II polyketide backbone
 C    01057  Biosynthesis of type II polyketide products
 C    00253  Tetracycline biosynthesis
@@ -165,7 +163,10 @@ C    00525  Acarbose and validamycin biosynthesis
 C    00231  Puromycin biosynthesis
 C    00401  Novobiocin biosynthesis
 C    00404  Staurosporine biosynthesis
+C    00405  Phenazine biosynthesis
+C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
+C    00999  Biosynthesis of secondary metabolites - unclassified
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
 C    00627  Aminobenzoate degradation
@@ -179,7 +180,6 @@ C    00642  Ethylbenzene degradation
 C    00643  Styrene degradation
 C    00791  Atrazine degradation
 C    00930  Caprolactam degradation
-C    00351  DDT degradation
 C    00363  Bisphenol degradation
 C    00621  Dioxin degradation
 C    00626  Naphthalene degradation
@@ -249,8 +249,9 @@ C    04341  Hedgehog signaling pathway - fly
 C    04350  TGF-beta signaling pathway
 C    04390  Hippo signaling pathway
 C    04391  Hippo signaling pathway - fly
-C    04392  Hippo signaling pathway -multiple species
+C    04392  Hippo signaling pathway - multiple species
 C    04370  VEGF signaling pathway
+C    04371  Apelin signaling pathway
 C    04630  Jak-STAT signaling pathway
 C    04064  NF-kappa B signaling pathway
 C    04668  TNF signaling pathway
@@ -278,12 +279,11 @@ C    04144  Endocytosis
 C    04145  Phagosome
 C    04142  Lysosome
 C    04146  Peroxisome
-C    04140  Autophagy
+C    04140  Autophagy - animal
+C    04138  Autophagy - yeast
+C    04136  Autophagy - other
+C    04137  Mitophagy - animal
 C    04139  Mitophagy - yeast
-B  Cell motility
-C    02030  Bacterial chemotaxis
-C    02040  Flagellar assembly
-C    04810  Regulation of actin cytoskeleton
 B  Cell growth and death
 C    04110  Cell cycle
 C    04111  Cell cycle - yeast
@@ -293,7 +293,10 @@ C    04114  Oocyte meiosis
 C    04210  Apoptosis
 C    04214  Apoptosis - fly
 C    04215  Apoptosis - multiple species
+C    04216  Ferroptosis
+C    04217  Necroptosis
 C    04115  p53 signaling pathway
+C    04218  Cellular senescence
 B  Cellular community - eukaryotes
 C    04510  Focal adhesion
 C    04520  Adherens junction
@@ -305,6 +308,10 @@ C    02024  Quorum sensing
 C    05111  Biofilm formation - Vibrio cholerae
 C    02025  Biofilm formation - Pseudomonas aeruginosa
 C    02026  Biofilm formation - Escherichia coli
+B  Cell motility
+C    02030  Bacterial chemotaxis
+C    02040  Flagellar assembly
+C    04810  Regulation of actin cytoskeleton
 #
 A<b>Organismal Systems</b>
 B  Immune system
@@ -316,11 +323,13 @@ C    04624  Toll and Imd signaling pathway
 C    04621  NOD-like receptor signaling pathway
 C    04622  RIG-I-like receptor signaling pathway
 C    04623  Cytosolic DNA-sensing pathway
+C    04625  C-type lectin receptor signaling pathway
 C    04650  Natural killer cell mediated cytotoxicity
 C    04612  Antigen processing and presentation
 C    04660  T cell receptor signaling pathway
 C    04658  Th1 and Th2 cell differentiation
 C    04659  Th17 cell differentiation
+C    04657  IL-17 signaling pathway
 C    04662  B cell receptor signaling pathway
 C    04664  Fc epsilon RI signaling pathway
 C    04666  Fc gamma R-mediated phagocytosis
@@ -340,12 +349,15 @@ C    04915  Estrogen signaling pathway
 C    04914  Progesterone-mediated oocyte maturation
 C    04917  Prolactin signaling pathway
 C    04921  Oxytocin signaling pathway
+C    04926  Relaxin signaling pathway
 C    04918  Thyroid hormone synthesis
 C    04919  Thyroid hormone signaling pathway
+C    04928  Parathyroid hormone synthesis, secretion and action
 C    04916  Melanogenesis
 C    04924  Renin secretion
 C    04614  Renin-angiotensin system
 C    04925  Aldosterone synthesis and secretion
+C    04927  Cortisol synthesis and secretion
 B  Circulatory system
 C    04260  Cardiac muscle contraction
 C    04261  Adrenergic signaling in cardiomyocytes
@@ -358,6 +370,7 @@ C    04976  Bile secretion
 C    04973  Carbohydrate digestion and absorption
 C    04974  Protein digestion and absorption
 C    04975  Fat digestion and absorption
+C    04979  Cholesterol metabolism
 C    04977  Vitamin digestion and absorption
 C    04978  Mineral absorption
 B  Excretory system
@@ -396,6 +409,7 @@ C    04710  Circadian rhythm
 C    04713  Circadian entrainment
 C    04711  Circadian rhythm - fly
 C    04712  Circadian rhythm - plant
+C    04714  Thermogenesis
 C    04626  Plant-pathogen interaction
 #
 A<b>Human Diseases</b>
@@ -411,6 +425,8 @@ C    05203  Viral carcinogenesis
 B  Cancers: Specific types
 C    05210  Colorectal cancer
 C    05212  Pancreatic cancer
+C    05225  Hepatocellular carcinoma
+C    05226  Gastric cancer
 C    05214  Glioma
 C    05216  Thyroid cancer
 C    05221  Acute myeloid leukemia
@@ -434,10 +450,10 @@ C    05330  Allograft rejection
 C    05332  Graft-versus-host disease
 C    05340  Primary immunodeficiency
 B  Neurodegenerative diseases
-C    05010  Alzheimer's disease
-C    05012  Parkinson's disease
+C    05010  Alzheimer disease
+C    05012  Parkinson disease
 C    05014  Amyotrophic lateral sclerosis (ALS)
-C    05016  Huntington's disease
+C    05016  Huntington disease
 C    05020  Prion diseases
 B  Substance dependence
 C    05030  Cocaine addiction
@@ -446,9 +462,10 @@ C    05032  Morphine addiction
 C    05033  Nicotine addiction
 C    05034  Alcoholism
 B  Cardiovascular diseases
+C    05418  Fluid shear stress and atherosclerosis
 C    05410  Hypertrophic cardiomyopathy (HCM)
 C    05412  Arrhythmogenic right ventricular cardiomyopathy (ARVC)
-C    05414  Dilated cardiomyopathy
+C    05414  Dilated cardiomyopathy (DCM)
 C    05416  Viral myocarditis
 B  Endocrine and metabolic diseases
 C    04930  Type II diabetes mellitus
@@ -457,6 +474,7 @@ C    04950  Maturity onset diabetes of the young
 C    04932  Non-alcoholic fatty liver disease (NAFLD)
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
+C    04934  Cushing syndrome
 B  Infectious diseases: Bacterial
 C    05110  Vibrio cholerae infection
 C    05120  Epithelial cell signaling in Helicobacter pylori infection
@@ -469,13 +487,17 @@ C    05150  Staphylococcus aureus infection
 C    05152  Tuberculosis
 C    05100  Bacterial invasion of epithelial cells
 B  Infectious diseases: Viral
-C    05166  HTLV-I infection
+C    05166  Human T-cell leukemia virus 1 infection
+C    05170  Human immunodeficiency virus 1 infection
 C    05162  Measles
 C    05164  Influenza A
 C    05161  Hepatitis B
 C    05160  Hepatitis C
 C    05168  Herpes simplex infection
+C    05163  Human cytomegalovirus infection
+C    05167  Kaposi sarcoma-associated herpesvirus infection
 C    05169  Epstein-Barr virus infection
+C    05165  Human papillomavirus infection
 B  Infectious diseases: Parasitic
 C    05146  Amoebiasis
 C    05144  Malaria
@@ -519,8 +541,8 @@ C    07033  Anticonvulsants
 C    07015  Local analgesics
 C    07039  Opioid analgesics
 C    07028  Antipsychotics
-C    07029  Phenothiazines
-C    07031  Butyrophenones
+C    07029  Antipsychotics - phenothiazines
+C    07031  Antipsychotics - butyrophenones
 C    07027  Antidepressants
 C    07056  Agents for Alzheimer-type dementia
 C    07057  Antiparkinsonian agents
@@ -551,7 +573,7 @@ C    07228  Eicosanoid receptor agonists/antagonists
 C    07224  Opioid receptor agonists/antagonists
 C    07229  Angiotensin receptor and endothelin receptor antagonists
 B  Target-based classification: Nuclear receptors
-C    07225  Glucocorticoid and meneralocorticoid receptor agonists/antagonists
+C    07225  Glucocorticoid and mineralocorticoid receptor agonists/antagonists
 C    07226  Progesterone, androgen and estrogen receptor agonists/antagonists
 C    07223  Retinoic acid receptor (RAR) and retinoid X receptor (RXR) agonists/antagonists
 C    07222  Peroxisome proliferator-activated receptor (PPAR) agonists
@@ -583,5 +605,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: January 6, 2017
+#Last updated: August 21, 2018
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>
