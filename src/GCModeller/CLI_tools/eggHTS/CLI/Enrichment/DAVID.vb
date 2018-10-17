@@ -75,6 +75,14 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
     <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /colors <default=Set1:c6> /size <default=1200,1000> /p.value <default=0.05> /tick 1 /out <out.png>]")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -110,6 +118,14 @@ Partial Module CLI
 
     <ExportAPI("/GO.enrichment.DAVID")>
     <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /colors <default=Set1:c6> /size <default=1200,1000> /tick 1 /p.value <0.05> /out <out.png>]")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_GOplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

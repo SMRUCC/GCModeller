@@ -186,6 +186,14 @@ Partial Module CLI
     <Argument("/gray", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -235,6 +243,14 @@ Partial Module CLI
     <ExportAPI("/KEGG.enrichment.plot",
                Info:="Bar plots of the KEGG enrichment analysis result.",
                Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

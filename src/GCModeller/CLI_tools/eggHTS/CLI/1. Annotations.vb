@@ -481,6 +481,14 @@ Partial Module CLI
     <Argument("/out", True, CLITypes.File,
               Extensions:="*.csv, *.png",
               Description:="A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
@@ -543,6 +551,14 @@ Partial Module CLI
     <Argument("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
     <Argument("/size", True, CLITypes.String, Description:="The canvas size value.")>
     <Argument("/in", False, CLITypes.File, Extensions:="*.Xlsx, *.csv", Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
+    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+              
+              + <profile name term>: Set1:c6 
+              Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+              + <color name list>: black,green,blue 
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
