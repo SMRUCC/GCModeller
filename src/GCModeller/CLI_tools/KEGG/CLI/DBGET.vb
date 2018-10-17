@@ -93,10 +93,9 @@ Partial Module CLI
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./KEGG_cpd/"
-        Dim flat As Boolean = args.GetBoolean("/flat")
-        Dim updates As Boolean = args.GetBoolean("/updates")
-        Dim failures As List(Of String) = BriteHEntry _
-            .Compound _
+        Dim flat As Boolean = args("/flat")
+        Dim updates As Boolean = args("/updates")
+        Dim failures As List(Of String) = BriteHEntry.Compound _
             .DownloadFromResource(
                 EXPORT:=save,
                 DirectoryOrganized:=Not flat,
@@ -107,6 +106,7 @@ Partial Module CLI
 
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
+
         If accs.FileExists(True) Then
             failures += MetaboliteDBGET.CompleteUsingChEBI(save, accs, updates)
         End If
