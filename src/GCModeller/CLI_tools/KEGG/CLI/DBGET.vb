@@ -63,6 +63,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 使用这个工具下载KEGG之中的代谢反应的模型信息
+    ''' 
+    ''' 20181019 测试OK
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
