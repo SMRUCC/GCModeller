@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::551dcb32d52332924b19b907f80e48d4, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module PathwayWebParser
-    ' 
-    '         Function: __description, __entryID, __koPathways, __name, __organism
-    '                   __parseHTML_ModuleList, __pathwayDrugs, PageParser
-    '         Enum LIST_TYPES
-    ' 
-    '             [Disease], [Module], [Pathway]
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module PathwayWebParser
+' 
+'         Function: __description, __entryID, __koPathways, __name, __organism
+'                   __parseHTML_ModuleList, __pathwayDrugs, PageParser
+'         Enum LIST_TYPES
+' 
+'             [Disease], [Module], [Pathway]
+' 
+' 
+' 
+'  
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -72,6 +73,20 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?((cpd)|(gl)):.+?""\>.+?\</a\>.+?"
 
+        <Extension>
+        Friend Function parseOrthologyTerms(data As IEnumerable(Of KeyValuePair)) As OrthologyTerms
+            Dim terms As XmlProperty() = data.SafeQuery _
+                .Select(Function(t)
+                            Dim valueTuple = t.Value.GetTagValue(";")
+                            Return New XmlProperty(t.Key, valueTuple.Name, Strings.Trim(valueTuple.Value))
+                        End Function) _
+                .ToArray
+
+            Return New OrthologyTerms With {
+                .Terms = terms
+            }
+        End Function
+
         ''' <summary>
         ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据
         ''' </summary>
@@ -85,19 +100,19 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
 
             Dim Pathway As New Pathway With {
-                .Organism = WebForm.__organism,
+                .organism = WebForm.__organism,
                 .EntryId = WebForm.__entryID,
                 .KOpathway = WebForm.__koPathways,
-                .Name = WebForm.__name,
-                .Disease = __parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease),
-                .PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
-                .Description = WebForm.__description,
-                .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
-                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
-                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
-                .References = WebForm.References,
-                .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
-                .Drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
+                .name = WebForm.__name,
+                .disease = __parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease),
+                .pathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
+                .description = WebForm.__description,
+                .modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
+                .genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .references = WebForm.References,
+                .otherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
+                .drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
             }
 
             Return Pathway

@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::513edcb063a6578012fce843f3039cc8, data\KEGG\Procedures\DumpProcedures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DumpProcedures
-    ' 
-    '     Sub: DumpCompounds, DumpKO, DumpReactions, DumpReferencePathwayMap
-    ' 
-    ' /********************************************************************************/
+' Module DumpProcedures
+' 
+'     Sub: DumpCompounds, DumpKO, DumpReactions, DumpReferencePathwayMap
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,15 +80,15 @@ Public Module DumpProcedures
             data_pathways += New mysql.data_pathway With {
                 .map = image,
                 .KO = "ko" & map.BriteId,
-                .name = MySqlEscaping(map.Name),
+                .name = MySqlEscaping(map.name),
                 .uid = Val(map.BriteId),
-                .description = MySqlEscaping(map.Description)
+                .description = MySqlEscaping(map.description)
             }
 
             Dim pathway& = data_pathways.Last.uid
             Dim KO = data_pathways.Last.KO
 
-            For Each m In map.Modules.SafeQuery
+            For Each m In map.modules.SafeQuery
                 pathwayModules += New mysql.xref_pathway_modules With {
                     .pathway = pathway,
                     .module = Val(m.name.Trim("M"c)),
@@ -99,11 +99,11 @@ Public Module DumpProcedures
 
             Dim h As BriteHText = br.TryGetValue(map.BriteId)
 
-            For Each O In map.KEGGOrthology.SafeQuery
+            For Each O In map.KEGGOrthology.Terms.SafeQuery
                 orthologyClass += New mysql.class_ko00001_orthology With {
-                    .function = MySqlEscaping(O.Value),
-                    .KEGG = O.Key,
-                    .Orthology = O.Key.Trim("K"c),
+                    .function = MySqlEscaping(O.value),
+                    .KEGG = O.name,
+                    .Orthology = O.name.Trim("K"c),
                     .name = MySqlEscaping(.function.Split(";"c).First),
                     .level_C = h?.ClassLabel,
                     .level_B = h?.Parent?.ClassLabel,
