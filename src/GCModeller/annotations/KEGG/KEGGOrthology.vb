@@ -204,7 +204,8 @@ Public Module KEGGOrthology
                                        Optional KEGG As Dictionary(Of String, BriteHText) = Nothing,
                                        Optional size$ = "2200,2000",
                                        Optional tick# = 1,
-                                       Optional pvalue# = 0.05) As GraphicsData
+                                       Optional pvalue# = 0.05,
+                                       Optional colorSchema$ = "Set1:c6") As GraphicsData
 
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -231,14 +232,12 @@ Public Module KEGGOrthology
             End With
         Next
 
-        Dim colors$ = "Set1:c6"
-
         If data.Count = 1 AndAlso data.Keys.First = Other Then
             data.Add("KEGG pathway", data!Other)
             data.Remove(Other)
         Else
             If data.Count > 6 Then
-                colors = "Set1:c8"
+                colorSchema = "Set1:c8"
             End If
         End If
 
@@ -255,7 +254,8 @@ Public Module KEGGOrthology
             size:=size,
             axisTitle:="-Log10(p-value)",
             tick:=tick,
-            colorSchema:=colors)
+            colorSchema:=colorSchema
+        )
     End Function
 
     <Extension>
@@ -264,7 +264,9 @@ Public Module KEGGOrthology
                                        Optional pvalue# = 0.05,
                                        Optional tick# = 1,
                                        Optional gray As Boolean = False,
-                                       Optional labelRightAlignment As Boolean = False) As GraphicsData
+                                       Optional labelRightAlignment As Boolean = False,
+                                       Optional colorSchema$ = "Set1:c6") As GraphicsData
+
         Dim pathwayBrite = Pathway.LoadDictionary
         Dim profiles As New Dictionary(Of String, List(Of NamedValue(Of Double)))
         Dim catalog As Pathway
@@ -304,6 +306,8 @@ Public Module KEGGOrthology
                           axisTitle:="-Log10(p-value)",
                           tick:=tick,
                           gray:=gray,
-                          labelRightAlignment:=labelRightAlignment)
+                          labelRightAlignment:=labelRightAlignment,
+                          colorSchema:=colorSchema
+            )
     End Function
 End Module

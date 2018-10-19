@@ -88,6 +88,11 @@ Public Module CatalogProfiling
     Public Const NOT_ASSIGN As String = NameOf(NOT_ASSIGN)
 
     ''' <summary>
+    ''' 默认的柱状图大分类下的每一个柱子的颜色
+    ''' </summary>
+    Public ReadOnly DefaultColorSchema As DefaultValue(Of String) = "Set1:c6"
+
+    ''' <summary>
     ''' Catalog profiling bar plot
     ''' </summary>
     ''' <param name="profile"></param>

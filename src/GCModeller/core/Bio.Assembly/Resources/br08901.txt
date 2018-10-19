@@ -100,6 +100,8 @@ C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00540  Lipopolysaccharide biosynthesis
 C    00550  Peptidoglycan biosynthesis
 C    00511  Other glycan degradation
+C    00571  Lipoarabinomannan (LAM) biosynthesis
+C    00572  Arabinogalactan biosynthesis - Mycobacterium
 B  Metabolism of cofactors and vitamins
 C    00730  Thiamine metabolism
 C    00740  Riboflavin metabolism
@@ -164,6 +166,7 @@ C    00404  Staurosporine biosynthesis
 C    00405  Phenazine biosynthesis
 C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
+C    00999  Biosynthesis of secondary metabolites - unclassified
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
 C    00627  Aminobenzoate degradation
@@ -177,7 +180,6 @@ C    00642  Ethylbenzene degradation
 C    00643  Styrene degradation
 C    00791  Atrazine degradation
 C    00930  Caprolactam degradation
-C    00351  DDT degradation
 C    00363  Bisphenol degradation
 C    00621  Dioxin degradation
 C    00626  Naphthalene degradation
@@ -448,10 +450,10 @@ C    05330  Allograft rejection
 C    05332  Graft-versus-host disease
 C    05340  Primary immunodeficiency
 B  Neurodegenerative diseases
-C    05010  Alzheimer's disease
-C    05012  Parkinson's disease
+C    05010  Alzheimer disease
+C    05012  Parkinson disease
 C    05014  Amyotrophic lateral sclerosis (ALS)
-C    05016  Huntington's disease
+C    05016  Huntington disease
 C    05020  Prion diseases
 B  Substance dependence
 C    05030  Cocaine addiction
@@ -472,7 +474,7 @@ C    04950  Maturity onset diabetes of the young
 C    04932  Non-alcoholic fatty liver disease (NAFLD)
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
-C    04934  Cushing's syndrome
+C    04934  Cushing syndrome
 B  Infectious diseases: Bacterial
 C    05110  Vibrio cholerae infection
 C    05120  Epithelial cell signaling in Helicobacter pylori infection
@@ -485,13 +487,15 @@ C    05150  Staphylococcus aureus infection
 C    05152  Tuberculosis
 C    05100  Bacterial invasion of epithelial cells
 B  Infectious diseases: Viral
-C    05166  HTLV-I infection
+C    05166  Human T-cell leukemia virus 1 infection
+C    05170  Human immunodeficiency virus 1 infection
 C    05162  Measles
 C    05164  Influenza A
 C    05161  Hepatitis B
 C    05160  Hepatitis C
 C    05168  Herpes simplex infection
-C    05167  Kaposi's sarcoma-associated herpesvirus infection
+C    05163  Human cytomegalovirus infection
+C    05167  Kaposi sarcoma-associated herpesvirus infection
 C    05169  Epstein-Barr virus infection
 C    05165  Human papillomavirus infection
 B  Infectious diseases: Parasitic
@@ -601,5 +605,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: April 17, 2018
+#Last updated: August 21, 2018
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>
