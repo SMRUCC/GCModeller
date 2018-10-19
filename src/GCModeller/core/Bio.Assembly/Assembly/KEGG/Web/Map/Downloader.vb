@@ -105,7 +105,7 @@ Namespace Assembly.KEGG.WebServices
                             Call Map.ParseHTML(url) _
                                 .GetXml _
                                 .SaveTo(save, TextEncodings.UTF8WithoutBOM)
-                            Call Thread.Sleep(2500)
+                            Call Thread.Sleep(5000)
                         End If
                     Catch ex As Exception
                         failures += id
