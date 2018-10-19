@@ -158,22 +158,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 测试用的函数
         ''' </summary>
-        ''' <param name="entryId$"></param>
+        ''' <param name="entryId$">mapxxxx</param>
         ''' <returns></returns>
-        Public Shared Function Download(entryId$) As PathwayMap
-            Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entryId
-            Dim WebForm As New WebForm(url)
+        Public Shared Function Download(entryId As String) As PathwayMap
             Dim entry As New BriteHEntry.Pathway With {
                 .entry = New NamedValue With {
                     .name = entryId
                 }
             }
 
-            If WebForm.Count = 0 Then
-                Return Nothing
-            Else
-                Return __parserInternal(WebForm, entry)
-            End If
+            Return Download(entry)
         End Function
 
         Private Shared Function __parserInternal(webForm As WebForm, entry As BriteHEntry.Pathway) As PathwayMap
