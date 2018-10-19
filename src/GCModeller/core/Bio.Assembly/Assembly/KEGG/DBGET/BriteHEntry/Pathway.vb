@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::5a6ee13eb6778a7467f276273a2f09e6, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Pathway
-    ' 
-    '         Properties: [Class], Category, Entry, EntryId
-    ' 
-    '         Function: GetClass, GetPathCategory, LoadData, (+3 Overloads) LoadDictionary, LoadFromResource
-    '                   LoadStream, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Pathway
+' 
+'         Properties: [Class], Category, Entry, EntryId
+' 
+'         Function: GetClass, GetPathCategory, LoadData, (+3 Overloads) LoadDictionary, LoadFromResource
+'                   LoadStream, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.HtmlParser
@@ -65,14 +66,14 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property [Class] As String
+        <XmlAttribute> Public Property [class] As String
         ''' <summary>
         ''' B
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Category As String
+        <XmlAttribute> Public Property category As String
 
         ''' <summary>
         ''' **C**, example as: ``01100  Metabolic pathways``
@@ -80,21 +81,23 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Entry As KeyValuePair
+        Public Property entry As NamedValue
 
         ''' <summary>
-        ''' <see cref="Entry"/>::<see cref="KeyValuePair.Key"/>, ``\d+``
+        ''' <see cref="Entry"/>::<see cref="NamedValue.name"/>, ``\d+``
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <XmlIgnore>
         Public ReadOnly Property EntryId As String Implements IReadOnlyId.Identity
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Entry.Key
+                Return entry.name
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}]{1}   {2}", [Class], Category, Entry.ToString)
+            Return String.Format("[{0}]{1}   {2}", [class], category, entry.ToString)
         End Function
 
         ''' <summary>
@@ -160,11 +163,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                     line = Mid(line, IdNum.Length + 1).Trim
                     out += New Pathway With {
-                        .Category = category,
-                        .Class = [class],
-                        .Entry = New KeyValuePair With {
-                            .Key = IdNum,
-                            .Value = line
+                        .category = category,
+                        .class = [class],
+                        .entry = New NamedValue With {
+                            .name = IdNum,
+                            .text = line
                         }
                     }
                 End If
@@ -176,8 +179,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPathCategory() As String
             Return {
-                [Module].TrimPath(Class$),
-                [Module].TrimPath(Category)
+                [Module].TrimPath([class]),
+                [Module].TrimPath(category)
             }.JoinBy("/")
         End Function
 
