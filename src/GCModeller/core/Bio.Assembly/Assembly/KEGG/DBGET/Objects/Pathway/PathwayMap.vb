@@ -50,6 +50,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
@@ -78,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Property name As String
 
-        Public Property KOpathway As NamedValue
+        Public Property KOpathway As String
         Public Property disease As NamedValue()
         Public Property modules As NamedValue()
         Public Property brite As BriteHEntry.Pathway
@@ -117,6 +118,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Property KEGGReaction As NamedValue()
 #End Region
+
+        <XmlNamespaceDeclarations()>
+        Public xmlnsImports As XmlSerializerNamespaces
+
+        Public Sub New()
+            xmlnsImports = New XmlSerializerNamespaces
+            xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetPathwayGenes() As String()
@@ -163,7 +172,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Shared Function Download(entryId As String) As PathwayMap
             Dim entry As New BriteHEntry.Pathway With {
                 .entry = New NamedValue With {
-                    .name = entryId
+                    .name = entryId.Match("\d+")
                 }
             }
 
@@ -192,7 +201,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                                 .text = cols(1).StripHTMLTags.StripBlank
                             }
                         End Function) _
-                .FirstOrDefault
+                .FirstOrDefault?.name
 
 #Region "All links"
 
