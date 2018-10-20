@@ -295,8 +295,10 @@ Partial Module CLI
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
         Dim best = If(args.GetBoolean("/best"), "/best", "")
         Dim task As Func(Of String, String) =
-            Function(path) _
-                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
+            Function(path)
+                Return $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
+            End Function
+
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).Select(task).ToArray
 
         Return App.SelfFolks(CLI, numThreads)

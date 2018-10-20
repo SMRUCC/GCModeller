@@ -290,7 +290,12 @@ Public Module CatalogPlots
     End Function
 
     <Extension>
-    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size$ = "2200,2000", Optional tick# = 1, Optional pvalue# = 0.05) As GraphicsData
+    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster),
+                                   Optional size$ = "2200,2000",
+                                   Optional tick# = 1,
+                                   Optional pvalue# = 0.05,
+                                   Optional colorSchema$ = "Set1:c6") As GraphicsData
+
         Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
         Dim g = From x As FunctionCluster
                 In data
@@ -325,7 +330,9 @@ Public Module CatalogPlots
             "GO enrichment",
             size:=size,
             axisTitle:="-Log10(p-value)",
-            tick:=tick)
+            tick:=tick,
+            colorSchema:=colorSchema
+        )
     End Function
 
     ''' <summary>
@@ -344,7 +351,8 @@ Public Module CatalogPlots
                                                                            Optional gray As Boolean = False,
                                                                            Optional labelRightAlignment As Boolean = False,
                                                                            Optional usingCorrected As Boolean = False,
-                                                                           Optional top% = -1) As GraphicsData
+                                                                           Optional top% = -1,
+                                                                           Optional colorSchema$ = "Set1:c6") As GraphicsData
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -392,6 +400,8 @@ Public Module CatalogPlots
                 axisTitle:="-Log10(p-value)",
                 tick:=tick,
                 gray:=gray,
-                labelRightAlignment:=labelRightAlignment)
+                labelRightAlignment:=labelRightAlignment,
+                colorSchema:=colorSchema
+            )
     End Function
 End Module

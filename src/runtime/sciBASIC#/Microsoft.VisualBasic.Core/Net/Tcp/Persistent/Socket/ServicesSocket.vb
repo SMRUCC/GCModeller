@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::134bce4b7f8236cc73d202477f4eb186, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\ServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::188fcab53d5b0a41525c8ebd651472e1, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\ServicesSocket.vb"
 
     ' Author:
     ' 
@@ -108,12 +108,14 @@ Namespace Net.Tcp.Persistent.Socket
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overridable ReadOnly Property LocalPort As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _LocalPort
             End Get
         End Property
 
         Public ReadOnly Property IsShutdown As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return disposedValue
             End Get

@@ -63,6 +63,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 使用这个工具下载KEGG之中的代谢反应的模型信息
+    ''' 
+    ''' 20181019 测试OK
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -78,6 +80,11 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' gif图片是以base64编码放在XML文件里面的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API")>
     <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
@@ -88,10 +95,9 @@ Partial Module CLI
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./KEGG_cpd/"
-        Dim flat As Boolean = args.GetBoolean("/flat")
-        Dim updates As Boolean = args.GetBoolean("/updates")
-        Dim failures As List(Of String) = BriteHEntry _
-            .Compound _
+        Dim flat As Boolean = args("/flat")
+        Dim updates As Boolean = args("/updates")
+        Dim failures As List(Of String) = BriteHEntry.Compound _
             .DownloadFromResource(
                 EXPORT:=save,
                 DirectoryOrganized:=Not flat,
@@ -102,6 +108,7 @@ Partial Module CLI
 
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
+
         If accs.FileExists(True) Then
             failures += MetaboliteDBGET.CompleteUsingChEBI(save, accs, updates)
         End If
@@ -232,6 +239,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 这里下载的是标准的参考图数据
+    ''' 
+    ''' 包含有pathway的定义
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -250,6 +259,12 @@ Partial Module CLI
         End If
     End Function
 
+    ''' <summary>
+    ''' 这个是只下载图，上面包含空白的pathway图以及shapes和每一个shapes的位置
+    ''' 下载的数据可以用于KEGG富集分析的结果可视化
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/dump.kegg.maps")>
     <Description("Dumping the KEGG maps database for human species.")>
     <Usage("/dump.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
@@ -262,7 +277,7 @@ Partial Module CLI
     Public Function DumpKEGGMaps(args As CommandLine) As Integer
         Dim htext$ = args <= "/htext"
 
-        With (args <= "/out") Or $"./KEGG.pathwayMaps/".AsDefault
+        With (args <= "/out") Or $"./br08901_pathwayMaps/".AsDefault
             Return kegMap.Downloads(EXPORT:= .ByRef, briefFile:=htext) _
                 .GetJson _
                 .SaveTo(.ByRef & "/failures.json") _

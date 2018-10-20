@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::95ebcd5c253b8b84a63f38bf43273307, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PathwayMap
-    ' 
-    '         Properties: Brite, Disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
-    '                     KEGGOrthology, KEGGReaction, KOpathway, Map, Modules
-    '                     Name
-    ' 
-    '         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
-    '                   SolveEntries
-    ' 
-    '         Sub: SetMapImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PathwayMap
+' 
+'         Properties: Brite, Disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
+'                     KEGGOrthology, KEGGReaction, KOpathway, Map, Modules
+'                     Name
+' 
+'         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
+'                   SolveEntries
+' 
+'         Sub: SetMapImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
@@ -76,12 +77,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Name As String
+        Public Property name As String
 
-        Public Property KOpathway As KeyValuePair()
-        Public Property Disease As NamedValue()
-        Public Property Modules As NamedValue()
-        Public Property Brite As BriteHEntry.Pathway
+        Public Property KOpathway As String
+        Public Property disease As NamedValue()
+        Public Property modules As NamedValue()
+        Public Property brite As BriteHEntry.Pathway
 
         ''' <summary>
         ''' base64 image data.
@@ -95,31 +96,40 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGGOrthology As KeyValuePair()
+        Public Property KEGGOrthology As OrthologyTerms
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGGCompound As KeyValuePair()
+        Public Property KEGGCompound As NamedValue()
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGGGlycan As KeyValuePair()
+        Public Property KEGGGlycan As NamedValue()
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGGEnzyme As KeyValuePair()
+        Public Property KEGGEnzyme As NamedValue()
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGGReaction As KeyValuePair()
+        Public Property KEGGReaction As NamedValue()
 #End Region
 
+        <XmlNamespaceDeclarations()>
+        Public xmlnsImports As XmlSerializerNamespaces
+
+        Public Sub New()
+            xmlnsImports = New XmlSerializerNamespaces
+            xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetPathwayGenes() As String()
-            Throw New NotImplementedException()
+            Return KEGGOrthology.EntityList
         End Function
 
         Public Sub SetMapImage(image As Image)
@@ -157,34 +167,28 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 测试用的函数
         ''' </summary>
-        ''' <param name="entryId$"></param>
+        ''' <param name="entryId$">mapxxxx</param>
         ''' <returns></returns>
-        Public Shared Function Download(entryId$) As PathwayMap
-            Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entryId
-            Dim WebForm As New WebForm(url)
+        Public Shared Function Download(entryId As String) As PathwayMap
             Dim entry As New BriteHEntry.Pathway With {
-                .Entry = New KeyValuePair With {
-                    .Key = entryId
+                .entry = New NamedValue With {
+                    .name = entryId.Match("\d+")
                 }
             }
 
-            If WebForm.Count = 0 Then
-                Return Nothing
-            Else
-                Return __parserInternal(WebForm, entry)
-            End If
+            Return Download(entry)
         End Function
 
         Private Shared Function __parserInternal(webForm As WebForm, entry As BriteHEntry.Pathway) As PathwayMap
             Dim pathwayMap As New PathwayMap With {
-                .Brite = entry,
+                .brite = entry,
                 .EntryId = entry.EntryId,
-                .Name = webForm.GetValue("Name").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank,
-                .description = .Name
+                .name = webForm.GetValue("Name").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank,
+                .description = .name
             }
 
-            pathwayMap.Disease = __parseHTML_ModuleList(webForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
-            pathwayMap.Modules = PathwayWebParser.__parseHTML_ModuleList(webForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
+            pathwayMap.disease = __parseHTML_ModuleList(webForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
+            pathwayMap.modules = PathwayWebParser.__parseHTML_ModuleList(webForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             pathwayMap.KOpathway = webForm.GetValue("KO pathway") _
                 .FirstOrDefault _
                 .GetTablesHTML _
@@ -192,21 +196,21 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .GetRowsHTML _
                 .Select(Function(row$)
                             Dim cols As String() = row.GetColumnsHTML
-                            Return New KeyValuePair With {
-                                .Key = cols(0).StripHTMLTags.StripBlank,
-                                .Value = cols(1).StripHTMLTags.StripBlank
+                            Return New NamedValue With {
+                                .name = cols(0).StripHTMLTags.StripBlank,
+                                .text = cols(1).StripHTMLTags.StripBlank
                             }
                         End Function) _
-                .ToArray
+                .FirstOrDefault?.name
 
 #Region "All links"
 
             With pathwayMap
-                .KEGGOrthology = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map" & entry.EntryId).LinkDbEntries.ToArray
-                .KEGGCompound = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map" & entry.EntryId).LinkDbEntries.ToArray
-                .KEGGGlycan = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map" & entry.EntryId).LinkDbEntries.ToArray
-                .KEGGEnzyme = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map" & entry.EntryId).LinkDbEntries.ToArray
-                .KEGGReaction = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGOrthology = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map" & entry.EntryId).LinkDbEntries.parseOrthologyTerms
+                .KEGGCompound = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
+                .KEGGGlycan = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
+                .KEGGEnzyme = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
+                .KEGGReaction = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
             End With
 #End Region
             Return pathwayMap
@@ -235,7 +239,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Call tick.StepProgress()
 
                 For Each entry As BriteHEntry.Pathway In entries
-                    Dim Id$ = entry.Entry.Key
+                    Dim Id$ = entry.entry.name
                     Dim save$ = $"{EXPORT}/{entry.GetPathCategory}" Or EXPORT_dir
                     Dim xml As String = $"{save}/map{Id}.xml"
                     Dim png As String = $"{save}/map{Id}.png"

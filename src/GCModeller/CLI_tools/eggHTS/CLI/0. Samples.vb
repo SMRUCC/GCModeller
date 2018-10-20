@@ -89,7 +89,7 @@ Partial Module CLI
         Dim mappings As String = args <= "/idMapping"
         Dim sample As String = args <= "/sample"
         Dim out As String = args.GetValue("/out", sample.TrimSuffix & "-sample.species.normalization.csv")
-        Dim sampleData As IEnumerable(Of EntityObject) = EntityObject.LoadDataSet(sample, args("/ID"))
+        Dim sampleData As IEnumerable(Of EntityObject) = EntityObject.LoadDataSet(sample, args("/ID").DefaultValue)
         Dim mappingsID As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(mappings)
         Dim output As New List(Of EntityObject)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _

@@ -1,76 +1,75 @@
 ﻿#Region "Microsoft.VisualBasic::1b0814bab700f0531eb19458635ea30d, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '         Class FluxObject
-    ' 
-    '             Properties: AssociatedRegulationGenes, Handle, Identifier, Left, Lower_Bound
-    '                         Reversible, Right, Substrates, Upper_Bound
-    ' 
-    '             Function: GetCoefficient
-    ' 
-    '             Sub: Assign
-    ' 
-    '         Class ObjectiveFunction
-    ' 
-    '             Properties: Direction, Factors
-    ' 
-    '         Class AssociatedGene
-    ' 
-    '             Properties: Effectors, Handle, Identifier, RPKM
-    ' 
-    '             Function: ToString
-    ' 
-    '             Sub: Assign
-    ' 
-    '         Class CellSystem
-    ' 
-    '             Properties: ExpressionRegulation, MetabolismFluxs, MetabolismModel, Metabolites, ObjectiveFunctionModel
-    '                         ObjectiveFunctions, TranscriptionModel
-    ' 
-    '             Sub: Initialize
-    ' 
-    ' 
-    ' /********************************************************************************/
+'         Class FluxObject
+' 
+'             Properties: AssociatedRegulationGenes, Handle, Identifier, Left, Lower_Bound
+'                         Reversible, Right, Substrates, Upper_Bound
+' 
+'             Function: GetCoefficient
+' 
+'             Sub: Assign
+' 
+'         Class ObjectiveFunction
+' 
+'             Properties: Direction, Factors
+' 
+'         Class AssociatedGene
+' 
+'             Properties: Effectors, Handle, Identifier, RPKM
+' 
+'             Function: ToString
+' 
+'             Sub: Assign
+' 
+'         Class CellSystem
+' 
+'             Properties: ExpressionRegulation, MetabolismFluxs, MetabolismModel, Metabolites, ObjectiveFunctionModel
+'                         ObjectiveFunctions, TranscriptionModel
+' 
+'             Sub: Initialize
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace rFBA

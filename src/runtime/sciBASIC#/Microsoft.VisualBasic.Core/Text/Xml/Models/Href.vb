@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16e153ac0cf6ea6fd742c0a1a5a1c993, Microsoft.VisualBasic.Core\ComponentModel\Href.vb"
+﻿#Region "Microsoft.VisualBasic::08c37d07e12bcd1b14d7abbe21a4729f, Microsoft.VisualBasic.Core\Text\Xml\Models\Href.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Href
     ' 
-    '         Properties: Annotations, ResourceId, Value
+    '         Properties: Comment, ResourceId, Value
     ' 
     '         Function: GetFullPath, ToString
     ' 
@@ -42,10 +42,12 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.FileIO
 
-Namespace ComponentModel
+Namespace Text.Xml.Models
 
     ''' <summary>
     ''' Resource link data.
@@ -70,11 +72,12 @@ Namespace ComponentModel
         ''' <remarks></remarks>
         <XmlElement("href-text", Namespace:="Microsoft.VisualBasic/Href_Annotation-Text-Data")>
         Public Property Value As String
+
         ''' <summary>
         ''' 注释数据
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property Annotations As String
+        <XmlText> Public Property Comment As String
 #End Region
 
         ''' <summary>
@@ -84,12 +87,10 @@ Namespace ComponentModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetFullPath(DIR As String) As String
-            Dim previous As String = FileIO.FileSystem.CurrentDirectory
-
-            FileIO.FileSystem.CurrentDirectory = DIR
-            Dim url As String = System.IO.Path.GetFullPath(Me.Value)
-            FileIO.FileSystem.CurrentDirectory = previous
-            Return url
+            Using directory As New TemporaryEnvironment(DIR)
+                Dim url As String = Path.GetFullPath(Me.Value)
+                Return url
+            End Using
         End Function
 
         Public Overrides Function ToString() As String

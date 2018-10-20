@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::c1e3b69df9a2801da09a71e17d39018e, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Pathway
-    ' 
-    '         Properties: [Class], BriteId, Category, EntryId, PathwayGenes
-    ' 
-    '         Function: (+2 Overloads) CreateObjects, GenerateObject, GetPathwayGenes, LoadData
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Pathway
+' 
+'         Properties: [Class], BriteId, Category, EntryId, PathwayGenes
+' 
+'         Function: (+2 Overloads) CreateObjects, GenerateObject, GetPathwayGenes, LoadData
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function GenerateObject(XmlModel As bGetObject.Pathway) As Pathway
             Return New Pathway With {
                 .EntryId = XmlModel.EntryId,
-                .Description = XmlModel.Description,
+                .description = XmlModel.description,
                 .PathwayGenes = XmlModel.GetPathwayGenes
             }
         End Function
@@ -132,21 +132,19 @@ Namespace Assembly.KEGG.Archives.Csv
         End Function
 
         Public Shared Function CreateObjects(source As KEGG.DBGET.bGetObject.Pathway(), spCode As String) As Pathway()
-            Dim ClassDictionary As SortedDictionary(Of String, KEGG.DBGET.BriteHEntry.Pathway) =
-                New SortedDictionary(Of String, DBGET.BriteHEntry.Pathway)
+            Dim classDictionary As New SortedDictionary(Of String, DBGET.BriteHEntry.Pathway)
             For Each pwyData In KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource
-                Call ClassDictionary.Add($"{spCode}{pwyData.Entry.Key}", pwyData)
+                Call classDictionary.Add($"{spCode}{pwyData.entry.name }", pwyData)
             Next
 
             Dim PathwayList As New List(Of Pathway)
 
             For Each pwyData As bGetObject.Pathway In source
                 Dim PathwayObject = Pathway.GenerateObject(pwyData)
-                Dim BriteEntry As BriteHEntry.Pathway =
-                    ClassDictionary(PathwayObject.EntryId)
+                Dim BriteEntry As BriteHEntry.Pathway = classDictionary(PathwayObject.EntryId)
 
-                PathwayObject.Class = BriteEntry.Class
-                PathwayObject.Category = BriteEntry.Category
+                PathwayObject.Class = BriteEntry.class
+                PathwayObject.Category = BriteEntry.category
 
                 PathwayList += PathwayObject
             Next
