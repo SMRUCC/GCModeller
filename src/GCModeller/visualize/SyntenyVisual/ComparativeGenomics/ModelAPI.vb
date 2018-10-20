@@ -64,6 +64,23 @@ Namespace ComparativeGenomics
 
     Public Module ModelAPI
 
+        <Extension>
+        Public Function ReverseCopy(gene As GeneObject, genomeSize%) As GeneObject
+            Dim left = genomeSize - gene.Left
+            Dim right = genomeSize - gene.Right
+
+            Return New GeneObject With {
+                .Right = right,
+                .Left = left,
+                .Color = gene.Color,
+                .Direction = gene.Direction,
+                .geneName = gene.geneName,
+                .Height = gene.Height,
+                .locus_tag = gene.locus_tag,
+                .offsets = gene.offsets
+            }
+        End Function
+
         Public Function GetMethod(type As Integer) As GetDrawingID
             Select Case type
                 Case 1

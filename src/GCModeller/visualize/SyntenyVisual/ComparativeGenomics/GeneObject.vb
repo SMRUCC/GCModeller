@@ -191,13 +191,13 @@ Namespace ComparativeGenomics
         ''' <summary>
         ''' 对于两个没有交叉的基因，不做任何附加处理。对于两个有相交部分的基因，则前一个基因会缩短以防止重叠，假若某一个基因完全的包裹另外一个基因，则也将不会做任何处理
         ''' </summary>
-        ''' <param name="NextLeft">这个是基因组上面的位置，不是画图的位置</param>
+        ''' <param name="nextLeft">这个是基因组上面的位置，不是画图的位置</param>
         ''' <param name="RefPoint">参数里面的<see cref="Point.X"></see>参数就是当前的这个基因在绘图的时候的<see cref="Left"></see>在图上面的位置</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function __nextLeft(Left As Integer, RefPoint As Point, NextLeft As Integer, ConvertFactor As Double) As Integer
-            NextLeft = ConvertFactor * (NextLeft - Left) + RefPoint.X
-            Return NextLeft
+        Private Shared Function __nextLeft(Left As Integer, RefPoint As Point, nextLeft As Integer, scaleFactor As Double) As Integer
+            nextLeft = scaleFactor * (nextLeft - Left) + RefPoint.X
+            Return nextLeft
         End Function
 
         ''' <summary>
@@ -207,27 +207,27 @@ Namespace ComparativeGenomics
         ''' <param name="RightLimit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Overrides Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-            Dim Graphic As New Drawing2D.GraphicsPath
-            Dim pt_lefttop As New Point(refLoci.X, refLoci.Y)
-            Dim pt_leftbottom As New Point(refLoci.X, refLoci.Y + Height)
+        Protected Overrides Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+            Dim shape As New GraphicsPath
+            Dim leftTop As New Point(refLoci.X, refLoci.Y)
+            Dim leftBottom As New Point(refLoci.X, refLoci.Y + Height)
 
-            Dim pt_rightbottom As New Point(refLoci.X + Length - HeadLength, pt_leftbottom.Y)
-            If pt_rightbottom.X > RightLimit Then
-                pt_rightbottom = New Point(RightLimit, pt_rightbottom.Y)
+            Dim rightBottom As New Point(refLoci.X + Length - HeadLength, leftBottom.Y)
+
+            If rightBottom.X > RightLimit Then
+                rightBottom = New Point(RightLimit, rightBottom.Y)
             End If
-            Dim pt_arrowHead As New Point(pt_rightbottom.X + HeadLength, pt_rightbottom.Y - 0.5 * Height)
-            Dim pt_righttop As New Point(pt_rightbottom.X, refLoci.Y)
 
-            Call Graphic.AddLine(pt_lefttop, pt_leftbottom)
-            Call Graphic.AddLine(pt_leftbottom, pt_rightbottom)
+            Dim arrowHead As New Point(rightBottom.X + HeadLength, rightBottom.Y - 0.5 * Height)
+            Dim rightTop As New Point(rightBottom.X, refLoci.Y)
 
-            Call Graphic.AddLine(pt_rightbottom, pt_arrowHead)
+            Call shape.AddLine(leftTop, leftBottom)
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightBottom, arrowHead)
+            Call shape.AddLine(arrowHead, rightTop)
+            Call shape.AddLine(rightTop, leftTop)
 
-            Call Graphic.AddLine(pt_arrowHead, pt_righttop)
-            Call Graphic.AddLine(pt_righttop, pt_lefttop)
-
-            Return Graphic
+            Return shape
         End Function
 
         ''' <summary>
@@ -237,25 +237,27 @@ Namespace ComparativeGenomics
         ''' <param name="RightLimit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Overrides Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-            Dim Graphic As New Drawing2D.GraphicsPath
-            Dim pt_lefttop As New Point(refLoci.X + HeadLength, refLoci.Y)
-            Dim pt_arrowHead As New Point(refLoci.X, pt_lefttop.Y + 0.5 * Height)
-            Dim pt_leftbottom As New Point(pt_lefttop.X, refLoci.Y + Height)
+        Protected Overrides Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+            Dim shape As New GraphicsPath
+            Dim leftTop As New Point(refLoci.X + HeadLength, refLoci.Y)
+            Dim arrowHead As New Point(refLoci.X, leftTop.Y + 0.5 * Height)
+            Dim leftBottom As New Point(leftTop.X, refLoci.Y + Height)
 
-            Dim pt_righttop As New Point(refLoci.X + Length, refLoci.Y)
-            If pt_righttop.X > RightLimit Then
-                pt_righttop = New Point(RightLimit, pt_righttop.Y)
+            Dim rightTop As New Point(refLoci.X + Length, refLoci.Y)
+
+            If rightTop.X > RightLimit Then
+                rightTop = New Point(RightLimit, rightTop.Y)
             End If
-            Dim pt_rightbottom As New Point(pt_righttop.X, pt_leftbottom.Y)
 
-            Call Graphic.AddLine(pt_lefttop, pt_arrowHead)
-            Call Graphic.AddLine(pt_arrowHead, pt_leftbottom)
-            Call Graphic.AddLine(pt_leftbottom, pt_rightbottom)
-            Call Graphic.AddLine(pt_righttop, pt_rightbottom)
-            Call Graphic.AddLine(pt_righttop, pt_lefttop)
+            Dim rightBottom As New Point(rightTop.X, leftBottom.Y)
 
-            Return Graphic
+            Call shape.AddLine(leftTop, arrowHead)
+            Call shape.AddLine(arrowHead, leftBottom)
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightTop, rightBottom)
+            Call shape.AddLine(rightTop, leftTop)
+
+            Return shape
         End Function
     End Class
 End Namespace
