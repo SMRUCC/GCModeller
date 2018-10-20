@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::b54decd398fee94b2cc872b92fc7e0f4, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GFFTable
-    ' 
-    '         Properties: [Date], DNA, Features, GffVersion, Protein
-    '                     RNA, SeqRegion, Size, SrcVersion, Type
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
-    '                   TryGetMetaData, TryGetValue
-    ' 
-    '         Sub: TrySetMetaData
-    '         Structure __parserHelper
-    ' 
-    '             Function: CreateObject
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GFFTable
+' 
+'         Properties: [Date], DNA, Features, GffVersion, Protein
+'                     RNA, SeqRegion, Size, SrcVersion, Type
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
+'                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
+'                   TryGetMetaData, TryGetValue
+' 
+'         Sub: TrySetMetaData
+'         Structure __parserHelper
+' 
+'             Function: CreateObject
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Data.Linq.Mapping
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -267,9 +268,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return sb.ToString
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            Dim doc As String = Me.GenerateDocument
-            Return doc.SaveTo(getPath(Path), encoding)
+            Return GenerateDocument.SaveTo(getPath(Path), encoding)
         End Function
 
         ''' <summary>
@@ -297,14 +298,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="s_Data"></param>
+        ''' <param name="data"></param>
         ''' <param name="Gff"></param>
         ''' <param name="defaultVer%">默认的文件格式版本号缺省值</param>
-        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFFTable, defaultVer%)
-            s_Data = TryGetMetaData(s_Data)
+        Private Shared Sub TrySetMetaData(data$(), ByRef Gff As GFFTable, defaultVer%)
+            data = TryGetMetaData(data)
 
             Dim LQuery = From t As String
-                         In s_Data
+                         In data
                          Where Not t.IndexOf(" "c) = -1  ' ### 这种情况下mid函数会出错
                          Let p As Integer = InStr(t, " ")
                          Let Name As String = Mid(t, 1, p - 1)
@@ -336,50 +337,40 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End If
         End Sub
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="hash"></param>
-        ''' <param name="Key">全部是小写字符</param>
-        ''' <returns></returns>
-        Private Shared Function TryGetValue(hash As Dictionary(Of String, String), Key As String) As String
-            If hash.ContainsKey(Key) Then
-                Return hash(Key)
-            Else
-                Return ""
-            End If
-        End Function
-
-        Private Shared Function TryGetFreaturesData(s_Data As String(), version As Integer) As Feature()
-            Dim loadBuffer As String() = (From s As String In s_Data
+        Private Shared Function TryGetFreaturesData(data$(), version%) As Feature()
+            Dim loadBuffer As String() = (From s As String
+                                          In data
                                           Where Not String.IsNullOrWhiteSpace(s) AndAlso
                                               Not s.First = "#"c
                                           Select s).ToArray
-            Dim helper As New __parserHelper With {
+            Dim helper As New parserHelper With {
                 .version = version
             }
-            Dim Features As Feature() = loadBuffer.Select(AddressOf helper.CreateObject).ToArray
-            Return Features
+            Dim features As Feature() = loadBuffer _
+                .Select(AddressOf helper.parse) _
+                .ToArray
+            Return features
         End Function
 
-        Private Structure __parserHelper
+        Private Structure parserHelper
             Public version As Integer
 
-            Public Function CreateObject(s As String) As Feature
+            Public Function parse(s As String) As Feature
                 Return FeatureParser.CreateObject(s, version)
             End Function
         End Structure
 
-        Private Shared Function TryGetMetaData(s_Data As String()) As String()
+        Private Shared Function TryGetMetaData(data As String()) As String()
             Try
-                Dim LQuery = (From sLine As String In s_Data
+                Dim LQuery = (From sLine As String
+                              In data
                               Where Not String.IsNullOrEmpty(sLine) AndAlso
                                   Len(sLine) > 2 AndAlso
                                   String.Equals(Mid(sLine, 1, 2), "##")
                               Select sLine).ToArray
                 Return LQuery
             Catch ex As Exception
-                Call App.LogException(New Exception(s_Data.JoinBy(vbCrLf), ex))
+                Call App.LogException(New Exception(data.JoinBy(vbCrLf), ex))
                 Return New String() {}
             End Try
         End Function
@@ -404,12 +395,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return transformHash
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelatedGenes(loci As NucleotideLocation,
                                         Optional unstrand As Boolean = False,
                                         Optional ATGDist As Integer = 500) As Relationship(Of Feature)() Implements IGenomicsContextProvider(Of Feature).GetRelatedGenes
 
-            Dim relates As Relationship(Of Feature)() =
-                _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
+            Dim relates As Relationship(Of Feature)() = _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
             Return relates
         End Function
 

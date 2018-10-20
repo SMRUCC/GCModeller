@@ -113,14 +113,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="s_Data"></param>
+        ''' <param name="data"></param>
         ''' <returns></returns>
         ''' <remarks>
         ''' gi|66571684|gb|CP000050.1|	RefSeq	Coding gene	42	1370	.	+	.	name=dnaA;product="chromosome replication initiator DnaA"
         ''' </remarks>
-        Private Function CreateObjectGff3(s_Data As String) As Dictionary(Of String, String)
-            Dim Tokens As String() = attributeTokens(Line:=s_Data)
-            Dim LQuery = (From Token As String In Tokens
+        Private Function CreateObjectGff3(data As String) As Dictionary(Of String, String)
+            Dim tokens As String() = attributeTokens(Line:=data)
+            Dim LQuery = (From Token As String In tokens
                           Let p As Integer = InStr(Token, "=")
                           Let Name As String = Mid(Token, 1, p - 1),
                               Value As String = Mid(Token, p + 1)
@@ -156,7 +156,6 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                         Row(i) = Mid(Row(i), 2, Len(Row(i)) - 2)
                     End If
                 End If
-
             Next
             Return Row
         End Function
