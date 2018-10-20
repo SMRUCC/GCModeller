@@ -174,7 +174,7 @@ Namespace ComparativeGenomics
                             If score = 0R Then
                                 Return Double.MinValue
                             Else
-                                Return -Math.Log(score)
+                                Return -Math.Log(score, 10)
                             End If
                         End Function) _
                 .ToArray

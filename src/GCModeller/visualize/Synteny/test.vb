@@ -39,7 +39,7 @@ Module test
             For Each map In ls - l - "*.csv" <= dir
                 Dim refname = map.BaseName
 
-                Call Apps.SyntenyVisual.PlotMapping(map, gffs(queryName), gffs(refname), grep:="tokens | first")
+                Call Apps.SyntenyVisual.PlotMapping(map, gffs(queryName), gffs(refname), ribbon:="RdYlBu:c8", grep:="tokens | first")
             Next
 
         Next
