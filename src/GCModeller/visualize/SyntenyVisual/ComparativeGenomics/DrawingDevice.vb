@@ -43,7 +43,9 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -69,10 +71,12 @@ Namespace ComparativeGenomics
                                                ByRef height%,
                                                ByRef left%,
                                                IDDown As Boolean,
-                                               padding As Padding) As Dictionary(Of String, Rectangle)
+                                               padding As Padding,
+                                               ByRef labelYRange As IntRange) As Dictionary(Of String, Rectangle)
 
             Dim geneLayouts As New Dictionary(Of String, Rectangle)
             Dim overlapRegion As MapLabelLayout
+            Dim labelY As New List(Of Integer)
 
             models.genes = (
                 From gene As GeneObject
@@ -108,6 +112,10 @@ Namespace ComparativeGenomics
                     AlternativeArrowStyle:=Type2Arrow,
                     overlapLayout:=overlapRegion)
 
+                Call labelY.Add(
+                    overlapRegion.OverlapRegion.Bottom,
+                    overlapRegion.OverlapRegion.Top
+                )
                 Call geneLayouts.Add(gene.locus_tag, r)
             Next
 
@@ -120,19 +128,27 @@ Namespace ComparativeGenomics
                                            AlternativeArrowStyle:=Type2Arrow,
                                            overlapLayout:=overlapRegion)
 
+            Call labelY.Add(
+                overlapRegion.OverlapRegion.Bottom,
+                overlapRegion.OverlapRegion.Top
+            )
             Call geneLayouts.Add(models.Last.locus_tag, r)
+
+            labelYRange = labelY
 
             Return geneLayouts
         End Function
 
         Public Function Plot(model As DrawingModel,
                              Optional canvasSize$ = "15024,2000",
-                             Optional margin$ = "padding: 300px 100px 1000px 100px") As Image
+                             Optional margin$ = "padding: 300px 100px 1000px 100px",
+                             Optional dLabel% = 20) As Image
 
             Dim left, height As Integer
             Dim title$
             Dim size As SizeF
             Dim padding As Padding = margin
+            Dim labelY As IntRange = Nothing
 
             If model.Genome1 Is Nothing OrElse model.Genome2 Is Nothing Then
                 Call Console.WriteLine()
@@ -143,24 +159,24 @@ Namespace ComparativeGenomics
                 height = padding.Top
                 left = padding.Left
 
-                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding)
-                Dim top = layoutQuery.Values.Select(Function(r) r.Top).Min
+                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding, labelY)
+                Dim top = labelY.Min
 
                 title = model.Genome1.Title
                 size = g.MeasureString(title, titleFont)
                 left = (g.Width - size.Width) / 2
-                g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - 10)
+                g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - dLabel)
 
                 height = g.Height - gDrawHeight - padding.Bottom
                 left = padding.Left
 
-                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding)
+                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding, labelY)
 
-                height = layoutRef.Values.Select(Function(r) r.Bottom).Max
+                height = labelY.Max
                 title = model.Genome2.Title
                 size = g.MeasureString(title, titleFont)
                 left = (g.Width - size.Width) / 2
-                g.DrawString(title, titleFont, Brushes.Black, left, height + 10)
+                g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
 
                 Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
 
