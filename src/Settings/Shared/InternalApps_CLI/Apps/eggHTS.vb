@@ -26,30 +26,32 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /COG.profiling.plot:                   Plots the COGs category statics profiling of the target genome
-'                                         from the COG annotation file.
-'  /Converts:                             
-'  /DEPs.takes.values:                    
-'  /DEPs.union:                           
-'  /Exocarta.Hits:                        
-'  /Fasta.IDlist:                         
-'  /iBAQ.Cloud:                           Cloud plot of the iBAQ DEPs result.
-'  /KO.Catalogs:                          Display the barplot of the KEGG orthology match.
-'  /KOBAS.Sim.Heatmap:                    
-'  /KOBAS.similarity:                     
-'  /KOBAS.Term.Kmeans:                    
-'  /labelFree.t.test:                     
-'  /Network.PCC:                          
-'  /paired.sample.designer:               
-'  /Perseus.MajorityProteinIDs:           Export the uniprot ID list from ``Majority Protein IDs`` row
-'                                         and generates a text file for batch search of the uniprot
-'                                         database.
-'  /Perseus.Table.annotations:            
-'  /pfamstring.enrichment:                
-'  /protein.annotations.shotgun:          
-'  /UniProt.IDs:                          
-'  /Uniprot.Mappings:                     Retrieve the uniprot annotation data by using ID mapping operations.
-'  /UniRef.map.organism:                  
+'  /COG.profiling.plot:                    Plots the COGs category statics profiling of the target genome
+'                                          from the COG annotation file.
+'  /Converts:                              
+'  /DEPs.takes.values:                     
+'  /DEPs.union:                            
+'  /Exocarta.Hits:                         
+'  /Fasta.IDlist:                          
+'  /iBAQ.Cloud:                            Cloud plot of the iBAQ DEPs result.
+'  /KO.Catalogs:                           Display the barplot of the KEGG orthology match.
+'  /KOBAS.Sim.Heatmap:                     
+'  /KOBAS.similarity:                      
+'  /KOBAS.Term.Kmeans:                     
+'  /labelFree.matrix:                      
+'  /labelFree.t.test:                      
+'  /Network.PCC:                           
+'  /paired.sample.designer:                
+'  /Perseus.MajorityProteinIDs:            Export the uniprot ID list from ``Majority Protein IDs``
+'                                          row and generates a text file for batch search of the uniprot
+'                                          database.
+'  /Perseus.Table.annotations:             
+'  /pfamstring.enrichment:                 
+'  /protein.annotations.shotgun:           
+'  /UniProt.IDs:                           
+'  /Uniprot.Mappings:                      Retrieve the uniprot annotation data by using ID mapping
+'                                          operations.
+'  /UniRef.map.organism:                   
 ' 
 ' 
 ' API list that with functional grouping
@@ -57,143 +59,147 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 1. 0. Samples CLI tools
 ' 
 ' 
-'    /Data.Add.Mappings:                    
-'    /Data.Add.ORF:                         
-'    /Data.Add.uniprotIDs:                  
-'    /Perseus.Stat:                         
-'    /Perseus.Table:                        
-'    /plot.pimw:                            'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw
-'                                           sample data.
-'    /Sample.Species.Normalization:         
-'    /Shotgun.Data.Strip:                   
+'    /Data.Add.Mappings:                     
+'    /Data.Add.ORF:                          
+'    /Data.Add.uniprotIDs:                   
+'    /Perseus.Stat:                          
+'    /Perseus.Table:                         
+'    /plot.pimw:                             'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw
+'                                            sample data.
+'    /Sample.Species.Normalization:          
+'    /Shotgun.Data.Strip:                    
 ' 
 ' 
 ' 2. 0. Samples expression analysis
 ' 
 ' 
-'    /FoldChange.Matrix.Invert:             Reverse the FoldChange value from the source result matrix.
-'    /proteinGroups.venn:                   
-'    /Relative.amount:                      Statistics of the relative expression value of the total proteins.
+'    /FoldChange.Matrix.Invert:              Reverse the FoldChange value from the source result matrix.
+'    /proteinGroups.venn:                    
+'    /Relative.amount:                       Statistics of the relative expression value of the total
+'                                            proteins.
 ' 
 ' 
 ' 3. 1. uniprot annotation CLI tools
 ' 
 ' 
-'    /blastX.fill.ORF:                      
-'    /ID.Replace.bbh:                       Replace the source ID to a unify organism protein ID by using
-'                                           ``bbh`` method.
-'                                           This tools required the protein in ``datatset.csv`` associated
-'                                           with the alignment result in ``bbh.csv`` by using the ``query_name``
-'                                           property.
-'    /KEGG.Color.Pathway:                   
-'    /protein.annotations:                  Total proteins functional annotation by using uniprot database.
-'    /protein.EXPORT:                       Export the protein sequence and save as fasta format from
-'                                           the uniprot database dump XML.
-'    /proteins.Go.plot:                     ProteinGroups sample data go profiling plot from the uniprot
-'                                           annotation data.
-'    /proteins.KEGG.plot:                   KEGG function catalog profiling plot of the TP sample.
-'    /Samples.IDlist:                       Extracts the protein hits from the protomics sample data,
-'                                           and using this ID list for downlaods the uniprot annotation
-'                                           data.
-'    /Species.Normalization:                
-'    /UniRef.UniprotKB:                     
-'    /update.uniprot.mapped:                
+'    /blastX.fill.ORF:                       
+'    /ID.Replace.bbh:                        Replace the source ID to a unify organism protein ID by using
+'                                            ``bbh`` method.
+'                                            This tools required the protein in ``datatset.csv`` associated
+'                                            with the alignment result in ``bbh.csv`` by using the ``query_name``
+'                                            property.
+'    /KEGG.Color.Pathway:                    
+'    /protein.annotations:                   Total proteins functional annotation by using uniprot database.
+'    /protein.EXPORT:                        Export the protein sequence and save as fasta format from
+'                                            the uniprot database dump XML.
+'    /proteins.Go.plot:                      ProteinGroups sample data go profiling plot from the uniprot
+'                                            annotation data.
+'    /proteins.KEGG.plot:                    KEGG function catalog profiling plot of the TP sample.
+'    /Samples.IDlist:                        Extracts the protein hits from the protomics sample data,
+'                                            and using this ID list for downlaods the uniprot annotation
+'                                            data.
+'    /Species.Normalization:                 
+'    /UniRef.UniprotKB:                      
+'    /update.uniprot.mapped:                 
 ' 
 ' 
 ' 4. 2. DEP analysis CLI tools
 ' 
 ' 
-'    /DEP.logFC.hist:                       Using for plots the FC histogram when the experiment have
-'                                           no biological replicates.
-'    /DEP.logFC.Volcano:                    Volcano plot of the DEPs' analysis result.
-'    /DEP.uniprot.list:                     
-'    /DEP.uniprot.list2:                    
-'    /DEP.venn:                             Generate the VennDiagram plot data and the venn plot tiff.
-'                                           The default parameter profile is using for the iTraq data.
-'    /DEPs.heatmap:                         Generates the heatmap plot input data. The default label profile
-'                                           is using for the iTraq result.
-'    /DEPs.stat:                            https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
-'    /edgeR.Designer:                       Generates the edgeR inputs table
-'    /Merge.DEPs:                           Usually using for generates the heatmap plot matrix of the
-'                                           DEPs. This function call will generates two dataset, one is
-'                                           using for the heatmap plot and another is using for the venn
-'                                           diagram plot.
-'    /T.test.Designer.iTraq:                Generates the iTraq data t.test DEP method inputs table
-'    /T.test.Designer.LFQ:                  Generates the LFQ data t.test DEP method inputs table
+'    /DEP.logFC.hist:                        Using for plots the FC histogram when the experiment have
+'                                            no biological replicates.
+'    /DEP.logFC.Volcano:                     Volcano plot of the DEPs' analysis result.
+'    /DEP.uniprot.list:                      
+'    /DEP.uniprot.list2:                     
+'    /DEP.venn:                              Generate the VennDiagram plot data and the venn plot tiff.
+'                                            The default parameter profile is using for the iTraq data.
+'    /DEPs.heatmap:                          Generates the heatmap plot input data. The default label
+'                                            profile is using for the iTraq result.
+'    /DEPs.stat:                             https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
+'    /edgeR.Designer:                        Generates the edgeR inputs table
+'    /Merge.DEPs:                            Usually using for generates the heatmap plot matrix of the
+'                                            DEPs. This function call will generates two dataset, one
+'                                            is using for the heatmap plot and another is using for the
+'                                            venn diagram plot.
+'    /T.test.Designer.iTraq:                 Generates the iTraq data t.test DEP method inputs table
+'    /T.test.Designer.LFQ:                   Generates the LFQ data t.test DEP method inputs table
 ' 
 ' 
 ' 5. 3. Enrichment analysis tools
 ' 
 ' 
-'    /Enrichment.Term.Filter:               Filter the specific term result from the analysis output by
-'                                           using pattern keyword
-'    /Enrichments.ORF.info:                 Retrive KEGG/GO info for the genes in the enrichment result.
-'    /GO.cellular_location.Plot:            Visualize of the subcellular location result from the GO enrichment
-'                                           analysis.
-'    /Go.enrichment.plot:                   Go enrichment plot base on the KOBAS enrichment analysis result.
-'    /KEGG.Enrichment.PathwayMap:           Show the KEGG pathway map image by using KOBAS KEGG pathway
-'                                           enrichment result.
-'    /KEGG.enrichment.plot:                 Bar plots of the KEGG enrichment analysis result.
-'    /KOBAS.add.ORF:                        
-'    /KOBAS.split:                          Split the KOBAS run output result text file as seperated csv
-'                                           file.
+'    /Enrichment.Term.Filter:                Filter the specific term result from the analysis output
+'                                            by using pattern keyword
+'    /Enrichments.ORF.info:                  Retrive KEGG/GO info for the genes in the enrichment result.
+'    /GO.cellular_location.Plot:             Visualize of the subcellular location result from the GO
+'                                            enrichment analysis.
+'    /Go.enrichment.plot:                    Go enrichment plot base on the KOBAS enrichment analysis
+'                                            result.
+'    /KEGG.Enrichment.PathwayMap:            Show the KEGG pathway map image by using KOBAS KEGG pathway
+'                                            enrichment result.
+'    /KEGG.Enrichment.PathwayMap.Render:     KEGG pathway map enrichment analysis visual rendering locally.
+'                                            This function required a local kegg pathway repository.
+'    /KEGG.enrichment.plot:                  Bar plots of the KEGG enrichment analysis result.
+'    /KOBAS.add.ORF:                         
+'    /KOBAS.split:                           Split the KOBAS run output result text file as seperated
+'                                            csv file.
 ' 
 ' 
 ' 6. 3. Enrichment analysis tools: clusterProfiler
 ' 
 ' 
-'    /enricher.background:                  Create enrichment analysis background based on the uniprot
-'                                           xml database.
-'    /enrichment.go:                        
-'    /Term2genes:                           
+'    /enricher.background:                   Create enrichment analysis background based on the uniprot
+'                                            xml database.
+'    /enrichment.go:                         
+'    /Term2genes:                            
 ' 
 ' 
 ' 7. 3. Enrichment analysis tools: DAVID
 ' 
 ' 
-'    /DAVID.Split:                          
-'    /GO.enrichment.DAVID:                  
-'    /KEGG.enrichment.DAVID:                
-'    /KEGG.enrichment.DAVID.pathwaymap:     
+'    /DAVID.Split:                           
+'    /GO.enrichment.DAVID:                   
+'    /KEGG.enrichment.DAVID:                 
+'    /KEGG.enrichment.DAVID.pathwaymap:      
 ' 
 ' 
 ' 8. 4. Network enrichment visualize tools
 ' 
 ' 
-'    /func.rich.string:                     DEPs' functional enrichment network based on string-db exports,
-'                                           and color by KEGG pathway.
-'    /Gene.list.from.KOBAS:                 Using this command for generates the gene id list input for
-'                                           the STRING-db search.
-'    /richfun.KOBAS:                        
+'    /func.rich.string:                      DEPs' functional enrichment network based on string-db exports,
+'                                            and color by KEGG pathway.
+'    /Gene.list.from.KOBAS:                  Using this command for generates the gene id list input for
+'                                            the STRING-db search.
+'    /richfun.KOBAS:                         
 ' 
 ' 
 ' 9. Data visualization tool
 ' 
 ' 
-'    /DEP.heatmap.scatter.3D:               Visualize the DEPs' kmeans cluster result by using 3D scatter
-'                                           plot.
-'    /DEP.kmeans.scatter2D:                 
-'    /matrix.clustering:                    
+'    /DEP.heatmap.scatter.3D:                Visualize the DEPs' kmeans cluster result by using 3D scatter
+'                                            plot.
+'    /DEP.kmeans.scatter2D:                  
+'    /matrix.clustering:                     
 ' 
 ' 
 ' 10. iTraq data analysis tool
 ' 
 ' 
-'     /iTraq.Bridge.Matrix:                  
-'     /iTraq.matrix.split:                   Split the raw matrix into different compare group based on
-'                                            the experimental designer information.
-'     /iTraq.RSD-P.Density:                  
-'     /iTraq.Symbol.Replacement:             * Using this CLI tool for processing the tag header of iTraq
-'                                            result at first.
-'     /iTraq.t.test:                         Implements the screening for different expression proteins
-'                                            by using log2FC threshold and t.test pvalue threshold.
+'     /iTraq.Bridge.Matrix:                   
+'     /iTraq.matrix.split:                    Split the raw matrix into different compare group based on
+'                                             the experimental designer information.
+'     /iTraq.RSD-P.Density:                   
+'     /iTraq.Symbol.Replacement:              * Using this CLI tool for processing the tag header of iTraq
+'                                             result at first.
+'     /iTraq.t.test:                          Implements the screening for different expression proteins
+'                                             by using log2FC threshold and t.test pvalue threshold.
 ' 
 ' 
 ' 11. Repository data tools
 ' 
 ' 
-'     /Imports.Go.obo.mysql:                 Dumping GO obo database as mysql database files.
-'     /Imports.Uniprot.Xml:                  Dumping the UniprotKB XML database as mysql database file.
+'     /Imports.Go.obo.mysql:                  Dumping GO obo database as mysql database files.
+'     /Imports.Uniprot.Xml:                   Dumping the UniprotKB XML database as mysql database file.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -409,11 +415,11 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEP.kmeans.scatter2D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/t.log &lt;default=-1> /cluster.prefix &lt;default="cluster: #"> /size &lt;1600,1400> /schema &lt;default=clusters> /out &lt;out.png>]
+''' /DEP.kmeans.scatter2D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/t.log &lt;default=-1> /cluster.prefix &lt;default="cluster: #"> /size &lt;2500,2200> /pt.size &lt;radius pixels, default=15> /schema &lt;default=clusters> /out &lt;out.png>]
 ''' ```
 ''' </summary>
 '''
-Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional schema As String = "clusters", Optional out As String = "") As Integer
+Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional pt_size As String = "15", Optional schema As String = "clusters", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -426,6 +432,9 @@ Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optiona
     End If
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not pt_size.StringEmpty Then
+            Call CLI.Append("/pt.size " & """" & pt_size & """ ")
     End If
     If Not schema.StringEmpty Then
             Call CLI.Append("/schema " & """" & schema & """ ")
@@ -1003,16 +1012,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GO.enrichment.DAVID /in &lt;DAVID.csv> [/tsv /go &lt;go.obo> /size &lt;default=1200,1000> /tick 1 /p.value &lt;0.05> /out &lt;out.png>]
+''' /GO.enrichment.DAVID /in &lt;DAVID.csv> [/tsv /go &lt;go.obo> /colors &lt;default=Set1:c6> /size &lt;default=1200,1000> /tick 1 /p.value &lt;0.05> /out &lt;out.png>]
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not go.StringEmpty Then
             Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
     End If
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
@@ -1037,12 +1049,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv> [/bubble /r "log(x,1.5)" /Corrected /displays &lt;default=10> /PlantRegMap /label.right /gray /pvalue &lt;0.05> /size &lt;2000,1600> /tick 1 /go &lt;go.obo> /out &lt;out.png>]
+''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv> [/bubble /r "log(x,1.5)" /Corrected /displays &lt;default=10> /PlantRegMap /label.right /colors &lt;default=Set1:c6> /gray /pvalue &lt;0.05> /size &lt;2000,1600> /tick 1 /go &lt;go.obo> /out &lt;out.png>]
 ''' ```
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
 '''
-Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
+Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Go.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1051,6 +1063,9 @@ Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,
     End If
     If Not displays.StringEmpty Then
             Call CLI.Append("/displays " & """" & displays & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
     End If
     If Not pvalue.StringEmpty Then
             Call CLI.Append("/pvalue " & """" & pvalue & """ ")
@@ -1325,16 +1340,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /KEGG.enrichment.DAVID /in &lt;david.csv> [/tsv /custom &lt;ko00001.keg> /size &lt;default=1200,1000> /p.value &lt;default=0.05> /tick 1 /out &lt;out.png>]
+''' /KEGG.enrichment.DAVID /in &lt;david.csv> [/tsv /custom &lt;ko00001.keg> /colors &lt;default=Set1:c6> /size &lt;default=1200,1000> /p.value &lt;default=0.05> /tick 1 /out &lt;out.png>]
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not custom.StringEmpty Then
             Call CLI.Append("/custom " & """" & custom & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
     End If
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
@@ -1429,15 +1447,56 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv> [/gray /label.right /pvalue &lt;0.05> /tick 1 /size &lt;2000,1600> /out &lt;out.png>]
+''' /KEGG.Enrichment.PathwayMap.Render /in &lt;enrichment.csv> [/repo &lt;maps.directory> /DEPs &lt;deps.csv> /colors &lt;default=red,blue,green> /map &lt;id2uniprotID.txt> /uniprot &lt;uniprot.XML> /pvalue &lt;default=0.05> /out &lt;DIR>]
+''' ```
+''' KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.
+''' </summary>
+'''
+Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As String = "", Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap.Render")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not repo.StringEmpty Then
+            Call CLI.Append("/repo " & """" & repo & """ ")
+    End If
+    If Not deps.StringEmpty Then
+            Call CLI.Append("/deps " & """" & deps & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not map.StringEmpty Then
+            Call CLI.Append("/map " & """" & map & """ ")
+    End If
+    If Not uniprot.StringEmpty Then
+            Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    End If
+    If Not pvalue.StringEmpty Then
+            Call CLI.Append("/pvalue " & """" & pvalue & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv> [/gray /colors &lt;default=Set1:c6> /label.right /pvalue &lt;0.05> /tick 1 /size &lt;2000,1600> /out &lt;out.png>]
 ''' ```
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
 '''
-Public Function KEGG_enrichment([in] As String, Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
+Public Function KEGG_enrichment([in] As String, Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
     If Not pvalue.StringEmpty Then
             Call CLI.Append("/pvalue " & """" & pvalue & """ ")
     End If
@@ -1592,6 +1651,37 @@ Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /labelFree.matrix /in &lt;*.csv/*.xlsx> [/sheet &lt;default=proteinGroups> /intensity /uniprot &lt;uniprot.Xml> /organism &lt;scientificName> /out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function LabelFreeMatrix([in] As String, Optional sheet As String = "proteinGroups", Optional uniprot As String = "", Optional organism As String = "", Optional out As String = "", Optional intensity As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/labelFree.matrix")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not sheet.StringEmpty Then
+            Call CLI.Append("/sheet " & """" & sheet & """ ")
+    End If
+    If Not uniprot.StringEmpty Then
+            Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    End If
+    If Not organism.StringEmpty Then
+            Call CLI.Append("/organism " & """" & organism & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If intensity Then
+        Call CLI.Append("/intensity ")
     End If
 
 
@@ -1981,17 +2071,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /proteins.Go.plot /in &lt;proteins-uniprot-annotations.csv> [/GO &lt;go.obo> /label.right /tick &lt;default=-1> /level &lt;default=2> /selects Q3 /size &lt;2000,2200> /out &lt;out.DIR>]
+''' /proteins.Go.plot /in &lt;proteins-uniprot-annotations.csv> [/GO &lt;go.obo> /label.right /colors &lt;default=Set1:c6> /tick &lt;default=-1> /level &lt;default=2> /selects Q3 /size &lt;2000,2200> /out &lt;out.DIR>]
 ''' ```
 ''' ProteinGroups sample data go profiling plot from the uniprot annotation data.
 ''' </summary>
 '''
-Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.Go.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not go.StringEmpty Then
             Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
     End If
     If Not tick.StringEmpty Then
             Call CLI.Append("/tick " & """" & tick & """ ")
@@ -2019,15 +2112,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/label.right /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
+''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
 ''' ```
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-Public Function proteinsKEGGPlot([in] As String, Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function proteinsKEGGPlot([in] As String, Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.KEGG.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
     If Not custom.StringEmpty Then
             Call CLI.Append("/custom " & """" & custom & """ ")
     End If

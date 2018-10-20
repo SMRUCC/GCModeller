@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
@@ -7,7 +8,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
 
-Module CLI
+<CLI> Module CLI
 
     ''' <summary>
     ''' Plot of the blastn mapping result
