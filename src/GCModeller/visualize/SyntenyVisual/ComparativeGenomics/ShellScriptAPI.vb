@@ -46,7 +46,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -159,15 +161,22 @@ Namespace ComparativeGenomics
         End Function
 
         <Extension>
-        Public Function LinkFromBlastnMaps(model As DrawingModel, maps As IEnumerable(Of BlastnMapping)) As DrawingModel
+        Public Function LinkFromBlastnMaps(model As DrawingModel,
+                                           maps As IEnumerable(Of BlastnMapping),
+                                           Optional grepOp As TextGrepScriptEngine = Nothing) As DrawingModel
+
+            Dim grep As TextGrepMethod = (grepOp Or TextGrepScriptEngine.DoNothing).PipelinePointer
+
+            ' 
             model.Links = maps _
                 .Select(Function(m)
                             Return New GeneLink With {
-                                .genome1 = m.ReadQuery,
-                                .genome2 = m.Reference
+                                .genome1 = grep(m.ReadQuery),
+                                .genome2 = grep(m.Reference)
                             }
                         End Function) _
                 .ToArray
+
             Return model
         End Function
     End Module
