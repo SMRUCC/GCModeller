@@ -223,17 +223,23 @@ Namespace ComparativeGenomics
                                        Optional CustomCOGMapping As Boolean = False,
                                        Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As ICOGsBrush
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(PTT, COGsColor))
-            Dim __getCOG = Function(gene As GeneBrief) As String
-                               If String.IsNullOrEmpty(gene.COG) Then
-                                   Return ""
-                               Else
-                                   Return If(CustomCOGMapping,
-                                       gene.COG,
-                                       Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value)
-                               End If
-                           End Function
+            Dim getCOG = Function(gene As GeneBrief) As String
+                             If String.IsNullOrEmpty(gene.COG) Then
+                                 Return ""
+                             ElseIf CustomCOGMapping Then
+                                 Return gene.COG
+                             Else
+                                 Return Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+                             End If
+                         End Function
 
-            Return Function(gene) colours(__getCOG(gene))
+            If colours.Count = 0 Then
+                Call "No COG color profile, program will use default color: Brown".Warning
+            End If
+
+            Return Function(gene)
+                       Return colours.TryGetValue(getCOG(gene), [default]:=defaultBrush)
+                   End Function
         End Function
 
         Public Function SynonymAsID(gene As GeneBrief) As String
