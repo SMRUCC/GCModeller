@@ -12,6 +12,7 @@ Namespace ComparativeGenomics
 
         <XmlAttribute> Public Property genome1 As String
         <XmlAttribute> Public Property genome2 As String
+        <XmlAttribute> Public Property Score As Double
 
         <XmlElement>
         Public Property Color As Color

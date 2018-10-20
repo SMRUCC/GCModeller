@@ -44,10 +44,13 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -150,32 +153,69 @@ Namespace ComparativeGenomics
 
         <ExportAPI("model.add_links_from_besthit")>
         Public Function LinkFromBesthit(besthit As IEnumerable(Of BestHit), ByRef model As DrawingModel) As DrawingModel
-            model.Links = LinqAPI.Exec(Of GeneLink) <= From hit As BestHit
-                                                       In besthit
-                                                       Where Not String.Equals(hit.HitName, IBlastOutput.HITS_NOT_FOUND)
-                                                       Select New GeneLink With {
-                                                           .genome1 = hit.QueryName,
-                                                           .genome2 = hit.HitName
-                                                       }
+            model.Links = LinqAPI.Exec(Of GeneLink) _
+                () <= From hit As BestHit
+                      In besthit
+                      Where Not String.Equals(hit.HitName, IBlastOutput.HITS_NOT_FOUND)
+                      Select New GeneLink With {
+                          .genome1 = hit.QueryName,
+                          .genome2 = hit.HitName
+                      }
+
             Return model
+        End Function
+
+        <Extension>
+        Public Function LogScore(Of T)(data As IEnumerable(Of T), getScore As Func(Of T, Double)) As Vector
+            Dim raw = data _
+                .Select(Function(x)
+                            Dim score = getScore(x)
+
+                            If score = 0R Then
+                                Return Double.MinValue
+                            Else
+                                Return -Math.Log(score, 10)
+                            End If
+                        End Function) _
+                .ToArray
+            Dim max = raw.Max + 1
+
+            For i As Integer = 0 To raw.Length - 1
+                If raw(i) <= Double.MinValue + 10 Then
+                    raw(i) = max
+                End If
+            Next
+
+            Return raw
         End Function
 
         <Extension>
         Public Function LinkFromBlastnMaps(model As DrawingModel,
                                            maps As IEnumerable(Of BlastnMapping),
-                                           Optional grepOp As TextGrepScriptEngine = Nothing) As DrawingModel
+                                           Optional grepOp As TextGrepScriptEngine = Nothing,
+                                           Optional ribbonColors$ = "Set1:c6") As DrawingModel
 
             Dim grep As TextGrepMethod = (grepOp Or TextGrepScriptEngine.DoNothing).PipelinePointer
+            Dim colors As Color() = Designer.GetColors(ribbonColors, 30)
+            Dim mapsVector = maps.ToArray
+            Dim scores As Vector = mapsVector.Select(Function(d) d.Identities).AsVector  ' maps.LogScore(Function(m) m.Evalue)
+            Dim colorIndex As New DoubleRange(scores)
+            Dim indexRange As DoubleRange = {0, colors.Length - 1}
 
-            ' 
-            model.Links = maps _
-                .Select(Function(m)
+            model.Links = mapsVector _
+                .Select(Function(m, i)
+                            Dim score# = scores(i)
+                            Dim index% = colorIndex.ScaleMapping(score, indexRange)
+
                             Return New GeneLink With {
                                 .genome1 = grep(m.ReadQuery),
-                                .genome2 = grep(m.Reference)
+                                .genome2 = grep(m.Reference),
+                                .Score = score,
+                                .Color = colors(index)
                             }
                         End Function) _
                 .ToArray
+            model.RibbonScoreColors = (colorIndex, colors)
 
             Return model
         End Function

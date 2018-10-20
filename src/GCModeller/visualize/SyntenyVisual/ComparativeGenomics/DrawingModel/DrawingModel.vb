@@ -52,6 +52,9 @@
 
 #End Region
 
+Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+
 Namespace ComparativeGenomics
 
     ''' <summary>
@@ -64,6 +67,7 @@ Namespace ComparativeGenomics
         Public Property Genome2 As GenomeModel
 
         Public Property Links As GeneLink()
+        Public Property RibbonScoreColors As (scoreRange As DoubleRange, profiles As Color())
 
         Public Overrides Function ToString() As String
             Return $"{Genome1.Title} vs. {Genome2.Title}"

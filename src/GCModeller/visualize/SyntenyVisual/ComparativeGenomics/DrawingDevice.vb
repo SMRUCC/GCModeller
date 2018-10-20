@@ -45,6 +45,7 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -54,9 +55,10 @@ Namespace ComparativeGenomics
     Public Class DrawingDevice
 
         <DataFrameColumn> Public Property Type2Arrow As Boolean = False
-        <DataFrameColumn> Public Property gDrawHeight As Integer = 200
+        <DataFrameColumn> Public Property DrawHeight As Integer = 150
         <DataFrameColumn> Public Property Font As Font = New Font(FontFace.MicrosoftYaHei, 11)
         <DataFrameColumn> Public Property titleFont As New Font(FontFace.MicrosoftYaHei, 36)
+        <DataFrameColumn> Public Property RibbonDistance As Integer = 20
 
         ''' <summary>
         ''' 
@@ -86,8 +88,8 @@ Namespace ComparativeGenomics
             ).ToArray
 
             Dim rect As New Rectangle With {
-                .Location = New Point(padding.Left, height + 0.2 * gDrawHeight),
-                .Size = New Size(gdi.Width - padding.Horizontal, gDrawHeight - 0.4 * gDrawHeight)
+                .Location = New Point(padding.Left, height + 0.2 * DrawHeight),
+                .Size = New Size(gdi.Width - padding.Horizontal, DrawHeight - 0.4 * DrawHeight)
             }
 
             Call gdi.FillRectangle(Brushes.LightGray, rect)
@@ -98,7 +100,7 @@ Namespace ComparativeGenomics
             left += models.First.Left * scaleFactor
 
             '绘制基本图形
-            For i As Integer = 0 To models.Height(gDrawHeight).Count - 2
+            For i As Integer = 0 To models.Height(DrawHeight).Count - 2
                 Dim gene As GeneObject = models(i)
                 Dim nextGene As GeneObject = models(i + 1)
 
@@ -167,7 +169,7 @@ Namespace ComparativeGenomics
                 left = (g.Width - size.Width) / 2
                 g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - dLabel)
 
-                height = g.Height - gDrawHeight - padding.Bottom
+                height = g.Height - DrawHeight - padding.Bottom
                 left = padding.Left
 
                 Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding, labelY)
@@ -179,10 +181,24 @@ Namespace ComparativeGenomics
                 g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
 
                 Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
+                Call drawRibbonColorLegend(g, model, top:=height + dLabel + size.Height, padding:=padding)
 
                 Return g.ImageResource
             End Using
         End Function
+
+        Private Sub drawRibbonColorLegend(gdi As Graphics2D, model As DrawingModel, top%, padding As Padding)
+            Dim min$ = model.RibbonScoreColors.scoreRange.Min
+            Dim max$ = model.RibbonScoreColors.scoreRange.Max
+            Dim legendSize As New Size(350, 1000)
+            Dim legend As Image = model.RibbonScoreColors _
+                .profiles _
+                .ColorMapLegend("Score Color", min, max,, True, lsize:=legendSize) _
+                .AsGDIImage
+            Dim left = gdi.Width - padding.Right - legendSize.Width - 20
+
+            Call gdi.DrawImageUnscaled(legend, left, top)
+        End Sub
 
         ''' <summary>
         ''' 绘制由于同源所产生的链接信息
@@ -201,15 +217,15 @@ Namespace ComparativeGenomics
                 Dim path2D As New GraphicsPath
                 Dim p1, p2, p3, p4 As Point
 
-                p1 = New Point(r1.Location.X, r1.Location.Y + r1.Height + 3)
-                p2 = New Point(r1.Right, r1.Top + r1.Height + 3)
+                p1 = New Point(r1.Location.X, r1.Location.Y + r1.Height + RibbonDistance)
+                p2 = New Point(r1.Right, r1.Top + r1.Height + RibbonDistance)
 
                 If genome1(link.genome1).Direction < 0 Then
                     Call p1.SwapWith(p2)
                 End If
 
-                p3 = New Point(r2.Right, r2.Top - 3)
-                p4 = New Point(r2.Location.X, r2.Location.Y - 3)
+                p3 = New Point(r2.Right, r2.Top - RibbonDistance)
+                p4 = New Point(r2.Location.X, r2.Location.Y - RibbonDistance)
 
                 If genome2(link.genome2).Direction < 0 Then
                     Call p3.SwapWith(p4)

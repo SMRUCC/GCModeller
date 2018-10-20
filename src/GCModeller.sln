@@ -591,6 +591,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		runtime\mysqli\mysqliHelper\mysqliHelper.projitems*{b1de5562-91d6-4aee-aa26-72ef2dfc7c75}*SharedItemsImports = 4
 		GCModeller\shared\api\Shared.CommonMethods.projitems*{bfdf175b-bdcb-4fb3-8c59-3b2b37395445}*SharedItemsImports = 13
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{c54031f0-8bf6-4a21-8598-b88c80a48473}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{dce33cde-9b88-4e8d-991c-af25086dc867}*SharedItemsImports = 4
