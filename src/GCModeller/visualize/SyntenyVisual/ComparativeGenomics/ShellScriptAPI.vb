@@ -88,7 +88,7 @@ Namespace ComparativeGenomics
                     Dim G2 = GBFF.File.Load(File2)
                     Dim Model = ModelFromGBK(G1, G2)
                     Call LinkFromBesthit(Besthits, Model)
-                    Dim res As Image = New DrawingDevice().InvokeDrawing(Model)
+                    Dim res As Image = New DrawingDevice().Plot(Model)
                     Call res.Save(EXPORT & "/" & FileIO.FileSystem.GetFileInfo(df).Name & ".bmp")
                 Catch ex As Exception
                     ex = New Exception(df.ToFileURL, ex)
@@ -107,7 +107,7 @@ Namespace ComparativeGenomics
 
         <ExportAPI("invoke.drawing")>
         Public Function InvokeDrawing(Model As DrawingModel) As Image
-            Return New DrawingDevice().InvokeDrawing(Model)
+            Return New DrawingDevice().Plot(Model)
         End Function
 
         <ExportAPI("model.from_gbk")>

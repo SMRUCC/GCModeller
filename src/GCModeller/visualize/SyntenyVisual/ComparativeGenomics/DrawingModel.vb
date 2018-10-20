@@ -75,6 +75,7 @@ Namespace ComparativeGenomics
     Public Class GenomeModel : Implements IEnumerable(Of GeneObject)
 
         Public Property genes As GeneObject()
+
         ''' <summary>
         ''' 基因组的nt长度
         ''' </summary>
@@ -94,8 +95,26 @@ Namespace ComparativeGenomics
         ''' <remarks></remarks>
         Public Property SegmentOffset As Integer
 
+        ''' <summary>
+        ''' 在这个基因组之中的基因的数量计数
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Count As Integer
+            Get
+                Return genes.Length
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return Title
+        End Function
+
+        Public Function Height(h As Integer) As GenomeModel
+            For i As Integer = 0 To genes.Length - 1
+                genes(i).Height = h
+            Next
+
+            Return Me
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of GeneObject) Implements IEnumerable(Of GeneObject).GetEnumerator

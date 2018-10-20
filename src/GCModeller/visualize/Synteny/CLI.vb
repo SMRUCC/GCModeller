@@ -33,7 +33,7 @@ Module CLI
             .LinkFromBlastnMaps(mappings, grep)
 
         Return New DrawingDevice() _
-            .InvokeDrawing(plotModel, canvasSize:=args("/size") Or "6000,4000") _
+            .Plot(plotModel, canvasSize:=args("/size") Or "6000,3000") _
             .SaveAs(out) _
             .CLICode
     End Function
