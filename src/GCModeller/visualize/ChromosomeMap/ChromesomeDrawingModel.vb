@@ -45,17 +45,9 @@
 
 Imports System.Drawing
 Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace DrawingModels
 

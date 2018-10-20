@@ -201,6 +201,7 @@
     <Compile Include="ChromesomeDrawingModel.vb" />
     <Compile Include="ChromesomeMapAPI.vb" />
     <Compile Include="DrawingModels\Abstract.vb" />
+    <Compile Include="Module1.vb" />
     <Compile Include="PlasmidAnnotation.vb" />
     <Compile Include="Configuration\DataReader.vb" />
     <Compile Include="Configuration\Config.vb" />
@@ -228,6 +229,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PlasmidMap\DrawingDevice.vb" />
+    <Compile Include="PlasmidMap\PlasmidMap.vb" />
+    <Compile Include="PlasmidMap\SegmentObject.vb" />
+    <Compile Include="PlasmidMap\ShellScriptAPI.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
