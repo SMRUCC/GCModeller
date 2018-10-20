@@ -116,10 +116,11 @@ Namespace ComparativeGenomics
             Dim COGs As String() = a.GeneObjects.COGs.AsList + From gene As GeneBrief
                                                                In b.GeneObjects
                                                                Select gene.COG
-            Dim colours As Dictionary(Of String, Brush) =
-                RenderingColor.InitCOGColors(COGs) _
-               .ToDictionary(Function(cl) cl.Key,
-                             Function(x) DirectCast(New SolidBrush(x.Value), Brush))
+            Dim colours As Dictionary(Of String, Brush) = RenderingColor _
+                .InitCOGColors(COGs) _
+                .ToDictionary(Function(cl) cl.Key,
+                              Function(x) DirectCast(New SolidBrush(x.Value), Brush))
+
             Return New DrawingModel With {
                 .Genome1 = ModelAPI.CreateObject(a, colours),
                 .Genome2 = ModelAPI.CreateObject(b, colours)

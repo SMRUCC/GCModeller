@@ -349,7 +349,7 @@ Namespace ComparativeAlignment
                                    Return ComparativeGenomics.ModelAPI.CreateObject(x.GeneObjects,
                                                                   x.Length,
                                                                   x.Title,
-                                                                  __getId:=Function(g) g.Synonym,
+                                                                  getId:=Function(g) g.Synonym,
                                                                   COGsColor:=COGsBrush)
                                End Function) ' 将PTT文件之中的所有数据都转换为模型数据
             Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing
