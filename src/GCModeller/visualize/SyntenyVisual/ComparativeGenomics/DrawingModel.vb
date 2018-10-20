@@ -53,6 +53,9 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 
 Namespace ComparativeGenomics
 
@@ -103,6 +106,26 @@ Namespace ComparativeGenomics
 
         Public Iterator Function GetEnumerator1() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromGffTable(genome As GFFTable) As GenomeModel
+            Return genome.Features _
+                .AsGenes _
+                .Where(Function(g)
+                           ' 因为在gff之中还包含有整个基因组序列的feature
+                           ' 要把这些feature删除掉
+                           Return Not g.Gene.StringEmpty
+                       End Function) _
+                .GroupBy(Function(g) g.Gene) _
+                .Select(Function(g)
+                            ' 20181020 因为gff文件之中可能会出现gene和蛋白的注释feature
+                            ' 因为基因和蛋白之间的id可能会发生重复
+                            ' 所以需要在这里进行一次去重
+                            Return g.First
+                        End Function) _
+                .ToArray _
+                .CreateSyntenyGenome(genome.Size, genome.SeqRegion.AccessId, Function(g) g.Gene)
         End Function
     End Class
 

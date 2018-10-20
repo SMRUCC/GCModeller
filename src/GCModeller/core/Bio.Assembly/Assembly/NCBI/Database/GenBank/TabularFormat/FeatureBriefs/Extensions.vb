@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
@@ -26,7 +27,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Return New GeneBrief With {
                 .Code = feature.ID,
                 .COG = feature.COG,
-                .Gene = feature.ID,
+                .Gene = feature.attributes.TryGetValue("locus_tag") Or feature.ProteinId.AsDefault,
                 .IsORF = True,
                 .Length = feature.Length,
                 .Location = feature.Location,

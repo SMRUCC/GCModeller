@@ -181,20 +181,17 @@ Namespace ComparativeGenomics
                                             Optional COGsColor As ICOGsBrush = Nothing,
                                             Optional region As Loci.Location = Nothing) As GenomeModel
 
-            If COGsColor Is Nothing Then
-                COGsColor = genes.COGsColorBrush(False, Nothing)
-            End If
-
             Dim [default] As SolidBrush = Brushes.White Or Brushes.Brown.When(Not defaultWhite)
+            Dim COGbrush As ICOGsBrush = COGsColor Or genes.COGsColorBrush(False, Nothing).AsDefault
             Dim getColor = Function(gene As GeneBrief)
                                If gene.COG.StringEmpty Then
                                    If defaultWhite Then
                                        Return Brushes.White
                                    Else
-                                       Return COGsColor(gene)
+                                       Return COGbrush(gene)
                                    End If
                                Else
-                                   Return COGsColor(gene)
+                                   Return COGbrush(gene)
                                End If
                            End Function
 

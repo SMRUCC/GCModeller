@@ -131,8 +131,8 @@ Namespace ComparativeGenomics
 
         <ExportAPI("model.from_gff")>
         Public Function ModelFromGFF(a As GFFTable, b As GFFTable) As DrawingModel
-            Dim genomeA = a.Features.AsGenes.ToArray.CreateSyntenyGenome(a.Size, a.SeqRegion.AccessId, Function(g) g.Gene)
-            Dim genomeB = b.Features.AsGenes.ToArray.CreateSyntenyGenome(b.Size, b.SeqRegion.AccessId, Function(g) g.Gene)
+            Dim genomeA As GenomeModel = GenomeModel.FromGffTable(a)
+            Dim genomeB As GenomeModel = GenomeModel.FromGffTable(b)
 
             Return New DrawingModel With {
                 .Genome1 = genomeA,
