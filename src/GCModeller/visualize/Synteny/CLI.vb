@@ -39,7 +39,10 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
             .AutoReverse(args("/auto.reverse") Or 0.9)
 
         Return New DrawingDevice() _
-            .Plot(plotModel, canvasSize:=args("/size") Or "6000,3000") _
+            .Plot(plotModel,
+                  canvasSize:=args("/size") Or "6000,3000",
+                  margin:="padding: 300px 100px 1200px 100px"
+            ) _
             .SaveAs(out) _
             .CLICode
     End Function

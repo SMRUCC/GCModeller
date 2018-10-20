@@ -190,10 +190,10 @@ Namespace ComparativeGenomics
         Private Sub drawRibbonColorLegend(gdi As Graphics2D, model As DrawingModel, top%, padding As Padding)
             Dim min$ = model.RibbonScoreColors.scoreRange.Min
             Dim max$ = model.RibbonScoreColors.scoreRange.Max
-            Dim legendSize As New Size(800, 1024)
+            Dim legendSize As New Size(350, 1000)
             Dim legend As Image = model.RibbonScoreColors _
                 .profiles _
-                .ColorMapLegend("Score Color", min, max,, False, lsize:=legendSize) _
+                .ColorMapLegend("Score Color", min, max,, True, lsize:=legendSize) _
                 .AsGDIImage
             Dim left = gdi.Width - padding.Right - legendSize.Width - 20
 
