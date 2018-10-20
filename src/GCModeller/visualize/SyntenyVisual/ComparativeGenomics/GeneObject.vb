@@ -74,7 +74,7 @@ Namespace ComparativeGenomics
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
         Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
-                                      convertFactor As Double,
+                                      scaleFactor As Double,
                                       ByRef arrowRect As Rectangle,
                                       IdDrawPositionDown As Boolean,
                                       Font As Font,
@@ -83,9 +83,9 @@ Namespace ComparativeGenomics
                                       Optional drawConflictLine As Boolean = False) As Integer
 
             Dim path As GraphicsPath
-            Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, convertFactor)
+            Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, scaleFactor)
 
-            Me.ConvertFactor = convertFactor
+            Me.ConvertFactor = scaleFactor
 
             If Direction < 0 Then
                 If AlternativeArrowStyle Then

@@ -699,7 +699,7 @@ CONTINUTE:
 
                         Left = .InvokeDrawing(
                             device.Graphics,
-                            New Point(Left, Height), NextLeft:=next_gene.Left, convertFactor:=cfactor,
+                            New Point(Left, Height), NextLeft:=next_gene.Left, scaleFactor:=cfactor,
                             arrowRect:=Nothing,
                             IdDrawPositionDown:=False,
                             Font:=Font,
@@ -715,7 +715,7 @@ CONTINUTE:
                 End If
                 Call models.Last.InvokeDrawing(
                     device.Graphics,
-                    New Point(Left, Height), NextLeft:=models.Length, convertFactor:=cfactor,
+                    New Point(Left, Height), NextLeft:=models.Length, scaleFactor:=cfactor,
                     arrowRect:=Nothing,
                     IdDrawPositionDown:=False,
                     Font:=Font,

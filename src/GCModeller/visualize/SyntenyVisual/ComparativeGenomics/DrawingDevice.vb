@@ -44,17 +44,19 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComparativeGenomics
 
     Public Class DrawingDevice
 
-        <DataFrameColumn> Dim Margin As Integer = 20
-        <DataFrameColumn> Dim Type2Arrow As Boolean = False
-        <DataFrameColumn> Dim gDrawHeight As Integer = 85
-        <DataFrameColumn> Dim Font As Font = New Font("Ubuntu", 12, FontStyle.Bold)
-        <DataFrameColumn> Dim titleFont As New Font("Microsoft YaHei", 20)
+        <DataFrameColumn> Public Property Type2Arrow As Boolean = False
+        <DataFrameColumn> Public Property gDrawHeight As Integer = 100
+        <DataFrameColumn> Public Property Font As Font = New Font("Ubuntu", 12, FontStyle.Bold)
+        <DataFrameColumn> Public Property titleFont As New Font("Microsoft YaHei", 20)
+        <DataFrameColumn> Public Property DistanceHeight As Integer = 800
 
         ''' <summary>
         ''' 
@@ -68,7 +70,8 @@ Namespace ComparativeGenomics
         Private Function drawBasicGenomeLayout(gdi As Graphics2D, models As GenomeModel,
                                                ByRef height%,
                                                ByRef left%,
-                                               IDDown As Boolean) As Dictionary(Of String, Rectangle)
+                                               IDDown As Boolean,
+                                               padding As Padding) As Dictionary(Of String, Rectangle)
 
             Dim geneLayouts As New Dictionary(Of String, Rectangle)
             Dim overlapRegion As MapLabelLayout
@@ -81,14 +84,14 @@ Namespace ComparativeGenomics
             ).ToArray
 
             Dim rect As New Rectangle With {
-                .Location = New Point(Margin, height + 0.2 * gDrawHeight),
-                .Size = New Size(gdi.Width - 2 * Margin, gDrawHeight - 0.4 * gDrawHeight)
+                .Location = New Point(padding.Left, height + 0.2 * gDrawHeight),
+                .Size = New Size(gdi.Width - padding.Horizontal, gDrawHeight - 0.4 * gDrawHeight)
             }
 
             Call gdi.FillRectangle(Brushes.LightGray, rect)
 
-            Dim cF As Double = (gdi.Width - 2 * Margin) / models.Length
-            left += models.First.Left * cF
+            Dim scaleFactor As Double = (gdi.Width - padding.Horizontal) / models.Length
+            left += models.First.Left * scaleFactor
 
             '绘制基本图形
             For i As Integer = 0 To models.Count - 2
@@ -100,7 +103,7 @@ Namespace ComparativeGenomics
                 left = gene.InvokeDrawing(
                     gdi.Graphics, New Point(left, height),
                     NextLeft:=nextGene.Left,
-                    convertFactor:=cF,
+                    scaleFactor:=scaleFactor,
                     arrowRect:=r,
                     IdDrawPositionDown:=IDDown,
                     Font:=Font,
@@ -114,7 +117,7 @@ Namespace ComparativeGenomics
 
             Call models.Last.InvokeDrawing(gdi.Graphics, New Point(left, height),
                                            NextLeft:=models.Length,
-                                           convertFactor:=cF,
+                                           scaleFactor:=scaleFactor,
                                            arrowRect:=rr,
                                            IdDrawPositionDown:=IDDown,
                                            Font:=Font,
@@ -126,10 +129,11 @@ Namespace ComparativeGenomics
             Return geneLayouts
         End Function
 
-        Public Function InvokeDrawing(model As DrawingModel, Optional canvasSize$ = "15024,1000") As Image
+        Public Function InvokeDrawing(model As DrawingModel, Optional canvasSize$ = "15024,1000", Optional margin$ = "padding: 300px 50px 300px 50px") As Image
             Dim left, height As Integer
             Dim title$
             Dim size As SizeF
+            Dim padding As Padding = margin
 
             If model.Genome1 Is Nothing OrElse model.Genome2 Is Nothing Then
                 Call Console.WriteLine()
@@ -140,17 +144,17 @@ Namespace ComparativeGenomics
                 size = g.MeasureString(title, titleFont)
                 g.DrawString(title, titleFont, Brushes.Black, New Point((g.Width - size.Width) / 2, 10))
                 height = 100
-                left = Margin
+                left = padding.Left
 
-                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False)
+                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding)
 
                 title = model.Genome2.Title
                 size = g.MeasureString(title, titleFont)
                 g.DrawString(title, titleFont, Brushes.Black, New Point((g.Width - size.Width) / 2, g.Height - 100))
-                height = 650
-                left = Margin
+                height += DistanceHeight
+                left = padding.Left
 
-                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True)
+                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding)
 
                 Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
 
