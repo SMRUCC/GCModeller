@@ -218,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComparativeGenomics\DrawingDevice.vb" />
+    <Compile Include="ComparativeGenomics\DrawingModel\GeneLink.vb" />
     <Compile Include="ComparativeGenomics\DrawingModel\Genome.vb" />
     <Compile Include="ComparativeGenomics\DrawingModel\DrawingModel.vb" />
     <Compile Include="ComparativeGenomics\GeneObject.vb" />

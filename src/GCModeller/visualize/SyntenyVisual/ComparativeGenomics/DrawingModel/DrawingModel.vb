@@ -52,10 +52,6 @@
 
 #End Region
 
-Imports System.Drawing
-Imports System.Runtime.CompilerServices
-Imports System.Xml.Serialization
-
 Namespace ComparativeGenomics
 
     ''' <summary>
@@ -69,30 +65,13 @@ Namespace ComparativeGenomics
 
         Public Property Links As GeneLink()
 
-    End Class
+        ''' <summary>
+        ''' 调用这个函数尝试对reference进行自动反转
+        ''' </summary>
+        ''' <param name="threshold">[0, 1]之间的百分比数</param>
+        ''' <returns></returns>
+        Public Function AutoReverse(threshold As Double) As DrawingModel
 
-    ''' <summary>
-    ''' 两个基因组之间的相互共同的基因
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Class GeneLink
-
-        <XmlAttribute> Public Property genome1 As String
-        <XmlAttribute> Public Property genome2 As String
-
-        <XmlElement>
-        Public Property Color As Color
-        <XmlText>
-        Public Property annotation As String
-
-        Public Overrides Function ToString() As String
-            Return String.Format("{0} === {1};   //{2}", genome1, genome2, annotation)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Function Equals(id1 As String, id2 As String) As Boolean
-            Return (String.Equals(id1, genome1, StringComparison.OrdinalIgnoreCase) AndAlso String.Equals(id2, genome2, StringComparison.OrdinalIgnoreCase)) OrElse
-                (String.Equals(id2, genome1, StringComparison.OrdinalIgnoreCase) AndAlso String.Equals(id1, genome2, StringComparison.OrdinalIgnoreCase))
         End Function
     End Class
 End Namespace
