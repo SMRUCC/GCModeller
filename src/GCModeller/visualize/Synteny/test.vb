@@ -4,18 +4,45 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 
 Module test
 
     Sub Main()
+
+        Call batch()
+
+        Pause()
+
+
+
         Dim a = "E:\2018-7-10\高粱对比筛选结果.csv".LoadCsv(Of align)
         Dim b = "E:\2018-7-10\玉米比对筛选结果.csv".LoadCsv(Of align)
         Dim data = TupleMapping(a, b).ToArray
         '  Dim regions = data.PopulateRegions(stepOffset:=(5000, 5000)).ToArray
 
         Call data.SaveTo("./dddd.csv")
+
+        Pause()
+    End Sub
+
+    Sub batch()
+
+        Dim pathList = (ls - l - r - "*.gff" <= "D:\OneDrive\20181020\extract").ToArray
+        Dim gffs = pathList.ToDictionary(Function(path) path.BaseName)
+
+        For Each dir As String In ls - l - lsDIR <= "D:\OneDrive\20181020\mappings"
+
+            Dim queryName = dir.BaseName.Replace(".Blastn-BlastnMaps", "")
+
+            For Each map In ls - l - "*.csv" <= dir
+                Dim refname = map.BaseName
+
+                Call Apps.SyntenyVisual.PlotMapping(map, gffs(queryName), gffs(refname), grep:="tokens | first")
+            Next
+
+        Next
 
         Pause()
     End Sub

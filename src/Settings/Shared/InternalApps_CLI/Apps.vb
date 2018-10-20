@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::e5ed49c79d19b3c8b4fa00b4fc4d7b89, Shared\InternalApps_CLI\Apps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Apps
-    ' 
-    '     Properties: eggHTS, KEGG_tools, localblast, MEME, metaProfiler
-    '                 NCBI_tools, seqtools, VennDiagram
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: IsAppHome, LinuxPath, WindowsPath
-    ' 
-    ' /********************************************************************************/
+' Class Apps
+' 
+'     Properties: eggHTS, KEGG_tools, localblast, MEME, metaProfiler
+'                 NCBI_tools, seqtools, VennDiagram
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: IsAppHome, LinuxPath, WindowsPath
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,69 +55,14 @@ Imports Microsoft.VisualBasic.Linq
 Public NotInheritable Class Apps
 
     Public Shared ReadOnly Property NCBI_tools As GCModellerApps.NCBI_tools
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _NCBI_tools
-        End Get
-    End Property
-
     Public Shared ReadOnly Property localblast As GCModellerApps.localblast
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _localblast
-        End Get
-    End Property
-
     Public Shared ReadOnly Property MEME As GCModellerApps.MEME
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _MEME
-        End Get
-    End Property
-
     Public Shared ReadOnly Property KEGG_tools As GCModellerApps.KEGG_tools
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _KEGG_tools
-        End Get
-    End Property
-
     Public Shared ReadOnly Property seqtools As GCModellerApps.seqtools
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _seqtools
-        End Get
-    End Property
-
     Public Shared ReadOnly Property VennDiagram As GCModellerApps.venn
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _VennDiagram
-        End Get
-    End Property
-
     Public Shared ReadOnly Property eggHTS As GCModellerApps.eggHTS
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _eggHTS
-        End Get
-    End Property
-
     Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return _metaProfiler
-        End Get
-    End Property
-
-    Shared ReadOnly _NCBI_tools As GCModellerApps.NCBI_tools
-    Shared ReadOnly _localblast As GCModellerApps.localblast
-    Shared ReadOnly _MEME As GCModellerApps.MEME
-    Shared ReadOnly _KEGG_tools As GCModellerApps.KEGG_tools
-    Shared ReadOnly _seqtools As GCModellerApps.seqtools
-    Shared ReadOnly _VennDiagram As GCModellerApps.venn
-    Shared ReadOnly _eggHTS As GCModellerApps.eggHTS
-    Shared ReadOnly _metaProfiler As GCModellerApps.metaProfiler
+    Public Shared ReadOnly Property SyntenyVisual As GCModellerApps.Synteny
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -125,6 +70,8 @@ Public NotInheritable Class Apps
     ''' 枚举一些比较常用的路径
     ''' </summary>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Shared Function WindowsPath() As String()
         Return {
             App.HOME,
@@ -145,12 +92,13 @@ Public NotInheritable Class Apps
         }
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Shared Function LinuxPath() As String()
         Return {}
     End Function
 
     Shared Sub New()
-        Dim list$() = If(App.IsMicrosoftPlatform, WindowsPath(), LinuxPath())
+        Dim list$() = LinuxPath() Or WindowsPath.When(App.IsMicrosoftPlatform)
 
         For Each HOME As String In list
             If Apps.IsAppHome(HOME) Then
@@ -167,6 +115,7 @@ Public NotInheritable Class Apps
                 _seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
                 _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
                 _metaProfiler = New GCModellerApps.metaProfiler(HOME & "/" & GCModellerApps.metaProfiler.App)
+                _SyntenyVisual = New GCModellerApps.Synteny(HOME & "/" & GCModellerApps.Synteny.App)
 
                 Exit For
             End If

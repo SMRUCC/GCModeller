@@ -43,4 +43,9 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
             .SaveAs(out) _
             .CLICode
     End Function
+
+    <ExportAPI("/test")>
+    Public Function Test() As Integer
+        Call Synteny.test.batch()
+    End Function
 End Module
