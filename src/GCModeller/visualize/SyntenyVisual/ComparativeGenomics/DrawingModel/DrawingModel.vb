@@ -65,13 +65,44 @@ Namespace ComparativeGenomics
 
         Public Property Links As GeneLink()
 
+        Public Overrides Function ToString() As String
+            Return $"{Genome1.Title} vs. {Genome2.Title}"
+        End Function
+
         ''' <summary>
         ''' 调用这个函数尝试对reference进行自动反转
         ''' </summary>
         ''' <param name="threshold">[0, 1]之间的百分比数</param>
         ''' <returns></returns>
         Public Function AutoReverse(threshold As Double) As DrawingModel
+            Dim middle = Genome2.Length / 2
+            Dim middleQuery = Genome1.Length / 2
+            Dim cross As Integer
+            Dim query = Genome1.genes.ToDictionary(Function(g) g.locus_tag)
+            Dim ref = Genome2.genes.ToDictionary(Function(g) g.locus_tag)
 
+            For Each link As GeneLink In Links
+                If query(link.genome1).Left < middleQuery Then
+                    '  在左边，则ref也应该在左边
+                    If ref(link.genome2).Left > middle Then
+                        cross += 1
+                    End If
+                Else
+                    If ref(link.genome2).Left < middle Then
+                        cross += 1
+                    End If
+                End If
+            Next
+
+            If cross / Links.Length >= threshold Then
+                Return New DrawingModel With {
+                    .Genome1 = Genome1,
+                    .Genome2 = Genome2.Reverse,
+                    .Links = Links
+                }
+            Else
+                Return Me
+            End If
         End Function
     End Class
 End Namespace
