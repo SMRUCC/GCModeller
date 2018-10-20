@@ -55,11 +55,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <returns></returns>
         Public Function ToString(x As Feature) As String
-            Dim attrs As String() = (From token As KeyValuePair(Of String, String)
-                                     In x.attributes
-                                     Select $"{token.Key}={token.Value.CLIPath}").ToArray
+            Dim attrs As String() = x.attributes _
+                .Select(Function(token)
+                            Return $"{token.Key}={token.Value.CLIToken}"
+                        End Function) _
+                .ToArray
             Dim tokens As String() = {
-                x.seqname, x.source, x.Feature,
+                x.seqname,
+                x.source,
+                x.Feature,
                 CStr(x.start), CStr(x.Ends),
                 x.score, x.Strand.GetBriefCode, x.frame,
                 attrs.JoinBy(";")
