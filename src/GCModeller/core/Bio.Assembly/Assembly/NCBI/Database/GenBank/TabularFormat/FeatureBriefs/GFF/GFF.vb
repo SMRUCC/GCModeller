@@ -59,9 +59,11 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 
@@ -120,6 +122,13 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <returns></returns>
         <Column(Name:="##type")> Public Property Type As String
 
+        <Column(Name:="##species")> Public Property species As String
+        ''' <summary>
+        ''' 生成这个文件的应用程序
+        ''' </summary>
+        ''' <returns></returns>
+        <Column(Name:="#!processor")> Public Property processor As String
+
         ''' <summary>
         ''' DNA 
         ''' 
@@ -176,6 +185,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Size As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return SeqRegion.Ends
             End Get
@@ -198,6 +208,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Property
 
         Default Public ReadOnly Property Feature(locus_tag As String) As Feature Implements IGenomicsContextProvider(Of Feature).Feature
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetByName(locus_tag)
             End Get
@@ -246,24 +257,35 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return LQuery.FirstOrDefault
         End Function
 
+        Shared ReadOnly metaAttrs As BindProperty(Of ColumnAttribute)() = (
+            From p As PropertyInfo
+            In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
+            Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
+            Where Not attrs.IsNullOrEmpty
+            Let name As ColumnAttribute = DirectCast(attrs.First, ColumnAttribute)
+            Select New BindProperty(Of ColumnAttribute)(name, p, Function(a) a.Name)
+        ).ToArray
+
         Public Function GenerateDocument() As String
             Dim sb As New StringBuilder()
-            Dim MetaProperty = (From p As PropertyInfo
-                                In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-                                Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
-                                Where Not attrs.IsNullOrEmpty
-                                Select p,
-                                    Name = DirectCast(attrs.First, ColumnAttribute).Name).ToArray
-            For Each [Property] In MetaProperty
-                Dim value As Object = [Property].p.GetValue(Me)
+            Dim features$() = Me.Features _
+                .Select(AddressOf FeatureParser.ToString) _
+                .ToArray
+
+            Me.processor = "SMRUCC\GCModeller"
+
+            For Each [property] In metaAttrs
+                Dim value As Object = [property].GetValue(Me)
                 Dim str As String = Scripting.ToString(value)
+
                 If String.IsNullOrEmpty(str) Then
                     Continue For
                 End If
-                Call sb.AppendLine($"{[Property].Name} {str}")
+
+                Call sb.AppendLine($"{[property].name} {str}")
             Next
 
-            Call sb.AppendLine(String.Join(vbCrLf, Features.Select(AddressOf FeatureParser.ToString).ToArray))
+            Call sb.AppendLine(features.JoinBy(ASCII.LF))
             Call sb.AppendLine("###")
 
             Return sb.ToString
@@ -283,17 +305,17 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 当GFF的文件头部之中没有包含有版本字样的时候，所使用的的默认版本号，默认是版本3
         ''' </param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(path As String, Optional defaultVersion% = 3) As GFFTable
-            Dim Text As String() = IO.File.ReadAllLines(path)
-            Dim GFF As New GFFTable With {
+        Public Shared Function LoadDocument(path$, Optional defaultVersion% = 3) As GFFTable
+            Dim text As String() = path.ReadAllLines
+            Dim gff As New GFFTable With {
                 .FilePath = path
             }
 
-            Call TrySetMetaData(Text, GFF, defaultVer:=defaultVersion)
-            Call Linq.SetValue(Of GFFTable).InvokeSet(GFF, NameOf(GFF.Features), TryGetFreaturesData(Text, GFF.GffVersion))
-            Call $"There are {GFF.Features.Length} genome features exists in the gff file: {GFF.FilePath.ToFileURL}".__DEBUG_ECHO
+            Call TrySetMetaData(text, gff, defaultVer:=defaultVersion)
+            Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.Features), TryGetFreaturesData(text, gff.GffVersion))
+            Call $"There are {gff.Features.Length} genome features exists in the gff file: {gff.FilePath.ToFileURL}".__DEBUG_ECHO
 
-            Return GFF
+            Return gff
         End Function
 
         ''' <summary>

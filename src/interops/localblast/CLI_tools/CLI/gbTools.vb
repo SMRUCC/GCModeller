@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::078c399b38256541727a51f643a9ab08, localblast\CLI_tools\CLI\gbTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
-    '               CopyPTT, ExportBlastX, ExportGenesFasta, EXPORTgpff, EXPORTgpffs
-    '               ExportPTTDb, HitsIDList, MergeFaa, Print
-    ' 
-    '     Sub: __exportTo
-    ' 
-    ' Class NameAnno
-    ' 
-    '     Properties: Maximum, Minimum, Name
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
+'               CopyPTT, ExportBlastX, ExportGenesFasta, EXPORTgpff, EXPORTgpffs
+'               ExportPTTDb, HitsIDList, MergeFaa, Print
+' 
+'     Sub: __exportTo
+' 
+' Class NameAnno
+' 
+'     Properties: Maximum, Minimum, Name
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -267,31 +267,31 @@ Partial Module CLI
     <Group(CLIGrouping.GenbankTools)>
     Public Function ExportPTTDb(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
-        Dim batch As Boolean = args.GetBoolean("/batch")
-        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim batch As Boolean = args("/batch")
+        Dim simple As Boolean = args("/simple")
 
         If batch Then
-            Dim EXPORT As String = args.GetValue("/out", gb.TrimDIR & ".EXPORT")
+            Dim EXPORT As String = args("/out") Or $"{gb.TrimDIR}.EXPORT"
 
-            For Each file As String In ls - l - r - wildcards("*.gb", "*.gbff", "*.gbk") <= gb
+            For Each file As String In ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= gb
                 Dim out As String = file.TrimSuffix
 
                 For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
-                    Call x.__exportTo(out, simple)
+                    Call x.exportTo(out, simple)
                 Next
             Next
         Else
             Dim out As String = args("/out") Or args("/gb").TrimSuffix
 
             For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-                Call x.__exportTo(out, simple)
+                Call x.exportTo(out, simple)
             Next
         End If
 
         Return 0
     End Function
 
-    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
+    <Extension> Private Sub exportTo(gb As GBFF.File, out As String, simple As Boolean)
         Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaSeq = gb.Origin.ToFasta
@@ -299,7 +299,8 @@ Partial Module CLI
         Dim name As String = gb.Source.SpeciesName  ' 
         Dim ffn As FastaFile = gb.ExportGeneNtFasta
 
-        name = name.NormalizePathString(False).Replace(" ", "_") ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
+        ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
+        name = name.NormalizePathString(False).Replace(" ", "_")
         out = out & "/" & gb.Locus.AccessionID
 
         Call PTT.Save(out & $"/{name}.ptt")
