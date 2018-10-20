@@ -61,9 +61,12 @@ Namespace ComparativeGenomics
     ''' </summary>
     ''' <remarks></remarks>
     Public Class DrawingModel
+
         Public Property Genome1 As GenomeModel
         Public Property Genome2 As GenomeModel
+
         Public Property Links As GeneLink()
+
     End Class
 
     Public Class GenomeModel : Implements IEnumerable(Of GeneObject)

@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
@@ -50,13 +51,14 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace ComparativeGenomics
 
     <[Namespace]("data.visualization.Comparative_Genomics")>
-    Module ShellScriptAPI
+    Public Module ShellScriptAPI
 
         ''' <summary>
         ''' 
@@ -138,6 +140,12 @@ Namespace ComparativeGenomics
             }
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SyntenyTuple(compares As (a As GFFTable, b As GFFTable)) As DrawingModel
+            Return ModelFromGFF(compares.a, compares.b)
+        End Function
+
         <ExportAPI("model.add_links_from_besthit")>
         Public Function LinkFromBesthit(besthit As IEnumerable(Of BestHit), ByRef model As DrawingModel) As DrawingModel
             model.Links = LinqAPI.Exec(Of GeneLink) <= From hit As BestHit
@@ -147,6 +155,19 @@ Namespace ComparativeGenomics
                                                            .genome1 = hit.QueryName,
                                                            .genome2 = hit.HitName
                                                        }
+            Return model
+        End Function
+
+        <Extension>
+        Public Function LinkFromBlastnMaps(model As DrawingModel, maps As IEnumerable(Of BlastnMapping)) As DrawingModel
+            model.Links = maps _
+                .Select(Function(m)
+                            Return New GeneLink With {
+                                .genome1 = m.ReadQuery,
+                                .genome2 = m.Reference
+                            }
+                        End Function) _
+                .ToArray
             Return model
         End Function
     End Module

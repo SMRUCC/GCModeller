@@ -52,12 +52,12 @@ Namespace ComparativeGenomics
         <DataFrameColumn> Dim Margin As Integer = 20
         <DataFrameColumn> Dim Type2Arrow As Boolean = False
 
-        Public Function InvokeDrawing(Model As DrawingModel) As Image
+        Public Function InvokeDrawing(model As DrawingModel) As Image
             Dim gdi = Graphics2D.CreateDevice(New Size(15024, 1000))
             Dim Left, Height As Integer
             Dim gDrawHeight As Integer = 85
 
-            If Model.Genome1 Is Nothing OrElse Model.Genome2 Is Nothing Then
+            If model.Genome1 Is Nothing OrElse model.Genome2 Is Nothing Then
                 Call Console.WriteLine()
             End If
 
@@ -109,25 +109,25 @@ Namespace ComparativeGenomics
                                   End Function
 
             Dim titleFont As New Font("Microsoft YaHei", 20)
-            Dim size As SizeF = gdi.Graphics.MeasureString(Model.Genome1.Title, titleFont)
-            Call gdi.Graphics.DrawString(Model.Genome1.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, 10))
+            Dim size As SizeF = gdi.Graphics.MeasureString(model.Genome1.Title, titleFont)
+            Call gdi.Graphics.DrawString(model.Genome1.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, 10))
             Height = 100
             Left = Margin
-            Dim RegionData1 = __invokeDrawing(Model.Genome1)
+            Dim RegionData1 = __invokeDrawing(model.Genome1)
 
-            size = gdi.Graphics.MeasureString(Model.Genome2.Title, titleFont)
-            Call gdi.Graphics.DrawString(Model.Genome2.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, gdi.Height - 100))
+            size = gdi.Graphics.MeasureString(model.Genome2.Title, titleFont)
+            Call gdi.Graphics.DrawString(model.Genome2.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, gdi.Height - 100))
 
             IDDown = True
             Height = 650
             Left = Margin
-            Dim RegionData2 = __invokeDrawing(Model.Genome2)
+            Dim RegionData2 = __invokeDrawing(model.Genome2)
 
-            Dim G1 = Model.Genome1.ToDictionary(Function(g) g.locus_tag), G2 = Model.Genome2.ToDictionary(Function(g) g.locus_tag)
+            Dim G1 = model.Genome1.ToDictionary(Function(g) g.locus_tag), G2 = model.Genome2.ToDictionary(Function(g) g.locus_tag)
             Dim cl As SolidBrush
 
             '绘制连接信息
-            For Each Link In Model.Links
+            For Each Link In model.Links
                 Dim r1 As Rectangle = RegionData1(Link.genome1)
                 Dim r2 As Rectangle = RegionData2(Link.genome2)
                 Dim drModel As New GraphicsPath

@@ -1,8 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
 
 Module CLI
 
@@ -21,6 +23,13 @@ Module CLI
         Dim mappings = [in].LoadCsv(Of BlastnMapping).ToArray
         Dim queryGff = GFF.Load(query)
         Dim refGff = GFF.Load(ref)
+        Dim plotModel As DrawingModel = (queryGff, refGff) _
+            .SyntenyTuple _
+            .LinkFromBlastnMaps(mappings)
 
+        Return New DrawingDevice() _
+            .InvokeDrawing(plotModel) _
+            .SaveAs(out) _
+            .CLICode
     End Function
 End Module
