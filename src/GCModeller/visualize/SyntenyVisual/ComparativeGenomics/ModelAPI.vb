@@ -70,8 +70,8 @@ Namespace ComparativeGenomics
             Dim right = genomeSize - gene.Right
 
             Return New GeneObject With {
-                .Right = right,
-                .Left = left,
+                .Right = left,
+                .Left = right,
                 .Color = gene.Color,
                 .Direction = gene.Direction,
                 .geneName = gene.geneName,
