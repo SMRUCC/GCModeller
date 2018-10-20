@@ -247,7 +247,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         Public Function GenerateDocument() As String
-            Dim sb As New StringBuilder("track name=Genes color=255,0,255" & vbCrLf)
+            Dim sb As New StringBuilder()
             Dim MetaProperty = (From p As PropertyInfo
                                 In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
                                 Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
@@ -264,6 +264,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Next
 
             Call sb.AppendLine(String.Join(vbCrLf, Features.Select(AddressOf FeatureParser.ToString).ToArray))
+            Call sb.AppendLine("###")
 
             Return sb.ToString
         End Function
@@ -313,17 +314,23 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                          Select Name,
                              Value
                          Group By Name Into Group '
-            Dim hash As Dictionary(Of String, String) =
-                LQuery.ToDictionary(Function(obj) obj.Name.ToLower,
-                                    Function(obj) obj.Group.Select(Function(x) x.Value).JoinBy("; "))
+            Dim attrs As Dictionary(Of String, String) = LQuery _
+                .ToDictionary(Function(obj)
+                                  Return obj.Name.ToLower
+                              End Function,
+                              Function(obj)
+                                  Return obj.Group _
+                                      .Select(Function(x) x.Value) _
+                                      .JoinBy("; ")
+                              End Function)
 
-            Call $"There are {hash.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
+            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
 
-            Gff.GffVersion = CInt(Val(TryGetValue(hash, "##gff-version")))
-            Gff.Date = TryGetValue(hash, "##date")
-            Gff.SrcVersion = TryGetValue(hash, "##source-version")
-            Gff.Type = TryGetValue(hash, "##type")
-            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(hash, "##sequence-region"))
+            Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
+            Gff.Date = TryGetValue(attrs, "##date")
+            Gff.SrcVersion = TryGetValue(attrs, "##source-version")
+            Gff.Type = TryGetValue(attrs, "##type")
+            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(attrs, "##sequence-region"))
 
             ' 为零，则表示文本字符串为空值，则会使用默认的版本号
             If Gff.GffVersion = 0 Then
@@ -358,15 +365,17 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Public Function parse(s As String) As Feature
                 Return FeatureParser.CreateObject(s, version)
             End Function
+
+            Public Shared Function IsMetaDataLine(line As String) As Boolean
+                Return Not String.IsNullOrEmpty(line) AndAlso Len(line) > 2 AndAlso String.Equals(Mid(line, 1, 2), "##")
+            End Function
         End Structure
 
         Private Shared Function TryGetMetaData(data As String()) As String()
             Try
                 Dim LQuery = (From sLine As String
                               In data
-                              Where Not String.IsNullOrEmpty(sLine) AndAlso
-                                  Len(sLine) > 2 AndAlso
-                                  String.Equals(Mid(sLine, 1, 2), "##")
+                              Where parserHelper.IsMetaDataLine(sLine)
                               Select sLine).ToArray
                 Return LQuery
             Catch ex As Exception
