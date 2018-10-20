@@ -121,9 +121,9 @@ Namespace ComparativeAlignment
                                                        NextLeft:=NextGeneObject.Left,
                                                        convertFactor:=ConvertFactor,
                                                        arrowRect:=rtvlRegion,
-                                                       IdGrawingPositionDown:=True,
+                                                       IdDrawPositionDown:=True,
                                                        Font:=Font,
-                                                       AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=IDConflictedRegion)
+                                                       AlternativeArrowStyle:=Type2Arrow, overlapLayout:=IDConflictedRegion)
 
                 Call GeneObjectDrawingRegions.Add(GeneObjectModel.locus_tag, rtvlRegion)
             Next
@@ -136,9 +136,9 @@ Namespace ComparativeAlignment
 
             Call LastModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height), NextLeft:=Models.Length,
                                      convertFactor:=ConvertFactor,
-                                     arrowRect:=rtvlRegion, IdGrawingPositionDown:=True,
+                                     arrowRect:=rtvlRegion, IdDrawPositionDown:=True,
                                      Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                     ID_conflictLayout:=IDConflictedRegion)
+                                     overlapLayout:=IDConflictedRegion)
             Call GeneObjectDrawingRegions.Add(Models.Last.locus_tag, rtvlRegion)
             Call Device.Graphics.DrawString(Models.Title, TitleDrawingFont, Brushes.Black, New Point(Margin, Height))
 

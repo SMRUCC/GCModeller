@@ -69,18 +69,19 @@ Namespace ComparativeGenomics
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="RefPoint"></param>
-        ''' <param name="IdGrawingPositionDown">基因标号是否绘制与基因图形的下方</param>
+        ''' <param name="IdDrawPositionDown">基因标号是否绘制与基因图形的下方</param>
         ''' <param name="arrowRect">当前的基因对象所绘制的区域从这个参数进行返回</param>
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
         Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
                                       convertFactor As Double,
                                       ByRef arrowRect As Rectangle,
-                                      IdGrawingPositionDown As Boolean,
+                                      IdDrawPositionDown As Boolean,
                                       Font As Font,
                                       AlternativeArrowStyle As Boolean,
-                                      ByRef ID_conflictLayout As MapLabelLayout,
+                                      ByRef overlapLayout As MapLabelLayout,
                                       Optional drawConflictLine As Boolean = False) As Integer
+
             Dim path As GraphicsPath
             Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, convertFactor)
 
@@ -129,27 +130,28 @@ Namespace ComparativeGenomics
             Dim ptr As Point
             Dim conflicts As Boolean = False
 
-            If IdGrawingPositionDown Then
+            If IdDrawPositionDown Then
                 ptr = New Point(fleft, arrowRect.Bottom + offsets)
             Else
                 ptr = New Point(fleft, arrowRect.Top - offsets - size.Height)
             End If
 
-            ID_conflictLayout = New MapLabelLayout With {
-                .ConflictRegion = ID_conflictLayout _
+            overlapLayout = New MapLabelLayout With {
+                .OverlapRegion = overlapLayout _
                 .ForceNextLocation(New Rectangle With {
                     .Location = ptr,
                     .Size = New Size(size.Width, size.Height)
-                }, conflicts)
+                }, conflicts, IdDrawPositionDown)
             }
-            With ID_conflictLayout.ConflictRegion.Location
+
+            With overlapLayout.OverlapRegion.Location
                 Call g.DrawString(locus_tag, Font, brush:=Brushes.Black, x:= .X, y:= .Y)
 
                 If conflicts AndAlso drawConflictLine Then ' 在label的文和箭头之间画一条连线
                     Dim a, b As Point
-                    Dim textRect = ID_conflictLayout.ConflictRegion
+                    Dim textRect = overlapLayout.OverlapRegion
 
-                    If IdGrawingPositionDown Then
+                    If IdDrawPositionDown Then
                         ' 则连线在文本上方和箭头矩形的下方
                         a = New Point With {
                             .X = arrowRect.Left + arrowRect.Width / 2,

@@ -161,7 +161,8 @@ Namespace ComparativeGenomics
                               }
         End Function
 
-        ReadOnly defaultBrush As DefaultValue(Of Brush) = Brushes.Brown
+        Friend ReadOnly defaultColor As DefaultValue(Of Color) = Color.Brown
+        Friend ReadOnly defaultBrush As DefaultValue(Of Brush) = New SolidBrush(defaultColor)
 
         ''' <summary>
         ''' 通用的绘图模型的构建方法

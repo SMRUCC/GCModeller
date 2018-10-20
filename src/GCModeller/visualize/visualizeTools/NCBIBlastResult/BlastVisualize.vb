@@ -701,10 +701,10 @@ CONTINUTE:
                             device.Graphics,
                             New Point(Left, Height), NextLeft:=next_gene.Left, convertFactor:=cfactor,
                             arrowRect:=Nothing,
-                            IdGrawingPositionDown:=False,
+                            IdDrawPositionDown:=False,
                             Font:=Font,
                             AlternativeArrowStyle:=ArrowAlternativeStyle,
-                            ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
+                            overlapLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                     End With
                 Next
@@ -717,10 +717,10 @@ CONTINUTE:
                     device.Graphics,
                     New Point(Left, Height), NextLeft:=models.Length, convertFactor:=cfactor,
                     arrowRect:=Nothing,
-                    IdGrawingPositionDown:=False,
+                    IdDrawPositionDown:=False,
                     Font:=Font,
                     AlternativeArrowStyle:=ArrowAlternativeStyle,
-                    ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
+                    overlapLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                 Dim titleDrawingFont As New Font("Microsoft YaHei", 20)
                 Dim titleFontSize = device.MeasureString(models.Title, titleDrawingFont)

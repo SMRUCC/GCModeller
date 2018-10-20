@@ -18,7 +18,7 @@ Module CLI
     ''' 对于常见的fasta标题，可以使用脚本``tokens | first``
     ''' </remarks>
     <ExportAPI("/mapping.plot")>
-    <Usage("/mapping.plot /mapping <blastn_mapping.csv> /query <query.gff3> /ref <subject.gff3> [/grep <default=""-""> /out <Synteny.png>]")>
+    <Usage("/mapping.plot /mapping <blastn_mapping.csv> /query <query.gff3> /ref <subject.gff3> [/size <default=6000,4000> /grep <default=""-""> /out <Synteny.png>]")>
     Public Function PlotMapping(args As CommandLine) As Integer
         Dim in$ = args <= "/mapping"
         Dim query$ = args <= "/query"
@@ -33,7 +33,7 @@ Module CLI
             .LinkFromBlastnMaps(mappings, grep)
 
         Return New DrawingDevice() _
-            .InvokeDrawing(plotModel) _
+            .InvokeDrawing(plotModel, canvasSize:=args("/size") Or "6000,4000") _
             .SaveAs(out) _
             .CLICode
     End Function
