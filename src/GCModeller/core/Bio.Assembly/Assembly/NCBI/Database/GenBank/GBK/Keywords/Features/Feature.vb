@@ -171,6 +171,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             attrs += ("Dbxref", Query(FeatureQualifiers.db_xref))
             attrs += ("EC_number", Query(FeatureQualifiers.EC_number))
             attrs += ("function", Query(FeatureQualifiers.function))
+            attrs += ("Note", Query(FeatureQualifiers.note))
 
             Return attrs _
                 .Where(Function(a)
