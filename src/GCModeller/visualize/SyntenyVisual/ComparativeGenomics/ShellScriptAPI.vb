@@ -201,6 +201,7 @@ Namespace ComparativeGenomics
                             }
                         End Function) _
                 .ToArray
+            model.RibbonScoreColors = (colorIndex, colors)
 
             Return model
         End Function

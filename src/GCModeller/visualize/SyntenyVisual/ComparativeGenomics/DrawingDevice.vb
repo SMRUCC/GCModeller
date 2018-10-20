@@ -45,6 +45,7 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -180,10 +181,24 @@ Namespace ComparativeGenomics
                 g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
 
                 Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
+                Call drawRibbonColorLegend(g, model, top:=height + dLabel + size.Height, padding:=padding)
 
                 Return g.ImageResource
             End Using
         End Function
+
+        Private Sub drawRibbonColorLegend(gdi As Graphics2D, model As DrawingModel, top%, padding As Padding)
+            Dim min$ = model.RibbonScoreColors.scoreRange.Min
+            Dim max$ = model.RibbonScoreColors.scoreRange.Max
+            Dim legendSize As New Size(800, 1024)
+            Dim legend As Image = model.RibbonScoreColors _
+                .profiles _
+                .ColorMapLegend("Score Color", min, max,, False, lsize:=legendSize) _
+                .AsGDIImage
+            Dim left = gdi.Width - padding.Right - legendSize.Width - 20
+
+            Call gdi.DrawImageUnscaled(legend, left, top)
+        End Sub
 
         ''' <summary>
         ''' 绘制由于同源所产生的链接信息
