@@ -129,7 +129,7 @@ Namespace ComparativeGenomics
 
         <ExportAPI("model.from_gff")>
         Public Function ModelFromGFF(a As GFFTable, b As GFFTable) As DrawingModel
-
+            Dim genomeA = a.Features.asgenes
         End Function
 
         <ExportAPI("model.add_links_from_besthit")>

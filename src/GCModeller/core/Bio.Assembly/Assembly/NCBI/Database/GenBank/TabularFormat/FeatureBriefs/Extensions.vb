@@ -10,5 +10,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         Public Function COGs(genes As IEnumerable(Of GeneBrief)) As IEnumerable(Of String)
             Return From gene In genes Select gene.COG
         End Function
+
+
     End Module
 End Namespace
