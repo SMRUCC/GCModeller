@@ -69,22 +69,23 @@ Namespace ComparativeGenomics
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="RefPoint"></param>
-        ''' <param name="IdGrawingPositionDown">基因标号是否绘制与基因图形的下方</param>
+        ''' <param name="IdDrawPositionDown">基因标号是否绘制与基因图形的下方</param>
         ''' <param name="arrowRect">当前的基因对象所绘制的区域从这个参数进行返回</param>
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
         Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
-                                      convertFactor As Double,
+                                      scaleFactor As Double,
                                       ByRef arrowRect As Rectangle,
-                                      IdGrawingPositionDown As Boolean,
+                                      IdDrawPositionDown As Boolean,
                                       Font As Font,
                                       AlternativeArrowStyle As Boolean,
-                                      ByRef ID_conflictLayout As MapLabelLayout,
+                                      ByRef overlapLayout As MapLabelLayout,
                                       Optional drawConflictLine As Boolean = False) As Integer
-            Dim path As GraphicsPath
-            Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, convertFactor)
 
-            Me.ConvertFactor = convertFactor
+            Dim path As GraphicsPath
+            Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, scaleFactor)
+
+            Me.ConvertFactor = scaleFactor
 
             If Direction < 0 Then
                 If AlternativeArrowStyle Then
@@ -129,27 +130,28 @@ Namespace ComparativeGenomics
             Dim ptr As Point
             Dim conflicts As Boolean = False
 
-            If IdGrawingPositionDown Then
+            If IdDrawPositionDown Then
                 ptr = New Point(fleft, arrowRect.Bottom + offsets)
             Else
                 ptr = New Point(fleft, arrowRect.Top - offsets - size.Height)
             End If
 
-            ID_conflictLayout = New MapLabelLayout With {
-                .ConflictRegion = ID_conflictLayout _
+            overlapLayout = New MapLabelLayout With {
+                .OverlapRegion = overlapLayout _
                 .ForceNextLocation(New Rectangle With {
                     .Location = ptr,
                     .Size = New Size(size.Width, size.Height)
-                }, conflicts)
+                }, conflicts, IdDrawPositionDown)
             }
-            With ID_conflictLayout.ConflictRegion.Location
+
+            With overlapLayout.OverlapRegion.Location
                 Call g.DrawString(locus_tag, Font, brush:=Brushes.Black, x:= .X, y:= .Y)
 
                 If conflicts AndAlso drawConflictLine Then ' 在label的文和箭头之间画一条连线
                     Dim a, b As Point
-                    Dim textRect = ID_conflictLayout.ConflictRegion
+                    Dim textRect = overlapLayout.OverlapRegion
 
-                    If IdGrawingPositionDown Then
+                    If IdDrawPositionDown Then
                         ' 则连线在文本上方和箭头矩形的下方
                         a = New Point With {
                             .X = arrowRect.Left + arrowRect.Width / 2,
@@ -189,13 +191,13 @@ Namespace ComparativeGenomics
         ''' <summary>
         ''' 对于两个没有交叉的基因，不做任何附加处理。对于两个有相交部分的基因，则前一个基因会缩短以防止重叠，假若某一个基因完全的包裹另外一个基因，则也将不会做任何处理
         ''' </summary>
-        ''' <param name="NextLeft">这个是基因组上面的位置，不是画图的位置</param>
+        ''' <param name="nextLeft">这个是基因组上面的位置，不是画图的位置</param>
         ''' <param name="RefPoint">参数里面的<see cref="Point.X"></see>参数就是当前的这个基因在绘图的时候的<see cref="Left"></see>在图上面的位置</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function __nextLeft(Left As Integer, RefPoint As Point, NextLeft As Integer, ConvertFactor As Double) As Integer
-            NextLeft = ConvertFactor * (NextLeft - Left) + RefPoint.X
-            Return NextLeft
+        Private Shared Function __nextLeft(Left As Integer, RefPoint As Point, nextLeft As Integer, scaleFactor As Double) As Integer
+            nextLeft = scaleFactor * (nextLeft - Left) + RefPoint.X
+            Return nextLeft
         End Function
 
         ''' <summary>
@@ -205,27 +207,27 @@ Namespace ComparativeGenomics
         ''' <param name="RightLimit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Overrides Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-            Dim Graphic As New Drawing2D.GraphicsPath
-            Dim pt_lefttop As New Point(refLoci.X, refLoci.Y)
-            Dim pt_leftbottom As New Point(refLoci.X, refLoci.Y + Height)
+        Protected Overrides Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+            Dim shape As New GraphicsPath
+            Dim leftTop As New Point(refLoci.X, refLoci.Y)
+            Dim leftBottom As New Point(refLoci.X, refLoci.Y + Height)
 
-            Dim pt_rightbottom As New Point(refLoci.X + Length - HeadLength, pt_leftbottom.Y)
-            If pt_rightbottom.X > RightLimit Then
-                pt_rightbottom = New Point(RightLimit, pt_rightbottom.Y)
+            Dim rightBottom As New Point(refLoci.X + Length - HeadLength, leftBottom.Y)
+
+            If rightBottom.X > RightLimit Then
+                rightBottom = New Point(RightLimit, rightBottom.Y)
             End If
-            Dim pt_arrowHead As New Point(pt_rightbottom.X + HeadLength, pt_rightbottom.Y - 0.5 * Height)
-            Dim pt_righttop As New Point(pt_rightbottom.X, refLoci.Y)
 
-            Call Graphic.AddLine(pt_lefttop, pt_leftbottom)
-            Call Graphic.AddLine(pt_leftbottom, pt_rightbottom)
+            Dim arrowHead As New Point(rightBottom.X + HeadLength, rightBottom.Y - 0.5 * Height)
+            Dim rightTop As New Point(rightBottom.X, refLoci.Y)
 
-            Call Graphic.AddLine(pt_rightbottom, pt_arrowHead)
+            Call shape.AddLine(leftTop, leftBottom)
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightBottom, arrowHead)
+            Call shape.AddLine(arrowHead, rightTop)
+            Call shape.AddLine(rightTop, leftTop)
 
-            Call Graphic.AddLine(pt_arrowHead, pt_righttop)
-            Call Graphic.AddLine(pt_righttop, pt_lefttop)
-
-            Return Graphic
+            Return shape
         End Function
 
         ''' <summary>
@@ -235,25 +237,27 @@ Namespace ComparativeGenomics
         ''' <param name="RightLimit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Overrides Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-            Dim Graphic As New Drawing2D.GraphicsPath
-            Dim pt_lefttop As New Point(refLoci.X + HeadLength, refLoci.Y)
-            Dim pt_arrowHead As New Point(refLoci.X, pt_lefttop.Y + 0.5 * Height)
-            Dim pt_leftbottom As New Point(pt_lefttop.X, refLoci.Y + Height)
+        Protected Overrides Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+            Dim shape As New GraphicsPath
+            Dim leftTop As New Point(refLoci.X + HeadLength, refLoci.Y)
+            Dim arrowHead As New Point(refLoci.X, leftTop.Y + 0.5 * Height)
+            Dim leftBottom As New Point(leftTop.X, refLoci.Y + Height)
 
-            Dim pt_righttop As New Point(refLoci.X + Length, refLoci.Y)
-            If pt_righttop.X > RightLimit Then
-                pt_righttop = New Point(RightLimit, pt_righttop.Y)
+            Dim rightTop As New Point(refLoci.X + Length, refLoci.Y)
+
+            If rightTop.X > RightLimit Then
+                rightTop = New Point(RightLimit, rightTop.Y)
             End If
-            Dim pt_rightbottom As New Point(pt_righttop.X, pt_leftbottom.Y)
 
-            Call Graphic.AddLine(pt_lefttop, pt_arrowHead)
-            Call Graphic.AddLine(pt_arrowHead, pt_leftbottom)
-            Call Graphic.AddLine(pt_leftbottom, pt_rightbottom)
-            Call Graphic.AddLine(pt_righttop, pt_rightbottom)
-            Call Graphic.AddLine(pt_righttop, pt_lefttop)
+            Dim rightBottom As New Point(rightTop.X, leftBottom.Y)
 
-            Return Graphic
+            Call shape.AddLine(leftTop, arrowHead)
+            Call shape.AddLine(arrowHead, leftBottom)
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightTop, rightBottom)
+            Call shape.AddLine(rightTop, leftTop)
+
+            Return shape
         End Function
     End Class
 End Namespace

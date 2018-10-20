@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72f83596ebf3af70b6d58c87055d1749, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::207a6b3f23b60a166844e6149fea951c, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
     '                   Lipids, LoadFile
     ' 
-    '         Sub: __downloadsInternal, WorkspaceCleanup
+    '         Sub: downloadsInternal, WorkspaceCleanup
     ' 
     ' 
     ' /********************************************************************************/

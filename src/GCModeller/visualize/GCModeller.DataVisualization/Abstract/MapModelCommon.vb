@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::ace920b8ee2ee3568b8bccd5999fc913, visualize\GCModeller.DataVisualization\Abstract\MapModelCommon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class MapModelCommon
-    ' 
-    '     Properties: Color, Direction, HeadLength, Height, Left
-    '                 Length, Right
-    ' 
-    '     Function: CreateBackwardModel, CreateForwardModel, CreateNoneDirectionModel
-    ' 
-    ' /********************************************************************************/
+' Class MapModelCommon
+' 
+'     Properties: Color, Direction, HeadLength, Height, Left
+'                 Length, Right
+' 
+'     Function: CreateBackwardModel, CreateForwardModel, CreateNoneDirectionModel
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 
 ''' <summary>
 ''' 绘图模型的通用基本类型结构
@@ -131,32 +132,32 @@ Public MustInherit Class MapModelCommon
     ''' <param name="RightLimit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Protected Overridable Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-        Dim Graphic = New System.Drawing.Drawing2D.GraphicsPath
-        Dim pt_lefttop As System.Drawing.Point = New System.Drawing.Point(refLoci.X, refLoci.Y)
-        Dim pt_leftbottom As System.Drawing.Point = New System.Drawing.Point(refLoci.X, refLoci.Y + Height)
+    Protected Overridable Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+        Dim shape As New GraphicsPath
+        Dim pt_lefttop As New Point(refLoci.X, refLoci.Y)
+        Dim pt_leftbottom As New Point(refLoci.X, refLoci.Y + Height)
 
-        Dim pt_rightbottom As System.Drawing.Point = New System.Drawing.Point(refLoci.X + Length - HeadLength, pt_leftbottom.Y)
+        Dim pt_rightbottom As New Point(refLoci.X + Length - HeadLength, pt_leftbottom.Y)
         If pt_rightbottom.X > RightLimit Then
             pt_rightbottom = New Point(RightLimit, pt_rightbottom.Y)
         End If
-        Dim pt_rightbottombottom = New System.Drawing.Point(pt_rightbottom.X, pt_rightbottom.Y + OFFSET)
+        Dim pt_rightbottombottom = New Point(pt_rightbottom.X, pt_rightbottom.Y + OFFSET)
 
-        Dim pt_arrowHead = New System.Drawing.Point(pt_rightbottom.X + HeadLength, pt_rightbottom.Y - 0.5 * Height)
+        Dim pt_arrowHead = New Point(pt_rightbottom.X + HeadLength, pt_rightbottom.Y - 0.5 * Height)
 
-        Dim pt_righttoptop = New System.Drawing.Point(pt_rightbottom.X, refLoci.Y - OFFSET)
-        Dim pt_righttop As System.Drawing.Point = New System.Drawing.Point(pt_rightbottom.X, refLoci.Y)
+        Dim pt_righttoptop = New Point(pt_rightbottom.X, refLoci.Y - OFFSET)
+        Dim pt_righttop As New Point(pt_rightbottom.X, refLoci.Y)
 
-        Call Graphic.AddLine(pt_lefttop, pt_leftbottom)
-        Call Graphic.AddLine(pt_leftbottom, pt_rightbottom)
-        Call Graphic.AddLine(pt_rightbottom, pt_rightbottombottom)
+        Call shape.AddLine(pt_lefttop, pt_leftbottom)
+        Call shape.AddLine(pt_leftbottom, pt_rightbottom)
+        Call shape.AddLine(pt_rightbottom, pt_rightbottombottom)
 
-        Call Graphic.AddLine(pt_rightbottombottom, pt_arrowHead)
-        Call Graphic.AddLine(pt_arrowHead, pt_righttoptop)
-        Call Graphic.AddLine(pt_righttoptop, pt_righttop)
-        Call Graphic.AddLine(pt_righttop, pt_lefttop)
+        Call shape.AddLine(pt_rightbottombottom, pt_arrowHead)
+        Call shape.AddLine(pt_arrowHead, pt_righttoptop)
+        Call shape.AddLine(pt_righttoptop, pt_righttop)
+        Call shape.AddLine(pt_righttop, pt_lefttop)
 
-        Return Graphic
+        Return shape
     End Function
 
     ''' <summary>
@@ -167,20 +168,20 @@ Public MustInherit Class MapModelCommon
     ''' <returns></returns>
     ''' <remarks></remarks>
     Protected Overridable Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-        Dim Graphic As New Drawing2D.GraphicsPath
-        Dim pt_lefttop As System.Drawing.Point = New System.Drawing.Point(refLoci.X + HeadLength, refLoci.Y)
-        Dim pt_lefttoptop As System.Drawing.Point = New System.Drawing.Point(pt_lefttop.X, pt_lefttop.Y - OFFSET)
+        Dim Graphic As New GraphicsPath
+        Dim pt_lefttop As New Point(refLoci.X + HeadLength, refLoci.Y)
+        Dim pt_lefttoptop As New Point(pt_lefttop.X, pt_lefttop.Y - OFFSET)
 
-        Dim pt_arrowHead As System.Drawing.Point = New System.Drawing.Point(refLoci.X, pt_lefttop.Y + 0.5 * Height)
+        Dim pt_arrowHead As New Point(refLoci.X, pt_lefttop.Y + 0.5 * Height)
 
-        Dim pt_leftbottombottom As System.Drawing.Point = New System.Drawing.Point(pt_lefttop.X, pt_lefttop.Y + Height + OFFSET)
-        Dim pt_leftbottom As System.Drawing.Point = New System.Drawing.Point(pt_lefttop.X, refLoci.Y + Height)
+        Dim pt_leftbottombottom As New Point(pt_lefttop.X, pt_lefttop.Y + Height + OFFSET)
+        Dim pt_leftbottom As New Point(pt_lefttop.X, refLoci.Y + Height)
 
-        Dim pt_righttop As System.Drawing.Point = New System.Drawing.Point(refLoci.X + Length, refLoci.Y)
+        Dim pt_righttop As New Point(refLoci.X + Length, refLoci.Y)
         If pt_righttop.X > RightLimit Then
             pt_righttop = New Point(RightLimit, pt_righttop.Y)
         End If
-        Dim pt_rightbottom As System.Drawing.Point = New System.Drawing.Point(pt_righttop.X, pt_leftbottom.Y)
+        Dim pt_rightbottom As New Point(pt_righttop.X, pt_leftbottom.Y)
 
         Call Graphic.AddLine(pt_lefttop, pt_lefttoptop)
         Call Graphic.AddLine(pt_lefttoptop, pt_arrowHead)
@@ -203,7 +204,7 @@ Public MustInherit Class MapModelCommon
     ''' <returns></returns>
     ''' <remarks></remarks>
     Protected Overridable Function CreateNoneDirectionModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
-        Dim Graphic As New Drawing2D.GraphicsPath
+        Dim Graphic As New GraphicsPath
         Dim pt_lefttop As New Point(refLoci.X, refLoci.Y)
         Dim pt_leftbottom As New Point(refLoci.X, refLoci.Y + Height)
         Dim pt_righttop As New Point(refLoci.X + Length, refLoci.Y)

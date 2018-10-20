@@ -53,15 +53,33 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace ComparativeGenomics
 
     Public Module ModelAPI
+
+        <Extension>
+        Public Function ReverseCopy(gene As GeneObject, genomeSize%) As GeneObject
+            Dim left = genomeSize - gene.Left
+            Dim right = genomeSize - gene.Right
+
+            Return New GeneObject With {
+                .Right = left,
+                .Left = right,
+                .Color = gene.Color,
+                .Direction = gene.Direction,
+                .geneName = gene.geneName,
+                .Height = gene.Height,
+                .locus_tag = gene.locus_tag,
+                .offsets = gene.offsets
+            }
+        End Function
 
         Public Function GetMethod(type As Integer) As GetDrawingID
             Select Case type
@@ -86,7 +104,7 @@ Namespace ComparativeGenomics
         ''' 
         <Extension>
         Public Function CreateObject(anno As GeneDumpInfo(),
-                                     nt As FASTA.FastaSeq,
+                                     nt As FastaSeq,
                                      Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As GenomeModel
 
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(anno, COGsColor))
@@ -141,70 +159,75 @@ Namespace ComparativeGenomics
         ''' <returns></returns>
         Public Function CreateObject(PTT As PTT, Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As GenomeModel
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(PTT.GeneObjects, COGsColor))
+
             Return New GenomeModel With {
                 .Length = PTT.Size,
                 .Title = PTT.Title,
-                .genes = LinqAPI.Exec(Of GeneObject) <= From gene As GeneBrief
-                                                        In PTT.GeneObjects
-                                                        Let COG As String = Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
-                                                        Select New GeneObject With {
-                                                            .Color = If(String.IsNullOrEmpty(COG), Brushes.Brown, colours(COG)),
-                                                            .Direction = gene.Location.Strand,
-                                                            .locus_tag = gene.Synonym,
-                                                            .geneName = gene.Product,
-                                                            .Left = gene.Location.Left,
-                                                            .Right = gene.Location.Right
-                                                        }
-                                                            }
+                .genes = LinqAPI.Exec(Of GeneObject) _
+                    () <= From gene As GeneBrief
+                          In PTT.GeneObjects
+                          Let COG As String = Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+                          Select New GeneObject With {
+                              .Color = colours.TryGetValue(COG, [default]:=Brushes.Brown),
+                              .Direction = gene.Location.Strand,
+                              .locus_tag = gene.Synonym,
+                              .geneName = gene.Product,
+                              .Left = gene.Location.Left,
+                              .Right = gene.Location.Right
+                          }
+                              }
         End Function
 
+        Friend ReadOnly defaultColor As DefaultValue(Of Color) = Color.Brown
+        Friend ReadOnly defaultBrush As DefaultValue(Of Brush) = New SolidBrush(defaultColor)
+
         ''' <summary>
-        ''' 
+        ''' 通用的绘图模型的构建方法
         ''' </summary>
-        ''' <param name="PTT"></param>
+        ''' <param name="genes"></param>
         ''' <param name="len"></param>
         ''' <param name="title"></param>
         ''' <param name="COGsColor"></param>
-        ''' <param name="__getId">Public Delegate Function GetDrawingID(Gene As <see cref="GeneBrief"/>) As <see cref="String"/></param>
+        ''' <param name="getId">Public Delegate Function GetDrawingID(Gene As <see cref="GeneBrief"/>) As <see cref="String"/></param>
         ''' <param name="region">Region of a gene cluster in a large genome.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function CreateObject(PTT As GeneBrief(), len As Integer, title As String, __getId As GetDrawingID,
-                                     Optional DefaultWhite As Boolean = False,
-                                     Optional COGsColor As ICOGsBrush = Nothing,
-                                     Optional region As Loci.Location = Nothing) As GenomeModel
+        ''' 
+        <Extension>
+        Public Function CreateSyntenyGenome(genes As GeneBrief(), len%, title$, getId As GetDrawingID,
+                                            Optional defaultWhite As Boolean = False,
+                                            Optional COGsColor As ICOGsBrush = Nothing,
+                                            Optional region As Loci.Location = Nothing) As GenomeModel
 
-            If COGsColor Is Nothing Then
-                COGsColor = PTT.COGsColorBrush(False, Nothing)
-            End If
-
-            Dim [default] As SolidBrush = If(DefaultWhite, Brushes.White, Brushes.Brown)
+            Dim [default] As SolidBrush = Brushes.White Or Brushes.Brown.When(Not defaultWhite)
+            Dim COGbrush As ICOGsBrush = COGsColor Or genes.COGsColorBrush(False, Nothing).AsDefault
             Dim getColor = Function(gene As GeneBrief)
                                If gene.COG.StringEmpty Then
-                                   If DefaultWhite Then
+                                   If defaultWhite Then
                                        Return Brushes.White
                                    Else
-                                       Return COGsColor(gene)
+                                       Return COGbrush(gene)
                                    End If
                                Else
-                                   Return COGsColor(gene)
+                                   Return COGbrush(gene)
                                End If
                            End Function
 
             Return New GenomeModel With {
                 .Length = len,
                 .Title = title,
-                .genes = LinqAPI.Exec(Of GeneObject) <= From gene As GeneBrief
-                                                        In PTT
-                                                        Let c As Brush = getColor(gene)
-                                                        Select New GeneObject With {
-                                                             .Color = c,
-                                                             .Direction = gene.Location.Strand,
-                                                             .locus_tag = __getId(gene),
-                                                             .geneName = gene.Product,
-                                                             .Left = gene.Location.Left,
-                                                             .Right = gene.Location.Right
-                                                        }
+                .genes = LinqAPI.Exec(Of GeneObject) _
+                    () <= From gene As GeneBrief
+                          In genes
+                          Let c As Brush = getColor(gene)
+                          Select New GeneObject With {
+                               .Color = c,
+                               .Direction = gene.Location.Strand,
+                               .locus_tag = getId(gene),
+                               .geneName = gene.Product,
+                               .Left = gene.Location.Left,
+                               .Right = gene.Location.Right
+                          }
             }
         End Function
 
@@ -215,17 +238,23 @@ Namespace ComparativeGenomics
                                        Optional CustomCOGMapping As Boolean = False,
                                        Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As ICOGsBrush
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(PTT, COGsColor))
-            Dim __getCOG = Function(gene As GeneBrief) As String
-                               If String.IsNullOrEmpty(gene.COG) Then
-                                   Return ""
-                               Else
-                                   Return If(CustomCOGMapping,
-                                       gene.COG,
-                                       Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value)
-                               End If
-                           End Function
+            Dim getCOG = Function(gene As GeneBrief) As String
+                             If String.IsNullOrEmpty(gene.COG) Then
+                                 Return ""
+                             ElseIf CustomCOGMapping Then
+                                 Return gene.COG
+                             Else
+                                 Return Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+                             End If
+                         End Function
 
-            Return Function(gene) colours(__getCOG(gene))
+            If colours.Count = 0 Then
+                Call "No COG color profile, program will use default color: Brown".Warning
+            End If
+
+            Return Function(gene)
+                       Return colours.TryGetValue(getCOG(gene), [default]:=defaultBrush)
+                   End Function
         End Function
 
         Public Function SynonymAsID(gene As GeneBrief) As String
