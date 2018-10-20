@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C54031F0-8BF6-4A21-8598-B88C80A48473}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Synteny.test</StartupObject>
+    <StartupObject>Synteny.Program</StartupObject>
     <RootNamespace>Synteny</RootNamespace>
     <AssemblyName>Synteny</AssemblyName>
     <FileAlignment>512</FileAlignment>
