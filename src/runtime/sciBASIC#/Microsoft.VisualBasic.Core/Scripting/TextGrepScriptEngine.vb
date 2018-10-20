@@ -113,6 +113,9 @@ Namespace Scripting
         ''' <summary>
         ''' 对用户所输入的脚本进行编译，对于内部的空格，请使用单引号``'``进行分割
         ''' </summary>
+        ''' <param name="scriptText">
+        ''' 如果这个参数传递的是一个空字符串，那么这个函数将会直接返回<see cref="DoNothing"/>脚本
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("compile", Info:="", Usage:="script_tokens1;script_tokens2;....", Example:="")>
