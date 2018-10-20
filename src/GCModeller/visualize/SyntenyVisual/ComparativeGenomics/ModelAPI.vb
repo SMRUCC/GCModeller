@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace ComparativeGenomics
 
@@ -86,7 +86,7 @@ Namespace ComparativeGenomics
         ''' 
         <Extension>
         Public Function CreateObject(anno As GeneDumpInfo(),
-                                     nt As FASTA.FastaSeq,
+                                     nt As FastaSeq,
                                      Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As GenomeModel
 
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(anno, COGsColor))

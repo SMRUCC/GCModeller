@@ -47,7 +47,9 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
@@ -110,12 +112,10 @@ Namespace ComparativeGenomics
         End Function
 
         <ExportAPI("model.from_ptt")>
-        Public Function ModelFromPTT(a As TabularFormat.PTT, b As TabularFormat.PTT) As DrawingModel
-            Dim COGs As String() = New List(Of String)(From gene As GeneBrief
-                                                       In a.GeneObjects
-                                                       Select gene.COG) + From gene As GeneBrief
-                                                                          In b.GeneObjects
-                                                                          Select gene.COG
+        Public Function ModelFromPTT(a As PTT, b As PTT) As DrawingModel
+            Dim COGs As String() = a.GeneObjects.COGs.AsList + From gene As GeneBrief
+                                                               In b.GeneObjects
+                                                               Select gene.COG
             Dim colours As Dictionary(Of String, Brush) =
                 RenderingColor.InitCOGColors(COGs) _
                .ToDictionary(Function(cl) cl.Key,
@@ -124,6 +124,11 @@ Namespace ComparativeGenomics
                 .Genome1 = ModelAPI.CreateObject(a, colours),
                 .Genome2 = ModelAPI.CreateObject(b, colours)
             }
+        End Function
+
+        <ExportAPI("model.from_gff")>
+        Public Function ModelFromGFF(a As GFFTable, b As GFFTable) As DrawingModel
+
         End Function
 
         <ExportAPI("model.add_links_from_besthit")>
