@@ -176,10 +176,10 @@ Namespace ComparativeGenomics
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Public Function CreateObject(genes As GeneBrief(), len%, title$, getId As GetDrawingID,
-                                     Optional defaultWhite As Boolean = False,
-                                     Optional COGsColor As ICOGsBrush = Nothing,
-                                     Optional region As Loci.Location = Nothing) As GenomeModel
+        Public Function CreateSyntenyGenome(genes As GeneBrief(), len%, title$, getId As GetDrawingID,
+                                            Optional defaultWhite As Boolean = False,
+                                            Optional COGsColor As ICOGsBrush = Nothing,
+                                            Optional region As Loci.Location = Nothing) As GenomeModel
 
             If COGsColor Is Nothing Then
                 COGsColor = genes.COGsColorBrush(False, Nothing)

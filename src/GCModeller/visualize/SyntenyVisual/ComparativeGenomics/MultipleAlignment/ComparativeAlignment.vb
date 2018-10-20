@@ -346,7 +346,7 @@ Namespace ComparativeAlignment
                                                  .COGsColorBrush(, COGColors)
             Dim LQuery As GenomeModel() =
                 loadPTT.Select(Function(x)
-                                   Return ComparativeGenomics.ModelAPI.CreateObject(x.GeneObjects,
+                                   Return ComparativeGenomics.ModelAPI.CreateSyntenyGenome(x.GeneObjects,
                                                                   x.Length,
                                                                   x.Title,
                                                                   getId:=Function(g) g.Synonym,

@@ -651,7 +651,7 @@ CONTINUTE:
                         TextureSource:=TextureSource)
                 End If
 
-                Dim models As GenomeModel = ModelAPI.CreateObject(
+                Dim models As GenomeModel = ModelAPI.CreateSyntenyGenome(
                     refQuery.GeneObjects,
                     refQuery.Size,
                     alignment.ToString,

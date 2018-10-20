@@ -11,6 +11,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Return From gene In genes Select gene.COG
         End Function
 
+        <Extension>
+        Public Function AsGenes(features As IEnumerable(Of GFF.Feature)) As IEnumerable(Of GeneBrief)
 
+        End Function
     End Module
 End Namespace
