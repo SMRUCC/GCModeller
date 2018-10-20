@@ -129,7 +129,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
                Usage:="--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
     Public Function DrawGenbank(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
-        Dim out As String = args.GetValue("/out", App.CurrentDirectory)
+        Dim out As String = args("/out") Or $"{gb.TrimSuffix}.maps/"
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
         Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
