@@ -14,6 +14,9 @@ Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 对于常见的fasta标题，可以使用脚本``tokens | first``
+    ''' </remarks>
     <ExportAPI("/mapping.plot")>
     <Usage("/mapping.plot /mapping <blastn_mapping.csv> /query <query.gff3> /ref <subject.gff3> [/grep <default=""-""> /out <Synteny.png>]")>
     Public Function PlotMapping(args As CommandLine) As Integer
