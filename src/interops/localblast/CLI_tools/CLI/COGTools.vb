@@ -73,6 +73,12 @@ Partial Module CLI
     <ExportAPI("/COG.myva",
                Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
                Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
+    <Argument("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="This flag will change the output file format. 
+                  If this parameter value is presented, then the tool will outoput a simple tsv file;
+                  Otherwise output a csv file with complete COG assign result records."
+    )>
     Public Function COG_myva(args As CommandLine) As Integer
         Dim in$ = args <= "/blastp"
         Dim whog$ = args <= "/whog"
