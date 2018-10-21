@@ -63,12 +63,12 @@ Namespace DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property GeneObjects As DrawingModels.SegmentObject()
+        Public Property GeneObjects As SegmentObject()
         ''' <summary>
         ''' 基因的突变点的数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property MutationDatas As DrawingModels.MultationPointData()
+        Public Property MutationDatas As MultationPointData()
         ''' <summary>
         ''' 绘图设备的配置数据
         ''' </summary>
@@ -78,13 +78,13 @@ Namespace DrawingModels
         ''' 转录调控位点
         ''' </summary>
         ''' <returns></returns>
-        Public Property MotifSites As DrawingModels.MotifSite()
+        Public Property MotifSites As MotifSite()
         ''' <summary>
         ''' 基因的转录起始位点
         ''' </summary>
         ''' <returns></returns>
-        Public Property TSSs As DrawingModels.TSSs()
-        Public Property Loci As DrawingModels.Loci()
+        Public Property TSSs As TSSs()
+        Public Property Loci As Loci()
 
         ''' <summary>
         ''' COG分类的颜色配置

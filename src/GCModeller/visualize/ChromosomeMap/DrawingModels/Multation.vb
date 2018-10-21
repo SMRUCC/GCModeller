@@ -89,11 +89,13 @@ Namespace DrawingModels
         Protected Shared ReadOnly __drawingModel As New Dictionary(Of MutationTypes, Func(Of Point, Integer, Integer, Integer, GraphicsPath)) From {
             {MutationTypes.DeleteMutation, AddressOf GetDeleteMutationModel},
             {MutationTypes.IntegrationMutant, AddressOf GetTriangleModel},
-            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel}}
+            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel}
+        }
 
         Protected Shared ReadOnly __color As Dictionary(Of MutationTypes, Color) = New Dictionary(Of MutationTypes, Color) From {
             {MutationTypes.DeleteMutation, Color.Red},
-            {MutationTypes.IntegrationMutant, Color.Blue}}
+            {MutationTypes.IntegrationMutant, Color.Blue}
+        }
 
         Public Overrides Sub Draw(Device As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
             Dim GraphModel = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)

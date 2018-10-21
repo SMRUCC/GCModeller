@@ -198,10 +198,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromesomeDrawingModel.vb" />
+    <Compile Include="DrawingModels\ChromesomeDrawingModel.vb" />
     <Compile Include="ChromesomeMapAPI.vb" />
     <Compile Include="DrawingModels\Abstract.vb" />
-    <Compile Include="Module1.vb" />
+    <Compile Include="RegionMap.vb" />
     <Compile Include="PlasmidAnnotation.vb" />
     <Compile Include="Configuration\DataReader.vb" />
     <Compile Include="Configuration\Config.vb" />
