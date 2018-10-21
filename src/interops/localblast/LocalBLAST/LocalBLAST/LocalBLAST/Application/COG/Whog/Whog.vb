@@ -1,51 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::6b6c4d038ed1292ef89813a0e70ca7ef, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Whog
-    ' 
-    '         Properties: Categories
-    ' 
-    '         Function: [Imports], __assignInvoke, FindByCogId, MatchCogCategory, Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Whog
+' 
+'         Properties: Categories
+' 
+'         Function: [Imports], __assignInvoke, FindByCogId, MatchCogCategory, Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.RpsBLAST.Whog
@@ -55,10 +57,11 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <XmlType("NCBI.whog", [Namespace]:="ftp://ftp.ncbi.nih.gov/pub/COG/COG/whog")>
-    Public Class Whog : Inherits ITextFile
+    <XmlType("NCBI.whog", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
+    Public Class Whog : Inherits XmlDataModel
 
-        <XmlElement> Public Property Categories As Category()
+        <XmlElement("categories", [Namespace]:=GCModeller)>
+        Public Property Categories As Category()
             Get
                 Return _COGCategory
             End Get
@@ -75,16 +78,23 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         Dim _COGCategory As Category()
         Dim _categoryTable As Dictionary(Of String, Category)
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Public Sub New()
+            xmlns = New XmlSerializerNamespaces
+            xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
+            xmlns.Add("ncbi", Category.NCBI_COG)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function FindByCogId(CogId As String) As Category
-            If _categoryTable.ContainsKey(CogId) Then
-                Return _categoryTable(CogId)
-            Else
-                Return Nothing
-            End If
+            Return _categoryTable.TryGetValue(CogId)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Widening Operator CType(path As String) As Whog
-            Return path.LoadTextDoc(Of Whog)()
+            Return path.LoadXml(Of Whog)()
         End Operator
 
         ''' <summary>
@@ -118,7 +128,8 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function MatchCogCategory(MatchedData As IEnumerable(Of MyvaCOG)) As MyvaCOG()
-            Dim LQuery = (From prot As MyvaCOG In MatchedData.AsParallel
+            Dim LQuery = (From prot As MyvaCOG
+                          In MatchedData.AsParallel
                           Let assignCOG As MyvaCOG = __assignInvoke(prot)
                           Select assignCOG).ToArray
             Return LQuery
@@ -136,7 +147,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
                        Select entry).FirstOrDefault
 
             If Cog Is Nothing Then
-                Call $"Could Not found the COG category id for myva cog {prot.QueryName} <-> {prot.MyvaCOG}....".__DEBUG_ECHO
+                Call $"Could Not found the COG category id for myva cog {prot.QueryName} <-> {prot.MyvaCOG}....".Warning
                 Return prot
             End If
 
@@ -153,8 +164,10 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         ''' <param name="FilePath"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), getEncoding(Encoding))
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Save(filePath$, Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(filePath, Encoding Or UTF8)
         End Function
     End Class
 End Namespace
