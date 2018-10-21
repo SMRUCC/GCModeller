@@ -27,7 +27,9 @@ Public Module RegionMap
                          Optional bg$ = "white",
                          Optional geneShapeHeight% = 85,
                          Optional locusTagFontCSS$ = CSSFont.Win7Normal,
-                         Optional disableLevelSkip As Boolean = False) As GraphicsData
+                         Optional disableLevelSkip As Boolean = False,
+                         Optional referenceLineStroke$ = Stroke.AxisStroke,
+                         Optional drawLocusTag As Boolean = False) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
@@ -36,15 +38,34 @@ Public Module RegionMap
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
-                Dim top = region.Padding.Bottom
+                Dim top = region.Padding.Top
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
 
+                If disableLevelSkip Then
+                    ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
+                    Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
+                    Dim right As New Point(width - margin.Right, left.Y)
+                    Dim refLineStroke As Pen = Stroke.TryParse(referenceLineStroke)
+
+                    Call g.DrawLine(refLineStroke, left, right)
+                End If
+
                 For Each gene As SegmentObject In model.GeneObjects
-                    If gene.Left < preRight Then
-                        level += 1
+
+                    If disableLevelSkip Then
+                        If gene.Left < preRight Then
+                            gene.Left = preRight
+                        Else
+                            level = 0
+                        End If
                     Else
-                        level = 0
+                        If gene.Left < preRight Then
+                            ' 前后的位置有冲突，则变化下一个基因图形的位置
+                            level += 1
+                        Else
+                            level = 0
+                        End If
                     End If
 
                     If gene.Left > preRight Then
@@ -55,15 +76,15 @@ Public Module RegionMap
 
                     Dim drawingLociLeft As Integer = (gene.Left - startLength) * scaleFactor + margin.Left
                     Dim Y = top + 100 + level * 110
-                    Dim drawingSize = gene.Draw(
+                    Dim drawingSize As Size = gene.Draw(
                         g:=g,
                         location:=New Point(drawingLociLeft, Y),
                         factor:=scaleFactor,
                         RightLimited:=model.Size,
-                        locusTagFont:=locusTagFont
+                        locusTagFont:=locusTagFont,
+                        drawLocusTag:=drawLocusTag
                     )
                 Next
-
             End Sub
 
         Return g.GraphicsPlots(

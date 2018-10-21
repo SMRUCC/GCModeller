@@ -139,13 +139,14 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
     End Function
 
     <ExportAPI("/draw.map.region")>
-    <Usage("/draw.map.region /gb <genome.gbk> [/size <default=10240,2048> /disable.level.skip /out <map.png>]")>
+    <Usage("/draw.map.region /gb <genome.gbk> [/size <default=10240,2048> /gene.draw.height <default=85> /disable.level.skip /out <map.png>]")>
     Public Function DrawMapRegion(args As CommandLine) As Integer
         Dim in$ = args <= "/gb"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.map.png"
         Dim PTT As PTT = GBFF.File.Load([in]).GbffToPTT(ORF:=True)
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT)
         Dim disableLevelSkip As Boolean = args("/disable.level.skip")
+        Dim geneDrawHeight% = args("/gene.draw.height") Or 85
 
         Return RegionMap.Plot(
             model:=model,
