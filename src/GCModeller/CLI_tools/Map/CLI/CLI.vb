@@ -157,7 +157,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
         With args("/cog").DefaultValue
             If .FileExists(True) Then
-                model = model.ApplyCogColorProfile(.LoadCsv(Of MyvaCOG))
+                model = model.ApplyCogColorProfile(.LoadCsv(Of MyvaCOG), 235)
             End If
         End With
 

@@ -59,9 +59,13 @@ Namespace DrawingModels
         ''' <param name="chromesome"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ApplyingCOGCategoryColor(Of MyvaCOG As ICOGCatalog)(genes As MyvaCOG(), chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+        Public Function ApplyingCOGCategoryColor(Of MyvaCOG As ICOGCatalog)(
+                        genes As MyvaCOG(),
+                        chromesome As ChromesomeDrawingModel,
+                        Optional alpha% = 230) As ChromesomeDrawingModel
+
             Dim colorProfiles As Dictionary(Of String, Brush) = RenderingColor _
-                .InitCOGColors(Nothing) _
+                .InitCOGColors(Nothing, alpha) _
                 .ToDictionary(Function(obj) obj.Key,
                               Function(obj) CType(New SolidBrush(obj.Value), Brush))
             With chromesome
