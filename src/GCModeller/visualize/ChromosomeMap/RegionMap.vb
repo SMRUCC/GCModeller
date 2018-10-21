@@ -26,7 +26,8 @@ Public Module RegionMap
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
                          Optional geneShapeHeight% = 85,
-                         Optional locusTagFontCSS$ = CSSFont.Win7Normal) As GraphicsData
+                         Optional locusTagFontCSS$ = CSSFont.Win7Normal,
+                         Optional disableLevelSkip As Boolean = False) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#

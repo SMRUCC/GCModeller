@@ -84,8 +84,8 @@ Public MustInherit Class MapModelCommon
     ''' 箭头长度的最低限制
     ''' </summary>
     ''' <remarks></remarks>
-    Public Const HeadLengthLowerBound As Integer = 75
-    Public Const HeaderMaxLength% = 125
+    Public Const HeadLengthLowerBound As Integer = 100
+    Public Const HeaderMaxLength% = 200
 
     ''' <summary>
     ''' 所绘制的基因对象的箭头的长度，其单位与<see cref="Length"></see>属性一致，都是像素，即这个属性值是已经换算过的
