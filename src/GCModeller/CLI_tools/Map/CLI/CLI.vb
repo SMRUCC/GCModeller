@@ -148,7 +148,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim disableLevelSkip As Boolean = args("/disable.level.skip")
         Dim geneDrawHeight% = args("/gene.draw.height") Or 85
 
-        With args("/cog.csv").DefaultValue
+        With args("/cog").DefaultValue
             If .FileExists(True) Then
                 model = model.ApplyCogColorProfile(.LoadCsv(Of MyvaCOG))
             End If
