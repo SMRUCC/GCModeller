@@ -42,6 +42,9 @@
 
 Namespace PlasmidMap
 
+    ''' <summary>
+    ''' 全基因组图谱的绘制是线性的，而plasmid图谱则是圆环状的
+    ''' </summary>
     Public Class PlasmidMapDrawingModel
 
         Public Property GeneObjects As PlasmidMap.DrawingModels.SegmentObject()

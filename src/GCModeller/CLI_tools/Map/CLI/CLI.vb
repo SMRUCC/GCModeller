@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::9baded6e16fe91440e0a2a0c765e71bd, CLI_tools\Map\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Draw, DrawGenbank, DrawingChrMap, WriteConfigTemplate
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Draw, DrawGenbank, DrawingChrMap, WriteConfigTemplate
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -129,11 +130,28 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
                Usage:="--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
     Public Function DrawGenbank(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
-        Dim out As String = args.GetValue("/out", App.CurrentDirectory)
-        Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
+        Dim out As String = args("/out") Or $"{gb.TrimSuffix}.maps/"
+        Dim confInf As String = args("/conf") Or $"{out}/config.inf"
         Dim COG As String = args("/COG")
         Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
 
         Return PTT.Draw(COG, confInf, out)
+    End Function
+
+    <ExportAPI("/draw.map.region")>
+    <Usage("/draw.map.region /gb <genome.gbk> [/out <map.png>]")>
+    Public Function DrawMapRegion(args As CommandLine) As Integer
+        Dim in$ = args <= "/gb"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.map.png"
+        Dim PTT As PTT = GBFF.File.Load([in]).GbffToPTT(ORF:=True)
+        Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT)
+
+        Return RegionMap.Plot(
+            model:=model,
+            size:="5000,2000",
+            padding:=g.DefaultPadding
+        ).AsGDIImage _
+         .SaveAs(out) _
+         .CLICode
     End Function
 End Module

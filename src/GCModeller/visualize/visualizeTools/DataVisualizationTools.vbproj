@@ -221,10 +221,6 @@
     <Compile Include="NCBIBlastResult\BlastVisualize.vb" />
     <Compile Include="NCBIBlastResult\ColorSchema.vb" />
     <Compile Include="NCBIBlastResult\VennBesthit.vb" />
-    <Compile Include="PlasmidMap\PlasmidMap.vb" />
-    <Compile Include="PlasmidMap\DrawingDevice.vb" />
-    <Compile Include="PlasmidMap\SegmentObject.vb" />
-    <Compile Include="PlasmidMap\ShellScriptAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
