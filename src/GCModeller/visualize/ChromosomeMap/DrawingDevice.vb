@@ -331,7 +331,7 @@ Public Class DrawingDevice
                                             location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
                                             factor:=scaleFactor,
                                             RightLimited:=RightEnd,
-                                            conf:=Me.config)
+                                            locusTagFont:=Me.config.LocusTagFont)
         Next
 
         __args.startLen = _Start_Length

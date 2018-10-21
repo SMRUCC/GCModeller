@@ -160,13 +160,12 @@ Namespace DrawingModels
                              location As Point,
                              factor As Double,
                              RightLimited As Integer,
-                             conf As Configuration.DataReader) As Size
+                             locusTagFont As Font) As Size
 
             Dim GraphicPath As GraphicsPath
             Dim LocusTagLocation As Integer = location.X
-            Dim Font As Font, size As SizeF
-
-            Font = conf.LocusTagFont
+            Dim Font As Font = locusTagFont
+            Dim size As SizeF
 
             Me.ConvertFactor = factor
 
@@ -198,12 +197,12 @@ Namespace DrawingModels
             MaxLength = Math.Max(size.Width, Length)
             LocusTagLocation = location.X
             If size.Width > Length Then
-                LocusTagLocation -= 0.5 * Global.System.Math.Abs(Length - size.Width)
+                LocusTagLocation -= 0.5 * Math.Abs(Length - size.Width)
             Else
-                LocusTagLocation += 0.5 * Global.System.Math.Abs(Length - size.Width)
+                LocusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
             pLocusTagLocation = New Point(LocusTagLocation, pLocusTagLocation.Y + Height + 10 + size.Height + LocusTagOffset)
-            Call g.DrawString(Me.CommonName, conf.LocusTagFont, Brushes.Black, pLocusTagLocation)
+            Call g.DrawString(Me.CommonName, locusTagFont, Brushes.Black, pLocusTagLocation)
 
             Font = New Font("Microsoft YaHei", 6)
 
