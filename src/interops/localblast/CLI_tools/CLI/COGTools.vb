@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -72,7 +73,7 @@ Partial Module CLI
 
     <ExportAPI("/COG.myva",
                Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
-               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /simple /out <out.csv/txt>]")>
+               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /grep <donothing> /simple /out <out.csv/txt>]")>
     <Argument("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
               AcceptTypes:={GetType(Boolean)},
               Description:="This flag will change the output file format. 
@@ -97,6 +98,18 @@ Partial Module CLI
                     Return query.Trim.GetTagValue(" ").Value
                 End Function)
         End If
+
+        With args <= "/grep"
+            If Not .StringEmpty Then
+                Dim grep As TextGrepMethod = TextGrepScriptEngine _
+                    .Compile(.ByRef) _
+                    .PipelinePointer
+
+                For Each protein As MyvaCOG In result
+                    protein.QueryName = grep(protein.QueryName)
+                Next
+            End If
+        End With
 
         If simple Then
             Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
