@@ -30,12 +30,14 @@ Public Module RegionMap
                          Optional disableLevelSkip As Boolean = False,
                          Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
                          Optional drawLocusTag As Boolean = False,
-                         Optional drawShapeStroke As Boolean = False) As GraphicsData
+                         Optional drawShapeStroke As Boolean = False,
+                         Optional legendFontCSS$ = CSSFont.Win7Large) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
         Dim level%
         Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
+        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
@@ -87,6 +89,14 @@ Public Module RegionMap
                         drawShapeStroke:=drawShapeStroke
                     )
                 Next
+
+                Call g.DrawingCOGColors(
+                    model.COGs,
+                    ref:=New Point(margin, region.Height - margin.Bottom * 2),
+                    legendFont:=legendFont,
+                    width:=width,
+                    margin:=margin.Left
+                )
             End Sub
 
         Return g.GraphicsPlots(
