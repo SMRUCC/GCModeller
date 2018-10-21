@@ -148,7 +148,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
         Return RegionMap.Plot(
             model:=model,
-            size:="5000,2000",
+            size:="8000,2000",
             padding:=g.DefaultPadding
         ).AsGDIImage _
          .SaveAs(out) _

@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
@@ -11,6 +12,16 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 ''' </summary>
 Public Module RegionMap
 
+    ''' <summary>
+    ''' 只绘制一个局部的区域图形，所以不会出现换行的情况
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="padding$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="geneShapeHeight%"></param>
+    ''' <param name="locusTagFontCSS$"></param>
+    ''' <returns></returns>
     Public Function Plot(model As ChromesomeDrawingModel,
                          Optional size$ = "5000,2000",
                          Optional padding$ = g.DefaultPadding,
@@ -18,9 +29,7 @@ Public Module RegionMap
                          Optional geneShapeHeight% = 85,
                          Optional locusTagFontCSS$ = CSSFont.Win7Normal) As GraphicsData
 
-        Dim nextLength%
-        Dim rightEnd%
-        Dim startLength%
+        Dim startLength% = 0
         Dim preRight#
         Dim level%
         Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
@@ -32,25 +41,6 @@ Public Module RegionMap
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
 
                 For Each gene As SegmentObject In model.GeneObjects
-                    If gene.Left > nextLength Then
-                        If nextLength >= model.Size Then
-                            rightEnd = width - (nextLength - model.Size) * scaleFactor - margin.Horizontal
-                        End If
-
-                        startLength = nextLength
-                        nextLength = nextLength
-
-                        ' 每换一行则首先绘制突变数据
-                        'Call drawChromosomeSites(Chr,
-                        '                               _start_Length:=_Start_Length,
-                        '                               FlagHeight:=FlagHeight,
-                        '                               FlagLength:=FlagLength,
-                        '                               GrDevice:=g,
-                        '                               Height:=height,
-                        '                               NextLength:=nextLength,
-                        '                               scale:=scaleFactor)
-                    End If
-
                     If gene.Left < preRight Then
                         level += 1
                     Else
@@ -69,7 +59,7 @@ Public Module RegionMap
                         g:=g,
                         location:=New Point(drawingLociLeft, Y),
                         factor:=scaleFactor,
-                        RightLimited:=rightEnd,
+                        RightLimited:=model.Size,
                         locusTagFont:=locusTagFont
                     )
                 Next
