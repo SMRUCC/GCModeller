@@ -45,6 +45,8 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -144,5 +146,12 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim PTT As PTT = GBFF.File.Load([in]).GbffToPTT(ORF:=True)
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT)
 
+        Return RegionMap.Plot(
+            model:=model,
+            size:="5000,2000",
+            padding:=g.DefaultPadding
+        ).AsGDIImage _
+         .SaveAs(out) _
+         .CLICode
     End Function
 End Module
