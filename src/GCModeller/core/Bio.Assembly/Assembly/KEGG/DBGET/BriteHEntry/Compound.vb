@@ -327,7 +327,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Select(AddressOf BaseName) _
                 .Indexing
 
-            Using progress As New ProgressBar("Downloads others", 1, CLS:=True)
+            Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
                 Dim tick As New ProgressProvider(maxID)
                 Dim saveDIR = EXPORT & "/OtherUnknowns/"
                 Dim skip As Boolean = False
