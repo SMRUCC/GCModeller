@@ -140,8 +140,7 @@ Public Module RenderingColor
             Return GenerateColorProfiles(categories)
         End If
 
-        Dim CogCategory As COG.Function =
-            COG.Function.Default
+        Dim CogCategory As COG.Function = COG.Function.Default
         Dim f As Double = 255 / CogCategory.Catalogs.Length
         Dim R As Double = f
         Dim COGColors As New Dictionary(Of String, Color)

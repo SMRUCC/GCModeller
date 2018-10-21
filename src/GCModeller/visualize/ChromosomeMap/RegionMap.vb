@@ -44,6 +44,7 @@ Public Module RegionMap
                 Dim top = region.Padding.Top
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
+                Dim pos As Point
 
                 If disableLevelSkip Then
                     ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
@@ -90,9 +91,14 @@ Public Module RegionMap
                     )
                 Next
 
+                pos = New Point With {
+                    .X = margin.Left,
+                    .Y = region.Height - margin.Bottom * 2
+                }
+
                 Call g.DrawingCOGColors(
                     model.COGs,
-                    ref:=New Point(margin, region.Height - margin.Bottom * 2),
+                    ref:=pos,
                     legendFont:=legendFont,
                     width:=width,
                     margin:=margin.Left

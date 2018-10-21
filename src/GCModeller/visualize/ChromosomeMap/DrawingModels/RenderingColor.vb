@@ -97,6 +97,9 @@ Namespace DrawingModels
                     End If
                 Next
 
+                ' 在这里需要填充一个空字符串表示cog not assign的颜色
+                ' 否则在绘制图例的时候任然是默认色，而非这个配置文件指定的颜色
+                colorProfiles("") = defaultCOG_color
                 .COGs = colorProfiles
             End With
 
