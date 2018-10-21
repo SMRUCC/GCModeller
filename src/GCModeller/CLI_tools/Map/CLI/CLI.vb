@@ -135,4 +135,14 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
         Return PTT.Draw(COG, confInf, out)
     End Function
+
+    <ExportAPI("/draw.map.region")>
+    <Usage("/draw.map.region /gb <genome.gbk> [/out <map.png>]")>
+    Public Function DrawMapRegion(args As CommandLine) As Integer
+        Dim in$ = args <= "/gb"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.map.png"
+        Dim PTT As PTT = GBFF.File.Load([in]).GbffToPTT(ORF:=True)
+        Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT)
+
+    End Function
 End Module

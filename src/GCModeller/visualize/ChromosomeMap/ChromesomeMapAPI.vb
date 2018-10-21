@@ -208,7 +208,7 @@ Public Module ChromesomeMapAPI
 
     <ExportAPI("Device.DefaultConfiguration")>
     Public Function GetDefaultConfiguration(<Parameter("Path.Save")> SaveFile As String) As Config
-        Dim df = Config.DefaultValue
+        Dim df As Config = Config.DefaultValue
         Call df.ToConfigDoc.SaveTo(SaveFile)
         Return df
     End Function
@@ -319,10 +319,10 @@ Public Module ChromesomeMapAPI
     End Function
 
     <ExportAPI("DrawingModel.From.PTT", Info:="Creates a basically simple drawing model object from the PTT file data.")>
-    Public Function FromPTT(PTT As PTT, conf As Config) As ChromesomeDrawingModel
-        With FromGenes(PTT, conf, PTT.Size)
+    Public Function FromPTT(PTT As PTT, Optional conf As Config = Nothing) As ChromesomeDrawingModel
+        With FromGenes(PTT, conf Or Config.DefaultValue, PTT.Size)
             .CDSCount = PTT.NumOfProducts
-            Return DirectCast(.ByRef, ChromesomeDrawingModel)
+            Return .ByRef
         End With
     End Function
 

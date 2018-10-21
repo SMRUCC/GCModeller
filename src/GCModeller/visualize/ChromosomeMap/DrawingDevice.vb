@@ -122,7 +122,7 @@ Public Class DrawingDevice
     End Sub
 
     Sub New(width As Integer, height As Integer)
-        config = Configuration.Config.DefaultValue.ToConfigurationModel
+        config = Configuration.Config.DefaultValue.DefaultValue.ToConfigurationModel
         _Width = width
         _Height = height
         SPLIT_HEIGHT = height / 11
@@ -135,7 +135,7 @@ Public Class DrawingDevice
         _Width = Width
         _Height = (6 / 19) * Width
         SPLIT_HEIGHT = _Height / 11
-        config = Configuration.Config.DefaultValue.ToConfigurationModel
+        config = Configuration.Config.DefaultValue.DefaultValue.ToConfigurationModel
         scaleFactor = (Width - 4 * margin) / unitLength
         Call __initialization()
     End Sub
