@@ -96,8 +96,7 @@ Namespace DrawingModels
             Return String.Format("{0}:  [{1}, {2}]", LocusTag, Left, Right)
         End Function
 
-        Public Shared ReadOnly TextAlignments As Dictionary(Of String, __TextAlignment) =
-            New Dictionary(Of String, __TextAlignment) From {
+        Public Shared ReadOnly TextAlignments As New Dictionary(Of String, __TextAlignment) From {
  _
                 {"left", AddressOf LeftAligned},
                 {"middle", AddressOf MiddleAlignment},

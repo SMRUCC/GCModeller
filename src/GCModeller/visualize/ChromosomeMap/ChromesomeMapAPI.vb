@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::73afaaec1c29d0ee5166b64f5fec977e, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ChromesomeMapAPI
-    ' 
-    '     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
-    '               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
-    '               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
-    '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
-    '     Class __setRNAColorInvoke
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __setColor, __setColorBrush
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module ChromesomeMapAPI
+' 
+'     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
+'               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
+'               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
+'               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
+'     Class __setRNAColorInvoke
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __setColor, __setColorBrush
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -84,10 +85,10 @@ Public Module ChromesomeMapAPI
         Dim rand As New Random(5 * (Now.ToBinary Mod 23))
         Dim nSites = (From i As Integer In sites.Sequence.AsParallel
                       Let lociLeft As Integer = genome.Size * rand.NextDouble
-                      Let loci = New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(lociLeft, lociLeft + 1, lociLeft Mod 2 = 0)
+                      Let loci = New NucleotideLocation(lociLeft, lociLeft + 1, lociLeft Mod 2 = 0)
                       Select relateds = genome.GetRelatedGenes(loci), loci).ToArray
         Dim TSSs = (From obj In nSites.AsParallel
-                    Select New DrawingModels.TSSs With {
+                    Select New TSSs With {
                         .Left = obj.loci.Left,
                         .Comments = obj.relateds.Select(Function(x) x.ToString).JoinBy(vbCrLf),
                         .Right = obj.loci.Right,
@@ -325,6 +326,8 @@ Public Module ChromesomeMapAPI
         End With
     End Function
 
+    ReadOnly brown As DefaultValue(Of String) = NameOf(Color.Brown)
+
     ''' <summary>
     ''' 通常使用这个方法从PTT构件之中生成部分基因组的绘制模型数据
     ''' </summary>
@@ -341,13 +344,14 @@ Public Module ChromesomeMapAPI
                               <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
                               rangeLen As Integer) As ChromesomeDrawingModel
 #Region "Create gene models"
+        Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
         Dim geneModels = LinqAPI.Exec(Of SegmentObject) <=
  _
             From gene As GeneBrief
             In genes
             Let position As Location = gene.Location.Normalization
             Select gm = New SegmentObject With {
-                .Color = New SolidBrush(Color.Black),
+                .Color = New SolidBrush(defaultColor),
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
@@ -419,16 +423,17 @@ Public Module ChromesomeMapAPI
     <ExportAPI("DrawingModel.From.PTT")>
     Public Function FromPttObject(<Parameter("Bacterial.Genome", "Using the gene object model data that define in the database to construct the basically bacterial genome skeleton.")>
                                   genome As PTTDbLoader, conf As Config) As ChromesomeDrawingModel
-        Dim GeneObjects = (From GeneObject As GeneBrief
+        Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
+        Dim GeneObjects = (From gene As GeneBrief
                            In genome.Values.AsParallel
                            Select New SegmentObject With {
-                               .Color = New SolidBrush(Color.Black),
-                               .Product = GeneObject.Product,
-                               .LocusTag = GeneObject.Synonym,
-                               .CommonName = GeneObject.Gene,
-                               .Left = Global.System.Math.Min(GeneObject.Location.Left, GeneObject.Location.Right),
-                               .Right = Global.System.Math.Max(GeneObject.Location.Right, GeneObject.Location.Left),
-                               .Direction = GeneObject.Location.Strand
+                               .Color = New SolidBrush(defaultColor),
+                               .Product = gene.Product,
+                               .LocusTag = gene.Synonym,
+                               .CommonName = gene.Gene,
+                               .Left = Math.Min(gene.Location.Left, gene.Location.Right),
+                               .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                               .Direction = gene.Location.Strand
                                }).AsList
 
         Dim configurations = conf.ToConfigurationModel

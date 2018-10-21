@@ -240,27 +240,27 @@ Public Class DrawingDevice
         Dim _Start_Length = __args.startLen
         Dim FF As Boolean = False
         Dim isFirst As Boolean = __args.isFirst
-        Dim ChangeLine =
-            Function() As Boolean
-                If isFirst Then
-                    Height = Line * SPLIT_HEIGHT + margin
-                Else
-                    If FF Then
-                        Height = Line * SPLIT_HEIGHT + margin
-                    End If
-                End If
+        Dim ChangeLine = Function() As Boolean
+                             If isFirst Then
+                                 Height = Line * SPLIT_HEIGHT + margin
+                             Else
+                                 If FF Then
+                                     Height = Line * SPLIT_HEIGHT + margin
+                                 End If
+                             End If
 
-                If Height > _Height - margin Then
-                    ExitFor = True
-                End If
+                             If Height > _Height - margin Then
+                                 ExitFor = True
+                             End If
 
-                Line += 1
+                             Line += 1
 
-                Return ExitFor
-            End Function
+                             Return ExitFor
+                         End Function
         Dim RightEnd As Integer = _Width - 2 * margin
 
         Call ChangeLine()
+
         If isFirst Then
             Call drawRulerLine(g,
                                   Height:=Height,
@@ -277,8 +277,6 @@ Public Class DrawingDevice
                                            Height:=Height,
                                            NextLength:=NextLength, scale:=scaleFactor)
         End If
-
-        '    Dim PreDrawingRight As Integer
 
         For __args.locus = __args.locus To chr.GeneObjects.Length - 1
             Dim gene As SegmentObject = chr.GeneObjects(__args.locus)
@@ -307,6 +305,7 @@ Public Class DrawingDevice
                 _Start_Length = NextLength
                 NextLength = NextLength + unitLength
 
+                ' 每换一行则首先绘制突变数据
                 Call drawChromosomeSites(chr,
                                                _start_Length:=_Start_Length,
                                                FlagHeight:=FlagHeight,
@@ -314,7 +313,7 @@ Public Class DrawingDevice
                                                GrDevice:=g,
                                                Height:=Height,
                                                NextLength:=NextLength,
-                                               scale:=scaleFactor)       '每换一行则首先绘制突变数据
+                                               scale:=scaleFactor)
             End If
 
             If gene.Left < PreRight Then
