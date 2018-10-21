@@ -27,7 +27,7 @@ Public Module RegionMap
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
-                Dim height = region.Height
+                Dim top = region.Padding.Bottom
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
 
@@ -64,11 +64,14 @@ Public Module RegionMap
                     gene.Height = geneShapeHeight
 
                     Dim drawingLociLeft As Integer = (gene.Left - startLength) * scaleFactor + margin.Left
-                    Dim drawingSize = gene.Draw(g:=g,
-                                                    location:=New Point(drawingLociLeft, height + 100 + level * 110),
-                                                    factor:=scaleFactor,
-                                                    RightLimited:=rightEnd,
-                                                    locusTagFont:=locusTagFont)
+                    Dim Y = top + 100 + level * 110
+                    Dim drawingSize = gene.Draw(
+                        g:=g,
+                        location:=New Point(drawingLociLeft, Y),
+                        factor:=scaleFactor,
+                        RightLimited:=rightEnd,
+                        locusTagFont:=locusTagFont
+                    )
                 Next
 
             End Sub
