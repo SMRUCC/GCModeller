@@ -139,7 +139,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
     End Function
 
     <ExportAPI("/draw.map.region")>
-    <Usage("/draw.map.region /gb <genome.gbk> [/size <default=10240,2048> /gene.draw.height <default=85> /disable.level.skip /out <map.png>]")>
+    <Usage("/draw.map.region /gb <genome.gbk> [/COG <cog.csv> /size <default=10240,2048> /gene.draw.height <default=85> /disable.level.skip /out <map.png>]")>
     Public Function DrawMapRegion(args As CommandLine) As Integer
         Dim in$ = args <= "/gb"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.map.png"
@@ -147,6 +147,12 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT)
         Dim disableLevelSkip As Boolean = args("/disable.level.skip")
         Dim geneDrawHeight% = args("/gene.draw.height") Or 85
+
+        With args("/cog.csv").DefaultValue
+            If .FileExists(True) Then
+                model = model.ApplyCogColorProfile(.LoadCsv(Of MyvaCOG))
+            End If
+        End With
 
         Return RegionMap.Plot(
             model:=model,

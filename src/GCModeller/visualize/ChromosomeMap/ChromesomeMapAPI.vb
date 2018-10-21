@@ -189,6 +189,8 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("ColorProfiles.Apply.From.COGs")>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function ApplyCogColorProfile(Model As ChromesomeDrawingModel,
                                          <Parameter("COG.Myva")>
                                          MyvaCOG As IEnumerable(Of ICOGCatalog)) As ChromesomeDrawingModel
