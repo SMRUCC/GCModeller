@@ -49,6 +49,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
@@ -225,14 +226,14 @@ Namespace Configuration
             Return CSSFont.TryParse(css)
         End Function
 
-        Public Shared Function TypeOfAlignment(p As String) As SegmentObject.__TextAlignment
-            p = p.Trim.ToLower
-
-            If Not SegmentObject.TextAlignments.ContainsKey(p) Then
-                Return SegmentObject.TextAlignments("middle")
-            Else
-                Return SegmentObject.TextAlignments(p.ToLower)
-            End If
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function TypeOfAlignment(p As String) As TextPadding
+            Return LabelPaddingExtensions _
+                .TextAlignments _
+                .TryGetValue(
+                    index:=Strings.Trim(p).ToLower,
+                    [default]:=LabelPaddingExtensions.defaultPadding
+                )
         End Function
 
         Public Function GetDrawingSize(config As String) As Size
@@ -256,12 +257,12 @@ Namespace Configuration
             Return GetSaveImageFormat(config)
         End Function
 
-        Public Function GetTextAlignment(s As String) As TextAlignment
+        Public Function GetTextAlignment(s As String) As DataReader.TextAlignment
             Select Case s.ToLower.Trim
-                Case "left" : Return TextAlignment.Left
-                Case "right" : Return TextAlignment.Right
+                Case "left" : Return DataReader.TextAlignment.Left
+                Case "right" : Return DataReader.TextAlignment.Right
                 Case Else
-                    Return TextAlignment.Middle
+                    Return DataReader.TextAlignment.Middle
             End Select
         End Function
 #End Region

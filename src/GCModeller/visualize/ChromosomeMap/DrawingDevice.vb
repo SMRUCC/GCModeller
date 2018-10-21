@@ -98,7 +98,7 @@ Public Class DrawingDevice
 
     ReadOnly config As DataReader
     ReadOnly ruleFactor As Double
-    Dim textAlignmentMethod As SegmentObject.__TextAlignment
+    Dim textAlignmentMethod As TextPadding
     Dim unitText As String
 
     Public Property RulerFont As Font

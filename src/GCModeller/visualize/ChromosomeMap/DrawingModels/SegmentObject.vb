@@ -96,59 +96,6 @@ Namespace DrawingModels
             Return String.Format("{0}:  [{1}, {2}]", LocusTag, Left, Right)
         End Function
 
-        Public Shared ReadOnly TextAlignments As New Dictionary(Of String, __TextAlignment) From {
- _
-                {"left", AddressOf LeftAligned},
-                {"middle", AddressOf MiddleAlignment},
-                {"right", AddressOf RightAlignment}
-        }
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="segnmentLength"></param>
-        ''' <param name="headLength"></param>
-        ''' <param name="textLength"></param>
-        ''' <param name="p"></param>
-        ''' <returns>返回字符串的位置信息</returns>
-        ''' <remarks></remarks>
-        Public Delegate Function __TextAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="segnmentLength">基因对象的图形的绘制长度</param>
-        ''' <param name="textLength">使用MeasureString获取得到的字符串的绘制长度</param>
-        ''' <param name="p">基因对象额绘制坐标</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Shared Function LeftAligned(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
-            Return p
-        End Function
-
-        Private Shared Function RightAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
-            p = New Point(p.X + segnmentLength - textLength, p.Y)
-            p = __checkRightEndTrimmed(p, textLength, rightEnds)
-            Return p
-        End Function
-
-        Private Shared Function __checkRightEndTrimmed(p As Point, textLength As Integer, rightEnds As Integer) As Point
-            If p.X + textLength > rightEnds Then
-                Dim d = p.X + textLength - rightEnds
-                d = p.X - d
-                p = New Point(d, p.Y)
-            End If
-
-            Return p
-        End Function
-
-        Private Shared Function MiddleAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
-            Dim d As Integer = (segnmentLength - textLength) / 2
-            p = New Point(d + p.X - headLength, p.Y)
-            p = __checkRightEndTrimmed(p, textLength, rightEnds)
-            Return p
-        End Function
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -191,7 +138,7 @@ Namespace DrawingModels
                 locusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            Dim pLocusTagLocation = __checkRightEndTrimmed(New Point(locusTagLocation, location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
+            Dim pLocusTagLocation = checkRightEndTrimmed(New Point(locusTagLocation, location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
             Call g.DrawString(LocusTag, font, Brushes.Black, pLocusTagLocation)
 
             size = g.MeasureString(CommonName, font)
