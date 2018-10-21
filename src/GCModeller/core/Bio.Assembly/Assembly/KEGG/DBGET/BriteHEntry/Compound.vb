@@ -323,7 +323,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 End With
             Next
 
-            Dim success As Index(Of String) = (ls - l - r - "*.XML" <= EXPORT) _
+            Dim success As Index(Of String) = (ls - l - r - "*.xml" <= EXPORT) _
                 .Select(AddressOf BaseName) _
                 .Indexing
 
