@@ -166,7 +166,8 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             size:=args("/size") Or "10240,2048",
             padding:=g.DefaultPadding,
             disableLevelSkip:=disableLevelSkip,
-            drawShapeStroke:=drawShapeStroke
+            drawShapeStroke:=drawShapeStroke,
+            geneShapeHeight:=geneDrawHeight
         ).AsGDIImage _
          .SaveAs(out) _
          .CLICode
