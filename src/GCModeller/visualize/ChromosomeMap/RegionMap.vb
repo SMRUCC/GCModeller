@@ -11,50 +11,61 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 ''' </summary>
 Public Module RegionMap
 
+    ''' <summary>
+    ''' 只绘制一个局部的区域图形，所以不会出现换行的情况
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="padding$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="geneShapeHeight%"></param>
+    ''' <param name="locusTagFontCSS$"></param>
+    ''' <returns></returns>
     Public Function Plot(model As ChromesomeDrawingModel,
                          Optional size$ = "5000,2000",
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
                          Optional geneShapeHeight% = 85,
-                         Optional locusTagFontCSS$ = CSSFont.Win7Normal) As GraphicsData
+                         Optional locusTagFontCSS$ = CSSFont.Win7Normal,
+                         Optional disableLevelSkip As Boolean = False,
+                         Optional referenceLineStroke$ = Stroke.AxisStroke,
+                         Optional drawLocusTag As Boolean = False) As GraphicsData
 
-        Dim nextLength%
-        Dim rightEnd%
-        Dim startLength%
+        Dim startLength% = 0
         Dim preRight#
         Dim level%
         Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
-                Dim top = region.Padding.Bottom
+                Dim top = region.Padding.Top
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
 
+                If disableLevelSkip Then
+                    ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
+                    Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
+                    Dim right As New Point(width - margin.Right, left.Y)
+                    Dim refLineStroke As Pen = Stroke.TryParse(referenceLineStroke)
+
+                    Call g.DrawLine(refLineStroke, left, right)
+                End If
+
                 For Each gene As SegmentObject In model.GeneObjects
-                    If gene.Left > nextLength Then
-                        If nextLength >= model.Size Then
-                            rightEnd = width - (nextLength - model.Size) * scaleFactor - margin.Horizontal
+
+                    If disableLevelSkip Then
+                        If gene.Left < preRight Then
+                            gene.Left = preRight
+                        Else
+                            level = 0
                         End If
-
-                        startLength = nextLength
-                        nextLength = nextLength
-
-                        ' 每换一行则首先绘制突变数据
-                        'Call drawChromosomeSites(Chr,
-                        '                               _start_Length:=_Start_Length,
-                        '                               FlagHeight:=FlagHeight,
-                        '                               FlagLength:=FlagLength,
-                        '                               GrDevice:=g,
-                        '                               Height:=height,
-                        '                               NextLength:=nextLength,
-                        '                               scale:=scaleFactor)
-                    End If
-
-                    If gene.Left < preRight Then
-                        level += 1
                     Else
-                        level = 0
+                        If gene.Left < preRight Then
+                            ' 前后的位置有冲突，则变化下一个基因图形的位置
+                            level += 1
+                        Else
+                            level = 0
+                        End If
                     End If
 
                     If gene.Left > preRight Then
@@ -65,15 +76,15 @@ Public Module RegionMap
 
                     Dim drawingLociLeft As Integer = (gene.Left - startLength) * scaleFactor + margin.Left
                     Dim Y = top + 100 + level * 110
-                    Dim drawingSize = gene.Draw(
+                    Dim drawingSize As Size = gene.Draw(
                         g:=g,
                         location:=New Point(drawingLociLeft, Y),
                         factor:=scaleFactor,
-                        RightLimited:=rightEnd,
-                        locusTagFont:=locusTagFont
+                        RightLimited:=model.Size,
+                        locusTagFont:=locusTagFont,
+                        drawLocusTag:=drawLocusTag
                     )
                 Next
-
             End Sub
 
         Return g.GraphicsPlots(

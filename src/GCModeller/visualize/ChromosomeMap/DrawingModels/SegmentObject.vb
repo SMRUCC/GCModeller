@@ -107,7 +107,9 @@ Namespace DrawingModels
                              location As Point,
                              factor As Double,
                              RightLimited As Integer,
-                             locusTagFont As Font) As Size
+                             locusTagFont As Font,
+                             Optional drawLocusTag As Boolean = True,
+                             Optional showInfo As Boolean = False) As Size
 
             ' 基因对象的绘制图形
             Dim shape As GraphicsPath
@@ -130,7 +132,7 @@ Namespace DrawingModels
 
             size = g.MeasureString(LocusTag, font)
 
-            Dim MaxLength = Math.Max(size.Width, Length)
+            Dim maxLen! = Math.Max(size.Width, Length)
 
             If size.Width > Length Then
                 locusTagLocation -= 0.5 * Math.Abs(Length - size.Width)
@@ -138,19 +140,32 @@ Namespace DrawingModels
                 locusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            Dim pLocusTagLocation = checkRightEndTrimmed(New Point(locusTagLocation, location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
-            Call g.DrawString(LocusTag, font, Brushes.Black, pLocusTagLocation)
+            Dim locusTagPoint As New Point With {
+                .X = locusTagLocation,
+                .Y = location.Y - size.Height - LocusTagOffset
+            }
+            locusTagPoint = checkRightEndTrimmed(locusTagPoint, maxLen, RightLimited)
+
+            If drawLocusTag Then
+                Call g.DrawString(LocusTag, font, Brushes.Black, locusTagPoint)
+            End If
 
             size = g.MeasureString(CommonName, font)
-            MaxLength = Math.Max(size.Width, Length)
+            maxLen = Math.Max(size.Width, Length)
             locusTagLocation = location.X
+
             If size.Width > Length Then
                 locusTagLocation -= 0.5 * Math.Abs(Length - size.Width)
             Else
                 locusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
-            pLocusTagLocation = New Point(locusTagLocation, pLocusTagLocation.Y + Height + 10 + size.Height + LocusTagOffset)
-            Call g.DrawString(Me.CommonName, locusTagFont, Brushes.Black, pLocusTagLocation)
+
+            locusTagPoint = New Point With {
+                .X = locusTagLocation,
+                .Y = locusTagPoint.Y + Height + 10 + size.Height + LocusTagOffset
+            }
+
+            Call g.DrawString(Me.CommonName, locusTagFont, Brushes.Black, locusTagPoint)
 
             font = New Font("Microsoft YaHei", 6)
 
@@ -160,7 +175,13 @@ Namespace DrawingModels
                 locusTagLocation += (10 + HeadLength)
             End If
 
-            Call g.DrawString(Product, font, Brushes.DarkOliveGreen, New Point(locusTagLocation, location.Y + 5 + Height))
+            If showInfo Then
+                locusTagPoint = New Point With {
+                    .X = locusTagLocation,
+                    .Y = location.Y + 5 + Height
+                }
+                g.DrawString(Product, font, Brushes.DarkOliveGreen, locusTagPoint)
+            End If
 
 #If DEBUG Then
             Dim debugText$ = $"{Left / 1000} .. {Right / 1000} KBp"
@@ -169,7 +190,7 @@ Namespace DrawingModels
 
             Call g.DrawString(debugText, font, Brushes.White, New Point(debugX, debugY))
 #End If
-            Return New Size(MaxLength, Height)
+            Return New Size(maxLen, Height)
         End Function
     End Class
 End Namespace
