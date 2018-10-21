@@ -108,7 +108,7 @@ Public Module RegionMap
         Return g.GraphicsPlots(
             size.SizeParser, padding,
             bg,
-            plotInternal
+            plotInternal, Drivers.SVG
         )
     End Function
 End Module

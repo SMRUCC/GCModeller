@@ -168,8 +168,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             disableLevelSkip:=disableLevelSkip,
             drawShapeStroke:=drawShapeStroke,
             geneShapeHeight:=geneDrawHeight
-        ).AsGDIImage _
-         .SaveAs(out) _
+        ).Save(out) _
          .CLICode
     End Function
 End Module
