@@ -109,7 +109,8 @@ Namespace DrawingModels
                              RightLimited As Integer,
                              locusTagFont As Font,
                              Optional drawLocusTag As Boolean = True,
-                             Optional showInfo As Boolean = False) As Size
+                             Optional showInfo As Boolean = False,
+                             Optional drawShapeStroke As Boolean = True) As Size
 
             ' 基因对象的绘制图形
             Dim shape As GraphicsPath
@@ -127,7 +128,10 @@ Namespace DrawingModels
                 shape = CreateNoneDirectionModel(location, RightLimited)
             End If
 
-            Call g.DrawPath(New Pen(Brushes.Black, 5), shape)
+            If drawShapeStroke Then
+                Call g.DrawPath(New Pen(Brushes.Black, 5), shape)
+            End If
+
             Call g.FillPath(Me.Color, shape)
 
             size = g.MeasureString(LocusTag, font)

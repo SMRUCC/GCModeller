@@ -28,19 +28,23 @@ Public Module RegionMap
                          Optional geneShapeHeight% = 85,
                          Optional locusTagFontCSS$ = CSSFont.Win7Normal,
                          Optional disableLevelSkip As Boolean = False,
-                         Optional referenceLineStroke$ = Stroke.AxisStroke,
-                         Optional drawLocusTag As Boolean = False) As GraphicsData
+                         Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
+                         Optional drawLocusTag As Boolean = False,
+                         Optional drawShapeStroke As Boolean = False,
+                         Optional legendFontCSS$ = CSSFont.Win7Large) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
         Dim level%
         Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
+        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
                 Dim top = region.Padding.Top
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
+                Dim pos As Point
 
                 If disableLevelSkip Then
                     ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
@@ -82,15 +86,29 @@ Public Module RegionMap
                         factor:=scaleFactor,
                         RightLimited:=model.Size,
                         locusTagFont:=locusTagFont,
-                        drawLocusTag:=drawLocusTag
+                        drawLocusTag:=drawLocusTag,
+                        drawShapeStroke:=drawShapeStroke
                     )
                 Next
+
+                pos = New Point With {
+                    .X = margin.Left,
+                    .Y = region.Height - margin.Bottom * 2
+                }
+
+                Call g.DrawingCOGColors(
+                    model.COGs,
+                    ref:=pos,
+                    legendFont:=legendFont,
+                    width:=width,
+                    margin:=margin.Left
+                )
             End Sub
 
         Return g.GraphicsPlots(
             size.SizeParser, padding,
             bg,
-            plotInternal
+            plotInternal, Drivers.SVG
         )
     End Function
 End Module

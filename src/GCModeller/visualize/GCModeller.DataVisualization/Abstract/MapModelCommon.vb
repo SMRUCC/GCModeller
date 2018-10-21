@@ -96,7 +96,7 @@ Public MustInherit Class MapModelCommon
     Public Overridable ReadOnly Property HeadLength As Integer
         Get
             Dim Length As Integer = Math.Abs(Left - Right)
-            Dim n = Length * 0.3
+            Dim n = Length * 0.45
 
             ' 如果长度过小，则直接将基因对象画为一个三角形
             If n < HeadLengthLowerBound Then
