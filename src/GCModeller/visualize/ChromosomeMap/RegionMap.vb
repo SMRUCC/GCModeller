@@ -19,10 +19,7 @@ Public Module RegionMap
                          Optional locusTagFontCSS$ = CSSFont.Win7Normal) As GraphicsData
 
         Dim nextLength%
-        Dim ff As Boolean
         Dim rightEnd%
-        Dim scaleFactor#
-        Dim unitLength#
         Dim startLength%
         Dim preRight#
         Dim level%
@@ -32,17 +29,16 @@ Public Module RegionMap
                 Dim width = region.Width
                 Dim height = region.Height
                 Dim margin As Padding = region.Padding
+                Dim scaleFactor# = (width - margin.Horizontal) / model.Size
 
                 For Each gene As SegmentObject In model.GeneObjects
                     If gene.Left > nextLength Then
-                        ff = True  '这个变量确保能够正确的换行，不可以修改值以及顺序！~
-
                         If nextLength >= model.Size Then
                             rightEnd = width - (nextLength - model.Size) * scaleFactor - margin.Horizontal
                         End If
 
                         startLength = nextLength
-                        nextLength = nextLength + unitLength
+                        nextLength = nextLength
 
                         ' 每换一行则首先绘制突变数据
                         'Call drawChromosomeSites(Chr,
@@ -61,7 +57,9 @@ Public Module RegionMap
                         level = 0
                     End If
 
-                    If gene.Left > preRight Then preRight = gene.Right
+                    If gene.Left > preRight Then
+                        preRight = gene.Right
+                    End If
 
                     gene.Height = geneShapeHeight
 
