@@ -28,8 +28,9 @@ Public Module RegionMap
                          Optional geneShapeHeight% = 85,
                          Optional locusTagFontCSS$ = CSSFont.Win7Normal,
                          Optional disableLevelSkip As Boolean = False,
-                         Optional referenceLineStroke$ = Stroke.AxisStroke,
-                         Optional drawLocusTag As Boolean = False) As GraphicsData
+                         Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
+                         Optional drawLocusTag As Boolean = False,
+                         Optional drawShapeStroke As Boolean = False) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
@@ -82,7 +83,8 @@ Public Module RegionMap
                         factor:=scaleFactor,
                         RightLimited:=model.Size,
                         locusTagFont:=locusTagFont,
-                        drawLocusTag:=drawLocusTag
+                        drawLocusTag:=drawLocusTag,
+                        drawShapeStroke:=drawShapeStroke
                     )
                 Next
             End Sub

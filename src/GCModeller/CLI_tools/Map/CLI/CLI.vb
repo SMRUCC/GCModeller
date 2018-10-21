@@ -139,17 +139,21 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
     End Function
 
     <ExportAPI("/draw.map.region")>
-    <Usage("/draw.map.region /gb <genome.gbk> [/COG <cog.csv> /size <default=10240,2048> /default.color <default=brown> /gene.draw.height <default=85> /disable.level.skip /out <map.png>]")>
+    <Usage("/draw.map.region /gb <genome.gbk> [/COG <cog.csv> /draw.shape.stroke /size <default=10240,2048> /default.color <default=brown> /gene.draw.height <default=85> /disable.level.skip /out <map.png>]")>
     Public Function DrawMapRegion(args As CommandLine) As Integer
         Dim in$ = args <= "/gb"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.map.png"
         Dim PTT As PTT = GBFF.File.Load([in]).GbffToPTT(ORF:=True)
-        Dim config As New Config With {
+        Dim config As Config = Config.DefaultValue
+
+        With config
             .NoneCogColor = args("/default.color")
-        }
+        End With
+
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT, config)
         Dim disableLevelSkip As Boolean = args("/disable.level.skip")
         Dim geneDrawHeight% = args("/gene.draw.height") Or 85
+        Dim drawShapeStroke As Boolean = args("/draw.shape.stroke")
 
         With args("/cog").DefaultValue
             If .FileExists(True) Then
@@ -161,7 +165,8 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             model:=model,
             size:=args("/size") Or "10240,2048",
             padding:=g.DefaultPadding,
-            disableLevelSkip:=disableLevelSkip
+            disableLevelSkip:=disableLevelSkip,
+            drawShapeStroke:=drawShapeStroke
         ).AsGDIImage _
          .SaveAs(out) _
          .CLICode
