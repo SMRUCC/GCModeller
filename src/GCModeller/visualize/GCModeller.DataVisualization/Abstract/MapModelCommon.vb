@@ -81,11 +81,6 @@ Public MustInherit Class MapModelCommon
     Public Const OFFSET As Integer = 20
 
     ''' <summary>
-    ''' 箭头长度的最大限制
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Const HeadLengthLimits As Integer = 160
-    ''' <summary>
     ''' 箭头长度的最低限制
     ''' </summary>
     ''' <remarks></remarks>
@@ -100,15 +95,14 @@ Public MustInherit Class MapModelCommon
     Public Overridable ReadOnly Property HeadLength As Integer
         Get
             Dim Length As Integer = Math.Abs(Left - Right)
-            Dim n = Length * 0.1
+            Dim n = Length * 0.3
 
-            If n > HeadLengthLimits Then
-                n = HeadLengthLimits
-            ElseIf n < HeadLengthLowerBound Then
-                n = HeadLengthLowerBound
+            ' 如果长度过小，则直接将基因对象画为一个三角形
+            If n < HeadLengthLowerBound Then
+                Return -1
+            Else
+                Return n * ConvertFactor
             End If
-
-            Return n * ConvertFactor
         End Get
     End Property
 
@@ -134,31 +128,51 @@ Public MustInherit Class MapModelCommon
     ''' <returns></returns>
     ''' <remarks></remarks>
     Protected Overridable Function CreateForwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+
+        ' ->
+
         Dim shape As New GraphicsPath
-        Dim leftTop As New Point(refLoci.X, refLoci.Y)
-        Dim leftBottom As New Point(refLoci.X, refLoci.Y + Height)
 
-        Dim rightBottom As New Point(refLoci.X + Length - HeadLength, leftBottom.Y)
+        If HeadLength <= 0 Then
+            ' 太短了，直接绘制为一个三角形
+            '
+            ' b \
+            ' |  a
+            ' c /
+            Dim a As New Point(refLoci.X + Length, refLoci.Y + Height / 2)
+            Dim b As New Point(refLoci.X, refLoci.Y)
+            Dim c As New Point(refLoci.X, refLoci.Y + Height)
 
-        If rightBottom.X > RightLimit Then
-            rightBottom = New Point(RightLimit, rightBottom.Y)
+            Call shape.AddLine(b, a)
+            Call shape.AddLine(a, c)
+            Call shape.AddLine(c, b)
+
+        Else
+            Dim leftTop As New Point(refLoci.X, refLoci.Y)
+            Dim leftBottom As New Point(refLoci.X, refLoci.Y + Height)
+
+            Dim rightBottom As New Point(refLoci.X + Length - HeadLength, leftBottom.Y)
+
+            If rightBottom.X > RightLimit Then
+                rightBottom = New Point(RightLimit, rightBottom.Y)
+            End If
+
+            Dim rightBottomBottom = New Point(rightBottom.X, rightBottom.Y + OFFSET)
+
+            Dim arrowHead = New Point(rightBottom.X + HeadLength, rightBottom.Y - 0.5 * Height)
+
+            Dim rightTopTop = New Point(rightBottom.X, refLoci.Y - OFFSET)
+            Dim rightTop As New Point(rightBottom.X, refLoci.Y)
+
+            Call shape.AddLine(leftTop, leftBottom)
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightBottom, rightBottomBottom)
+
+            Call shape.AddLine(rightBottomBottom, arrowHead)
+            Call shape.AddLine(arrowHead, rightTopTop)
+            Call shape.AddLine(rightTopTop, rightTop)
+            Call shape.AddLine(rightTop, leftTop)
         End If
-
-        Dim rightBottomBottom = New Point(rightBottom.X, rightBottom.Y + OFFSET)
-
-        Dim arrowHead = New Point(rightBottom.X + HeadLength, rightBottom.Y - 0.5 * Height)
-
-        Dim rightTopTop = New Point(rightBottom.X, refLoci.Y - OFFSET)
-        Dim rightTop As New Point(rightBottom.X, refLoci.Y)
-
-        Call shape.AddLine(leftTop, leftBottom)
-        Call shape.AddLine(leftBottom, rightBottom)
-        Call shape.AddLine(rightBottom, rightBottomBottom)
-
-        Call shape.AddLine(rightBottomBottom, arrowHead)
-        Call shape.AddLine(arrowHead, rightTopTop)
-        Call shape.AddLine(rightTopTop, rightTop)
-        Call shape.AddLine(rightTop, leftTop)
 
         Return shape
     End Function
@@ -170,31 +184,51 @@ Public MustInherit Class MapModelCommon
     ''' <param name="RightLimit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Protected Overridable Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
+    Protected Overridable Function CreateBackwardModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+
+        ' <-
+
         Dim shape As New GraphicsPath
-        Dim leftTop As New Point(refLoci.X + HeadLength, refLoci.Y)
-        Dim leftTopTop As New Point(leftTop.X, leftTop.Y - OFFSET)
 
-        Dim arrowHead As New Point(refLoci.X, leftTop.Y + 0.5 * Height)
+        If HeadLength <= 0 Then
+            ' 太短了，直接绘制为一个三角形
+            '
+            '  /b
+            ' a |
+            '  \c
+            Dim a As New Point(refLoci.X, refLoci.Y + Height / 2)
+            Dim b As New Point(refLoci.X + Length, refLoci.Y)
+            Dim c As New Point(refLoci.X + Length, refLoci.Y + Height)
 
-        Dim leftBottomBottom As New Point(leftTop.X, leftTop.Y + Height + OFFSET)
-        Dim leftBottom As New Point(leftTop.X, refLoci.Y + Height)
+            Call shape.AddLine(a, b)
+            Call shape.AddLine(b, c)
+            Call shape.AddLine(c, a)
 
-        Dim rightTop As New Point(refLoci.X + Length, refLoci.Y)
-        If rightTop.X > RightLimit Then
-            rightTop = New Point(RightLimit, rightTop.Y)
+        Else
+            Dim leftTop As New Point(refLoci.X + HeadLength, refLoci.Y)
+            Dim leftTopTop As New Point(leftTop.X, leftTop.Y - OFFSET)
+
+            Dim arrowHead As New Point(refLoci.X, leftTop.Y + 0.5 * Height)
+
+            Dim leftBottomBottom As New Point(leftTop.X, leftTop.Y + Height + OFFSET)
+            Dim leftBottom As New Point(leftTop.X, refLoci.Y + Height)
+
+            Dim rightTop As New Point(refLoci.X + Length, refLoci.Y)
+            If rightTop.X > RightLimit Then
+                rightTop = New Point(RightLimit, rightTop.Y)
+            End If
+            Dim rightBottom As New Point(rightTop.X, leftBottom.Y)
+
+            Call shape.AddLine(leftTop, leftTopTop)
+            Call shape.AddLine(leftTopTop, arrowHead)
+
+            Call shape.AddLine(arrowHead, leftBottomBottom)
+            Call shape.AddLine(leftBottomBottom, leftBottom)
+
+            Call shape.AddLine(leftBottom, rightBottom)
+            Call shape.AddLine(rightTop, rightBottom)
+            Call shape.AddLine(rightTop, leftTop)
         End If
-        Dim rightBottom As New Point(rightTop.X, leftBottom.Y)
-
-        Call shape.AddLine(leftTop, leftTopTop)
-        Call shape.AddLine(leftTopTop, arrowHead)
-
-        Call shape.AddLine(arrowHead, leftBottomBottom)
-        Call shape.AddLine(leftBottomBottom, leftBottom)
-
-        Call shape.AddLine(leftBottom, rightBottom)
-        Call shape.AddLine(rightTop, rightBottom)
-        Call shape.AddLine(rightTop, leftTop)
 
         Return shape
     End Function
@@ -205,8 +239,13 @@ Public MustInherit Class MapModelCommon
     ''' <param name="refLoci"></param>
     ''' <param name="RightLimit"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    Protected Overridable Function CreateNoneDirectionModel(refLoci As Point, RightLimit As Integer) As Drawing2D.GraphicsPath
+    ''' <remarks>
+    ''' 就是一个矩形区域
+    ''' </remarks>
+    Protected Overridable Function CreateNoneDirectionModel(refLoci As Point, RightLimit As Integer) As GraphicsPath
+
+        ' ==
+
         Dim shape As New GraphicsPath
         Dim leftTop As New Point(refLoci.X, refLoci.Y)
         Dim leftBottom As New Point(refLoci.X, refLoci.Y + Height)
