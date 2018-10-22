@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4eb462925c81e9e56e1b7e9340f8db2b, Bio.Assembly\Assembly\KEGG\Web\Map\Downloader.vb"
+﻿#Region "Microsoft.VisualBasic::a4d6ab891525f465cfc65a21e65195ab, Bio.Assembly\Assembly\KEGG\Web\Map\Downloader.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,6 @@
 
 Imports System.Net
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -84,7 +83,7 @@ Namespace Assembly.KEGG.WebServices
                             If briefFile.StringEmpty Then
                                 Return "map" & entry.EntryId
                             Else
-                                Dim s = entry.Entry.Value
+                                Dim s = entry.entry.text
                                 s = r.Match(s, "\[PATH:.+?\]", RegexICSng).Value
                                 s = s.GetStackValue("[", "]").Split(":"c).Last
                                 Return s
@@ -106,7 +105,7 @@ Namespace Assembly.KEGG.WebServices
                             Call Map.ParseHTML(url) _
                                 .GetXml _
                                 .SaveTo(save, TextEncodings.UTF8WithoutBOM)
-                            Call Thread.Sleep(2500)
+                            Call Thread.Sleep(5000)
                         End If
                     Catch ex As Exception
                         failures += id

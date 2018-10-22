@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f81e13543cbdbb0ddf67a323bc05ea1, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::32f4c1fc8a98385dfae945a759340965, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,9 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+#If DEBUG Then
+Imports Microsoft.VisualBasic.Serialization.JSON
+#End If
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -189,7 +192,7 @@ Public Class KEGGOrthology
                 If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
 #If DEBUG Then
-                    Call Serialization.JSON.GetJson(gene).__DEBUG_ECHO
+                    Call gene.GetJson.__DEBUG_ECHO
 #End If
                 End If
 

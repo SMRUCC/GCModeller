@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::7f90fc3385f765b1e3bd1fa8709f9a1a, Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: __lociUid, __protShort, _16SribosomalRNA, ExportProteins, ExportProteins_Short
-    '                   GeneList, GetObjects, GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps
-    '                   ToGff
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: __lociUid, __protShort, _16SribosomalRNA, ExportProteins, ExportProteins_Short
+'                   GeneList, GetObjects, GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps
+'                   ToGff
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
 Namespace Assembly.NCBI.GenBank
 
@@ -63,15 +65,14 @@ Namespace Assembly.NCBI.GenBank
 
         <Extension>
         Public Function GPFF2Feature(gb As GBFF.File, gff As Dictionary(Of String, GFF.Feature)) As GeneBrief
-            Dim prot As GBFF.Keywords.FEATURES.Feature =
-                gb.Features.ListFeatures("Protein").FirstOrDefault
+            Dim prot As gbffFeature = gb.Features.ListFeatures("Protein").FirstOrDefault
             If prot Is Nothing Then
                 Return Nothing
             End If
 
-            Dim CDS As GBFF.Keywords.FEATURES.Feature =
-                gb.Features.ListFeatures("CDS").FirstOrDefault
+            Dim CDS As gbffFeature = gb.Features.ListFeatures("CDS").FirstOrDefault
             Dim locus_tag As String = ""
+
             If CDS Is Nothing Then
                 locus_tag = "-"
             Else
@@ -85,7 +86,6 @@ Namespace Assembly.NCBI.GenBank
             End If
 
             Dim ntLoci As NucleotideLocation = gff(uid).MappingLocation
-
             Dim gene As New GeneBrief With {
                 .Code = gb.Version.GI,
                 .COG = "-",
@@ -122,8 +122,8 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <ExportAPI("Locus.Maps"), Extension>
-        Public Function LocusMaps(gb As GenBank.GBFF.File) As Dictionary(Of String, String)
-            Dim LQuery = (From x As GBFF.Keywords.FEATURES.Feature
+        Public Function LocusMaps(gb As GBFF.File) As Dictionary(Of String, String)
+            Dim LQuery = (From x As gbffFeature
                           In gb.Features._innerList
                           Let locus As String = x.Query(FeatureQualifiers.locus_tag)
                           Where Not String.IsNullOrEmpty(locus)
@@ -192,8 +192,8 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="Gbk"></param>
         ''' <returns></returns>
         <ExportAPI("Protein.Export", Info:="Export protein sequence with full annotation.")>
-        <Extension> Public Function ExportProteins(Gbk As NCBI.GenBank.GBFF.File) As SequenceModel.FASTA.FastaFile
-            Dim LQuery = From feature As GBFF.Keywords.FEATURES.Feature
+        <Extension> Public Function ExportProteins(Gbk As NCBI.GenBank.GBFF.File) As FastaFile
+            Dim LQuery = From feature As gbffFeature
                          In Gbk.Features
                          Where String.Equals(feature.KeyName, "CDS")
                          Let attrs As String() = New String() {
@@ -206,12 +206,11 @@ Namespace Assembly.NCBI.GenBank
                              feature.Location.ToString,
                              feature.Query("product")
                          }
-                         Select New SequenceModel.FASTA.FastaSeq With {
+                         Select New FastaSeq With {
                              .Headers = attrs,
                              .SequenceData = feature.Query("translation")
                          } '
-            Dim Fasta As SequenceModel.FASTA.FastaFile =
-                CType(LQuery.ToArray, SequenceModel.FASTA.FastaFile)
+            Dim Fasta As FastaFile = CType(LQuery.ToArray, FastaFile)
             Return Fasta
         End Function
 
@@ -225,8 +224,8 @@ Namespace Assembly.NCBI.GenBank
         <ExportAPI("Protein.Export_Short", Info:="Short fasta title.")>
         <Extension> Public Function ExportProteins_Short(gb As NCBI.GenBank.GBFF.File,
                                                          <Parameter("locusId.Only")>
-                                                         Optional OnlyLocusTag As Boolean = False) As FASTA.FastaFile
-            Dim LQuery = From feature As GBFF.Keywords.FEATURES.Feature
+                                                         Optional OnlyLocusTag As Boolean = False) As FastaFile
+            Dim LQuery = From feature As gbffFeature
                          In gb.Features
                          Where String.Equals(feature.KeyName, "CDS")
                          Select feature.__protShort(OnlyLocusTag) '
@@ -240,7 +239,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="feature"></param>
         ''' <param name="onlyLocusTag"></param>
         ''' <returns></returns>
-        <Extension> Private Function __protShort(feature As GBFF.Keywords.FEATURES.Feature, onlyLocusTag As Boolean) As SequenceModel.FASTA.FastaSeq
+        <Extension> Private Function __protShort(feature As gbffFeature, onlyLocusTag As Boolean) As FastaSeq
             Dim product As String = feature.Query("product")
             If product Is Nothing Then
                 product = ""
@@ -251,7 +250,7 @@ Namespace Assembly.NCBI.GenBank
             End If
             Dim ORF_transl As String = feature.Query("translation")
             Dim attrs As String() = If(Not onlyLocusTag, {locusId & " " & product}, {locusId})
-            Dim fa As New SequenceModel.FASTA.FastaSeq With {
+            Dim fa As New FastaSeq With {
                 .Headers = attrs,
                 .SequenceData = ORF_transl
             } '
@@ -266,7 +265,7 @@ Namespace Assembly.NCBI.GenBank
         '''
         <ExportAPI("Export.GeneList")>
         <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
-            Dim GQuery As IEnumerable(Of GBFF.Keywords.FEATURES.Feature) =
+            Dim GQuery As IEnumerable(Of gbffFeature) =
                 From feature
                 In Gbk.Features
                 Where String.Equals(feature.KeyName, "gene")
@@ -281,7 +280,7 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <ExportAPI("Export.16SrRNA")>
-        <Extension> Public Function _16SribosomalRNA(Gbk As NCBI.GenBank.GBFF.File) As GBFF.Keywords.FEATURES.Feature
+        <Extension> Public Function _16SribosomalRNA(Gbk As NCBI.GenBank.GBFF.File) As gbffFeature
             Dim LQuery = From feature In Gbk.Features.AsParallel
                          Where String.Equals(feature.KeyName, "rRNA") AndAlso InStr(feature.Query("product"), "16S ribosomal RNA")
                          Select feature '

@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::64e954dc24a7f88d42b6e84403ce0bd4, localblast\CLI_tools\CLI\COGTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: COG_myva, COG2003_2014, COG2014_result, COGStatics, ExportDOORCogs
-    '               InstallCOGDatabase, WhogXML
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: COG_myva, COG2003_2014, COG2014_result, COGStatics, ExportDOORCogs
+'               InstallCOGDatabase, WhogXML
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -72,30 +73,56 @@ Partial Module CLI
 
     <ExportAPI("/COG.myva",
                Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
-               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
+               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /grep <donothing> /simple /out <out.csv/txt>]")>
+    <Argument("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="This flag will change the output file format. 
+                  If this parameter value is presented, then the tool will outoput a simple tsv file;
+                  Otherwise output a csv file with complete COG assign result records."
+    )>
     Public Function COG_myva(args As CommandLine) As Integer
         Dim in$ = args <= "/blastp"
         Dim whog$ = args <= "/whog"
-        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim simple As Boolean = args("/simple")
         Dim result As MyvaCOG()
+        Dim topBest As Boolean = args("/top.best")
 
         If Parser.IsBlastOut(in$) Then
-            result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not simple)
+            result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not topBest)
         Else
             Dim table As BestHit() = [in].LoadCsv(Of BestHit)
+
             result = COGsUtils.MyvaCOGCatalog(
                 table, whog,
-                Function(query$) query.Trim.GetTagValue(" ").Value)
+                Function(query$)
+                    Return query.Trim.GetTagValue(" ").Value
+                End Function)
         End If
+
+        With args <= "/grep"
+            If Not .StringEmpty Then
+                Dim grep As TextGrepMethod = TextGrepScriptEngine _
+                    .Compile(.ByRef) _
+                    .PipelinePointer
+
+                For Each protein As MyvaCOG In result
+                    protein.QueryName = grep(protein.QueryName)
+                Next
+            End If
+        End With
 
         If simple Then
             Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
+
             Return result _
-                .Select(Function(prot) $"{prot.QueryName}{ASCII.TAB}{prot.Category}{ASCII.TAB}{prot.COG}") _
+                .Select(Function(prot)
+                            Return $"{prot.QueryName}{ASCII.TAB}{prot.Category}{ASCII.TAB}{prot.COG}"
+                        End Function) _
                 .SaveTo(out) _
                 .CLICode
         Else
             Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.csv")
+
             Return result _
                 .SaveTo(out) _
                 .CLICode

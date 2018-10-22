@@ -23,6 +23,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
+'  /union:              Union all of the sql file in the target directory into a one big sql text file.
+' 
+' 
 ' API list that with functional grouping
 ' 
 ' 1. MySQL documentation tool
@@ -75,6 +78,26 @@ Public Function MySQLMarkdown(sql As String, Optional out As String = "", Option
     End If
     If toc Then
         Call CLI.Append("/toc ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /union /in &lt;directory> [/out &lt;out.sql>]
+''' ```
+''' Union all of the sql file in the target directory into a one big sql text file.
+''' </summary>
+'''
+Public Function Union([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/union")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

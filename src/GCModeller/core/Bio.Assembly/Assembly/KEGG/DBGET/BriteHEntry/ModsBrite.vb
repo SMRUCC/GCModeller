@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c7e5788ad328edce5efd765ff009cc8, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb"
+﻿#Region "Microsoft.VisualBasic::db847c950cdb1c134522321bab60d86c, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb"
 
     ' Author:
     ' 
@@ -81,7 +81,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Private Shared Function __toValue(x As KeyValuePair(Of String, Pathway)) As [Property]
-            Return New [Property](x.Value.Class, x.Value.Category, x.Value.Entry.Value)
+            Return New [Property](x.Value.class, x.Value.category, x.Value.entry.text)
         End Function
 
         Private Shared Function __pathwaysBrite(res As String) As Dictionary(Of String, [Property])

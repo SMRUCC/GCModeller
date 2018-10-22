@@ -119,11 +119,11 @@ Namespace ComparativeAlignment
 
                 RegionLeft = GeneObjectModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height),
                                                        NextLeft:=NextGeneObject.Left,
-                                                       convertFactor:=ConvertFactor,
+                                                       scaleFactor:=ConvertFactor,
                                                        arrowRect:=rtvlRegion,
-                                                       IdGrawingPositionDown:=True,
+                                                       IdDrawPositionDown:=True,
                                                        Font:=Font,
-                                                       AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=IDConflictedRegion)
+                                                       AlternativeArrowStyle:=Type2Arrow, overlapLayout:=IDConflictedRegion)
 
                 Call GeneObjectDrawingRegions.Add(GeneObjectModel.locus_tag, rtvlRegion)
             Next
@@ -135,10 +135,10 @@ Namespace ComparativeAlignment
             End If
 
             Call LastModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height), NextLeft:=Models.Length,
-                                     convertFactor:=ConvertFactor,
-                                     arrowRect:=rtvlRegion, IdGrawingPositionDown:=True,
+                                     scaleFactor:=ConvertFactor,
+                                     arrowRect:=rtvlRegion, IdDrawPositionDown:=True,
                                      Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                     ID_conflictLayout:=IDConflictedRegion)
+                                     overlapLayout:=IDConflictedRegion)
             Call GeneObjectDrawingRegions.Add(Models.Last.locus_tag, rtvlRegion)
             Call Device.Graphics.DrawString(Models.Title, TitleDrawingFont, Brushes.Black, New Point(Margin, Height))
 
@@ -346,10 +346,10 @@ Namespace ComparativeAlignment
                                                  .COGsColorBrush(, COGColors)
             Dim LQuery As GenomeModel() =
                 loadPTT.Select(Function(x)
-                                   Return ComparativeGenomics.ModelAPI.CreateObject(x.GeneObjects,
+                                   Return ComparativeGenomics.ModelAPI.CreateSyntenyGenome(x.GeneObjects,
                                                                   x.Length,
                                                                   x.Title,
-                                                                  __getId:=Function(g) g.Synonym,
+                                                                  getId:=Function(g) g.Synonym,
                                                                   COGsColor:=COGsBrush)
                                End Function) ' 将PTT文件之中的所有数据都转换为模型数据
             Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing

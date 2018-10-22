@@ -161,7 +161,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             End If
 
             Using p As CBusyIndicator = New CBusyIndicator(_start:=True)
-                Dim source As String = IO.File.ReadAllText(path, encoding) ' LogFile.ReadUltraLargeTextFile(System.Text.Encoding.UTF8)
+                Dim source As String = IO.File.ReadAllText(path, encoding)
 
                 If IsBlastn(source) Then
                     Return __tryParseBlastnOutput(source, path)
@@ -183,7 +183,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 #Else
             parallel = True
 #End If
-            Dim Queries As Query() = lstQuery.Select(Function(line) Query.TryParse(line)).ToArray
+            Dim Queries As Query() = lstQuery _
+                .Select(Function(line) Query.TryParse(line)) _
+                .ToArray
             Dim BLASTOutput As v228 = New v228 With {
                 .FilePath = Path & ".xml",
                 .Queries = Queries,

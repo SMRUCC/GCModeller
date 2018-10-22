@@ -673,9 +673,9 @@ Partial Module CLI
             If modsLoad.ContainsKey(mName) Then
                 Dim modX = brits(modsLoad(mName).BriteId)
 
-                Call node.Properties.Add(NameOf(modX.Category), modX.Category)
-                Call node.Properties.Add(NameOf(modX.Class), modX.Class)
-                Call node.Properties.Add("Pathway", modX.Entry.Value)
+                Call node.Properties.Add(NameOf(modX.category), modX.category)
+                Call node.Properties.Add(NameOf(modX.class), modX.class)
+                Call node.Properties.Add("Pathway", modX.entry.text)
             End If
         Next
 

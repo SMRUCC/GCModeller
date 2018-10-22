@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e386b703bd88fc8353570cfdd4957828, visualize\visualizeTools\PlasmidMap\PlasmidMap.vb"
+﻿#Region "Microsoft.VisualBasic::1219638eca54607e608e425b6289037e, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,24 @@
 
     ' Summaries:
 
-    '     Class PlasmidMapDrawingModel
+    '     Module Extensions
     ' 
-    '         Properties: GeneObjects
+    '         Function: Load
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace PlasmidMap
+Imports System.Runtime.CompilerServices
 
-    Public Class PlasmidMapDrawingModel
+Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
-        Public Property GeneObjects As PlasmidMap.DrawingModels.SegmentObject()
-    End Class
+    Public Module Extensions
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Load(path As String) As GFFTable
+            Return GFFTable.LoadDocument(path)
+        End Function
+    End Module
 End Namespace

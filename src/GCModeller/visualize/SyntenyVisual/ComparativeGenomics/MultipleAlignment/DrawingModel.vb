@@ -88,6 +88,9 @@ Namespace ComparativeAlignment
         End Function
     End Structure
 
+    ''' <summary>
+    ''' 一对多的共线性比对作图
+    ''' </summary>
     Public Class DrawingModel
 
 #Region "PTT regions"

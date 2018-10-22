@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1e3b69df9a2801da09a71e17d39018e, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::6a9cb49ca28261a0174592aaa649f10d, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
     ' Author:
     ' 
@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function GenerateObject(XmlModel As bGetObject.Pathway) As Pathway
             Return New Pathway With {
                 .EntryId = XmlModel.EntryId,
-                .Description = XmlModel.Description,
+                .description = XmlModel.description,
                 .PathwayGenes = XmlModel.GetPathwayGenes
             }
         End Function
@@ -132,21 +132,19 @@ Namespace Assembly.KEGG.Archives.Csv
         End Function
 
         Public Shared Function CreateObjects(source As KEGG.DBGET.bGetObject.Pathway(), spCode As String) As Pathway()
-            Dim ClassDictionary As SortedDictionary(Of String, KEGG.DBGET.BriteHEntry.Pathway) =
-                New SortedDictionary(Of String, DBGET.BriteHEntry.Pathway)
+            Dim classDictionary As New SortedDictionary(Of String, DBGET.BriteHEntry.Pathway)
             For Each pwyData In KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource
-                Call ClassDictionary.Add($"{spCode}{pwyData.Entry.Key}", pwyData)
+                Call classDictionary.Add($"{spCode}{pwyData.entry.name }", pwyData)
             Next
 
             Dim PathwayList As New List(Of Pathway)
 
             For Each pwyData As bGetObject.Pathway In source
                 Dim PathwayObject = Pathway.GenerateObject(pwyData)
-                Dim BriteEntry As BriteHEntry.Pathway =
-                    ClassDictionary(PathwayObject.EntryId)
+                Dim BriteEntry As BriteHEntry.Pathway = classDictionary(PathwayObject.EntryId)
 
-                PathwayObject.Class = BriteEntry.Class
-                PathwayObject.Category = BriteEntry.Category
+                PathwayObject.Class = BriteEntry.class
+                PathwayObject.Category = BriteEntry.category
 
                 PathwayList += PathwayObject
             Next

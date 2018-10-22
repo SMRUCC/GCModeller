@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::504181b38311ad258b1031b332b94f54, Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::b62bf65af7e0bea538ca656a79cba3f5, Bio.Assembly\ComponentModel\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -44,11 +44,12 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel
 
-    Public MustInherit Class PathwayBrief
+    Public MustInherit Class PathwayBrief : Inherits XmlDataModel
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 

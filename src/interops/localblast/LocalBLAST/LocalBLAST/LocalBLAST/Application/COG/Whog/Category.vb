@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::5751fa9ed7340406355cac4fb421b44e, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Category
-    ' 
-    '         Properties: Category, COG_id, Description, IdList, locus_tags
-    ' 
-    '         Function: __parseList, ContainsGene, Find, Parse, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Category
+' 
+'         Properties: Category, COG_id, Description, IdList, locus_tags
+' 
+'         Function: __parseList, ContainsGene, Find, Parse, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,36 +52,41 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace LocalBLAST.Application.RpsBLAST.Whog
 
+    <XmlType("category", [Namespace]:=Category.NCBI_COG)>
     Public Class Category
 
-        <XmlAttribute> Public Property Category As String
+        <XmlAttribute> Public Property category As String
         <XmlAttribute> Public Property COG_id As String
-        <XmlElement("description")> Public Property Description As String
-        <XmlElement("geneID")> Public Property IdList As NamedValue()
+
+        <XmlElement("description")>
+        Public Property description As String
+
+        <XmlArray("geneID")> Public Property IdList As NamedValue()
             Get
-                Return _IdList
+                Return list
             End Get
             Set(value As NamedValue())
                 If value Is Nothing Then
                     Return
                 End If
 
-                Dim LQuery = LinqAPI.Exec(Of NamedCollection(Of String)) <=
-                    From item In value
-                    Let list As String() = item.text.Split
-                    Select New NamedCollection(Of String) With {
-                        .Name = item.name,
-                        .Value = list,
-                        .Description = item.text
-                    }
+                Dim LQuery = LinqAPI.Exec(Of NamedCollection(Of String)) _
+ _
+                    () <= From item In value
+                          Let list As String() = item.text.Split
+                          Select New NamedCollection(Of String) With {
+                              .Name = item.name,
+                              .Value = list,
+                              .Description = item.text
+                          }
 
-                _IdList = value
+                list = value
                 IdTokens = LQuery
                 _locus_tags = New Index(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
             End Set
         End Property
 
-        Dim _IdList As NamedValue()
+        Dim list As NamedValue()
         Dim IdTokens As NamedCollection(Of String)()
 
         <XmlIgnore>
@@ -90,8 +95,10 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         Const REGX_CATAGORY As String = "\[[^]]+\]"
         Const REGX_COG_ID As String = "COG\d+"
 
+        Public Const NCBI_COG$ = "https://www.ncbi.nlm.nih.gov/COG/"
+
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1} --> {2}", Category, COG_id, Description)
+            Return String.Format("[{0}] {1} --> {2}", category, COG_id, description)
         End Function
 
         Public Function ContainsGene(id As String) As Boolean
@@ -99,19 +106,19 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         End Function
 
         Protected Friend Shared Function Parse(srcText$()) As Category
-            Dim list As NamedValue() = __parseList(srcText.Skip(1).ToArray)
+            Dim list As NamedValue() = parseList(srcText.Skip(1).ToArray)
             Dim description As String = srcText(Scan0)
             Dim cat$ = Regex.Match(description, REGX_CATAGORY).Value
             Dim item As New Category With {
-                .Category = Mid(cat, 2, Len(cat) - 2),
+                .category = Mid(cat, 2, Len(cat) - 2),
                 .COG_id = Regex.Match(description, REGX_COG_ID).Value,
-                .Description = Mid(description, Len(.Category) + Len(.COG_id) + 4).Trim,
+                .description = Mid(description, Len(.category) + Len(.COG_id) + 4).Trim,
                 .IdList = list
             }
             Return item
         End Function
 
-        Private Shared Function __parseList(lines As IEnumerable(Of String)) As NamedValue()
+        Private Shared Function parseList(lines As IEnumerable(Of String)) As NamedValue()
             Dim list As New List(Of NamedValue)
 
             For Each line As String In lines
@@ -139,10 +146,12 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
                 Return ""
             End If
 
-            Dim LQuery$ = LinqAPI.DefaultFirst(Of String) <= From item
-                                                             In IdTokens
-                                                             Where Array.IndexOf(item.Value, Id) > -1
-                                                             Select item.Name
+            Dim LQuery$ = LinqAPI.DefaultFirst(Of String) _
+                () <= From item
+                      In IdTokens
+                      Where Array.IndexOf(item.Value, Id) > -1
+                      Select item.Name
+
             Return LQuery
         End Function
     End Class

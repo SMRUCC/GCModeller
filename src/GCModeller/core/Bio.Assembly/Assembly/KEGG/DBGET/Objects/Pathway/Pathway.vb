@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53d94b5b5b2a380bc95622ca22df87b0, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::e208611df08f7cc12ee0f2e0a10244c6, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
     ' Author:
     ' 
@@ -205,7 +205,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Dim ETA$
 
                 For Each entry As KEGG.DBGET.BriteHEntry.Pathway In source
-                    Dim EntryID As String = String.Format("{0}{1}", sp, entry.Entry.Key)
+                    Dim EntryID As String = String.Format("{0}{1}", sp, entry.entry.name)
                     Dim saveDIR As String = $"{EXPORT}/{entry.GetPathCategory}"
 
                     Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryID)
@@ -215,14 +215,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Continue For
                     End If
 
-                    Dim pathway As Pathway = DownloadPage(sp, entry.Entry.Key)
+                    Dim pathway As Pathway = DownloadPage(sp, entry.entry.name)
 
                     If pathway Is Nothing Then
                         Call $"[{sp}] {entry.ToString} is not exists in the KEGG!".__DEBUG_ECHO
                         failures += EntryID
                     Else
                         Call pathway.GetXml.SaveTo(xml)
-                        Call DownloadPathwayMap(sp, entry.Entry.Key, EXPORT:=saveDIR)
+                        Call DownloadPathwayMap(sp, entry.entry.name, EXPORT:=saveDIR)
                         Call Thread.Sleep(1000)
                     End If
 Exit_LOOP:

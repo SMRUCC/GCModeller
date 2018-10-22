@@ -1,10 +1,6 @@
 +D	Reaction	Substrate	Product	Substrate2	Product2
 %<style type="text/css"><!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1400px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:200px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;overflow:hidden;width:300px;}.col3{position:relative;background:white;z-index:3;padding-left:10px;overflow:hidden;width:300px;}.col4{position:relative;background:white;z-index:2;padding-left:10px;overflow:hidden;width:300px;}.col5{position:relative;background:white;z-index:3;padding-left:10px;}--></style>
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; IUBMB Reaction Hierarchy</h2>
-#<!---
-#ENTRY       br08202
-#DEFINITION  IUBMB reaction hierarchy
-#--->
 !
 A<b>1. Oxidoreductases reactions</b>
 B  1.1.1.1
@@ -31,10 +27,6 @@ D      R00625	C00226  Primary alcohol
 D      R00746	C00469  Ethanol	C00084  Acetaldehyde
 D      R01041	C00116  Glycerol	C00577  D-Glyceraldehyde
 D      R05231	C06103  6-Hydroxyhexanoic acid	C06102  Adipate semialdehyde
-B  1.1.1.6
-C    R01034	C00116  Glycerol	C00184  Glycerone
-D      R10715	C00424  (S)-Lactaldehyde	C00546  Methylglyoxal
-D      R10717	C00583  Propane-1,2-diol	C05235  Hydroxyacetone
 B  1.1.1.17
 C    R00758	C00085  D-Fructose 6-phosphate
 D      R02703	C05345  beta-D-Fructose 6-phosphate
@@ -152,6 +144,8 @@ D      R08728	C17335  3beta,7alpha-Dihydroxy-5-cholestenoate	C17337  7alpha-Hydr
 B  1.1.1.184
 C    R03557	C01612  Secondary alcohol	C01450  Ketone
 D      R02581	C00639  Prostaglandin F2alpha	C00584  Prostaglandin E2
+D      R02975	C02953  7,8-Dihydrobiopterin	C00835  Sepiapterin
+D      R04285	C04244  6-Lactoyl-5,6,7,8-tetrahydropterin	C03684  6-Pyruvoyltetrahydropterin
 D      R09420	C19574  4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanol	C16453  4-(N-Nitrosomethylamino)-1-(3-pyridyl)-1-butanone
 B  1.1.1.211
 C    R01778	C00640  (3S)-3-Hydroxyacyl-CoA	C00264  3-Oxoacyl-CoA
@@ -196,6 +190,9 @@ D      R10248	C00033  Acetate	C20225  Coniferyl acetate
 B  1.1.1.337
 C    R10189	C15565  (S)-2-Hydroxyacid	C00161  2-Oxo acid
 D      R07136	C11537  (2R)-3-Sulfolactate	C05528  3-Sulfopyruvate
+B  1.1.1.348
+C    R11877	C21738  (4R)-4,2'-Dihydroxyisoflavan	C21739  (3R)-2'-Hydroxyisoflavanone
+D      R07737	C16187  7,2'-Dihydroxy-4'-methoxy-isoflavanol	C00786  (-)-Vestitone
 B  1.1.1.359
 C    R10428	C20655  Aldopyranose	C20616  Aldono-1,5-lactone
 D      R08544	C00124  D-Galactose	C02669  D-Galactono-1,5-lactone
@@ -221,6 +218,10 @@ D      R00608	C00132  Methanol	C00067  Formaldehyde
 B  1.1.3.15
 C    R01341	C00161  2-Oxo acid
 D      R00475	C00160  Glycolate	C00048  Glyoxylate
+B  1.1.3.41
+C    R11618	C00717  Alditol	C01370  Aldose
+D      R07152	C00379  Xylitol	C00181  D-Xylose
+D      R11620	C00794  D-Sorbitol	C00267  alpha-D-Glucose
 B  1.1.5.3
 C    R00849	C15602  Quinone	C15603  Hydroquinone
 D      R08657	C00399  Ubiquinone	C00390  Ubiquinol
@@ -230,6 +231,12 @@ D      R00360	C00007  Oxygen	C00027  Hydrogen peroxide
 B  1.1.5.8
 C    R09322	C00296  Quinate	C00944  3-Dehydroquinate
 D      R01873	C00296  Quinate	C01359  PQQH2
+B  1.1.98.6
+C    R11592	C03802  Ribonucleoside triphosphate	C00677  Deoxynucleoside triphosphate
+D      R11633	C00044  GTP	C00286  dGTP
+D      R11634	C00002  ATP	C00131  dATP
+D      R11635	C00075  UTP	C00460  dUTP
+D      R11636	C00063  CTP	C00458  dCTP
 B  1.1.99.2
 C    R00298	C00028  Acceptor	C00030  Reduced acceptor
 D      R03534	C00016  FAD	C01352  FADH2
@@ -340,6 +347,9 @@ B  1.2.7.11
 C    R10516
 D      R01196	C00022  Pyruvate	C00024  Acetyl-CoA
 D      R01197	C00026  2-Oxoglutarate	C00091  Succinyl-CoA
+B  1.2.7.12
+C    R11743	C21629  Formylmethanofuran	C21621  Methanofuran
+D      R03015	C01001  Formylmethanofuran	C00862  Methanofuran
 B  1.2.99.6
 C    R00544	C00071  Aldehyde	C00060  Carboxylate
 D      R00326	C00084  Acetaldehyde	C00033  Acetate
@@ -449,18 +459,23 @@ D      R03990	C02593  Tetradecanoyl-CoA	C05273  trans-Tetradec-2-enoyl-CoA	C0001
 D      R04751	C05270  Hexanoyl-CoA	C05271  trans-Hex-2-enoyl-CoA	C00016  FAD	C01352  FADH2
 D      R04754	C05274  Decanoyl-CoA	C05275  trans-Dec-2-enoyl-CoA	C00016  FAD	C01352  FADH2
 B  1.3.99.4
-C    R03748	C01876  3-Oxosteroid	C02941  3-Oxo-delta1-steroid
+C    R03748	C01876  3-Oxosteroid	C02941  3-Oxo-Delta1-steroid
 D      R09884	C00280  Androstenedione	C20144  Androsta-1,4-diene-3,17-dione
 B  1.3.99.5
-C    R02643	C02940  3-Oxo-5alpha-steroid	C00619  3-Oxo-delta4-steroid
+C    R02643	C02940  3-Oxo-5alpha-steroid	C00619  3-Oxo-Delta4-steroid
 D      R01834	C00674  5alpha-Androstane-3,17-dione	C00280  Androstenedione
 D      R04827	C05458  7alpha,12alpha-Dihydroxy-5alpha-cholestan-3-one
 B  1.3.99.6
-C    R02642	C02797  3-Oxo-5beta-steroid	C00619  3-Oxo-delta4-steroid	C00028  Acceptor	C00030  Reduced acceptor
+C    R02642	C02797  3-Oxo-5beta-steroid	C00619  3-Oxo-Delta4-steroid	C00028  Acceptor	C00030  Reduced acceptor
 D      R02215	C05479  5beta-Pregnane-3,20-dione	C00410  Progesterone
 B  1.3.99.12
 C    R03173	C01033  2-Methylbutanoyl-CoA	C00028  Acceptor	C00030  Reduced acceptor
 D      R03172	C15980  (S)-2-Methylbutanoyl-CoA	C00016  FAD	C01352  FADH2
+B  1.3.99.39
+C    R12115	C21915  Carotenoid beta-end group	C21916  Carotenoid phi-end group
+D      R07541	C05435  gamma-Carotene	C15908  Chlorobactene
+D      R07857	C02094  beta-Carotene	C16340  beta-Isorenieratene
+D      R07858	C16340  beta-Isorenieratene	C15943  Isorenieratene
 B  1.4.3.2
 C    R01259	C00151  L-Amino acid	C00161  2-Oxo acid
 D      R00357	C00049  L-Aspartate	C00036  Oxaloacetate
@@ -540,10 +555,6 @@ D      R00799	C01837  Nitroethane	C00084  Acetaldehyde
 B  1.7.99.1
 C    R00284	C00028  Acceptor	C00030  Reduced acceptor
 D      R00143	C00003  NAD+	C00004  NADH
-B  1.7.99.4
-C    R00798	C00028  Acceptor	C00030  Reduced acceptor
-D      R01106	C00125  Ferricytochrome c	C00126  Ferrocytochrome c
-D      R02165	C00399  Ubiquinone	C00390  Ubiquinol
 B  1.8.1.4
 C    R08550	C16832  Protein N6-(dihydrolipoyl)lysine	C16237  Protein N6-(lipoyl)lysine
 D      R03815	C02972  Dihydrolipoylprotein	C02051  Lipoylprotein
@@ -584,57 +595,16 @@ D      R05039	C05911  Pentahydroxyflavanone	C02906  Dihydromyricetin
 D      R07993	C09827  Pinocembrin	C09826  Pinobanksin
 D      R07996	C09762  Liquiritigenin	C09751  Garbanzol
 D      R07997	C09614  Butin	C01378  Fustin
-B  1.14.11.22
-C    R07367	C00766  Flavanone	C15608  Flavone
-D      R02445	C00509  Naringenin	C01477  Apigenin
-D      R03590	C05631  Eriodictyol	C01514  Luteolin
-D      R06551	C05911  Pentahydroxyflavanone	C10192  Tricetin
-D      R08081	C09827  Pinocembrin	C10028  Chrysin
-B  1.14.11.23
-C    R07368	C15570  Dihydroflavonol	C01495  Flavonol
-D      R02160	C01617  Taxifolin	C00389  Quercetin
-D      R03126	C00974  Dihydrokaempferol	C05903  Kaempferol
-D      R06539	C02906  Dihydromyricetin	C10107  Myricetin
-D      R08082	C09826  Pinobanksin	C10044  Galangin
 B  1.14.12.10
 C    R07188	C04634  1,6-Dihydroxycyclohexa-2,4-diene-1-carboxylate
 D      R05621	C06321  (1R,6S)-1,6-Dihydroxycyclohexa-2,4-diene-1-carboxylate
-B  1.14.13.21
-C    R03615	C01579  Flavonoid	C02790  3'-Hydroxyflavonoid
-D      R02442	C00509  Naringenin	C05631  Eriodictyol
-D      R03124	C00974  Dihydrokaempferol	C01617  Taxifolin
-D      R06537	C01477  Apigenin	C01514  Luteolin
-D      R06538	C05903  Kaempferol	C00389  Quercetin
-D      R08002	C09762  Liquiritigenin	C09614  Butin
-D      R08032	C09751  Garbanzol	C01378  Fustin
 B  1.14.13.69
 C    R07194	C15508  1,2-Epoxypropane
 D      R05729	C11506  (2R)-1,2-Epoxypropane
 D      R05730	C11507  (S)-1,2-Epoxypropane
-B  1.14.13.85
-C    R07356	C15601  Glyceollin
-D      R07195	C10422  (-)-Glyceollin II
-D      R07196	C15511  Glyceollin III
-C    R07357	C15601  Glyceollin
-D      R07197	C01701  (-)-Glyceollin I
-B  1.14.13.88
-C    R07369	C00766  Flavanone	C15204  3'-Hydroxyflavanone
-D      R02442	C00509  Naringenin	C05631  Eriodictyol
-D      R03124	C00974  Dihydrokaempferol	C01617  Taxifolin
-C    R07370	C15204  3'-Hydroxyflavanone	C15609  3',5'-Dihydroxyflavanone
-D      R03639	C01617  Taxifolin	C02906  Dihydromyricetin
-D      R04902	C05631  Eriodictyol	C05911  Pentahydroxyflavanone
-B  1.14.13.89
-C    R07371	C00799  Isoflavone	C02921  2'-Hydroxyisoflavone
-D      R06560	C00858  Formononetin	C02920  2'-Hydroxyformononetin
-D      R06561	C00814  Biochanin A	C12135  2'-Hydroxybiochanin A
-D      R06606	C10208  Daidzein	C02495  2'-Hydroxydaidzein
-D      R06607	C06563  Genistein	C12134  2'-Hydroxygenistein
-D      R07746	C10522  Pseudobaptigenin	C16226  2',7-Dihydroxy-4',5'-methylenedioxyisoflavone
-B  1.14.13.151
-C    R04366	C03985  3,7-Dimethylocta-1,6-dien-3-ol
-D      R09922	C11389  (+)-Linalool
-D      R09923	C11388  (-)-Linalool
+B  1.14.13.240
+C    R08768	C05810  2-Octaprenylphenol	C05811  2-Octaprenyl-6-hydroxyphenol
+D      R04987	C05807  2-Polyprenylphenol	C17551  2-Polyprenyl-6-hydroxyphenol
 B  1.14.14.1
 C    R04122	C01371  Alkane	C01335  ROH
 D      R01842	C00280  Androstenedione	C05296  7alpha-Hydroxyandrost-4-ene-3,17-dione
@@ -658,16 +628,76 @@ D      R02838	C05497  21-Deoxycortisol	C00735  Cortisol
 D      R03326	C01176  17alpha-Hydroxyprogesterone	C05488  11-Deoxycortisol
 D      R03784	C01953  Pregnenolone	C05485  21-Hydroxypregnenolone
 D      R03849	C05498  11beta-Hydroxyprogesterone	C02140  Corticosterone
-D      R04675
+D      R04675	C05138  17alpha-Hydroxypregnenolone	C05487  17alpha,21-Dihydroxypregnenolone
 B  1.14.14.19
 C    R02131	C00377  Steroid	C03336  17alpha-Hydroxysteroid
 D      R02211	C00410  Progesterone	C01176  17alpha-Hydroxyprogesterone
 D      R03783	C01953  Pregnenolone	C05138  17alpha-Hydroxypregnenolone
 D      R04852	C05498  11beta-Hydroxyprogesterone	C05497  21-Deoxycortisol
-D      R04853
+D      R04853	C05500  20alpha-Hydroxycholesterol	C05499  17alpha,20alpha-Dihydroxycholesterol
+B  1.14.14.42
+C    R11646	C21534  L-Polyhomomethionine	C21535  omega-(Methylthio)-(E)-alkanal oxime
+D      R08665	C17213  Homomethionine	C17241  4-Methylthiobutanaldoxime
+D      R08670	C17217  Dihomomethionine	C17245  5-Methylthiopentanaldoxime
+D      R08672	C17221  Trihomomethionine	C17246  6-Methylthiohexanaldoxime
+D      R08673	C17225  Tetrahomomethionine	C17249  7-Methylthioheptanaldoxime
+D      R08674	C17229  Pentahomomethionine	C17251  8-Methylthiooctanaldoxime
+D      R08675	C17233  Hexahomomethionine	C17253  9-Methylthiononanaldoxime
+B  1.14.14.80
+C    R12072	C00638  Long-chain fatty acid	C21886  omega-Hydroxy-long-chain fatty acid
+D      R07041	C00219  Arachidonate	C14748  20-HETE
+D      R09451	C00249  Hexadecanoic acid	C18218  16-Hydroxypalmitate
+D      R09452	C00712  (9Z)-Octadecenoic acid	C19616  18-Hydroxyoleate
+B  1.14.14.81
+C    R07369	C00766  Flavanone	C15204  3'-Hydroxyflavanone
+D      R02442	C00509  Naringenin	C05631  Eriodictyol
+D      R03124	C00974  Dihydrokaempferol	C01617  Taxifolin
+C    R07370	C15204  3'-Hydroxyflavanone	C15609  3',5'-Dihydroxyflavanone
+D      R03639	C01617  Taxifolin	C02906  Dihydromyricetin
+D      R04902	C05631  Eriodictyol	C05911  Pentahydroxyflavanone
+B  1.14.14.82
+C    R03615	C01579  Flavonoid	C02790  3'-Hydroxyflavonoid
+D      R02442	C00509  Naringenin	C05631  Eriodictyol
+D      R03124	C00974  Dihydrokaempferol	C01617  Taxifolin
+D      R06537	C01477  Apigenin	C01514  Luteolin
+D      R06538	C05903  Kaempferol	C00389  Quercetin
+D      R08002	C09762  Liquiritigenin	C09614  Butin
+D      R08032	C09751  Garbanzol	C01378  Fustin
+B  1.14.14.84
+C    R04366	C03985  Linalool	C04433  (E)-3,7-Dimethylocta-1,6-diene-3,8-diol
+D      R09922	C11389  (+)-Linalool	C04433  (E)-3,7-Dimethylocta-1,6-diene-3,8-diol
+D      R09923	C11388  (-)-Linalool	C04433  (E)-3,7-Dimethylocta-1,6-diene-3,8-diol
+B  1.14.14.90
+C    R07371	C00799  Isoflavone	C02921  2'-Hydroxyisoflavone
+D      R06560	C00858  Formononetin	C02920  2'-Hydroxyformononetin
+D      R06561	C00814  Biochanin A	C12135  2'-Hydroxybiochanin A
+D      R06606	C10208  Daidzein	C02495  2'-Hydroxydaidzein
+D      R06607	C06563  Genistein	C12134  2'-Hydroxygenistein
+D      R07746	C10522  Pseudobaptigenin	C16226  2',7-Dihydroxy-4',5'-methylenedioxyisoflavone
+B  1.14.14.154
+C    R12118	C21918  14alpha-Methylsteroid	C21919  Delta14-Steroid
+D      R05640	C01724  Lanosterol	C11455  4,4-Dimethyl-5alpha-cholesta-8,14,24-trien-3beta-ol
+D      R05731	C01943  Obtusifoliol	C11508  4alpha-Methyl-5alpha-ergosta-8,14,24(28)-trien-3beta-ol
 B  1.14.15.4
 C    R02726	C00377  Steroid	C01058  11beta-Hydroxysteroid
 D      R02725	C00280  Androstenedione	C05284  11beta-Hydroxyandrost-4-ene-3,17-dione
+B  1.14.20.4
+C    R11993	C21418  (2R,3S,4S)-Leucoanthocyanidin	C21381  Anthocyanidin with a 3-hydroxy group
+D      R04276	C03648  cis-3,4-Leucopelargonidin	C05904  Pelargonidin
+D      R05036	C05906  Leucocyanidin	C05905  Cyanidin
+D      R05037	C05909  Leucodelphinidin	C05908  Delphinidin
+B  1.14.20.5
+C    R07367	C00766  Flavanone	C15608  Flavone
+D      R02445	C00509  Naringenin	C01477  Apigenin
+D      R03590	C05631  Eriodictyol	C01514  Luteolin
+D      R06551	C05911  Pentahydroxyflavanone	C10192  Tricetin
+D      R08081	C09827  Pinocembrin	C10028  Chrysin
+B  1.14.20.6
+C    R07368	C15570  Dihydroflavonol	C01495  Flavonol
+D      R02160	C01617  Taxifolin	C00389  Quercetin
+D      R03126	C00974  Dihydrokaempferol	C05903  Kaempferol
+D      R06539	C02906  Dihydromyricetin	C10107  Myricetin
+D      R08082	C09826  Pinobanksin	C10044  Galangin
 B  1.14.99.2
 C    R03441	C00030  Reduced acceptor	C00028  Acceptor
 D      R03439	C00004  NADH	C00003  NAD+
@@ -682,14 +712,11 @@ D      R02018	C01346  dUDP	C00015  UDP
 D      R02019	C00361  dGDP	C00035  GDP
 D      R02024	C00705  dCDP	C00112  CDP
 B  1.17.4.2
-C    R04315	C04283  2'-Deoxyribonucleoside triphosphate	C03802  Ribonucleoside triphosphate
+C    R04315	C03802  Ribonucleoside triphosphate
 D      R02014	C00131  dATP	C00002  ATP
 D      R02020	C00286  dGTP	C00044  GTP
 D      R02022	C00458  dCTP	C00063  CTP
 D      R02023	C00460  dUTP	C00075  UTP
-B  1.17.99.1
-C    R07223	C00028  Acceptor	C00030  Reduced acceptor
-D      R02675	C01695  Ferredoxin	C00138  Reduced ferredoxin
 B  1.18.1.2
 C    R01195	C00138  Reduced ferredoxin	C00139  Oxidized ferredoxin
 D      R10159	C00662  Reduced adrenal ferredoxin	C00667  Oxidized adrenal ferredoxin
@@ -752,9 +779,6 @@ D      R00226	C06010  (S)-2-Acetolactate
 B  2.3.1.5
 C    R02387	C00292  Aniline
 D      R08036	C16396  2,4-Diamino-6-nitrotoluene	C16420  4-Acetamido-2-amino-6-nitrotoluene
-B  2.3.1.13
-C    R00395	C00040  Acyl-CoA	C02055  N-Acylglycine
-D      R05841	C00582  Phenylacetyl-CoA	C05598  Phenylacetylglycine
 B  2.3.1.15
 C    R00851	C00040  Acyl-CoA
 D      R02617	C00605  2,3-Dehydroacyl-CoA
@@ -870,9 +894,6 @@ D      R01262	C00051  Glutathione	C00151  L-Amino acid	C01419  Cys-Gly	C03740  (
 D      R01687	C00245  Taurine	C05844  5-L-Glutamyl-taurine
 D      R03867	C02166  Leukotriene C4	C05951  Leukotriene D4
 D      R04935	C05689  Se-Methyl-L-selenocysteine	C05695  gamma-Glutamyl-Se-methylselenocysteine
-B  2.3.2.4
-C    R03749	C03740  (5-L-Glutamyl)-L-amino acid	C00151  L-Amino acid
-D      R02743	C00669  gamma-L-Glutamyl-L-cysteine	C00097  L-Cysteine
 B  2.4.1.10
 C    R05140	C00031  D-Glucose
 D      R06079	C00031  D-Glucose
@@ -958,6 +979,9 @@ C    R02789	C00694  beta-D-Galactosyl-(1->4)-N-acetyl-beta-D-glucosaminyl-R	C048
 D      R04659	C04922  beta-D-Galactosyl-(1->4)-N-acetyl-beta-D-glucosaminyl-(1->3)-beta-D-galactosyl-(1->4)-beta-D-glucosyl-(1<->1)-ceramide	C04938  N-Acetyl-D-glucosaminyl-1,3-beta-D-galactosyl-1,4-N-acetyl-beta-D-glucosaminyl-1,3-beta-D-galactosyl-1,4-beta-D-glucosylceramide
 D      R05974	G00067  nLc6Cer	G00068  nLc7Cer
 D      R05975	G00050  Paragloboside	G00066  nLc5Cer
+B  2.4.1.150
+C    R11879	C21742  beta-D-Gal-(1->4)-beta-D-GlcNAc-(1->3)-beta-D-Gal-(1->4)-beta-D-GlcNAc-R	C21743  beta-D-Gal-(1->4)-beta-D-GlcNAc-(1->3)-[beta-D-GlcNAc-(1->6)]-beta-D-Gal-(1->4)-beta-D-GlcNAc-R
+D      R06189	G00067  nLc6Cer
 B  2.4.1.152
 C    R03519	C04657  1,4-beta-D-Galactosyl-N-acetyl-D-glucosaminyl-R	C01311  1,4-beta-D-Galactosyl-(alpha-1,3-L-fucosyl)-N-acetyl-D-glucosaminyl-R
 D      R05904
@@ -967,6 +991,7 @@ D      R06039	G00069  nLc8Cer
 B  2.4.1.159
 C    R03880	C03946  Flavonol 3-O-beta-D-glucoside	C04194  Flavonol 3-O-[alpha-L-rhamnosyl-(1->6)-beta-D-glucoside]
 D      R04900	C05623  Quercetin 3-O-glucoside	C05625  Rutin
+D      R12046	C12249  Kaempferol 3-O-glucoside	C21833  Kaempferol-3-O-rutinoside
 B  2.4.1.170
 C    R07332	C00799  Isoflavone	C04074  Isoflavone 7-O-beta-D-glucoside
 D      R02932	C06563  Genistein	C09126  Genistein 7-O-beta-D-glucoside
@@ -976,17 +1001,13 @@ D      R07720	C10208  Daidzein	C10216  Daidzin
 D      R07729	C00858  Formononetin	C10509  Ononin
 D      R07740	C10503  Medicarpin	C16223  (-)-Medicocarpin
 D      R07753	C10502  (-)-Maackiain	C10538  Trifolirhizin
-B  2.4.1.175
-C    R04603	C04800  D-Glucuronyl-N-acetyl-1,3-beta-D-galactosaminylproteoglycan	C04913  N-Acetyl-beta-D-galactosaminyl-1,4-beta-D-glucuronyl-N-acetyl-1,3-beta-D-galactosaminylproteoglycan
-D      R05932
-D      R05934
 B  2.4.1.185
 C    R07333	C00766  Flavanone	C04007  Flavanone 7-O-beta-D-glucoside
 D      R02897	C00509  Naringenin	C09099  Naringenin 7-O-beta-D-glucoside
 D      R08021	C01709  Hesperetin	C16422  Hesperetin 7-O-glucoside
-B  2.4.1.201
-C    R04642	C04906  N-Acetyl-beta-D-glucosaminyl-1,6-(N-acetyl-beta-D-glucosaminyl-1,2)-alpha-D-mannosyl-R	C04934  N-Acetyl-beta-D-glucosaminyl-1,6-(N-acetyl-beta-D-glucosaminyl-1,2)-(N-acetyl-beta-D-glucosaminyl-1,4)-alpha-D-mannosyl-R
-D      R05992
+B  2.4.1.195
+C    R12045	C21871  (E)-omega-(Methylthio)alkyl-thiohydroximate	C21872  Aliphatic desulfoglucosinolate
+D      R08668	C17243  4-Methylthiobutylthiohydroximate	C17244  3-Methylthiopropyl-desulfoglucosinolate
 B  2.4.1.214
 C    R06015
 D      R09318
@@ -998,10 +1019,6 @@ B  2.4.1.225
 C    R07335	C15575  N-Acetyl-alpha-D-glucosaminyl-(1->4)-beta-D-glucuronosylproteoglycan	C15576  beta-D-Glucuronosyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-(1->4)-beta-D-glucuronosylproteoglycan
 D      R05935
 D      R10138
-B  2.4.1.226
-C    R07336	C15577  N-Acetyl-beta-D-galactosaminyl-(1->4)-beta-D-glucuronosylproteoglycan	C15578  beta-D-Glucuronosyl-(1->3)-N-acetyl-beta-D-galactosaminyl-(1->4)-beta-D-glucuronosylproteoglycan
-D      R05931
-D      R05933
 B  2.4.1.236
 C    R07337	C04007  Flavanone 7-O-beta-D-glucoside	C15579  Flavanone 7-O-[alpha-L-rhamnosyl-(1->2)-beta-D-glucoside]
 D      R06820	C09099  Naringenin 7-O-beta-D-glucoside	C09789  Naringin
@@ -1633,7 +1650,7 @@ B  4.2.1.107
 C    R04813	C05450  3alpha,7alpha,12alpha,24-Tetrahydroxy-5beta-cholestanoyl-CoA	C05460  3alpha,7alpha,12alpha-Trihydroxy-5beta-cholest-24-enoyl-CoA
 D      R04809	C05447  3alpha,7alpha-Dihydroxy-5beta-cholest-24-enoyl-CoA	C05448  3alpha,7alpha,24-Trihydroxy-5beta-cholestanoyl-CoA
 B  4.2.1.169
-C    R11506	C18160  Bacteriochlorophyllide d	C21426  3-vinyl bacteriochlorophyllide d
+C    R11506	C18160  Bacteriochlorophyllide d	C21426  3-Vinyl bacteriochlorophyllide d
 D      R11510	C21431  8-Ethyl-12-methylbacteriochlorophyllide d	C18157  8-Ethyl-12-methyl-3-vinylbacteriochlorophyllide d
 D      R11511	C21432  8,12-Diethylbacteriochlorophyllide d	C21427  8,12-Diethyl-3-vinylbacteriochlorophyllide d
 D      R11512	C21433  12-Ethyl-8-propylbacteriochlorophyllide d	C21428  12-Ethyl-8-propyl-3-vinylbacteriochlorophyllide d
@@ -1678,7 +1695,7 @@ C    R09768	C19882  D-glycero-D-manno-Heptose 7-phosphate
 D      R05645	C07836  D-glycero-beta-D-manno-Heptose 7-phosphate
 D      R09769	C19878  D-glycero-alpha-D-manno-Heptose 7-phosphate
 B  5.3.3.1
-C    R02644	C01034  3-Oxo-delta5-steroid	C00619  3-Oxo-delta4-steroid
+C    R02644	C01034  3-Oxo-Delta5-steroid	C00619  3-Oxo-Delta4-steroid
 D      R09955	C20252  5-Androstene-3,17-dione	C00280  Androstenedione
 B  5.3.99.7
 C    R02615	C02083  Styrene oxide
@@ -1709,7 +1726,7 @@ D      R07995	C08578  Butein	C09614  Butin
 
 A<b>6. Ligases reactions</b>
 B  6.2.1.2
-C    R00389	C00060  Carboxylate	C00040  Acyl-CoA
+C    R00389	C21925  Medium-chain fatty acid	C21926  Medium-chain acyl-CoA
 D      R01176	C00246  Butanoic acid	C00136  Butanoyl-CoA
 B  6.2.1.3
 C    R00390	C00347  Long-chain carboxylate	C00040  Acyl-CoA
@@ -1717,8 +1734,11 @@ D      R01280	C00249  Hexadecanoic acid	C00154  Palmitoyl-CoA
 B  6.3.2.17
 C    R04241	C03541  THF-polyglutamate	C03541  THF-polyglutamate
 D      R00942	C00101  Tetrahydrofolate	C09332  THF-L-glutamate
+#
+
+A<b>7. Translocases reactions</b>
 !
 #<hr>
 #<b>[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 3, 2017
+#Last updated: October 5, 2018
 #<br>Parent-child relationship of IUBMB reaction and other reactions with the same EC number

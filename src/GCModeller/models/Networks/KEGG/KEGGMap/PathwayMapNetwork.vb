@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::381ff17f065d30b6227ea0954796cf1c, models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PathwayMapNetwork
-    ' 
-    '     Function: BuildModel
-    ' 
-    ' /********************************************************************************/
+' Module PathwayMapNetwork
+' 
+'     Function: BuildModel
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,15 +65,16 @@ Public Module PathwayMapNetwork
             Dim pathwayMap As PathwayMap = Xml.LoadXml(Of PathwayMap)
 
             nodes += New Node(pathwayMap.EntryId) With {
-                .NodeType = pathwayMap.Brite?.Class,
+                .NodeType = pathwayMap.brite?.class,
                 .Properties = New Dictionary(Of String, String) From {
                     {"KO", pathwayMap.KEGGOrthology _
+                        .Terms _
                         .SafeQuery _
-                        .Select(Function(x) x.Key) _
+                        .Select(Function(x) x.name) _
                         .JoinBy(PathwayMapNetwork.delimiter)
                     },
-                    {"KO.counts", pathwayMap.KEGGOrthology?.Length},
-                    {"pathway.name", pathwayMap.Name} ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
+                    {"KO.counts", pathwayMap.KEGGOrthology.Length},
+                    {"pathway.name", pathwayMap.name} ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
                 }
             }
         Next

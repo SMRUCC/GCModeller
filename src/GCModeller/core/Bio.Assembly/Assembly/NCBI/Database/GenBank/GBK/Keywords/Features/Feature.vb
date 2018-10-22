@@ -140,17 +140,45 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Public Function ToGff() As GFF.Feature
             Dim gff As New GFF.Feature
 
-            gff.Strand = Me.Location.ContiguousRegion.Strand
+            ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
             gff.seqname = gb.Accession.AccessionId
-            gff.Right = Me.Location.Location.Right
-            gff.Left = Me.Location.Location.Left
+            gff.source = "Genebank"
             gff.Feature = Me.KeyName
+            gff.Left = Me.Location.Location.Left
+            gff.Right = Me.Location.Location.Right
+            gff.score = "."
+            gff.Strand = Me.Location.ContiguousRegion.Strand
+            gff.frame = "."
+            gff.attributes = attributes()
             gff.comments = Me.Query(FeatureQualifiers.note)
-            gff.attributes = New Dictionary(Of String, String)
-            gff.attributes.Add("gbkey", KeyName)
-            gff.attributes.Add("Name", Query(FeatureQualifiers.locus_tag))
 
             Return gff
+        End Function
+
+        Private Function attributes() As Dictionary(Of String, String)
+            Dim attrs As New List(Of (key$, val$))
+
+            attrs += ("gbKey", KeyName)
+            attrs += ("name", Query(FeatureQualifiers.locus_tag))
+            attrs += ("gene", Query(FeatureQualifiers.gene))
+            attrs += ("protein_id", Query(FeatureQualifiers.protein_id))
+            attrs += ("product", Query(FeatureQualifiers.product))
+            attrs += ("phenotype", Query(FeatureQualifiers.phenotype))
+            attrs += ("pseudo", Query(FeatureQualifiers.pseudo))
+            attrs += ("locus_tag", Query(FeatureQualifiers.locus_tag))
+            attrs += ("transl_table", Query(FeatureQualifiers.transl_table))
+            attrs += ("type", Query(FeatureQualifiers.type))
+            attrs += ("Dbxref", Query(FeatureQualifiers.db_xref))
+            attrs += ("EC_number", Query(FeatureQualifiers.EC_number))
+            attrs += ("function", Query(FeatureQualifiers.function))
+            attrs += ("Note", Query(FeatureQualifiers.note))
+
+            Return attrs _
+                .Where(Function(a)
+                           Return Not a.val.StringEmpty
+                       End Function) _
+                .ToDictionary(Function(t) t.key,
+                              Function(t) t.val)
         End Function
 
         ''' <summary>

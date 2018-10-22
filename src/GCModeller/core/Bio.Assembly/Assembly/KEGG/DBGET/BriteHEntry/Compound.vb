@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72f83596ebf3af70b6d58c87055d1749, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::207a6b3f23b60a166844e6149fea951c, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '         Function: Build, BuildPath, Download, DownloadCompounds, DownloadFromResource
     '                   Lipids, LoadFile
     ' 
-    '         Sub: __downloadsInternal, WorkspaceCleanup
+    '         Sub: downloadsInternal, WorkspaceCleanup
     ' 
     ' 
     ' /********************************************************************************/
@@ -323,21 +323,23 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 End With
             Next
 
-            Dim success As Index(Of String) = (ls - l - r - "*.XML" <= EXPORT) _
+            Dim success As Index(Of String) = (ls - l - r - "*.xml" <= EXPORT) _
                 .Select(AddressOf BaseName) _
                 .Indexing
 
-            Using progress As New ProgressBar("Downloads others", 1, CLS:=True)
+            Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
                 Dim tick As New ProgressProvider(maxID)
                 Dim saveDIR = EXPORT & "/OtherUnknowns/"
                 Dim skip As Boolean = False
+                Dim xml$
 
                 For i As Integer = 1 To maxID
                     Dim id = "C" & i.FormatZero("00000")
 
                     If success(id) = -1 Then
                         skip = False
-                        Call Download(id, saveDIR, forceUpdate, structInfo, skip)
+                        xml = $"{saveDIR}/{id}.xml"
+                        Call Download(id, xml, forceUpdate, structInfo, skip)
                     Else
                         skip = True
                     End If
@@ -347,6 +349,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     If Not skip Then
                         Call Thread.Sleep(thread_sleep)
                     End If
+
                     Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
                 Next
             End Using

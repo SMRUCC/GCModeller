@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::1f5d12036dc06102057d0b58de689c22, visualize\visualizeTools\PlasmidMap\SegmentObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SegmentObject
-    ' 
-    '         Properties: Color, CommonName, Direction, FunctionalAnnotation, GenomeLength
-    '                     Left, Location, LocusTag, Right
-    ' 
-    '         Function: CreateBackwardModel, CreateForwardModel, CreateNoneDirectionModel, Draw, Internal_createArc
-    '                   Internal_createArcBase, Internal_getCircleRelativeLocation
-    ' 
-    '         Sub: DrawingStringMethod
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SegmentObject
+' 
+'         Properties: Color, CommonName, Direction, FunctionalAnnotation, GenomeLength
+'                     Left, Location, LocusTag, Right
+' 
+'         Function: CreateBackwardModel, CreateForwardModel, CreateNoneDirectionModel, Draw, Internal_createArc
+'                   Internal_createArcBase, Internal_getCircleRelativeLocation
+' 
+'         Sub: DrawingStringMethod
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
 
 Namespace PlasmidMap.DrawingModels
 
@@ -91,8 +91,8 @@ Namespace PlasmidMap.DrawingModels
         ''' <param name="CenterLocation">图形的左上角的坐标</param>
         ''' <returns>返回绘制的图形的大小</returns>
         ''' <remarks></remarks>
-        Public Function Draw(Gr As System.Drawing.Graphics, CenterLocation As System.Drawing.Point, r1 As Integer, r2 As Integer) As Size
-            Dim Model As Drawing2D.GraphicsPath
+        Public Function Draw(Gr As Graphics, CenterLocation As Point, r1 As Integer, r2 As Integer) As Size
+            Dim Model As GraphicsPath
             If Direction = 0 Then
                 Model = CreateNoneDirectionModel(CenterLocation, r1, r2)
             ElseIf Direction > 0 Then

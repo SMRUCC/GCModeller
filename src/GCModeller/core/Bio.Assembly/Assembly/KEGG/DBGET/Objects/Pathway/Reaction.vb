@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b25b930210bd70bd65c6af7dee8e3d3, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::0e27714df43d2dd6b8eae93401fe0f87, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Structure OrthologyTerms
     ' 
-    '         Properties: EntityList, Terms
+    '         Properties: EntityList, Length, Terms
     ' 
     '         Function: ToString
     ' 
@@ -74,6 +74,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Terms.Keys
+            End Get
+        End Property
+
+        <XmlIgnore>
+        Public ReadOnly Property Length As Integer
+            Get
+                Return Terms?.Length
             End Get
         End Property
 

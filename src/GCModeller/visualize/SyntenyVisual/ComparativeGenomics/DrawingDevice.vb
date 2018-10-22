@@ -43,120 +43,203 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComparativeGenomics
 
     Public Class DrawingDevice
 
-        <DataFrameColumn> Dim Margin As Integer = 20
-        <DataFrameColumn> Dim Type2Arrow As Boolean = False
+        <DataFrameColumn> Public Property Type2Arrow As Boolean = False
+        <DataFrameColumn> Public Property DrawHeight As Integer = 150
+        <DataFrameColumn> Public Property Font As Font = New Font(FontFace.MicrosoftYaHei, 11)
+        <DataFrameColumn> Public Property titleFont As New Font(FontFace.MicrosoftYaHei, 36)
+        <DataFrameColumn> Public Property RibbonDistance As Integer = 20
 
-        Public Function InvokeDrawing(Model As DrawingModel) As Image
-            Dim gdi = Graphics2D.CreateDevice(New Size(15024, 1000))
-            Dim Left, Height As Integer
-            Dim gDrawHeight As Integer = 85
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="gdi"></param>
+        ''' <param name="models"></param>
+        ''' <param name="height%"></param>
+        ''' <param name="left%"></param>
+        ''' <param name="IDDown">ID绘制的位置，对于query，位于图上部分，不需要绘制在下面，对于ref则需要绘制于下方</param>
+        ''' <returns></returns>
+        Private Function drawBasicGenomeLayout(gdi As Graphics2D, models As GenomeModel,
+                                               ByRef height%,
+                                               ByRef left%,
+                                               IDDown As Boolean,
+                                               padding As Padding,
+                                               ByRef labelYRange As IntRange) As Dictionary(Of String, Rectangle)
 
-            If Model.Genome1 Is Nothing OrElse Model.Genome2 Is Nothing Then
+            Dim geneLayouts As New Dictionary(Of String, Rectangle)
+            Dim overlapRegion As MapLabelLayout
+            Dim labelY As New List(Of Integer)
+
+            models.genes = (
+                From gene As GeneObject
+                In models.genes
+                Select gene
+                Order By gene.Left Ascending
+            ).ToArray
+
+            Dim rect As New Rectangle With {
+                .Location = New Point(padding.Left, height + 0.2 * DrawHeight),
+                .Size = New Size(gdi.Width - padding.Horizontal, DrawHeight - 0.4 * DrawHeight)
+            }
+
+            Call gdi.FillRectangle(Brushes.LightGray, rect)
+
+            Dim scaleFactor As Double = (gdi.Width - padding.Horizontal) / models.Length
+            Dim r As Rectangle
+
+            left += models.First.Left * scaleFactor
+
+            '绘制基本图形
+            For i As Integer = 0 To models.Height(DrawHeight).Count - 2
+                Dim gene As GeneObject = models(i)
+                Dim nextGene As GeneObject = models(i + 1)
+
+                left = gene.InvokeDrawing(
+                    gdi.Graphics, New Point(left, height),
+                    NextLeft:=nextGene.Left,
+                    scaleFactor:=scaleFactor,
+                    arrowRect:=r,
+                    IdDrawPositionDown:=IDDown,
+                    Font:=Font,
+                    AlternativeArrowStyle:=Type2Arrow,
+                    overlapLayout:=overlapRegion)
+
+                Call labelY.Add(
+                    overlapRegion.OverlapRegion.Bottom,
+                    overlapRegion.OverlapRegion.Top
+                )
+                Call geneLayouts.Add(gene.locus_tag, r)
+            Next
+
+            Call models.Last.InvokeDrawing(gdi.Graphics, New Point(left, height),
+                                           NextLeft:=models.Length,
+                                           scaleFactor:=scaleFactor,
+                                           arrowRect:=r,
+                                           IdDrawPositionDown:=IDDown,
+                                           Font:=Font,
+                                           AlternativeArrowStyle:=Type2Arrow,
+                                           overlapLayout:=overlapRegion)
+
+            Call labelY.Add(
+                overlapRegion.OverlapRegion.Bottom,
+                overlapRegion.OverlapRegion.Top
+            )
+            Call geneLayouts.Add(models.Last.locus_tag, r)
+
+            labelYRange = labelY
+
+            Return geneLayouts
+        End Function
+
+        Public Function Plot(model As DrawingModel,
+                             Optional canvasSize$ = "15024,2000",
+                             Optional margin$ = "padding: 300px 100px 1000px 100px",
+                             Optional dLabel% = 20) As Image
+
+            Dim left, height As Integer
+            Dim title$
+            Dim size As SizeF
+            Dim padding As Padding = margin
+            Dim labelY As IntRange = Nothing
+
+            If model.Genome1 Is Nothing OrElse model.Genome2 Is Nothing Then
                 Call Console.WriteLine()
             End If
 
-            Dim ID_ConflictedRegion As MapLabelLayout
-            Dim Font As Font = New Font("Ubuntu", 12, FontStyle.Bold)
-            Dim IDDown As Boolean = False
-            Dim __invokeDrawing = Function(Models As GenomeModel) As Dictionary(Of String, Rectangle)
-                                      Dim gDrawRECT As New Dictionary(Of String, Rectangle)
+            Using g As Graphics2D = Graphics2D.CreateDevice(canvasSize.SizeParser)
 
-                                      Models.genes = (From gene As GeneObject
-                                                            In Models.genes
-                                                      Select gene
-                                                      Order By gene.Left Ascending).ToArray
-                                      Dim rect As New Rectangle With {
-                                          .Location = New Point(Margin, Height + 0.2 * gDrawHeight),
-                                          .Size = New Size(gdi.Width - 2 * Margin, gDrawHeight - 0.4 * gDrawHeight)
-                                      }
+                height = padding.Top
+                left = padding.Left
 
-                                      Call gdi.Graphics.FillRectangle(Brushes.LightGray, rect)
-                                      Dim cF As Double = (gdi.Width - 2 * Margin) / Models.Length
-                                      Left += Models.First.Left * cF
+                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding, labelY)
+                Dim top = labelY.Min
 
-                                      '绘制基本图形
-                                      For i As Integer = 0 To Models.Count - 2
-                                          Dim gene As GeneObject = Models(i)
-                                          gene.Height = gDrawHeight
-                                          Dim nextGene As GeneObject = Models(i + 1)
-                                          Dim r As Rectangle
+                title = model.Genome1.Title
+                size = g.MeasureString(title, titleFont)
+                left = (g.Width - size.Width) / 2
+                g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - dLabel)
 
-                                          Left = gene.InvokeDrawing(
-                                            gdi.Graphics, New Point(Left, Height),
-                                            NextLeft:=nextGene.Left,
-                                            convertFactor:=cF,
-                                            arrowRect:=r,
-                                            IdGrawingPositionDown:=IDDown, Font:=Font,
-                                            AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=ID_ConflictedRegion)
+                height = g.Height - DrawHeight - padding.Bottom
+                left = padding.Left
 
-                                          Call gDrawRECT.Add(gene.locus_tag, r)
-                                      Next
+                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding, labelY)
 
-                                      Dim rr As Rectangle
-                                      Call Models.Last.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=Models.Length, convertFactor:=cF,
-                                                                           arrowRect:=rr, IdGrawingPositionDown:=IDDown,
-                                                                           Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                                                           ID_conflictLayout:=ID_ConflictedRegion)
-                                      Call gDrawRECT.Add(Models.Last.locus_tag, rr)
+                height = labelY.Max
+                title = model.Genome2.Title
+                size = g.MeasureString(title, titleFont)
+                left = (g.Width - size.Width) / 2
+                g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
 
-                                      Return gDrawRECT
-                                  End Function
+                Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
+                Call drawRibbonColorLegend(g, model, top:=height + dLabel + size.Height, padding:=padding)
 
-            Dim titleFont As New Font("Microsoft YaHei", 20)
-            Dim size As SizeF = gdi.Graphics.MeasureString(Model.Genome1.Title, titleFont)
-            Call gdi.Graphics.DrawString(Model.Genome1.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, 10))
-            Height = 100
-            Left = Margin
-            Dim RegionData1 = __invokeDrawing(Model.Genome1)
+                Return g.ImageResource
+            End Using
+        End Function
 
-            size = gdi.Graphics.MeasureString(Model.Genome2.Title, titleFont)
-            Call gdi.Graphics.DrawString(Model.Genome2.Title, titleFont, Brushes.Black, New Point((gdi.Width - size.Width) / 2, gdi.Height - 100))
+        Private Sub drawRibbonColorLegend(gdi As Graphics2D, model As DrawingModel, top%, padding As Padding)
+            Dim min$ = model.RibbonScoreColors.scoreRange.Min
+            Dim max$ = model.RibbonScoreColors.scoreRange.Max
+            Dim legendSize As New Size(350, 1000)
+            Dim legend As Image = model.RibbonScoreColors _
+                .profiles _
+                .ColorMapLegend("Score Color", min, max,, True, lsize:=legendSize) _
+                .AsGDIImage
+            Dim left = gdi.Width - padding.Right - legendSize.Width - 20
 
-            IDDown = True
-            Height = 650
-            Left = Margin
-            Dim RegionData2 = __invokeDrawing(Model.Genome2)
+            Call gdi.DrawImageUnscaled(legend, left, top)
+        End Sub
 
-            Dim G1 = Model.Genome1.ToDictionary(Function(g) g.locus_tag), G2 = Model.Genome2.ToDictionary(Function(g) g.locus_tag)
-            Dim cl As SolidBrush
+        ''' <summary>
+        ''' 绘制由于同源所产生的链接信息
+        ''' </summary>
+        Private Sub drawHomologousRibbon(gdi As Graphics2D, model As DrawingModel,
+                                         layoutQuery As Dictionary(Of String, Rectangle),
+                                         layoutRef As Dictionary(Of String, Rectangle))
 
-            '绘制连接信息
-            For Each Link In Model.Links
-                Dim r1 As Rectangle = RegionData1(Link.genome1)
-                Dim r2 As Rectangle = RegionData2(Link.genome2)
-                Dim drModel As New GraphicsPath
+            Dim genome1 = model.Genome1.ToDictionary(Function(g) g.locus_tag)
+            Dim genome2 = model.Genome2.ToDictionary(Function(g) g.locus_tag)
+            Dim color As SolidBrush
 
+            For Each link As GeneLink In model.Links
+                Dim r1 As Rectangle = layoutQuery(link.genome1)
+                Dim r2 As Rectangle = layoutRef(link.genome2)
+                Dim path2D As New GraphicsPath
                 Dim p1, p2, p3, p4 As Point
-                p1 = New Point(r1.Location.X, r1.Location.Y + r1.Height + 3)
-                p2 = New Point(r1.Right, r1.Top + r1.Height + 3)
 
-                If G1(Link.genome1).Direction < 0 Then
+                p1 = New Point(r1.Location.X, r1.Location.Y + r1.Height + RibbonDistance)
+                p2 = New Point(r1.Right, r1.Top + r1.Height + RibbonDistance)
+
+                If genome1(link.genome1).Direction < 0 Then
                     Call p1.SwapWith(p2)
                 End If
 
-                p3 = New Point(r2.Right, r2.Top - 3)
-                p4 = New Point(r2.Location.X, r2.Location.Y - 3)
+                p3 = New Point(r2.Right, r2.Top - RibbonDistance)
+                p4 = New Point(r2.Location.X, r2.Location.Y - RibbonDistance)
 
-                If G2(Link.genome2).Direction < 0 Then
+                If genome2(link.genome2).Direction < 0 Then
                     Call p3.SwapWith(p4)
                 End If
 
-                cl = New SolidBrush(If(Link.Color = Nothing, Color.Brown, Link.Color))
+                color = New SolidBrush(link.Color Or defaultColor)
 
-                Call drModel.AddLine(p1, p2)
-                Call drModel.AddLine(p2, p3)
-                Call drModel.AddLine(p3, p4)
-                Call drModel.AddLine(p4, p1)
-                Call gdi.Graphics.FillPath(cl, drModel)
+                Call path2D.AddLine(p1, p2)
+                Call path2D.AddLine(p2, p3)
+                Call path2D.AddLine(p3, p4)
+                Call path2D.AddLine(p4, p1)
+
+                Call gdi.FillPath(color, path2D)
             Next
-
-            Return gdi.ImageResource
-        End Function
+        End Sub
     End Class
 End Namespace

@@ -43,9 +43,7 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
-Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
 Namespace DrawingModels
 

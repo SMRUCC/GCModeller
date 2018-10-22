@@ -1,56 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::37155c5093b1d8f750ce760c142787ea, visualize\ChromosomeMap\Configuration\Config.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Config
-    ' 
-    '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
-    '                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
-    '                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
-    '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
-    '                     tRNAColor
-    ' 
-    '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
-    '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Config
+' 
+'         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
+'                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
+'                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
+'                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
+'                     tRNAColor
+' 
+'         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
+'                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
@@ -194,7 +196,7 @@ Namespace Configuration
 
         Public Property AddLegend As String
 
-        Public Shared Function [DefaultValue]() As Config
+        Public Shared Function [DefaultValue]() As DefaultValue(Of Config)
             Return New Config With {
                 .Resolution = "18000,10000",
                 .AspectRatio = "16:9",
@@ -224,14 +226,14 @@ Namespace Configuration
             Return CSSFont.TryParse(css)
         End Function
 
-        Public Shared Function TypeOfAlignment(p As String) As SegmentObject.__TextAlignment
-            p = p.Trim.ToLower
-
-            If Not SegmentObject.TextAlignments.ContainsKey(p) Then
-                Return SegmentObject.TextAlignments("middle")
-            Else
-                Return SegmentObject.TextAlignments(p.ToLower)
-            End If
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function TypeOfAlignment(p As String) As TextPadding
+            Return LabelPaddingExtensions _
+                .TextAlignments _
+                .TryGetValue(
+                    index:=Strings.Trim(p).ToLower,
+                    [default]:=LabelPaddingExtensions.defaultPadding
+                )
         End Function
 
         Public Function GetDrawingSize(config As String) As Size
@@ -255,12 +257,12 @@ Namespace Configuration
             Return GetSaveImageFormat(config)
         End Function
 
-        Public Function GetTextAlignment(s As String) As TextAlignment
+        Public Function GetTextAlignment(s As String) As DataReader.TextAlignment
             Select Case s.ToLower.Trim
-                Case "left" : Return TextAlignment.Left
-                Case "right" : Return TextAlignment.Right
+                Case "left" : Return DataReader.TextAlignment.Left
+                Case "right" : Return DataReader.TextAlignment.Right
                 Case Else
-                    Return TextAlignment.Middle
+                    Return DataReader.TextAlignment.Middle
             End Select
         End Function
 #End Region
