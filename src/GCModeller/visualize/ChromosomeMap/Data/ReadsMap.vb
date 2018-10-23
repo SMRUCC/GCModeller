@@ -278,7 +278,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.UserTag)
+                Call row2.Add(Loci.Tag)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -301,7 +301,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.UserTag)
+                Call row2.Add(Loci.Tag)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
