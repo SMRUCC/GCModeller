@@ -112,7 +112,9 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         End If
 
         If motifs.FileExists Then
-            Dim data As EntityObject() = motifs.LoadCsv(Of EntityObject)
+            Dim data As EntityObject() = EntityObject.LoadDataSet(motifs) _
+                .Where(Function(d) Not d.ID.StringEmpty) _
+                .ToArray
             Dim familyList$() = data.Keys _
                 .Distinct _
                 .ToArray
