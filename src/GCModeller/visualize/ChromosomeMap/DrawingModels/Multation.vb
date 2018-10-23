@@ -89,7 +89,8 @@ Namespace DrawingModels
         Protected Shared ReadOnly __drawingModel As New Dictionary(Of MutationTypes, Func(Of Point, Integer, Integer, Integer, GraphicsPath)) From {
             {MutationTypes.DeleteMutation, AddressOf GetDeleteMutationModel},
             {MutationTypes.IntegrationMutant, AddressOf GetTriangleModel},
-            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel}
+            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel},
+            {MutationTypes.Unknown, AddressOf GetDeleteMutationModel}
         }
 
         Protected Shared ReadOnly __color As Dictionary(Of MutationTypes, Color) = New Dictionary(Of MutationTypes, Color) From {
@@ -98,12 +99,12 @@ Namespace DrawingModels
             {MutationTypes.Unknown, Color.RosyBrown}
         }
 
-        Public Overrides Sub Draw(Device As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
-            Dim GraphModel = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
-            Dim Color As Color = __color(Me.MutationType)
+        Public Overrides Sub Draw(g As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
+            Dim flagShape As GraphicsPath = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
+            Dim color As Color = __color(Me.MutationType)
 
-            Call Device.DrawPath(New Pen(Color, 8), GraphModel)
-            Call Device.FillPath(New SolidBrush(Color), GraphModel)
+            Call g.DrawPath(New Pen(color, 8), flagShape)
+            Call g.FillPath(New SolidBrush(color), flagShape)
         End Sub
 
         ''' <summary>

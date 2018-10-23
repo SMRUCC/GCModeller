@@ -178,12 +178,12 @@ Public Class DrawingDevice
 
         Call model.COGs.Add("COG_NOT_ASSIGNED", New SolidBrush(config.NoneCogColor))
 
-        Try
-            Return drawingImpl(model)
-        Catch ex As Exception
-            Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
-            Throw ex
-        End Try
+        'Try
+        Return drawingImpl(model)
+        'Catch ex As Exception
+        'Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
+        '    Throw ex
+        'End Try
     End Function
 
     Private Function drawingImpl(chr As ChromesomeDrawingModel) As GraphicsData()
