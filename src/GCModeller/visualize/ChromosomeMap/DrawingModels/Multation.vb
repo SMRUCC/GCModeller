@@ -139,17 +139,20 @@ Namespace DrawingModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Shared Function GetDeleteMutationModel(ref As Point, direction As Integer, FlagLength As Integer, FLAG_HEIGHT As Integer) As GraphicsPath
-            Dim ModelGraph = New Drawing2D.GraphicsPath
-            Dim pt_top As Point = New Point(ref.X, ref.Y - FLAG_HEIGHT)
-            Dim pt_flagDirection = New Point(ref.X + direction * FlagLength, pt_top.Y + 0.4 * FLAG_HEIGHT)
-            Dim pt_flagroot = New Point(ref.X, pt_flagDirection.Y)
-            Dim pt_flagmain = ref
+            Dim flag As New GraphicsPath
+            Dim top As New Point(ref.X, ref.Y - FLAG_HEIGHT)
+            Dim flagDirection As New Point With {
+                .X = ref.X + direction * FlagLength,
+                .Y = top.Y + 0.4 * FLAG_HEIGHT
+            }
+            Dim flagroot As New Point(ref.X, flagDirection.Y)
+            Dim flagmain = ref
 
-            Call ModelGraph.AddLine(pt_top, pt_flagDirection)
-            Call ModelGraph.AddLine(pt_flagDirection, pt_flagroot)
-            Call ModelGraph.AddLine(pt_top, pt_flagmain)
+            Call flag.AddLine(top, flagDirection)
+            Call flag.AddLine(flagDirection, flagroot)
+            Call flag.AddLine(top, flagmain)
 
-            Return ModelGraph
+            Return flag
         End Function
     End Class
 End Namespace

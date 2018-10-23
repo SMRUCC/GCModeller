@@ -421,8 +421,14 @@ Public Class DrawingDevice
 
         Dim position As Point
         Dim MutationSites = filteringSiteData(chr.MutationDatas, startLen, NextLength)
-        For Each Point In MutationSites
-            Call Point.Draw(g, New Point((Point.Left - startLen) * scaleFactor + margin, height - 30), FlagLength, FlagHeight)
+
+        For Each point As MultationPointData In MutationSites
+            position = New Point With {
+                .X = (point.Left - startLen) * scaleFactor + margin,
+                .Y = height - 30
+            }
+
+            Call point.Draw(g, position, FlagLength, FlagHeight)
         Next
 
         Dim MotifSites = filteringSiteData(chr.MotifSites, startLen, NextLength)
