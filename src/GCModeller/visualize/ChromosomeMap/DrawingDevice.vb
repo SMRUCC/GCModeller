@@ -419,14 +419,20 @@ Public Class DrawingDevice
                                     g As IGraphics,
                                     scale As Double)
 
+        Dim position As Point
         Dim MutationSites = filteringSiteData(chr.MutationDatas, startLen, NextLength)
         For Each Point In MutationSites
             Call Point.Draw(g, New Point((Point.Left - startLen) * scaleFactor + margin, height - 30), FlagLength, FlagHeight)
         Next
 
         Dim MotifSites = filteringSiteData(chr.MotifSites, startLen, NextLength)
-        For Each Point In MotifSites
-            Call Point.Draw(g, New Point((Point.Left - startLen + 0.5 * Point.Width) * scaleFactor + margin, height - 30), Point.Width * 0.6, 20)
+        For Each site In MotifSites
+            position = New Point With {
+                .X = (site.Left - startLen + 0.5 * site.Width) * scaleFactor + margin,
+                .Y = height - 30
+            }
+
+            Call site.Draw(g, position, site.Width * 0.45, 50)
         Next
 
         Dim LociSites = filteringSiteData(chr.Loci, startLen, NextLength)
