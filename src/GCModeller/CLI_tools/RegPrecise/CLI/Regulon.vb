@@ -147,6 +147,8 @@ Partial Module CLI
                         Call writer.WriteLine(fasta)
                     Next
                 Next
+
+                Call genome.BaseName.__INFO_ECHO
             Next
         End Using
 
