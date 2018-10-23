@@ -160,7 +160,7 @@ Partial Module CLI
         Call phenoOUT.Values.SaveTo(DIR.FluxResult)
         Call sampleTable.SaveTo(DIR.SampleTable)
         Call paramValue.SaveAsXml(DIR.Parameters)
-        Call ProgramPathSearchTool.SafeCopyTo(modify, DIR.Modifier)
+        Call PathExtensions.SafeCopyTo(modify, DIR.Modifier)
         Call rpkm.SaveTo(DIR.RPKM)
 
         Return 0
