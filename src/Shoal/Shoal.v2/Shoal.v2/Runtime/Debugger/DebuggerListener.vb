@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Threading
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Tcp
@@ -26,13 +27,13 @@ Namespace Runtime.Debugging
         ''' <remarks></remarks>
         Sub New(Debugger As String, WorkDir As String)
             Call (Sub() Call InternalStartListener()).BeginInvoke(Nothing, Nothing)
-            Call Threading.Thread.Sleep(100)
+            Call Thread.Sleep(100)
 
             Dim DebuggerArgvs As String = "/debug listener_port " & LocalPort
             If Not String.IsNullOrEmpty(WorkDir) Then DebuggerArgvs = DebuggerArgvs & " -work """ & WorkDir & """"
             Debugger = FileIO.FileSystem.GetFileInfo(Debugger).FullName
-            DebuggerProcess = New IORedirect(Debugger, DebuggerArgvs, _disp_debug:=True)
-            Call DebuggerProcess.Start(_DISP_DEBUG_INFO:=True)
+            DebuggerProcess = New IORedirect(Debugger, DebuggerArgvs, displayDebug:=True)
+            Call DebuggerProcess.Start(displaDebug:=True)
             Call InternalWaitForDebuggerStart()
             Call (Sub() SendHelloWorld()).BeginInvoke(Nothing, Nothing)
         End Sub
@@ -74,8 +75,8 @@ RESTART:        _DebuggerListener = New TcpServicesSocket(AddressOf __protocol, 
         End Function
 
         Private Sub SendHelloWorld()
-            Call Threading.Thread.Sleep(1500)
-            pid = DebuggerProcess.ProcessInfo.Id
+            Call Thread.Sleep(1500)
+            pid = DebuggerProcess.PID
             Dim Message As String = SendMessage("[DEBUGGING] Hello World!")
             Call Console.WriteLine(Message)
         End Sub
@@ -106,7 +107,7 @@ RESTART:        _DebuggerListener = New TcpServicesSocket(AddressOf __protocol, 
             If Not Me.disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
-                    Call DebuggerProcess.ProcessInfo.Kill()
+                    Call DebuggerProcess.Kill()
                     Call DebuggerProcess.Free()
                 End If
 

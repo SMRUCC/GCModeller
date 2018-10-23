@@ -87,7 +87,7 @@ Module ProteinDomain
         Dim Args As String = String.Format("-build_cache -i ""{0}"" -o ""{1}"" -db Pfam -grep_script ""{2}""", TargetFile, ExportSaved, GrepText)
         Dim Process As Microsoft.VisualBasic.CommandLine.IORedirect = New CommandLine.IORedirect(My.Application.Info.DirectoryPath & "/SMART.exe", Args)
         Call printf("Start to performence the protein domain architecture analysis...")
-        AddHandler Process.DataArrival, Sub(msg As String) Call Console.WriteLine(msg)
+        AddHandler Process.PrintOutput, AddressOf Console.WriteLine
         Call Process.Start(WaitForExit:=True)
         Call printf("END_OF_SMART_ANALYSIS")
 
