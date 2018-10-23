@@ -60,6 +60,7 @@ NOT_EQUALS:
     Public Function ExtractSites(tree As BinaryTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
         Return tree _
             .PopulateNodes _
+            .AsParallel _
             .Select(Function(cluster)
                         Dim maps As BlastnMapping() = TryCast(cluster!values, IEnumerable(Of BlastnMapping)).ToArray
                         Dim loci As NucleotideLocation = maps _
