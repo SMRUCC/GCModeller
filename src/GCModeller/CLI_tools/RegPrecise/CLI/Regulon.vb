@@ -1,51 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::27f10de68c2cad339fe93c683240aeec, CLI_tools\RegPrecise\CLI\Regulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: GetSites
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: GetSites
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -81,7 +86,7 @@ Partial Module CLI
                 If Not bbhhash.ContainsKey(TF.regulator.name) Then
                     Continue For
                 End If
-                If Not motifsHash.ContainsKey(TF.Regulog.name) Then
+                If Not motifsHash.ContainsKey(TF.regulog.name) Then
                     Continue For
                 End If
 
@@ -90,7 +95,7 @@ Partial Module CLI
 #End If
 
                 Dim maps As String() = bbhhash(TF.regulator.name)
-                Dim sitesFound As MotifLog() = motifsHash(TF.Regulog.name)
+                Dim sitesFound As MotifLog() = motifsHash(TF.regulog.name)
 
                 For Each site In sitesFound
                     site.tag = String.Join("; ", maps)
@@ -112,5 +117,39 @@ Partial Module CLI
         result = New List(Of MotifLog)(result.OrderBy(Function(x) x.ID))
 #End If
         Return result.SaveTo(out)
+    End Function
+
+    <ExportAPI("/Export.Regprecise.motifs")>
+    <Usage("/Export.Regprecise.motifs /in <dir=genome_regprecise.xml> [/out <motifs.fasta>]")>
+    <Description("Export Regprecise motif sites as a single fasta sequence file.")>
+    Public Function ExportRegpreciseMotifSites(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.motifs.fasta"
+        Dim fasta$
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            For Each genome As String In ls - l - "*.xml" <= [in]
+                Dim data As BacteriaRegulome = genome.LoadXml(Of BacteriaRegulome)
+                Dim regulators As Regulator() = data.regulons.regulators
+
+                For Each regulator As Regulator In regulators
+                    For Each site In regulator.regulatorySites
+                        fasta = New FastaSeq With {
+                            .SequenceData = site.SequenceData,
+                            .Headers = {
+                                site.locus_tag,
+                                site.position,
+                                regulator.family,
+                                site.bacteria
+                            }
+                        }.GenerateDocument(-1)
+
+                        Call writer.WriteLine(fasta)
+                    Next
+                Next
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
