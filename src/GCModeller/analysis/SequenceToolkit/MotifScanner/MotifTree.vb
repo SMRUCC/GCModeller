@@ -78,6 +78,8 @@ NOT_EQUALS:
     ''' <param name="getTarget"></param>
     ''' <param name="hits%"></param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Iterator Function FilterMotifs(sites As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping())),
                                           getFamily As Func(Of String, String),
                                           getTarget As Func(Of String, String),

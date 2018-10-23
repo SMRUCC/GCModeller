@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::2f652ae1ed6ba730dde564023a19c900, CLI_tools\VirtualFootprint\CLI\VirtualFootprints.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __copy, __createFootprints, BuildFootprints, CastLogAsFootprints, ExportFasta
-    '               Intersection, KEGGRegulons, MergeFootprints, PromoterSites, PromoterSitesBatch
-    '               Scanner, SiteScreens, SiteScreens2, TestFootprints, TestFootprints2
-    '               TFMotifSites, TrimRegulates
-    '     Class __testWorker
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __buildHash, __isValid
-    ' 
-    '         Sub: TestBlock
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __copy, __createFootprints, BuildFootprints, CastLogAsFootprints, ExportFasta
+'               Intersection, KEGGRegulons, MergeFootprints, PromoterSites, PromoterSitesBatch
+'               Scanner, SiteScreens, SiteScreens2, TestFootprints, TestFootprints2
+'               TFMotifSites, TrimRegulates
+'     Class __testWorker
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __buildHash, __isValid
+' 
+'         Sub: TestBlock
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,14 +55,18 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -76,6 +80,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
@@ -655,5 +660,39 @@ Partial Module CLI
         End If
 
         Return App.SelfFolks(CLI, n)
+    End Function
+
+    <ExportAPI("/scan.blastn.map.motifsite")>
+    <Usage("/scan.blastn.map.motifsite /in <blastn.mapping.csv> [/out <motifsite.csv>]")>
+    Public Function ScanBlastnMapMotifSites(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motif_sites.csv"
+        Dim tree As BinaryTree(Of Location, BlastnMapping) = [in].OpenHandle.AsLinq(Of BlastnMapping).BuildTree
+        Dim motifSites As NamedValue(Of NucleotideLocation)() = tree _
+            .ExtractSites _
+            .FilterMotifs(Function(q) q.Split("|"c)(2),
+                          Function(q)
+                              Return q.Split("|"c) _
+                                      .Take(2) _
+                                      .JoinBy(":")
+                          End Function) _
+            .ToArray
+        Dim output As EntityObject() = motifSites _
+            .Select(Function(site)
+                        Dim targets As String() = site.Description.LoadJSON(Of String())
+
+                        Return New EntityObject With {
+                            .ID = site.Name,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"left", site.Value.Left},
+                                {"right", site.Value.Right},
+                                {"strain", site.Value.Strand.GetBriefCode},
+                                {"src", targets.JoinBy("|")}
+                            }
+                        }
+                    End Function) _
+            .ToArray
+
+        Return output.SaveTo(out).CLICode
     End Function
 End Module
