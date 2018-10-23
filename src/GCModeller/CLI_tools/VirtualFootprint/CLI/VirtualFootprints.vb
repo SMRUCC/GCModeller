@@ -663,10 +663,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/scan.blastn.map.motifsite")>
-    <Usage("/scan.blastn.map.motifsite /in <blastn.mapping.csv> [/out <motifsite.csv>]")>
+    <Usage("/scan.blastn.map.motifsite /in <blastn.mapping.csv> [/hits.base <default=2> /out <motifsite.csv>]")>
     Public Function ScanBlastnMapMotifSites(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motif_sites.csv"
+        Dim hitsBase% = args("/hits.base") Or 2
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motif_sites={hitsBase}.csv"
         Dim tree As BinaryTree(Of Location, BlastnMapping) = [in].OpenHandle.AsLinq(Of BlastnMapping).BuildTree
         Dim motifSites As NamedValue(Of NucleotideLocation)() = tree _
             .ExtractSites _
@@ -675,7 +676,7 @@ Partial Module CLI
                               Return q.Split("|"c) _
                                       .Take(2) _
                                       .JoinBy(":")
-                          End Function) _
+                          End Function, hits:=hitsBase) _
             .ToArray
         Dim output As EntityObject() = motifSites _
             .Select(Function(site)
