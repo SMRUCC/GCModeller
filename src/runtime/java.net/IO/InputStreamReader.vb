@@ -1,6 +1,6 @@
-﻿Imports Oracle.Java.util.zip
-Imports Microsoft.VisualBasic
+﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
+Imports Oracle.Java.util.zip
 
 Namespace IO
 
@@ -8,8 +8,8 @@ Namespace IO
         Implements IDisposable
         Implements Closeable, AutoCloseable
 
-        Dim IORedirect As Microsoft.VisualBasic.CommandLine.IORedirect
-        Dim chunkBuffer As List(Of String) = New Global.System.Collections.Generic.List(Of String)
+        Dim IORedirect As IORedirect
+        Dim chunkBuffer As New List(Of String)
         Dim idx As Integer, _p As int
         Dim _currentLine As Char()
         Dim _avaliable As Boolean
@@ -17,7 +17,7 @@ Namespace IO
 
         Sub New(StandardOutput As Microsoft.VisualBasic.CommandLine.IORedirect)
             IORedirect = StandardOutput
-            AddHandler IORedirect.DataArrival, Sub(strData As String) Call chunkBuffer.Add(strData)
+            AddHandler IORedirect.PrintOutput, AddressOf chunkBuffer.Add
             AddHandler IORedirect.ProcessExit, AddressOf process_exit
             _avaliable = True
         End Sub
@@ -83,7 +83,7 @@ Namespace IO
 
         Public Shared Function CreateObject(CommandLine As String) As StandardOutput
             Dim IORedirect As Microsoft.VisualBasic.CommandLine.IORedirect = CommandLine
-            Call IORedirect.Start(WaitForExit:=False)
+            Call IORedirect.Start(waitForExit:=False)
             Return New StandardOutput(IORedirect)
         End Function
 

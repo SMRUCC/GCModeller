@@ -128,7 +128,7 @@ Namespace HTML
                                                                            Select If(Len(final) > 128, Mid(final, 1, 128) & "...", final)).ToArray))
             Call HtmlBuilder.Replace("%SDK_HELP%", doc.ToString)
             Call HtmlBuilder.Replace("%Description%", Type.Description)
-            Call HtmlBuilder.Replace("%DefineFile%", ProgramPathSearchTool.RelativePath(Type.Assembly.Location))
+            Call HtmlBuilder.Replace("%DefineFile%", PathExtensions.RelativePath(Type.Assembly.Location))
             Call HtmlBuilder.Replace("%Type%", Type.FullName)
 
             Return New KeyValuePair(Of String, Type)(HtmlBuilder.ToString, Type)

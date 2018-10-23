@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::94d985a7105bacda98ea17f87514ce05, analysis\RNA-Seq\TSSAR\TSSAR\Perl.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Perl
-    ' 
-    '     Function: Invoke, LoadFastaq, LoadSAM, Located, SaveAlignmentReadsMapping
-    '     Class LocatedAlignment
-    ' 
-    '         Properties: BitwiseFLAG, CIGAR, MappingPosition, MapQuality, PosNext
-    '                     QueryTemplateName, RefName, RefNext, SegmentDirection
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module Perl
+' 
+'     Function: Invoke, LoadFastaq, LoadSAM, Located, SaveAlignmentReadsMapping
+'     Class LocatedAlignment
+' 
+'         Properties: BitwiseFLAG, CIGAR, MappingPosition, MapQuality, PosNext
+'                     QueryTemplateName, RefName, RefNext, SegmentDirection
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -318,9 +319,9 @@ Public Module Perl
         Next
 
         Dim argvs As String = sBuilder.ToString
-        Dim InvokeCli = New Microsoft.VisualBasic.CommandLine.IORedirect("perl", argvs)
+        Dim InvokeCli As New IORedirect("perl", argvs)
         Call ("Perl " & argvs).SaveTo(Settings.DataCache & "/Perl_Invoke.bat")
-        Return InvokeCli.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
+        Return InvokeCli.Start(waitForExit:=True, displaDebug:=True)
     End Function
 
     <ExportAPI("Read.Fastaq")>

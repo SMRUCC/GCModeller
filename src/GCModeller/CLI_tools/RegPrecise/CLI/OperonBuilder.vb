@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::80ba221408bc792f0d227af783a4a5e2, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __getStrand, __operon, MergeDOOR, OperonBuilder, RegulonBatchBuilder
-    ' 
-    '     Sub: __scanOperon
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __getStrand, __operon, MergeDOOR, OperonBuilder, RegulonBatchBuilder
+' 
+'     Sub: __scanOperon
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -135,7 +136,7 @@ Partial Module CLI
         Dim bbh As IEnumerable(Of String) = ls - l - r - wildcards("*.csv") <= bbhDIR
         Dim PTT As IEnumerable(Of String) = ls - l - r - wildcards("*.PTT") <= PTT_DIR
         Dim TFs As IEnumerable(Of String) = ls - l - r - wildcards("*.Csv") <= tfDIR
-        Dim pairs = PathMatches.Pairs(New NamedValue(Of String())(NameOf(PTT), PTT.ToArray),
+        Dim pairs = Path.Extensions.Pairs(New NamedValue(Of String())(NameOf(PTT), PTT.ToArray),
                                       New NamedValue(Of String())(NameOf(bbh), bbh.ToArray),
                                       New NamedValue(Of String())(NameOf(TFs), TFs.ToArray))
         Dim task As Func(Of Dictionary(Of String, String), String) =
@@ -192,12 +193,12 @@ Partial Module CLI
                     Dim oHits As New Dictionary(Of String, String())   ' {RegPrecise -> bbh}
 
                     For Each m As RegulatedGene In opr.members
-                        If Not hitsHash.ContainsKey(m.LocusId) Then
-                            If Not oHits.ContainsKey(m.LocusId) Then
-                                oHits.Add(m.LocusId, {})
+                        If Not hitsHash.ContainsKey(m.locusId) Then
+                            If Not oHits.ContainsKey(m.locusId) Then
+                                oHits.Add(m.locusId, {})
                             End If
                         Else
-                            oHits.Add(m.LocusId, hitsHash(m.LocusId))
+                            oHits.Add(m.locusId, hitsHash(m.locusId))
                         End If
                     Next
 
