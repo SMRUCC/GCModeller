@@ -432,7 +432,7 @@ Public Class DrawingDevice
                 .Y = height - 30
             }
 
-            Call site.Draw(g, position, site.Width * 0.45, 50)
+            Call site.Draw(g, position, 30, site.Width * 0.65)
         Next
 
         Dim LociSites = filteringSiteData(chr.Loci, startLen, NextLength)

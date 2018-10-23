@@ -94,7 +94,8 @@ Namespace DrawingModels
 
         Protected Shared ReadOnly __color As Dictionary(Of MutationTypes, Color) = New Dictionary(Of MutationTypes, Color) From {
             {MutationTypes.DeleteMutation, Color.Red},
-            {MutationTypes.IntegrationMutant, Color.Blue}
+            {MutationTypes.IntegrationMutant, Color.Blue},
+            {MutationTypes.Unknown, Color.RosyBrown}
         }
 
         Public Overrides Sub Draw(Device As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)

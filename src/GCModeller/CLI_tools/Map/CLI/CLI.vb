@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -55,6 +56,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
@@ -77,7 +79,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
 
-        Return PTT.Draw(COG, "", confInf, out)
+        Return PTT.Draw(COG, "", {}, confInf, out)
     End Function
 
     <ExportAPI("/Config.Template", Usage:="/Config.Template [/out <./config.inf>]")>
@@ -90,7 +92,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
     End Function
 
     <Extension>
-    Private Function Draw(PTT As PTT, COG$, motifs$, conf$, out$) As Integer
+    Private Function Draw(PTT As PTT, COG$, motifs$, micsSites As MultationPointData(), conf$, out$) As Integer
         Dim config As Config
 
         If Not conf.FileExists(True) Then
@@ -105,6 +107,8 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT, config)
         Dim COGProfiles As MyvaCOG() = Nothing
+
+        model.MutationDatas = micsSites
 
         If COG.FileExists(True) Then
             COGProfiles = COG.LoadCsv(Of MyvaCOG).ToArray
@@ -128,7 +132,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
             model.MotifSites = data _
                 .Select(Function(site)
-                            Return New MotifSite With {
+                            Return New DrawingModels.MotifSite With {
                                 .Color = colors(site.ID),
                                 .Left = site!left,
                                 .Right = site!right,
@@ -161,6 +165,8 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         End With
     End Function
 
+    ReadOnly notMics As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "source"}
+
     <ExportAPI("--Draw.ChromosomeMap.genbank")>
     <Usage("--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/motifs <motifs.csv> /conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
     <Description("Draw bacterial genome map from genbank annotation dataset.")>
@@ -169,10 +175,27 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim out As String = args("/out") Or $"{gb.TrimSuffix}.maps/"
         Dim confInf As String = args("/conf") Or $"{out}/config.inf"
         Dim COG As String = args("/COG")
-        Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
+        Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=False)
         Dim motifs$ = args <= "/motifs"
+        Dim mics = GBFF.File.Load(gb).Features _
+            .Where(Function(feature)
+                       Return Not feature.KeyName.IsOneOfA(notMics)
+                   End Function) _
+            .Select(Function(feature)
+                        Dim site As NucleotideLocation = feature.Location.ContiguousRegion
 
-        Return PTT.Draw(COG, motifs, confInf, out)
+                        Return New MultationPointData With {
+                            .Comments = feature.Query("note"),
+                            .MutationType = MutationTypes.Unknown,
+                            .SiteName = feature.KeyName,
+                            .Left = site.Left,
+                            .Right = site.Right,
+                            .Direction = site.Strand
+                        }
+                    End Function) _
+            .ToArray
+
+        Return PTT.Draw(COG, motifs, mics, confInf, out)
     End Function
 
     <ExportAPI("/draw.map.region")>
