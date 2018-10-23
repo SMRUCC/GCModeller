@@ -39,12 +39,16 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -73,7 +77,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
 
-        Return PTT.Draw(COG, confInf, out)
+        Return PTT.Draw(COG, "", confInf, out)
     End Function
 
     <ExportAPI("/Config.Template", Usage:="/Config.Template [/out <./config.inf>]")>
@@ -86,7 +90,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
     End Function
 
     <Extension>
-    Private Function Draw(PTT As PTT, COG$, conf$, out$) As Integer
+    Private Function Draw(PTT As PTT, COG$, motifs$, conf$, out$) As Integer
         Dim config As Config
 
         If Not conf.FileExists(True) Then
@@ -105,6 +109,35 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         If COG.FileExists(True) Then
             COGProfiles = COG.LoadCsv(Of MyvaCOG).ToArray
             model = ChromosomeMap.ApplyCogColorProfile(model, COGProfiles)
+        End If
+
+        If motifs.FileExists Then
+            Dim data As EntityObject() = motifs.LoadCsv(Of EntityObject)
+            Dim familyList$() = data.Keys _
+                .Distinct _
+                .ToArray
+            Dim colors As Dictionary(Of String, Color)
+
+            With New LoopArray(Of Color)(ChartColors)
+                colors = familyList _
+                    .ToDictionary(Function(name) name,
+                                  Function() .Next)
+            End With
+
+            model.MotifSites = data _
+                .Select(Function(site)
+                            Return New MotifSite With {
+                                .Color = colors(site.ID),
+                                .Left = site!left,
+                                .Right = site!right,
+                                .Strand = site!strain,
+                                .MotifName = site.ID,
+                                .SiteName = site.ID,
+                                .Comments = site!src
+                            }
+                        End Function) _
+                .ToArray
+            model.MotifSiteColors = colors
         End If
 
         With config
@@ -126,16 +159,18 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         End With
     End Function
 
-    <ExportAPI("--Draw.ChromosomeMap.genbank",
-               Usage:="--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
+    <ExportAPI("--Draw.ChromosomeMap.genbank")>
+    <Usage("--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/motifs <motifs.csv> /conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
+    <Description("Draw bacterial genome map from genbank annotation dataset.")>
     Public Function DrawGenbank(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim out As String = args("/out") Or $"{gb.TrimSuffix}.maps/"
         Dim confInf As String = args("/conf") Or $"{out}/config.inf"
         Dim COG As String = args("/COG")
         Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=True)
+        Dim motifs$ = args <= "/motifs"
 
-        Return PTT.Draw(COG, confInf, out)
+        Return PTT.Draw(COG, motifs, confInf, out)
     End Function
 
     <ExportAPI("/draw.map.region")>
