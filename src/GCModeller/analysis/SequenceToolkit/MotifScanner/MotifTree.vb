@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
@@ -54,6 +56,7 @@ NOT_EQUALS:
         End If
     End Function
 
+    <Extension>
     Public Function ExtractSites(tree As BinaryTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
         Return tree _
             .PopulateNodes _
@@ -65,6 +68,50 @@ NOT_EQUALS:
 
                         Return (loci, maps)
                     End Function)
+    End Function
+
+    ''' <summary>
+    ''' 可能会有多个家族的调控因子作用在该位点上
+    ''' </summary>
+    ''' <param name="sites"></param>
+    ''' <param name="getFamily"></param>
+    ''' <param name="getTarget"></param>
+    ''' <param name="hits%"></param>
+    ''' <returns></returns>
+    Public Iterator Function FilterMotifs(sites As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping())),
+                                          getFamily As Func(Of String, String),
+                                          getTarget As Func(Of String, String),
+                                          Optional hits% = 2) As IEnumerable(Of NamedValue(Of NucleotideLocation))
+
+        For Each siteCluster In sites.Where(Function(site) site.maps.Length >= hits)
+            Dim loci As NucleotideLocation = siteCluster.loci
+            Dim maps As BlastnMapping() = siteCluster _
+                .maps _
+                .Where(Function(map) map.MappingLocation.Strand = loci.Strand) _
+                .ToArray
+            Dim familyGroups = maps _
+                .GroupBy(Function(map) getFamily(map.ReadQuery)) _
+                .Where(Function(family) family.Count >= hits) _
+                .ToArray
+
+            If familyGroups.Length = 0 Then
+                Continue For
+            End If
+
+            For Each family In familyGroups
+                Dim targets$() = family _
+                    .Select(Function(site) getTarget(site.ReadQuery)) _
+                    .ToArray
+
+                Yield New NamedValue(Of NucleotideLocation) With {
+                    .Description = targets.GetJson,
+                    .Name = family.Key,
+                    .Value = family _
+                        .Select(Function(site) site.MappingLocation) _
+                        .getLoci
+                }
+            Next
+        Next
     End Function
 
     <Extension>
