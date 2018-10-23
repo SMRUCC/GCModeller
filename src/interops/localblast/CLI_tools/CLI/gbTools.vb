@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -137,7 +138,7 @@ Partial Module CLI
 
         Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".__DEBUG_ECHO
 
-        For Each pair In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
+        For Each pair As PathMatch In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
             Dim out As String = pair.Pair1.TrimSuffix & ".PTT"
 
             Try

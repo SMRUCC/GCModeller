@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::7243237a2c7e9c3b215168967d8aafcd, analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Clustal
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) Align, AlignmentTask, CreateSession, Help, MultipleAlignment
-    ' 
-    ' /********************************************************************************/
+' Class Clustal
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: (+2 Overloads) Align, AlignmentTask, CreateSession, Help, MultipleAlignment
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel
 Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 
 ''' <summary>
@@ -166,14 +167,16 @@ Public Class Clustal : Inherits CLI
 
     <ExportAPI("Session.New")>
     Public Shared Function CreateSession() As Clustal
-        Dim directories$() = ProgramPathSearchTool.SearchDirectory("clustal-omega", "")
+        Dim directories$() = ProgramPathSearchTool.SearchDirectory("clustal-omega")
 
         If directories.IsNullOrEmpty Then
             GoTo RELEASE_PACKAGE
         End If
 
         For Each dir As String In directories
-            Dim program = ProgramPathSearchTool.SearchProgram(dir, "clustalo")
+            Dim program = ProgramPathSearchTool _
+                .SearchProgram(dir, "clustalo") _
+                .ToArray
 
             If Not program.IsNullOrEmpty Then
                 Return New Clustal(program.First)

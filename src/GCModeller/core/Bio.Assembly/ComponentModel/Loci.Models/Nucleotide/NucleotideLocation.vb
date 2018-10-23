@@ -73,10 +73,16 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute> Public Overridable Property Strand As Strands
-        <XmlAttribute> Public Property UserTag As String
+        ''' <summary>
+        ''' 用户对这个位点的自定义标注信息
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Tag As String
 
         ''' <summary>
-        ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，(假若需要使用原始的位置数据，则请使用<see cref="left"/>或者<see cref="right"/>属性，这两个属性值是和具体的链的方向无关的)
+        ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，
+        ''' (假若需要使用原始的位置数据，则请使用<see cref="left"/>或者<see cref="right"/>属性，
+        ''' 这两个属性值是和具体的链的方向无关的)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -92,7 +98,9 @@ Namespace ComponentModel.Loci
         End Property
 
         ''' <summary>
-        ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，(假若需要使用原始的位置数据，则请使用<see cref="left"/>或者<see cref="right"/>属性，这两个属性值是和具体的链的方向无关的)
+        ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，
+        ''' (假若需要使用原始的位置数据，则请使用<see cref="left"/>或者<see cref="right"/>属性，
+        ''' 这两个属性值是和具体的链的方向无关的)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -116,9 +124,11 @@ Namespace ComponentModel.Loci
             Call Me.Normalization()
 
             If Strand = Strands.Forward Then
-                Return Left - Distance '正向链，则是上游在前面
+                ' 正向链，则是上游在前面
+                Return Left - Distance
             Else
-                Return Right + Distance '反向链，则是上游在后面
+                ' 反向链，则是上游在后面
+                Return Right + Distance
             End If
         End Function
 
@@ -326,6 +336,15 @@ Namespace ComponentModel.Loci
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelationship(lcl As NucleotideLocation) As SegmentRelationships
             Return LociAPI.GetRelationship(Me, lcl)
+        End Function
+
+        ''' <summary>
+        ''' 获取当前的位点片段和一个指定的位点片段之间的重叠区域的长度
+        ''' </summary>
+        ''' <param name="loci"></param>
+        ''' <returns></returns>
+        Public Function GetOverlapSize(loci As NucleotideLocation) As Integer
+
         End Function
 
         ''' <summary>

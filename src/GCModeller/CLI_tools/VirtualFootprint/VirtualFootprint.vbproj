@@ -360,6 +360,10 @@
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
+      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
+      <Name>MotifScanner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
       <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
       <Name>SequencePatterns.Abstract</Name>

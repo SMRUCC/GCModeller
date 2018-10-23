@@ -46,7 +46,6 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComponentModel.Loci
 
@@ -180,7 +179,7 @@ Namespace ComponentModel.Loci
                 .Left = pos(0),
                 .Right = pos(1),
                 .Strand = s,
-                .UserTag = loci
+                .Tag = loci
             }
 
             Return nuclLoci

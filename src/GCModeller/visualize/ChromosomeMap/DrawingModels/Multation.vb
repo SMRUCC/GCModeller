@@ -89,20 +89,22 @@ Namespace DrawingModels
         Protected Shared ReadOnly __drawingModel As New Dictionary(Of MutationTypes, Func(Of Point, Integer, Integer, Integer, GraphicsPath)) From {
             {MutationTypes.DeleteMutation, AddressOf GetDeleteMutationModel},
             {MutationTypes.IntegrationMutant, AddressOf GetTriangleModel},
-            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel}
+            {MutationTypes.MotifSite, AddressOf RegulationMotifSite.TriangleModel},
+            {MutationTypes.Unknown, AddressOf GetDeleteMutationModel}
         }
 
         Protected Shared ReadOnly __color As Dictionary(Of MutationTypes, Color) = New Dictionary(Of MutationTypes, Color) From {
             {MutationTypes.DeleteMutation, Color.Red},
-            {MutationTypes.IntegrationMutant, Color.Blue}
+            {MutationTypes.IntegrationMutant, Color.Blue},
+            {MutationTypes.Unknown, Color.RosyBrown}
         }
 
-        Public Overrides Sub Draw(Device As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
-            Dim GraphModel = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
-            Dim Color As Color = __color(Me.MutationType)
+        Public Overrides Sub Draw(g As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
+            Dim flagShape As GraphicsPath = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
+            Dim color As Color = __color(Me.MutationType)
 
-            Call Device.DrawPath(New Pen(Color, 8), GraphModel)
-            Call Device.FillPath(New SolidBrush(Color), GraphModel)
+            Call g.DrawPath(New Pen(color, 8), flagShape)
+            Call g.FillPath(New SolidBrush(color), flagShape)
         End Sub
 
         ''' <summary>
@@ -137,17 +139,20 @@ Namespace DrawingModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Shared Function GetDeleteMutationModel(ref As Point, direction As Integer, FlagLength As Integer, FLAG_HEIGHT As Integer) As GraphicsPath
-            Dim ModelGraph = New Drawing2D.GraphicsPath
-            Dim pt_top As Point = New Point(ref.X, ref.Y - FLAG_HEIGHT)
-            Dim pt_flagDirection = New Point(ref.X + direction * FlagLength, pt_top.Y + 0.4 * FLAG_HEIGHT)
-            Dim pt_flagroot = New Point(ref.X, pt_flagDirection.Y)
-            Dim pt_flagmain = ref
+            Dim flag As New GraphicsPath
+            Dim top As New Point(ref.X, ref.Y - FLAG_HEIGHT)
+            Dim flagDirection As New Point With {
+                .X = ref.X + direction * FlagLength,
+                .Y = top.Y + 0.4 * FLAG_HEIGHT
+            }
+            Dim flagroot As New Point(ref.X, flagDirection.Y)
+            Dim flagmain = ref
 
-            Call ModelGraph.AddLine(pt_top, pt_flagDirection)
-            Call ModelGraph.AddLine(pt_flagDirection, pt_flagroot)
-            Call ModelGraph.AddLine(pt_top, pt_flagmain)
+            Call flag.AddLine(top, flagDirection)
+            Call flag.AddLine(flagDirection, flagroot)
+            Call flag.AddLine(top, flagmain)
 
-            Return ModelGraph
+            Return flag
         End Function
     End Class
 End Namespace

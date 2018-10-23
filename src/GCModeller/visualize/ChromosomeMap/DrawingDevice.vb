@@ -178,12 +178,12 @@ Public Class DrawingDevice
 
         Call model.COGs.Add("COG_NOT_ASSIGNED", New SolidBrush(config.NoneCogColor))
 
-        Try
-            Return drawingImpl(model)
-        Catch ex As Exception
-            Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
-            Throw ex
-        End Try
+        'Try
+        Return drawingImpl(model)
+        'Catch ex As Exception
+        'Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
+        '    Throw ex
+        'End Try
     End Function
 
     Private Function drawingImpl(chr As ChromesomeDrawingModel) As GraphicsData()
@@ -270,11 +270,11 @@ Public Class DrawingDevice
                                   RightEnd:=RightEnd,
                                   ChromesomeLength:=chr.Size)
             Call drawChromosomeSites(chr,
-                                           _start_Length:=_Start_Length,
+                                           startLen:=_Start_Length,
                                            FlagHeight:=FlagHeight,
                                            FlagLength:=FlagLength,
-                                           GrDevice:=g,
-                                           Height:=Height,
+                                           g:=g,
+                                           height:=Height,
                                            NextLength:=NextLength, scale:=scaleFactor)
         End If
 
@@ -307,11 +307,11 @@ Public Class DrawingDevice
 
                 ' 每换一行则首先绘制突变数据
                 Call drawChromosomeSites(chr,
-                                               _start_Length:=_Start_Length,
+                                               startLen:=_Start_Length,
                                                FlagHeight:=FlagHeight,
                                                FlagLength:=FlagLength,
-                                               GrDevice:=g,
-                                               Height:=Height,
+                                               g:=g,
+                                               height:=Height,
                                                NextLength:=NextLength,
                                                scale:=scaleFactor)
             End If
@@ -403,41 +403,53 @@ Public Class DrawingDevice
     ''' 在这里绘制基因组上面的所有的位点的数据
     ''' </summary>
     ''' <param name="chr"></param>
-    ''' <param name="_start_Length"></param>
+    ''' <param name="startLen"></param>
     ''' <param name="NextLength"></param>
-    ''' <param name="Height"></param>
+    ''' <param name="height"></param>
     ''' <param name="FlagLength"></param>
     ''' <param name="FlagHeight"></param>
-    ''' <param name="GrDevice"></param>
+    ''' <param name="g"></param>
     ''' <param name="scale"></param>
     Private Sub drawChromosomeSites(chr As ChromesomeDrawingModel,
-                                          _start_Length As Integer,
-                                          NextLength As Integer,
-                                          Height As Integer,
-                                          FlagLength As Integer,
-                                          FlagHeight As Integer,
-                                          GrDevice As IGraphics,
-                                          scale As Double)
+                                    startLen As Integer,
+                                    NextLength As Integer,
+                                    height As Integer,
+                                    FlagLength As Integer,
+                                    FlagHeight As Integer,
+                                    g As IGraphics,
+                                    scale As Double)
 
-        Dim MutationSites = filteringSiteData(chr.MutationDatas, _start_Length, NextLength)
-        For Each Point In MutationSites
-            Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length) * scaleFactor + margin, Height - 30), FlagLength, FlagHeight)
+        Dim position As Point
+        Dim MutationSites = filteringSiteData(chr.MutationDatas, startLen, NextLength)
+
+        For Each point As MultationPointData In MutationSites
+            position = New Point With {
+                .X = (point.Left - startLen) * scaleFactor + margin,
+                .Y = height - 30
+            }
+
+            Call point.Draw(g, position, FlagLength, FlagHeight)
         Next
 
-        Dim MotifSites = filteringSiteData(chr.MotifSites, _start_Length, NextLength)
-        For Each Point In MotifSites
-            Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * scaleFactor + margin, Height - 30), Point.Width * 0.6, 20)
+        Dim MotifSites = filteringSiteData(chr.MotifSites, startLen, NextLength)
+        For Each site In MotifSites
+            position = New Point With {
+                .X = (site.Left - startLen + 0.5 * site.Width) * scaleFactor + margin,
+                .Y = height - 30
+            }
+
+            Call site.Draw(g, position, 30, site.Width * 0.65)
         Next
 
-        Dim LociSites = filteringSiteData(chr.Loci, _start_Length, NextLength)
+        Dim LociSites = filteringSiteData(chr.Loci, startLen, NextLength)
         For Each Point In LociSites
             Point.Scale = scale
-            Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * scaleFactor + margin, Height - 30), Point.Width * 0.6, 20)
+            Call Point.Draw(g, New Point((Point.Left - startLen + 0.5 * Point.Width) * scaleFactor + margin, height - 30), Point.Width * 0.6, 20)
         Next
 
-        Dim TSSs = filteringSiteData(chr.TSSs, _start_Length, NextLength)
+        Dim TSSs = filteringSiteData(chr.TSSs, startLen, NextLength)
         For Each Point In TSSs
-            Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * scaleFactor + margin, Height - 30), Point.Width * 0.6, 20)
+            Call Point.Draw(g, New Point((Point.Left - startLen + 0.5 * Point.Width) * scaleFactor + margin, height - 30), Point.Width * 0.6, 20)
         Next
     End Sub
 

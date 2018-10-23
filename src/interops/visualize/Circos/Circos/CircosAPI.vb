@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::f5906f81ceb2e3ceede689c8587a2ca4, visualize\Circos\Circos\CircosAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CircosAPI
-    ' 
-    '     Function: __createGenomeCircle, (+2 Overloads) __geneHighlights, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack
-    '               (+2 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites
-    '               CircosOption, CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle
-    '               DrawingImageAddLegend, GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle
-    '               GetIdeogram, (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram
-    '               RemoveStroke, RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius
-    '               SetIdeogramWidth, SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation
-    '               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
-    '               WriteData
-    ' 
-    '     Sub: __addDisplayName, __STDOUT_Threads, setProperty, ShowTicksLabel
-    ' 
-    ' /********************************************************************************/
+' Module CircosAPI
+' 
+'     Function: __createGenomeCircle, (+2 Overloads) __geneHighlights, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack
+'               (+2 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites
+'               CircosOption, CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle
+'               DrawingImageAddLegend, GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle
+'               GetIdeogram, (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram
+'               RemoveStroke, RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius
+'               SetIdeogramWidth, SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation
+'               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
+'               WriteData
+' 
+'     Sub: __addDisplayName, __STDOUT_Threads, setProperty, ShowTicksLabel
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
@@ -1190,10 +1191,11 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Circos.pl", Info:="Gets the circos Perl script file location automatically by search on the file system.")>
     Public Function GetCircosScript() As String
-        Dim libs = ProgramPathSearchTool.SearchDirectory("circos", "")
+        Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
 
         For Each DIR As String In libs
-            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos")
+            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos").ToArray
+
             If Not circos.IsNullOrEmpty Then
                 Return circos.First
             End If
@@ -1273,12 +1275,13 @@ SET_END:    Dim ends = i
                Info:="Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
                work directory to the directory which contains the circos.conf plots configuration file.")>
     Public Function Shell(Optional conf As String = "") As Boolean
-        Dim Directories = Microsoft.VisualBasic.ProgramPathSearchTool.SearchDirectory("perl", "")
+        Dim Directories = ProgramPathSearchTool.SearchDirectory("perl", "")
         Dim Perl As String = ""
         Dim Circos As String = GetCircosScript()
 
         For Each Dir As String In Directories
-            Dim Files = Microsoft.VisualBasic.ProgramPathSearchTool.SearchProgram(Dir, "perl")
+            Dim Files = ProgramPathSearchTool.SearchProgram(Dir, "perl").ToArray
+
             If Not Files.IsNullOrEmpty Then
                 Perl = Files.First
                 Call $"Perl program find at ""{Perl.ToFileURL}""".__DEBUG_ECHO

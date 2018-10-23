@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::c4bc1f88c4420e48e21fdeef720dad10, analysis\Motifs\CRISPR\sgRNAcas\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module API
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: check_sgRNA_seq, extract_targetSeq, Initialize, LoadSingleStrandResult, sgRNAcas
-    '               sgRPrimer
-    ' 
-    ' /********************************************************************************/
+' Module API
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: check_sgRNA_seq, extract_targetSeq, Initialize, LoadSingleStrandResult, sgRNAcas
+'               sgRPrimer
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -128,15 +129,12 @@ Public Module API
                                             FileIO.FileSystem.GetFileInfo(InputFile).FullName,
                                             FileIO.FileSystem.GetFileInfo(RefGenome).FullName,
                                             FileIO.FileSystem.GetDirectoryInfo(Output).FullName, Length, MinGC, MaxGC, [Option], SearchModel, OSVersion, Mismatches, MinOffSet, MaxOffSet)
-        Dim Process As New IORedirect("perl", argvs)
-        Dim CurrentWork As String = My.Computer.FileSystem.CurrentDirectory
-
-        Call Output.SetValue(FileIO.FileSystem.GetDirectoryInfo(Output).FullName)
-        Call FileIO.FileSystem.CreateDirectory(Output)
-        Call My.Computer.FileSystem.CurrentDirectory.SetValue(Output)
-        Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
-        Call Threading.Thread.Sleep(100)
-        Call My.Computer.FileSystem.CurrentDirectory.SetValue(CurrentWork)
+        Using process As New IORedirect("perl", argvs)
+            Using temp As New FileIO.TemporaryEnvironment(Output)
+                Call process.Start(waitForExit:=True, displaDebug:=True)
+                Call Thread.Sleep(100)
+            End Using
+        End Using
 
         Return True
     End Function
@@ -146,7 +144,7 @@ Public Module API
                                     <Parameter("-r", "restriction enzyme cutting sites")> RestrictedSites As String) As Boolean
         Dim argvs As String = String.Format("{0}/check_sgRNA_seq.pl -i ""{1}"" -r ""{2}""", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, RestrictedSites)
         Dim Process As New IORedirect("perl", argvs)
-        Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
+        Call Process.Start(waitForExit:=True, displaDebug:=True)
 
         Return True
     End Function
@@ -157,7 +155,7 @@ Public Module API
                                       <Parameter("-l", "Lenght of flank sequences")> Optional Length As Integer = 1000) As Boolean
         Dim argvs As String = String.Format("{0}/extract_targetSeq.pl -i ""{1}"" -g ""{2}"" -l {3}", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, RefGenome, Length)
         Dim Process As New IORedirect("perl", argvs)
-        Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
+        Call Process.Start(waitForExit:=True, displaDebug:=True)
 
         Return True
     End Function
@@ -170,7 +168,7 @@ Public Module API
                               <Parameter("-r", "Restriction enzyme cutting site for reverse primer")> Optional ReversedRs As String = "aaac") As Boolean
         Dim argvs As String = String.Format("{0}/sgRPrimer.pl -i ""{1}"" -s ""{2}"" -l {3} -f ""{4}"" -r ""{5}""", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, IDListFile, Length, ForwardRs, ReversedRs)
         Dim Process As New IORedirect("perl", argvs)
-        Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
+        Call Process.Start(waitForExit:=True, displaDebug:=True)
 
         Return True
     End Function
