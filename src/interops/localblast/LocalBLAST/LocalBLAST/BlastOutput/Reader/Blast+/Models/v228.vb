@@ -284,7 +284,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="source">主要是使用到Query序列之中的Title属性</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function CheckIntegrity(source As FASTA.FastaFile) As Boolean
+        Public Overrides Function CheckIntegrity(source As FastaFile) As Boolean
             Dim empty = LinqAPI.DefaultFirst(Of Query()) _
  _
                 () <= From fasta As FastaSeq

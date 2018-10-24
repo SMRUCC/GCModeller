@@ -180,7 +180,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
-    <Usage("/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -198,11 +198,19 @@ Partial Module CLI
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
         Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
+        Dim i As int = 0
+        Dim topBest As Boolean = args("/top.best")
 
         Using IO As New WriteStream(Of BestHit)(out)
             Dim handle As Action(Of Query) = IO _
                 .ToArray(Of Query)(Function(query)
-                                       Return v228.SBHLines(query, coverage:=coverage, identities:=idetities)
+                                       Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities)
+
+                                       If topBest Then
+                                           Return {hits.First}
+                                       Else
+                                           Return hits
+                                       End If
                                    End Function)
 
             For Each query As Query In BlastpOutputReader.RunParser(inFile)
@@ -213,7 +221,11 @@ Partial Module CLI
                 Next
 
                 Call handle(query)
-                Call Console.Write(".")
+
+                If ++i Mod 25 = 0 Then
+                    Console.Write(i)
+                    Console.Write(vbTab)
+                End If
             Next
         End Using
 

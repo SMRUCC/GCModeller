@@ -47,5 +47,6 @@ Public Class CLIGrouping
     Public Const COGTools As String = "COG annotation tools"
     Public Const BBHTools As String = "Blastp BBH tools"
     Public Const TaxonomyTools As String = "NCBI taxonomy tools"
+    Public Const UniProtTools As String = "UniProt tools"
 
 End Class
