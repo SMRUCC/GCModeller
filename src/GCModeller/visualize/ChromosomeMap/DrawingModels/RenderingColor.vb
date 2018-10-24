@@ -59,9 +59,13 @@ Namespace DrawingModels
         ''' <param name="chromesome"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ApplyingCOGCategoryColor(Of MyvaCOG As ICOGCatalog)(genes As MyvaCOG(), chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+        Public Function ApplyingCOGCategoryColor(Of MyvaCOG As ICOGCatalog)(
+                        genes As MyvaCOG(),
+                        chromesome As ChromesomeDrawingModel,
+                        Optional alpha% = 230) As ChromesomeDrawingModel
+
             Dim colorProfiles As Dictionary(Of String, Brush) = RenderingColor _
-                .InitCOGColors(Nothing) _
+                .InitCOGColors(Nothing, alpha) _
                 .ToDictionary(Function(obj) obj.Key,
                               Function(obj) CType(New SolidBrush(obj.Value), Brush))
             With chromesome
@@ -93,6 +97,9 @@ Namespace DrawingModels
                     End If
                 Next
 
+                ' 在这里需要填充一个空字符串表示cog not assign的颜色
+                ' 否则在绘制图例的时候任然是默认色，而非这个配置文件指定的颜色
+                colorProfiles("") = defaultCOG_color
                 .COGs = colorProfiles
             End With
 

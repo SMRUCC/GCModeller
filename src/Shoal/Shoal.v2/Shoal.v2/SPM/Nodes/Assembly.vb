@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.Versioning
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.HTML
+Imports InternalIO = Microsoft.VisualBasic.FileIO.FileSystem
 
 Namespace SPM.Nodes
 
@@ -57,7 +58,7 @@ Namespace SPM.Nodes
                                               Where attr.AttributeType = GetType(TargetFrameworkAttribute)
                                               Let value = attr.ToString
                                               Select value).FirstOrDefault
-            Dim FileInfo = VisualBasic.FileIO.FileSystem.GetFileInfo(Assembly.Location)
+            Dim FileInfo = InternalIO.GetFileInfo(Assembly.Location)
             Dim Updates As Long = FileInfo.LastWriteTime.ToBinary
             Dim assmDef = Activator.CreateInstance(Of T)
 
@@ -71,7 +72,7 @@ Namespace SPM.Nodes
         End Function
 
         Private Shared Function __createPath(path As String) As String
-            path = ProgramPathSearchTool.RelativePath(App.HOME, path)
+            path = PathExtensions.RelativePath(App.HOME, path)
             Call FileIO.FileSystem.WriteAllText(App.HOME & "/Imports.txt", path & vbCrLf, append:=True)
             Return path
         End Function

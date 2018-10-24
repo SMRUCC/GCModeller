@@ -1,54 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::075ee9d85727c358bd2d34dc87fd412a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Parameter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Structure Parameter
-    ' 
-    '         Function: __parserCommon, ToString, TryParseBlastPlusBlastn, TryParseBlastPlusParameters
-    '         Delegate Function
-    ' 
-    '             Function: __blastnParser, __newParameter
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Structure Parameter
+' 
+'         Function: __parserCommon, ToString, TryParseBlastPlusBlastn, TryParseBlastPlusParameters
+'         Delegate Function
+' 
+'             Function: __blastnParser, __newParameter
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.ComponentModel
 
@@ -77,17 +76,29 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         End Function
 
         Private Shared Function __parserCommon(line As String, Parser As Parameter.ParameterParser) As Parameter()
-            Dim Match As String = Regex.Match(line, Parameter.MATCHED, RegexOptions.Singleline).Value
-            Dim Tokens As String() = Match.LineTokens
+            Dim match As String = r.Match(line, Parameter.MATCHED, RegexOptions.Singleline).Value
+            Dim tokens As String() = match.LineTokens
 
-            If Tokens.IsNullOrEmpty OrElse Tokens.IsNullOrEmpty Then
-NULL:           Call $"[{line}] ===> {NameOf(Tokens)}:=null".__DEBUG_ECHO
-                Return New Parameter() {New Parameter, New Parameter}
-            ElseIf Tokens.Length >= 6 Then
-                Return New Parameter() {Parser(Tokens(1)), Parser(Tokens(5))}
-            ElseIf Tokens.Length >= 2 Then
-                Call $"[{line}] ===> {NameOf(Tokens)}:={Tokens.Length}".__DEBUG_ECHO
-                Return New Parameter() {Parser(Tokens(1)), New Parameter}
+            If tokens.IsNullOrEmpty Then
+NULL:           ' 如果序列的长度是零的时候，会出现无参数的情况
+                Dim zeroLen = r.Match(line, "Length[=]0", RegexICSng) _
+                    .Value _
+                    .GetTagValue("=") _
+                    .Value = "0"
+
+                If Not zeroLen Then
+                    Call $"[{line}] ===> {NameOf(tokens)}:=null".__DEBUG_ECHO
+                End If
+
+                Return {
+                    New Parameter,
+                    New Parameter
+                }
+            ElseIf tokens.Length >= 6 Then
+                Return New Parameter() {Parser(tokens(1)), Parser(tokens(5))}
+            ElseIf tokens.Length >= 2 Then
+                Call $"[{line}] ===> {NameOf(tokens)}:={tokens.Length}".Warning
+                Return New Parameter() {Parser(tokens(1)), New Parameter}
             Else
                 GoTo NULL
             End If

@@ -198,7 +198,7 @@ Namespace LocalBLAST.Programs
         ''' <remarks></remarks>
         Public Overrides ReadOnly Property Version As String
             Get
-                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", disp_STDOUT:=False)
+                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", displayStdOut:=False)
                 Call Process.Start(True)
                 Dim str As String = Regex.Split(Process.StandardOutput, "Package:\s+", RegexOptions.IgnoreCase).Last.Trim
                 Return str

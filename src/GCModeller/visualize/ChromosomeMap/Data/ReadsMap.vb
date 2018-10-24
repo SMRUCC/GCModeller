@@ -173,7 +173,8 @@ Public Module ReadsMap
                 Dim drawingSize = GeneObject.Draw(g:=canvas,
                                             location:=New Point(x, bottom + Config.GeneObjectHeight + Level * 110),
                                             factor:=1,
-                                            RightLimited:=GeneObject.Right + 2, conf:=ConfData)
+                                            RightLimited:=GeneObject.Right + 2,
+                                            locusTagFont:=ConfData.LocusTagFont)
 
                 'TSS的位置大概在ATG上有的54bp的位置
                 Dim x1 = x + GeneObject.Direction * 60
@@ -245,7 +246,7 @@ Public Module ReadsMap
         Next
 
         '将位点还原为标签
-        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.UserTag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
+        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.Tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
         Dim Df As New IO.File
         Dim OperonPromoterGene As String() = Nothing
@@ -277,7 +278,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.UserTag)
+                Call row2.Add(Loci.Tag)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -300,7 +301,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.UserTag)
+                Call row2.Add(Loci.Tag)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -326,7 +327,7 @@ Public Module ReadsMap
         Return New NucleotideLocation(
             GeneObject.Location.GetUpStreamLoci(CUInt(150)),
             GeneObject.Location.Start,
-            GeneObject.Location.Strand = Strands.Reverse) With {.UserTag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
+            GeneObject.Location.Strand = Strands.Reverse) With {.Tag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
     End Function
 
 End Module

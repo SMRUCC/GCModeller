@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::883c459db1b65c7db8fea63a6d766b5f, localblast\LocalBLAST\NCBILocalBlast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module NCBILocalBlast
-    ' 
-    '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
-    '               (+2 Overloads) BlastX, ClassifyEnzyme, CreateGrepScript, CreateSession, (+2 Overloads) Export_BidirBesthit
-    '               ExportBesthit, ExportBesthits, ExportOverviewCsv, FastCheckIntegrityProvider, Grephits
-    '               GrepQuery, LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput
-    '               LoadOverview, LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG
-    '               SaveBBH, SaveBlastOutput, Version, WriteBesthit
-    ' 
-    ' /********************************************************************************/
+' Module NCBILocalBlast
+' 
+'     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
+'               (+2 Overloads) BlastX, ClassifyEnzyme, CreateGrepScript, CreateSession, (+2 Overloads) Export_BidirBesthit
+'               ExportBesthit, ExportBesthits, ExportOverviewCsv, FastCheckIntegrityProvider, Grephits
+'               GrepQuery, LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput
+'               LoadOverview, LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG
+'               SaveBBH, SaveBlastOutput, Version, WriteBesthit
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting
@@ -315,7 +316,7 @@ Public Module NCBILocalBlast
         Dim EXEList As String() = ProgramPathSearchTool.SearchProgram(BLAST, "blast")
 
         If EXEList.Length > 1 Then
-            BLAST = ProgramPathSearchTool.GetMostAppreancePath(EXEList)
+            BLAST = PathExtensions.GetMostAppreancePath(EXEList)
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
         Else
             Return Nothing

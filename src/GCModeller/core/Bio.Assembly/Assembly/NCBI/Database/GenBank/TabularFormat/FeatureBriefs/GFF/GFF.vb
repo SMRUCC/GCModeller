@@ -1,66 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::b54decd398fee94b2cc872b92fc7e0f4, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GFFTable
-    ' 
-    '         Properties: [Date], DNA, Features, GffVersion, Protein
-    '                     RNA, SeqRegion, Size, SrcVersion, Type
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
-    '                   TryGetMetaData, TryGetValue
-    ' 
-    '         Sub: TrySetMetaData
-    '         Structure __parserHelper
-    ' 
-    '             Function: CreateObject
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GFFTable
+' 
+'         Properties: [Date], DNA, Features, GffVersion, Protein
+'                     RNA, SeqRegion, Size, SrcVersion, Type
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
+'                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
+'                   TryGetMetaData, TryGetValue
+' 
+'         Sub: TrySetMetaData
+'         Structure __parserHelper
+' 
+'             Function: CreateObject
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Data.Linq.Mapping
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 
@@ -119,6 +122,13 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <returns></returns>
         <Column(Name:="##type")> Public Property Type As String
 
+        <Column(Name:="##species")> Public Property species As String
+        ''' <summary>
+        ''' 生成这个文件的应用程序
+        ''' </summary>
+        ''' <returns></returns>
+        <Column(Name:="#!processor")> Public Property processor As String
+
         ''' <summary>
         ''' DNA 
         ''' 
@@ -175,6 +185,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Size As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return SeqRegion.Ends
             End Get
@@ -197,6 +208,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Property
 
         Default Public ReadOnly Property Feature(locus_tag As String) As Feature Implements IGenomicsContextProvider(Of Feature).Feature
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetByName(locus_tag)
             End Get
@@ -245,31 +257,43 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return LQuery.FirstOrDefault
         End Function
 
+        Shared ReadOnly metaAttrs As BindProperty(Of ColumnAttribute)() = (
+            From p As PropertyInfo
+            In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
+            Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
+            Where Not attrs.IsNullOrEmpty
+            Let name As ColumnAttribute = DirectCast(attrs.First, ColumnAttribute)
+            Select New BindProperty(Of ColumnAttribute)(name, p, Function(a) a.Name)
+        ).ToArray
+
         Public Function GenerateDocument() As String
-            Dim sb As New StringBuilder("track name=Genes color=255,0,255" & vbCrLf)
-            Dim MetaProperty = (From p As PropertyInfo
-                                In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-                                Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
-                                Where Not attrs.IsNullOrEmpty
-                                Select p,
-                                    Name = DirectCast(attrs.First, ColumnAttribute).Name).ToArray
-            For Each [Property] In MetaProperty
-                Dim value As Object = [Property].p.GetValue(Me)
+            Dim sb As New StringBuilder()
+            Dim features$() = Me.Features _
+                .Select(AddressOf FeatureParser.ToString) _
+                .ToArray
+
+            Me.processor = "SMRUCC\GCModeller"
+
+            For Each [property] In metaAttrs
+                Dim value As Object = [property].GetValue(Me)
                 Dim str As String = Scripting.ToString(value)
+
                 If String.IsNullOrEmpty(str) Then
                     Continue For
                 End If
-                Call sb.AppendLine($"{[Property].Name} {str}")
+
+                Call sb.AppendLine($"{[property].name} {str}")
             Next
 
-            Call sb.AppendLine(String.Join(vbCrLf, Features.Select(AddressOf FeatureParser.ToString).ToArray))
+            Call sb.AppendLine(features.JoinBy(ASCII.LF))
+            Call sb.AppendLine("###")
 
             Return sb.ToString
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            Dim doc As String = Me.GenerateDocument
-            Return doc.SaveTo(getPath(Path), encoding)
+            Return GenerateDocument.SaveTo(getPath(Path), encoding)
         End Function
 
         ''' <summary>
@@ -281,30 +305,30 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 当GFF的文件头部之中没有包含有版本字样的时候，所使用的的默认版本号，默认是版本3
         ''' </param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(path As String, Optional defaultVersion% = 3) As GFFTable
-            Dim Text As String() = IO.File.ReadAllLines(path)
-            Dim GFF As New GFFTable With {
+        Public Shared Function LoadDocument(path$, Optional defaultVersion% = 3) As GFFTable
+            Dim text As String() = path.ReadAllLines
+            Dim gff As New GFFTable With {
                 .FilePath = path
             }
 
-            Call TrySetMetaData(Text, GFF, defaultVer:=defaultVersion)
-            Call Linq.SetValue(Of GFFTable).InvokeSet(GFF, NameOf(GFF.Features), TryGetFreaturesData(Text, GFF.GffVersion))
-            Call $"There are {GFF.Features.Length} genome features exists in the gff file: {GFF.FilePath.ToFileURL}".__DEBUG_ECHO
+            Call TrySetMetaData(text, gff, defaultVer:=defaultVersion)
+            Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.Features), TryGetFreaturesData(text, gff.GffVersion))
+            Call $"There are {gff.Features.Length} genome features exists in the gff file: {gff.FilePath.ToFileURL}".__DEBUG_ECHO
 
-            Return GFF
+            Return gff
         End Function
 
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="s_Data"></param>
+        ''' <param name="data"></param>
         ''' <param name="Gff"></param>
         ''' <param name="defaultVer%">默认的文件格式版本号缺省值</param>
-        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFFTable, defaultVer%)
-            s_Data = TryGetMetaData(s_Data)
+        Private Shared Sub TrySetMetaData(data$(), ByRef Gff As GFFTable, defaultVer%)
+            data = TryGetMetaData(data)
 
             Dim LQuery = From t As String
-                         In s_Data
+                         In data
                          Where Not t.IndexOf(" "c) = -1  ' ### 这种情况下mid函数会出错
                          Let p As Integer = InStr(t, " ")
                          Let Name As String = Mid(t, 1, p - 1)
@@ -312,17 +336,23 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                          Select Name,
                              Value
                          Group By Name Into Group '
-            Dim hash As Dictionary(Of String, String) =
-                LQuery.ToDictionary(Function(obj) obj.Name.ToLower,
-                                    Function(obj) obj.Group.Select(Function(x) x.Value).JoinBy("; "))
+            Dim attrs As Dictionary(Of String, String) = LQuery _
+                .ToDictionary(Function(obj)
+                                  Return obj.Name.ToLower
+                              End Function,
+                              Function(obj)
+                                  Return obj.Group _
+                                      .Select(Function(x) x.Value) _
+                                      .JoinBy("; ")
+                              End Function)
 
-            Call $"There are {hash.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
+            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
 
-            Gff.GffVersion = CInt(Val(TryGetValue(hash, "##gff-version")))
-            Gff.Date = TryGetValue(hash, "##date")
-            Gff.SrcVersion = TryGetValue(hash, "##source-version")
-            Gff.Type = TryGetValue(hash, "##type")
-            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(hash, "##sequence-region"))
+            Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
+            Gff.Date = TryGetValue(attrs, "##date")
+            Gff.SrcVersion = TryGetValue(attrs, "##source-version")
+            Gff.Type = TryGetValue(attrs, "##type")
+            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(attrs, "##sequence-region"))
 
             ' 为零，则表示文本字符串为空值，则会使用默认的版本号
             If Gff.GffVersion = 0 Then
@@ -336,50 +366,42 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End If
         End Sub
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="hash"></param>
-        ''' <param name="Key">全部是小写字符</param>
-        ''' <returns></returns>
-        Private Shared Function TryGetValue(hash As Dictionary(Of String, String), Key As String) As String
-            If hash.ContainsKey(Key) Then
-                Return hash(Key)
-            Else
-                Return ""
-            End If
-        End Function
-
-        Private Shared Function TryGetFreaturesData(s_Data As String(), version As Integer) As Feature()
-            Dim loadBuffer As String() = (From s As String In s_Data
+        Private Shared Function TryGetFreaturesData(data$(), version%) As Feature()
+            Dim loadBuffer As String() = (From s As String
+                                          In data
                                           Where Not String.IsNullOrWhiteSpace(s) AndAlso
                                               Not s.First = "#"c
                                           Select s).ToArray
-            Dim helper As New __parserHelper With {
+            Dim helper As New parserHelper With {
                 .version = version
             }
-            Dim Features As Feature() = loadBuffer.Select(AddressOf helper.CreateObject).ToArray
-            Return Features
+            Dim features As Feature() = loadBuffer _
+                .Select(AddressOf helper.parse) _
+                .ToArray
+            Return features
         End Function
 
-        Private Structure __parserHelper
+        Private Structure parserHelper
             Public version As Integer
 
-            Public Function CreateObject(s As String) As Feature
+            Public Function parse(s As String) As Feature
                 Return FeatureParser.CreateObject(s, version)
+            End Function
+
+            Public Shared Function IsMetaDataLine(line As String) As Boolean
+                Return Not String.IsNullOrEmpty(line) AndAlso Len(line) > 2 AndAlso String.Equals(Mid(line, 1, 2), "##")
             End Function
         End Structure
 
-        Private Shared Function TryGetMetaData(s_Data As String()) As String()
+        Private Shared Function TryGetMetaData(data As String()) As String()
             Try
-                Dim LQuery = (From sLine As String In s_Data
-                              Where Not String.IsNullOrEmpty(sLine) AndAlso
-                                  Len(sLine) > 2 AndAlso
-                                  String.Equals(Mid(sLine, 1, 2), "##")
+                Dim LQuery = (From sLine As String
+                              In data
+                              Where parserHelper.IsMetaDataLine(sLine)
                               Select sLine).ToArray
                 Return LQuery
             Catch ex As Exception
-                Call App.LogException(New Exception(s_Data.JoinBy(vbCrLf), ex))
+                Call App.LogException(New Exception(data.JoinBy(vbCrLf), ex))
                 Return New String() {}
             End Try
         End Function
@@ -404,12 +426,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return transformHash
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelatedGenes(loci As NucleotideLocation,
                                         Optional unstrand As Boolean = False,
                                         Optional ATGDist As Integer = 500) As Relationship(Of Feature)() Implements IGenomicsContextProvider(Of Feature).GetRelatedGenes
 
-            Dim relates As Relationship(Of Feature)() =
-                _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
+            Dim relates As Relationship(Of Feature)() = _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
             Return relates
         End Function
 

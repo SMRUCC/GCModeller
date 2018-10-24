@@ -651,7 +651,7 @@ CONTINUTE:
                         TextureSource:=TextureSource)
                 End If
 
-                Dim models As GenomeModel = ModelAPI.CreateObject(
+                Dim models As GenomeModel = ModelAPI.CreateSyntenyGenome(
                     refQuery.GeneObjects,
                     refQuery.Size,
                     alignment.ToString,
@@ -699,12 +699,12 @@ CONTINUTE:
 
                         Left = .InvokeDrawing(
                             device.Graphics,
-                            New Point(Left, Height), NextLeft:=next_gene.Left, convertFactor:=cfactor,
+                            New Point(Left, Height), NextLeft:=next_gene.Left, scaleFactor:=cfactor,
                             arrowRect:=Nothing,
-                            IdGrawingPositionDown:=False,
+                            IdDrawPositionDown:=False,
                             Font:=Font,
                             AlternativeArrowStyle:=ArrowAlternativeStyle,
-                            ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
+                            overlapLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                     End With
                 Next
@@ -715,12 +715,12 @@ CONTINUTE:
                 End If
                 Call models.Last.InvokeDrawing(
                     device.Graphics,
-                    New Point(Left, Height), NextLeft:=models.Length, convertFactor:=cfactor,
+                    New Point(Left, Height), NextLeft:=models.Length, scaleFactor:=cfactor,
                     arrowRect:=Nothing,
-                    IdGrawingPositionDown:=False,
+                    IdDrawPositionDown:=False,
                     Font:=Font,
                     AlternativeArrowStyle:=ArrowAlternativeStyle,
-                    ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
+                    overlapLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                 Dim titleDrawingFont As New Font("Microsoft YaHei", 20)
                 Dim titleFontSize = device.MeasureString(models.Title, titleDrawingFont)

@@ -304,6 +304,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Indexing\NamesIndex.vb" />
+    <Compile Include="Indexing\NamesFactory.vb" />
     <Compile Include="KEGG\KEGGOrthology\OrganismModel.vb" />
     <Compile Include="KEGG\ReactionRepository\ReactionLink.vb" />
     <Compile Include="KEGG\ReactionRepository\CompoundRepository.vb" />

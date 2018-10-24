@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::243918f741f53ae83ee2e8a2417225cf, Microsoft.VisualBasic.Core\Extensions\Doc\Text.vb"
+﻿#Region "Microsoft.VisualBasic::3593770a321296858d9d676dc1618aaa, Microsoft.VisualBasic.Core\Extensions\Doc\Text.vb"
 
     ' Author:
     ' 
@@ -327,7 +327,7 @@ Public Module TextDoc
         DIR = System.IO.Directory.GetParent(path).FullName
 #Else
         Try
-            path = ProgramPathSearchTool.Long2Short(path)
+            path = PathExtensions.Long2Short(path)
             DIR = fs.GetParentPath(path)
         Catch ex As Exception
             Dim msg As String = $" **** Directory string is illegal or string is too long:  [{NameOf(path)}:={path}] > 260"

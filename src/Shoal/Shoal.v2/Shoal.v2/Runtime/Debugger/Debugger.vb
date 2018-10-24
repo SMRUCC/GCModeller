@@ -130,7 +130,7 @@ RESTART:        ReadListenerServices.Run()
             Throw New NotImplementedException
         End Function
 
-        Public Sub WriteLine(s As String) Implements I_ConsoleDeviceHandle.WriteLine
+        Public Sub WriteLine(Optional s As String = "") Implements I_ConsoleDeviceHandle.WriteLine
             Call __sendMessage(s, DebuggerMessage.MessageTypes.OUTPUT_MESSAGE)
         End Sub
 

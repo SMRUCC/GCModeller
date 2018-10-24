@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::169d6365eea1c20bf2179549a9fe84c2, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\VisualBasic.vb"
+﻿#Region "Microsoft.VisualBasic::763a9a657522617c62c1b65c67c17907, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\VisualBasic.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Namespace CommandLine.InteropService.SharedORM
             Dim className$ = MyBase.exe _
                 .NormalizePathString(OnlyASCII:=True) _
                 .Replace(" ", "_")
-            Dim rel$ = ProgramPathSearchTool.RelativePath(App.Type.Assembly.Location.GetFullPath)
+            Dim rel$ = PathExtensions.RelativePath(App.Type.Assembly.Location.GetFullPath)
             Dim info$ = App.Type.NamespaceEntry.Description
 
             Call vb.AppendLine("Imports " & GetType(StringBuilder).Namespace)

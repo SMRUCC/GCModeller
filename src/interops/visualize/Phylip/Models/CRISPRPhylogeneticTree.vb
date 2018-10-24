@@ -58,7 +58,7 @@ Module CRISPRPhylogeneticTree
     <ExportAPI("exe_test")>
     Public Function ExeTest(source As String, output As String) As Boolean
         Dim io As New Microsoft.VisualBasic.CommandLine.IORedirect("E:\Desktop\phylip-3.695\phylip-3.695\exe\gendist.exe")
-        Call io.Start(WaitForExit:=True, PushingData:={source, "Y"}, _DISP_DEBUG_INFO:=True)
+        Call io.Start(waitForExit:=True, pushingData:={source, "Y"}, displaDebug:=True)
         Return True
     End Function
 

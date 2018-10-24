@@ -95,7 +95,7 @@ Public Class PhylipInvoker
         Call FileIO.FileSystem.DeleteFile(ResultSaved, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
         Call FileIO.FileSystem.CopyFile("./outfile", ResultSaved)
 
-        Return GendistExec.ProcessInfo.ExitCode = 0
+        Return GendistExec.ExitCode = 0
     End Function
 
     Public Overrides Function ToString() As String

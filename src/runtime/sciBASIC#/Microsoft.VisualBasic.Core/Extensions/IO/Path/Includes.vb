@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d5fb6a1945606efd98a557f28623742, Microsoft.VisualBasic.Core\Extensions\IO\Includes.vb"
+﻿#Region "Microsoft.VisualBasic::b7202c8182af67db8c9484cd28e50bfd, Microsoft.VisualBasic.Core\Extensions\IO\Path\Includes.vb"
 
     ' Author:
     ' 
@@ -44,11 +44,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace FileIO
+Namespace FileIO.Path
 
     ''' <summary>
     ''' File includes search tools
