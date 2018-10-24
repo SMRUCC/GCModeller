@@ -86,6 +86,10 @@ Public Module COGCatalogProfiling
                 })
         Next
 
+        If Not data.ContainsKey(COG.Function.NotAssigned) Then
+            Call data.Add(COG.Function.NotAssigned, New List(Of NamedValue(Of Double)))
+        End If
+
         Call data(COG.Function.NotAssigned).Add(
             New NamedValue(Of Double) With {
                 .Name = "Unknown",
