@@ -222,7 +222,7 @@ Partial Module CLI
 
                 Call handle(query)
 
-                If ++i Mod 100 = 0 Then
+                If ++i Mod 25 = 0 Then
                     Console.Write(i)
                     Console.Write(vbTab)
                 End If

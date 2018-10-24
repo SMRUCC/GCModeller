@@ -543,7 +543,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/field <default=KO> /geneId.field <default=nothing> /label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -562,19 +562,24 @@ Partial Module CLI
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
+        Dim fieldName$ = args("/field") Or "KO"
         Dim size$ = args("/size") Or "2200,2000"
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out$ = args("/out") Or ([in].ParentPath & "/KEGG/")
-        Dim sample = [in].LoadSample
+        Dim geneIdField$ = args("/geneId.field")
+        Dim sample As EntityObject() = [in].LoadSample(geneIdField)
         Dim labelRight As Boolean = args.IsTrue("/label.right")
         Dim maps As NamedValue(Of String)() = sample _
-            .Where(Function(prot) Not prot("KO").StringEmpty) _
+            .Where(Function(prot) Not prot(fieldName).StringEmpty) _
             .Select(Function(prot)
-                        Return prot("KO").StringSplit(";\s+") _
-                            .Select(Function(KO) New NamedValue(Of String) With {
-                                .Name = prot.ID,
-                                .Value = KO
-                            })
+                        Return prot(fieldName) _
+                            .StringSplit(";\s+") _
+                            .Select(Function(KO)
+                                        Return New NamedValue(Of String) With {
+                                            .Name = prot.ID,
+                                            .Value = KO
+                                        }
+                                    End Function)
                     End Function) _
             .IteratesALL _
             .ToArray
