@@ -44,6 +44,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -54,6 +55,7 @@ Partial Module CLI
 
     <ExportAPI("/UniProt.bbh.mappings")>
     <Usage("/UniProt.bbh.mappings /in <bbh.csv> [/reverse /out <mappings.txt>]")>
+    <Group(CLIGrouping.UniProtTools)>
     Public Function UniProtBBHMapTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.mappings.txt"
@@ -80,15 +82,17 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniProt.KO.faa")>
     <Usage("/UniProt.KO.faa /in <uniprot.xml> [/out <proteins.faa>]")>
+    <Group(CLIGrouping.UniProtTools)>
     Public Function ExportKOFromUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
+        Dim i As int = 0
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
 
             For Each prot As UniProtEntry In source.Where(Function(g) Not g.sequence Is Nothing)
-                Dim KO = prot.Xrefs.TryGetValue("KEGG", [default]:=Nothing).ElementAtOrDefault(0)
+                Dim KO = prot.Xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
 
                 If KO Is Nothing Then
                     Continue For
@@ -106,6 +110,11 @@ Partial Module CLI
                 }
 
                 Call writer.WriteLine(fa.GenerateDocument(120))
+
+                If ++i Mod 100 = 0 Then
+                    Console.Write(i)
+                    Console.Write(vbTab)
+                End If
             Next
         End Using
 
