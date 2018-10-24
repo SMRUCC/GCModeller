@@ -84,6 +84,32 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
 
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
+
+            For Each prot As UniProtEntry In source.Where(Function(g) Not g.sequence Is Nothing)
+                Dim KO = prot.Xrefs.TryGetValue("KEGG", [default]:=Nothing).ElementAtOrDefault(0)
+
+                If KO Is Nothing Then
+                    Continue For
+                End If
+
+                Dim seq$ = prot _
+                    .sequence _
+                    .sequence _
+                    .LineTokens _
+                    .JoinBy("") _
+                    .Replace(" ", "")
+                Dim fa As New FastaSeq With {
+                    .SequenceData = seq,
+                    .Headers = {KO.id, prot.accessions.First & " " & prot.proteinFullName}
+                }
+
+                Call writer.WriteLine(fa.GenerateDocument(120))
+            Next
+        End Using
+
+        Return 0
     End Function
 
     Private Function getSuffix(sp As String, exclude As Boolean) As String
@@ -102,6 +128,11 @@ Partial Module CLI
         Return suffix
     End Function
 
+    ''' <summary>
+    ''' 从UniProt数据库之中导出给定物种的蛋白序列
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/protein.EXPORT")>
     <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
     <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
@@ -121,9 +152,9 @@ Partial Module CLI
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim sp As String = args <= "/sp"
-        Dim exclude As Boolean = args.GetBoolean("/exclude")
+        Dim exclude As Boolean = args("/exclude")
         Dim suffix$ = getSuffix(sp, exclude)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $"{suffix}.fasta")
 
         ' 1GB buffer size?
         Call App.SetBufferSize(128 * 1024 * 1024)
