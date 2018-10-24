@@ -148,10 +148,32 @@ Namespace CommandLine.Reflection
         ''' 程序会有不同的处理操作，虽然二者的值都是字符串输入
         ''' </summary>
         ''' <returns></returns>
-        Public Property Type As CLITypes
+        Public ReadOnly Property Type As CLITypes
 
-        Sub New(name As String)
+        ''' <summary>
+        ''' 默认为参数字符串通用类型
+        ''' </summary>
+        ''' <param name="name$"></param>
+        ''' <param name="type"></param>
+        Sub New(name$, Optional type As CLITypes = CLITypes.String)
             Call MyBase.New(name)
         End Sub
+    End Class
+
+    ''' <summary>
+    ''' 这个自定义属性添加在Class申明上表示该class类的命令行参数的名称都会添加这个prefix
+    ''' </summary>
+    <AttributeUsage(AttributeTargets.Class Or AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
+    Public Class Prefix : Inherits Attribute
+
+        Public ReadOnly Property Value As String
+
+        Sub New(prefix As String)
+            Value = prefix
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Value
+        End Function
     End Class
 End Namespace
