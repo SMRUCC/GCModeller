@@ -543,7 +543,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/field <default=KO> /geneId.field <default=nothing> /label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -562,19 +562,24 @@ Partial Module CLI
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
+        Dim fieldName$ = args("/field") Or "KO"
         Dim size$ = args("/size") Or "2200,2000"
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out$ = args("/out") Or ([in].ParentPath & "/KEGG/")
-        Dim sample = [in].LoadSample
+        Dim geneIdField$ = args("/geneId.field")
+        Dim sample As EntityObject() = [in].LoadSample(geneIdField)
         Dim labelRight As Boolean = args.IsTrue("/label.right")
         Dim maps As NamedValue(Of String)() = sample _
-            .Where(Function(prot) Not prot("KO").StringEmpty) _
+            .Where(Function(prot) Not prot(fieldName).StringEmpty) _
             .Select(Function(prot)
-                        Return prot("KO").StringSplit(";\s+") _
-                            .Select(Function(KO) New NamedValue(Of String) With {
-                                .Name = prot.ID,
-                                .Value = KO
-                            })
+                        Return prot(fieldName) _
+                            .StringSplit(";\s+") _
+                            .Select(Function(KO)
+                                        Return New NamedValue(Of String) With {
+                                            .Name = prot.ID,
+                                            .Value = KO
+                                        }
+                                    End Function)
                     End Function) _
             .IteratesALL _
             .ToArray
@@ -605,73 +610,6 @@ Partial Module CLI
                              valueFormat:="F0",
                              colorSchema:=args("/colors") Or DefaultColorSchema) _
                .Save(out & "/plot.png")
-
-        Return 0
-    End Function
-
-    <ExportAPI("/protein.EXPORT")>
-    <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
-    <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
-    <Argument("/sp", True, CLITypes.String,
-              AcceptTypes:={GetType(String)},
-              Description:="The organism scientific name.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(UniProtXML)},
-              Extensions:="*.xml",
-              Description:="The Uniprot protein database in XML file format.")>
-    <Argument("/exclude", True, CLITypes.Boolean,
-              Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
-    <Argument("/out", True, CLITypes.File,
-              Extensions:="*.fa, *.fasta, *.txt",
-              Description:="The saved file path for output protein sequence fasta file.")>
-    <Group(CLIGroups.Annotation_CLI)>
-    Public Function proteinEXPORT(args As CommandLine) As Integer
-        Dim [in] As String = args <= "/in"
-        Dim sp As String = args <= "/sp"
-        Dim exclude As Boolean = args.GetBoolean("/exclude")
-        Dim suffix$ = If(
-            sp.StringEmpty,
-            "",
-            If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
-
-        ' 1GB buffer size?
-        Call App.SetBufferSize(128 * 1024 * 1024)
-
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
-
-            If Not String.IsNullOrEmpty(sp) Then
-                If exclude Then
-                    source = source _
-                        .Where(Function(gene)
-                                   Return Not gene.organism.scientificName = sp
-                               End Function)
-                Else
-                    source = source _
-                        .Where(Function(gene)
-                                   Return gene.organism.scientificName = sp
-                               End Function)
-                End If
-            End If
-
-            For Each prot As Uniprot.XML.entry In source _
-                .Where(Function(g) Not g.sequence Is Nothing)
-
-                Dim seq$ = prot _
-                    .sequence _
-                    .sequence _
-                    .LineTokens _
-                    .JoinBy("") _
-                    .Replace(" ", "")
-                Dim fa As New FastaSeq With {
-                    .SequenceData = seq,
-                    .Headers = {prot.accessions.First & " " & prot.proteinFullName}
-                }
-
-                Call writer.WriteLine(fa.GenerateDocument(120))
-            Next
-        End Using
 
         Return 0
     End Function
