@@ -19,11 +19,22 @@ Namespace HTML
         ''' 但是对于移动端，由于设备屏幕比较小以及为了方便在内容分区之间跳转，所以HTML报告往往会被按照内容分区分为多个html文档构成的
         ''' </remarks>
         Public ReadOnly Property Templates As Dictionary(Of String, TemplateHandler)
+
         ''' <summary>
         ''' html报告的根目录
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Directory As String
+
+        Public ReadOnly Property HtmlFiles As String()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Templates _
+                    .Values _
+                    .Select(Function(handler) handler.Path) _
+                    .ToArray
+            End Get
+        End Property
 
         Default Public WriteOnly Property Assign(name As String) As String
             Set(value As String)
