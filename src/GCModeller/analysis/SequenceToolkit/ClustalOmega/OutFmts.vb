@@ -43,7 +43,6 @@
 #End Region
 
 Imports System.ComponentModel
-Imports Microsoft.VisualBasic.CommandLine.InteropService
 
 ''' <summary>
 ''' Formats options for alignment inputs and outputs.
@@ -55,7 +54,7 @@ Public Enum OutFmts As Integer
     ''' <summary>
     ''' 不显示申明这个命令行参数，由系统自动选择
     ''' </summary>
-    <NullOrDefault> auto = -1
+    auto = -1
 
     ''' <summary>
     ''' fa[sta], Default
