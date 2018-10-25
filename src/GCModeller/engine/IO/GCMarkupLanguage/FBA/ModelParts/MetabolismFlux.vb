@@ -45,8 +45,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
