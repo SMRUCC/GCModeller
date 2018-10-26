@@ -14,6 +14,10 @@ Public Module Workflow
     ''' <returns></returns>
     <Extension>
     Public Function AssemblingModel(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
-        Dim taxonomy As Taxonomy = 
+        Dim taxonomy As Taxonomy = genome.Source.GetTaxonomy
+
+        Return New CellularModule With {
+            .Taxonomy = taxonomy
+        }
     End Function
 End Module

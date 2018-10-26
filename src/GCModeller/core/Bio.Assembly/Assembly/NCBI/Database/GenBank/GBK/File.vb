@@ -91,6 +91,11 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <remarks></remarks>
         Public Property Definition As Keywords.DEFINITION
         Public Property Version As Keywords.VERSION
+
+        ''' <summary>
+        ''' 物种信息
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Source As Keywords.SOURCE
         ''' <summary>
         ''' The brief entry information of this genbank data.
