@@ -397,7 +397,7 @@ Public Class GenbankIndex : Implements IKeyedEntity(Of String), INamedValue
             If String.IsNullOrEmpty(LQuery) Then
                 Return Nothing
             Else
-                Return GBFF.File.Load(Path:=LQuery)
+                Return GBFF.File.Load(path:=LQuery)
             End If
         End If
     End Function
