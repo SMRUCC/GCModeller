@@ -76,7 +76,7 @@ Namespace Assembly.NCBI.SequenceDump
 
             Me._LocusTag = LocusTag.Split(CChar("=")).Last
             Me._CommonName = CommonName.Split(CChar("=")).Last
-            Me._Location = LociAPI.TryParse(Location)
+            Me._Location = LocusExtensions.TryParse(Location)
             Me.Headers = FastaObj.Headers
             Me.SequenceData = FastaObj.SequenceData
         End Sub

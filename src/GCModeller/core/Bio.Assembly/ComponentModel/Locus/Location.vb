@@ -163,7 +163,7 @@ Namespace ComponentModel.Loci
         ''' <param name="offsets">当这个大于零的时候会进行模糊匹配</param>
         ''' <returns></returns>
         Public Overloads Function Equals(loci As Location, Optional offsets As Integer = 0) As Boolean
-            Return LociAPI.Equals(loci, Me, offsets)
+            Return LocusExtensions.Equals(loci, Me, offsets)
         End Function
 
         Public Shared Operator <>(a As Location, b As Location) As Boolean

@@ -604,7 +604,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GeneBrief.vb" />
     <Compile Include="ContextModel\Algorithm\GenomicsContext.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\TagSite.vb" />
-    <Compile Include="ComponentModel\Locus\LociAPI.vb" />
+    <Compile Include="ComponentModel\Locus\LocusExtensions.vb" />
     <Compile Include="ComponentModel\Locus\Nucleotide\SegmentRelationships.vb" />
     <Compile Include="ContextModel\Algorithm\Relationship.vb" />
     <Compile Include="ContextModel\Algorithm\Descriptions.vb" />
