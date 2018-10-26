@@ -111,7 +111,7 @@ Public Module Workflow
                 Else
                     rnaType = RNATypes.ribosomalRNA
                 End If
-            Else
+            ElseIf Not CDS Is Nothing Then
                 proteinId = CDS.Query("protein_id")
 
                 If proteinId.StringEmpty Then
@@ -120,6 +120,13 @@ Public Module Workflow
                 If proteinId.StringEmpty Then
                     proteinId = $"{locus_tag}::peptide"
                 End If
+            Else
+                ' 既没有RNA也没有CDS，这个可能是其他的类型的feature
+                ' 例如移动原件之类的
+                ' 跳过这些
+                Call $"Skip invalid locus_tag: {feature.Key}".Warning
+
+                Continue For
             End If
 
             Yield New CentralDogma With {
