@@ -442,7 +442,7 @@ Partial Module Utilities
                 End If
             End If
         Else
-            LociData = LociAPI.TryParse(Loci)
+            LociData = LocusExtensions.TryParse(Loci)
         End If
 
         Dim SegmentFasta As FASTA.FastaSeq = FASTA.FastaSeq.Load(FastaFile)

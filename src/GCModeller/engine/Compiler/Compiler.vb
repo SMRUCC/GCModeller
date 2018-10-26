@@ -1,8 +1,104 @@
-﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.KEGG.Metabolism
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.Metagenomics
 
-Public Class Compiler
+Public Module Workflow
 
-    Public Function CreateModel() As CellularModule
+    ''' <summary>
+    ''' 输出Model，然后再从Model写出模型文件
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="KOfunction"></param>
+    ''' <param name="repo"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function AssemblingModel(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+        Dim taxonomy As Taxonomy = genome.Source.GetTaxonomy
+        Dim genotype As New Genotype With {
+            .CentralDogmas = genome _
+                .GetCentralDogmas _
+                .ToArray
+        }
+        Dim phenotype As New Phenotype With {
+            .fluxes = repo _
+                .KEGGReactions _
+                .FetchReactionRepository _
+                .BuildReactions _
+                .ToArray
+        }
+
+        Return New CellularModule With {
+            .Taxonomy = taxonomy,
+            .Genotype = genotype,
+            .Phenotype = phenotype
+        }
+    End Function
+
+    <Extension>
+    Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
 
     End Function
-End Class
+
+    ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
+
+    <Extension>
+    Private Iterator Function GetCentralDogmas(genome As GBFF.File) As IEnumerable(Of CentralDogma)
+        Dim centralDogmaFeatures = genome _
+            .Features _
+            .Where(Function(feature)
+                       Return feature _
+                           .KeyName _
+                           .IsOneOfA(centralDogmaComponents)
+                   End Function) _
+            .GroupBy(Function(feature)
+                         Return feature.Query("locus_tag")
+                     End Function)
+
+        For Each feature As IGrouping(Of String, Feature) In centralDogmaFeatures
+            Dim gene As Feature = feature.First(Function(component) component.KeyName = "gene")
+            Dim RNA As Feature = feature _
+                .FirstOrDefault(Function(component)
+                                    Return component.KeyName = "tRNA" OrElse component.KeyName = "rRNA"
+                                End Function)
+            Dim CDS As Feature = feature _
+                .FirstOrDefault(Function(component)
+                                    Return component.KeyName = "CDS"
+                                End Function)
+            Dim locus_tag$ = feature.Key
+            Dim rnaType As RNATypes = RNATypes.mRNA
+            Dim proteinId As String = Nothing
+
+            If Not RNA Is Nothing Then
+                If RNA.KeyName = "tRNA" Then
+                    rnaType = RNATypes.tRNA
+                Else
+                    rnaType = RNATypes.ribosomalRNA
+                End If
+            Else
+                proteinId = CDS.Query("protein_id")
+
+                If proteinId.StringEmpty Then
+                    proteinId = CDS.Query("db_xref")
+                End If
+                If proteinId.StringEmpty Then
+                    proteinId = $"{locus_tag}::peptide"
+                End If
+            End If
+
+            Yield New CentralDogma With {
+                .geneID = locus_tag,
+                .RNA = New NamedValue(Of RNATypes) With {
+                    .Name = locus_tag,
+                    .Value = rnaType
+                },
+                .polypeptide = proteinId
+            }
+        Next
+    End Function
+End Module

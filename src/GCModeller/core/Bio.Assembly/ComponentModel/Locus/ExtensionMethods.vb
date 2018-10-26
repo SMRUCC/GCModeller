@@ -109,7 +109,7 @@ Namespace ComponentModel.Loci
                                     Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToVector
                                     Select GroupTag, TagedLocation).ToArray
             lc = (From item In l_GroupOperation.AsParallel
-                  Select If(item.TagedLocation.Count = 1, item.TagedLocation.First, LociAPI.MergeJoins(item.TagedLocation))).ToArray
+                  Select If(item.TagedLocation.Count = 1, item.TagedLocation.First, LocusExtensions.MergeJoins(item.TagedLocation))).ToArray
             Return lc.ToArray
         End Function
 
@@ -136,7 +136,7 @@ Namespace ComponentModel.Loci
                               In (From item In GroupOperation Select item.GroupTag Distinct).ToArray
                                     Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToArray.ToVector
                                     Select GroupTag, TagedLocation).ToArray
-            lc = (From item In l_GroupOperation Select If(item.TagedLocation.Length = 1, item.TagedLocation.First, LociAPI.MergeJoins(item.TagedLocation))).ToArray
+            lc = (From item In l_GroupOperation Select If(item.TagedLocation.Length = 1, item.TagedLocation.First, LocusExtensions.MergeJoins(item.TagedLocation))).ToArray
             Return lc.ToArray
         End Function
 

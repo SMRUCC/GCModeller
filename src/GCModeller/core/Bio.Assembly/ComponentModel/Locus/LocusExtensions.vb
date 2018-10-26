@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::041e8133bd58134174cbf999926a974d, Bio.Assembly\ComponentModel\Loci.Models\LociAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module LociAPI
-    ' 
-    '         Function: __tryParse, (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins
-    '                   NCBIstyle, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module LociAPI
+' 
+'         Function: __tryParse, (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins
+'                   NCBIstyle, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,11 +46,12 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace ComponentModel.Loci
 
     <Package("Loci.API", Description:="Methods for some nucleotide utility.")>
-    Public Module LociAPI
+    Public Module LocusExtensions
 
         ''' <summary>
         ''' 直接合并相邻的一个位点集合到一个新的更加长的位点
@@ -163,17 +164,16 @@ Namespace ComponentModel.Loci
                 Return __tryParse(loci)
             End If
 
-            Dim s As Strands = If(
-                Regex.Match(loci, "complement\([^)]+\)").Success,
-                Strands.Reverse,
-                Strands.Forward)
-            Dim pos%() = LinqAPI.Exec(Of Integer) <=
+            Const complement$ = "complement\([^)]+\)"
+
+            Dim s As Strands = Strands.Forward Or Strands.Reverse.When(r.Match(loci, complement, RegexOptions.IgnoreCase).Success)
+            Dim pos%() = LinqAPI.Exec(Of Integer) _
  _
-                From match As Match
-                In Regex.Matches(loci, "\d+")
-                Let n As Integer = CInt(Val(match.Value))
-                Select n
-                Order By n Ascending
+                () <= From match As Match
+                      In Regex.Matches(loci, "\d+")
+                      Let n As Integer = CInt(Val(match.Value))
+                      Select n
+                      Order By n Ascending
 
             Dim nuclLoci As New NucleotideLocation With {
                 .Left = pos(0),
@@ -207,29 +207,37 @@ Namespace ComponentModel.Loci
             Dim left As Integer = CInt(Val(t(0)))
             Dim right As Integer = CInt(Val(t(2)))
             Dim strand As Strands = GetStrand(t(3))
+
             Return New NucleotideLocation(left, right, strand).Normalization
         End Function
 
+        ''' <summary>
+        ''' 这个函数在<see cref="Equals"/>函数的基础之上还添加了对链方向的判断
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="loci"></param>
+        ''' <param name="allowedOffset"></param>
+        ''' <returns></returns>
         <ExportAPI("Loci.Equals")>
-        Public Function Equals(x As NucleotideLocation, loci As NucleotideLocation, Optional AllowedOffset As Integer = 10) As Boolean
-            If loci.Strand <> x.Strand Then  ' 链的方向不一样，不能相等
+        Public Function Equals(x As NucleotideLocation, loci As NucleotideLocation, Optional allowedOffset As Integer = 10) As Boolean
+            If loci.Strand <> x.Strand Then
+                ' 链的方向不一样，不能相等
                 Return False
             Else
-                Return Equals(DirectCast(x, Location), DirectCast(loci, Location), AllowedOffset)
+                Return Equals(DirectCast(x, Location), DirectCast(loci, Location), allowedOffset)
             End If
         End Function
 
         <ExportAPI("Loci.Equals")>
-        Public Function Equals(x As Location, loci As Location, Optional AllowedOffset As Integer = 10) As Boolean
-            Dim Loci1 As Integer() = {x.Left(), x.Right()}
-            Dim Loci2 As Integer() = {loci.Left, loci.Right}
+        Public Function Equals(x As Location, loci As Location, Optional allowedOffset As Integer = 10) As Boolean
+            Dim loci1 As Integer() = {x.Left(), x.Right()}
+            Dim loci2 As Integer() = {loci.Left, loci.Right}
 
-            If AllowedOffset = 0 Then
-                Return Loci1.Min = Loci2.Min AndAlso
-                    Loci1.Max = Loci2.Max
+            If allowedOffset = 0 Then
+                Return loci1.Min = loci2.Min AndAlso loci1.Max = loci2.Max
             Else
-                Return Math.Abs(Loci1.Min - Loci2.Min) <= AllowedOffset AndAlso
-                    Math.Abs(Loci1.Max - Loci2.Max) <= AllowedOffset
+                Return Math.Abs(loci1.Min - loci2.Min) <= allowedOffset AndAlso
+                       Math.Abs(loci1.Max - loci2.Max) <= allowedOffset
             End If
         End Function
     End Module

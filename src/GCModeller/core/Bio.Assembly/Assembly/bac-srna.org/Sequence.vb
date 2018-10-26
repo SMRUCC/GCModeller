@@ -124,7 +124,7 @@ Namespace Assembly.Bac_sRNA.org
             Return New NucleotideLocation With {
                 .Left = __raw.Headers(3),
                 .Right = __raw.Headers(4),
-                .Strand = LociAPI.GetStrand(__raw.Headers(5))
+                .Strand = LocusExtensions.GetStrand(__raw.Headers(5))
             }
         End Function
     End Class

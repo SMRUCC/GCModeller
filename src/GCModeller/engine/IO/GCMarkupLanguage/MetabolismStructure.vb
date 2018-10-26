@@ -6,9 +6,27 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
 
-    Public Class MetabolismStructure : Inherits XmlDataModel
+    <XmlType(NameOf(VirtualCell), [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
+    Public Class VirtualCell : Inherits XmlDataModel
 
         Public Property Taxonomy As Taxonomy
+        Public Property MetabolismStructure As MetabolismStructure
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            Call xmlns.Add("GCModeller", LICENSE.GCModeller)
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Taxonomy.ToString
+        End Function
+
+    End Class
+
+    Public Class MetabolismStructure : Inherits XmlDataModel
+
         Public Property Compounds As Compound()
         Public Property Reactions As Reaction()
         Public Property Pathways As Pathway()

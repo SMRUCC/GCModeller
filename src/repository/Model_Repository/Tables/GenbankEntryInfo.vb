@@ -76,12 +76,12 @@ Namespace Tables
                 Return Nothing  '数据入口点已经失效了
             End If
 
-            Dim Genbank As GBFF.File = GBFF.File.Load(Path:=File)
+            Dim Genbank As GBFF.File = GBFF.File.Load(path:=File)
 
             Me.LocusID = Genbank.Locus.AccessionID
             Me.GI = Genbank.Version.GI
             Me.Definition = Genbank.Definition.Value.Replace("'", "")
-            Me.Species = Genbank.Source.OrganismHierarchy.Categorys.Last
+            Me.Species = Genbank.Source.OrganismHierarchy.Lineage.Last
             Me.plasmid = Genbank.SourceFeature.Query("plasmid")
             Me.MD5Hash = SecurityString.GetFileHashString(File)
 

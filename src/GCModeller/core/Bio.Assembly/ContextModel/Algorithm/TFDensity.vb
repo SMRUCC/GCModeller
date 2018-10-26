@@ -268,7 +268,7 @@ Namespace ContextModel
                 Return loci.ToString
             End Get
             Set(value As String)
-                loci = LociAPI.TryParse(value)
+                loci = LocusExtensions.TryParse(value)
             End Set
         End Property
 

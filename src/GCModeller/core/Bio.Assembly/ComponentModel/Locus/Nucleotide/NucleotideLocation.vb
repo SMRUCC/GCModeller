@@ -323,7 +323,7 @@ Namespace ComponentModel.Loci
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Equals(Loci As NucleotideLocation, Optional AllowedOffset As Integer = 10) As Boolean
-            Return LociAPI.Equals(Me, Loci, AllowedOffset)
+            Return LocusExtensions.Equals(Me, Loci, AllowedOffset)
         End Function
 
         ''' <summary>
@@ -335,7 +335,7 @@ Namespace ComponentModel.Loci
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelationship(lcl As NucleotideLocation) As SegmentRelationships
-            Return LociAPI.GetRelationship(Me, lcl)
+            Return LocusExtensions.GetRelationship(Me, lcl)
         End Function
 
         ''' <summary>
@@ -363,7 +363,7 @@ Namespace ComponentModel.Loci
         End Function
 
         ''' <summary>
-        ''' 这个函数的输出的字符串可以使用<see cref="LociAPI.TryParse(String)"/>方法进行解析
+        ''' 这个函数的输出的字符串可以使用<see cref="LocusExtensions.TryParse(String)"/>方法进行解析
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
@@ -388,7 +388,7 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(loci$) As NucleotideLocation
-            Return LociAPI.TryParse(loci)
+            Return LocusExtensions.TryParse(loci)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

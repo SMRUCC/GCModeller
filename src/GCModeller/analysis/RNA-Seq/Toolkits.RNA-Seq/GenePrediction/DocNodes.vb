@@ -80,7 +80,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel.Loci.LociAPI
+Imports SMRUCC.genomics.ComponentModel.Loci.LocusExtensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 
