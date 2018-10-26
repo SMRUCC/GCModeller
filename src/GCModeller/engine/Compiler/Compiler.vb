@@ -46,13 +46,18 @@ Public Module Workflow
     Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
         For Each reaction In repo.MetabolicNetwork
             Dim model As Equation = reaction.ReactionModel
+            Dim enzymes$() = {}
 
-            Yield New Reaction With {
-                .enzyme = reaction _
+            If Not reaction.Orthology.Terms Is Nothing Then
+                enzymes = reaction _
                     .Orthology _
                     .Terms _
                     .Select(Function(t) t.name) _
-                    .ToArray,
+                    .ToArray
+            End If
+
+            Yield New Reaction With {
+                .enzyme = enzymes,
                 .ID = reaction.ID,
                 .substrates = model.Reactants.converts,
                 .products = model.Products.converts,
