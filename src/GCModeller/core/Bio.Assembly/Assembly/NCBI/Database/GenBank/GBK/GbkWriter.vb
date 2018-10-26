@@ -196,7 +196,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim sbr As StringBuilder = New StringBuilder
             Call sbr.AppendLine($"SOURCE      {source.SpeciesName}")
             Call sbr.AppendLine($"  ORGANISM  {source.OrganismHierarchy.SpeciesName}")
-            Call sbr.Append($"            " & source.OrganismHierarchy.Categorys.JoinBy("; "))
+            Call sbr.Append($"            " & source.OrganismHierarchy.Lineage.JoinBy("; "))
 
             Return sbr.ToString
         End Function

@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.Metagenomics
 
 Public Module Workflow
 
@@ -13,6 +14,6 @@ Public Module Workflow
     ''' <returns></returns>
     <Extension>
     Public Function AssemblingModel(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
-
+        Dim taxonomy As Taxonomy = 
     End Function
 End Module

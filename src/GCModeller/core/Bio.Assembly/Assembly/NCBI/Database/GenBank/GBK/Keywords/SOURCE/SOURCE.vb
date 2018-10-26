@@ -44,9 +44,16 @@
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
+    ''' <summary>
+    ''' 物种信息
+    ''' </summary>
     Public Class SOURCE : Inherits KeyWord
 
         Public Property SpeciesName As String
+        ''' <summary>
+        ''' lineage
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OrganismHierarchy As ORGANISM
 
         Public Overrides Function ToString() As String
@@ -54,13 +61,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         End Function
 
         Public Shared Widening Operator CType(str As String()) As SOURCE
-            Dim Source As SOURCE = New SOURCE
+            Dim source As New SOURCE
+
             If Not str.IsNullOrEmpty Then
                 Call __trimHeadKey(str)
-                Source.SpeciesName = str.First
-                Source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(1).ToArray)
+                source.SpeciesName = str.First
+                source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(1).ToArray)
             End If
-            Return Source
+
+            Return source
         End Operator
     End Class
 End Namespace
