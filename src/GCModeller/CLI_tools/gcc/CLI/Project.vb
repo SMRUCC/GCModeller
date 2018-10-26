@@ -79,6 +79,8 @@ Partial Module CLI
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Private Function IsGCMarkup(out As String) As Boolean
-        Return out.ExtensionSuffix.TextEquals("GCMarkup")
+        With out.ExtensionSuffix
+            Return .TextEquals("GCMarkup") OrElse .TextEquals("Xml")
+        End With
     End Function
 End Module
