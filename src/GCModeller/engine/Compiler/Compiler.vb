@@ -3,6 +3,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Metagenomics
 
@@ -23,11 +25,24 @@ Public Module Workflow
                 .GetCentralDogmas _
                 .ToArray
         }
+        Dim phenotype As New Phenotype With {
+            .fluxes = repo _
+                .KEGGReactions _
+                .FetchReactionRepository _
+                .BuildReactions _
+                .ToArray
+        }
 
         Return New CellularModule With {
             .Taxonomy = taxonomy,
-            .Genotype = genotype
+            .Genotype = genotype,
+            .Phenotype = phenotype
         }
+    End Function
+
+    <Extension>
+    Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
+
     End Function
 
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
