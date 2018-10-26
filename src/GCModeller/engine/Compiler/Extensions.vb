@@ -6,7 +6,9 @@ Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 Public Module Extensions
 
     <Extension> Public Function ToMarkup(model As CellularModule) As VirtualCell
-
+        Return New VirtualCell With {
+            .Taxonomy = model.Taxonomy
+        }
     End Function
 
     <Extension> Public Function ToTabular(model As CellularModule) As Excel

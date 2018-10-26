@@ -8,13 +8,13 @@ Namespace v2
 
     Public Class VirtualCell : Inherits XmlDataModel
 
+        Public Property Taxonomy As Taxonomy
         Public Property MetabolismStructure As MetabolismStructure
 
     End Class
 
     Public Class MetabolismStructure : Inherits XmlDataModel
 
-        Public Property Taxonomy As Taxonomy
         Public Property Compounds As Compound()
         Public Property Reactions As Reaction()
         Public Property Pathways As Pathway()
