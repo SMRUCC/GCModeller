@@ -1,4 +1,6 @@
-﻿Public Structure Reaction
+﻿Imports Microsoft.VisualBasic.ComponentModel.TagData
+
+Public Structure Reaction
 
     ''' <summary>
     ''' 反应过程编号
@@ -8,11 +10,11 @@
     ''' <summary>
     ''' 代谢底物编号
     ''' </summary>
-    Public substrates As String()
+    Public substrates As FactorString(Of Double)()
     ''' <summary>
     ''' 代谢产物编号
     ''' </summary>
-    Public products As String()
+    Public products As FactorString(Of Double)()
     ''' <summary>
     ''' 酶编号
     ''' </summary>
