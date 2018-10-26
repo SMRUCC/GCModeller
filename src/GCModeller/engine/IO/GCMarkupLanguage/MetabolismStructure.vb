@@ -6,6 +6,12 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
 
+    Public Class VirtualCell : Inherits XmlDataModel
+
+        Public Property MetabolismStructure As MetabolismStructure
+
+    End Class
+
     Public Class MetabolismStructure : Inherits XmlDataModel
 
         Public Property Taxonomy As Taxonomy

@@ -41,6 +41,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.GCModeller.Compiler
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Partial Module CLI
 
@@ -49,16 +51,29 @@ Partial Module CLI
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
-        Dim maps$ = args <= "/maps"
-        Dim compounds = args <= "/compounds"
-        Dim reactions = args <= "/reactions"
+        Dim kegg As New RepositoryArguments With {
+            .KEGGCompounds = args <= "/compounds",
+            .KEGGPathway = args <= "/maps",
+            .KEGGReactions = args <= "/reactions"
+        }
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
         Dim genome As GBFF.File = GBFF.File.Load(path:=[in])
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
                           Function(protein) protein!KO)
+        Dim model As CellularModule = genome.AssemblingModel(geneKO, kegg)
 
+        If out.IsGCMarkup Then
+            Return model.ToMarkup _
+                        .GetXml _
+                        .SaveTo(out) _
+                        .CLICode
+        Else
+            Return model.ToTabular _
+                        .WriteXlsx(out) _
+                        .CLICode
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

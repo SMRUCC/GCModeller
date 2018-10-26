@@ -111,6 +111,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\application.vnd.openxmlformats-officedocument.spreadsheetml.sheet.vbproj">
+      <Project>{e695d793-c970-422b-ba74-703ee43194fc}</Project>
+      <Name>application.vnd.openxmlformats-officedocument.spreadsheetml.sheet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

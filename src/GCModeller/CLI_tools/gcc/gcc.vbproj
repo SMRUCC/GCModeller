@@ -302,6 +302,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\application.vnd.openxmlformats-officedocument.spreadsheetml.sheet.vbproj">
+      <Project>{E695D793-C970-422B-BA74-703EE43194FC}</Project>
+      <Name>application.vnd.openxmlformats-officedocument.spreadsheetml.sheet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -317,6 +321,10 @@
     <ProjectReference Include="..\..\engine\IO\GCTabular\GCTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
       <Name>GCTabular</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\Model\Model.vbproj">
+      <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
+      <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
