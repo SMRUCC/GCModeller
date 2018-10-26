@@ -39,6 +39,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Partial Module CLI
@@ -53,6 +54,10 @@ Partial Module CLI
         Dim reactions = args <= "/reactions"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
         Dim genome As GBFF.File = GBFF.File.Load(path:=[in])
+        Dim geneKO As Dictionary(Of String, String) = EntityObject _
+            .LoadDataSet(KO) _
+            .ToDictionary(Function(protein) protein.ID,
+                          Function(protein) protein!KO)
 
     End Function
 

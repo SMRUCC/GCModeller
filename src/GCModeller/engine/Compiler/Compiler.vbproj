@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A2A0F8C4-F84F-4A3A-958C-076EA4C70B5F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Compiler</RootNamespace>
-    <AssemblyName>Compiler</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.GCModeller.Compiler</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.GCModeller.Compiler</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Compiler.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Compiler.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Compiler.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Compiler.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>

@@ -306,6 +306,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\engine\Compiler\Compiler.vbproj">
+      <Project>{a2a0f8c4-f84f-4a3a-958c-076ea4c70b5f}</Project>
+      <Name>Compiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\engine\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>
