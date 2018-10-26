@@ -1,8 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
@@ -42,7 +44,33 @@ Public Module Workflow
 
     <Extension>
     Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
+        For Each reaction In repo.MetabolicNetwork
+            Dim model As Equation = reaction.ReactionModel
 
+            Yield New Reaction With {
+                .enzyme = reaction _
+                    .Orthology _
+                    .Terms _
+                    .Select(Function(t) t.name) _
+                    .ToArray,
+                .ID = reaction.ID,
+                .substrates = model.Reactants.converts,
+                .products = model.Products.converts
+            }
+        Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Private Function converts(compounds As CompoundSpecieReference()) As FactorString(Of Double)()
+        Return compounds _
+            .Select(Function(r)
+                        Return New FactorString(Of Double) With {
+                            .Factor = r.StoiChiometry,
+                            .text = r.ID
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}

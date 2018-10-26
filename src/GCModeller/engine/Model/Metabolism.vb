@@ -1,5 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.TagData
 
+''' <summary>
+''' 为了实现网络节点的动态删除与增添，这个代谢过程模型应该是通用的
+''' 即酶编号不应该是具体的基因编号
+''' </summary>
 Public Structure Reaction
 
     ''' <summary>
@@ -16,7 +20,7 @@ Public Structure Reaction
     ''' </summary>
     Public products As FactorString(Of Double)()
     ''' <summary>
-    ''' 酶编号
+    ''' 酶编号(KO编号或者EC编号)
     ''' </summary>
     Public enzyme As String()
 

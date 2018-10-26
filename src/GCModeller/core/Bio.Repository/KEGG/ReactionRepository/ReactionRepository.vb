@@ -66,6 +66,10 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Call xmlns.Add("KEGG", Reaction.Xmlns)
     End Sub
 
+    ''' <summary>
+    ''' 这个Repository之中的所有的代谢过程的数据都在这里了
+    ''' </summary>
+    ''' <returns></returns>
     Public Property MetabolicNetwork As Reaction()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
