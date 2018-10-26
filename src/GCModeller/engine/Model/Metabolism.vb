@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.TagData
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.TagData
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
 ''' 为了实现网络节点的动态删除与增添，这个代谢过程模型应该是通用的
@@ -10,6 +12,7 @@ Public Structure Reaction
     ''' 反应过程编号
     ''' </summary>
     Public ID As String
+    Public name As String
 
     ''' <summary>
     ''' 代谢底物编号
@@ -26,6 +29,30 @@ Public Structure Reaction
 
     Public Overrides Function ToString() As String
         Return ID
+    End Function
+
+    Public Function GetEquationString() As String
+        Dim substrates As CompoundSpecieReference() = converts(Me.substrates)
+        Dim products As CompoundSpecieReference() = converts(Me.products)
+        Dim model As New Equation With {
+            .Reactants = substrates,
+            .Products = products,
+            .Reversible = True
+        }
+
+        Return model.ToString
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function converts(compounds As FactorString(Of Double)()) As CompoundSpecieReference()
+        Return compounds _
+            .Select(Function(c)
+                        Return New CompoundSpecieReference With {
+                            .ID = c.text,
+                            .StoiChiometry = c.Factor
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
 End Structure

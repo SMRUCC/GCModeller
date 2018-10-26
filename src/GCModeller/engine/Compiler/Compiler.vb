@@ -55,7 +55,10 @@ Public Module Workflow
                     .ToArray,
                 .ID = reaction.ID,
                 .substrates = model.Reactants.converts,
-                .products = model.Products.converts
+                .products = model.Products.converts,
+                .name = reaction _
+                    .CommonNames _
+                    .ElementAtOrDefault(0, reaction.Definition)
             }
         Next
     End Function
