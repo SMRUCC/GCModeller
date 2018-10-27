@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98147eaa5211f226518d97b050d2102a, visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::57a1081a41bd57668cc276662c03ab08, SyntenyVisual\ComparativeGenomics\MultipleAlignment\MetaAPI.vb"
 
     ' Author:
     ' 

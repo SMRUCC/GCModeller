@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a709f4d5e80dc55f6ceb53dd40eb586, visualize\visualizeTools\GC.vb"
+﻿#Region "Microsoft.VisualBasic::7a709f4d5e80dc55f6ceb53dd40eb586, visualizeTools\GC.vb"
 
     ' Author:
     ' 

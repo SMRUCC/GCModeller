@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d18f1f4d13949dba69a78b1cebc2ba9a, visualize\GCModeller.DataVisualization\ColorMgr.vb"
+﻿#Region "Microsoft.VisualBasic::298c39cd72471e76319c602fdb884b2f, GCModeller.DataVisualization\ColorMgr.vb"
 
     ' Author:
     ' 

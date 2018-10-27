@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb9f3e4eddc7d032753266722da59d12, visualize\ChromosomeMap\DrawingModels\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::7edaec0c4bd9f0aa44e9fae7618be125, ChromosomeMap\DrawingModels\Abstract.vb"
 
     ' Author:
     ' 

@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::12447636c07d1890dfca8f0f6ef4a137, visualize\ChromosomeMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::d1ed3f982c85f6cd0127442f09b43679, ChromosomeMap\DrawingDevice.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class DrawingDevice
-' 
-'     Properties: Height, RuleFont, Width
-' 
-'     Constructor: (+3 Overloads) Sub New
-' 
-'     Function: __chrMapDrawerProcessor, __filteringSiteData, __getRuleText, __invokeDrawing, ExportColorProfiles
-'               InvokeDrawing
-' 
-'     Sub: __drawChromosomeSites, __drawRuleLine, __initialization
-'     Class __args
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Class DrawingDevice
+    ' 
+    '     Properties: Height, RulerFont, Width
+    ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
+    '     Function: chrMapDrawerProcessor, drawingImpl, ExportColorProfiles, filteringSiteData, getRulerText
+    '               InvokeDrawing
+    ' 
+    '     Sub: __initialization, doRender, drawChromosomeSites, drawRulerLine
+    '     Class args
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

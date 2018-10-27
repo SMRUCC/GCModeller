@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58a4f62b52077425ba32a25499962b88, visualize\PDB_molViews\Form_molView.vb"
+﻿#Region "Microsoft.VisualBasic::58a4f62b52077425ba32a25499962b88, PDB_molViews\Form_molView.vb"
 
     ' Author:
     ' 

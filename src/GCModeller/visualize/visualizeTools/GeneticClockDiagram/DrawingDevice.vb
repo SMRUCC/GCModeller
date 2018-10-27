@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7205c85fa11da88da26f2a1a0b808522, visualize\visualizeTools\GeneticClockDiagram\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::7205c85fa11da88da26f2a1a0b808522, visualizeTools\GeneticClockDiagram\DrawingDevice.vb"
 
     ' Author:
     ' 
