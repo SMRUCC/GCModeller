@@ -42,6 +42,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
@@ -85,6 +87,9 @@ Public Module Extensions
                             End Function) _
                     .ToArray,
                 .Enzymes = enzymes,
+                .Compounds = .Reactions _
+                             .getCompounds(KEGG.GetCompounds) _
+                             .ToArray,
                 .Pathways = KEGG.GetPathways _
                     .PathwayMaps _
                     .Select(Function(map)
@@ -122,6 +127,35 @@ Public Module Extensions
     End Function
 
     <Extension>
+    Private Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction), compounds As CompoundRepository) As IEnumerable(Of Compound)
+        Dim allCompoundId$() = reactions _
+            .Select(Function(r)
+                        Return Equation.TryParse(r.Equation) _
+                                       .GetMetabolites _
+                                       .Select(Function(compound) compound.ID)
+                    End Function) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        For Each id As String In allCompoundId.Where(Function(cid) compounds.Exists(cid))
+            Dim keggModel = compounds.GetByKey(id).Entity
+
+            Yield New Compound With {
+                .ID = id,
+                .name = keggModel _
+                    .CommonNames _
+                    .ElementAtOrDefault(0, keggModel.Formula),
+                .otherNames = keggModel _
+                    .CommonNames _
+                    .SafeQuery _
+                    .Skip(1) _
+                    .ToArray
+            }
+        Next
+    End Function
+
+    <Extension>
     Private Iterator Function createEnzymes(metabolicProcess As IEnumerable(Of Regulation), KOgenes As Dictionary(Of String, CentralDogma)) As IEnumerable(Of Enzyme)
         For Each catalysis As IGrouping(Of String, Regulation) In metabolicProcess.GroupBy(Function(c) c.regulator)
             Yield New Enzyme With {
@@ -130,7 +164,7 @@ Public Module Extensions
                     .Select(Function(reg)
                                 Return New Catalysis With {
                                     .coefficient = reg.effects,
-                                    .Reaction = reg.process,
+                                    .reaction = reg.process,
                                     .comment = reg.name
                                 }
                             End Function) _
