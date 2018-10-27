@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e81f803c8bababf1d5b6e6a7b3185d7a, visualize\GCModeller.DataVisualization\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e81f803c8bababf1d5b6e6a7b3185d7a, GCModeller.DataVisualization\Extensions.vb"
 
     ' Author:
     ' 

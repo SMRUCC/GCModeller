@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a267fcfdf25133ecacab90fe686f4a72, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ExpressionSystem\Initializer.vb"
+﻿#Region "Microsoft.VisualBasic::a267fcfdf25133ecacab90fe686f4a72, GCModeller\EngineSystem\ObjectModels\SubSystem\ExpressionSystem\Initializer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf9befd268cd196f0b84c6e866eae771, Bio.Repository\KEGG\ReactionRepository\ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::2a13796f1484774c85a28e2d70d80aea, Bio.Repository\KEGG\ReactionRepository\ReactionRepository.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 ''' <summary>
@@ -66,6 +67,10 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Call xmlns.Add("KEGG", Reaction.Xmlns)
     End Sub
 
+    ''' <summary>
+    ''' 这个Repository之中的所有的代谢过程的数据都在这里了
+    ''' </summary>
+    ''' <returns></returns>
     Public Property MetabolicNetwork As Reaction()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -129,6 +134,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
 
     Public Shared Function ScanModel(directory As String) As ReactionRepository
         Dim list As New Dictionary(Of String, Reaction)
+        Dim busy As New SwayBar
 
         For Each Xml As String In ls - l - r - "*.Xml" <= directory
             With Xml.LoadXml(Of Reaction)(
@@ -138,6 +144,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
                 )
                 If Not list.ContainsKey(.ID) Then
                     list(.ID) = .ByRef
+                    busy.Step()
                 End If
             End With
         Next

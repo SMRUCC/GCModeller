@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fc1598a381d7920beea8dfdca32cafa, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::33341859aa591a414d71c67b165d4467, LocalBLAST\LocalBLAST\LocalBLAST\Application\BlastnMapping.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,11 @@
 
     ' Summaries:
 
+    '     Interface IMapping
+    ' 
+    '         Properties: Qname, Qstart, Qstop, Sname, Sstart
+    '                     Sstop
+    ' 
     '     Class BlastnMapping
     ' 
     '         Properties: AlignmentFullLength, Evalue, Extensions, Gaps, GapsFraction

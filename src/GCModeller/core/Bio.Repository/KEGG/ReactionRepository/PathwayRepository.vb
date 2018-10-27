@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::655c885d9ea4459024586b044265cf40, SVG.Extensions\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::cadcdef2226cbcb64d1ffe5467f230f1, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,35 @@
 
     ' Summaries:
 
-    ' Module Module1
+    ' Class PathwayRepository
     ' 
-    '     Sub: Main
+    '     Properties: PathwayMaps
+    ' 
+    '     Function: ScanModels
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Module Module1
+Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Language
 
-    Sub Main()
+Public Class PathwayRepository : Inherits XmlDataModel
 
+    Public Property PathwayMaps As PathwayMap()
 
+    Public Shared Function ScanModels(directory As String) As PathwayRepository
+        Dim maps As New List(Of PathwayMap)
 
-        Dim doc As New SVG.SvgDocument
+        For Each file As String In ls - l - r - "*.Xml" <= directory
+            maps += file.LoadXml(Of PathwayMap)
+        Next
 
-        Dim box As New SVG.SvgRectangle() With {.X = New SvgUnit(100), .Y = New SvgUnit(100), .Width = New SvgUnit(100), .Height = New SvgUnit(100)}
+        Return New PathwayRepository With {
+            .PathwayMaps = maps
+        }
+    End Function
+End Class
 
-        Call doc.Children.Add(box)
-
-
-        Call doc.Write("x:\sfsdf.svg")
-
-    End Sub
-
-End Module

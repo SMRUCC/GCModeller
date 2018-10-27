@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc6bf7f048fb4e5ab9a89303e076aad3, GCModeller\EngineSystem\ObjectModels\SubSystem\Chemotaxis.vb"
+﻿#Region "Microsoft.VisualBasic::fce8a9ea7c599c8100764ec6c4800e82, Microsoft.VisualBasic.Core\ComponentModel\ValuePair\TagData\FactorValue.vb"
 
     ' Author:
     ' 
@@ -31,41 +31,32 @@
 
     ' Summaries:
 
-    '     Class Chemotaxis
+    '     Class FactorValue
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Properties: Factor, Value
     ' 
-    '         Function: __innerTicks, CreateServiceSerials, Initialize
+    '     Class FactorString
     ' 
-    '         Sub: MemoryDump
+    '         Properties: Factor, text
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace EngineSystem.ObjectModels.SubSystem
+Namespace ComponentModel.TagData
 
-    Public Class Chemotaxis : Inherits EngineSystem.ObjectModels.SubSystem.CellComponentSystemFramework(Of EngineSystem.ObjectModels.Module.Chemotaxis)
+    Public Class FactorValue(Of T As {Structure, IComparable(Of T)}, V)
 
-        Sub New(Metabolism As SubSystem.MetabolismCompartment, CultivationMediums As SubSystem.CultivationMediums)
-            Call MyBase.New(Metabolism)
-        End Sub
+        Public Property Factor As T
+        Public Property Value As V
 
-        Public Overrides Function CreateServiceSerials() As Services.MySQL.IDataAcquisitionService()
-            Throw New NotImplementedException
-        End Function
+    End Class
 
-        Public Overrides Function Initialize() As Integer
-            Throw New NotImplementedException
-        End Function
+    Public Class FactorString(Of T As {Structure, IComparable(Of T)})
 
-        Public Overrides Sub MemoryDump(Dir As String)
+        Public Property Factor As T
+        Public Property text As String
 
-        End Sub
-
-        Protected Overrides Function __innerTicks(KernelCycle As Integer) As Integer
-            Return 0
-        End Function
     End Class
 End Namespace

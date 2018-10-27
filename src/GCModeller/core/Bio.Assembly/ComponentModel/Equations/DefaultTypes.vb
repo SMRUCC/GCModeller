@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::087936ac77a160ffb6527452c76af641, Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::d3fed053d6fa68d72585c18d23bcf796, Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 

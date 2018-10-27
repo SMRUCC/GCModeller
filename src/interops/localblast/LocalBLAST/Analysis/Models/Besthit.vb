@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a15a61ca620f35bcf450ed637602bfcd, localblast\LocalBLAST\Analysis\Models\Besthit.vb"
+﻿#Region "Microsoft.VisualBasic::a15a61ca620f35bcf450ed637602bfcd, LocalBLAST\Analysis\Models\Besthit.vb"
 
     ' Author:
     ' 

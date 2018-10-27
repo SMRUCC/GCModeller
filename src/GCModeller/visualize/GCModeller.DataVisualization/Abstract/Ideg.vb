@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, visualize\GCModeller.DataVisualization\Abstract\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, GCModeller.DataVisualization\Abstract\Ideg.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25ff0c7d09f2f4cde5939acb08b7dda5, localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
+﻿#Region "Microsoft.VisualBasic::64a85df4b55c18e6a19e43725fb7ce92, LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
 
     ' Author:
     ' 

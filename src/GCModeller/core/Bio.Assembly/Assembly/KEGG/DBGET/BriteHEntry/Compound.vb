@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::207a6b3f23b60a166844e6149fea951c, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::5e6380921a4c43c801c2a24c44d6bf3c, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ce0309e9b24c5d47fc9572a4cc6422a, localblast\LocalBLAST\Analysis\Models\KEGG_API.vb"
+﻿#Region "Microsoft.VisualBasic::7ce0309e9b24c5d47fc9572a4cc6422a, LocalBLAST\Analysis\Models\KEGG_API.vb"
 
     ' Author:
     ' 
