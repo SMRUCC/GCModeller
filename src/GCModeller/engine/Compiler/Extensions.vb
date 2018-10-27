@@ -40,6 +40,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
@@ -62,6 +64,11 @@ Public Module Extensions
                    End Function) _
             .createEnzymes(KOgenes) _
             .ToArray
+        Dim KOfunc As Dictionary(Of String, CentralDogma()) = KOgenes _
+            .Values _
+            .GroupBy(Function(proc) proc.orthology) _
+            .ToDictionary(Function(KO) KO.Key,
+                          Function(g) g.ToArray)
 
         Return New VirtualCell With {
             .Taxonomy = model.Taxonomy,
@@ -81,9 +88,31 @@ Public Module Extensions
                 .Pathways = KEGG.GetPathways _
                     .PathwayMaps _
                     .Select(Function(map)
+                                Dim enzymeUnits = map.KEGGOrthology _
+                                    .Terms _
+                                    .SafeQuery _
+                                    .Where(Function(term)
+                                               Return KOfunc.ContainsKey(term.name)
+                                           End Function) _
+                                    .Select(Function(term)
+                                                Dim enzymeUnit = KOfunc(term.name) _
+                                                    .Select(Function(protein)
+                                                                Return New [Property] With {
+                                                                    .name = protein.polypeptide,
+                                                                    .Comment = protein.geneID,
+                                                                    .value = term.name
+                                                                }
+                                                            End Function) _
+                                                    .ToArray
+                                                Return enzymeUnit
+                                            End Function) _
+                                    .IteratesALL _
+                                    .ToArray
+
                                 Return New Pathway With {
                                     .ID = map.KOpathway,
-                                    .name = map.name
+                                    .name = map.name,
+                                    .enzymes = enzymeUnits
                                 }
                             End Function) _
                     .ToArray
