@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>Host Specificity in Xanthomonas</title>
+  <URL>https://cn.bing.com/academic/profile?id=a7a19230dc4b71df5339fbaef1691bb7&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="D W Dye" attr="ID=SERP,5097.1">/academic/search?q=D+W+Dye&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>&lt;null</abstract>
+  <pub-date>1958-01-01T00:00:00</pub-date>
+  <journal title="Nature" attr="ID=SERP,5099.1">/academic/search?q=Nature</journal>
+  <DOI>10.1038/1821813a0</DOI>
+  <keywords>
+    <link title="Host" attr="ID=SERP,5098.1">/academic/profile?id=126831891&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="1960" volumn="3" />
+    <cites date="1961" volumn="1" />
+    <cites date="1962" volumn="1" />
+    <cites date="1963" volumn="2" />
+    <cites date="1964" volumn="2" />
+    <cites date="1965" volumn="1" />
+    <cites date="1966" volumn="1" />
+    <cites date="1969" volumn="1" />
+    <cites date="1973" volumn="1" />
+    <cites date="1977" volumn="2" />
+    <cites date="1978" volumn="1" />
+    <cites date="1981" volumn="1" />
+    <cites date="1982" volumn="2" />
+    <cites date="1984" volumn="3" />
+    <cites date="1987" volumn="3" />
+    <cites date="1988" volumn="1" />
+    <cites date="1989" volumn="1" />
+    <cites date="1990" volumn="1" />
+    <cites date="1991" volumn="1" />
+    <cites date="1992" volumn="3" />
+    <cites date="1993" volumn="1" />
+    <cites date="1997" volumn="1" />
+    <cites date="2002" volumn="1" />
+    <cites date="2007" volumn="1" />
+    <cites date="2015" volumn="1" />
+  </cites>
+  <pages>1813-1814</pages>
+  <volume>182</volume>
+  <issue>4652</issue>
+  <source>
+    <link title="www.nature.com" attr="ID=SERP,5100.1">http://www.nature.com/nature/journal/v182/n4652/abs/1821813a0.html</link>
+    <link title="adsabs.harvard.edu" attr="ID=SERP,5101.1">http://adsabs.harvard.edu/abs/1958Natur.182.1813D</link>
+    <link title="www.nature.com" attr="ID=SERP,5102.1">http://www.nature.com/doifinder/10.1038/1821813a0</link>
+  </source>
+</ArticleProfile>

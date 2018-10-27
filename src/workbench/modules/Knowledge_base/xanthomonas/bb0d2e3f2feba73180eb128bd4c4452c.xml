@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>Taxonomy of Xanthomonas and Pseudomonas</title>
+  <URL>https://cn.bing.com/academic/profile?id=bb0d2e3f2feba73180eb128bd4c4452c&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="R R Colwell" attr="ID=SERP,5097.1">/academic/search?q=R+R+Colwell&amp;amp;mkt=zh-cn</link>
+    <link title="J Liston" attr="ID=SERP,5098.1">/academic/search?q=J+Liston&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>&lt;null</abstract>
+  <pub-date>1961-01-01T00:00:00</pub-date>
+  <journal title="Nature" attr="ID=SERP,5099.1">/academic/search?q=Nature</journal>
+  <DOI>10.1038/191617a0</DOI>
+  <keywords />
+  <cites>
+    <cites date="1964" volumn="1" />
+    <cites date="1971" volumn="1" />
+    <cites date="2009" volumn="1" />
+  </cites>
+  <pages>617-619</pages>
+  <volume>191</volume>
+  <issue>4788</issue>
+  <source>
+    <link title="adsabs.harvard.edu" attr="ID=SERP,5100.1">http://adsabs.harvard.edu/abs/1961Natur.191..617C</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5101.1">https://www.ncbi.nlm.nih.gov/pubmed/13694874</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5102.1">http://www.ncbi.nlm.nih.gov/pubmed/13694874</link>
+    <link title="www.nature.com" attr="ID=SERP,5103.1">http://www.nature.com/nature/journal/v191/n4788/abs/191617a0.html</link>
+    <link title="www.nature.com" attr="ID=SERP,5104.1">http://www.nature.com/doifinder/10.1038/191617a0</link>
+  </source>
+</ArticleProfile>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>TAL effectors from Xanthomonas: design of a programmable DNA-binding specificity</title>
+  <URL>https://cn.bing.com/academic/profile?id=c7495d67220c249f750cbba1ef2d6d00&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="H Scholze" attr="ID=SERP,5097.1">/academic/search?q=H+Scholze&amp;amp;mkt=zh-cn</link>
+    <link title="J Streubel" attr="ID=SERP,5098.1">/academic/search?q=J+Streubel&amp;amp;mkt=zh-cn</link>
+    <link title="J Boch" attr="ID=SERP,5099.1">/academic/search?q=J+Boch&amp;amp;mkt=zh-cn</link>
+    <link title="A Bertaccini" attr="ID=SERP,5100.1">/academic/search?q=A+Bertaccini&amp;amp;mkt=zh-cn</link>
+    <link title="S Maini" attr="ID=SERP,5101.1">/academic/search?q=S+Maini&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Xanthomonas spp. are Gram-negative bacteria with powerful molecular weapons to attack their plant hosts. Key for pathogenicity of Xanthomonas is a type III secretion system that injects a cocktail of effector proteins into plant cells to function as potent virulence factors. TAL (transcription activator-like) effectors from Xanthomonas function as transcriptional activators of plant genes in the plant nucleus. They contain a central domain of tandem, near-identical 34 amino-acid repeats. Each repeat recognizes a single base pair in a contiguous DNA sequence and two adjacent hypervariable amino acids per repeat specify the base that is bound. This modular DNA-binding code allows a simple reprogramming of DNA-binding specificity, a feature with high potential for biotechnology. We developed a method called &amp;quot;Golden TAL Technology&amp;quot; that allows a flexible assembly of TAL proteins with a designed order of repeats.</abstract>
+  <pub-date>2011-01-01T00:00:00</pub-date>
+  <journal title="Bulletin of Insectology" attr="ID=SERP,5105.1">/academic/search?q=Bulletin+of+Insectology</journal>
+  <keywords>
+    <link title="Transcription factor" attr="ID=SERP,5102.1">/academic/profile?id=86339819&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Pathogenicity" attr="ID=SERP,5103.1">/academic/profile?id=64502627&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="DNA sequencing" attr="ID=SERP,5104.1">/academic/profile?id=51679486&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2014" volumn="1" />
+  </cites>
+  <volume>64</volume>
+  <source>
+    <link title="www.bulletinofinsectology.org" attr="ID=SERP,5106.1">http://www.bulletinofinsectology.org/pdfarticles/vol64-2011-S279-S280scholze.pdf</link>
+    <link title="www.cabdirect.org" attr="ID=SERP,5107.1">https://www.cabdirect.org/cabdirect/abstract/20113376543</link>
+    <link title="www.cabdirect.org" attr="ID=SERP,5108.1">http://www.cabdirect.org/abstracts/20113376543.html</link>
+  </source>
+</ArticleProfile>
