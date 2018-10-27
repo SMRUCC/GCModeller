@@ -295,7 +295,7 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\ExperimentDesigner\ExperimentDesigner.vbproj">
+    <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
       <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
       <Name>ExperimentDesigner</Name>
     </ProjectReference>

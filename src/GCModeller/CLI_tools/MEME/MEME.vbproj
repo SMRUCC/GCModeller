@@ -310,8 +310,8 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\ReportBuilder\ReportBuilder.vbproj">
-      <Project>{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}</Project>
+    <ProjectReference Include="..\..\..\workbench\modules\ReportBuilder\ReportBuilder.vbproj">
+      <Project>{eeb2bb03-20b0-4381-8a9e-e2210eb568a5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
