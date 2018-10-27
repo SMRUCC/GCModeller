@@ -69,6 +69,10 @@ Public Structure CentralDogma
     Dim geneID As String
     Dim RNA As NamedValue(Of RNATypes)
     Dim polypeptide As String
+    ''' <summary>
+    ''' 一般是KO编号
+    ''' </summary>
+    Dim orthology As String
 
     Public ReadOnly Property IsRNAGene As Boolean
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

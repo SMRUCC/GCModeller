@@ -66,7 +66,7 @@ Public Module Workflow
         Dim taxonomy As Taxonomy = genome.Source.GetTaxonomy
         Dim genotype As New Genotype With {
             .CentralDogmas = genome _
-                .GetCentralDogmas _
+                .GetCentralDogmas(KOfunction) _
                 .ToArray
         }
         Dim phenotype As New Phenotype With {
@@ -166,7 +166,7 @@ Public Module Workflow
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
 
     <Extension>
-    Private Iterator Function GetCentralDogmas(genome As GBFF.File) As IEnumerable(Of CentralDogma)
+    Private Iterator Function GetCentralDogmas(genome As GBFF.File, KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
         Dim centralDogmaFeatures = genome _
             .Features _
             .Where(Function(feature)
@@ -222,7 +222,8 @@ Public Module Workflow
                     .Name = locus_tag,
                     .Value = rnaType
                 },
-                .polypeptide = proteinId
+                .polypeptide = proteinId,
+                .orthology = KOfunction.TryGetValue(.geneID)
             }
         Next
     End Function

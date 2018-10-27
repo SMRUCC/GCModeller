@@ -67,7 +67,8 @@ Public Module Extensions
                     .Select(Function(map)
                                 Return New Pathway With {
                                     .ID = map.KOpathway,
-                                    .name = map.name
+                                    .name = map.name,
+                                    .Enzymes =
                                 }
                             End Function) _
                     .ToArray
