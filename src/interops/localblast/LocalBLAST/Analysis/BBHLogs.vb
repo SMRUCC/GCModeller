@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4c4c4a28d572aac267560e859bdd2ee, localblast\LocalBLAST\Analysis\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::e4c4c4a28d572aac267560e859bdd2ee, LocalBLAST\Analysis\BBHLogs.vb"
 
     ' Author:
     ' 

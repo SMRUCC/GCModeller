@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c28806b9ad422d631f473dcbd29de88, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
+﻿#Region "Microsoft.VisualBasic::29cdc95a05930940b25fcdd42352e8af, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
 
     ' Author:
     ' 
@@ -284,7 +284,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="source">主要是使用到Query序列之中的Title属性</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function CheckIntegrity(source As FASTA.FastaFile) As Boolean
+        Public Overrides Function CheckIntegrity(source As FastaFile) As Boolean
             Dim empty = LinqAPI.DefaultFirst(Of Query()) _
  _
                 () <= From fasta As FastaSeq

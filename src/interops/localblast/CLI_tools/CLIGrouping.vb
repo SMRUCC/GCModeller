@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::965c101499790bf85b9cc45d01de24c1, localblast\CLI_tools\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::68fb491909087ddb6473c75911f7f7cd, CLI_tools\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -47,5 +47,6 @@ Public Class CLIGrouping
     Public Const COGTools As String = "COG annotation tools"
     Public Const BBHTools As String = "Blastp BBH tools"
     Public Const TaxonomyTools As String = "NCBI taxonomy tools"
+    Public Const UniProtTools As String = "UniProt tools"
 
 End Class

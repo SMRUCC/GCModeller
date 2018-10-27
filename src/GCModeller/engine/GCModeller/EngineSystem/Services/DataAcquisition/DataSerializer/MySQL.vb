@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1204b1333a9f7d9f8b2325e5a951260c, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::1204b1333a9f7d9f8b2325e5a951260c, GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\MySQL.vb"
 
     ' Author:
     ' 

@@ -126,7 +126,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\workbench\SeqFeature\SeqFeature\SeqFeature.vbproj">
+    <ProjectReference Include="..\..\..\..\workbench\modules\SeqFeature\SeqFeature\SeqFeature.vbproj">
       <Project>{050fe13b-bcce-4ff7-86e2-48735543d7a4}</Project>
       <Name>SeqFeature</Name>
     </ProjectReference>

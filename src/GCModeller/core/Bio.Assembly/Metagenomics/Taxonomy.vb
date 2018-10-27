@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17a27357962690bd61fb092a5b50f0ba, Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::6ad8f159d371a7dc7b0207cd5716575d, Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
@@ -59,7 +60,7 @@ Namespace Metagenomics
     ''' </summary>
     Public Class Taxonomy
 
-        Public Property scientificName As String
+        <XmlAttribute> Public Property scientificName As String
 
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
 

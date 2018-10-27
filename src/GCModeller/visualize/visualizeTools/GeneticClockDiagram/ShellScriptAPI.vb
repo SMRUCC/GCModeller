@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed604431476c9e09c250e17085124984, visualize\visualizeTools\GeneticClockDiagram\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ed604431476c9e09c250e17085124984, visualizeTools\GeneticClockDiagram\ShellScriptAPI.vb"
 
     ' Author:
     ' 

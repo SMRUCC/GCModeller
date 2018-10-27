@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43725c1f89f9cbb1032c8da1a82d2913, visualize\SyntenyVisual\DeviceModel.vb"
+﻿#Region "Microsoft.VisualBasic::43725c1f89f9cbb1032c8da1a82d2913, SyntenyVisual\DeviceModel.vb"
 
     ' Author:
     ' 

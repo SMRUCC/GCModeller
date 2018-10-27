@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15dd775e1e275acdea0d511b382e35eb, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
+﻿#Region "Microsoft.VisualBasic::d94c79017f3e43915deae6ec8640342c, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
 
     ' Author:
     ' 
@@ -316,10 +316,19 @@ Namespace CommandLine
         End Function
 
         Private Function waitForExit() As Integer
+            Dim exitCode%
+
             Call processInfo.WaitForExit()
-            ' process exit and raise events
-            RaiseEvent ProcessExit(processInfo.ExitCode, Process.ExitTime)
-            Return processInfo.ExitCode
+
+            Try
+                ' process exit and raise events
+                exitCode = processInfo.ExitCode
+                RaiseEvent ProcessExit(exitCode, Process.ExitTime)
+            Catch ex As Exception
+
+            End Try
+
+            Return exitCode
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

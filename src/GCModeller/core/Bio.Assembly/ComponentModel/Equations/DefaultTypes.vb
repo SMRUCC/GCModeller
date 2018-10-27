@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::087936ac77a160ffb6527452c76af641, Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::d3fed053d6fa68d72585c18d23bcf796, Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 
@@ -103,16 +103,22 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 idMaps As Dictionary(Of String, String),
                 canReverse As Boolean)
 
-            Reactants = left.Select(
-                Function(x) New CompoundSpecieReference With {
-                    .ID = idMaps(x.Key),
-                    .StoiChiometry = x.StoiChiometry
-                }).ToArray
-            Products = right.Select(
-                Function(x) New CompoundSpecieReference With {
-                    .ID = idMaps(x.Key),
-                    .StoiChiometry = x.StoiChiometry
-                }).ToArray
+            Reactants = left _
+                .Select(Function(x)
+                            Return New CompoundSpecieReference With {
+                                .ID = idMaps(x.Key),
+                                .StoiChiometry = x.StoiChiometry
+                            }
+                        End Function) _
+                .ToArray
+            Products = right _
+                .Select(Function(x)
+                            Return New CompoundSpecieReference With {
+                                .ID = idMaps(x.Key),
+                                .StoiChiometry = x.StoiChiometry
+                            }
+                        End Function) _
+                .ToArray
             Reversible = canReverse
         End Sub
 

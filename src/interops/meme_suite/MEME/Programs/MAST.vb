@@ -67,14 +67,14 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-bfile")> Public Property BackgroundFile As String
+        <Argv("-bfile")> Public Property BackgroundFile As String
         ''' <summary>
         ''' read the sequence file as a list of FASTA-formatted databases
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-dblist")> Public Property DbList As Boolean
+        <Argv("-dblist")> Public Property DbList As Boolean
         ' ## Outputs
         ''' <summary>
         ''' directory to output mast results; directory must not exist
@@ -82,21 +82,21 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-o")> Public Property OutputDir As String
+        <Argv("-o")> Public Property OutputDir As String
         ''' <summary>
         ''' directory to output mast results with overwriting allowed
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-oc")> Public Property OutputOverwriting As Boolean
+        <Argv("-oc")> Public Property OutputOverwriting As Boolean
         ''' <summary>
         ''' print a machine-readable list of all hits only; outputs to standard out and overrides -seqp
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-hit_list")> Public Property HitList As Boolean
+        <Argv("-hit_list")> Public Property HitList As Boolean
         ' ## Which Motifs To Use
         ''' <summary>
         ''' remove highly correlated motifs from query
@@ -104,35 +104,35 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-remcorr")> Public Property RemoveMotifs As Boolean
+        <Argv("-remcorr")> Public Property RemoveMotifs As Boolean
         ''' <summary>
         ''' use only motif number m (overrides -mev); this can be repeated to select multiple motifs
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-m")> Public Property MotifNumber As Integer
+        <Argv("-m")> Public Property MotifNumber As Integer
         ''' <summary>
         ''' only use the first count motifs or all motifs when count is zero (default: 0)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-c")> Public Property Count As Integer
+        <Argv("-c")> Public Property Count As Integer
         ''' <summary>
         ''' use only motifs with E-values less than mev
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-mev")> Public Property Mev As Integer
+        <Argv("-mev")> Public Property Mev As Integer
         ''' <summary>
         ''' nominal order and spacing of motifs is specified by diag which is a block diagram
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-diag")> Public Property Diag As Integer
+        <Argv("-diag")> Public Property Diag As Integer
         ' ## DNA-Only Options
         ''' <summary>
         ''' do not score reverse complement DNA strand
@@ -140,28 +140,28 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-norc")> Public Property NoReverse As Boolean
+        <Argv("-norc")> Public Property NoReverse As Boolean
         ''' <summary>
         ''' score reverse complement DNA strand as a separate sequence
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-sep")> Public Property Separate As Boolean
+        <Argv("-sep")> Public Property Separate As Boolean
         ''' <summary>
         ''' translate DNA sequences to protein; motifs must be protein; sequences must be DNA
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-dna")> Public Property DNA As Boolean
+        <Argv("-dna")> Public Property DNA As Boolean
         ''' <summary>
         ''' adjust p-values and E-values for sequence composition
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-comp")> Public Property Composition As Boolean
+        <Argv("-comp")> Public Property Composition As Boolean
         ' ## Which Results To Print
         ''' <summary>
         ''' print results for sequences with E-value small than ev (default: 10)
@@ -169,7 +169,7 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-ev")> Public Property EValue As Double
+        <Argv("-ev")> Public Property EValue As Double
         ' ## Appearance Of Block Diagrams
         ''' <summary>
         ''' show motif matches with p-value smaller than mt (default: 0.0001)
@@ -177,28 +177,28 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-mt")> Public Property mt As Double
+        <Argv("-mt")> Public Property mt As Double
         ''' <summary>
         ''' show weak matches (mt small than p-value and small than mt*10) in angle brackets in the hit list or when the xml is converted to text
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-w")> Public Property WeakMatches As Boolean
+        <Argv("-w")> Public Property WeakMatches As Boolean
         ''' <summary>
         ''' include only the best motif hits in -hit_list diagrams
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-best")> Public Property Best As Boolean
+        <Argv("-best")> Public Property Best As Boolean
         ''' <summary>
         ''' use SEQUENCE p-values for motif thresholds (default: use POSITION p-values)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-seqp")> Public Property SeqP As Boolean
+        <Argv("-seqp")> Public Property SeqP As Boolean
         ' ## Miscellaneous
         ''' <summary>
         ''' in results use mf as motif file name
@@ -206,49 +206,49 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-mf")> Public Property mf As String
+        <Argv("-mf")> Public Property mf As String
         ''' <summary>
         ''' in results use df as database name (ignored when -dblist)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-df")> Public Property df As String
+        <Argv("-df")> Public Property df As String
         ''' <summary>
         ''' in results use dl as link to search sequence names; token SEQUENCEID is replaced with the FASTA sequence ID; ignored when -dblist;
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-dl")> Public Property dl As String
+        <Argv("-dl")> Public Property dl As String
         ''' <summary>
         ''' lower bound on number of sequences in db
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-minseqs")> Public Property ms As String
+        <Argv("-minseqs")> Public Property ms As String
         ''' <summary>
         ''' do not print progress report
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-nostatus")> Public Property NoStatus As Boolean
+        <Argv("-nostatus")> Public Property NoStatus As Boolean
         ''' <summary>
         ''' do not create text output
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-notext")> Public Property NoText As Boolean
+        <Argv("-notext")> Public Property NoText As Boolean
         ''' <summary>
         ''' do not create html output
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-nohtml")> Public Property NoHtml As Boolean
+        <Argv("-nohtml")> Public Property NoHtml As Boolean
 
         Const MAST_COMMANDLINES As String = "{0} ""{1}"" ""{2}"" {3}"
 

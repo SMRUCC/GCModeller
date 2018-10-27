@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c678d44f1e3e56908d7034d70c75c991, Microsoft.VisualBasic.Core\Extensions\IO\Path\TemporaryEnvironment.vb"
+﻿#Region "Microsoft.VisualBasic::652e836aa26b48201bf557c4ff71967b, Microsoft.VisualBasic.Core\Extensions\IO\Path\TemporaryEnvironment.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,8 @@
 Namespace FileIO
 
     ''' <summary>
+    ''' Workspace model
+    ''' 
     ''' 在<see cref="TemporaryEnvironment.Dispose()"/>的时候，文件夹会切换回来
     ''' </summary>
     Public Class TemporaryEnvironment : Inherits Directory

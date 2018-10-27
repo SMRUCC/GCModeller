@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f162ce5dfc68ec716855946bf32b0f16, Bio.Assembly\ComponentModel\Equations\Reaction(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, Bio.Assembly\ComponentModel\Equations\Reaction(Of T).vb"
 
     ' Author:
     ' 
@@ -40,9 +40,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Linq
-Imports System.Xml.Serialization
 
 Namespace ComponentModel.EquaionModel
 

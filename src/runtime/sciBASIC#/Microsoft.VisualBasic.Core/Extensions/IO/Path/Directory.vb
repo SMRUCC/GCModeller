@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c023cda9fde8ba0a2aec73a2031ada88, Microsoft.VisualBasic.Core\Extensions\IO\Path\Directory.vb"
+﻿#Region "Microsoft.VisualBasic::bd8e9fe7167d5ba0c8fb9128f807d2f8, Microsoft.VisualBasic.Core\Extensions\IO\Path\Directory.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: CopyTo, Exists, GetFullPath, IsAbsolutePath, ToString
+    '         Function: CopyTo, Exists, GetFullPath, GetRelativePath, IsAbsolutePath
+    '                   ToString
     ' 
     '         Sub: CreateDirectory, Delete
     ' 
@@ -55,6 +56,10 @@ Namespace FileIO
     ''' </summary>
     Public Class Directory
 
+        ''' <summary>
+        ''' 当前的这个文件夹对象的文件路径
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property DIR As String
 
         ''' <summary>
@@ -91,7 +96,7 @@ Namespace FileIO
                 Return True
             ElseIf file.First = "/" AndAlso
                 (Environment.OSVersion.Platform = PlatformID.Unix OrElse
-                Environment.OSVersion.Platform = PlatformID.MacOSX) Then
+                 Environment.OSVersion.Platform = PlatformID.MacOSX) Then
                 Return True
             Else
                 Return False
@@ -125,6 +130,11 @@ Namespace FileIO
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Exists(DIR As String) As Boolean
             Return IO.Directory.Exists(DIR)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetRelativePath(file As String) As String
+            Return PathExtensions.RelativePath(DIR, file, appendParent:=False)
         End Function
 
         ''' <summary>

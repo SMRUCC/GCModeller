@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15c8845b802031c796a844c6dad3c52f, test\fetchTest.vb"
+﻿#Region "Microsoft.VisualBasic::90dd296ee6c2cf5dda89bba3407a5615, test\fetchTest.vb"
 
     ' Author:
     ' 
@@ -49,4 +49,3 @@ Module fetchTest
         Call pathway.GetXml.SaveTo("./test_pathwaydata.xml")
     End Sub
 End Module
-

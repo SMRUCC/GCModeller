@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b920ecf6c7760ee1e230b976bfe2acd, Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::e4a2519fd02438ce699026ec9e70ae24, Bio.Assembly\ComponentModel\Equations\Abstract.vb"
 
     ' Author:
     ' 
@@ -48,8 +48,6 @@
 
 #End Region
 
-Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.EquaionModel

@@ -88,56 +88,56 @@ Public Class CLIBuilder
     ''' Multiple sequence input file (- for stdin)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--infile", CLITypes.String)> Public Property InFile As String
+    <Argv("--infile", CLITypes.String)> Public Property InFile As String
 
     ''' <summary>
     ''' ``--hmm-in=&lt;file>``           
     ''' HMM input files
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--hmm-in", CLITypes.String)> Public Property HMMIn As String
+    <Argv("--hmm-in", CLITypes.String)> Public Property HMMIn As String
 
     ''' <summary>
     ''' ``--dealign``                 
     ''' Dealign input sequences
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--dealign", CLITypes.Boolean)> Public Property Dealign As Boolean
+    <Argv("--dealign", CLITypes.Boolean)> Public Property Dealign As Boolean
 
     ''' <summary>
     ''' ``--profile1, --p1=&lt;file>``   
     ''' Pre-aligned multiple sequence file (aligned columns will be kept fix)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--profile1", CLITypes.String)> Public Property p1 As String
+    <Argv("--profile1", CLITypes.String)> Public Property p1 As String
 
     ''' <summary>
     ''' ``--profile2, --p2=&lt;file>``   
     ''' Pre-aligned multiple sequence file (aligned columns will be kept fix)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--profile2", CLITypes.String)> Public Property p2 As String
+    <Argv("--profile2", CLITypes.String)> Public Property p2 As String
 
     ''' <summary>
     ''' ``--Is-profile``              
     ''' disable check if profile, force profile (default no)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--is-profile", CLITypes.Boolean)> Public Property IsProfile As Boolean
+    <Argv("--is-profile", CLITypes.Boolean)> Public Property IsProfile As Boolean
 
     ''' <summary>
     ''' ``-t, --seqtype={Protein, RNA, DNA}`` 
     ''' Force a sequence type (default: auto)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--seqtype", CLITypes.String)> Public Property SeqType As String
+    <Argv("--seqtype", CLITypes.String)> Public Property SeqType As String
 
     ''' <summary>
     ''' ``--infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` 
     ''' Forced sequence input file format (default: auto)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--infmt", CLITypes.String)> Public Property InFmt As OutFmts = OutFmts.auto
+    <Argv("--infmt", CLITypes.String)> Public Property InFmt As OutFmts = OutFmts.auto
 #End Region
 
 
@@ -148,70 +148,70 @@ Public Class CLIBuilder
     ''' Pairwise distance matrix input file (skips distance computation)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--distmat-in", CLITypes.String)> Public Property DistmatIn As String
+    <Argv("--distmat-in", CLITypes.String)> Public Property DistmatIn As String
     '  
     ''' <summary>
     ''' ``--distmat-out=&lt;file>``      
     ''' Pairwise distance matrix output file
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--distmat-out", CLITypes.String)> Public Property DistmatOut As String
+    <Argv("--distmat-out", CLITypes.String)> Public Property DistmatOut As String
     '  
     ''' <summary>
     ''' ``--guidetree-in=&lt;file>``     
     ''' Guide tree input file (skips distance computation And guide-tree clustering step)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--guidetree-in", CLITypes.String)> Public Property GuidetreeIn As String
+    <Argv("--guidetree-in", CLITypes.String)> Public Property GuidetreeIn As String
     '  
     ''' <summary>
     ''' ``--guidetree-out=&lt;file>``    
     ''' Guide tree output file
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--guidetree-out", CLITypes.String)> Public Property GuidetreeOut As String
+    <Argv("--guidetree-out", CLITypes.String)> Public Property GuidetreeOut As String
     '  
     ''' <summary>
     ''' ``--full``                    
     ''' Use full distance matrix for guide-tree calculation (might be slow; mBed Is default)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--full", CLITypes.String)> Public Property Full As String
+    <Argv("--full", CLITypes.String)> Public Property Full As String
     '  
     ''' <summary>
     ''' ``--full-iter``               
     ''' Use full distance matrix for guide-tree calculation during iteration (might be slowish; mBed Is default)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--full-iter", CLITypes.String)> Public Property FullIter As String
+    <Argv("--full-iter", CLITypes.String)> Public Property FullIter As String
     '  
     ''' <summary>
     ''' ``--cluster-size=&lt;n>``        
     ''' soft maximum of sequences in sub-clusters
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--cluster-size", CLITypes.Integer)> Public Property ClusterSize As Integer
+    <Argv("--cluster-size", CLITypes.Integer)> Public Property ClusterSize As Integer
     '  
     ''' <summary>
     ''' ``--clustering-out=&lt;file>``   
     ''' Clustering output file
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--clustering-out", CLITypes.String)> Public Property ClusteringOut As String
+    <Argv("--clustering-out", CLITypes.String)> Public Property ClusteringOut As String
     '  
     ''' <summary>
     ''' ``--use-kimura``              
     ''' use Kimura distance correction for aligned sequences (default no)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--use-kimura", CLITypes.Boolean)> Public Property UseKimura As Boolean
+    <Argv("--use-kimura", CLITypes.Boolean)> Public Property UseKimura As Boolean
     '  
     ''' <summary>
     ''' ``--percent-id``              
     ''' convert distances into percent identities (default no)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--percent-id", CLITypes.Boolean)> Public Property PercentId As Boolean
+    <Argv("--percent-id", CLITypes.Boolean)> Public Property PercentId As Boolean
 #End Region
 
 
@@ -222,35 +222,35 @@ Public Class CLIBuilder
     ''' Multiple sequence alignment output file (default stdout)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--outfile", CLITypes.String)> Public Property Out As String
+    <Argv("--outfile", CLITypes.String)> Public Property Out As String
 
     ''' <summary>
     ''' ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}``
     ''' MSA output file format (default: fasta)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--outfmt", CLITypes.String)> Public Property OutFmt As OutFmts = OutFmts.auto
+    <Argv("--outfmt", CLITypes.String)> Public Property OutFmt As OutFmts = OutFmts.auto
 
     ''' <summary>
     ''' ``--residuenumber, --resno``  
     ''' in Clustal format print residue numbers (default no)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--residuenumber", CLITypes.Boolean)> Public Property ResidueNumber As Boolean
+    <Argv("--residuenumber", CLITypes.Boolean)> Public Property ResidueNumber As Boolean
 
     ''' <summary>
     ''' ``--wrap=&lt;n>``                
     ''' number of residues before line-wrap in output
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--wrap", CLITypes.Integer)> Public Property Wrap As Integer
+    <Argv("--wrap", CLITypes.Integer)> Public Property Wrap As Integer
 
     ''' <summary>
     ''' ``--output-order={input-order,tree-order}`` 
     ''' MSA output orderlike in input/guide-tree
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--output-order", CLITypes.String)> Public Property OutputOrder As String
+    <Argv("--output-order", CLITypes.String)> Public Property OutputOrder As String
 #End Region
 
 #Region "Iteration"
@@ -260,21 +260,21 @@ Public Class CLIBuilder
     ''' Number of (combined guide-tree/HMM) iterations
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--iterations", CLITypes.Integer)> Public Property Iterations As Integer
+    <Argv("--iterations", CLITypes.Integer)> Public Property Iterations As Integer
 
     ''' <summary>
     ''' ``--max-guidetree-iterations=&lt;n>`` 
     ''' Maximum number guidetree iterations
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--max-guidetree-iterations", CLITypes.Integer)> Public Property MaxGuidetreeIterations As Integer
+    <Argv("--max-guidetree-iterations", CLITypes.Integer)> Public Property MaxGuidetreeIterations As Integer
 
     ''' <summary>
     ''' ``--max-hmm-iterations=&lt;n>``  
     ''' Maximum number of HMM iterations
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--max-hmm-iterations", CLITypes.Integer)> Public Property MaxHMMIterations As Integer
+    <Argv("--max-hmm-iterations", CLITypes.Integer)> Public Property MaxHMMIterations As Integer
 #End Region
 
 #Region "Limits (will exit early, if exceeded)"
@@ -284,14 +284,14 @@ Public Class CLIBuilder
     ''' Maximum allowed number of sequences
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--maxnumseq", CLITypes.Integer)> Public Property MaxNumSeq As Integer
+    <Argv("--maxnumseq", CLITypes.Integer)> Public Property MaxNumSeq As Integer
 
     ''' <summary>
     ''' ``--maxseqlen=&lt;l>``           
     ''' Maximum allowed sequence length
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--maxseqlen", CLITypes.Integer)> Public Property MaxSeqLen As Integer
+    <Argv("--maxseqlen", CLITypes.Integer)> Public Property MaxSeqLen As Integer
 #End Region
 
 #Region "Miscellaneous"
@@ -301,49 +301,49 @@ Public Class CLIBuilder
     ''' Set options automatically (might overwrite some of your options)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--auto", CLITypes.Boolean)> Public Property Auto As Boolean
+    <Argv("--auto", CLITypes.Boolean)> Public Property Auto As Boolean
     ''' <summary>
     ''' ``--threads=&lt;n>``             
     ''' Number of processors to use
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--threads", CLITypes.Integer)> Public Property Threads As Integer
+    <Argv("--threads", CLITypes.Integer)> Public Property Threads As Integer
     ''' <summary>
     ''' ``-l, --log=&lt;file>``          
     ''' Log all non-essential output to this file
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--log", CLITypes.String)> Public Property Log As String
+    <Argv("--log", CLITypes.String)> Public Property Log As String
     ''' <summary>
     ''' ``-h, --help``                
     ''' Print this help And exit
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--help", CLITypes.String)> Public Property Help As String
+    <Argv("--help", CLITypes.String)> Public Property Help As String
     ''' <summary>
     ''' ``-v, --verbose``             
     ''' Verbose output (increases if given multiple times)
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--v", CLITypes.String)> Public Property Verbose As String
+    <Argv("--v", CLITypes.String)> Public Property Verbose As String
     ''' <summary>
     ''' ``--version``                 
     ''' Print version information And exit
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--version", CLITypes.String)> Public Property Version As String
+    <Argv("--version", CLITypes.String)> Public Property Version As String
     ''' <summary>
     ''' ``--long-version``            
     ''' Print long version information And exit
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--long-version", CLITypes.String)> Public Property LongVersion As String
+    <Argv("--long-version", CLITypes.String)> Public Property LongVersion As String
     ''' <summary>
     ''' ``--force``                   
     ''' Force file overwriting
     ''' </summary>
     ''' <returns></returns>
-    <[Optional]("--force", CLITypes.Boolean)> Public Property Force As Boolean
+    <Argv("--force", CLITypes.Boolean)> Public Property Force As Boolean
 #End Region
 
     Public Overrides Function ToString() As String

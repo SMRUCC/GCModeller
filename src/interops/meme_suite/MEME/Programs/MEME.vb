@@ -90,35 +90,35 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-h")> Public Property h As String
+        <Argv("-h")> Public Property h As String
         ''' <summary>
         ''' name of directory for output files will not replace existing directory
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-o")> Public Property OutputDir As String
+        <Argv("-o")> Public Property OutputDir As String
         ''' <summary>
         ''' name of directory for output files will replace existing directory
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-oc")> Public Property OutputDir2 As String
+        <Argv("-oc")> Public Property OutputDir2 As String
         ''' <summary>
         ''' output in text format (default is HTML)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-text")> Public Property IsTextOutput As Boolean
+        <Argv("-text")> Public Property IsTextOutput As Boolean
         ''' <summary>
         ''' sequences use DNA alphabet
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-dna")> Public Property IsDNA As Boolean
+        <Argv("-dna")> Public Property IsDNA As Boolean
             Get
                 Return _IsDNA
             End Get
@@ -134,7 +134,7 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-protein")> Public Property IsProtein As Boolean
+        <Argv("-protein")> Public Property IsProtein As Boolean
             Get
                 Return _IsProtein
             End Get
@@ -160,113 +160,113 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-mod")> Public Property Mode As Modes
+        <Argv("-mod")> Public Property Mode As Modes
         ''' <summary>
         ''' maximum number of motifs to find
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-nmotifs")> Public Property NumMotifs As Integer
+        <Argv("-nmotifs")> Public Property NumMotifs As Integer
         ''' <summary>
         ''' stop if motif E-value greater than [evt]
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-evt")> Public Property Ev As Double
+        <Argv("-evt")> Public Property Ev As Double
         ''' <summary>
         ''' number of sites for each motif
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-nsites")> Public Property Sites As Integer
+        <Argv("-nsites")> Public Property Sites As Integer
         ''' <summary>
         ''' minimum number of sites for each motif
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-minsites")> Public Property MinSites As Integer
+        <Argv("-minsites")> Public Property MinSites As Integer
         ''' <summary>
         ''' maximum number of sites for each motif
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-maxsites")> Public Property MaxSites As Integer
+        <Argv("-maxsites")> Public Property MaxSites As Integer
         ''' <summary>
         ''' weight on expected number of sites
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-wnsites")> Public Property WnSites As Double
-        <[Optional]("-w")> Public Property MotifWidth As Integer
+        <Argv("-wnsites")> Public Property WnSites As Double
+        <Argv("-w")> Public Property MotifWidth As Integer
         ''' <summary>
         ''' minumum motif width
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-minw")> Public Property MinWidth As Integer
+        <Argv("-minw")> Public Property MinWidth As Integer
         ''' <summary>
         ''' maximum motif width
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-maxw")> Public Property MaxWidth As Integer
+        <Argv("-maxw")> Public Property MaxWidth As Integer
         ''' <summary>
         ''' do not adjust motif width using multiple alignments
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-nomatrim")> Public Property NomaTrim As Boolean
+        <Argv("-nomatrim")> Public Property NomaTrim As Boolean
         ''' <summary>
         ''' gap opening cost for multiple alignments
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-wg")> Public Property Wg As Double
+        <Argv("-wg")> Public Property Wg As Double
         ''' <summary>
         ''' gap extension cost for multiple alignments
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-ws")> Public Property Ws As Double
+        <Argv("-ws")> Public Property Ws As Double
         ''' <summary>
         ''' do not count end gaps in multiple alignments
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-noendgaps")> Public Property NoEndGaps As Boolean
+        <Argv("-noendgaps")> Public Property NoEndGaps As Boolean
         ''' <summary>
         ''' name of background Markov model file
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-bfile")> Public Property BackgroundFile As String
+        <Argv("-bfile")> Public Property BackgroundFile As String
         ''' <summary>
         ''' allow sites on + or - DNA strands
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-revcomp")> Public Property RevComp As Boolean
+        <Argv("-revcomp")> Public Property RevComp As Boolean
         ''' <summary>
         ''' force palindromes (requires -dna)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-pal")> Public Property Palindromes As Boolean
+        <Argv("-pal")> Public Property Palindromes As Boolean
             Get
                 If _IsDNA Then
                     Return _Palindromes
@@ -284,21 +284,21 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-maxiter")> Public Property MaxIter As Integer
+        <Argv("-maxiter")> Public Property MaxIter As Integer
         ''' <summary>
         ''' EM convergence criterion
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-distance")> Public Property Distance As String
+        <Argv("-distance")> Public Property Distance As String
         ''' <summary>
         ''' name of positional priors file
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-psp")> Public Property PspFile As String
+        <Argv("-psp")> Public Property PspFile As String
 
         Public Enum PriorTypes
             dirichlet
@@ -314,28 +314,28 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-prior")> Public Property PriorType As PriorTypes
+        <Argv("-prior")> Public Property PriorType As PriorTypes
         ''' <summary>
         ''' strength of the prior
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-b")> Public Property PriorStrength As Integer
+        <Argv("-b")> Public Property PriorStrength As Integer
         ''' <summary>
         ''' name of Dirichlet prior file
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-plib")> Public Property PLib As String
+        <Argv("-plib")> Public Property PLib As String
         ''' <summary>
         ''' fuzziness of sequence to theta mapping
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-spfuzz")> Public Property SpFuzz As String
+        <Argv("-spfuzz")> Public Property SpFuzz As String
         Public Enum SpMaps
             uni
             pam
@@ -346,82 +346,82 @@ Namespace Programs
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-spmap")> Public Property SpMap As SpMaps
+        <Argv("-spmap")> Public Property SpMap As SpMaps
         ''' <summary>
         ''' consensus sequence to start EM from
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-cons")> Public Property Cons As String
+        <Argv("-cons")> Public Property Cons As String
         ''' <summary>
         ''' size of heaps for widths where substring search occurs
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-heapsize")> Public Property Hs As Integer
+        <Argv("-heapsize")> Public Property Hs As Integer
         ''' <summary>
         ''' perform x-branching
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-x_branch")> Public Property XBranch As Boolean
+        <Argv("-x_branch")> Public Property XBranch As Boolean
         ''' <summary>
         ''' perform width branching
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-w_branch")> Public Property WBranch As Boolean
+        <Argv("-w_branch")> Public Property WBranch As Boolean
         ''' <summary>
         ''' branching factor for branching search
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-bfactor")> Public Property BranchingFactor As Double
+        <Argv("-bfactor")> Public Property BranchingFactor As Double
         ''' <summary>
         ''' maximum dataset size in characters
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-maxsize")> Public Property MaxSize As Integer
+        <Argv("-maxsize")> Public Property MaxSize As Integer
         ''' <summary>
         ''' do not print progress reports to terminal
         ''' </summary>
         ''' <remarks></remarks>
-        <[Optional]("-nostatus")> Public Property NoStatus As Boolean
+        <Argv("-nostatus")> Public Property NoStatus As Boolean
         ''' <summary>
         ''' use parallel version with [np] processors
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-p")> Public Property Np As Boolean
+        <Argv("-p")> Public Property Np As Boolean
         ''' <summary>
         ''' quit before number of CPU seconds consumed
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-time")> Public Property Time As Integer
+        <Argv("-time")> Public Property Time As Integer
         ''' <summary>
         ''' print [sf] as name of sequence file
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-sf")> Public Property sf As String
+        <Argv("-sf")> Public Property sf As String
         ''' <summary>
         ''' verbose mode
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <[Optional]("-V")> Public Property Verbose As Boolean
+        <Argv("-V")> Public Property Verbose As Boolean
 
         Public Const REQUIRED_ARGUMENTS As String = """{0}"""
 

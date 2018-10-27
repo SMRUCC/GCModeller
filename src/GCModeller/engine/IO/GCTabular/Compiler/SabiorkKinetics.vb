@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a2aa79c445587c2a27667026a6b3a5f, engine\GCTabular\Compiler\SabiorkKinetics.vb"
+﻿#Region "Microsoft.VisualBasic::0a2aa79c445587c2a27667026a6b3a5f, IO\GCTabular\Compiler\SabiorkKinetics.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1eaac1ed5b02a6214761b7c8199f16ac, engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::1eaac1ed5b02a6214761b7c8199f16ac, IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
 
     ' Author:
     ' 

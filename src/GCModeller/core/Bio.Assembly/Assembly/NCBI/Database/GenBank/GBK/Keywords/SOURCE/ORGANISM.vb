@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24f944ef2fc4f40724ee16df71e6f4f1, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
+﻿#Region "Microsoft.VisualBasic::9afb6bd272c5e834d3a693a3e451ce9d, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
 
     ' Author:
     ' 
@@ -33,31 +33,55 @@
 
     '     Class ORGANISM
     ' 
-    '         Properties: Categorys, SpeciesName
+    '         Properties: Lineage, SpeciesName
     ' 
-    '         Function: InternalParser, ToString
+    '         Function: InternalParser, ToString, ToTaxonomy
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
+Imports Taxon = SMRUCC.genomics.Metagenomics.Taxonomy
+
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
     Public Class ORGANISM
 
-        Public Property Categorys As String()
+        Public Property Lineage As String()
         Public Property SpeciesName As String
+
+        Public Function ToTaxonomy() As Taxon
+            Dim i As int = Scan0
+
+            Return New Taxon With {
+                .scientificName = SpeciesName,
+                .kingdom = Lineage.ElementAtOrDefault(++i),
+                .phylum = Lineage.ElementAtOrDefault(++i),
+                .[class] = Lineage.ElementAtOrDefault(++i),
+                .order = Lineage.ElementAtOrDefault(++i),
+                .family = Lineage.ElementAtOrDefault(++i),
+                .genus = Lineage.ElementAtOrDefault(++i),
+                .species = Lineage.ElementAtOrDefault(++i)
+            }
+        End Function
 
         Public Overrides Function ToString() As String
             Return SpeciesName
         End Function
 
-        Public Shared Function InternalParser(str As String()) As ORGANISM
+        Friend Shared Function InternalParser(str As String()) As ORGANISM
             Call KeyWord.__trimHeadKey(str)
-            Dim Org As ORGANISM = New ORGANISM With {.SpeciesName = str.First}
-            Org.Categorys = Strings.Split(String.Join(" ", (From s As String In str.Skip(1) Select s.Trim).ToArray), "; ")
-            Return Org
+
+            Dim lineage As New ORGANISM With {
+                .SpeciesName = str.First,
+                .Lineage = (From s As String In str.Skip(1) Select s.Trim) _
+                    .JoinBy(" ") _
+                    .StringSplit("[;]\s*")
+            }
+
+            Return lineage
         End Function
     End Class
 End Namespace

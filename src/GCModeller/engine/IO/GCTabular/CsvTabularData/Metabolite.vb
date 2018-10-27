@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71345c4bc3514bc871b61707ea3aa29d, engine\GCTabular\CsvTabularData\Metabolite.vb"
+﻿#Region "Microsoft.VisualBasic::71345c4bc3514bc871b61707ea3aa29d, IO\GCTabular\CsvTabularData\Metabolite.vb"
 
     ' Author:
     ' 

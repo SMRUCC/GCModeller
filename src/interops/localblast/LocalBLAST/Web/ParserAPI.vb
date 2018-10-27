@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, localblast\LocalBLAST\Web\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, LocalBLAST\Web\ParserAPI.vb"
 
     ' Author:
     ' 

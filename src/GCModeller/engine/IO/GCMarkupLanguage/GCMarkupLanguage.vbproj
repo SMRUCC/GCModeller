@@ -231,6 +231,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MetabolismStructure.vb" />
     <Compile Include="EquationGenerator.vb" />
     <Compile Include="FBA\ModelParts\Vector.vb" />
     <Compile Include="FBA\ModelParts\MetabolismFlux.vb" />
