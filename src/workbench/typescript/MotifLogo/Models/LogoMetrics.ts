@@ -17,7 +17,7 @@
         public y_label_spacer = 3;
         public y_num_height = 12;
         public y_num_width = 0;
-        public y_num_font
+        public y_num_font: string;
         public y_tic_width = 5;
         public stack_pad_left = 0;
         public stack_font = "bold 25px Helvetica, sans-serif";
@@ -35,8 +35,9 @@
         public summed_width = 0;
         public summed_height = 0;
 
-        public constructor(ctx, logo_columns, logo_rows, allow_space_for_names) {
+        public constructor(ctx: CanvasRenderingContext2D, logo_columns: number, logo_rows: number, allow_space_for_names: boolean) {
             var i, row_height;
+
             if (typeof allow_space_for_names === "undefined") {
                 allow_space_for_names = false;
             }

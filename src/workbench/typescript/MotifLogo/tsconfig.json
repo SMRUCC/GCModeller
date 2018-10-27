@@ -6,7 +6,7 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "../dist",
-    "outFile": "../../build/linq.js",
+    "outFile": "../build/motifLogo.js",
     "declaration": true
   },
   "exclude": [

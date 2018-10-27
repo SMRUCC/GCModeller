@@ -1,45 +1,19 @@
 ﻿namespace GCModeller.Workbench {
 
     export class MotifLogo {
+
         public show_opts_link;
-        public task_queue = new Array();
-        public task_delay = 100;
+        public task_queue: LoadQueryTask[] = [];
+        public task_delay: number = 100;
         public my_alphabet;
         public query_pspm;
 
-
-        public scaleLogo;
-        public motifPWM;
-
-        public drawLogo(div_id, pwm, scale) {
+        public drawLogo(div_id: string, pwm, scale: number) {
             this.push_task(new LoadQueryTask(div_id, pwm, scale));
         }
 
-        //found this trick at http://talideon.com/weblog/2005/02/detecting-broken-images-js.cfm
-        public image_ok(img) {
-            "use strict";
-
-            // During the onload event, IE correctly identifies any images that
-            // weren't downloaded as not complete. Others should too. Gecko-based
-            // browsers act like NS4 in that they report this incorrectly.
-            if (!img.complete) {
-                return false;
-            }
-
-            // However, they do have two very useful properties: naturalWidth and
-            // naturalHeight. These give the true size of the image. If it failed
-            // to load, either of these should be zero.
-            if (typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0) {
-                return false;
-            }
-
-            // No other way of checking: assume it's ok.
-            return true;
-        }
-
-
         //draws the scale, returns the width
-        public draw_scale(ctx, metrics, alphabet_ic) {
+        public draw_scale(ctx: CanvasRenderingContext2D, metrics, alphabet_ic) {
             "use strict";
 
             var tic_height, i;
@@ -89,7 +63,7 @@
             ctx.restore();
         }
 
-        public draw_stack_num(ctx, metrics, row_index) {
+        public draw_stack_num(ctx: CanvasRenderingContext2D, metrics, row_index) {
             "use strict";
 
             ctx.save();
@@ -104,7 +78,7 @@
             ctx.restore();
         }
 
-        public draw_stack(ctx, metrics, symbols, raster) {
+        public draw_stack(ctx: CanvasRenderingContext2D, metrics, symbols, raster) {
             "use strict";
 
             var preferred_pad, sym_min, i, sym, sym_height, pad;
@@ -135,7 +109,7 @@
             ctx.restore();//1
         }
 
-        public draw_dashed_line(ctx, pattern, start, x1, y1, x2, y2) {
+        public draw_dashed_line(ctx: CanvasRenderingContext2D, pattern, start, x1, y1, x2, y2) {
             "use strict";
 
             var x, y, len, i, dx, dy, tlen, theta, mulx, muly, lx, ly;
@@ -179,7 +153,7 @@
             ctx.stroke();
         }
 
-        public draw_trim_background(ctx, metrics, pspm, offset) {
+        public draw_trim_background(ctx: CanvasRenderingContext2D, metrics, pspm, offset) {
             "use strict";
             var lwidth, rwidth, mwidth, rstart;
             lwidth = metrics.stack_width * pspm.get_left_trim();
@@ -197,23 +171,26 @@
             }
             ctx.fillStyle = "rgb(51, 51, 51)";
             if (pspm.get_left_trim() > 0) {
-                this. draw_dashed_line(ctx, [3], 0, lwidth - 0.5, 0, lwidth - 0.5, metrics.stack_height);
+                this.draw_dashed_line(ctx, [3], 0, lwidth - 0.5, 0, lwidth - 0.5, metrics.stack_height);
             }
             if (pspm.get_right_trim() > 0) {
-                this.  draw_dashed_line(ctx, [3], 0, rstart + 0.5, 0, rstart + 0.5, metrics.stack_height);
+                this.draw_dashed_line(ctx, [3], 0, rstart + 0.5, 0, rstart + 0.5, metrics.stack_height);
             }
             ctx.restore();//s8
         }
 
-        public size_logo_on_canvas(logo, canvas, show_names, scale) {
+        public size_logo_on_canvas(logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
             "use strict";
-            var draw_name, metrics;
-            draw_name = (typeof show_names === "boolean" ? show_names : (logo.get_rows() > 1));
+
+            var metrics: LogoMetrics;
+            var draw_name = (typeof show_names === "boolean" ? show_names : (logo.get_rows() > 1));
+
             if (canvas.width !== 0 && canvas.height !== 0) {
                 return;
+            } else {
+                metrics = new LogoMetrics(canvas.getContext('2d'), logo.get_columns(), logo.get_rows(), draw_name);
             }
-            metrics = new LogoMetrics(canvas.getContext('2d'),
-                logo.get_columns(), logo.get_rows(), draw_name);
+
             if (typeof scale == "number") {
                 //resize the canvas to fit the scaled logo
                 canvas.width = metrics.summed_width * scale;
@@ -230,14 +207,15 @@
             }
         }
 
-        public draw_logo_on_canvas(logo, canvas, show_names, scale) {
+        public draw_logo_on_canvas(logo: Logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
             "use strict";
-            var draw_name, ctx, metrics, raster, pspm_i, pspm,
+            var draw_name: boolean
+            var ctx: CanvasRenderingContext2D, metrics: LogoMetrics, raster, pspm_i, pspm,
                 offset, col_index, motif_position;
-            draw_name = (typeof show_names === "boolean" ? show_names : (logo.get_rows() > 1));
+            draw_name = (typeof show_names === "boolean" ? show_names : (logo.rows > 1));
             ctx = canvas.getContext('2d');
             //assume that the user wants the canvas scaled equally so calculate what the best width for this image should be
-            metrics = new LogoMetrics(ctx, logo.get_columns(), logo.get_rows(), draw_name);
+            metrics = new LogoMetrics(ctx, logo.columns, logo.rows, draw_name);
             if (typeof scale == "number") {
                 //resize the canvas to fit the scaled logo
                 canvas.width = metrics.summed_width * scale;
@@ -261,11 +239,11 @@
             // of logos the same size
             if (typeof this.draw_logo_on_canvas.raster_scale === "number" &&
                 Math.abs(this.draw_logo_on_canvas.raster_scale - scale) < 0.1) {
-                raster = this. draw_logo_on_canvas.raster_cache;
+                raster = this.draw_logo_on_canvas.raster_cache;
             } else {
                 raster = new RasterizedAlphabet(logo.alphabet, metrics.stack_font, metrics.stack_width * scale * 2);
-                this.   draw_logo_on_canvas.raster_cache = raster;
-                this.     draw_logo_on_canvas.raster_scale = scale;
+                this.draw_logo_on_canvas.raster_cache = raster;
+                this.draw_logo_on_canvas.raster_scale = scale;
             }
             ctx = canvas.getContext('2d');
             ctx.save();//s1
@@ -289,14 +267,14 @@
                         Math.min(0, metrics.name_spacer - metrics.y_num_height / 2));
                 }
                 //draw scale
-                this.  draw_scale(ctx, metrics, logo.alphabet.get_ic());
+                this.draw_scale(ctx, metrics, logo.alphabet.get_ic());
                 ctx.save();//s5
                 //translate across past the scale
                 ctx.translate(metrics.y_label_height + metrics.y_label_spacer +
                     metrics.y_num_width + metrics.y_tic_width, 0);
                 //draw the trimming background
                 if (pspm.get_left_trim() > 0 || pspm.get_right_trim() > 0) {
-                    this. draw_trim_background(ctx, metrics, pspm, offset);
+                    this.draw_trim_background(ctx, metrics, pspm, offset);
                 }
                 //draw letters
                 ctx.translate(0, metrics.y_num_height / 2);
@@ -304,8 +282,8 @@
                     ctx.translate(metrics.stack_pad_left, 0);
                     if (col_index >= offset && col_index < (offset + pspm.get_motif_length())) {
                         motif_position = col_index - offset;
-                        this.   draw_stack_num(ctx, metrics, motif_position);
-                        this.  draw_stack(ctx, metrics, pspm.get_stack(motif_position, logo.alphabet), raster);
+                        this.draw_stack_num(ctx, metrics, motif_position);
+                        this.draw_stack(ctx, metrics, pspm.get_stack(motif_position, logo.alphabet), raster);
                     }
                     ctx.translate(metrics.stack_width, 0);
                 }
@@ -342,80 +320,26 @@
             ctx.restore();//s1
         }
 
-        public create_canvas(c_width, c_height, c_id, c_title, c_display) {
-            "use strict";
+        public push_task(task: LoadQueryTask) {
+            this.task_queue.push(task);
 
-            var canvas = document.createElement("canvas");
-
-            //check for canvas support before attempting anything
-            if (!canvas.getContext) {
-                return null;
+            if (this.task_queue.length == 1) {
+                window.setTimeout("process_tasks()", this.task_delay);
             }
-            var ctx = canvas.getContext('2d');
-            //check for html5 text drawing support
-            if (!supports_text(ctx)) {
-                return null;
-            }
-
-            //size the canvas
-            canvas.width = c_width;
-            canvas.height = c_height;
-            canvas.id = c_id;
-            canvas.title = c_title;
-            canvas.style.display = c_display;
-            return canvas;
         }
 
-        public logo_1(alphabet, fine_text, pspm) {
-            "use strict";
-
-            var logo = new Logo(alphabet, fine_text);
-            logo.add_pspm(pspm);
-            return logo;
-        }
-
-        /*
-         * Specifes that the element with the specified id
-         * should be replaced with a generated logo.
-         */
-        public replace_logo(logo, replace_id, scale, title_txt, display_style) {
-            "use strict";
-
-            var element = document.getElementById(replace_id);
-            if (!replace_id) {
-                alert("Can't find specified id (" + replace_id + ")");
+        public process_tasks() {
+            if (this.task_queue.length == 0) {
+                // no more tasks
                 return;
             }
 
-            //found the element!
-            var canvas = this. create_canvas(500, 1200, replace_id, title_txt, display_style);
-            if (canvas === null) {
-                return;
-            }
-
-            //draw the logo on the canvas
-            this.   draw_logo_on_canvas(logo, canvas, null, scale);
-            //replace the element with the canvas
-            element.parentNode.replaceChild(canvas, element);
-        }          
-
-
-  public  push_task(task) {
-      this.task_queue.push(task);
-      if (this.task_queue.length == 1) {
-            window.setTimeout("process_tasks()", this. task_delay);
+            //get next task
+            var task = this.task_queue.shift();
+            task.run();
+            //allow UI updates between tasks
+            window.setTimeout("process_tasks()", this.task_delay);
         }
+
     }
-
-  public  process_tasks() {
-        if ( this.task_queue.length == 0) return; //no more tasks
-
-        //get next task
-      var task = this.task_queue.shift();
-        task.run();
-        //allow UI updates between tasks
-      window.setTimeout("process_tasks()", this. task_delay);
-    }
-
-}
 }

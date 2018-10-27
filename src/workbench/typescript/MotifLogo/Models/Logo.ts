@@ -2,21 +2,21 @@
 
     export class Logo {
 
-        public alphabet;
-        public fine_text;
+        public alphabet: Alphabet;
+        public fine_text: string;
         public pspm_list;
         public pspm_column;
         public rows: number = 0;
         public columns: number = 0;
 
-        public constructor(alphabet, fine_text) {
+        public constructor(alphabet: Alphabet, fine_text: string) {
             this.alphabet = alphabet;
             this.fine_text = fine_text;
             this.pspm_list = [];
             this.pspm_column = [];
         }
 
-        public addPspm(pspm, column) {
+        public addPspm(pspm: Pspm, column: number = null): Logo {
             var col;
 
             if (typeof column === "undefined") {
@@ -31,6 +31,8 @@
             if (col > this.columns) {
                 this.columns = col;
             }
+
+            return this;
         }
 
         public getPspm(rowIndex: number) {

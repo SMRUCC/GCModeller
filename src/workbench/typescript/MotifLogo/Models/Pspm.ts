@@ -11,9 +11,7 @@
         public rtrim
         public pspm = [];
 
-        public constructor(matrix, name: string = null, ltrim = null, rtrim = null, nsites = null, evalue = null) {
-            // construct
-
+        public constructor(matrix: Pspm | string, name: string = null, ltrim = null, rtrim = null, nsites = null, evalue = null) {         
             if (matrix instanceof Pspm) {
                 this.copyInternal(matrix);
             } else {
@@ -320,6 +318,6 @@
                 str += row.join("\t") + "\n";
             }
             return str;
-        }               
+        }
     }
 }
