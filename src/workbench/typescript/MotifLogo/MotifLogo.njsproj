@@ -70,6 +70,9 @@
     <TypeScriptCompile Include="LoadQueryTask.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="CanvasRender.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
