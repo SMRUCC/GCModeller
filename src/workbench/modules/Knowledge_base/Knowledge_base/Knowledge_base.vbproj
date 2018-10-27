@@ -210,23 +210,23 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\Trinity\Trinity.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\Trinity\Trinity.vbproj">
       <Project>{62cac814-7e2e-43e0-a9a2-9e83b9a8f91b}</Project>
       <Name>Trinity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
       <Project>{203BC68F-A0CD-443A-AB62-4AF4110F752F}</Project>
       <Name>GraphTheory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
       <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
       <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
     </ProjectReference>
