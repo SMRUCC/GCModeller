@@ -25,7 +25,7 @@ Namespace v2
 
     End Class
 
-    Public Class MetabolismStructure : Inherits XmlDataModel
+    Public Class MetabolismStructure
 
         Public Property Compounds As Compound()
         Public Property Reactions As Reaction()
