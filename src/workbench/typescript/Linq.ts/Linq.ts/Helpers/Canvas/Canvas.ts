@@ -22,7 +22,72 @@ namespace CanvasHelper {
 
         return metrics.width;
     }
-       
+
+    /**
+     * found this trick at http://talideon.com/weblog/2005/02/detecting-broken-images-js.cfm
+    */
+    export function imageOk(img: HTMLImageElement): boolean {
+        "use strict";
+
+        // During the onload event, IE correctly identifies any images that
+        // weren't downloaded as not complete. Others should too. Gecko-based
+        // browsers act like NS4 in that they report this incorrectly.
+        if (!img.complete) {
+            return false;
+        }
+
+        // However, they do have two very useful properties: naturalWidth and
+        // naturalHeight. These give the true size of the image. If it failed
+        // to load, either of these should be zero.
+        if (typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0) {
+            return false;
+        }
+
+        // No other way of checking: assume it's ok.
+        return true;
+    }
+
+    /**
+     * @param size [width, height]
+    */
+    export function createCanvas(size: [number, number], id: string, title: string, display: string = "block") {
+        "use strict";
+
+        var canvas = document.createElement("canvas");
+
+        //check for canvas support before attempting anything
+        if (!canvas.getContext) {
+            return null;
+        }
+
+        var ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
+        //check for html5 text drawing support
+        if (!supportsText(ctx)) {
+            return null;
+        }
+
+        //size the canvas
+        canvas.width = size[0];
+        canvas.height = size[1];
+        canvas.id = id;
+        canvas.title = title;
+        canvas.style.display = display;
+
+        return canvas;
+    }
+
+    export function supportsText(ctx: CanvasRenderingContext2D): boolean {
+        if (!ctx.fillText) {
+            return false;
+        }
+        if (!ctx.measureText) {
+            return false;
+        }
+
+        return true;
+    }
+
     export class fontSize {
 
         public point: number;
@@ -31,7 +96,7 @@ namespace CanvasHelper {
         public percent: number;
 
         public readonly sizes: fontSize[] = [
-            
+
         ];
     }
 }

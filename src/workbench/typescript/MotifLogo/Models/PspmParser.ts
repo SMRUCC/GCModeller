@@ -1,6 +1,6 @@
 ﻿namespace GCModeller.Workbench {
 
-    export function static parse_pspm_properties(str: string) {
+    export function parse_pspm_properties(str: string) {
         "use strict";
         var parts, i, eqpos, before, after, properties, prop, num, num_re;
         num_re = /^((?:[+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)|inf)$/;

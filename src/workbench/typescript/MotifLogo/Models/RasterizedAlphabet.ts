@@ -7,7 +7,7 @@
         public dimensions;
 
         public constructor(alphabet, font, target_width) {
-            var default_size, safety_pad, canvas, ctx, middle, baseline, widths, count,
+            var default_size, safety_pad, middle, baseline, widths, count,
                 letters, i, letter, size, tenpercent, avg_width, scale,
                 target_height, raster;
             //variable prototypes
@@ -19,19 +19,24 @@
             default_size = 60; // size of square to assume as the default width
             safety_pad = 20; // pixels to pad around so we don't miss the edges
             // create a canvas to do our rasterizing on
-            canvas = document.createElement("canvas");
-            // assume the default font would fit in a canvas of 100 by 100
-            canvas.width = default_size + 2 * safety_pad;
-            canvas.height = default_size + 2 * safety_pad;
+            var canvas: HTMLCanvasElement = $ts("<canvas>", {
+                // assume the default font would fit in a canvas of 100 by 100
+                width: default_size + 2 * safety_pad,
+                height: default_size + 2 * safety_pad
+            });
+
             // check for canvas support before attempting anything
             if (!canvas.getContext) {
                 throw new Error("NO_CANVAS_SUPPORT");
             }
-            ctx = canvas.getContext('2d');
+
+            var ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
             // check for html5 text drawing support
-            if (!supports_text(ctx)) {
+            if (!CanvasHelper.supportsText(ctx)) {
                 throw new Error("NO_CANVAS_TEXT_SUPPORT");
             }
+
             // calculate the middle
             middle = Math.round(canvas.width / 2);
             // calculate the baseline
@@ -59,7 +64,7 @@
                 // draw the test text
                 ctx.fillText(letter, 0, 0);
                 //measure
-                size = canvas_bounds(ctx, canvas.width, canvas.height);
+                size = RasterizedAlphabet.canvas_bounds(ctx, canvas.width, canvas.height);
                 if (size.width === 0) {
                     throw new Error("INVISIBLE_LETTER"); //maybe the fill was white on white?
                 }
@@ -108,7 +113,7 @@
                 ctx.fillText(letters[i], 0, 0);
                 ctx.restore();
                 this.rasters[i] = raster;
-                this.dimensions[i] = canvas_bounds(ctx, raster.width, raster.height);
+                this.dimensions[i] = RasterizedAlphabet.canvas_bounds(ctx, raster.width, raster.height);
             }
         }
 
@@ -120,13 +125,17 @@
             ctx.drawImage(raster, 0, size.bound_top - 1, raster.width, size.height + 1, dx, dy, dWidth, dHeight);
         }
 
-        public static canvas_bounds(ctx, cwidth, cheight) {
-            var data, r, c, top_line, bottom_line, left_line, right_line,
-                txt_width, txt_height;
+        public static canvas_bounds(ctx: CanvasRenderingContext2D, cwidth: number, cheight: number) {
+            var data, r, c;
+            var top_line: number, bottom_line: number, left_line: number, right_line: number;
+            var txt_width: number, txt_height: number;
+
             data = ctx.getImageData(0, 0, cwidth, cheight).data;
-            r = 0; c = 0; // r: row, c: column
+            // r: row, c: column
+            r = 0; c = 0; 
             top_line = -1; bottom_line = -1; left_line = -1; right_line = -1;
             txt_width = 0; txt_height = 0;
+
             // Find the top-most line with a non-white pixel
             for (r = 0; r < cheight; r++) {
                 for (c = 0; c < cwidth; c++) {
