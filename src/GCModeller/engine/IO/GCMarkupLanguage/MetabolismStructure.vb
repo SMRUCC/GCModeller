@@ -86,6 +86,13 @@ Namespace v2
 
         Public Const GCMarkupLanguage$ = "http://CAD.gcmodeller.org/schema_revision/GCMarkup_1.0"
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            Call xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Taxonomy.ToString
         End Function
@@ -95,12 +102,11 @@ Namespace v2
     <XmlType("metabolome", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class MetabolismStructure
 
-        Public Property Compounds As Compound()
-        Public Property Reactions As Reaction()
-        Public Property Pathways As Pathway()
+        <XmlArray("compounds")> Public Property Compounds As Compound()
+        <XmlArray("reactions")> Public Property Reactions As Reaction()
+        <XmlArray("enzymes")> Public Property Enzymes As Enzyme()
 
-        <XmlArray("enzymes", [Namespace]:=VirtualCell.GCMarkupLanguage)>
-        Public Property Enzymes As Enzyme()
+        <XmlArray("pathwayMaps")> Public Property Pathways As Pathway()
 
     End Class
 
@@ -132,6 +138,7 @@ Namespace v2
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property name As String
 
+        <XmlElement("enzyme")>
         Public Property enzymes As [Property]()
 
     End Class

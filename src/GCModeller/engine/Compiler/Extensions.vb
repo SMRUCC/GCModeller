@@ -115,6 +115,7 @@ Public Module Extensions
                                     .enzymes = enzymeUnits
                                 }
                             End Function) _
+                    .Where(Function(map) Not map.enzymes.IsNullOrEmpty) _
                     .ToArray
             }
         }
