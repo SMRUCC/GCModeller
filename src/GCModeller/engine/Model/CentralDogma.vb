@@ -74,10 +74,14 @@ Public Structure CentralDogma
     ''' </summary>
     Dim orthology As String
 
+    ''' <summary>
+    ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property IsRNAGene As Boolean
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return Not polypeptide.StringEmpty
+            Return polypeptide.StringEmpty
         End Get
     End Property
 
