@@ -1,69 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::da08378d060808d406c47d77d3ac63fb, IO\GCMarkupLanguage\MetabolismStructure.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class VirtualCell
-    ' 
-    '         Properties: MetabolismStructure, Taxonomy
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class MetabolismStructure
-    ' 
-    '         Properties: Compounds, Pathways, Reactions
-    ' 
-    '     Class Compound
-    ' 
-    '         Properties: ID, name, otherNames
-    ' 
-    '     Class Reaction
-    ' 
-    '         Properties: Equation, ID, name
-    ' 
-    '     Class Pathway
-    ' 
-    '         Properties: Enzymes, ID, name
-    ' 
-    '     Class Enzyme
-    ' 
-    '         Properties: catalysis, geneID, KO
-    ' 
-    '     Class Catalysis
-    ' 
-    '         Properties: coefficient, comment, Reaction
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class VirtualCell
+' 
+'         Properties: MetabolismStructure, Taxonomy
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+'     Class MetabolismStructure
+' 
+'         Properties: Compounds, Pathways, Reactions
+' 
+'     Class Compound
+' 
+'         Properties: ID, name, otherNames
+' 
+'     Class Reaction
+' 
+'         Properties: Equation, ID, name
+' 
+'     Class Pathway
+' 
+'         Properties: Enzymes, ID, name
+' 
+'     Class Enzyme
+' 
+'         Properties: catalysis, geneID, KO
+' 
+'     Class Catalysis
+' 
+'         Properties: coefficient, comment, Reaction
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,22 +71,20 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
 
-    <XmlType(NameOf(VirtualCell), [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
+    <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class VirtualCell : Inherits XmlDataModel
 
         Public Property Taxonomy As Taxonomy
+
+        <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property MetabolismStructure As MetabolismStructure
 
-        <XmlNamespaceDeclarations()>
-        Public xmlns As New XmlSerializerNamespaces
-
-        Sub New()
-            Call xmlns.Add("GCModeller", LICENSE.GCModeller)
-        End Sub
+        Public Const GCMarkupLanguage$ = "http://CAD.gcmodeller.org/schema_revision/GCMarkup_1.0"
 
         Public Overrides Function ToString() As String
             Return Taxonomy.ToString
@@ -94,14 +92,19 @@ Namespace v2
 
     End Class
 
+    <XmlType("metabolome", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class MetabolismStructure
 
         Public Property Compounds As Compound()
         Public Property Reactions As Reaction()
         Public Property Pathways As Pathway()
 
+        <XmlArray("enzymes", [Namespace]:=VirtualCell.GCMarkupLanguage)>
+        Public Property Enzymes As Enzyme()
+
     End Class
 
+    <XmlType("compound", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Compound : Implements INamedValue
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
@@ -112,6 +115,7 @@ Namespace v2
 
     End Class
 
+    <XmlType("reaction", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Reaction : Implements INamedValue
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
@@ -122,30 +126,35 @@ Namespace v2
 
     End Class
 
+    <XmlType("pathway", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Pathway : Implements INamedValue
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property name As String
 
-        Public Property Enzymes As Enzyme()
+        Public Property enzymes As [Property]()
 
     End Class
 
+    <XmlType("enzyme", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Enzyme : Implements INamedValue
 
-        Public Property geneID As String Implements IKeyedEntity(Of String).Key
-        Public Property KO As String
+        <XmlAttribute> Public Property geneID As String Implements IKeyedEntity(Of String).Key
+        <XmlAttribute> Public Property KO As String
+
+        <XmlElement>
         Public Property catalysis As Catalysis()
 
     End Class
 
+    <XmlType("catalysis", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Catalysis
 
         ''' <summary>
         ''' The reaction id
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Reaction As String
+        <XmlAttribute> Public Property reaction As String
         <XmlAttribute> Public Property coefficient As Double
 
         <XmlText>

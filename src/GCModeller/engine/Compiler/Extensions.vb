@@ -55,6 +55,13 @@ Public Module Extensions
                        Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                    End Function) _
             .ToDictionary(Function(term) term.geneID)
+        Dim enzymes As Enzyme() = model _
+            .Regulations _
+            .Where(Function(process)
+                       Return process.type = Processes.MetabolicProcess
+                   End Function) _
+            .createEnzymes(KOgenes) _
+            .ToArray
 
         Return New VirtualCell With {
             .Taxonomy = model.Taxonomy,
@@ -70,19 +77,13 @@ Public Module Extensions
                                 }
                             End Function) _
                     .ToArray,
+                .Enzymes = enzymes,
                 .Pathways = KEGG.GetPathways _
                     .PathwayMaps _
                     .Select(Function(map)
                                 Return New Pathway With {
                                     .ID = map.KOpathway,
-                                    .name = map.name,
-                                    .Enzymes = model _
-                                        .Regulations _
-                                        .Where(Function(process)
-                                                   Return process.type = Processes.MetabolicProcess
-                                               End Function) _
-                                        .createEnzymes(KOgenes) _
-                                        .ToArray
+                                    .name = map.name
                                 }
                             End Function) _
                     .ToArray
