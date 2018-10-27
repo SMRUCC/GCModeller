@@ -75,5 +75,27 @@ Namespace KEGG.Metabolism
                 Throw New InvalidExpressionException($"{resource}")
             End If
         End Function
+
+        <Extension>
+        Public Function FetchCompoundRepository(resource As String) As CompoundRepository
+            If resource.ExtensionSuffix.TextEquals("Xml") AndAlso resource.FileExists Then
+                Return resource.LoadXml(Of CompoundRepository)
+            ElseIf resource.DirectoryExists Then
+                Return CompoundRepository.ScanModels(resource, False)
+            Else
+                Throw New InvalidExpressionException($"{resource}")
+            End If
+        End Function
+
+        <Extension>
+        Public Function FetchPathwayRepository(resource As String) As PathwayRepository
+            If resource.ExtensionSuffix.TextEquals("Xml") AndAlso resource.FileExists Then
+                Return resource.LoadXml(Of PathwayRepository)
+            ElseIf resource.DirectoryExists Then
+                Return PathwayRepository.ScanModels(resource)
+            Else
+                Throw New InvalidExpressionException($"{resource}")
+            End If
+        End Function
     End Module
 End Namespace

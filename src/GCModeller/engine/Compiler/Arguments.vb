@@ -1,7 +1,13 @@
-﻿Public Structure RepositoryArguments
+﻿Imports SMRUCC.genomics.Data
 
-    Dim KEGGCompounds As String
-    Dim KEGGReactions As String
-    Dim KEGGPathway As String
+Public Class RepositoryArguments
 
-End Structure
+    Public KEGGCompounds As String
+    Public KEGGReactions As String
+    Public KEGGPathway As String
+
+    Dim compoundsRepository As CompoundRepository
+    Dim reactionsRepository As ReactionRepository
+    Dim pathwayRepository As 
+
+End Class
