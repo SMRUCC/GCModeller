@@ -51,7 +51,7 @@
             }
 
             //draw the logo on the canvas
-            this.render.draw_logo_on_canvas(logo, canvas, null, scale);
+            this.render.draw_logo_on_canvas.doRender(logo, canvas, null, scale);
 
             //replace the element with the canvas
             element.parentNode.replaceChild(canvas, element);
