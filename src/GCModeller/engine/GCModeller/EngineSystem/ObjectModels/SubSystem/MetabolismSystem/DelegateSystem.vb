@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0edb912521f6a114cb6785624c65d93c, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\DelegateSystem.vb"
+﻿#Region "Microsoft.VisualBasic::0edb912521f6a114cb6785624c65d93c, GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\DelegateSystem.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7b56e0c5dae8f4dbf470acf1c55ce72, engine\GCModeller\PlugIns\ModuleRegistry.vb"
+﻿#Region "Microsoft.VisualBasic::c7b56e0c5dae8f4dbf470acf1c55ce72, GCModeller\PlugIns\ModuleRegistry.vb"
 
     ' Author:
     ' 
