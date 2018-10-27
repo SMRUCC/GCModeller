@@ -70,8 +70,20 @@ Public Structure Regulation
 
 End Structure
 
+''' <summary>
+''' 过程类型
+''' </summary>
 Public Enum Processes
+    ''' <summary>
+    ''' 转录过程
+    ''' </summary>
     Transcription
+    ''' <summary>
+    ''' 翻译过程
+    ''' </summary>
     Translation
-    Flux
+    ''' <summary>
+    ''' 代谢过程
+    ''' </summary>
+    MetabolicProcess
 End Enum

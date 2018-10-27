@@ -70,8 +70,7 @@ Public Module Workflow
         }
         Dim phenotype As New Phenotype With {
             .fluxes = repo _
-                .KEGGReactions _
-                .FetchReactionRepository _
+                .GetReactions _
                 .BuildReactions _
                 .ToArray
         }
@@ -79,8 +78,22 @@ Public Module Workflow
         Return New CellularModule With {
             .Taxonomy = taxonomy,
             .Genotype = genotype,
-            .Phenotype = phenotype
+            .Phenotype = phenotype,
+            .Regulations = KOfunction _
+                .createMetabolicProcess(repo.GetReactions) _
+                .ToArray
         }
+    End Function
+
+    <Extension>
+    Private Iterator Function createMetabolicProcess(KOfunction As Dictionary(Of String, String), reactions As ReactionRepository) As IEnumerable(Of Regulation)
+        For Each enzyme In KOfunction
+            Yield New Regulation With {
+                .effects = 2,
+                .regulator = enzyme.Key,
+                .type = Processes.MetabolicProcess
+            }
+        Next
     End Function
 
     <Extension>
