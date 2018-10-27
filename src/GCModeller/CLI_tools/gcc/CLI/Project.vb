@@ -65,7 +65,7 @@ Partial Module CLI
         Dim model As CellularModule = genome.AssemblingModel(geneKO, kegg)
 
         If out.IsGCMarkup Then
-            Return model.ToMarkup _
+            Return model.ToMarkup(kegg) _
                         .GetXml _
                         .SaveTo(out) _
                         .CLICode
