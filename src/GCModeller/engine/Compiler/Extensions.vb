@@ -47,7 +47,7 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 
 Public Module Extensions
 
-    <Extension> Public Function ToMarkup(model As CellularModule) As VirtualCell
+    <Extension> Public Function ToMarkup(model As CellularModule, KEGG As RepositoryArguments) As VirtualCell
         Return New VirtualCell With {
             .Taxonomy = model.Taxonomy,
             .MetabolismStructure = New MetabolismStructure With {
@@ -61,10 +61,21 @@ Public Module Extensions
                                     .Equation = r.GetEquationString
                                 }
                             End Function) _
+                    .ToArray,
+                .Pathways = KEGG.GetPathways _
+                    .PathwayMaps _
+                    .Select(Function(map)
+                                Return New Pathway With {
+                                    .ID = map.KOpathway,
+                                    .name = map.name
+                                }
+                            End Function) _
                     .ToArray
             }
         }
     End Function
+
+
 
     <Extension> Public Function ToTabular(model As CellularModule) As Excel
 
