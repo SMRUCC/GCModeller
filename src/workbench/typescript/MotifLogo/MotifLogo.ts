@@ -84,7 +84,7 @@
         public draw_stack(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, symbols: Symbol[], raster: RasterizedAlphabet) {
             "use strict";
 
-            var sym, sym_height, pad;
+            var sym: Symbol, sym_height: number, pad: number;
             var preferred_pad = 0;
             var sym_min = 5;
 
@@ -93,7 +93,7 @@
 
             for (var i: number = 0; i < symbols.length; i++) {
                 sym = symbols[i];
-                sym_height = metrics.stack_height * sym.get_scale();
+                sym_height = metrics.stack_height * sym.scale;
 
                 pad = preferred_pad;
 
@@ -106,7 +106,7 @@
                 //translate to the correct position
                 ctx.translate(0, -(pad / 2 + sym_height));
                 //draw
-                raster.draw(ctx, sym.get_symbol(), 0, 0, metrics.stack_width, sym_height);
+                raster.draw(ctx, sym.symbol, 0, 0, metrics.stack_width, sym_height);
                 //translate past the padding
                 ctx.translate(0, -(pad / 2));
             }
@@ -116,34 +116,39 @@
 
         public draw_dashed_line(
             ctx: CanvasRenderingContext2D,
-            pattern,
+            pattern: number[],
             start: number,
             x1: number, y1: number, x2: number, y2: number) {
 
             "use strict";
 
-            var len, i, dx, dy, tlen, theta: number, mulx: number, muly: number, lx, ly;
+            var i: number, dx: number, dy: number, tlen: number
+            var theta: number, mulx: number, muly: number
+            var lx: number[] = [], ly: number[] = [];
+
             dx = x2 - x1;
             dy = y2 - y1;
             tlen = Math.pow(dx * dx + dy * dy, 0.5);
             theta = Math.atan2(dy, dx);
             mulx = Math.cos(theta);
             muly = Math.sin(theta);
-            lx = [];
-            ly = [];
 
-            for (i = 0; i < pattern; ++i) {
+            for (i = 0; i < pattern.length; ++i) {
                 lx.push(pattern[i] * mulx);
                 ly.push(pattern[i] * muly);
             }
 
+            // 请注意，i变量不是从零开始的
+            // 而是从所传递进来的start变量开始的
             i = start;
 
             var x = x1;
             var y = y1;
 
-            len = 0;
+            var len = 0;
+
             ctx.beginPath();
+
             while (len + pattern[i] < tlen) {
                 ctx.moveTo(x, y);
                 x += lx[i];
@@ -162,12 +167,13 @@
                 y += muly * (tlen - len);
                 ctx.lineTo(x, y);
             }
+
             ctx.stroke();
         }
 
         public draw_trim_background(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, pspm: Pspm, offset: number) {
             "use strict";
-            var lwidth, rwidth, mwidth, rstart;
+            var lwidth: number, rwidth: number, mwidth: number, rstart: number;
             lwidth = metrics.stack_width * pspm.get_left_trim();
             rwidth = metrics.stack_width * pspm.get_right_trim();
             mwidth = metrics.stack_width * pspm.get_motif_length();
