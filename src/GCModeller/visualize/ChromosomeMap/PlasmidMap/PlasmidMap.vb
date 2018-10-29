@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e386b703bd88fc8353570cfdd4957828, visualize\visualizeTools\PlasmidMap\PlasmidMap.vb"
+﻿#Region "Microsoft.VisualBasic::a03484acf14a43a6d615dcd7cbf43a4a, ChromosomeMap\PlasmidMap\PlasmidMap.vb"
 
     ' Author:
     ' 

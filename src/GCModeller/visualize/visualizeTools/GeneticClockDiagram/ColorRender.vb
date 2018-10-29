@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb51af3a429b625f9b6a941e5f84ee47, visualize\visualizeTools\GeneticClockDiagram\ColorRender.vb"
+﻿#Region "Microsoft.VisualBasic::eb51af3a429b625f9b6a941e5f84ee47, visualizeTools\GeneticClockDiagram\ColorRender.vb"
 
     ' Author:
     ' 

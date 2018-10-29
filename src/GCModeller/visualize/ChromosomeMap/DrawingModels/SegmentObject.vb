@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b35a2a235f5fc0c751c7571370ca0c1, visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::30d5bfce60ac13a1b8c23645160957ec, ChromosomeMap\DrawingModels\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,7 @@
     ' 
     '         Properties: CommonName, I_COGEntry_Length, Location, LocusTag, Product
     ' 
-    '         Function: ToString
-    '         Delegate Function
-    ' 
-    '             Function: __checkRightEndTrimmed, Draw, LeftAligned, MiddleAlignment, RightAlignment
-    ' 
+    '         Function: Draw, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8e62b01535fb50a9663fdff9f04d69a, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::68df1154abd92dea953d3819043850ed, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
@@ -90,6 +91,11 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <remarks></remarks>
         Public Property Definition As Keywords.DEFINITION
         Public Property Version As Keywords.VERSION
+
+        ''' <summary>
+        ''' 物种信息
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Source As Keywords.SOURCE
         ''' <summary>
         ''' The brief entry information of this genbank data.
@@ -187,24 +193,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' Read the gene nucleic acid sequence of a gene feature and then returns a fasta sequence object.
         ''' (读取一个基因特性的核酸序列，该Feature对象可以为任意形式的Qualifier的值，但是必需要具有Location属性)
         ''' </summary>
-        ''' <param name="Feature">The target feature site on the genome DNA sequence.</param>
+        ''' <param name="feature">The target feature site on the genome DNA sequence.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function Read(Feature As Feature) As FASTA.FastaSeq
-            Dim Left As Long = Feature.Location.Locations.First.Left
-            Dim Right As Long = Feature.Location.Locations.Last.Right
-            Dim Sequence As String = Mid(Origin, Left, Math.Abs(Left - Right))
+        Public Overloads Function Read(feature As Feature) As FASTA.FastaSeq
+            Dim left As Long = feature.Location.Locations.First.Left
+            Dim right As Long = feature.Location.Locations.Last.Right
+            Dim sequence As String = Mid(Origin, left, Math.Abs(left - right))
 
-            If Feature.Location.Complement Then
-                Sequence = (NucleicAcid.Complement(Sequence))
+            If feature.Location.Complement Then
+                sequence = (NucleicAcid.Complement(sequence))
             End If
 
             Dim fa As New FASTA.FastaSeq With {
-                .SequenceData = Sequence,
+                .SequenceData = sequence,
                 .Headers = New String() {
                     "Feature",
-                    Feature.Location.ToString,
-                    Feature.KeyName
+                    feature.Location.ToString,
+                    feature.KeyName
                 }
             }
 
@@ -225,16 +231,16 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' 当发生错误的时候，会返回空值
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Load")>
-        Public Shared Function Load(Path As String) As NCBI.GenBank.GBFF.File
+        Public Shared Function Load(path As String) As NCBI.GenBank.GBFF.File
             Try
-                Return GbkParser.Read(Path)
+                Return GbkParser.Read(path)
             Catch ex As Exception
-                ex = New Exception(Path.ToFileURL, ex)
+                ex = New Exception(path.ToFileURL, ex)
                 Call ex.PrintException
                 Return App.LogException(ex)
             End Try
@@ -252,8 +258,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         <ExportAPI("Load.DbList", Info:="Using this function to load the ncbi genbank database file if the database file contains more than one genome.")>
         Public Shared Iterator Function LoadDatabase(filePath As String) As IEnumerable(Of File)
             Dim data As String = FileIO.FileSystem.ReadAllText(filePath)
-            Dim parts As String() =
-                Regex.Split(data, GENBANK_MULTIPLE_RECORD_SPLIT, RegexOptions.Multiline)
+            Dim parts$() = r.Split(data, GENBANK_MULTIPLE_RECORD_SPLIT, RegexOptions.Multiline)
             Dim sBuf As IEnumerable(Of String()) =
  _
                 From s As String
@@ -264,11 +269,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Try
                 For Each buf As String() In sBuf
                     Dim sDat As String() = __trims(buf)
+
                     If sDat.IsNullOrEmpty Then
                         Continue For
+                    Else
+                        Yield __loadData(sDat, filePath)
                     End If
-                    Dim gb As File = __loadData(sDat, filePath)
-                    Yield gb
                 Next
             Catch ex As Exception
                 ex = New Exception(filePath, ex)

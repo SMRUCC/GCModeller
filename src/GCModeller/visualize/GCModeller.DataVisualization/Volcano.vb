@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42d69ed3e6bbf20aaac1384337fa4a36, visualize\GCModeller.DataVisualization\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::42d69ed3e6bbf20aaac1384337fa4a36, GCModeller.DataVisualization\Volcano.vb"
 
     ' Author:
     ' 

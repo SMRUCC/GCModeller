@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("GCModeller Modelling console and model compiler")> 
-<Assembly: AssemblyDescription("GCModeller Modelling console and model compiler (GCModeller模型文件编译工具)")> 
-<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")>
+<Assembly: AssemblyTitle("GCModeller Cell Compiler")>
+<Assembly: AssemblyDescription("GCModeller Cell Compiler")>
+<Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GCModeller")>
-<Assembly: AssemblyCopyright("Copyright © 蓝思生物信息工程师工作站 2013")> 
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2018")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>

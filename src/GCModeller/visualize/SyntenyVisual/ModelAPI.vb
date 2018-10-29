@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a34f6cfc92348f28ded305137a12d561, visualize\SyntenyVisual\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a34f6cfc92348f28ded305137a12d561, SyntenyVisual\ModelAPI.vb"
 
     ' Author:
     ' 

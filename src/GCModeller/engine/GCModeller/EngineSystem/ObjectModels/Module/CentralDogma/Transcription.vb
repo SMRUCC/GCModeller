@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3eef4f3dcce33cf71c13d8c9a124c519, engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
+﻿#Region "Microsoft.VisualBasic::3eef4f3dcce33cf71c13d8c9a124c519, GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
 
     ' Author:
     ' 

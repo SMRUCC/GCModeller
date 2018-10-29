@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::147b8ab720e917dc9e3e71e713122f87, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::aa4661983849eb435e0b12756bb4c1d6, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 
@@ -196,7 +196,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim sbr As StringBuilder = New StringBuilder
             Call sbr.AppendLine($"SOURCE      {source.SpeciesName}")
             Call sbr.AppendLine($"  ORGANISM  {source.OrganismHierarchy.SpeciesName}")
-            Call sbr.Append($"            " & source.OrganismHierarchy.Categorys.JoinBy("; "))
+            Call sbr.Append($"            " & source.OrganismHierarchy.Lineage.JoinBy("; "))
 
             Return sbr.ToString
         End Function

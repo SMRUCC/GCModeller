@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a0c5f39f86825ebde493becee9f4b19, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
+﻿#Region "Microsoft.VisualBasic::75f7e4e05ec98d219e9e30935269adf5, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
 
     ' Author:
     ' 
@@ -35,32 +35,48 @@
     ' 
     '         Properties: OrganismHierarchy, SpeciesName
     ' 
-    '         Function: ToString
+    '         Function: GetTaxonomy, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
+    ''' <summary>
+    ''' 物种信息
+    ''' </summary>
     Public Class SOURCE : Inherits KeyWord
 
         Public Property SpeciesName As String
+        ''' <summary>
+        ''' lineage
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OrganismHierarchy As ORGANISM
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetTaxonomy() As Metagenomics.Taxonomy
+            Return OrganismHierarchy.ToTaxonomy
+        End Function
 
         Public Overrides Function ToString() As String
             Return OrganismHierarchy.ToString
         End Function
 
         Public Shared Widening Operator CType(str As String()) As SOURCE
-            Dim Source As SOURCE = New SOURCE
+            Dim source As New SOURCE
+
             If Not str.IsNullOrEmpty Then
                 Call __trimHeadKey(str)
-                Source.SpeciesName = str.First
-                Source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(1).ToArray)
+                source.SpeciesName = str.First
+                source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(1).ToArray)
             End If
-            Return Source
+
+            Return source
         End Operator
     End Class
 End Namespace

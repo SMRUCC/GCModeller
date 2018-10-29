@@ -236,7 +236,7 @@
       <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
       <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\Knowledge_base\Knowledge_base\Knowledge_base.vbproj">
+    <ProjectReference Include="..\..\..\workbench\modules\Knowledge_base\Knowledge_base\Knowledge_base.vbproj">
       <Project>{93e00cb0-0e25-44cb-9d66-c18d3190a413}</Project>
       <Name>Knowledge_base</Name>
     </ProjectReference>

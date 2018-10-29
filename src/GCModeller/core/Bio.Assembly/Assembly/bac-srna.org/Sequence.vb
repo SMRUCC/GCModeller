@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::642f3c9d2775d22c4e971ec5c0b0633f, Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
+﻿#Region "Microsoft.VisualBasic::69d717729fcc377116b5409eb9f54d8e, Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
 
     ' Author:
     ' 
@@ -124,7 +124,7 @@ Namespace Assembly.Bac_sRNA.org
             Return New NucleotideLocation With {
                 .Left = __raw.Headers(3),
                 .Right = __raw.Headers(4),
-                .Strand = LociAPI.GetStrand(__raw.Headers(5))
+                .Strand = LocusExtensions.GetStrand(__raw.Headers(5))
             }
         End Function
     End Class

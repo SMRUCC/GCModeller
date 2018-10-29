@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcff87edc1487349ba1ad836e5bfaf8f, visualize\GCModeller.DataVisualization\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::fcff87edc1487349ba1ad836e5bfaf8f, GCModeller.DataVisualization\GCSkew.vb"
 
     ' Author:
     ' 

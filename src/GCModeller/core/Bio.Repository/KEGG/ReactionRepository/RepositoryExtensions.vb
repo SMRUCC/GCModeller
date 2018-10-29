@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17e2aef8a2d46b746ed7bf2b4acca783, Bio.Repository\KEGG\ReactionRepository\RepositoryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::d0f73112f3c596da6add02aa5f3234e8, Bio.Repository\KEGG\ReactionRepository\RepositoryExtensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module RepositoryExtensions
     ' 
-    ' 
+    '         Function: FetchCompoundRepository, FetchPathwayRepository, FetchReactionRepository
     '         Class TermKeys
     ' 
     '             Constructor: (+1 Overloads) Sub New
@@ -44,6 +44,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace KEGG.Metabolism
 
@@ -62,5 +64,38 @@ Namespace KEGG.Metabolism
             Public Const CAS$ = "CAS"
 
         End Class
+
+        <Extension>
+        Public Function FetchReactionRepository(resource As String) As ReactionRepository
+            If resource.ExtensionSuffix.TextEquals("Xml") AndAlso resource.FileExists Then
+                Return resource.LoadXml(Of ReactionRepository)
+            ElseIf resource.DirectoryExists Then
+                Return ReactionRepository.ScanModel(resource)
+            Else
+                Throw New InvalidExpressionException($"{resource}")
+            End If
+        End Function
+
+        <Extension>
+        Public Function FetchCompoundRepository(resource As String) As CompoundRepository
+            If resource.ExtensionSuffix.TextEquals("Xml") AndAlso resource.FileExists Then
+                Return resource.LoadXml(Of CompoundRepository)
+            ElseIf resource.DirectoryExists Then
+                Return CompoundRepository.ScanModels(resource, False)
+            Else
+                Throw New InvalidExpressionException($"{resource}")
+            End If
+        End Function
+
+        <Extension>
+        Public Function FetchPathwayRepository(resource As String) As PathwayRepository
+            If resource.ExtensionSuffix.TextEquals("Xml") AndAlso resource.FileExists Then
+                Return resource.LoadXml(Of PathwayRepository)
+            ElseIf resource.DirectoryExists Then
+                Return PathwayRepository.ScanModels(resource)
+            Else
+                Throw New InvalidExpressionException($"{resource}")
+            End If
+        End Function
     End Module
 End Namespace

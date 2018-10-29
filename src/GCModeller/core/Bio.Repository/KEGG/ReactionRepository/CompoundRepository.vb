@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a6926794d3949e70a878ec3b28038e9, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
+﻿#Region "Microsoft.VisualBasic::dc2a3bc88a826c53bd5af63384b2ea9f, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -58,7 +59,8 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Data.KEGG.Metabolism.RepositoryExtensions
 
-Public Class CompoundRepository : Implements IRepositoryRead(Of String, CompoundIndex)
+Public Class CompoundRepository : Inherits XmlDataModel
+    Implements IRepositoryRead(Of String, CompoundIndex)
 
     Public Property Compounds As CompoundIndex()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -97,7 +99,7 @@ Public Class CompoundRepository : Implements IRepositoryRead(Of String, Compound
         Return New Dictionary(Of String, CompoundIndex)(compoundTable)
     End Function
 
-    Public Shared Function ScanModels(directory As String, Optional ignoreGlycan As Boolean = True) As CompoundRepository
+    Public Shared Function ScanModels(directory$, Optional ignoreGlycan As Boolean = True) As CompoundRepository
         Dim table As New Dictionary(Of String, CompoundIndex)
 
         For Each xml As String In ls - l - r - "*.Xml" <= directory
