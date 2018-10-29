@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::1aea3072ca7d44f5f62f841e0fc8a1a4, Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Equation
-    ' 
-    '         Properties: Products, Reactants, Reversible
-    ' 
-    '         Function: __gethash, (+2 Overloads) Consume, Equals, GetCoEfficient, GetMetabolites
-    '                   (+2 Overloads) Produce, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Equation
+' 
+'         Properties: Products, Reactants, Reversible
+' 
+'         Function: __gethash, (+2 Overloads) Consume, Equals, GetCoEfficient, GetMetabolites
+'                   (+2 Overloads) Produce, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 
@@ -64,7 +65,7 @@ Namespace ComponentModel.EquaionModel
                 If value.IsNullOrEmpty Then
                     __leftHash = New Dictionary(Of String, T())
                 Else
-                    __leftHash = __gethash(value)
+                    __leftHash = getDictionary(value)
                 End If
 
                 __leftOri = value
@@ -84,7 +85,7 @@ Namespace ComponentModel.EquaionModel
                 If value.IsNullOrEmpty Then
                     __rightHash = New Dictionary(Of String, T())
                 Else
-                    __rightHash = __gethash(value)
+                    __rightHash = getDictionary(value)
                 End If
 
                 __rightOri = value
@@ -100,23 +101,32 @@ Namespace ComponentModel.EquaionModel
         Protected __leftHash As Dictionary(Of String, T())
         Protected __rightHash As Dictionary(Of String, T())
 
-        Private Shared Function __gethash(value As T()) As Dictionary(Of String, T())
-            Dim Groups = (From x As T
-                          In value
-                          Select x
-                          Group x By x.Key.ToLower Into Group)
-            Dim hash As Dictionary(Of String, T()) =
-                Groups.ToDictionary(Function(x) x.Group.First.Key,
-                                    Function(x) x.Group.ToArray)
-            Return hash
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function getDictionary(value As T()) As Dictionary(Of String, T())
+            Return (From x As T
+                    In value
+                    Select x
+                    Group x By x.Key.ToLower Into Group) _
+ _
+                .ToDictionary(Function(x)
+                                  Return x.Group.First.Key
+                              End Function,
+                              Function(x)
+                                  Return x.Group.ToArray
+                              End Function)
         End Function
 
         ''' <summary>
         ''' 得到这个代谢反应过程之中的所有的代谢物，即左边加右边
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetMetabolites() As T()
-            Return Reactants.Join(Products).ToArray
+        Public Iterator Function GetMetabolites() As IEnumerable(Of T)
+            For Each compound In Reactants
+                Yield compound
+            Next
+            For Each compound In Products
+                Yield compound
+            Next
         End Function
 
         ''' <summary>
