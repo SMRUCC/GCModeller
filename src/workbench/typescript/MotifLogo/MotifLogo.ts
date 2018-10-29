@@ -2,7 +2,6 @@
 
     export class MotifLogo {
 
-        public show_opts_link;
         public task_queue: LoadQueryTask[] = [];
         public task_delay: number = 100;
         public my_alphabet;

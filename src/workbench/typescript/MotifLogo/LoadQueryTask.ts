@@ -6,11 +6,11 @@
     export class LoadQueryTask {
 
         public target_id: string;
-        public motifPWM;
+        public motifPWM: Pspm;
         public scaleLogo: number;
         public render: MotifLogo;
 
-        public constructor(target_id: string, pwm, scale: number, render: MotifLogo) {
+        public constructor(target_id: string, pwm: Pspm, scale: number, render: MotifLogo) {
             this.target_id = target_id;
             this.motifPWM = pwm;
             this.scaleLogo = scale;
@@ -20,8 +20,9 @@
         public run() {
             var alpha = new Alphabet("ACGT");
             var query_pspm = new Pspm(this.motifPWM, null);
+            var logo = this.logo_1(alpha, "MEME Suite", query_pspm);
 
-            this.replace_logo(this.logo_1(alpha, "MEME Suite", query_pspm), this.target_id, this.scaleLogo, "Preview Logo", "block");
+            this.replace_logo(logo, this.target_id, this.scaleLogo, "Preview Logo", "block");
         }
 
         public logo_1(alphabet: Alphabet, fine_text: string, pspm: Pspm): Logo {
@@ -36,10 +37,10 @@
         public replace_logo(logo: Logo, replace_id: string, scale: number, title_txt: string, display_style: string) {
             "use strict";
 
-            var element = document.getElementById(replace_id);
+            var element: HTMLElement = document.getElementById(replace_id);
 
             if (!replace_id) {
-                alert("Can't find specified id (" + replace_id + ")");
+                alert(`Can't find specified id (${replace_id})`);
                 return;
             }
 
