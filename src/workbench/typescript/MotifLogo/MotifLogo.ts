@@ -2,12 +2,8 @@
 
     export class MotifLogo {
 
-        public show_opts_link;
         public task_queue: LoadQueryTask[] = [];
         public task_delay: number = 100;
-        public my_alphabet;
-        public query_pspm;
-
         public draw_logo_on_canvas: CanvasRender;
 
         public constructor() {
@@ -18,12 +14,13 @@
             this.push_task(new LoadQueryTask(div_id, pwm, scale, this));
         }
 
-        //draws the scale, returns the width
-        public draw_scale(ctx: CanvasRenderingContext2D, metrics, alphabet_ic) {
+        /**
+         * draws the scale, returns the width
+        */
+        public draw_scale(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, alphabet_ic: number) {
             "use strict";
 
-            var tic_height, i;
-            tic_height = metrics.stack_height / alphabet_ic;
+            var tic_height = metrics.stack_height / alphabet_ic;
             ctx.save();
             ctx.lineWidth = 1.5;
             ctx.translate(metrics.y_label_height, metrics.y_num_height / 2);
@@ -48,7 +45,7 @@
             ctx.textAlign = "right";
             ctx.textBaseline = "middle";
 
-            for (i = 0; i <= alphabet_ic; i++) {
+            for (var i: number = 0; i <= alphabet_ic; i++) {
                 //draw the number
                 ctx.fillText("" + i, 0, 0);
                 //draw the tic
@@ -69,7 +66,7 @@
             ctx.restore();
         }
 
-        public draw_stack_num(ctx: CanvasRenderingContext2D, metrics, row_index) {
+        public draw_stack_num(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, row_index: number) {
             "use strict";
 
             ctx.save();
@@ -84,18 +81,19 @@
             ctx.restore();
         }
 
-        public draw_stack(ctx: CanvasRenderingContext2D, metrics, symbols, raster) {
+        public draw_stack(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, symbols: Symbol[], raster: RasterizedAlphabet) {
             "use strict";
 
-            var preferred_pad, sym_min, i, sym, sym_height, pad;
-            preferred_pad = 0;
-            sym_min = 5;
+            var sym: Symbol, sym_height: number, pad: number;
+            var preferred_pad = 0;
+            var sym_min = 5;
 
             ctx.save();//1
             ctx.translate(0, metrics.stack_height);
-            for (i = 0; i < symbols.length; i++) {
+
+            for (var i: number = 0; i < symbols.length; i++) {
                 sym = symbols[i];
-                sym_height = metrics.stack_height * sym.get_scale();
+                sym_height = metrics.stack_height * sym.scale;
 
                 pad = preferred_pad;
 
@@ -108,36 +106,49 @@
                 //translate to the correct position
                 ctx.translate(0, -(pad / 2 + sym_height));
                 //draw
-                raster.draw(ctx, sym.get_symbol(), 0, 0, metrics.stack_width, sym_height);
+                raster.draw(ctx, sym.symbol, 0, 0, metrics.stack_width, sym_height);
                 //translate past the padding
                 ctx.translate(0, -(pad / 2));
             }
+
             ctx.restore();//1
         }
 
-        public draw_dashed_line(ctx: CanvasRenderingContext2D, pattern, start, x1, y1, x2, y2) {
+        public draw_dashed_line(
+            ctx: CanvasRenderingContext2D,
+            pattern: number[],
+            start: number,
+            x1: number, y1: number, x2: number, y2: number) {
+
             "use strict";
 
-            var x, y, len, i, dx, dy, tlen, theta, mulx, muly, lx, ly;
+            var i: number, dx: number, dy: number, tlen: number
+            var theta: number, mulx: number, muly: number
+            var lx: number[] = [], ly: number[] = [];
+
             dx = x2 - x1;
             dy = y2 - y1;
             tlen = Math.pow(dx * dx + dy * dy, 0.5);
             theta = Math.atan2(dy, dx);
             mulx = Math.cos(theta);
             muly = Math.sin(theta);
-            lx = [];
-            ly = [];
 
-            for (i = 0; i < pattern; ++i) {
+            for (i = 0; i < pattern.length; ++i) {
                 lx.push(pattern[i] * mulx);
                 ly.push(pattern[i] * muly);
             }
 
+            // 请注意，i变量不是从零开始的
+            // 而是从所传递进来的start变量开始的
             i = start;
-            x = x1;
-            y = y1;
-            len = 0;
+
+            var x = x1;
+            var y = y1;
+
+            var len = 0;
+
             ctx.beginPath();
+
             while (len + pattern[i] < tlen) {
                 ctx.moveTo(x, y);
                 x += lx[i];
@@ -156,12 +167,13 @@
                 y += muly * (tlen - len);
                 ctx.lineTo(x, y);
             }
+
             ctx.stroke();
         }
 
-        public draw_trim_background(ctx: CanvasRenderingContext2D, metrics, pspm, offset) {
+        public draw_trim_background(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, pspm: Pspm, offset: number) {
             "use strict";
-            var lwidth, rwidth, mwidth, rstart;
+            var lwidth: number, rwidth: number, mwidth: number, rstart: number;
             lwidth = metrics.stack_width * pspm.get_left_trim();
             rwidth = metrics.stack_width * pspm.get_right_trim();
             mwidth = metrics.stack_width * pspm.get_motif_length();
@@ -185,16 +197,16 @@
             ctx.restore();//s8
         }
 
-        public size_logo_on_canvas(logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
+        public size_logo_on_canvas(logo: Logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
             "use strict";
 
             var metrics: LogoMetrics;
-            var draw_name = (typeof show_names === "boolean" ? show_names : (logo.get_rows() > 1));
+            var draw_name = (typeof show_names === "boolean" ? show_names : (logo.rows > 1));
 
             if (canvas.width !== 0 && canvas.height !== 0) {
                 return;
             } else {
-                metrics = new LogoMetrics(canvas.getContext('2d'), logo.get_columns(), logo.get_rows(), draw_name);
+                metrics = new LogoMetrics(canvas.getContext('2d'), logo.columns, logo.rows, draw_name);
             }
 
             if (typeof scale == "number") {
