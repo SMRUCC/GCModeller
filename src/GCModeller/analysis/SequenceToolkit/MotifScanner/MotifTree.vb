@@ -13,14 +13,14 @@ Public Module MotifTree
     ''' <param name="mappings"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTree(mappings As IEnumerable(Of BlastnMapping)) As BinaryTree(Of Location, BlastnMapping)
+    Public Function BuildTree(mappings As IEnumerable(Of BlastnMapping)) As AVLTree(Of Location, BlastnMapping)
         Dim tree As New AVLTree(Of Location, BlastnMapping)(AddressOf compares, )
 
         For Each map As BlastnMapping In mappings
             Call tree.Add(map.MappingLocation, map, False)
         Next
 
-        Return tree.root
+        Return tree
     End Function
 
     ''' <summary>
@@ -56,10 +56,18 @@ NOT_EQUALS:
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="tree">
+    ''' 因为当节点非常多的时候，直接使用二叉树的结构可能会因为很多层次的递归而造成stack overflow的问题
+    ''' 所以在这里直接使用AVLTree对象的ToArray来避免这种情况的出现
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Public Function ExtractSites(tree As BinaryTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
+    Public Function ExtractSites(tree As AVLTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
         Return tree _
-            .PopulateNodes _
+            .ToArray _
             .AsParallel _
             .Select(Function(cluster)
                         Dim maps As BlastnMapping() = TryCast(cluster!values, IEnumerable(Of BlastnMapping)).ToArray
