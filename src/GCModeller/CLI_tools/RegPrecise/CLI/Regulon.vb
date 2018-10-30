@@ -134,7 +134,7 @@ Partial Module CLI
                 Dim regulators As Regulator() = data.regulons.regulators
 
                 For Each regulator As Regulator In regulators
-                    For Each site In regulator.regulatorySites
+                    For Each site In regulator.regulatorySites.Where(Function(motif) Not motif.SequenceData.StringEmpty)
                         fasta = New FastaSeq With {
                             .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(site.SequenceData),
                             .Headers = {
