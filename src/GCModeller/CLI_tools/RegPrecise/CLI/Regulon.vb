@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -135,7 +136,7 @@ Partial Module CLI
                 For Each regulator As Regulator In regulators
                     For Each site In regulator.regulatorySites
                         fasta = New FastaSeq With {
-                            .SequenceData = site.SequenceData,
+                            .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(site.SequenceData),
                             .Headers = {
                                 site.locus_tag,
                                 site.position,
