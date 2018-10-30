@@ -136,7 +136,7 @@ Partial Module CLI
                 For Each regulator As Regulator In regulators
                     For Each site In regulator.regulatorySites.Where(Function(motif) Not motif.SequenceData.StringEmpty)
                         fasta = New FastaSeq With {
-                            .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(site.SequenceData),
+                            .SequenceData = Regtransbase.WebServices.Regulator.SequenceTrimming(site.SequenceData).Replace("-"c, "N"c),
                             .Headers = {
                                 site.locus_tag,
                                 site.position,
