@@ -91,6 +91,8 @@ NOT_EQUALS:
             Dim maps As BlastnMapping() = siteCluster _
                 .maps _
                 .Where(Function(map) map.MappingLocation.Strand = loci.Strand) _
+                .GroupBy(Function(site) site.ReadQuery) _
+                .Select(Function(g) g.First) _
                 .ToArray
             Dim familyGroups = maps _
                 .GroupBy(Function(map) getFamily(map.ReadQuery)) _
