@@ -6,7 +6,7 @@
         public rasters;
         public dimensions;
 
-        public constructor(alphabet, font, target_width) {
+        public constructor(alphabet: Alphabet, font: string, target_width: number) {
             var default_size, safety_pad, middle, baseline, widths, count,
                 letters, i, letter, size, tenpercent, avg_width, scale,
                 target_height, raster;
@@ -46,11 +46,11 @@
             count = 0;
             letters = [];
             //now measure each letter in the alphabet
-            for (i = 0; i < alphabet.get_size(); ++i) {
-                if (alphabet.is_ambig(i)) {
+            for (i = 0; i < alphabet.size; ++i) {
+                if (alphabet.isAmbig(i)) {
                     continue; //skip ambigs as they're never rendered
                 }
-                letter = alphabet.get_letter(i);
+                letter = alphabet.getLetter(i);
                 letters.push(letter);
                 this.lookup[letter] = count;
                 //clear the canvas
@@ -58,7 +58,7 @@
                 // get the context and prepare to draw our width test
                 ctx = canvas.getContext('2d');
                 ctx.font = font;
-                ctx.fillStyle = alphabet.get_colour(i);
+                ctx.fillStyle = alphabet.getColour(i);
                 ctx.textAlign = "center";
                 ctx.translate(middle, baseline);
                 // draw the test text
@@ -104,7 +104,7 @@
                 // get the context and prepare to draw the rasterized text
                 ctx = raster.getContext('2d');
                 ctx.font = font;
-                ctx.fillStyle = alphabet.get_colour(i);
+                ctx.fillStyle = alphabet.getColour(i);
                 ctx.textAlign = "center";
                 ctx.translate(middle, baseline);
                 ctx.save();
@@ -132,7 +132,7 @@
 
             data = ctx.getImageData(0, 0, cwidth, cheight).data;
             // r: row, c: column
-            r = 0; c = 0; 
+            r = 0; c = 0;
             top_line = -1; bottom_line = -1; left_line = -1; right_line = -1;
             txt_width = 0; txt_height = 0;
 

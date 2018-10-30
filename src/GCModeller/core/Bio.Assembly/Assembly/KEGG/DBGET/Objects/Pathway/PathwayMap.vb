@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::00dd7ca9396a76d9569b283b4380c5a3, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PathwayMap
-    ' 
-    '         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
-    '                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
-    '                     name
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
-    '                   SolveEntries
-    ' 
-    '         Sub: SetMapImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PathwayMap
+' 
+'         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
+'                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
+'                     name
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
+'                   SolveEntries
+' 
+'         Sub: SetMapImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -230,10 +230,32 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="briteFile"></param>
         ''' <param name="directoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadAll(EXPORT$, Optional briteFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
+        Public Shared Function DownloadAll(EXPORT$,
+                                           Optional briteFile$ = "",
+                                           Optional directoryOrganized As Boolean = True,
+                                           Optional [overrides] As Boolean = False) As Integer
+
             Dim entries As BriteHEntry.Pathway() = SolveEntries(briteFile)
             Dim rtvl% = Scan0
             Dim EXPORT_dir = New DefaultValue(Of String)(EXPORT).When(Not directoryOrganized)
+            Dim testSuccess = Function(xml As String) As Boolean
+                                  If xml.FileLength <= 0 Then
+                                      Return False
+                                  End If
+
+                                  ' 可能会有些页面下载失败了，导致数据缺失
+                                  ' 在这里进行测试
+                                  With xml.LoadXml(Of PathwayMap)
+                                      If .KEGGCompound.IsNullOrEmpty OrElse
+                                         .KEGGEnzyme.IsNullOrEmpty OrElse
+                                         .KEGGReaction.IsNullOrEmpty Then
+
+                                          Return False
+                                      End If
+                                  End With
+
+                                  Return True
+                              End Function
 
             Using progress As New ProgressBar("Download KEGG pathway reference map data...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(entries.Length)
@@ -241,12 +263,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Call tick.StepProgress()
 
                 For Each entry As BriteHEntry.Pathway In entries
-                    Dim Id$ = entry.entry.name
+                    Dim id$ = entry.entry.name
                     Dim save$ = $"{EXPORT}/{entry.GetPathCategory}" Or EXPORT_dir
-                    Dim xml As String = $"{save}/map{Id}.xml"
-                    Dim png As String = $"{save}/map{Id}.png"
+                    Dim xml As String = $"{save}/map{id}.xml"
+                    Dim png As String = $"{save}/map{id}.png"
 
-                    If xml.FileLength > 0 AndAlso png.FileLength > 0 Then
+                    If testSuccess(xml) AndAlso png.FileLength > 0 Then
                         If Not [overrides] Then
                             GoTo EXIT_LOOP
                         End If
@@ -267,7 +289,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         rtvl -= 1
                         GoTo EXIT_LOOP
                     Else
-                        Call DownloadPathwayMap("map", Id, EXPORT:=save)
+                        Call DownloadPathwayMap("map", id, EXPORT:=save)
                         Call pathway.SetMapImage(LoadImage(png))
                         Call pathway.SaveAsXml(xml)
                         Call Thread.Sleep(10000)

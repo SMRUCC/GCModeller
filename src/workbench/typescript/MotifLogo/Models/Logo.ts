@@ -4,8 +4,8 @@
 
         public alphabet: Alphabet;
         public fine_text: string;
-        public pspm_list;
-        public pspm_column;
+        public pspm_list: Pspm[];
+        public pspm_column: number[];
         public rows: number = 0;
         public columns: number = 0;
 
@@ -35,14 +35,14 @@
             return this;
         }
 
-        public getPspm(rowIndex: number) {
+        public getPspm(rowIndex: number): Pspm {
             if (rowIndex < 0 || rowIndex >= this.rows) {
                 throw new Error("INDEX_OUT_OF_BOUNDS");
             }
             return this.pspm_list[rowIndex];
         }
 
-        public getOffset(rowIndex) {
+        public getOffset(rowIndex): number {
             if (rowIndex < 0 || rowIndex >= this.rows) {
                 throw new Error("INDEX_OUT_OF_BOUNDS");
             }

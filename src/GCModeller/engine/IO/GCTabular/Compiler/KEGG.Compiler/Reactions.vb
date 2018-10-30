@@ -244,7 +244,7 @@ Namespace KEGG.Compiler
                 .CommonName = Model.Comments
             }
             Dim EquationModel = EquationBuilder.CreateObject(Model.Equation)
-            Dim Substrates = EquationModel.GetMetabolites
+            Dim Substrates = EquationModel.GetMetabolites.ToArray
             Dim IsKEGGReaction As Boolean = True
 
             For i As Integer = 0 To Substrates.Length - 1

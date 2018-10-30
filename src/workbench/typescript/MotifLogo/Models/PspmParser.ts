@@ -49,7 +49,7 @@
         return properties;
     }
 
-    export function parse_pspm_string(pspm_string: string) {
+    export function parse_pspm_string(pspm_string: string): IPspm {
         "use strict";
         var header_re, lines, first_line, line_num, col_num, alph_length,
             motif_length, nsites, evalue, pspm, i, line, match, props, parts,
@@ -141,8 +141,19 @@
             }
         }
         return {
-            "pspm": pspm, "motif_length": motif_length,
-            "alph_length": alph_length, "nsites": nsites, "evalue": evalue
+            pspm: pspm,
+            motif_length: motif_length,
+            alph_length: alph_length,
+            nsites: nsites,
+            evalue: evalue
         };
+    }
+
+    export interface IPspm {
+        pspm: number[][];
+        motif_length: number;
+        alph_length: number;
+        nsites: number;
+        evalue: number;
     }
 }
