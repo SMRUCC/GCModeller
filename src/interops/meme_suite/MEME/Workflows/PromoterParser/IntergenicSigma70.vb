@@ -100,9 +100,9 @@ Namespace Workflows.PromoterParser
     ''' 
     ''' Additional parameters used For selection Of candidate sequences were: 
     ''' 
-    ''' 1) Zero Or One Occurrence Per Sequence (ZOOPS mode),
-    ''' 2) a maximum of ten different motifs per sequence, And 
-    ''' 3) each motif should be found In at least thirty-five different sequences.
+    ''' + 1) Zero Or One Occurrence Per Sequence (ZOOPS mode),
+    ''' + 2) a maximum of ten different motifs per sequence, And 
+    ''' + 3) each motif should be found In at least thirty-five different sequences.
     ''' 
     ''' PWM models were constructed For the most abundantly encountered motifs, including those resembling the canonical 235 And
     ''' 210 elements known from general s70-dependent promoters.
@@ -317,16 +317,17 @@ PWM models were constructed For the most abundantly encountered motifs, includin
 
         ''' <summary>
         ''' 严格或者非严格实际上就只是数据源不同：
-        ''' 严格的灰同时检查两条链，所以数据是整个PTT文件
-        ''' 非严格的则是与目标基因相同链的基因数据
+        ''' 
+        ''' + 严格的会同时检查两条链，所以数据是整个PTT文件
+        ''' + 非严格的则是与目标基因相同链的基因数据
         ''' </summary>
         ''' <param name="Genes"></param>
         ''' <param name="Reader"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
-        Private Function OverlapCommon(Genes As GeneBrief(), Reader As IPolymerSequenceModel, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
-            Dim Loci As NucleotideLocation = GeneObject.Location.GetUpStreamLoci(Length)
-            'Dim RelatedGenes = Genes.GetRelatedGenes(Loci.Left, Loci.Right, 0)
+        Private Function OverlapCommon(genes As GeneBrief(), reader As IPolymerSequenceModel, geneObject As GeneBrief, length As Integer) As FastaSeq
+            Dim loci As NucleotideLocation = geneObject.Location.GetUpStreamLoci(length)
+            Dim relatedGenes = genes.GetRelatedGenes(loci.Left, loci.Right, 0)
 
             ''重叠的定义是位点和基因之间的关系为上下游重叠，覆盖，等于或者内部
             'Dim Overlaps = (From relG As Relationship(Of GeneBrief)
