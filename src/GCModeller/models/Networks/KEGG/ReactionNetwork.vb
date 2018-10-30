@@ -96,7 +96,7 @@ Public Module ReactionNetwork
     ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
     ''' </summary>
     ''' <param name="br08901">代谢反应数据</param>
-    ''' <param name="compounds">KEGG化合物编号</param>
+    ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
     ''' <param name="delimiter$"></param>
     ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
     ''' <returns></returns>
@@ -129,7 +129,7 @@ Public Module ReactionNetwork
 
         ' 从输入的数据之中构建出网络的节点列表
         Dim nodes As Dictionary(Of Node) = compounds _
-            .Select(Function(cpd)
+            .Select(Function(cpd As NamedValue(Of String))
                         Dim type$
 
                         If cpdGroups.ContainsKey(cpd.Name) Then
