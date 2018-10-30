@@ -73,11 +73,15 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.ContextModel.LocationDescriptions
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Workflows.PromoterParser
 
@@ -327,7 +331,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <returns></returns>
         Private Function OverlapCommon(genes As GeneBrief(), reader As IPolymerSequenceModel, geneObject As GeneBrief, length As Integer) As FastaSeq
             Dim loci As NucleotideLocation = geneObject.Location.GetUpStreamLoci(length)
-            Dim relatedGenes = genes.GetRelatedGenes(loci.Left, loci.Right, 0)
+            ' Dim relatedGenes = genes.GetRelatedGenes(loci.Left, loci.Right, 0)
 
             ''重叠的定义是位点和基因之间的关系为上下游重叠，覆盖，等于或者内部
             'Dim Overlaps = (From relG As Relationship(Of GeneBrief)
