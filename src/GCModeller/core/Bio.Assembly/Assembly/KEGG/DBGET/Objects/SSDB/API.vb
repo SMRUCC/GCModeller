@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::156479c6b365b339d2f22ed52afe62c5, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module API
-    ' 
-    '         Function: __entryParser, __genesParser, __queryEntryParser, __xRefParser, CutSequence
-    '                   HandleDownload, HandleDownloads, HandleQuery, Query, QueryURL
-    '                   (+2 Overloads) Transform, xRefParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module API
+' 
+'         Function: __entryParser, __genesParser, __queryEntryParser, __xRefParser, CutSequence
+'                   HandleDownload, HandleDownloads, HandleQuery, Query, QueryURL
+'                   (+2 Overloads) Transform, xRefParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -208,13 +208,13 @@ both of these relationships hold
             Orthology.xref = New OrthologyTerms With {
                 .Terms = xRefParser(WebForm.GetRaw("Other DBs"))
             }
-            Orthology.References = WebForm.References
-            Orthology.Module = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
+            Orthology.references = WebForm.References
+            Orthology.modules = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             Orthology.Definition = WebForm.GetValue("Definition").FirstOrDefault.StripHTMLTags
             Orthology.Name = WebForm.GetValue("Name").FirstOrDefault.TrimNewLine.Trim
-            Orthology.Pathway = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway)
-            Orthology.Disease = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
-            Orthology.Genes = __genesParser(WebForm, Orthology.Entry)
+            Orthology.pathway = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway)
+            Orthology.disease = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
+            Orthology.genes = __genesParser(WebForm, Orthology.Entry)
             Orthology.Name = Orthology.Name.StripHTMLTags.GetTagValue(, True).Value
             Orthology.Definition = Orthology.Definition.StripHTMLTags.TrimNewLine.Trim.GetTagValue(, True).Value
             Orthology.EC = Regex.Match(Orthology.Definition, "\[EC.+?\]", RegexOptions.IgnoreCase).Value
@@ -228,7 +228,7 @@ both of these relationships hold
 
         Const xRef As String = "<div style=""float:left"">.+?</div><div.*?</div>"
 
-        Public Function xRefParser(str As String()) As [property]()
+        Public Function xRefParser(str As String()) As [Property]()
             If str.IsNullOrEmpty Then
                 Return {}
             End If

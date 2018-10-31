@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::c88d8ee2d236b77e90f5f1215b85891e, models\Networks\KEGG\KOLinks.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class KOLinks
-    ' 
-    '     Properties: definition, entry, name, pathways, reactions
-    ' 
-    '     Function: Build
-    ' 
-    ' /********************************************************************************/
+' Class KOLinks
+' 
+'     Properties: definition, entry, name, pathways, reactions
+' 
+'     Function: Build
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,7 +57,7 @@ Public Class KOLinks
         For Each path As String In ls - l - r - "*.XML" <= ko00001
             Dim xml As Orthology = path.LoadXml(Of Orthology)
 
-            If xml.Pathway.IsNullOrEmpty Then
+            If xml.pathway.IsNullOrEmpty Then
                 Continue For
             End If
 
@@ -66,7 +66,7 @@ Public Class KOLinks
                 .Where(Function(l) l.name = "RN") _
                 .Select(Function(x) x.Comment) _
                 .ToArray
-            Dim pathways As NamedValue() = xml.Pathway _
+            Dim pathways As NamedValue() = xml.pathway _
                 .Select(Function(x)
                             Return New NamedValue(x.name, x.text.TrimNewLine().Trim)
                         End Function) _
