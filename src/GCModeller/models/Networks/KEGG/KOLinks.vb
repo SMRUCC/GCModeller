@@ -41,18 +41,30 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 
+''' <summary>
+''' 这个模型是从蛋白的角度来看待个体和系统模块之间的关系的
+''' </summary>
 Public Class KOLinks
 
+    ''' <summary>
+    ''' KEGG直系同源
+    ''' </summary>
+    ''' <returns></returns>
     Public Property entry As String
     Public Property name As String
     Public Property definition As String
     Public Property pathways As NamedValue()
     Public Property reactions As String()
 
+    ''' <summary>
+    ''' 使用这个函数直接从KEGG的直系同源注释数据转换
+    ''' </summary>
+    ''' <param name="ko00001$"></param>
+    ''' <returns></returns>
     Public Shared Iterator Function Build(ko00001$) As IEnumerable(Of KOLinks)
         For Each path As String In ls - l - r - "*.XML" <= ko00001
             Dim xml As Orthology = path.LoadXml(Of Orthology)
