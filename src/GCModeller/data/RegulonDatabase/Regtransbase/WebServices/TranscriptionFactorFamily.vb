@@ -1,86 +1,87 @@
 ﻿#Region "Microsoft.VisualBasic::c2d8de7f60de8f40c3ea53e42336bc2b, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class RegPreciseTFFamily
-    ' 
-    '         Properties: Family
-    ' 
-    '         Function: Download, Export, FindAtRegulog, ToString
-    ' 
-    '         Sub: Export
-    ' 
-    '     Class TranscriptionFactorFamily
-    ' 
-    '         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
-    '                     Url
-    ' 
-    '         Function: Parse, ToString
-    ' 
-    '     Class Regulogs
-    ' 
-    '         Properties: Counts, Description, Logs
-    ' 
-    '         Function: Export, GetDescription, GetUniqueIds, TrimText
-    ' 
-    '         Sub: Parse
-    '         Class Item
-    ' 
-    '             Properties: Phylum, Regulog, TFBSs, TFRegulons
-    ' 
-    '             Function: Parse, ParseLog, ToString
-    ' 
-    ' 
-    ' 
-    '     Class Regulator
-    ' 
-    '         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
-    '                     TFBSs
-    ' 
-    '         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
-    '                   ParseLog, (+2 Overloads) SequenceTrimming
-    ' 
-    '     Class MotifFasta
-    ' 
-    '         Properties: bacteria, Headers, locus_tag, name, position
-    '                     score, SequenceData, Title, UniqueId
-    ' 
-    '         Function: [New], Parse, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class RegPreciseTFFamily
+' 
+'         Properties: Family
+' 
+'         Function: Download, Export, FindAtRegulog, ToString
+' 
+'         Sub: Export
+' 
+'     Class TranscriptionFactorFamily
+' 
+'         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
+'                     Url
+' 
+'         Function: Parse, ToString
+' 
+'     Class Regulogs
+' 
+'         Properties: Counts, Description, Logs
+' 
+'         Function: Export, GetDescription, GetUniqueIds, TrimText
+' 
+'         Sub: Parse
+'         Class Item
+' 
+'             Properties: Phylum, Regulog, TFBSs, TFRegulons
+' 
+'             Function: Parse, ParseLog, ToString
+' 
+' 
+' 
+'     Class Regulator
+' 
+'         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
+'                     TFBSs
+' 
+'         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
+'                   ParseLog, (+2 Overloads) SequenceTrimming
+' 
+'     Class MotifFasta
+' 
+'         Properties: bacteria, Headers, locus_tag, name, position
+'                     score, SequenceData, Title, UniqueId
+' 
+'         Function: [New], Parse, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
@@ -339,17 +340,25 @@ Namespace Regtransbase.WebServices
             Return LQuery
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function SequenceTrimming(FastaObject As WebServices.MotifFasta) As String
             Return SequenceTrimming(FastaObject.SequenceData.Replace("-", "N"))
         End Function
 
-        Public Shared Function SequenceTrimming(Sequence As String) As String
-            Dim Tokens = (From mh As Match In Regex.Matches(Sequence, ".\(\d+\)", RegexOptions.Singleline) Select mh.Value).ToArray
-            Dim sBuilder As StringBuilder = New StringBuilder(Sequence)
-            For Each Token As String In Tokens
-                Dim strTemp As String = New String(Token.First, Convert.ToInt32(Regex.Match(Token, "\d+").Value))
-                Call VBDebugger.Warning($"  {Token}   --> {strTemp}")
-                Call sBuilder.Replace(Token, strTemp)
+        ''' <summary>
+        ''' 将序列之中的长度缩写进行拓展为实际的序列
+        ''' </summary>
+        ''' <param name="sequence"></param>
+        ''' <returns></returns>
+        Public Shared Function SequenceTrimming(sequence As String) As String
+            Dim tokens$() = Regex.Matches(sequence, ".\(\d+\)", RegexOptions.Singleline).ToArray
+            Dim sBuilder As New StringBuilder(sequence)
+
+            For Each token As String In tokens
+                Dim extends As New String(token.First, Convert.ToInt32(Regex.Match(token, "\d+").Value))
+
+                Call $"  {token}  --> {extends}".Warning
+                Call sBuilder.Replace(token, extends)
             Next
 
             Return sBuilder.ToString
@@ -458,14 +467,14 @@ Namespace Regtransbase.WebServices
             Dim Bacateria As String = Regex.Match(Title, "\[.+\]").Value
 
             FastaObject.SequenceData = DownloadedFastaObject.SequenceData
-            FastaObject.Bacteria = Bacateria
-            FastaObject.Bacteria = Mid(FastaObject.Bacteria, 2, Len(FastaObject.Bacteria) - 2)
-            FastaObject.Position = Val(Position.Split(CChar("=")).Last)
-            FastaObject.Score = Val(Score.Split(CChar("=")).Last)
+            FastaObject.bacteria = Bacateria
+            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2)
+            FastaObject.position = Val(Position.Split(CChar("=")).Last)
+            FastaObject.score = Val(Score.Split(CChar("=")).Last)
 
             Dim LocusTag As String = Title.Replace(Score, "").Replace(Position, "").Replace(Bacateria, "").Trim
-            FastaObject.Name = Regex.Match(LocusTag, "\(.+?\)").Value
-            FastaObject.Name = If(Not String.IsNullOrEmpty(FastaObject.Name), Mid(FastaObject.Name, 2, Len(FastaObject.Name) - 2).Trim, "")
+            FastaObject.name = Regex.Match(LocusTag, "\(.+?\)").Value
+            FastaObject.name = If(Not String.IsNullOrEmpty(FastaObject.name), Mid(FastaObject.name, 2, Len(FastaObject.name) - 2).Trim, "")
             LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
             FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
 

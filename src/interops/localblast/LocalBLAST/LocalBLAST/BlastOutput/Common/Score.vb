@@ -176,6 +176,15 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return TryParse(Of Score)(text)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <returns></returns>.
+        ''' <remarks>
+        ''' 2018-10-30 可能有时候会因为原始数据文件分段读取的原因，会出现空缺
+        ''' 在这个函数之中会需要进行这些空缺的额外处理来保证程序不会出错
+        ''' </remarks>
         Public Shared Function ScoreTable(text As String) As Dictionary(Of String, String)
             Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").LineTokens
             Dim items = lines _
@@ -183,9 +192,14 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
                 .IteratesALL _
                 .Where(Function(s) Not s.StringEmpty) _
                 .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
-                .Where(Function(t) Not Strings.Trim(t.Name).StringEmpty) _
-                .ToDictionary _
-                .FlatTable
+                .Where(Function(t)
+                           Return (Not t.Name Is Nothing) AndAlso (Not Strings.Trim(t.Name).StringEmpty)
+                       End Function) _
+                .ToDictionary(Function(item)
+                                  ' 需要处理可能出现的空白
+                                  Return item.Name.Matches("[a-z]+", RegexICSng).JoinBy("")
+                              End Function,
+                              Function(item) item.Value)
 
             ' blastn 的结果是没有Method的，method只存在于blastp和blastx之中
             If InStr(lines(Scan0), "Method:") > 0 Then
