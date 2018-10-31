@@ -50,7 +50,8 @@
     </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Terminal.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -324,9 +325,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Terminal.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">

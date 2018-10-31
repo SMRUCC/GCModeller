@@ -72,6 +72,42 @@ Namespace LocalBLAST.Application
     ''' <summary>
     ''' Blastn Mapping for fastaq
     ''' </summary>
+    ''' <remarks>
+    ''' ##### BLAST word-size
+    '''
+    ''' Length of an exact sequence match, as start region for the final alignment
+    '''
+    ''' ```
+    ''' blastn -query genes.ffn -subject genome.fna -word_size 11
+    ''' ```
+    '''
+    ''' A BLAST search starts With finding a perfect sequence match Of length given by -word_size. 
+    ''' This initial region Of an exact sequence match Is Then extended In both direction allowing 
+    ''' gaps And substitutions based On the scoring thresholds. 
+    '''
+    ''' Changing the initial word-size can help To find more, but less accurate hits; Or To limit 
+    ''' the results To almost perfect hits. 
+    '''
+    ''' + Decreasing the word-size will increase the number Of detected homologous sequences, but hits 
+    ''' can include alignments Of higher fragmentation due To gaps And substitutions (example: search 
+    ''' for homologous genes between distant species, see also: -task blastn)
+    ''' + Increasing the word-size will give less hits As it requires a longer continuous regions Of 
+    ''' exact match. If the word-size Is chosen To be almost the size Of the query, BLAST will search 
+    ''' For almost exact matches (example: search for location of gene sequences in the original genome 
+    ''' of the gene)
+    '''
+    ''' For Short sequences, word-size must be less than half the query length, otherwise reliable hits can be missed.
+    '''
+    ''' Default word-sizes
+    '''
+    ''' + nucleotide sequence search blastn With Default megablast (bastn): ``-word_size 28``   
+    ''' + nucleotide sequence search blastn only (bastn -task blastn): ``-word_size 11``  
+    ''' + amino acid search (blastp): ``-word_size 3`` 
+    '''
+    ''' Setting the word-size To a very low value (-word_size 5) makes a blastn search very slow. 
+    ''' 
+    ''' 如果做motif位点搜索，因为motif序列通常比较短，并且有些区域差异很大，所以word size可以设置的比较小
+    ''' </remarks>
     Public Class BlastnMapping : Inherits Contig
         Implements IMap
         Implements IMapping

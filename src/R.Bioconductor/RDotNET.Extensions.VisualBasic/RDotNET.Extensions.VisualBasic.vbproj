@@ -324,7 +324,6 @@
     <Compile Include="ScriptBuilder\RPackage\flashClust.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\jetColors.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\venn.vb" />
-    <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\DendrogramAPI.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\heatmap2OUT.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\graphics\plot.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\grDevices\API.vb" />

@@ -1,50 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::706d98d4cc86a20eba3a19b3069b5f49, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Orthology
-    ' 
-    '         Properties: [Module], Code, Disease, EC, Genes
-    '                     Pathway, References, xref
-    ' 
-    '         Function: GetXRef, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Orthology
+' 
+'         Properties: [Module], Code, Disease, EC, Genes
+'                     Pathway, References, xref
+' 
+'         Function: GetXRef, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -62,11 +61,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             End Get
         End Property
 
-        Public Property [Module] As NamedValue()
-        Public Property Pathway As NamedValue()
-        Public Property Disease As NamedValue()
-        Public Property Genes As QueryEntry()
-        Public Property References As Reference()
+        Public Property [modules] As NamedValue()
+        Public Property pathway As NamedValue()
+        Public Property disease As NamedValue()
+        Public Property genes As QueryEntry()
+        Public Property references As Reference()
 
         Public Property EC As String
 

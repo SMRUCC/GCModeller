@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::9097367d838c14f5c2ade8b91830a98c, meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module IntergenicSigma70
-    ' 
-    '         Function: DIPAssociation, SaveView, (+2 Overloads) Sigma70Parser
-    '         Class MEME_DIP
-    ' 
-    '             Properties: DIP, EValue, MotifGuid, PValue, RightEndDownStream
-    '                         Sequence, Signature, Site, Start
-    ' 
-    '         Delegate Function
-    ' 
-    '             Function: LoadTranscripts, (+2 Overloads) MEMEPredictedTSSsAssociations, OverlapCommon, TrimNotStrictOverlap, TrimStrictOverlap
-    '                       VirtualFootprintDIP, WriteTranscripts
-    '         Class VF_DIP
-    ' 
-    '             Properties: DIP_ENTRY, Distance, Ends, Length, LocationDescriptions
-    '                         MotifFamily, MotifId, MotifLocation, ORF, ORFDirection
-    '                         RNAGene, Sequence, Signature, Starts, Strand
-    ' 
-    '         Class Transcript
-    ' 
-    '             Properties: MEMEPredictedTSSs, Minus10Start, Minus10Stop
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module IntergenicSigma70
+' 
+'         Function: DIPAssociation, SaveView, (+2 Overloads) Sigma70Parser
+'         Class MEME_DIP
+' 
+'             Properties: DIP, EValue, MotifGuid, PValue, RightEndDownStream
+'                         Sequence, Signature, Site, Start
+' 
+'         Delegate Function
+' 
+'             Function: LoadTranscripts, (+2 Overloads) MEMEPredictedTSSsAssociations, OverlapCommon, TrimNotStrictOverlap, TrimStrictOverlap
+'                       VirtualFootprintDIP, WriteTranscripts
+'         Class VF_DIP
+' 
+'             Properties: DIP_ENTRY, Distance, Ends, Length, LocationDescriptions
+'                         MotifFamily, MotifId, MotifLocation, ORF, ORFDirection
+'                         RNAGene, Sequence, Signature, Starts, Strand
+' 
+'         Class Transcript
+' 
+'             Properties: MEMEPredictedTSSs, Minus10Start, Minus10Stop
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -104,9 +104,9 @@ Namespace Workflows.PromoterParser
     ''' 
     ''' Additional parameters used For selection Of candidate sequences were: 
     ''' 
-    ''' 1) Zero Or One Occurrence Per Sequence (ZOOPS mode),
-    ''' 2) a maximum of ten different motifs per sequence, And 
-    ''' 3) each motif should be found In at least thirty-five different sequences.
+    ''' + 1) Zero Or One Occurrence Per Sequence (ZOOPS mode),
+    ''' + 2) a maximum of ten different motifs per sequence, And 
+    ''' + 3) each motif should be found In at least thirty-five different sequences.
     ''' 
     ''' PWM models were constructed For the most abundantly encountered motifs, including those resembling the canonical 235 And
     ''' 210 elements known from general s70-dependent promoters.
@@ -114,8 +114,7 @@ Namespace Workflows.PromoterParser
     ''' 黄单胞菌应该长一点150bp，非严格重叠？？？？
     ''' </remarks>
     ''' 
-    <Package("Sigma70",
-                        Description:="Initially, all 100 nt regions upstream of all protein encoding genes were selected from the genome. 
+    <Package("Sigma70", Description:="Initially, all 100 nt regions upstream of all protein encoding genes were selected from the genome. 
 Subsequently, these sequences were evaluated for their potential overlap With a preceding gene, 
 And In such cases, only the intergenic sequence was used For analysis, provided they were 25 nt Or longer.
 
@@ -152,7 +151,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         End Class
 
         <ExportAPI("Write.Csv.MEME_DIP")>
-        Public Function SaveView(data As Generic.IEnumerable(Of MEME_DIP), saveTo As String) As Boolean
+        Public Function SaveView(data As IEnumerable(Of MEME_DIP), saveTo As String) As Boolean
             Return data.SaveTo(saveTo, False)
         End Function
 
@@ -239,12 +238,16 @@ PWM models were constructed For the most abundantly encountered motifs, includin
                                       PTT As PTT,
                                       Optional strictOverlap As Boolean = False,
                                       Optional length% = 100) As FastaFile
-            Dim getFastaSegment As GetFastaToken = New GetFastaToken(AddressOf TrimNotStrictOverlap) Or New GetFastaToken(AddressOf TrimStrictOverlap).AsDefault.When(Not strictOverlap)
+
+            Static trimLooseOverlap As New GetFastaToken(AddressOf TrimNotStrictOverlap)
+            Static trimStrictOverlap As New GetFastaToken(AddressOf IntergenicSigma70.TrimStrictOverlap)
+
+            Dim getFastaSegment As GetFastaToken = trimLooseOverlap Or trimStrictOverlap.When(Not strictOverlap)
             Dim LQuery = LinqAPI.Exec(Of FastaSeq) _
  _
-                () <= From Gene As GeneBrief
+                () <= From gene As GeneBrief
                       In PTT.GeneObjects.AsParallel
-                      Let segment = getFastaSegment(genomeOS, PTT, Gene, length)
+                      Let segment = getFastaSegment(genomeOS, PTT, gene, length)
                       Where Not segment Is Nothing
                       Select segment
 
@@ -262,26 +265,28 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
         <ExportAPI("Sigma70.Parser")>
-        Public Function Sigma70Parser(genomeOS As FASTA.FastaSeq,
+        <Extension>
+        Public Function Sigma70Parser(genomeOS As FastaSeq,
                                       PTT As PTT,
-                                      Motifs As IEnumerable(Of Motif),
+                                      motifs As IEnumerable(Of Motif),
                                       Optional StrictOverlap As Boolean = False,
                                       Optional Length As Integer = 100,
                                       <Parameter("Dir.Export")> Optional EXPORT As String = "./") As Boolean
 
             Call "Start to parsing furthur region sequence...".__DEBUG_ECHO
 
-            Dim LQuery = (From Motif In Motifs.AsParallel
-                          Let IDList = (From site In Motif.Sites Select site.Name Distinct).ToArray
+            Dim LQuery = (From motif As Motif
+                          In motifs.AsParallel
+                          Let IDList = (From site In motif.Sites Select site.Name Distinct).ToArray
                           Let PTTPart = PTT.Copy(IDList)
-                          Select Motif,
-                              RegionFasta = Sigma70Parser(genomeOS, PTTPart, StrictOverlap, Length)).ToArray
+                          Select motif,
+                              regionFasta = genomeOS.Sigma70Parser(PTTPart, StrictOverlap, Length)).ToArray
 
             Call $"[Job Done!] Saved data to location {EXPORT}".__DEBUG_ECHO
 
             For Each Motif In LQuery
-                Dim path As String = $"{EXPORT}/{Motif.Motif.uid.NormalizePathString}.fasta"
-                Call Motif.RegionFasta.Save(LineBreak:=-1,
+                Dim path As String = $"{EXPORT}/{Motif.motif.uid.NormalizePathString}.fasta"
+                Call Motif.regionFasta.Save(LineBreak:=-1,
                                             Path:=path,
                                             encoding:=Encodings.ASCII)
             Next
@@ -291,7 +296,15 @@ PWM models were constructed For the most abundantly encountered motifs, includin
             Return True
         End Function
 
-        Delegate Function GetFastaToken(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="reader"></param>
+        ''' <param name="PTT"></param>
+        ''' <param name="gene"></param>
+        ''' <param name="len%"></param>
+        ''' <returns></returns>
+        Private Delegate Function GetFastaToken(reader As IPolymerSequenceModel, PTT As PTT, gene As GeneBrief, len%) As FastaSeq
 
         ''' <summary>
         ''' 不管链的方向，只要发生了重叠就必须要剪裁
@@ -300,22 +313,25 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="PTT"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TrimStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
             Return OverlapCommon(PTT.GeneObjects, Reader, GeneObject, Length)
         End Function
 
         ''' <summary>
         ''' 严格或者非严格实际上就只是数据源不同：
-        ''' 严格的灰同时检查两条链，所以数据是整个PTT文件
-        ''' 非严格的则是与目标基因相同链的基因数据
+        ''' 
+        ''' + 严格的会同时检查两条链，所以数据是整个PTT文件
+        ''' + 非严格的则是与目标基因相同链的基因数据
         ''' </summary>
         ''' <param name="Genes"></param>
         ''' <param name="Reader"></param>
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
-        Private Function OverlapCommon(Genes As GeneBrief(), Reader As IPolymerSequenceModel, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
-            Dim Loci As NucleotideLocation = GeneObject.Location.GetUpStreamLoci(Length)
-            'Dim RelatedGenes = Genes.GetRelatedGenes(Loci.Left, Loci.Right, 0)
+        Private Function OverlapCommon(genes As GeneBrief(), reader As IPolymerSequenceModel, geneObject As GeneBrief, length As Integer) As FastaSeq
+            Dim loci As NucleotideLocation = geneObject.Location.GetUpStreamLoci(length)
+            ' Dim relatedGenes = genes.GetRelatedGenes(loci.Left, loci.Right, 0)
 
             ''重叠的定义是位点和基因之间的关系为上下游重叠，覆盖，等于或者内部
             'Dim Overlaps = (From relG As Relationship(Of GeneBrief)
@@ -387,8 +403,8 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         ''' <param name="GeneObject"></param>
         ''' <returns></returns>
         Public Function TrimNotStrictOverlap(Reader As IPolymerSequenceModel, PTT As PTT, GeneObject As GeneBrief, Length As Integer) As FASTA.FastaSeq
-            Dim Genes As GeneBrief() = PTT.forwards Or PTT.reversed.AsDefault.When(GeneObject.Location.Strand <> Strands.Forward)
-            Return OverlapCommon(Genes, Reader, GeneObject, Length)
+            Dim genes As GeneBrief() = PTT.forwards Or PTT.reversed.AsDefault.When(GeneObject.Location.Strand <> Strands.Forward)
+            Return OverlapCommon(genes, Reader, GeneObject, Length)
         End Function
 
         ''' <summary>
