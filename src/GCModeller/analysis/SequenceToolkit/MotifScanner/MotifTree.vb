@@ -67,7 +67,7 @@ NOT_EQUALS:
     <Extension>
     Public Function ExtractSites(tree As AVLTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
         Return tree _
-            .ToArray _
+            .GetAllNodes _
             .AsParallel _
             .Select(Function(cluster)
                         Dim maps As BlastnMapping() = TryCast(cluster!values, IEnumerable(Of BlastnMapping)).ToArray
