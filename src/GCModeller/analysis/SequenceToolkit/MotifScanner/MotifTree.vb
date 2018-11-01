@@ -13,11 +13,11 @@ Public Module MotifTree
     ''' <param name="mappings"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTree(mappings As IEnumerable(Of BlastnMapping)) As AVLTree(Of Location, BlastnMapping)
-        Dim tree As New AVLTree(Of Location, BlastnMapping)(AddressOf compares, )
+    Public Function BuildTree(mappings As IEnumerable(Of BlastnMapping)) As NaiveBinaryTree(Of Location, BlastnMapping)
+        Dim tree As New NaiveBinaryTree(Of Location, BlastnMapping)(AddressOf compares, )
 
         For Each map As BlastnMapping In mappings
-            Call tree.Add(map.MappingLocation, map, False)
+            Call tree.insert(map.MappingLocation, map, append:=True)
         Next
 
         Return tree
@@ -65,7 +65,7 @@ NOT_EQUALS:
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function ExtractSites(tree As AVLTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
+    Public Function ExtractSites(tree As NaiveBinaryTree(Of Location, BlastnMapping)) As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping()))
         Return tree _
             .GetAllNodes _
             .AsParallel _
