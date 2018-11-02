@@ -427,6 +427,8 @@ Namespace Assembly.KEGG.WebServices
 
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/www_bget?ko:K01977
+        ''' 
+        ''' 这个函数先下载单独的16sRNA序列，然后再合并为同一个大文件返回
         ''' </summary>
         ''' <param name="outDIR"></param>
         ''' <returns></returns>

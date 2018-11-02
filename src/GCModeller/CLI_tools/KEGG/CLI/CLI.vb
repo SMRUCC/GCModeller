@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::a1f9f9b5d780df9a16aafde9b519198a, CLI_tools\KEGG\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Blastn, BuildKEGGOrthology, BuildKORepository, CreateTABLE, Download16SRNA
-    '               DownloadOrthologs, DownloadReferenceMap, DownloadSequence, FunctionAnalysis, GetFastaBySp
-    '               ImportsDb, ImportsKODatabase, IndexSubMatch, QueryGenes, QueryOrthology
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: Blastn, BuildKEGGOrthology, BuildKORepository, CreateTABLE, Download16SRNA
+'               DownloadOrthologs, DownloadReferenceMap, DownloadSequence, FunctionAnalysis, GetFastaBySp
+'               ImportsDb, ImportsKODatabase, IndexSubMatch, QueryGenes, QueryOrthology
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
@@ -450,6 +451,11 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return 0
     End Function
 
+    ''' <summary>
+    ''' Download 16S rRNA data from KEGG.
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/16S_rRNA",
                Info:="Download 16S rRNA data from KEGG.",
                Usage:="/16s_rna [/out <outDIR>]")>
@@ -461,8 +467,14 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 从一个给定的fasta文件之中挑选出指定物种列表的fasta序列到一个新的文件中
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Fasta.By.Sp",
                Usage:="/Fasta.By.Sp /in <KEGG.fasta> /sp <sp.list> [/out <out.fasta>]")>
+    <Description("Picks the fasta sequence from the input sequence database by a given species list.")>
     Public Function GetFastaBySp(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sp As String = args("/sp")
@@ -479,7 +491,10 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return New FASTA.FastaFile(LQuery).Save(out, Encoding.ASCII)
     End Function
 
-    <ExportAPI("Download.Sequence", Usage:="Download.Sequence /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
+    <ExportAPI("/Download.Fasta", Usage:="/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
+    <Description("Download fasta sequence from KEGG database web api.")>
+    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(QuerySource)},
+              Description:="This file should contains the locus_tag id list for download sequence.")>
     Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.ParentPath)
