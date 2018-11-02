@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Compound.Map.Render:                    Render draw of the KEGG pathway map by using a given KEGG
 '                                           compound id list.
 '  /Cut_sequence.upstream:                  
+'  /Download.Fasta:                         Download fasta sequence from KEGG database web api.
 '  /Download.human.genes:                   
 '  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
@@ -38,7 +39,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Dump.sp:                                
 '  /Enrichment.Map.Render:                  Rendering kegg pathway map for enrichment analysis result
 '                                           in local.
-'  /Fasta.By.Sp:                            
+'  /Fasta.By.Sp:                            Picks the fasta sequence from the input sequence database
+'                                           by a given species list.
 '  /Get.prot_motif:                         
 '  /Gets.prot_motif:                        
 '  /Imports.KO:                             Imports the KEGG reference pathway map and KEGG orthology
@@ -51,7 +53,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /show.organism:                          
 '  /Views.mod_stat:                         
 '  -Build.KO:                               Download data from KEGG database to local server.
-'  Download.Sequence:                       
 '  --Dump.Db:                               
 '  -function.association.analysis:          
 '  --Get.KO:                                
@@ -314,6 +315,29 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Download.Fasta /query &lt;querySource.txt> [/out &lt;outDIR> /source &lt;existsDIR>]
+''' ```
+''' Download fasta sequence from KEGG database web api.
+''' </summary>
+'''
+Public Function DownloadSequence(query As String, Optional out As String = "", Optional source As String = "") As Integer
+    Dim CLI As New StringBuilder("/Download.Fasta")
+    Call CLI.Append(" ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If Not source.StringEmpty Then
+            Call CLI.Append("/source " & """" & source & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Download.human.genes /in &lt;geneID.list/DIR> [/batch /out &lt;save.DIR>]
 ''' ```
 ''' </summary>
@@ -541,6 +565,7 @@ End Function
 ''' ```
 ''' /Fasta.By.Sp /in &lt;KEGG.fasta> /sp &lt;sp.list> [/out &lt;out.fasta>]
 ''' ```
+''' Picks the fasta sequence from the input sequence database by a given species list.
 ''' </summary>
 '''
 Public Function GetFastaBySp([in] As String, sp As String, Optional out As String = "") As Integer
@@ -851,28 +876,6 @@ Public Function BuildKEGGOrthology(Optional fill_missing As Boolean = False) As 
     Call CLI.Append(" ")
     If fill_missing Then
         Call CLI.Append("/fill-missing ")
-    End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' Download.Sequence /query &lt;querySource.txt> [/out &lt;outDIR> /source &lt;existsDIR>]
-''' ```
-''' </summary>
-'''
-Public Function DownloadSequence(query As String, Optional out As String = "", Optional source As String = "") As Integer
-    Dim CLI As New StringBuilder("Download.Sequence")
-    Call CLI.Append(" ")
-    Call CLI.Append("/query " & """" & query & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not source.StringEmpty Then
-            Call CLI.Append("/source " & """" & source & """ ")
     End If
 
 

@@ -90,8 +90,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                            property.
 '    /KEGG.Color.Pathway:                    
 '    /protein.annotations:                   Total proteins functional annotation by using uniprot database.
-'    /protein.EXPORT:                        Export the protein sequence and save as fasta format from
-'                                            the uniprot database dump XML.
 '    /proteins.Go.plot:                      ProteinGroups sample data go profiling plot from the uniprot
 '                                            annotation data.
 '    /proteins.KEGG.plot:                    KEGG function catalog profiling plot of the TP sample.
@@ -2019,32 +2017,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /protein.EXPORT /in &lt;uniprot.xml> [/sp &lt;name> /exclude /out &lt;out.fasta>]
-''' ```
-''' Export the protein sequence and save as fasta format from the uniprot database dump XML.
-''' </summary>
-'''
-Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
-    Dim CLI As New StringBuilder("/protein.EXPORT")
-    Call CLI.Append(" ")
-    Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not sp.StringEmpty Then
-            Call CLI.Append("/sp " & """" & sp & """ ")
-    End If
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If exclude Then
-        Call CLI.Append("/exclude ")
-    End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' /proteinGroups.venn /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/label &lt;tag label> /deli &lt;delimiter, default=_> /out &lt;out.venn.DIR>]
 ''' ```
 ''' </summary>
@@ -2112,15 +2084,21 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
+''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/field &lt;default=KO> /geneId.field &lt;default=nothing> /label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
 ''' ```
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-Public Function proteinsKEGGPlot([in] As String, Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO", Optional geneid_field As String = "nothing", Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.KEGG.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not field.StringEmpty Then
+            Call CLI.Append("/field " & """" & field & """ ")
+    End If
+    If Not geneid_field.StringEmpty Then
+            Call CLI.Append("/geneid.field " & """" & geneid_field & """ ")
+    End If
     If Not colors.StringEmpty Then
             Call CLI.Append("/colors " & """" & colors & """ ")
     End If
