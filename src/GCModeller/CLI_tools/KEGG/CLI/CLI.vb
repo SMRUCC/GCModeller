@@ -497,8 +497,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
               Description:="This file should contains the locus_tag id list for download sequence.")>
     Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
-        Dim out As String = args.GetValue("/out", query.ParentPath)
-        Dim sourceDIR As String = args.GetValue("/source", out)  ' 假若不存在这个参数的输入的话，将路径指向一个空文件夹，减少搜索的时间
+        Dim out As String = args("/out") Or query.ParentPath
+        ' 假若不存在这个参数的输入的话，将路径指向一个空文件夹，减少搜索的时间
+        Dim sourceDIR As String = args("/source") Or out
         Dim loadSource = sourceDIR.LoadSourceEntryList("*.fasta", "*.fa", "*.fsa", "*.fas")
         Dim querySource As QuerySource = WebServices.QuerySource.DocParser(query)
         Dim sp As String = querySource.QuerySpCode
@@ -509,12 +510,12 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
             Return -100
         End If
 
-        Dim lstFiles As New List(Of String)
+        Dim listFiles As New List(Of String)
 
         For Each sId As String In querySource.locusId
             Dim path As String = $"{out}/{sId}.fasta"
 
-            Call lstFiles.Add(path)
+            Call listFiles.Add(path)
 
             If outExists.ContainsKey(sId) Then
                 Continue For
@@ -526,20 +527,25 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                 End If
             End If
 
-            Dim prot As FASTA.FastaSeq = FetchSeq(sp, sId)
-            If Not prot Is Nothing Then
-                Call prot.SaveTo(path)
+            Dim protein As FastaSeq = FetchSeq(sp, sId)
+
+            If Not protein Is Nothing Then
+                Call protein.SaveTo(path)
             Else
                 Call $"{sId} is not available on KEGG database...".__DEBUG_ECHO
             End If
         Next
 
-        Dim result = LinqAPI.Exec(Of FastaSeq) <=
-            From fa As String
-            In lstFiles
-            Where fa.FileExists
-            Select New FastaSeq(fa)
+        Dim outFile$ = out.TrimDIR & ".fasta"
+        Dim result As FastaSeq() = LinqAPI.Exec(Of FastaSeq) _
+ _
+            () <= From fa As String
+                  In listFiles
+                  Where fa.FileExists
+                  Select New FastaSeq(fa)
 
-        Return New FastaFile(result).Save(out & ".fasta")
+        Return New FastaFile(result) _
+            .Save(Path:=outFile) _
+            .CLICode
     End Function
 End Module
