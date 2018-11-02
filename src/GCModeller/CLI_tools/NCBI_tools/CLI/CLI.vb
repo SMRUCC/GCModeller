@@ -698,7 +698,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim title = seq.Title
-                Dim accession$ = accid_grep(title)
+                Dim accession$ = Accession2Taxid.TrimAccessionVersion(accid_grep(title))
                 Dim taxid% = acc2taxid.TryGetValue(accession, -1)
 
                 If taxid < -1 Then
