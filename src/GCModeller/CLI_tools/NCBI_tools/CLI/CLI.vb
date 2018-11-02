@@ -82,6 +82,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -261,8 +262,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim gi2taxi As String = args("/gi2taxi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
         Dim tree As New NcbiTaxonomyTree(tax)
-        Dim giTaxidhash As BucketDictionary(Of Integer, Integer) =
-            Taxonomy.AcquireAuto(gi2taxi)
+        Dim giTaxid As BucketDictionary(Of Integer, Integer) = Taxonomy.AcquireAuto(gi2taxi)
         Dim getGI = Taxono.Parser_gi(regexp)
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
@@ -272,8 +272,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             For Each x In data
                 Dim gi As Integer = getGI(x)
 
-                If giTaxidhash.ContainsKey(gi) Then
-                    Dim taxid As Integer = giTaxidhash(gi)
+                If giTaxid.ContainsKey(gi) Then
+                    Dim taxid As Integer = giTaxid(gi)
                     x.taxid = taxid
                     Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
                     Dim hash = TaxonomyNode.RankTable(nodes.First.Value)
@@ -515,6 +515,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End Function
     End Class
 
+#Region "subsets"
+
+    ' 因为gi2taxid或者accession2taxid这两个库都非常大，不可以一次性的加载到内存之中
+    ' 所以一般首先会需要这些函数进行部分的subset以减小数据集合的大小
+
     <ExportAPI("/gi.Match",
                Usage:="/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
     <Group(CLIGrouping.GITools)>
@@ -564,35 +569,52 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/accid2taxid.Match")>
-    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]")>
+    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /accid_grep <default=-> /out <acc2taxid_match.txt>]")>
     <Description("Creates the subset of the ultra-large accession to ncbi taxonomy id database.")>
     <Group(CLIGrouping.TaxonomyTools)>
+    <Argument("/accid_grep", True, CLITypes.String, PipelineTypes.undefined, AcceptTypes:={GetType(String)},
+              Description:="When the fasta title or the text line in the list is not an NCBI accession id, 
+              then you needs this script for accession id grep operation.")>
     Public Function accidMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim acc2taxid As String = args("/acc2taxid")
-        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.acc2taxid_match.txt"
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.accession2taxid.txt"
         Dim acclist As List(Of String)
+        Dim accid_grep As TextGrepMethod = TextGrepScriptEngine _
+            .Compile(args <= "/accid_grep") _
+            .PipelinePointer
 
         If FastaFile.IsValidFastaFile([in]) Then
+            Call "Load accession id from fasta files".__INFO_ECHO
+
             acclist = New List(Of String)
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
-                acclist += seq.Title.Split.First
+                acclist += accid_grep(seq.Title)
             Next
         Else
-            acclist = New List(Of String)([in].ReadAllLines)
+            acclist = [in] _
+                .ReadAllLines _
+                .Select(Function(line) accid_grep(line)) _
+                .AsList
         End If
 
-        Dim gb_priority As Boolean = args.GetBoolean("/gb_priority")
+        Dim gb_priority As Boolean = args("/gb_priority")
         Dim result = Accession2Taxid.Matchs(
             acclist.Distinct,
             acc2taxid,
             debug:=True,
-            gb_priority:=gb_priority)
+            gb_priority:=gb_priority
+        )
 
-        Return result.SaveTo(out, Encoding.ASCII)
+        Return result.SaveTo(out, Encoding.ASCII).CLICode
     End Function
 
+    ''' <summary>
+    ''' 批量的利用fasta标题之中的编号进行gi2taxid的subset操作
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/gi.Matchs",
               Usage:="/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.GITools)>
@@ -613,5 +635,25 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+    End Function
+#End Region
+
+    ''' <summary>
+    ''' 这个函数会执行以下功能：
+    ''' 
+    ''' 1. 为fasta序列的标题添加taxonomy信息
+    ''' 2. 产生一个物种统计信息表格
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/assign.fasta.taxonomy")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.repository.dir> /taxonomy <names.dmp/nodes.dmp> [/out <out.directory>]")>
+    Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim accession2taxid$ = args <= "/accession2taxid"
+        Dim taxonomy = New NcbiTaxonomyTree(args <= "/taxonomy")
+        Dim out$ = [in].TrimSuffix
+
     End Function
 End Module

@@ -76,6 +76,7 @@ Namespace Assembly.NCBI.Taxonomy
                     line = reader.ReadLine
                     tokens = line.Split(ASCII.TAB)
 
+                    ' 0               1                       2       3
                     ' accession       accession.version       taxid   gi
                     Yield New NamedValue(Of Integer) With {
                         .Name = tokens(Scan0),
@@ -86,6 +87,12 @@ Namespace Assembly.NCBI.Taxonomy
             End Using
         End Function
 
+        ''' <summary>
+        ''' 这个函数返回``{name: accession(不带版本号), value:taxid, description: raw_input_line}``
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <param name="gb_priority"></param>
+        ''' <returns></returns>
         <Extension>
         Private Iterator Function __loadData(DIR$, Optional gb_priority? As Boolean = False) As IEnumerable(Of NamedValue(Of Integer))
             Dim files$() = (ls - l - r - "*.*" <= DIR).ToArray
@@ -142,18 +149,18 @@ Namespace Assembly.NCBI.Taxonomy
             Dim n% = 0
             Dim ALL% = list.Count
 
-            For Each x As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
-                If list.ContainsKey(x.Name) Then
-                    Yield x.Description
+            For Each accessionId As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
+                If list.ContainsKey(accessionId.Name) Then
+                    Yield accessionId.Description
 
                     If list.Count = 0 Then
                         Exit For
                     Else
-                        Call list.Remove(x.Name)
+                        Call list.Remove(accessionId.Name)
                         Call n.SetValue(n + 1)
 
                         If debug Then
-                            Call x.Description.__DEBUG_ECHO
+                            Call accessionId.Description.__DEBUG_ECHO
                         End If
                     End If
                 End If
