@@ -2,22 +2,19 @@
 
     export class RasterizedAlphabet {
 
-        public lookup;
-        public rasters;
-        public dimensions;
+        public lookup: number[];
+        public rasters: HTMLCanvasElement[];
+        public dimensions: RasterBounds[];
 
         public constructor(alphabet: Alphabet, font: string, target_width: number) {
-            var default_size, safety_pad, middle, baseline, widths, count,
-                letters, i, letter, size, tenpercent, avg_width, scale,
-                target_height, raster;
-            //variable prototypes
+            // variable prototypes
             this.lookup = []; //a map of letter to index
             this.rasters = []; //a list of rasters
             this.dimensions = []; //a list of dimensions
 
-            //construct
-            default_size = 60; // size of square to assume as the default width
-            safety_pad = 20; // pixels to pad around so we don't miss the edges
+            // construct
+            var default_size: number = 60; // size of square to assume as the default width
+            var safety_pad: number = 20; // pixels to pad around so we don't miss the edges
             // create a canvas to do our rasterizing on
             var canvas: HTMLCanvasElement = $ts("<canvas>", {
                 // assume the default font would fit in a canvas of 100 by 100
@@ -38,15 +35,21 @@
             }
 
             // calculate the middle
-            middle = Math.round(canvas.width / 2);
+            var middle = Math.round(canvas.width / 2);
             // calculate the baseline
-            baseline = Math.round(canvas.height - safety_pad);
+            var baseline = Math.round(canvas.height - safety_pad);
             // list of widths
-            widths = [];
-            count = 0;
-            letters = [];
+            var widths: number[] = [];
+            var count = 0;
+            var letters: string[] = [];
+
+            var letter: string;
+            var size, tenpercent, avg_width, scale,
+                target_height: number;
+            var raster: HTMLCanvasElement;
+
             //now measure each letter in the alphabet
-            for (i = 0; i < alphabet.size; ++i) {
+            for (var i: number = 0; i < alphabet.size; ++i) {
                 if (alphabet.isAmbig(i)) {
                     continue; //skip ambigs as they're never rendered
                 }
@@ -76,27 +79,30 @@
             widths.sort(function (a, b) { return a - b; });
             //drop 10% of the items off each end
             tenpercent = Math.floor(widths.length / 10);
-            for (i = 0; i < tenpercent; ++i) {
+            for (var i: number = 0; i < tenpercent; ++i) {
                 widths.pop();
                 widths.shift();
             }
             //calculate average width
             avg_width = 0;
-            for (i = 0; i < widths.length; ++i) {
+            for (var i: number = 0; i < widths.length; ++i) {
                 avg_width += widths[i];
             }
             avg_width /= widths.length;
             // calculate scales
-            for (i = 0; i < this.dimensions.length; ++i) {
+            for (var i: number = 0; i < this.dimensions.length; ++i) {
                 size = this.dimensions[i];
                 // calculate scale
                 scale = target_width / Math.max(avg_width, size.width);
                 // estimate scaled height
                 target_height = size.height * scale;
+
                 // create an approprately sized canvas
-                raster = document.createElement("canvas");
-                raster.width = target_width; // if it goes over the edge too bad...
-                raster.height = target_height + safety_pad * 2;
+                raster = $ts("<canvas>", {
+                    width: target_width, // if it goes over the edge too bad...
+                    height: target_height + safety_pad * 2
+                });
+
                 // calculate the middle
                 middle = Math.round(raster.width / 2);
                 // calculate the baseline
@@ -112,20 +118,21 @@
                 // draw the rasterized text
                 ctx.fillText(letters[i], 0, 0);
                 ctx.restore();
+
                 this.rasters[i] = raster;
                 this.dimensions[i] = RasterizedAlphabet.canvas_bounds(ctx, raster.width, raster.height);
             }
         }
 
-        public draw(ctx, letter, dx, dy, dWidth, dHeight): void {
-            var index, raster, size;
-            index = this.lookup[letter];
-            raster = this.rasters[index];
-            size = this.dimensions[index];
+        public draw(ctx: CanvasRenderingContext2D, letter: string, dx: number, dy: number, dWidth: number, dHeight: number): void {
+            var index = this.lookup[letter];
+            var raster = this.rasters[index];
+            var size = this.dimensions[index];
+
             ctx.drawImage(raster, 0, size.bound_top - 1, raster.width, size.height + 1, dx, dy, dWidth, dHeight);
         }
 
-        public static canvas_bounds(ctx: CanvasRenderingContext2D, cwidth: number, cheight: number) {
+        public static canvas_bounds(ctx: CanvasRenderingContext2D, cwidth: number, cheight: number): RasterBounds {
             var data, r, c;
             var top_line: number, bottom_line: number, left_line: number, right_line: number;
             var txt_width: number, txt_height: number;
@@ -194,12 +201,21 @@
                 txt_width = right_line - left_line + 1;
             }
 
-            //return the bounds
-            return {
+            // return the bounds
+            return <RasterBounds>{
                 bound_top: top_line, bound_bottom: bottom_line,
                 bound_left: left_line, bound_right: right_line, width: txt_width,
                 height: txt_height
             };
         }
+    }
+
+    export class RasterBounds {
+        public bound_top: number;
+        public bound_bottom: number;
+        public bound_left: number;
+        public bound_right: number;
+        public width: number;
+        public height: number;
     }
 }

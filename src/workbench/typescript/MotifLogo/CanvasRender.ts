@@ -13,7 +13,7 @@
         public doRender(logo: Logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
             "use strict";
 
-            var ctx: CanvasRenderingContext2D, metrics: LogoMetrics, raster: RasterizedAlphabet, pspm_i;
+            var ctx: CanvasRenderingContext2D, metrics: LogoMetrics, raster: RasterizedAlphabet;
             var pspm: Pspm, offset: number, col_index: number, motif_position: number;
             var draw_name: boolean = (typeof show_names === "boolean" ? show_names : (logo.rows > 1));
 
@@ -38,7 +38,10 @@
                     scale = canvas.width / metrics.summed_width;
                     canvas.height = metrics.summed_height * scale;
                 } else {
-                    scale = Math.min(canvas.width / metrics.summed_width, canvas.height / metrics.summed_height);
+                    scale = Math.min(
+                        canvas.width / metrics.summed_width,
+                        canvas.height / metrics.summed_height
+                    );
                 }
             }
 
@@ -61,7 +64,7 @@
             // create margin
             ctx.translate(metrics.pad_left, metrics.pad_top);
 
-            for (pspm_i = 0; pspm_i < logo.rows; ++pspm_i) {
+            for (var pspm_i: number = 0; pspm_i < logo.rows; ++pspm_i) {
                 pspm = logo.getPspm(pspm_i);
                 offset = logo.getOffset(pspm_i);
 
@@ -83,14 +86,14 @@
                 ctx.translate(metrics.y_label_height + metrics.y_label_spacer +
                     metrics.y_num_width + metrics.y_tic_width, 0);
                 //draw the trimming background
-                if (pspm.get_left_trim() > 0 || pspm.get_right_trim() > 0) {
+                if (pspm.leftTrim > 0 || pspm.rightTrim > 0) {
                     this.host.draw_trim_background(ctx, metrics, pspm, offset);
                 }
                 //draw letters
                 ctx.translate(0, metrics.y_num_height / 2);
                 for (col_index = 0; col_index < logo.columns; col_index++) {
                     ctx.translate(metrics.stack_pad_left, 0);
-                    if (col_index >= offset && col_index < (offset + pspm.get_motif_length())) {
+                    if (col_index >= offset && col_index < (offset + pspm.motif_length)) {
                         motif_position = col_index - offset;
                         this.host.draw_stack_num(ctx, metrics, motif_position);
                         this.host.draw_stack(ctx, metrics, pspm.get_stack(motif_position, logo.alphabet), raster);
