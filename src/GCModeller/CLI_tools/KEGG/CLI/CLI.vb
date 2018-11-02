@@ -44,6 +44,7 @@
 
 Imports System.ComponentModel
 Imports System.Text
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -534,6 +535,8 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
             Else
                 Call $"{sId} is not available on KEGG database...".__DEBUG_ECHO
             End If
+
+            Call Thread.Sleep(1000)
         Next
 
         Dim outFile$ = out.TrimDIR & ".fasta"
