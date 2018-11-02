@@ -580,9 +580,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim acc2taxid As String = args("/acc2taxid")
         Dim out As String = args("/out") Or $"{[in].TrimSuffix}.accession2taxid.txt"
         Dim acclist As List(Of String)
-        Dim accid_grep As TextGrepMethod = TextGrepScriptEngine _
-            .Compile(args <= "/accid_grep") _
-            .PipelinePointer
+        Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
+        Dim accid_grep As TextGrepMethod = grep.PipelinePointer
+
+        Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
         If FastaFile.IsValidFastaFile([in]) Then
             Call "Load accession id from fasta files".__INFO_ECHO
