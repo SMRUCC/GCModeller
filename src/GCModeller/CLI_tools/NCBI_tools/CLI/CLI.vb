@@ -76,12 +76,14 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -146,7 +148,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim hash As Dictionary(Of String, String) =
             If(ref.FileExists,
-            TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue)),
+            TaxiValue.BuildDictionary(ref.LoadCsv(Of TaxiValue)),
             New Dictionary(Of String, String))
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
@@ -261,8 +263,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim gi2taxi As String = args("/gi2taxi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
         Dim tree As New NcbiTaxonomyTree(tax)
-        Dim giTaxidhash As BucketDictionary(Of Integer, Integer) =
-            Taxonomy.AcquireAuto(gi2taxi)
+        Dim giTaxid As BucketDictionary(Of Integer, Integer) = Taxonomy.AcquireAuto(gi2taxi)
         Dim getGI = Taxono.Parser_gi(regexp)
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
@@ -272,8 +273,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             For Each x In data
                 Dim gi As Integer = getGI(x)
 
-                If giTaxidhash.ContainsKey(gi) Then
-                    Dim taxid As Integer = giTaxidhash(gi)
+                If giTaxid.ContainsKey(gi) Then
+                    Dim taxid As Integer = giTaxid(gi)
                     x.taxid = taxid
                     Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
                     Dim hash = TaxonomyNode.RankTable(nodes.First.Value)
@@ -515,6 +516,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End Function
     End Class
 
+#Region "subsets"
+
+    ' 因为gi2taxid或者accession2taxid这两个库都非常大，不可以一次性的加载到内存之中
+    ' 所以一般首先会需要这些函数进行部分的subset以减小数据集合的大小
+
     <ExportAPI("/gi.Match",
                Usage:="/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
     <Group(CLIGrouping.GITools)>
@@ -564,35 +570,80 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/accid2taxid.Match")>
-    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]")>
+    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /append.src /accid_grep <default=-> /out <acc2taxid_match.txt>]")>
     <Description("Creates the subset of the ultra-large accession to ncbi taxonomy id database.")>
     <Group(CLIGrouping.TaxonomyTools)>
+    <Argument("/accid_grep", True, CLITypes.String, PipelineTypes.undefined, AcceptTypes:={GetType(String)},
+              Description:="When the fasta title or the text line in the list is not an NCBI accession id, 
+              then you needs this script for accession id grep operation.")>
     Public Function accidMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim acc2taxid As String = args("/acc2taxid")
-        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.acc2taxid_match.txt"
-        Dim acclist As List(Of String)
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.accession2taxid.txt"
+        Dim acclist As New List(Of NamedValue(Of String))
+        Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
+        Dim accid_grep As TextGrepMethod = grep.PipelinePointer
+        Dim appendSrc As Boolean = args("/append.src")
 
-        If FastaFile.IsValidFastaFile([in]) Then
-            acclist = New List(Of String)
+        Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
-            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
-                acclist += seq.Title.Split.First
-            Next
-        Else
-            acclist = New List(Of String)([in].ReadAllLines)
+        If appendSrc Then
+            Call "The input info will append to each rows".__DEBUG_ECHO
         End If
 
-        Dim gb_priority As Boolean = args.GetBoolean("/gb_priority")
+        If FastaFile.IsValidFastaFile([in]) Then
+            Dim title$
+
+            Call "Load accession id from fasta files".__INFO_ECHO
+
+            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
+                title = seq.Title
+                acclist += New NamedValue(Of String) With {
+                    .Name = accid_grep(title),
+                    .Value = title
+                }
+            Next
+        Else
+            acclist = [in] _
+                .ReadAllLines _
+                .Select(Function(line)
+                            Return New NamedValue(Of String)(accid_grep(line), line)
+                        End Function) _
+                .AsList
+        End If
+
+        Dim gb_priority As Boolean = args("/gb_priority")
         Dim result = Accession2Taxid.Matchs(
-            acclist.Distinct,
+            acclist.Keys.Distinct,
             acc2taxid,
             debug:=True,
-            gb_priority:=gb_priority)
+            gb_priority:=gb_priority
+        )
 
-        Return result.SaveTo(out, Encoding.ASCII)
+        If appendSrc Then
+            Dim listTable As Dictionary(Of String, String) = acclist _
+                .GroupBy(Function(acc) acc.Name) _
+                .ToDictionary(Function(acc)
+                                  Return acc.Key.Split("."c).First
+                              End Function,
+                              Function(input) input.First.Value)
+            ' 会将原始的输入信息追加到对应的行的最末尾
+            result = result _
+                .Skip(1) _
+                .Select(Function(row)
+                            Return row & vbTab & listTable(row.Split(ASCII.TAB).First)
+                        End Function)
+            result = {Accession2Taxid.Acc2Taxid_Header}.Join(result)
+        End If
+
+        Return result.SaveTo(out, Encoding.ASCII).CLICode
     End Function
 
+    ''' <summary>
+    ''' 批量的利用fasta标题之中的编号进行gi2taxid的subset操作
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/gi.Matchs",
               Usage:="/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.GITools)>
@@ -613,5 +664,103 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+    End Function
+#End Region
+
+    ''' <summary>
+    ''' 这个函数会执行以下功能：
+    ''' 
+    ''' 1. 为fasta序列的标题添加taxonomy信息
+    ''' 2. 产生一个物种统计信息表格
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/assign.fasta.taxonomy")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /out <out.directory>]")>
+    <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
+              Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
+    Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
+        Dim taxonomyTree = New NcbiTaxonomyTree(args <= "/taxonomy")
+        Dim out$ = [in].TrimSuffix
+        Dim headers$() = {"title", "taxid"} _
+            .JoinIterates(NcbiTaxonomyTree.stdranks.Reverse) _
+            .ToArray
+        Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
+        Dim accid_grep As TextGrepMethod = grep.PipelinePointer
+
+        Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
+
+        Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
+              summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
+
+            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
+                Dim title = seq.Title
+                Dim accession$ = Accession2Taxid.TrimAccessionVersion(accid_grep(title))
+                Dim taxid% = acc2taxid.TryGetValue(accession, [default]:=-1)
+
+                If taxid < 0 Then
+                    Call $"[{title}] taxonomy not found!".Warning
+
+                    Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
+                    Call summary.Flush(New EntityObject With {
+                             .ID = accession,
+                             .Properties = New Dictionary(Of String, String) From {
+                                 {"title", title},
+                                 {"taxid", taxid},
+                                 {NcbiTaxonomyTree.superkingdom, ""},
+                                 {NcbiTaxonomyTree.phylum, ""},
+                                 {NcbiTaxonomyTree.class, ""},
+                                 {NcbiTaxonomyTree.order, ""},
+                                 {NcbiTaxonomyTree.family, ""},
+                                 {NcbiTaxonomyTree.genus, ""},
+                                 {NcbiTaxonomyTree.species, ""}
+                             }
+                         })
+
+                    Continue For
+                End If
+
+                Dim nodes = taxonomyTree.GetAscendantsWithRanksAndNames({taxid}, True)
+                Dim table = TaxonomyNode.RankTable(nodes.First.Value)
+                Dim taxonomy$
+                Dim lineage$()
+
+                With New SMRUCC.genomics.Metagenomics.Taxonomy
+                    .class = table.TryGetValue(NcbiTaxonomyTree.class)
+                    .family = table.TryGetValue(NcbiTaxonomyTree.family)
+                    .genus = table.TryGetValue(NcbiTaxonomyTree.genus)
+                    .order = table.TryGetValue(NcbiTaxonomyTree.order)
+                    .phylum = table.TryGetValue(NcbiTaxonomyTree.phylum)
+                    .species = table.TryGetValue(NcbiTaxonomyTree.species)
+                    .kingdom = table.TryGetValue(NcbiTaxonomyTree.superkingdom)
+
+                    taxonomy = $"k__{ .kingdom};p__{ .phylum};c__{ .class};o__{ .order};f__{ .family};g__{ .genus};s__{ .species}"
+                    lineage = .ToArray
+                End With
+
+                seq.Headers = {title, taxid, taxonomy}
+
+                Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
+                Call summary.Flush(New EntityObject With {
+                         .ID = accession,
+                         .Properties = New Dictionary(Of String, String) From {
+                             {"title", title},
+                             {"taxid", taxid},
+                             {NcbiTaxonomyTree.superkingdom, lineage(0)},
+                             {NcbiTaxonomyTree.phylum, lineage(1)},
+                             {NcbiTaxonomyTree.class, lineage(2)},
+                             {NcbiTaxonomyTree.order, lineage(3)},
+                             {NcbiTaxonomyTree.family, lineage(4)},
+                             {NcbiTaxonomyTree.genus, lineage(5)},
+                             {NcbiTaxonomyTree.species, lineage(6)}
+                         }
+                     })
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module

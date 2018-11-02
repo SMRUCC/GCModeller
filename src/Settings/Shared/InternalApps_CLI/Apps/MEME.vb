@@ -134,19 +134,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /regulators.compile:                 Regprecise regulators data source compiler.
 '    --build.Regulations:                 Genome wide step 2
 '    --build.Regulations.From.Motifs:     
-'    Download.Regprecise:                 Download Regprecise database from Web API
 '    --Dump.KEGG.Family:                  
 '    --mapped-Back:                       
 '    mast.compile:                        
 '    mast.compile.bulk:                   Genome wide step 1
-'    Regprecise.Compile:                  The repository parameter is a directory path which is the regprecise
-'                                         database root directory in the GCModeller directory, if you
-'                                         didn't know how to set this value, please leave it blank.
 '    regulators.bbh:                      Compiles for the regulators in the bacterial genome mapped on
 '                                         the regprecise database using bbh method.
 '    --TCS.Module.Regulations:            
 '    --TCS.Regulations:                   
-'    wGet.Regprecise:                     Download Regprecise database from REST API
 ' 
 ' 
 ' 5. Regulon tools
@@ -1834,28 +1829,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Download.Regprecise [/work ./ /save &lt;saveXml>]
-''' ```
-''' Download Regprecise database from Web API
-''' </summary>
-'''
-Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
-    Dim CLI As New StringBuilder("Download.Regprecise")
-    Call CLI.Append(" ")
-    If Not work.StringEmpty Then
-            Call CLI.Append("/work " & """" & work & """ ")
-    End If
-    If Not save.StringEmpty Then
-            Call CLI.Append("/save " & """" & save & """ ")
-    End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' --Dump.KEGG.Family /in &lt;in.fasta> [/out &lt;out.csv>]
 ''' ```
 ''' </summary>
@@ -2183,25 +2156,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Regprecise.Compile [/src &lt;repository>]
-''' ```
-''' The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.
-''' </summary>
-'''
-Public Function CompileRegprecise(Optional src As String = "") As Integer
-    Dim CLI As New StringBuilder("Regprecise.Compile")
-    Call CLI.Append(" ")
-    If Not src.StringEmpty Then
-            Call CLI.Append("/src " & """" & src & """ ")
-    End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' regulators.bbh /bbh &lt;bbhDIR/bbh.index.Csv> [/save &lt;save.csv> /direct /regulons /maps &lt;genome.gb>]
 ''' ```
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
@@ -2367,28 +2321,6 @@ Public Function VirtualFootprintDIP(vf_csv As String, dip_csv As String) As Inte
     Call CLI.Append(" ")
     Call CLI.Append("vf.csv " & """" & vf_csv & """ ")
     Call CLI.Append("dip.csv " & """" & dip_csv & """ ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' wGet.Regprecise [/repository-export &lt;dir.export, default: ./> /updates]
-''' ```
-''' Download Regprecise database from REST API
-''' </summary>
-'''
-Public Function DownloadRegprecise(Optional repository_export As String = "", Optional updates As Boolean = False) As Integer
-    Dim CLI As New StringBuilder("wGet.Regprecise")
-    Call CLI.Append(" ")
-    If Not repository_export.StringEmpty Then
-            Call CLI.Append("/repository-export " & """" & repository_export & """ ")
-    End If
-    If updates Then
-        Call CLI.Append("/updates ")
-    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

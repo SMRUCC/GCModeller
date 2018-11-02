@@ -38,7 +38,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Paralog:                          
 '  /SBH.tophits:                      Filtering the sbh result with top SBH Score
 '  /to.kobas:                         
-'  /UniProt.bbh.mappings:             
 '  /Whog.XML:                         Converts the whog text file into a XML data file.
 '  --bbh.export:                      Batch export bbh result data from a directory.
 '  --blast.self:                      Query fasta query against itself for paralogs.
@@ -151,6 +150,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Taxonomy.efetch:                  Fetch the taxonomy information of the fasta sequence from NCBI
 '                                       web server.
 '    /Taxonomy.efetch.Merge:            
+' 
+' 
+' 7. UniProt tools
+' 
+' 
+'    /protein.EXPORT:                   Export the protein sequence and save as fasta format from the
+'                                       uniprot database dump XML.
+'    /UniProt.bbh.mappings:             
+'    /UniProt.KO.faa:                   
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -563,18 +571,24 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /COG.myva /blastp &lt;blastp.myva.txt/sbh.csv> /whog &lt;whog.XML> [/simple /out &lt;out.csv/txt>]
+''' /COG.myva /blastp &lt;blastp.myva.txt/sbh.csv> /whog &lt;whog.XML> [/top.best /grep &lt;donothing> /simple /out &lt;out.csv/txt>]
 ''' ```
 ''' COG myva annotation using blastp raw output or exports sbh/bbh table result.
 ''' </summary>
 '''
-Public Function COG_myva(blastp As String, whog As String, Optional out As String = "", Optional simple As Boolean = False) As Integer
+Public Function COG_myva(blastp As String, whog As String, Optional grep As String = "", Optional out As String = "", Optional top_best As Boolean = False, Optional simple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/COG.myva")
     Call CLI.Append(" ")
     Call CLI.Append("/blastp " & """" & blastp & """ ")
     Call CLI.Append("/whog " & """" & whog & """ ")
+    If Not grep.StringEmpty Then
+            Call CLI.Append("/grep " & """" & grep & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If top_best Then
+        Call CLI.Append("/top.best ")
     End If
     If simple Then
         Call CLI.Append("/simple ")
@@ -1215,6 +1229,32 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /protein.EXPORT /in &lt;uniprot.xml> [/sp &lt;name> /exclude /out &lt;out.fasta>]
+''' ```
+''' Export the protein sequence and save as fasta format from the uniprot database dump XML.
+''' </summary>
+'''
+Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/protein.EXPORT")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not sp.StringEmpty Then
+            Call CLI.Append("/sp " & """" & sp & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If exclude Then
+        Call CLI.Append("/exclude ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /query.cog2003-2014 /query &lt;query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out &lt;out.DIR> /db &lt;cog2003-2014.fasta> /blast+ &lt;blast+/bin>]
 ''' ```
 ''' Protein COG annotation by using NCBI cog2003-2014.fasta database.
@@ -1347,12 +1387,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /SBH.Export.Large /in &lt;blastp_out.txt> [/trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5]
+''' /SBH.Export.Large /in &lt;blastp_out.txt> [/top.best /trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5]
 ''' ```
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional trim_kegg As Boolean = False) As Integer
+Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SBH.Export.Large")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1370,6 +1410,9 @@ Public Function ExportBBHLarge([in] As String, Optional out As String = "", Opti
     End If
     If Not coverage.StringEmpty Then
             Call CLI.Append("/coverage " & """" & coverage & """ ")
+    End If
+    If top_best Then
+        Call CLI.Append("/top.best ")
     End If
     If trim_kegg Then
         Call CLI.Append("/trim-kegg ")
@@ -1561,6 +1604,25 @@ Public Function UniProtBBHMapTable([in] As String, Optional out As String = "", 
     End If
     If reverse Then
         Call CLI.Append("/reverse ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /UniProt.KO.faa /in &lt;uniprot.xml> [/out &lt;proteins.faa>]
+''' ```
+''' </summary>
+'''
+Public Function ExportKOFromUniprot([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.KO.faa")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
 
 

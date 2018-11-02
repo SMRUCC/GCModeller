@@ -65,7 +65,6 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MiST2
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data
@@ -189,51 +188,6 @@ Partial Module CLI
         Dim regulators As String() = RegPrecise.Select(Function(x) x.ListRegulators).ToVector
         Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.Unlist
         Return regBBH.SaveTo(out)
-    End Function
-
-    <ExportAPI("Download.Regprecise", Info:="Download Regprecise database from Web API",
-               Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
-    <Group(CLIGrouping.RegPreciseTools)>
-    Public Function DownloadRegprecise2(args As CommandLine) As Integer
-        Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
-        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
-        Dim out As String = args.GetValue("/save", App.CurrentDirectory & "/Regprecise.Xml")
-
-        Return Db.GetXml.SaveTo(out)
-    End Function
-
-    ''' <summary>
-    ''' 下载数据库
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    <ExportAPI("wGet.Regprecise",
-               Info:="Download Regprecise database from REST API",
-               Usage:="wGet.Regprecise [/repository-export <dir.export, default: ./> /updates]")>
-    <Group(CLIGrouping.RegPreciseTools)>
-    Public Function DownloadRegprecise(args As CommandLine) As Integer
-        Dim Updates As Boolean = args.GetBoolean("/updates")
-        Dim Export As String = args.GetValue(Of String)("/repository-export", "./")
-        Return SMRUCC.genomics.Data.WebServices.Regprecise.wGetDownload(Export, Updates).CLICode
-    End Function
-
-    <ExportAPI("Regprecise.Compile",
-               Usage:="Regprecise.Compile [/src <repository>]",
-               Info:="The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.")>
-    <Group(CLIGrouping.RegPreciseTools)>
-    Public Function CompileRegprecise(args As CommandLine) As Integer
-        Dim repository As String = args <= "/src"
-        If String.IsNullOrEmpty(repository) Then
-            Call Settings.Session.Initialize()
-            repository = RegpreciseRoot
-        Else
-            If FileIO.FileSystem.DirectoryExists(repository & "/Regprecise/MEME/") Then  ' 给出的参数是GCModeller数据库的根目录，则自动跳转到Regprecise数据库的根目录
-                repository = repository & "/Regprecise/"
-            End If
-        End If
-        Dim regulations As Regulations = Compiler.Compile(repository) ' 对于少于6条的序列的处理是聚集到至少或者多余6条
-        Call regulations.GetXml.SaveTo($"{repository}/MEME/regulations.xml")
-        Return 0
     End Function
 
     ''' <summary>
