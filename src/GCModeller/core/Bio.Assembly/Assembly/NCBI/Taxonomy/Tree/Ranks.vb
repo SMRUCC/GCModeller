@@ -65,28 +65,28 @@ Namespace Assembly.NCBI.Taxonomy
                 phylum As New List(Of TaxonomyNode),
                 superkingdom As New List(Of TaxonomyNode)
 
-            For Each x In tree.Taxonomy
-                Select Case x.Value.rank
+            For Each node In tree.Taxonomy
+                Select Case node.Value.rank
                     Case NcbiTaxonomyTree.class
-                        [class] += x.Value
+                        [class] += node.Value
                     Case NcbiTaxonomyTree.family
-                        family += x.Value
+                        family += node.Value
                     Case NcbiTaxonomyTree.genus
-                        genus += x.Value
+                        genus += node.Value
                     Case NcbiTaxonomyTree.order
-                        order += x.Value
+                        order += node.Value
                     Case NcbiTaxonomyTree.phylum
-                        phylum += x.Value
+                        phylum += node.Value
                     Case NcbiTaxonomyTree.species
-                        species += x.Value
+                        species += node.Value
                     Case NcbiTaxonomyTree.superkingdom
-                        superkingdom += x.Value
+                        superkingdom += node.Value
                     Case Nothing
                     Case Else
-                        Throw New InvalidConstraintException(x.Value.GetJson)
+                        Throw New InvalidConstraintException(node.Value.GetJson)
                 End Select
 
-                x.Value.taxid = x.Key
+                node.Value.taxid = node.Key
             Next
         End Sub
 

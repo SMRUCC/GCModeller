@@ -69,7 +69,8 @@ Namespace Assembly.NCBI.Taxonomy
             Dim tokens$()
 
             Using reader As StreamReader = file.OpenReader
-                Call reader.ReadLine() ' skip first line, headers
+                ' skip first line, headers
+                Call reader.ReadLine()
 
                 Do While Not reader.EndOfStream
                     line = reader.ReadLine

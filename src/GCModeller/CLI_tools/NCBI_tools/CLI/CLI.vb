@@ -146,7 +146,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim hash As Dictionary(Of String, String) =
             If(ref.FileExists,
-            TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue)),
+            TaxiValue.BuildDictionary(ref.LoadCsv(Of TaxiValue)),
             New Dictionary(Of String, String))
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
