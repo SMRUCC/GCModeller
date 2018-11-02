@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::4a2f4f1859cd3d907843d1f9f10a97c1, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DownloadFasta, DownloadMotifSites, DownloadProteinMotifs, DownloadRegprecise2, Fetch
-    '               FetchRepostiory, FetchThread, MergeDownload
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DownloadFasta, DownloadMotifSites, DownloadProteinMotifs, DownloadRegprecise2, Fetch
+'               FetchRepostiory, FetchThread, MergeDownload
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,10 +58,56 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 
 <Package("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
 <CLI> Public Module CLI
+
+    <ExportAPI("Download.Regprecise", Info:="Download Regprecise database from Web API",
+               Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
+    <Group(CLIGroups.WebAPI)>
+    Public Function DownloadRegprecise222(args As CommandLine) As Integer
+        Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
+        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
+        Dim out As String = args.GetValue("/save", App.CurrentDirectory & "/Regprecise.Xml")
+
+        Return Db.GetXml.SaveTo(out)
+    End Function
+
+    ''' <summary>
+    ''' 下载数据库
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("wGet.Regprecise",
+               Info:="Download Regprecise database from REST API",
+               Usage:="wGet.Regprecise [/repository-export <dir.export, default: ./> /updates]")>
+    <Group(CLIGroups.WebAPI)>
+    Public Function DownloadRegprecise(args As CommandLine) As Integer
+        Dim Updates As Boolean = args.GetBoolean("/updates")
+        Dim Export As String = args.GetValue(Of String)("/repository-export", "./")
+        ' Return SMRUCC.genomics.Data.WebServices.Regprecise.wGetDownload(Export, Updates).CLICode
+    End Function
+
+    <ExportAPI("Regprecise.Compile",
+               Usage:="Regprecise.Compile [/src <repository>]",
+               Info:="The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.")>
+    <Group(CLIGroups.WebAPI)>
+    Public Function CompileRegprecise(args As CommandLine) As Integer
+        Dim repository As String = args <= "/src"
+        If String.IsNullOrEmpty(repository) Then
+            Call Settings.Session.Initialize()
+            repository = GCModeller.FileSystem.RegpreciseRoot
+        Else
+            If FileIO.FileSystem.DirectoryExists(repository & "/Regprecise/MEME/") Then  ' 给出的参数是GCModeller数据库的根目录，则自动跳转到Regprecise数据库的根目录
+                repository = repository & "/Regprecise/"
+            End If
+        End If
+        Dim regulations As Regulations = Compiler.Compile(repository) ' 对于少于6条的序列的处理是聚集到至少或者多余6条
+        Call regulations.GetXml.SaveTo($"{repository}/MEME/regulations.xml")
+        Return 0
+    End Function
 
     <ExportAPI("/Repository.Fetch",
                Usage:="/Repository.Fetch /imports <RegPrecise.Xml> /genbank <NCBI_Genbank_DIR> [/full /out <outDIR>]")>
