@@ -677,7 +677,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <returns></returns>
     ''' 
     <ExportAPI("/assign.fasta.taxonomy")>
-    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.repository.dir> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /out <out.directory>]")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /out <out.directory>]")>
     <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
               Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
