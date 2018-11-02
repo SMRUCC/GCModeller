@@ -3,8 +3,8 @@
     export class RasterizedAlphabet {
 
         public lookup: number[];
-        public rasters;
-        public dimensions;
+        public rasters: HTMLCanvasElement[];
+        public dimensions: RasterBounds[];
 
         public constructor(alphabet: Alphabet, font: string, target_width: number) {
             // variable prototypes
@@ -45,7 +45,8 @@
 
             var letter: string;
             var size, tenpercent, avg_width, scale,
-                target_height, raster;
+                target_height: number;
+            var raster: HTMLCanvasElement;
 
             //now measure each letter in the alphabet
             for (var i: number = 0; i < alphabet.size; ++i) {
@@ -95,10 +96,13 @@
                 scale = target_width / Math.max(avg_width, size.width);
                 // estimate scaled height
                 target_height = size.height * scale;
+
                 // create an approprately sized canvas
-                raster = document.createElement("canvas");
-                raster.width = target_width; // if it goes over the edge too bad...
-                raster.height = target_height + safety_pad * 2;
+                raster = $ts("<canvas>", {
+                    width: target_width, // if it goes over the edge too bad...
+                    height: target_height + safety_pad * 2
+                });
+
                 // calculate the middle
                 middle = Math.round(raster.width / 2);
                 // calculate the baseline
@@ -114,20 +118,21 @@
                 // draw the rasterized text
                 ctx.fillText(letters[i], 0, 0);
                 ctx.restore();
+
                 this.rasters[i] = raster;
                 this.dimensions[i] = RasterizedAlphabet.canvas_bounds(ctx, raster.width, raster.height);
             }
         }
 
-        public draw(ctx, letter, dx, dy, dWidth, dHeight): void {
-            var index, raster, size;
-            index = this.lookup[letter];
-            raster = this.rasters[index];
-            size = this.dimensions[index];
+        public draw(ctx: CanvasRenderingContext2D, letter: string, dx: number, dy: number, dWidth: number, dHeight: number): void {
+            var index = this.lookup[letter];
+            var raster = this.rasters[index];
+            var size = this.dimensions[index];
+
             ctx.drawImage(raster, 0, size.bound_top - 1, raster.width, size.height + 1, dx, dy, dWidth, dHeight);
         }
 
-        public static canvas_bounds(ctx: CanvasRenderingContext2D, cwidth: number, cheight: number) {
+        public static canvas_bounds(ctx: CanvasRenderingContext2D, cwidth: number, cheight: number): RasterBounds {
             var data, r, c;
             var top_line: number, bottom_line: number, left_line: number, right_line: number;
             var txt_width: number, txt_height: number;
@@ -196,12 +201,21 @@
                 txt_width = right_line - left_line + 1;
             }
 
-            //return the bounds
-            return {
+            // return the bounds
+            return <RasterBounds>{
                 bound_top: top_line, bound_bottom: bottom_line,
                 bound_left: left_line, bound_right: right_line, width: txt_width,
                 height: txt_height
             };
         }
+    }
+
+    export class RasterBounds {
+        public bound_top: number;
+        public bound_bottom: number;
+        public bound_left: number;
+        public bound_right: number;
+        public width: number;
+        public height: number;
     }
 }
