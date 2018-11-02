@@ -125,6 +125,16 @@ Namespace Assembly.NCBI.Taxonomy
         Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
 
         ''' <summary>
+        ''' 在这里移除版本号
+        ''' </summary>
+        ''' <param name="accession"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TrimAccessionVersion(accession As String) As String
+            Return accession.Split("."c)(Scan0)
+        End Function
+
+        ''' <summary>
         ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的
         ''' </summary>
         ''' <param name="acc_list"></param>
@@ -140,10 +150,7 @@ Namespace Assembly.NCBI.Taxonomy
             ' 因为后面的循环之中需要进行已经被match上的对象的remove操作
             ' 所以在这里就不适用Index对象了，直接使用Dictionary
             Dim list As Dictionary(Of String, String) = acc_list _
-                .Select(Function(id)
-                            ' 在这里移除版本号
-                            Return id.Split("."c).First
-                        End Function) _
+                .Select(AddressOf TrimAccessionVersion) _
                 .Distinct _
                 .ToDictionary(Function(id) id)
 

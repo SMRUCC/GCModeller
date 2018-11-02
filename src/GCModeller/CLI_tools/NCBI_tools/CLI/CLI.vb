@@ -76,6 +76,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -676,7 +677,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <returns></returns>
     ''' 
     <ExportAPI("/assign.fasta.taxonomy")>
-    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.repository.dir> /taxonomy <names.dmp/nodes.dmp> [/out <out.directory>]")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.repository.dir> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /out <out.directory>]")>
     <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
               Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
@@ -684,6 +685,24 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
         Dim taxonomy = New NcbiTaxonomyTree(args <= "/taxonomy")
         Dim out$ = [in].TrimSuffix
+        Dim headers$() = {"title", "taxid"} _
+            .JoinIterates(NcbiTaxonomyTree.stdranks) _
+            .ToArray
+        Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
+        Dim accid_grep As TextGrepMethod = grep.PipelinePointer
 
+        Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
+
+        Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
+              summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
+
+            For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
+                Dim accession$ = accid_grep(seq.Title)
+                Dim taxid$ = acc2taxid(accession)
+
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
