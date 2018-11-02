@@ -699,7 +699,30 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim title = seq.Title
                 Dim accession$ = accid_grep(title)
-                Dim taxid% = acc2taxid(accession)
+                Dim taxid% = acc2taxid.TryGetValue(accession, -1)
+
+                If taxid < -1 Then
+                    Call $"[{title}] taxonomy not found!".Warning
+
+                    Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
+                    Call summary.Flush(New EntityObject With {
+                             .ID = accession,
+                             .Properties = New Dictionary(Of String, String) From {
+                                 {"title", title},
+                                 {"taxid", taxid},
+                                 {NcbiTaxonomyTree.superkingdom, ""},
+                                 {NcbiTaxonomyTree.phylum, ""},
+                                 {NcbiTaxonomyTree.class, ""},
+                                 {NcbiTaxonomyTree.order, ""},
+                                 {NcbiTaxonomyTree.family, ""},
+                                 {NcbiTaxonomyTree.genus, ""},
+                                 {NcbiTaxonomyTree.species, ""}
+                             }
+                         })
+
+                    Continue For
+                End If
+
                 Dim nodes = taxonomyTree.GetAscendantsWithRanksAndNames({taxid}, True)
                 Dim table = TaxonomyNode.RankTable(nodes.First.Value)
                 Dim taxonomy$
