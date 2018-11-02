@@ -569,7 +569,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/accid2taxid.Match")>
-    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /accid_grep <default=-> /out <acc2taxid_match.txt>]")>
+    <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /append.src /accid_grep <default=-> /out <acc2taxid_match.txt>]")>
     <Description("Creates the subset of the ultra-large accession to ncbi taxonomy id database.")>
     <Group(CLIGrouping.TaxonomyTools)>
     <Argument("/accid_grep", True, CLITypes.String, PipelineTypes.undefined, AcceptTypes:={GetType(String)},
@@ -579,34 +579,55 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim [in] As String = args("/in")
         Dim acc2taxid As String = args("/acc2taxid")
         Dim out As String = args("/out") Or $"{[in].TrimSuffix}.accession2taxid.txt"
-        Dim acclist As List(Of String)
+        Dim acclist As New List(Of NamedValue(Of String))
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
+        Dim appendSrc As Boolean = args("/append.src")
 
         Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
         If FastaFile.IsValidFastaFile([in]) Then
+            Dim title$
+
             Call "Load accession id from fasta files".__INFO_ECHO
 
-            acclist = New List(Of String)
-
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
-                acclist += accid_grep(seq.Title)
+                title = seq.Title
+                acclist += New NamedValue(Of String) With {
+                    .Name = accid_grep(title),
+                    .Value = title
+                }
             Next
         Else
             acclist = [in] _
                 .ReadAllLines _
-                .Select(Function(line) accid_grep(line)) _
+                .Select(Function(line)
+                            Return New NamedValue(Of String)(accid_grep(line), line)
+                        End Function) _
                 .AsList
         End If
 
         Dim gb_priority As Boolean = args("/gb_priority")
         Dim result = Accession2Taxid.Matchs(
-            acclist.Distinct,
+            acclist.Keys.Distinct,
             acc2taxid,
             debug:=True,
             gb_priority:=gb_priority
         )
+
+        If appendSrc Then
+            Dim listTable As Dictionary(Of String, String) = acclist _
+                .GroupBy(Function(acc) acc.Name) _
+                .ToDictionary(Function(acc)
+                                  Return acc.Key.Split("."c).First
+                              End Function,
+                              Function(input) input.First.Value)
+            ' 会将原始的输入信息追加到对应的行的最末尾
+            result = result _
+                .Select(Function(row)
+                            Return row & vbTab & listTable(row.Split(ASCII.TAB).First)
+                        End Function)
+        End If
 
         Return result.SaveTo(out, Encoding.ASCII).CLICode
     End Function
