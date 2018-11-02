@@ -108,5 +108,10 @@ Namespace HTML
             ' GC.SuppressFinalize(Me)
         End Sub
 #End Region
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator &(dir As HTMLReport, fileName As String) As String
+            Return (dir.Directory & "/" & fileName).Replace("\", "/").StringReplace("[/]+", "/")
+        End Operator
     End Class
 End Namespace

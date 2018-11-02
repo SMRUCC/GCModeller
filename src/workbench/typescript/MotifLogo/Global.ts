@@ -13,9 +13,10 @@ namespace GCModeller.Workbench {
     export function trim(str: string): string {
         "use strict";
 
-        var ws, i;
+        var ws: RegExp, i: number;
         str = str.replace(/^\s\s*/, '');
-        ws = /\s/; i = str.length;
+        ws = /\s/;
+        i = str.length;
         while (ws.test(str.charAt(--i)));
 
         return str.slice(0, i + 1);

@@ -10,7 +10,7 @@
             this.draw_logo_on_canvas = new CanvasRender(this);
         }
 
-        public drawLogo(div_id: string, pwm, scale: number) {
+        public drawLogo(div_id: string, pwm: Pspm, scale: number) {
             this.push_task(new LoadQueryTask(div_id, pwm, scale, this));
         }
 
@@ -174,24 +174,24 @@
         public draw_trim_background(ctx: CanvasRenderingContext2D, metrics: LogoMetrics, pspm: Pspm, offset: number) {
             "use strict";
             var lwidth: number, rwidth: number, mwidth: number, rstart: number;
-            lwidth = metrics.stack_width * pspm.get_left_trim();
-            rwidth = metrics.stack_width * pspm.get_right_trim();
-            mwidth = metrics.stack_width * pspm.get_motif_length();
+            lwidth = metrics.stack_width * pspm.leftTrim;
+            rwidth = metrics.stack_width * pspm.rightTrim;
+            mwidth = metrics.stack_width * pspm.motif_length;
             rstart = mwidth - rwidth;
             ctx.save();//s8
             ctx.translate(offset * metrics.stack_width, 0);
             ctx.fillStyle = "rgb(240, 240, 240)";
-            if (pspm.get_left_trim() > 0) {
+            if (pspm.leftTrim > 0) {
                 ctx.fillRect(0, 0, lwidth, metrics.stack_height);
             }
-            if (pspm.get_right_trim() > 0) {
+            if (pspm.rightTrim > 0) {
                 ctx.fillRect(rstart, 0, rwidth, metrics.stack_height);
             }
             ctx.fillStyle = "rgb(51, 51, 51)";
-            if (pspm.get_left_trim() > 0) {
+            if (pspm.leftTrim > 0) {
                 this.draw_dashed_line(ctx, [3], 0, lwidth - 0.5, 0, lwidth - 0.5, metrics.stack_height);
             }
-            if (pspm.get_right_trim() > 0) {
+            if (pspm.rightTrim > 0) {
                 this.draw_dashed_line(ctx, [3], 0, rstart + 0.5, 0, rstart + 0.5, metrics.stack_height);
             }
             ctx.restore();//s8

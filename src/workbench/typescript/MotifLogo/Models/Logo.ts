@@ -27,7 +27,7 @@
             this.pspm_list[this.rows] = pspm;
             this.pspm_column[this.rows] = column;
             this.rows++;
-            col = column + pspm.get_motif_length();
+            col = column + pspm.motif_length;
             if (col > this.columns) {
                 this.columns = col;
             }
