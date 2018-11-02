@@ -586,6 +586,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
         Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
+        If appendSrc Then
+            Call "The input info will append to each rows".__DEBUG_ECHO
+        End If
+
         If FastaFile.IsValidFastaFile([in]) Then
             Dim title$
 
