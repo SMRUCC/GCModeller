@@ -528,7 +528,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                 End If
             End If
 
-            Dim protein As FastaSeq = FetchSeq(sp, sId)
+            Dim protein As FastaSeq = WebRequest.FetchSeq(sp, sId)
 
             If Not protein Is Nothing Then
                 Call protein.SaveTo(path)

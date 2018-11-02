@@ -188,7 +188,7 @@ Namespace Assembly.KEGG.WebServices
             Dim tokens As String() = text.LineTokens
             Dim fa As New FASTA.FastaSeq With {
                 .Headers = {
-                    XmlEntity.UnescapeHTML(tokens.First)
+                    XmlEntity.UnescapeHTML(tokens.First).Trim(">")
                 },
                 .SequenceData = Mid(text, Len(tokens.First) + 1).TrimNewLine("")
             }
