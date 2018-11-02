@@ -668,7 +668,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim hitsBase% = args("/hits.base") Or 2
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motif_sites={hitsBase}.csv"
-        Dim tree As AVLTree(Of Location, BlastnMapping) = [in].OpenHandle.AsLinq(Of BlastnMapping).BuildTree
+        Dim tree As NaiveBinaryTree(Of Location, BlastnMapping) = [in].OpenHandle.AsLinq(Of BlastnMapping).BuildTree
         Dim motifSites As NamedValue(Of NucleotideLocation)() = tree _
             .ExtractSites _
             .FilterMotifs(Function(q) q.Split("|"c)(2),
