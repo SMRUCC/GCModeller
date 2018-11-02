@@ -688,6 +688,7 @@ Partial Module CLI
                                 {"left", site.Value.Left},
                                 {"right", site.Value.Right},
                                 {"strain", site.Value.Strand.GetBriefCode},
+                                {"hits", targets.Length},
                                 {"src", targets.JoinBy("|")}
                             }
                         }
