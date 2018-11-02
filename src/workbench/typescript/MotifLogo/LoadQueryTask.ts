@@ -37,7 +37,7 @@
         public replace_logo(logo: Logo, replace_id: string, scale: number, title_txt: string, display_style: string) {
             "use strict";
 
-            var element: HTMLElement = document.getElementById(replace_id);
+            var element: HTMLElement = $ts("#" + replace_id);
 
             if (!replace_id) {
                 alert(`Can't find specified id (${replace_id})`);
