@@ -683,10 +683,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
-        Dim taxonomy = New NcbiTaxonomyTree(args <= "/taxonomy")
+        Dim taxonomyTree = New NcbiTaxonomyTree(args <= "/taxonomy")
         Dim out$ = [in].TrimSuffix
         Dim headers$() = {"title", "taxid"} _
-            .JoinIterates(NcbiTaxonomyTree.stdranks) _
+            .JoinIterates(NcbiTaxonomyTree.stdranks.Reverse) _
             .ToArray
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
@@ -697,9 +697,44 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
               summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
-                Dim accession$ = accid_grep(seq.Title)
-                Dim taxid$ = acc2taxid(accession)
+                Dim title = seq.Title
+                Dim accession$ = accid_grep(title)
+                Dim taxid% = acc2taxid(accession)
+                Dim nodes = taxonomyTree.GetAscendantsWithRanksAndNames({taxid}, True)
+                Dim table = TaxonomyNode.RankTable(nodes.First.Value)
+                Dim taxonomy$
+                Dim lineage$()
 
+                With New SMRUCC.genomics.Metagenomics.Taxonomy
+                    .class = table.TryGetValue(NcbiTaxonomyTree.class)
+                    .family = table.TryGetValue(NcbiTaxonomyTree.family)
+                    .genus = table.TryGetValue(NcbiTaxonomyTree.genus)
+                    .order = table.TryGetValue(NcbiTaxonomyTree.order)
+                    .phylum = table.TryGetValue(NcbiTaxonomyTree.phylum)
+                    .species = table.TryGetValue(NcbiTaxonomyTree.species)
+                    .kingdom = table.TryGetValue(NcbiTaxonomyTree.superkingdom)
+
+                    taxonomy = $"k__{ .kingdom};p__{ .phylum};c__{ .class};o__{ .order};f__{ .family};g__{ .genus};s__{ .species}"
+                    lineage = .ToArray
+                End With
+
+                seq.Headers = {title, taxid, taxonomy}
+
+                Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
+                Call summary.Flush(New EntityObject With {
+                         .ID = accession,
+                         .Properties = New Dictionary(Of String, String) From {
+                             {"title", title},
+                             {"taxid", taxid},
+                             {NcbiTaxonomyTree.superkingdom, lineage(0)},
+                             {NcbiTaxonomyTree.phylum, lineage(1)},
+                             {NcbiTaxonomyTree.class, lineage(2)},
+                             {NcbiTaxonomyTree.order, lineage(3)},
+                             {NcbiTaxonomyTree.family, lineage(4)},
+                             {NcbiTaxonomyTree.genus, lineage(5)},
+                             {NcbiTaxonomyTree.species, lineage(6)}
+                         }
+                     })
             Next
         End Using
 
