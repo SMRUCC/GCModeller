@@ -13,7 +13,7 @@
         public doRender(logo: Logo, canvas: HTMLCanvasElement, show_names: boolean, scale: number) {
             "use strict";
 
-            var ctx: CanvasRenderingContext2D, metrics: LogoMetrics, raster: RasterizedAlphabet, pspm_i;
+            var ctx: CanvasRenderingContext2D, metrics: LogoMetrics, raster: RasterizedAlphabet;
             var pspm: Pspm, offset: number, col_index: number, motif_position: number;
             var draw_name: boolean = (typeof show_names === "boolean" ? show_names : (logo.rows > 1));
 
@@ -38,7 +38,10 @@
                     scale = canvas.width / metrics.summed_width;
                     canvas.height = metrics.summed_height * scale;
                 } else {
-                    scale = Math.min(canvas.width / metrics.summed_width, canvas.height / metrics.summed_height);
+                    scale = Math.min(
+                        canvas.width / metrics.summed_width,
+                        canvas.height / metrics.summed_height
+                    );
                 }
             }
 
@@ -61,7 +64,7 @@
             // create margin
             ctx.translate(metrics.pad_left, metrics.pad_top);
 
-            for (pspm_i = 0; pspm_i < logo.rows; ++pspm_i) {
+            for (var pspm_i: number = 0; pspm_i < logo.rows; ++pspm_i) {
                 pspm = logo.getPspm(pspm_i);
                 offset = logo.getOffset(pspm_i);
 

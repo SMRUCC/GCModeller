@@ -10,7 +10,7 @@
             this.draw_logo_on_canvas = new CanvasRender(this);
         }
 
-        public drawLogo(div_id: string, pwm, scale: number) {
+        public drawLogo(div_id: string, pwm: Pspm, scale: number) {
             this.push_task(new LoadQueryTask(div_id, pwm, scale, this));
         }
 

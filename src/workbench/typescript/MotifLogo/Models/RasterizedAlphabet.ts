@@ -2,22 +2,19 @@
 
     export class RasterizedAlphabet {
 
-        public lookup;
+        public lookup: number[];
         public rasters;
         public dimensions;
 
         public constructor(alphabet: Alphabet, font: string, target_width: number) {
-            var default_size, safety_pad, middle, baseline, widths, count,
-                letters, i, letter, size, tenpercent, avg_width, scale,
-                target_height, raster;
-            //variable prototypes
+            // variable prototypes
             this.lookup = []; //a map of letter to index
             this.rasters = []; //a list of rasters
             this.dimensions = []; //a list of dimensions
 
-            //construct
-            default_size = 60; // size of square to assume as the default width
-            safety_pad = 20; // pixels to pad around so we don't miss the edges
+            // construct
+            var default_size: number = 60; // size of square to assume as the default width
+            var safety_pad: number = 20; // pixels to pad around so we don't miss the edges
             // create a canvas to do our rasterizing on
             var canvas: HTMLCanvasElement = $ts("<canvas>", {
                 // assume the default font would fit in a canvas of 100 by 100
@@ -38,15 +35,20 @@
             }
 
             // calculate the middle
-            middle = Math.round(canvas.width / 2);
+            var middle = Math.round(canvas.width / 2);
             // calculate the baseline
-            baseline = Math.round(canvas.height - safety_pad);
+            var baseline = Math.round(canvas.height - safety_pad);
             // list of widths
-            widths = [];
-            count = 0;
-            letters = [];
+            var widths: number[] = [];
+            var count = 0;
+            var letters: string[] = [];
+
+            var letter: string;
+            var size, tenpercent, avg_width, scale,
+                target_height, raster;
+
             //now measure each letter in the alphabet
-            for (i = 0; i < alphabet.size; ++i) {
+            for (var i: number = 0; i < alphabet.size; ++i) {
                 if (alphabet.isAmbig(i)) {
                     continue; //skip ambigs as they're never rendered
                 }
@@ -76,18 +78,18 @@
             widths.sort(function (a, b) { return a - b; });
             //drop 10% of the items off each end
             tenpercent = Math.floor(widths.length / 10);
-            for (i = 0; i < tenpercent; ++i) {
+            for (var i: number = 0; i < tenpercent; ++i) {
                 widths.pop();
                 widths.shift();
             }
             //calculate average width
             avg_width = 0;
-            for (i = 0; i < widths.length; ++i) {
+            for (var i: number = 0; i < widths.length; ++i) {
                 avg_width += widths[i];
             }
             avg_width /= widths.length;
             // calculate scales
-            for (i = 0; i < this.dimensions.length; ++i) {
+            for (var i: number = 0; i < this.dimensions.length; ++i) {
                 size = this.dimensions[i];
                 // calculate scale
                 scale = target_width / Math.max(avg_width, size.width);
