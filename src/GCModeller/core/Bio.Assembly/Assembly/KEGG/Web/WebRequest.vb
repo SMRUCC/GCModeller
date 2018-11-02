@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::c028244d78721e9f75fe784e5545a88e, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module WebRequest
-    ' 
-    '         Function: GetText
-    '         Delegate Function
-    ' 
-    '             Function: __downloadDirect, __downloads, __fetchSequence, __queryEntryParser, BatchQuery
-    '                       Download16S_rRNA, Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt
-    '                       (+2 Overloads) FetchSeq, GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
-    '                       LoadList
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module WebRequest
+' 
+'         Function: GetText
+'         Delegate Function
+' 
+'             Function: __downloadDirect, __downloads, __fetchSequence, __queryEntryParser, BatchQuery
+'                       Download16S_rRNA, Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt
+'                       (+2 Overloads) FetchSeq, GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
+'                       LoadList
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,9 +53,11 @@ Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
@@ -161,26 +163,40 @@ Namespace Assembly.KEGG.WebServices
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
         Public Function FetchSeq(<Parameter("sp.Id", "KEGG species id.")> specieId As String,
                                  <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FASTA.FastaSeq
-            Return __fetchSequence(KEGG_DBGET_QUERY_PROTEIN, specieId, accessionId)
+            Return fetchSequence(KEGG_DBGET_QUERY_PROTEIN, specieId, accessionId)
         End Function
 
-        Private Function __fetchSequence(url As String, specieId As String, accessionId As String) As FASTA.FastaSeq
-            Dim pageContent As String = String.Format(url, specieId, accessionId).GET
-            If String.IsNullOrEmpty(pageContent) OrElse InStr(pageContent, ": No such data.", CompareMethod.Text) > 0 Then
+        ''' <summary>
+        ''' 从KEGG数据库下载基因或者蛋白序列数据
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <param name="specieId"></param>
+        ''' <param name="accessionId"></param>
+        ''' <returns></returns>
+        Private Function fetchSequence(url As String, specieId As String, accessionId As String) As FastaSeq
+            Dim html As String = String.Format(url, specieId, accessionId).GET
+
+            If String.IsNullOrEmpty(html) OrElse InStr(html, ": No such data.", CompareMethod.Text) > 0 Then
                 Return Nothing
             End If
 
-            Dim FsaText As String = Regex.Match(pageContent, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline).Value
-            Dim PreLength As Integer = Len(String.Format("<pre>" & vbCrLf & "<!-- bget:db:genes --><!-- {0}:{1} -->", specieId, accessionId))
-            FsaText = Mid(FsaText, PreLength + 1, Len(FsaText) - PreLength - 6)
-            Dim Fsa As FASTA.FastaSeq = New FASTA.FastaSeq
-            Dim Tokens As String() = Strings.Split(FsaText, vbLf)
-            Fsa.Headers = New String() {Tokens.First}
-            Fsa.SequenceData = Mid(FsaText, Len(Tokens.First) + 1).Replace(vbCr, "").Replace(vbLf, "")
-            If String.IsNullOrEmpty(Fsa.SequenceData) Then
+            Dim text$ = r.Match(html, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline).Value
+            Dim previewLen% = Len(String.Format("<pre>" & vbCrLf & "<!-- bget:db:genes --><!-- {0}:{1} -->", specieId, accessionId))
+
+            text = Mid(text, previewLen + 1, Len(text) - previewLen - 6)
+
+            Dim tokens As String() = text.LineTokens
+            Dim fa As New FASTA.FastaSeq With {
+                .Headers = {
+                    XmlEntity.UnescapeHTML(tokens.First).Trim(">")
+                },
+                .SequenceData = Mid(text, Len(tokens.First) + 1).TrimNewLine("")
+            }
+
+            If String.IsNullOrEmpty(fa.SequenceData) Then
                 Return Nothing
             Else
-                Return Fsa
+                Return fa
             End If
         End Function
 
@@ -194,7 +210,7 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
         Public Function FetchNt(specieId As String, accessionId As String) As FASTA.FastaSeq
-            Return __fetchSequence(KEGG_DBGET_QUERY_NT, specieId, accessionId)
+            Return fetchSequence(KEGG_DBGET_QUERY_NT, specieId, accessionId)
         End Function
 
         ''' <summary>
@@ -427,6 +443,8 @@ Namespace Assembly.KEGG.WebServices
 
         ''' <summary>
         ''' http://www.genome.jp/dbget-bin/www_bget?ko:K01977
+        ''' 
+        ''' 这个函数先下载单独的16sRNA序列，然后再合并为同一个大文件返回
         ''' </summary>
         ''' <param name="outDIR"></param>
         ''' <returns></returns>
@@ -436,7 +454,7 @@ Namespace Assembly.KEGG.WebServices
             Dim ortholog = DBGET.bGetObject.SSDB.API.QueryURL(_16S_rRNA)
             Dim out As New List(Of FastaSeq)
 
-            For Each gene As QueryEntry In ortholog.Genes
+            For Each gene As QueryEntry In ortholog.genes
                 Dim fa As FastaSeq = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
 
                 If Not fa Is Nothing Then

@@ -450,7 +450,7 @@ Partial Module CLI
         Dim ref As String = args("/gi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & "." & ref.BaseName & "/")
         Dim hash As Dictionary(Of String, String) =
-            TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue))
+            TaxiValue.BuildDictionary(ref.LoadCsv(Of TaxiValue))
 
         For Each file As String In ls - l - wildcards("*.Csv") <= [in]
             Dim inputs = file.LoadCsv(Of TaxiValue)

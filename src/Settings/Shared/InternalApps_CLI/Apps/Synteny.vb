@@ -25,6 +25,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /mapping.plot:     
+'  /test:             
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -73,6 +74,21 @@ Public Function PlotMapping(mapping As String, query As String, ref As String, O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' 
+''' ```
+''' </summary>
+'''
+Public Function Test() As Integer
+    Dim CLI As New StringBuilder("/test")
+    Call CLI.Append(" ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

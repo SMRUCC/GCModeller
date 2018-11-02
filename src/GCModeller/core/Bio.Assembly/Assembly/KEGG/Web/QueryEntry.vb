@@ -88,6 +88,7 @@ Namespace Assembly.KEGG.WebServices
         ''' The genome name.
         ''' </summary>
         ''' <returns></returns>
+        <XmlAttribute>
         Public Property genome As String
         ''' <summary>
         ''' The list of gene locus id that using for the query.
