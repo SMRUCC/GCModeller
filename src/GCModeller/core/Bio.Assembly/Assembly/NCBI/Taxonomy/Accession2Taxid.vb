@@ -99,7 +99,8 @@ Namespace Assembly.NCBI.Taxonomy
 
             If gb_priority Then
                 For i As Integer = 0 To files.Length - 1
-                    If files(i).BaseName.TextEquals("nucl_gb") Then ' 优先加载gb库，提升匹配查找函数的效率
+                    ' 优先加载gb库，提升匹配查找函数的效率
+                    If files(i).BaseName.TextEquals("nucl_gb") Then
                         Call files.Swap(i, Scan0)
                         Exit For
                     End If
@@ -142,9 +143,7 @@ Namespace Assembly.NCBI.Taxonomy
                 .Distinct _
                 .ToDictionary(Function(id) id)
 
-            Yield {
-                "accession", "accession.version", "taxid", "gi"
-            }.JoinBy(vbTab)
+            Yield Acc2Taxid_Header
 
             Dim n% = 0
             Dim ALL% = list.Count
