@@ -278,23 +278,22 @@ Imports SMRUCC.genomics.SequenceModel
     ''' <returns></returns>
     <ExportAPI("/Fasta.Downloads",
                Info:="Download protein fasta sequence from KEGG database.",
-               Usage:="Fasta.Downloads /source <sourceDIR> [/out <outDIR> /keggTools <kegg.exe>]")>
+               Usage:="Fasta.Downloads /source <sourceDIR> [/out <outDIR>]")>
+    <Group(CLIGroups.WebAPI)>
     Public Function DownloadFasta(args As CommandLine) As Integer
         Dim sourceDIR As String = args("/source")
         Dim out As String = args.GetValue("/out", sourceDIR)
-        Dim KEGG As String = args.GetValue("/keggTools", App.HOME & "/kegg.exe")
         Dim existsDIR As String = RegPrecise.GCModeller.FileSystem.RegPreciseRegulatorFasta
 
-        For Each file As String In FileIO.FileSystem.GetFiles(sourceDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim genome = file.LoadXml(Of BacteriaRegulome)
+        For Each file As String In ls - l - r - "*.Xml" <= sourceDIR
+            Dim genome As BacteriaRegulome = file.LoadXml(Of BacteriaRegulome)
             Dim outDIR As String = out & "/" & genome.genome.name.NormalizePathString(True)
             Dim exists As String = existsDIR & "/" & genome.genome.name.NormalizePathString(True)
             Dim query = genome.CreateKEGGQuery
             Dim queryFile As String = outDIR & "/query.txt"
-            Dim CLI As String = $"Download.Sequence /query {queryFile.CLIPath} /out {outDIR.CLIToken} /source {exists.CLIToken}"
 
             Call query.GetDoc.SaveTo(queryFile)
-            Call New IORedirectFile(KEGG, CLI).Run()
+            Call Apps.KEGG_tools.DownloadSequence(queryFile, outDIR, exists)
         Next
 
         Return 0
