@@ -83,14 +83,14 @@
                 ctx.translate(metrics.y_label_height + metrics.y_label_spacer +
                     metrics.y_num_width + metrics.y_tic_width, 0);
                 //draw the trimming background
-                if (pspm.get_left_trim() > 0 || pspm.get_right_trim() > 0) {
+                if (pspm.leftTrim > 0 || pspm.rightTrim > 0) {
                     this.host.draw_trim_background(ctx, metrics, pspm, offset);
                 }
                 //draw letters
                 ctx.translate(0, metrics.y_num_height / 2);
                 for (col_index = 0; col_index < logo.columns; col_index++) {
                     ctx.translate(metrics.stack_pad_left, 0);
-                    if (col_index >= offset && col_index < (offset + pspm.get_motif_length())) {
+                    if (col_index >= offset && col_index < (offset + pspm.motif_length)) {
                         motif_position = col_index - offset;
                         this.host.draw_stack_num(ctx, metrics, motif_position);
                         this.host.draw_stack(ctx, metrics, pspm.get_stack(motif_position, logo.alphabet), raster);
