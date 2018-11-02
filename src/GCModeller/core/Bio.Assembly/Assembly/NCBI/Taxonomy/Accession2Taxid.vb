@@ -76,6 +76,10 @@ Namespace Assembly.NCBI.Taxonomy
                     line = reader.ReadLine
                     tokens = line.Split(ASCII.TAB)
 
+                    ' 2018-11-03 因为下面的解析过程是依据具体的index来进行的
+                    ' 所以即使输入的原始数据之中的行末尾追加了其他的数据
+                    ' 也不会对数据的读取造成影响
+
                     ' 0               1                       2       3
                     ' accession       accession.version       taxid   gi
                     Yield New NamedValue(Of Integer) With {
