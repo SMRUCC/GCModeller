@@ -89,6 +89,16 @@ Namespace CommandLine.InteropService.SharedORM
                 ' 2018-11-02 usage是空的，说明可能没有额外的参数，只需要调用命令即可
                 ' 在这里Usage可能是空值
                 Dim apiUsage$ = api.Usage Or EmptyString
+                Dim usageCommand As CommandLine
+
+                If apiUsage.StringEmpty Then
+                    usageCommand = New CommandLine With {
+                        .Name = api.Name
+                    }
+                    Call $"{api.EntryPointFullName(relativePath:=True)} is nothing!".Warning
+                Else
+                    usageCommand = apiUsage.CommandLineModel
+                End If
 
                 Try
                     help =
@@ -99,7 +109,7 @@ $"```
                     CLI = New NamedValue(Of CommandLine) With {
                         .Name = api.EntryPoint.Name,
                         .Description = help,
-                        .Value = api.Usage.CommandLineModel
+                        .Value = usageCommand
                     }
 
                     Yield New APITuple With {
