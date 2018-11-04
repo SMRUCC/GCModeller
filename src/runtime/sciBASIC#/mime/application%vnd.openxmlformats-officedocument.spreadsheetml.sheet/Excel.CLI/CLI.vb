@@ -80,7 +80,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
         Dim a = EntityObject.LoadDataSet([in], uidMap:=IDa)
         Dim b As Contract = Contract.Load(append, uidMap:=IDb)
 
-        With TextGrepScriptEngine.Compile(args("/token0.ID") Or "tokens ' ' first")
+        With TextGrepScriptEngine.Compile(args("/grep.ID") Or "tokens ' ' first")
             If Not .IsDoNothing Then
                 For Each obj As EntityObject In a
                     obj.ID = .Grep(obj.ID)

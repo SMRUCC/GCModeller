@@ -142,6 +142,12 @@ Namespace DATA
             Return data
         End Operator
 
+        ''' <summary>
+        ''' 这是一个可伸缩的Linq方法
+        ''' </summary>
+        ''' <param name="multiple"></param>
+        ''' <param name="unique"></param>
+        ''' <returns></returns>
         Public Shared Function Append(multiple As IEnumerable(Of EntityObject), unique As DataFrame) As IEnumerable(Of EntityObject)
             Return multiple _
                 .Select(Function(query)
