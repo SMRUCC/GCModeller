@@ -132,7 +132,7 @@ Public Module CatalogProfiling
             profile.Remove(NOT_ASSIGN)
         End If
 
-        Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count - 1)
+        Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count)
         Dim mapper As New Scaling(
             profile _
             .Values _
