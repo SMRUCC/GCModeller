@@ -729,7 +729,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
         Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
               summary As New WriteStream(Of EntityObject)(
-                  path:=$"{out}/summary.csv",
+                  path:=$"{out}/summary.csv" Or $"{out}/summary.txt".When(args("/summary.tsv")),
                   metaKeys:=headers,
                   tsv:=args("/summary.tsv")
               )
