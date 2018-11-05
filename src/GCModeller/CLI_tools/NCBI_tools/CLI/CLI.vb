@@ -706,9 +706,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             If EntityObject.ContainsIDField(append) Then
                 appendByID = True
                 map = NameOf(EntityObject.ID)
+
+                Call "Additional data will index by [accession ID]".__DEBUG_ECHO
             Else
                 appendByID = False
                 map = "Species"
+
+                Call "Additional data will index by [Species] field".__DEBUG_ECHO
             End If
 
             indexAppendData = EntityObject _
