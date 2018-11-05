@@ -690,9 +690,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
         Dim taxonomyTree = New NcbiTaxonomyTree(args <= "/taxonomy")
         Dim out$ = [in].TrimSuffix
-        Dim headers$() = {"title", "taxid"} _
+        Dim headers As List(Of String) = {"title", "taxid"} _
             .JoinIterates(NcbiTaxonomyTree.stdranks.Reverse) _
-            .ToArray
+            .AsList
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
         Dim append$ = args <= "/append"
@@ -723,6 +723,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                               Function(g)
                                   Return g.First
                               End Function)
+
+            headers = headers + indexAppendData.First.Value.EnumerateKeys
         Else
             indexAppendData = New Dictionary(Of String, EntityObject)
         End If
