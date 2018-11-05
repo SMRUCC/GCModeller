@@ -677,13 +677,14 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <returns></returns>
     ''' 
     <ExportAPI("/assign.fasta.taxonomy")>
-    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /append <data.csv> /out <out.directory>]")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /append <data.csv> /summary.tsv /out <out.directory>]")>
     <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
               Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
     <Argument("/append", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(EntityObject)},
               Description:="If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
               This file should have a column named ``ID`` correspond to the ``accession_id``, 
               or a column named ``Species`` correspond to the ``species`` from NCBI taxonomy.")>
+    <Argument("/summary.tsv", True, CLITypes.Boolean, Description:="The output summary table file saved in tsv format.")>
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
@@ -727,7 +728,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End If
 
         Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
-              summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
+              summary As New WriteStream(Of EntityObject)(
+                  path:=$"{out}/summary.csv",
+                  metaKeys:=headers,
+                  tsv:=args("/summary.tsv")
+              )
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim title = seq.Title
