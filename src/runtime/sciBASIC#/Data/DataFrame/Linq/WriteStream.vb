@@ -156,7 +156,7 @@ Namespace IO.Linq
                 title = New RowObject(title.Join(metaKeys))
             End If
 
-            Call _fileIO.WriteLine(title.AsLine)
+            Call _fileIO.WriteLine(populateLine(title))
         End Sub
 
         Public Overrides Function ToString() As String
