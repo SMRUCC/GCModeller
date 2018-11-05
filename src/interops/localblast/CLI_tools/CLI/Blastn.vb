@@ -330,7 +330,7 @@ Partial Module CLI
 
         Using writer As New WriteStream(Of BlastnMapping)(out,,, {"track"})
             For Each block As BlastnMapping() In LQuery
-                Call writer.Flush(block, False)
+                Call writer.Flush(block)
                 Call block.First.Extensions("track").__DEBUG_ECHO
             Next
 
