@@ -694,11 +694,18 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             .ToArray
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
-
+        Dim append$ = args <= "/append"
+        Dim appendByID As Boolean
 
         Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
-        Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
+        If append.FileExists Then
+            If EntityObject.GetIDList Then
+
+            End If
+        End If
+
+            Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
               summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
