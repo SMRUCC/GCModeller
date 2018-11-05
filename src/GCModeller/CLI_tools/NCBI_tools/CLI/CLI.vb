@@ -796,7 +796,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                              {NcbiTaxonomyTree.family, lineage(4)},
                              {NcbiTaxonomyTree.genus, lineage(5)},
                              {NcbiTaxonomyTree.species, lineage(6)}
-                         }.AddRange(additionals.Properties, replaceDuplicated:=True)
+                         }.AddRange(
+                            data:=additionals.Properties,
+                            replaceDuplicated:=True
+                         )
                      })
             Next
         End Using
