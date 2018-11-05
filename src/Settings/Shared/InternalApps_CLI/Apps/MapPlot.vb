@@ -25,13 +25,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /Config.Template:                 
+'  /draw.map.region:                 
 '  /Visual.BBH:                      Visualize the blastp result.
 '  /Visualize.blastn.alignment:      Blastn result alignment visualization from the NCBI web blast.
 '                                    This tools is only works for a plasmid blastn search result or
 '                                    a small gene cluster region in a large genome.
 '  --Draw.ChromosomeMap:             Drawing the chromosomes map from the PTT object as the basically
 '                                    genome information source.
-'  --Draw.ChromosomeMap.genbank:     
+'  --Draw.ChromosomeMap.genbank:     Draw bacterial genome map from genbank annotation dataset.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -64,6 +65,43 @@ Public Function WriteConfigTemplate(Optional out As String = "") As Integer
     Call CLI.Append(" ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /draw.map.region /gb &lt;genome.gbk> [/COG &lt;cog.csv> /draw.shape.stroke /size &lt;default=10240,2048> /default.color &lt;default=brown> /gene.draw.height &lt;default=85> /disable.level.skip /out &lt;map.png>]
+''' ```
+''' </summary>
+'''
+Public Function DrawMapRegion(gb As String, Optional cog As String = "", Optional size As String = "10240,2048", Optional default_color As String = "brown", Optional gene_draw_height As String = "85", Optional out As String = "", Optional draw_shape_stroke As Boolean = False, Optional disable_level_skip As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/draw.map.region")
+    Call CLI.Append(" ")
+    Call CLI.Append("/gb " & """" & gb & """ ")
+    If Not cog.StringEmpty Then
+            Call CLI.Append("/cog " & """" & cog & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not default_color.StringEmpty Then
+            Call CLI.Append("/default.color " & """" & default_color & """ ")
+    End If
+    If Not gene_draw_height.StringEmpty Then
+            Call CLI.Append("/gene.draw.height " & """" & gene_draw_height & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If draw_shape_stroke Then
+        Call CLI.Append("/draw.shape.stroke ")
+    End If
+    If disable_level_skip Then
+        Call CLI.Append("/disable.level.skip ")
     End If
 
 
@@ -154,14 +192,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk> [/conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
+''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk> [/motifs &lt;motifs.csv> /conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
 ''' ```
+''' Draw bacterial genome map from genbank annotation dataset.
 ''' </summary>
 '''
-Public Function DrawGenbank(gb As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
+Public Function DrawGenbank(gb As String, Optional motifs As String = "", Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
+    If Not motifs.StringEmpty Then
+            Call CLI.Append("/motifs " & """" & motifs & """ ")
+    End If
     If Not conf.StringEmpty Then
             Call CLI.Append("/conf " & """" & conf & """ ")
     End If
