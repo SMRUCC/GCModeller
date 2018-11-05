@@ -696,16 +696,31 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
         Dim append$ = args <= "/append"
         Dim appendByID As Boolean
+        Dim indexAppendData As Dictionary(Of String, EntityObject) = Nothing
 
         Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
         If append.FileExists Then
-            If EntityObject.GetIDList Then
+            Dim map$ = Nothing
 
+            If EntityObject.ContainsIDField(append) Then
+                appendByID = True
+                map = NameOf(EntityObject.ID)
+            Else
+                appendByID = False
+                map = "Species"
             End If
+
+            indexAppendData = EntityObject _
+                .LoadDataSet(append, uidMap:=map) _
+                .GroupBy(Function(d) d.ID) _
+                .ToDictionary(Function(g) g.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
         End If
 
-            Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
+        Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
               summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
