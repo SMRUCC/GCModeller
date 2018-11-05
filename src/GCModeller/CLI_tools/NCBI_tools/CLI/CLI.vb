@@ -718,6 +718,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                               Function(g)
                                   Return g.First
                               End Function)
+        Else
+            indexAppendData = New Dictionary(Of String, EntityObject)
         End If
 
         Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
@@ -754,6 +756,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                 Dim table = TaxonomyNode.RankTable(nodes.First.Value)
                 Dim taxonomy$
                 Dim lineage$()
+                Dim additionals As EntityObject = Nothing
 
                 With New SMRUCC.genomics.Metagenomics.Taxonomy
                     .class = table.TryGetValue(NcbiTaxonomyTree.class)
@@ -766,9 +769,19 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
                     taxonomy = $"k__{ .kingdom};p__{ .phylum};c__{ .class};o__{ .order};f__{ .family};g__{ .genus};s__{ .species}"
                     lineage = .ToArray
+
+                    If appendByID Then
+                        additionals = indexAppendData.TryGetValue(accession)
+                    Else
+                        additionals = indexAppendData.TryGetValue(.species)
+                    End If
                 End With
 
-                seq.Headers = {title, taxid, taxonomy}
+                If Not additionals Is Nothing Then
+                    seq.Headers = New String() {title, taxid, taxonomy}.Join(additionals.Properties.Select(Function(tuple) $"{tuple.Key}={tuple.Value}"))
+                Else
+                    seq.Headers = New String() {title, taxid, taxonomy}
+                End If
 
                 Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
                 Call summary.Flush(New EntityObject With {
@@ -783,7 +796,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                              {NcbiTaxonomyTree.family, lineage(4)},
                              {NcbiTaxonomyTree.genus, lineage(5)},
                              {NcbiTaxonomyTree.species, lineage(6)}
-                         }
+                         }.AddRange(additionals.Properties, replaceDuplicated:=True)
                      })
             Next
         End Using
