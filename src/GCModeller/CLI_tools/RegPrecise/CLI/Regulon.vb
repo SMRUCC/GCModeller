@@ -41,12 +41,14 @@
 
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data
@@ -162,7 +164,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/description <KEGG_genomes.fasta> /out <save.csv>]")>
+    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
     <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
     <Group(CLIGroups.RegulonTools)>
     Public Function RegulatorsBBh(args As CommandLine) As Integer
@@ -180,6 +182,7 @@ Partial Module CLI
                               Return g.ToArray
                           End Function)
         Dim getDescription As Func(Of String, String)
+        Dim allowMultiple As Boolean = args("/allow.multiple")
 
         With args <= "/description"
             If .FileExists Then
@@ -195,56 +198,88 @@ Partial Module CLI
             End If
         End With
 
-        Using regulators As New WriteStream(Of RegPreciseRegulatorMatch)(out)
-            Dim map As RegPreciseRegulatorMatch
+        Return (ls - l - r - "*.Xml" <= repo) _
+            .Select(AddressOf LoadXml(Of BacteriaRegulome)) _
+            .RunMatches(bbh, getDescription, distinct:=Not allowMultiple) _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 
-            For Each genome As BacteriaRegulome In (ls - l - r - "*.Xml" <= repo).Select(AddressOf LoadXml(Of BacteriaRegulome))
-                Dim genomeName$ = genome.genome.name
+    <Extension>
+    Public Function RunMatches(genomes As IEnumerable(Of BacteriaRegulome),
+                               bbh As Dictionary(Of String, BBHIndex()),
+                               getDescription As Func(Of String, String),
+                               Optional distinct As Boolean = True) As RegPreciseRegulatorMatch()
 
-                For Each regulator As Regulator In genome.regulons.regulators
-                    If Not regulator.type = Types.TF Then
-                        Call $"Not working for non-TF type: {regulator.regulog.name}".Warning
-                        Continue For
-                    End If
-                    If regulator.locus_tag.name.StringEmpty Then
-                        Call $"Empty locus_tag: {regulator.regulog.name}?".Warning
-                        Continue For
-                    End If
-                    If Not bbh.ContainsKey(regulator.locus_tag.name) Then
-                        ' no maps
-                        Call Console.Write(".")
-                        Continue For
-                    End If
+        Dim map As RegPreciseRegulatorMatch
+        Dim matches As New List(Of RegPreciseRegulatorMatch)
 
-                    Dim motifSites$() = regulator.regulatorySites _
-                        .Select(Function(site)
-                                    Return $"{site.locus_tag}:{site.position}"
-                                End Function) _
-                        .ToArray
+        For Each genome As BacteriaRegulome In genomes
+            Dim genomeName$ = genome.genome.name
 
-                    For Each hit As BBHIndex In bbh(regulator.locus_tag.name)
-                        map = New RegPreciseRegulatorMatch With {
-                            .biological_process = regulator.biological_process,
-                            .effector = regulator.effector,
-                            .Family = regulator.family,
-                            .Identities = hit.identities,
-                            .mode = regulator.regulationMode,
-                            .Query = hit.HitName,
-                            .Regulator = hit.QueryName,
-                            .Regulog = regulator.regulog.name,
-                            .species = genomeName,
-                            .RegulonSites = motifSites,
-                            .Description = getDescription(hit.QueryName)
-                        }
+            For Each regulator As Regulator In genome.regulons.regulators
+                If Not regulator.type = Types.TF Then
+                    Call $"Not working for non-TF type: {regulator.regulog.name}".Warning
+                    Continue For
+                End If
+                If regulator.locus_tag.name.StringEmpty Then
+                    Call $"Empty locus_tag: {regulator.regulog.name}?".Warning
+                    Continue For
+                End If
+                If Not bbh.ContainsKey(regulator.locus_tag.name) Then
+                    ' no maps
+                    Call Console.Write(".")
+                    Continue For
+                End If
 
-                        Call regulators.Flush(map)
-                    Next
+                Dim motifSites$() = regulator.regulatorySites _
+                    .Select(Function(site)
+                                Return $"{site.locus_tag}:{site.position}"
+                            End Function) _
+                    .ToArray
+
+                For Each hit As BBHIndex In bbh(regulator.locus_tag.name)
+                    map = New RegPreciseRegulatorMatch With {
+                        .biological_process = regulator.biological_process,
+                        .effector = regulator.effector,
+                        .Family = regulator.family,
+                        .Identities = hit.identities,
+                        .mode = regulator.regulationMode,
+                        .Query = hit.HitName,
+                        .Regulator = hit.QueryName,
+                        .Regulog = regulator.regulog.name,
+                        .species = genomeName,
+                        .RegulonSites = motifSites,
+                        .Description = getDescription(hit.QueryName)
+                    }
+
+                    Call matches.Add(map)
                 Next
-
-                Call genomeName.__DEBUG_ECHO
             Next
-        End Using
 
-        Return 0
+            Call genomeName.__DEBUG_ECHO
+        Next
+
+        If distinct Then
+            ' 分组之后取出最多的家族的结果
+            Return matches _
+                .GroupBy(Function(match) match.Query) _
+                .Select(Function(matchGroup)
+                            Dim familyGroup = matchGroup _
+                                .Select(Function(m)
+                                            Return m.Family.Split("/"c).Select(Function(family) (family, m))
+                                        End Function) _
+                                .IteratesALL _
+                                .GroupBy(Function(g) g.Item1) _
+                                .OrderByDescending(Function(g) g.Count) _
+                                .First
+
+                            Return familyGroup.Select(Function(g) g.Item2)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        Else
+            Return matches
+        End If
     End Function
 End Module
