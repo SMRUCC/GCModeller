@@ -155,4 +155,34 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    ''' <summary>
+    ''' 关联需要注释的蛋白质在Regprecise数据库之中的信息
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/out <save.csv>]")>
+    <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
+    <Group(CLIGroups.RegulonTools)>
+    Public Function RegulatorsBBh(args As CommandLine) As Integer
+        Dim in$ = args <= "/bbh"
+        Dim repo$ = args <= "/regprecise"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.regprecise.regulators.csv"
+        Dim bbh As Dictionary(Of String, BBHIndex()) = [in] _
+            .LoadCsv(Of BBHIndex) _
+            .Where(Function(map)
+                       Return Not map.HitName.StringEmpty AndAlso map.identities > 0
+                   End Function) _
+            .GroupBy(Function(map) map.QueryName) _
+            .ToDictionary(Function(map) map.Key,
+                          Function(g)
+                              Return g.ToArray
+                          End Function)
+
+
+
+        For Each genome As BacteriaRegulome In (ls - l - r - "*.Xml" <= repo).Select(AddressOf LoadXml(Of BacteriaRegulome))
+
+        Next
+    End Function
 End Module
