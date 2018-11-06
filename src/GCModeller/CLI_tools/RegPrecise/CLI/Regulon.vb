@@ -174,7 +174,7 @@ Partial Module CLI
         Dim bbh As Dictionary(Of String, BBHIndex()) = [in] _
             .LoadCsv(Of BBHIndex) _
             .Where(Function(map)
-                       Return Not map.HitName.StringEmpty AndAlso (map.identities > 0 OrElse Val(map!Identities) > 0)
+                       Return Not map.HitName.StringEmpty AndAlso BBHIndex.GetIdentities(map) > 0
                    End Function) _
             .GroupBy(Function(map) map.QueryName) _
             .ToDictionary(Function(map) map.Key.Split(":"c).Last,
@@ -243,7 +243,7 @@ Partial Module CLI
                         .biological_process = regulator.biological_process,
                         .effector = regulator.effector,
                         .Family = regulator.family,
-                        .Identities = hit.identities,
+                        .Identities = BBHIndex.GetIdentities(hit),
                         .mode = regulator.regulationMode,
                         .Query = hit.HitName,
                         .Regulator = hit.QueryName,
