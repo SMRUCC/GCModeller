@@ -42,4 +42,5 @@
 Public Class CLIGroups
 
     Public Const WebAPI$ = "Web api"
+    Public Const RegulonTools$ = "Regulon Builders"
 End Class
