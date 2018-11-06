@@ -172,7 +172,7 @@ Partial Module CLI
         Dim bbh As Dictionary(Of String, BBHIndex()) = [in] _
             .LoadCsv(Of BBHIndex) _
             .Where(Function(map)
-                       Return Not map.HitName.StringEmpty AndAlso map.identities > 0
+                       Return Not map.HitName.StringEmpty AndAlso (map.identities > 0 OrElse Val(map!Identities) > 0)
                    End Function) _
             .GroupBy(Function(map) map.QueryName) _
             .ToDictionary(Function(map) map.Key.Split(":"c).Last,
