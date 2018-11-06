@@ -44,6 +44,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
@@ -161,7 +162,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/out <save.csv>]")>
+    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/description <KEGG_genomes.fasta> /out <save.csv>]")>
     <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
     <Group(CLIGroups.RegulonTools)>
     Public Function RegulatorsBBh(args As CommandLine) As Integer
@@ -174,15 +175,76 @@ Partial Module CLI
                        Return Not map.HitName.StringEmpty AndAlso map.identities > 0
                    End Function) _
             .GroupBy(Function(map) map.QueryName) _
-            .ToDictionary(Function(map) map.Key,
+            .ToDictionary(Function(map) map.Key.Split(":"c).Last,
                           Function(g)
                               Return g.ToArray
                           End Function)
+        Dim getDescription As Func(Of String, String)
 
+        With args <= "/description"
+            If .FileExists Then
+                Dim titles = FastaFile.Read(.ByRef) _
+                    .Select(Function(seq) seq.Title.GetTagValue) _
+                    .ToDictionary(Function(seq) seq.Name,
+                                  Function(seq)
+                                      Return seq.Value
+                                  End Function)
+                getDescription = AddressOf titles.TryGetValue
+            Else
+                getDescription = Function() ""
+            End If
+        End With
 
+        Using regulators As New WriteStream(Of RegPreciseRegulatorMatch)(out)
+            Dim map As RegPreciseRegulatorMatch
 
-        For Each genome As BacteriaRegulome In (ls - l - r - "*.Xml" <= repo).Select(AddressOf LoadXml(Of BacteriaRegulome))
+            For Each genome As BacteriaRegulome In (ls - l - r - "*.Xml" <= repo).Select(AddressOf LoadXml(Of BacteriaRegulome))
+                Dim genomeName$ = genome.genome.name
 
-        Next
+                For Each regulator In genome.regulons.regulators
+                    If Not regulator.type = Types.TF Then
+                        Call $"Not working for non-TF type: {regulator.regulog.name}".Warning
+                        Continue For
+                    End If
+                    If regulator.locus_tag.name.StringEmpty Then
+                        Call $"Empty locus_tag: {regulator.regulog.name}?".Warning
+                        Continue For
+                    End If
+                    If Not bbh.ContainsKey(regulator.locus_tag.name) Then
+                        ' no maps
+                        Call Console.Write(".")
+                        Continue For
+                    End If
+
+                    Dim motifSites$() = regulator.regulatorySites _
+                        .Select(Function(site)
+                                    Return $"{site.locus_tag}:{site.position}"
+                                End Function) _
+                        .ToArray
+
+                    For Each hit As BBHIndex In bbh(regulator.locus_tag.name)
+                        map = New RegPreciseRegulatorMatch With {
+                            .biological_process = regulator.biological_process,
+                            .effector = regulator.effector,
+                            .Family = regulator.family,
+                            .Identities = hit.identities,
+                            .mode = regulator.regulationMode,
+                            .Query = hit.HitName,
+                            .Regulator = hit.QueryName,
+                            .Regulog = regulator.regulog.name,
+                            .species = genomeName,
+                            .RegulonSites = motifSites,
+                            .Description = getDescription(hit.QueryName)
+                        }
+
+                        Call regulators.Flush(map)
+                    Next
+                Next
+
+                Call genome.genome.name.__DEBUG_ECHO
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
