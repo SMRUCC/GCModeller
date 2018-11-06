@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::61f30121e1d6a20ab25cb648c7810a6e, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Designer
-    ' 
-    '         Properties: AvailableInterpolates, Category31, ClusterColour, ColorBrewer, ConsoleColors
-    '                     MaterialPalette, Rainbow, TSF
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __constraint, __internalFills, Colors, CubicSpline, FromNames
-    '                   FromSchema, GetBrushes, (+2 Overloads) GetColors, GetColorsInternal, IsColorNameList
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Designer
+' 
+'         Properties: AvailableInterpolates, Category31, ClusterColour, ColorBrewer, ConsoleColors
+'                     MaterialPalette, Rainbow, TSF
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __constraint, __internalFills, Colors, CubicSpline, FromNames
+'                   FromSchema, GetBrushes, (+2 Overloads) GetColors, GetColorsInternal, IsColorNameList
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Interpolation
@@ -284,10 +285,20 @@ Namespace Drawing2D.Colors
             "#988ED5", "#027093", "#73945A", "#8C564B", "#9467BD", "#D62829", "#2CA02C"
         }.AsColor()
 
+        Const rgbPattern$ = "rgb\(\d+\s*(,\s*\d+\s*)+\)"
+        Const rgbListPattern$ = rgbPattern & "(\s*,\s*" & rgbPattern & ")+"
+
         <Extension>
         Private Function IsColorNameList(exp$) As Boolean
+            ' 因为function和rgb表达式都存在括号
+            ' 所以在这里需要先判断是否为颜色表达式的列表
+            If exp.IsPattern(rgbListPattern, RegexICSng) Then
+                ' 颜色列表
+                Return True
+            End If
+
             If Not exp.IsPattern(DesignerExpression.FunctionPattern) AndAlso InStr(exp, ",") > 0 Then
-                If exp.IsPattern("rgb\(\d+\s*(,\s*\d+\s*)+\)") Then
+                If exp.IsPattern(rgbPattern) Then
                     ' 单个rgb表达式的情况，肯定不是颜色列表
                     Return False
                 Else
@@ -295,6 +306,30 @@ Namespace Drawing2D.Colors
                 End If
             Else
                 Return False
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 在这个函数里，需要保证颜色的顺序和表达式之中所输入的顺序一致
+        ''' </summary>
+        ''' <param name="expr"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个函数不支持rgb表达式与颜色名称，html颜色表达式混合
+        ''' </remarks>
+        <Extension>
+        Private Function SplitColorList(expr As String) As String()
+            If expr.IsPattern(rgbListPattern, RegexICSng) Then
+                ' 因为不支持混合，所以只能够出现rgb表达式列表
+                ' 在这里如果符合字符串模式的话，就直接使用正则
+                ' 进行列表元素的匹配操作了
+                Return expr _
+                    .Matches(rgbPattern, RegexICSng) _
+                    .ToArray
+            Else
+                ' 颜色名称和html颜色代码之间可以相互混合
+                ' 但是不允许出现rgb表达式
+                Return expr.StringSplit(",\s*")
             End If
         End Function
 
@@ -308,10 +343,9 @@ Namespace Drawing2D.Colors
         ''' <returns></returns>
         Public Function GetColors(exp$) As Color()
             If exp.IsColorNameList Then
-                ' 设计器的表达式解析器目前不兼容颜色列表的表达式
-                Return exp _
-                    .StringSplit(",\s*") _
-                    .Select(Function(c) c.TranslateColor) _
+                Return Designer _
+                    .SplitColorList(exp) _
+                    .Select(AddressOf TranslateColor) _
                     .ToArray
             Else
                 With New DesignerExpression(exp)
@@ -325,8 +359,7 @@ Namespace Drawing2D.Colors
                 Return New ColorMap(20, 255).ColorSequence(term)
             End If
 
-            Dim key As NamedValue(Of String) =
-                Drawing2D.Colors.ColorBrewer.ParseName(term)
+            Dim key As NamedValue(Of String) = Drawing2D.Colors.ColorBrewer.ParseName(term)
 
             If ColorBrewer.ContainsKey(key.Name) Then
                 Return ColorBrewer(key.Name).GetColors(key.Value)
@@ -399,20 +432,13 @@ Namespace Drawing2D.Colors
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function FromNames(colors$(), n%) As Color()
-            Return colors.Select(AddressOf ToColor).__internalFills(n)
+            Return colors.Select(AddressOf ToColor).internalFills(n)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function __internalFills(colors As IEnumerable(Of Color), n As Integer) As Color()
-            Dim out As New List(Of Color)(colors)
-            Dim i As Integer = Scan0
-
-            Do While out.Count < n
-                out.Add(out(i))
-                i += 1
-            Loop
-
-            Return out.ToArray
+        Private Function internalFills(colors As IEnumerable(Of Color), n%) As Color()
+            Return New LoopArray(Of Color)(colors).Take(n).ToArray
         End Function
 
         ''' <summary>
@@ -421,8 +447,10 @@ Namespace Drawing2D.Colors
         ''' <param name="term$"></param>
         ''' <param name="n%"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function FromSchema(term$, n%) As Color()
-            Return GetColors(term).__internalFills(n)
+            Return GetColors(term).internalFills(n)
         End Function
 
         ''' <summary>

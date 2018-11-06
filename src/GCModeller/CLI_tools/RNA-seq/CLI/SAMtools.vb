@@ -404,7 +404,7 @@ Partial Module CLI
 
                     ALL += array.Length
 
-                    Call writer.Flush(array, False)
+                    Call writer.Flush(array)
                 Next
 
                 stat = IDstats _

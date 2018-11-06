@@ -677,24 +677,64 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' <returns></returns>
     ''' 
     <ExportAPI("/assign.fasta.taxonomy")>
-    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /out <out.directory>]")>
+    <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /append <data.csv> /summary.tsv /out <out.directory>]")>
     <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
               Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
+    <Argument("/append", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(EntityObject)},
+              Description:="If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
+              This file should have a column named ``ID`` correspond to the ``accession_id``, 
+              or a column named ``Species`` correspond to the ``species`` from NCBI taxonomy.")>
+    <Argument("/summary.tsv", True, CLITypes.Boolean, Description:="The output summary table file saved in tsv format.")>
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable
         Dim taxonomyTree = New NcbiTaxonomyTree(args <= "/taxonomy")
         Dim out$ = [in].TrimSuffix
-        Dim headers$() = {"title", "taxid"} _
+        Dim headers As List(Of String) = {"title", "taxid"} _
             .JoinIterates(NcbiTaxonomyTree.stdranks.Reverse) _
-            .ToArray
+            .AsList
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer
+        Dim append$ = args <= "/append"
+        Dim appendByID As Boolean
+        Dim indexAppendData As Dictionary(Of String, EntityObject) = Nothing
 
         Call grep.Explains.JoinBy(vbCrLf & "--> ").__INFO_ECHO
 
+        If append.FileExists Then
+            Dim map$ = Nothing
+
+            If EntityObject.ContainsIDField(append) Then
+                appendByID = True
+                map = NameOf(EntityObject.ID)
+
+                Call "Additional data will index by [accession ID]".__DEBUG_ECHO
+            Else
+                appendByID = False
+                map = "Species"
+
+                Call "Additional data will index by [Species] field".__DEBUG_ECHO
+            End If
+
+            indexAppendData = EntityObject _
+                .LoadDataSet(append, uidMap:=map) _
+                .GroupBy(Function(d) d.ID) _
+                .ToDictionary(Function(g) g.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
+
+            headers = headers + indexAppendData.First.Value.EnumerateKeys
+        Else
+            indexAppendData = New Dictionary(Of String, EntityObject)
+        End If
+
         Using fastaWriter As StreamWriter = $"{out}/taxonomy.fasta".OpenWriter(Encodings.ASCII),
-              summary As New WriteStream(Of EntityObject)($"{out}/summary.csv", metaKeys:=headers)
+              summary As New WriteStream(Of EntityObject)(
+                  path:=$"{out}/summary.csv" Or $"{out}/summary.txt".When(args("/summary.tsv")),
+                  metaKeys:=headers,
+                  tsv:=args("/summary.tsv")
+              )
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim title = seq.Title
@@ -727,6 +767,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                 Dim table = TaxonomyNode.RankTable(nodes.First.Value)
                 Dim taxonomy$
                 Dim lineage$()
+                Dim additionals As EntityObject = Nothing
 
                 With New SMRUCC.genomics.Metagenomics.Taxonomy
                     .class = table.TryGetValue(NcbiTaxonomyTree.class)
@@ -739,9 +780,19 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
                     taxonomy = $"k__{ .kingdom};p__{ .phylum};c__{ .class};o__{ .order};f__{ .family};g__{ .genus};s__{ .species}"
                     lineage = .ToArray
+
+                    If appendByID Then
+                        additionals = indexAppendData.TryGetValue(accession)
+                    Else
+                        additionals = indexAppendData.TryGetValue(.species)
+                    End If
                 End With
 
-                seq.Headers = {title, taxid, taxonomy}
+                If Not additionals Is Nothing Then
+                    seq.Headers = New String() {title, taxid, taxonomy}.Join(additionals.Properties.Select(Function(tuple) $"{tuple.Key}={tuple.Value}"))
+                Else
+                    seq.Headers = New String() {title, taxid, taxonomy}
+                End If
 
                 Call fastaWriter.WriteLine(seq.GenerateDocument(-1))
                 Call summary.Flush(New EntityObject With {
@@ -756,7 +807,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                              {NcbiTaxonomyTree.family, lineage(4)},
                              {NcbiTaxonomyTree.genus, lineage(5)},
                              {NcbiTaxonomyTree.species, lineage(6)}
-                         }
+                         }.AddRange(
+                            data:=additionals?.Properties,
+                            replaceDuplicated:=True
+                         )
                      })
             Next
         End Using
