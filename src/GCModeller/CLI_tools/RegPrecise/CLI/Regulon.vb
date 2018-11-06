@@ -201,7 +201,7 @@ Partial Module CLI
             For Each genome As BacteriaRegulome In (ls - l - r - "*.Xml" <= repo).Select(AddressOf LoadXml(Of BacteriaRegulome))
                 Dim genomeName$ = genome.genome.name
 
-                For Each regulator In genome.regulons.regulators
+                For Each regulator As Regulator In genome.regulons.regulators
                     If Not regulator.type = Types.TF Then
                         Call $"Not working for non-TF type: {regulator.regulog.name}".Warning
                         Continue For
@@ -241,7 +241,7 @@ Partial Module CLI
                     Next
                 Next
 
-                Call genome.genome.name.__DEBUG_ECHO
+                Call genomeName.__DEBUG_ECHO
             Next
         End Using
 
