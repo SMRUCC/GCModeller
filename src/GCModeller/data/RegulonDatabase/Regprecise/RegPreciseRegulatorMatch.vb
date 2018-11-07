@@ -68,6 +68,61 @@ Namespace Regprecise
         End Function
     End Class
 
+    ''' <summary>
+    ''' 调控关系
+    ''' </summary>
+    Public Class RegulationFootprint
+        ''' <summary>
+        ''' 预测出来的基因组之中的调控因子的基因编号
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property regulator As String
+        Public Property family As String
+        ''' <summary>
+        ''' 预测出来的被调控的基因
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property regulated As String
+        Public Property motif As NucleotideLocation
+        ''' <summary>
+        ''' motif位点到被调控的基因之间的最短距离
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property distance As Integer
+        ''' <summary>
+        ''' 受调控的基因的功能
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property product As String
+        Public Property regulog As String
+        Public Property biological_process As String
+        Public Property effector As String
+        Public Property mode As String
+
+        ''' <summary>
+        ''' 来自于RegPrecise数据库之中的调控因子注释来源
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property regprecise As String
+        ''' <summary>
+        ''' 相似度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Identities As Double
+
+        ''' <summary>
+        ''' 注释来源的基因组名称
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property species As String
+
+        ''' <summary>
+        ''' motif位点的预测来源
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property src As String()
+    End Class
+
     Public Class FootprintSite : Inherits MotifSiteMatch
 
         ''' <summary>
