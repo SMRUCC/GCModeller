@@ -111,33 +111,70 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT, name:=gb.Source.SpeciesName)
 
-        Using output As New WriteStream(Of MotifSiteMatch)(out)
+        Using output As New WriteStream(Of FootprintSite)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
                 Dim strand As Strands = site.MappingLocation.Strand
                 Dim downstream As GeneBrief()
+                Dim footprint As FootprintSite
 
                 ' 挑选出下游的基因
                 If strand = Strands.Forward Then
                     Dim min = site.MappingLocation.Right
                     Dim max = site.MappingLocation.Right + maxDist - 1
+                    Dim left = site.MappingLocation.Left
 
                     downstream = context _
                         .SelectByRange(min, max, Strands.Forward) _
+                        .Where(Function(gene)
+                                   ' gene的left要大于位点的最左端
+                                   ' 即取出下游
+                                   Return gene.Location.Left > left
+                               End Function) _
                         .ToArray
+
+                    For Each gene As GeneBrief In downstream
+                        footprint = New FootprintSite With {
+                            .distance = gene.Location.Left - min, ' 起始位点减去区域的最右边
+                            .left = site.MappingLocation.Left,
+                            .right = site.MappingLocation.Right,
+                            .strand = site.strand,
+                            .genes = gene.Synonym,
+                            .ID = site.ID,
+                            .location = gene.Location,
+                            .product = gene.Product,
+                            .src = site.src
+                        }
+                        output.Flush(footprint)
+                    Next
                 Else
                     Dim max = site.MappingLocation.Left + 1
                     Dim min = max - maxDist + 1
+                    Dim right = site.MappingLocation.Right
 
                     downstream = context _
                         .SelectByRange(min, max, Strands.Reverse) _
+                        .Where(Function(gene)
+                                   ' gene的right要小于位点的最右端
+                                   ' 即取出下游
+                                   Return gene.Location.Right < right
+                               End Function) _
                         .ToArray
+
+                    For Each gene As GeneBrief In downstream
+                        footprint = New FootprintSite With {
+                            .distance = max - gene.Location.Right, ' 区域的最左边减去基因的起始位点
+                            .genes = gene.Synonym,
+                            .ID = site.ID,
+                            .left = site.left,
+                            .right = site.right,
+                            .location = gene.Location,
+                            .product = gene.Product,
+                            .src = site.src,
+                            .strand = site.strand
+                        }
+                        output.Flush(footprint)
+                    Next
                 End If
-
-                site.genes = downstream _
-                    .Select(Function(gene) gene.Synonym) _
-                    .ToArray
-
-                Call output.Flush(site)
             Next
         End Using
 

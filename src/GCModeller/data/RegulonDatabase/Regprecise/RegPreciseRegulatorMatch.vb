@@ -54,11 +54,6 @@ Namespace Regprecise
         Public Property right As Integer
         Public Property strand As String
 
-        ''' <summary>
-        ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因列表
-        ''' </summary>
-        ''' <returns></returns>
-        <Collection("downstream-context", "|")> Public Property genes As String()
         <Collection("src", "|")> Public Property src As String()
 
         Public ReadOnly Property hits As Integer
@@ -71,5 +66,31 @@ Namespace Regprecise
         Protected Overrides Function __getMappingLoci() As NucleotideLocation
             Return New NucleotideLocation(left, right, strand)
         End Function
+    End Class
+
+    Public Class FootprintSite : Inherits MotifSiteMatch
+
+        ''' <summary>
+        ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因
+        ''' </summary>
+        ''' <returns></returns>
+        <Column("downstream-context")>
+        Public Property genes As String
+        ''' <summary>
+        ''' 这个下游基因的位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property location As NucleotideLocation
+        ''' <summary>
+        ''' 这个基因的转录起始位点到目标位点之间的最小距离
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property distance As Integer
+        ''' <summary>
+        ''' 基因的功能描述
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property product As String
+
     End Class
 End Namespace
