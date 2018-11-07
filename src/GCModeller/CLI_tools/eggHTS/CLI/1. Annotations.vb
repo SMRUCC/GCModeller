@@ -608,7 +608,7 @@ Partial Module CLI
                              axisTitle:="Number Of Proteins",
                              labelRightAlignment:=labelRight,
                              valueFormat:="F0",
-                             colorSchema:=args("/colors") Or DefaultColorSchema) _
+                             colorSchema:=args("/colors") Or DefaultKEGGColorSchema) _
                .Save(out & "/plot.png")
 
         Return 0

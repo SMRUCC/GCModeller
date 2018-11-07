@@ -198,12 +198,6 @@ Rodionov, D. A.", Volume:=14)>
             Return Regprecise.InsertRegulog(Family, Bacteria, FASTA.FastaFile.Read(RegulatorySites), Regulator)
         End Function
 
-        Public Class Matches
-            Public Property RegpreciseRegulator As String
-            Public Property Matched As String()
-            Public Property RegulonSites As String()
-        End Class
-
         Public Interface IRegulatorMatched
             Property Address As String
             Property locusId As String
@@ -211,32 +205,34 @@ Rodionov, D. A.", Volume:=14)>
         End Interface
 
         <ExportAPI("regprecise.matches_regulator")>
-        Public Function RegpreciseRegulatorMatch(Regprecise As TranscriptionFactors, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
+        Public Function RegpreciseRegulatorMatch(Regprecise As TranscriptionFactors, bbh As IEnumerable(Of BiDirectionalBesthit)) As RegPreciseRegulatorMatch()
             Dim LQuery = (From BacteriaGenome As BacteriaRegulome In Regprecise.genomes.AsParallel
                           Select BacteriaGenome.__matches(bbh)).ToArray
             Return LQuery.ToVector
         End Function
 
         <Extension>
-        Private Function __matches(genome As BacteriaRegulome, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
-            Dim LQuery = (From RegpreciseRegulator In genome.regulons.regulators
-                          Let Regulator As String = RegpreciseRegulator.regulator.name
-                          Let mapped = (From maps As BiDirectionalBesthit In bbh
-                                        Where String.Equals(maps.HitName, Regulator)
-                                        Select maps.QueryName).ToArray
-                          Let sites = (From site In RegpreciseRegulator.regulatorySites
-                                       Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray
-                          Let match As Matches = New Matches With {
-                              .RegpreciseRegulator = Regulator,
-                              .RegulonSites = sites,
-                              .Matched = mapped
-                          }
-                          Select match).ToArray
-            Return LQuery
+        Private Function __matches(genome As BacteriaRegulome, bbh As IEnumerable(Of BiDirectionalBesthit)) As RegPreciseRegulatorMatch()
+            'Dim LQuery = (From RegpreciseRegulator In genome.regulons.regulators
+            '              Let Regulator As String = RegpreciseRegulator.regulator.name
+            '              Let mapped = (From maps As BiDirectionalBesthit In bbh
+            '                            Where String.Equals(maps.HitName, Regulator)
+            '                            Select maps.QueryName).ToArray
+            '              Let sites = (From site In RegpreciseRegulator.regulatorySites
+            '                           Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray
+            '              Let match As RegPreciseRegulatorMatch = New RegPreciseRegulatorMatch With {
+            '                  .Regulator = Regulator,
+            '                  .RegulonSites = sites,
+            '                  .Query = mapped
+            '              }
+            '              Select match).ToArray
+            'Return LQuery
+
+            Throw New NotImplementedException
         End Function
 
         <ExportAPI("Write.Csv.Matches")>
-        Public Function WriteMatches(data As IEnumerable(Of Matches), saveto As String) As Boolean
+        Public Function WriteMatches(data As IEnumerable(Of RegPreciseRegulatorMatch), saveto As String) As Boolean
             Return data.SaveTo(saveto, False)
         End Function
 
@@ -246,8 +242,8 @@ Rodionov, D. A.", Volume:=14)>
         End Function
 
         <ExportAPI("Read.Csv.Regprecise")>
-        Public Function ReadCsv(path As String) As Regprecise.Matches()
-            Return path.LoadCsv(Of Regprecise.Matches)(False).ToArray
+        Public Function ReadCsv(path As String) As Regprecise.RegPreciseRegulatorMatch()
+            Return path.LoadCsv(Of Regprecise.RegPreciseRegulatorMatch)(False).ToArray
         End Function
 
         <ExportAPI("Family.Statics")>
@@ -379,7 +375,7 @@ Rodionov, D. A.", Volume:=14)>
                                  In Regulon.regulatorySites
                                  Let site = New KeyValuePairData(Of Regtransbase.WebServices.MotifFasta) With {
                                      .Key = Regulon.family,
-                                     .Value = Regulon.Regulog.name,
+                                     .Value = Regulon.regulog.name,
                                      .DataObject = x
                                  }
                                  Select site).ToArray
@@ -484,7 +480,7 @@ Rodionov, D. A.", Volume:=14)>
 
                     Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(Path))
                     Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
-                                                                     Regulator.Regulog.name,
+                                                                     Regulator.regulog.name,
                                                                      String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
                     lcl += 1
                     FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
