@@ -109,7 +109,7 @@ Partial Module CLI
         Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
         Dim maxDist% = args("/max.dist") Or 500
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
-        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT, name:=gb.Source.SpeciesName)
+        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
 
         Using output As New WriteStream(Of FootprintSite)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
