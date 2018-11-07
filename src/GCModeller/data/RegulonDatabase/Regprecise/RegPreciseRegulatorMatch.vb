@@ -83,6 +83,8 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Property regulated As String
+
+        <Column("motif-context", GetType(NucleotideLocationParser))>
         Public Property motif As NucleotideLocation
         ''' <summary>
         ''' motif位点到被调控的基因之间的最短距离
@@ -134,6 +136,8 @@ Namespace Regprecise
         ''' 这个下游基因的位置
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <Column("location", GetType(NucleotideLocationParser))>
         Public Property location As NucleotideLocation
         ''' <summary>
         ''' 这个基因的转录起始位点到目标位点之间的最小距离
