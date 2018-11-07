@@ -1,49 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::f80f40e68fa0eff94fe8c4da7a951292, CLI_tools\VirtualFootprint\CLI\Sites.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: MergeSites, TrimStrand
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: MergeSites, TrimStrand
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -89,5 +94,90 @@ Partial Module CLI
         End If
 
         Return sites.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 获取得到给定位点相关的下游基因列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/Site.match.genes")>
+    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/max.dist <default=500bp> /out <out.csv>]")>
+    Public Function MatchSiteGenes(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
+        Dim maxDist% = args("/max.dist") Or 500
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
+        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
+
+        Using output As New WriteStream(Of FootprintSite)(out)
+            For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
+                Dim strand As Strands = site.MappingLocation.Strand
+                Dim downstream As GeneBrief()
+                Dim footprint As FootprintSite
+
+                ' 挑选出下游的基因
+                If strand = Strands.Forward Then
+                    Dim min = site.MappingLocation.Right
+                    Dim max = site.MappingLocation.Right + maxDist - 1
+                    Dim left = site.MappingLocation.Left
+
+                    downstream = context _
+                        .SelectByRange(min, max, Strands.Forward) _
+                        .Where(Function(gene)
+                                   ' gene的left要大于位点的最左端
+                                   ' 即取出下游
+                                   Return gene.Location.Left > left
+                               End Function) _
+                        .ToArray
+
+                    For Each gene As GeneBrief In downstream
+                        footprint = New FootprintSite With {
+                            .distance = gene.Location.Left - min, ' 起始位点减去区域的最右边
+                            .left = site.MappingLocation.Left,
+                            .right = site.MappingLocation.Right,
+                            .strand = site.strand,
+                            .gene = gene.Synonym,
+                            .ID = site.ID,
+                            .location = gene.Location,
+                            .product = gene.Product,
+                            .src = site.src
+                        }
+                        output.Flush(footprint)
+                    Next
+                Else
+                    Dim max = site.MappingLocation.Left + 1
+                    Dim min = max - maxDist + 1
+                    Dim right = site.MappingLocation.Right
+
+                    downstream = context _
+                        .SelectByRange(min, max, Strands.Reverse) _
+                        .Where(Function(gene)
+                                   ' gene的right要小于位点的最右端
+                                   ' 即取出下游
+                                   Return gene.Location.Right < right
+                               End Function) _
+                        .ToArray
+
+                    For Each gene As GeneBrief In downstream
+                        footprint = New FootprintSite With {
+                            .distance = max - gene.Location.Right, ' 区域的最左边减去基因的起始位点
+                            .gene = gene.Synonym,
+                            .ID = site.ID,
+                            .left = site.left,
+                            .right = site.right,
+                            .location = gene.Location,
+                            .product = gene.Product,
+                            .src = site.src,
+                            .strand = site.strand
+                        }
+                        output.Flush(footprint)
+                    Next
+                End If
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
