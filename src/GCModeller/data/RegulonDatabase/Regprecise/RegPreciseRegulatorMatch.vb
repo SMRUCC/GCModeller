@@ -74,8 +74,7 @@ Namespace Regprecise
         ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因
         ''' </summary>
         ''' <returns></returns>
-        <Column("downstream-context")>
-        Public Property genes As String
+        Public Property gene As String
         ''' <summary>
         ''' 这个下游基因的位置
         ''' </summary>

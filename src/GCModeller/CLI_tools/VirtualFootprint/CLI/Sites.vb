@@ -138,7 +138,7 @@ Partial Module CLI
                             .left = site.MappingLocation.Left,
                             .right = site.MappingLocation.Right,
                             .strand = site.strand,
-                            .genes = gene.Synonym,
+                            .gene = gene.Synonym,
                             .ID = site.ID,
                             .location = gene.Location,
                             .product = gene.Product,
@@ -163,7 +163,7 @@ Partial Module CLI
                     For Each gene As GeneBrief In downstream
                         footprint = New FootprintSite With {
                             .distance = max - gene.Location.Right, ' 区域的最左边减去基因的起始位点
-                            .genes = gene.Synonym,
+                            .gene = gene.Synonym,
                             .ID = site.ID,
                             .left = site.left,
                             .right = site.right,
