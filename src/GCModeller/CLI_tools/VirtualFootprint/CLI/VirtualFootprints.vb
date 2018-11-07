@@ -678,19 +678,16 @@ Partial Module CLI
                                       .JoinBy(":")
                           End Function, hits:=hitsBase) _
             .ToArray
-        Dim output As EntityObject() = motifSites _
+        Dim output As MotifSiteMatch() = motifSites _
             .Select(Function(site)
                         Dim targets As String() = site.Description.LoadJSON(Of String())
 
-                        Return New EntityObject With {
+                        Return New MotifSiteMatch With {
                             .ID = site.Name,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"left", site.Value.Left},
-                                {"right", site.Value.Right},
-                                {"strain", site.Value.Strand.GetBriefCode},
-                                {"hits", targets.Length},
-                                {"src", targets.JoinBy("|")}
-                            }
+                            .left = site.Value.Left,
+                            .right = site.Value.Right,
+                            .strand = site.Value.Strand.GetBriefCode,
+                            .src = targets
                         }
                     End Function) _
             .ToArray

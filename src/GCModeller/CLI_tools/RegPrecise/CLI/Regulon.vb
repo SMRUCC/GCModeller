@@ -51,6 +51,9 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -121,6 +124,24 @@ Partial Module CLI
         result = New List(Of MotifLog)(result.OrderBy(Function(x) x.ID))
 #End If
         Return result.SaveTo(out)
+    End Function
+
+    ''' <summary>
+    ''' 获取得到给定位点相关的下游基因列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/Site.match.genes")>
+    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/max.dist <default=500bp> /out <out.csv>]")>
+    Public Function MatchSiteGenes(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
+        Dim maxDist% = args("/max.dist") Or 500
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
+        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT, name:=gb.Source.SpeciesName)
+
+
     End Function
 
     <ExportAPI("/Export.Regprecise.motifs")>
