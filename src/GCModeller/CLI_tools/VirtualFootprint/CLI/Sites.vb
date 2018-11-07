@@ -114,7 +114,30 @@ Partial Module CLI
         Using output As New WriteStream(Of MotifSiteMatch)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
                 Dim strand As Strands = site.MappingLocation.Strand
-                Dim downstream = context.SelectByRange()
+                Dim downstream As GeneBrief()
+
+                ' 挑选出下游的基因
+                If strand = Strands.Forward Then
+                    Dim min = site.MappingLocation.Right
+                    Dim max = site.MappingLocation.Right + maxDist - 1
+
+                    downstream = context _
+                        .SelectByRange(min, max, Strands.Forward) _
+                        .ToArray
+                Else
+                    Dim max = site.MappingLocation.Left + 1
+                    Dim min = max - maxDist + 1
+
+                    downstream = context _
+                        .SelectByRange(min, max, Strands.Reverse) _
+                        .ToArray
+                End If
+
+                site.genes = downstream _
+                    .Select(Function(gene) gene.Synonym) _
+                    .ToArray
+
+                Call output.Flush(site)
             Next
         End Using
 
