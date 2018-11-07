@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -52,7 +53,13 @@ Namespace Regprecise
         Public Property left As Integer
         Public Property right As Integer
         Public Property strand As String
-        Public Property src As String()
+
+        ''' <summary>
+        ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因列表
+        ''' </summary>
+        ''' <returns></returns>
+        <Collection("downstream-context", "|")> Public Property genes As String()
+        <Collection("src", "|")> Public Property src As String()
 
         Public ReadOnly Property hits As Integer
             Get

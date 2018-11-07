@@ -126,24 +126,6 @@ Partial Module CLI
         Return result.SaveTo(out)
     End Function
 
-    ''' <summary>
-    ''' 获取得到给定位点相关的下游基因列表
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    ''' 
-    <ExportAPI("/Site.match.genes")>
-    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/max.dist <default=500bp> /out <out.csv>]")>
-    Public Function MatchSiteGenes(args As CommandLine) As Integer
-        Dim in$ = args <= "/in"
-        Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
-        Dim maxDist% = args("/max.dist") Or 500
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
-        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT, name:=gb.Source.SpeciesName)
-
-
-    End Function
-
     <ExportAPI("/Export.Regprecise.motifs")>
     <Usage("/Export.Regprecise.motifs /in <dir=genome_regprecise.xml> [/out <motifs.fasta>]")>
     <Description("Export Regprecise motif sites as a single fasta sequence file.")>
