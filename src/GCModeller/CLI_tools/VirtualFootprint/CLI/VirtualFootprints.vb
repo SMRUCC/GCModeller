@@ -495,6 +495,71 @@ Partial Module CLI
     End Function
 
     ''' <summary>
+    ''' 将调控因子预测和调控位点预测组装为调控关系网络
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/regulation.footprints")>
+    <Usage("/regulation.footprints /regulator <regprecise.regulator.csv> /footprint <motif_context.csv> [/out <regulation.csv>]")>
+    <Argument("/regulator", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegPreciseRegulatorMatch)})>
+    <Argument("/footprint", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(FootprintSite)})>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
+    Public Function RegulationFootprints(args As CommandLine) As Integer
+        Dim regulator$ = args <= "/regulator"
+        Dim footprint$ = args <= "/footprint"
+        Dim out$ = args("/out") Or $"{regulator.TrimSuffix}_{footprint.BaseName}.regulation-footprints.csv"
+        Dim regulators = regulator.LoadCsv(Of RegPreciseRegulatorMatch)
+        Dim footprints = footprint.LoadCsv(Of FootprintSite) _
+            .Select(Function(gene)
+                        Return gene.src.Select(Function(tag) (tag, gene))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(t) t.Item1) _
+            .ToDictionary(Function(tag) tag.Key,
+                          Function(genes)
+                              Return genes _
+                                  .Select(Function(site) site.Item2) _
+                                  .ToArray
+                          End Function)
+
+        Using regulations As New WriteStream(Of RegulationFootprint)(out)
+            Dim regulation As RegulationFootprint
+
+            For Each predict As RegPreciseRegulatorMatch In regulators
+                For Each site As String In predict.RegulonSites
+                    Dim genes As FootprintSite() = footprints.TryGetValue(site)
+
+                    If genes Is Nothing Then
+                        Continue For
+                    End If
+
+                    For Each gene As FootprintSite In genes
+                        regulation = New RegulationFootprint With {
+                            .biological_process = predict.biological_process,
+                            .distance = gene.distance,
+                            .effector = predict.effector,
+                            .family = predict.Family,
+                            .Identities = predict.Identities,
+                            .mode = predict.mode,
+                            .motif = New NucleotideLocation(gene.left, gene.right, gene.strand),
+                            .product = gene.product,
+                            .regprecise = predict.Regulator,
+                            .regulated = gene.gene,
+                            .regulator = predict.Query,
+                            .regulog = predict.Regulog,
+                            .species = predict.species,
+                            .site = site
+                        }
+                        regulations.Flush(regulation)
+                    Next
+                Next
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+    ''' <summary>
     ''' 位点数太少了
     ''' </summary>
     ''' <param name="args"></param>

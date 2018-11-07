@@ -120,7 +120,7 @@ Namespace Regprecise
         ''' motif位点的预测来源
         ''' </summary>
         ''' <returns></returns>
-        Public Property src As String()
+        Public Property site As String
     End Class
 
     Public Class FootprintSite : Inherits MotifSiteMatch
