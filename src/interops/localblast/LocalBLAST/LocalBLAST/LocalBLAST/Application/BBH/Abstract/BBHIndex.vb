@@ -152,5 +152,13 @@ Namespace LocalBLAST.Application.BBH.Abstract
                                            Function(x) (From o In x.Group Select o.Value Distinct).ToArray)
             End If
         End Function
+
+        Public Shared Function GetIdentities(map As BBHIndex) As Double
+            If map.Properties.ContainsKey(NameOf(BiDirectionalBesthit.Identities)) Then
+                Return Val(map.Properties(NameOf(BiDirectionalBesthit.Identities)))
+            Else
+                Return map.identities
+            End If
+        End Function
     End Class
 End Namespace
