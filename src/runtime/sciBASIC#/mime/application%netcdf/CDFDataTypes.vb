@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::744d821b68c4d06cbdde77dd4d9e2937, mime\application%netcdf\netCDF.vb"
+﻿#Region "Microsoft.VisualBasic::0c9b05f09bf9f51e59576d0f689cc1d6, mime\application%netcdf\CDFDataTypes.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,10 @@
 
     ' Summaries:
 
-    ' Class netCDF
+    ' Enum CDFDataTypes
+    ' 
+    ' 
+    '  
     ' 
     ' 
     ' 
@@ -39,6 +42,16 @@
 
 #End Region
 
-Public Class netCDF
+''' <summary>
+''' The enum values of the CDF data types.
+''' </summary>
+Public Enum CDFDataTypes As Integer
+    undefined = -1
 
-End Class
+    [BYTE] = 1
+    [CHAR] = 2
+    [SHORT] = 3
+    [INT] = 4
+    [FLOAT] = 5
+    [DOUBLE] = 6
+End Enum

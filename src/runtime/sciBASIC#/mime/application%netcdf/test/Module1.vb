@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d890aaf82056deea111b80052697499c, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Tree\BinaryTree\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::cd92c5926b37b0e1d187e3a73637714b, mime\application%netcdf\test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,32 @@
 
     ' Summaries:
 
-    '     Class TreeMap
+    ' Module Module1
     ' 
-    '         Properties: Key, value
-    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application.netCDF
+Imports Microsoft.VisualBasic.Text
 
-Namespace ComponentModel.DataStructures.BinaryTree
+Module Module1
 
-    Public MustInherit Class TreeMap(Of K, V)
-        Implements IKeyedEntity(Of K)
-        Implements Value(Of V).IValueOf
-        Implements IComparable(Of K)
+    Sub Main()
+        Dim path$ = "D:\smartnucl_integrative\biodeepDB\smartnucl_integrative\16s_contents\SCFA\scfa200ppmAIAEXPRT.AIA\200ppm-未处理.CDF"
+        Dim file As New netCDFReader(path, Encodings.UTF8WithoutBOM)
 
-        Public Property Key As K Implements IKeyedEntity(Of K).Key
-        Public Property value As V Implements Value(Of V).IValueOf.Value
+        Call file.ToString.__DEBUG_ECHO
 
-        Public MustOverride Function CompareTo(other As K) As Integer Implements IComparable(Of K).CompareTo
+        Dim massvalue = file.getDataVariable("mass_values")
 
-    End Class
-End Namespace
+        Call Xml.SaveAsXml(file, "./output_dump.Xml")
+
+
+        Pause()
+    End Sub
+
+End Module
+
