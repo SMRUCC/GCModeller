@@ -39,9 +39,12 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' 
@@ -167,8 +170,9 @@ Public Class netCDFReader
             .ToDictionary(Function(var) var.name)
     End Sub
 
-    Sub New(path As String)
-        Call Me.New(path.OpenBinaryReader(Text.Encodings.UTF8WithoutBOM))
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(path$, Optional encoding As Encodings = Encodings.UTF8)
+        Call Me.New(path.OpenBinaryReader(encoding))
     End Sub
 
     ''' <summary>
@@ -176,15 +180,12 @@ Public Class netCDFReader
     ''' </summary>
     ''' <param name="variableName">variableName</param>
     ''' <returns>Value of the variable as a string Or undefined</returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function getDataVariableAsString(variableName As String) As String
-        Try
-            Return getDataVariable(variableName) _
-                .JoinBy("") _
-                .Trim()
-        Catch e As Exception
-            Call e.PrintException
-            Return Nothing
-        End Try
+        Return getDataVariable(variableName) _
+            .JoinBy("") _
+            .Trim()
     End Function
 
     ''' <summary>
@@ -193,14 +194,14 @@ Public Class netCDFReader
     ''' <returns>List with the variable values</returns>
     Public Function getDataVariable(variable As variable) As Object()
         ' go to the offset position
-        Call buffer.Seek(variable.offset)
+        Call buffer.Seek(variable.offset, SeekOrigin.Begin)
 
         If (variable.record) Then
             ' record variable case
-            Return Data.record(buffer, variable, header.recordDimension)
+            Return DataReader.record(buffer, variable, header.recordDimension)
         Else
             ' non-record variable case
-            Return Data.nonRecord(buffer, variable)
+            Return DataReader.nonRecord(buffer, variable)
         End If
     End Function
 
