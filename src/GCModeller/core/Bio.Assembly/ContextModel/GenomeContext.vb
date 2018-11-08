@@ -101,16 +101,23 @@ Namespace ContextModel
                              End If
                          End Function) _
                 .ToDictionary(Function(g) g.Key,
-                              Function(g) g.ToArray)
+                              Function(genes)
+                                  Return genes.ToArray
+                              End Function)
 
-            plus = selectByStrand(Strands.Forward)
-            minus = selectByStrand(Strands.Reverse)
-            contextName = name
-            sequence = (plus.AsList + minus) _
-                .OrderBy(Function(g)
-                             Return g.Location.Left
-                         End Function) _
+            ' plus的时候，左边是序列的起始方向
+            ' minus的时候，右边是序列的起始方向
+            plus = selectByStrand(Strands.Forward) _
+                .OrderBy(Function(gene) gene.Location.Left) _
                 .ToArray
+            minus = selectByStrand(Strands.Reverse) _
+                .OrderByDescending(Function(gene) gene.Location.Right) _
+                .ToArray
+            sequence = (plus.AsList + minus) _
+                .OrderBy(Function(gene) gene.Location.Left) _
+                .ToArray
+
+            contextName = name
         End Sub
 
         ''' <summary>
@@ -146,11 +153,30 @@ Namespace ContextModel
             End If
         End Function
 
-        Public Iterator Function SelectByRange(i%, j%) As IEnumerable(Of T)
+        ''' <summary>
+        ''' 将基因组上面的某一区域内的基因对象都查找出来
+        ''' </summary>
+        ''' <param name="i%"></param>
+        ''' <param name="j%"></param>
+        ''' <param name="strand">
+        ''' 默认不限制链的方向
+        ''' </param>
+        ''' <returns></returns>
+        Public Iterator Function SelectByRange(i%, j%, Optional strand As Strands = Strands.Unknown) As IEnumerable(Of T)
             Dim range As New IntRange({i, j})
             Dim start As Boolean
+            Dim source As T()
 
-            For Each gene As T In sequence
+            Select Case strand
+                Case Strands.Forward
+                    source = plus
+                Case Strands.Reverse
+                    source = minus
+                Case Else
+                    source = sequence
+            End Select
+
+            For Each gene As T In source
                 If range.IsOverlapping(gene.Location) OrElse range.IsInside(gene.Location) Then
                     start = True
                     Yield gene
