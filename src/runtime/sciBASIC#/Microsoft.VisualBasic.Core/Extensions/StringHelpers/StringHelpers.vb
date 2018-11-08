@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5c58e9e697cb4661838a17ada631dfa, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::ddd28f8bb961ffa04bddc3d84bee7d12, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -41,10 +41,11 @@
     '               (+2 Overloads) GetTagValue, GetURLs, IgnoreCase, InStrAny, (+2 Overloads) Intersection
     '               IsEmptyStringVector, JoinBy, LineTokens, Located, Lookup
     '               (+2 Overloads) Match, Matches, MatchPattern, (+2 Overloads) MaxLengthString, NotEmpty
-    '               Parts, RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull
-    '               SaveTo, (+2 Overloads) Split, SplitBy, StringEmpty, StringHashCode
-    '               StringReplace, StringSplit, StripBlank, Strips, TextEquals
-    '               TextLast, TokenCount, TokenCountIgnoreCase, TrimNewLine, WildcardsLocated
+    '               PadEnd, Parts, RepeatString, ReplaceChars, (+2 Overloads) Reverse
+    '               RNull, SaveTo, (+2 Overloads) Split, SplitBy, StringEmpty
+    '               StringHashCode, StringReplace, StringSplit, StripBlank, Strips
+    '               TextEquals, TextLast, TokenCount, TokenCountIgnoreCase, TrimNewLine
+    '               TrimNull, WildcardsLocated
     ' 
     '     Sub: Parts, RemoveLast
     ' 
@@ -76,6 +77,22 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' </summary>
 <Package("StringHelpers", Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
 Public Module StringHelpers
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function PadEnd(str$, padLen%, Optional padString As Char = " "c) As String
+        Return str.PadRight(padLen, padString)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function TrimNull(str As String) As String
+        If str Is Nothing Then
+            Return Nothing
+        Else
+            Return str.Trim(ASCII.NUL)
+        End If
+    End Function
 
     <Extension>
     Public Function CharAtOrDefault(s$, index%, Optional [default] As Char = ASCII.NUL) As Char
