@@ -110,7 +110,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
         Dim maxDist% = args("/max.dist") Or 500
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context,max_dist={maxDist}.csv"
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
         Dim nt As FastaSeq = gb.Origin.ToFasta
 
