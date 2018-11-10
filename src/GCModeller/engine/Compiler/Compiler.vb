@@ -72,6 +72,8 @@ Public Module Workflow
 
     <Extension>
     Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
+        Dim genes = model.Genotype.CentralDogmas.ToDictionary
+
         model.Regulations = model.Regulations _
             .AsList + regulations _
             .Select(Function(reg)
@@ -81,7 +83,7 @@ Public Module Workflow
                             .regulator = reg.regulator,
                             .type = Processes.Transcription,
                             .name = reg.biological_process,
-                            .process =
+                            .process = genes(reg.regulated).ToString
                         }
                     End Function)
 

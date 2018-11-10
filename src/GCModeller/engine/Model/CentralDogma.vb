@@ -59,7 +59,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 ''' <summary>
-''' Transcription and Translation
+''' Transcription and Translation.
+''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
 ''' 
 ''' ```
 ''' CDS -> RNA
@@ -97,6 +98,10 @@ Public Structure CentralDogma : Implements INamedValue
         End Get
     End Property
 
+    ''' <summary>
+    ''' 获取得到这个表达过程的名称
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides Function ToString() As String
         If IsRNAGene Then
             Return {geneID, RNAName, polypeptide}.JoinBy(" => ")
