@@ -154,6 +154,12 @@ Public Module Extensions
         Dim centralDogmas = model.Genotype.CentralDogmas.ToDictionary(Function(d) d.geneID)
 
         For Each reg As RegulationFootprint In regulations
+            Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
+
+            If process.geneID.StringEmpty Then
+                Call $"{reg.regulated} process not found!".Warning
+            End If
+
             Yield New TranscriptionRegulation With {
                 .biological_process = reg.biological_process,
                 .distance = reg.distance,
@@ -168,7 +174,7 @@ Public Module Extensions
                     .strand = reg.motif.Strand.GetBriefCode,
                     .sequence = reg.sequenceData
                 },
-                .centralDogma = centralDogmas(.target).ToString
+                .centralDogma = process.ToString
             }
         Next
     End Function

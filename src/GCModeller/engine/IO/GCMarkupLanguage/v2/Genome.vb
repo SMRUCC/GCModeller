@@ -27,7 +27,15 @@ Namespace v2
 
         <XmlAttribute> Public Property left As Integer
         <XmlAttribute> Public Property right As Integer
-        <XmlAttribute> Public Property strand As Char
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 因为字符类型在进行XML序列化的时候会被转换为ASCII代码，影响阅读
+        ''' 所以在这里使用字符串类型来解决这个问题
+        ''' </remarks>
+        <XmlAttribute> Public Property strand As String
 
     End Class
 
