@@ -51,6 +51,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
@@ -501,6 +502,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/regulation.footprints")>
     <Usage("/regulation.footprints /regulator <regprecise.regulator.csv> /footprint <motif_context.csv> [/out <regulation.csv>]")>
+    <Description("Build the TF regulation predicted network.")>
     <Argument("/regulator", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegPreciseRegulatorMatch)})>
     <Argument("/footprint", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(FootprintSite)})>
     <Argument("/out", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
