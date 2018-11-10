@@ -59,8 +59,11 @@ Public Module NetworkViz
         ' 产生调控因子的网络节点
         Call cell.Genome _
             .regulations _
+            .GroupBy(Function(reg) reg.regulator) _
             .ForEach(Sub(reg, i)
-                         geneNodes(reg.regulator).NodeType &= "|TF"
+                         ' 调控因子只有一个家族
+                         geneNodes(reg.Key).NodeType &= "|TF"
+                         geneNodes(reg.Key).Properties.Add("family", reg.First.motif.family)
                      End Sub)
 
         Dim enzymeCatalysisEdges = cell.MetabolismStructure _
