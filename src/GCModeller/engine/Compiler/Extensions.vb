@@ -162,7 +162,6 @@ Public Module Extensions
 
             Yield New TranscriptionRegulation With {
                 .biological_process = reg.biological_process,
-                .distance = reg.distance,
                 .effector = reg.effector,
                 .mode = reg.mode,
                 .regulator = reg.regulator,
@@ -172,7 +171,8 @@ Public Module Extensions
                     .left = reg.motif.Left,
                     .right = reg.motif.Right,
                     .strand = reg.motif.Strand.GetBriefCode,
-                    .sequence = reg.sequenceData
+                    .sequence = reg.sequenceData,
+                    .distance = reg.distance
                 },
                 .centralDogma = process.ToString
             }

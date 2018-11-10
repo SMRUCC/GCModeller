@@ -43,10 +43,9 @@ Namespace v2
 
         <XmlAttribute> Public Property regulator As String
         <XmlAttribute> Public Property target As String
+        <XmlAttribute> Public Property mode As String
 
         Public Property effector As String
-        Public Property mode As String
-        Public Property distance As Integer
         Public Property biological_process As String
 
         ''' <summary>
@@ -54,7 +53,6 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property centralDogma As String
-
         Public Property motif As Motif
 
     End Class
@@ -68,6 +66,13 @@ Namespace v2
         <XmlAttribute> Public Property left As Integer
         <XmlAttribute> Public Property right As Integer
         <XmlAttribute> Public Property strand As Char
+
+        ''' <summary>
+        ''' 这个motif位点到被调控的基因的ATG位点的最短距离
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute("atg-distance")>
+        Public Property distance As Integer
 
         <XmlText> Public Property sequence As String
     End Class
