@@ -1,60 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::0250b80e2bdcb9814085d0612b5cceeb, Model\CentralDogma.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Structure CentralDogma
-    ' 
-    '     Properties: IsRNAGene, RNAName
-    ' 
-    '     Function: ToString
-    ' 
-    ' Enum RNATypes
-    ' 
-    '     ribosomalRNA, tRNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Structure Protein
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    ' /********************************************************************************/
+' Structure CentralDogma
+' 
+'     Properties: IsRNAGene, RNAName
+' 
+'     Function: ToString
+' 
+' Enum RNATypes
+' 
+'     ribosomalRNA, tRNA
+' 
+'  
+' 
+' 
+' 
+' Structure Protein
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 ''' <summary>
 ''' Transcription and Translation
@@ -64,9 +66,13 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 ''' ORF -> mRNA -> polypeptide
 ''' ```
 ''' </summary>
-Public Structure CentralDogma
+Public Structure CentralDogma : Implements INamedValue
 
-    Dim geneID As String
+    ''' <summary>
+    ''' 可以使用这个基因编号属性来作为主键
+    ''' </summary>
+    Public Property geneID As String Implements IKeyedEntity(Of String).Key
+
     Dim RNA As NamedValue(Of RNATypes)
     Dim polypeptide As String
     ''' <summary>

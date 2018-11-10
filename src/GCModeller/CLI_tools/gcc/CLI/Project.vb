@@ -73,7 +73,7 @@ Partial Module CLI
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim model As CellularModule = genome _
             .AssemblingMetabolicNetwork(geneKO, kegg) _
-            .AssemblingRegulationNetwork(genome, regulations)
+            .AssemblingRegulationNetwork(regulations)
 
         If out.IsGCMarkup Then
             Return model.ToMarkup(kegg) _

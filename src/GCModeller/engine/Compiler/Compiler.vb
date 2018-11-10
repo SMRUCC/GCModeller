@@ -56,8 +56,36 @@ Imports SMRUCC.genomics.Metagenomics
 Public Module Workflow
 
     <Extension>
-    Public Function AssemblingRegulationNetwork(model As CellularModule, genome As GBFF.File, regulations As RegulationFootprint()) As CellularModule
-        Dim genes = genome.GbffToPTT(ORF:=False).GeneObjects.ToDictionary(Function(feature) feature.Synonym)
+    Private Function evalEffects(reg As RegulationFootprint) As Double
+        If reg.mode.StringEmpty Then
+            Return 0.25
+        End If
+
+        If reg.mode.TextEquals("repressor") Then
+            Return -1
+        ElseIf reg.mode.TextEquals("activator") Then
+            Return 1
+        Else
+            Return 0.25
+        End If
+    End Function
+
+    <Extension>
+    Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
+        model.Regulations = model.Regulations _
+            .AsList + regulations _
+            .Select(Function(reg)
+                        ' 调控的过程为中心法则的转录过程
+                        Return New Regulation With {
+                            .effects = reg.evalEffects,
+                            .regulator = reg.regulator,
+                            .type = Processes.Transcription,
+                            .name = reg.biological_process,
+                            .process =
+                        }
+                    End Function)
+
+        Return model
     End Function
 
     ''' <summary>
