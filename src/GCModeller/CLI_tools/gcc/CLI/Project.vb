@@ -43,6 +43,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
@@ -93,5 +94,29 @@ Partial Module CLI
         With out.ExtensionSuffix
             Return .TextEquals("GCMarkup") OrElse .TextEquals("Xml")
         End With
+    End Function
+
+    ''' <summary>
+    ''' 这个命令将模型导出为网络模型
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/export.model.graph")>
+    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/out <out.dir>]")>
+    Public Function ExportModelGraph(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network_graph/"
+        Dim model As VirtualCell
+
+        With [in].ExtensionSuffix
+            If .TextEquals("gcmarkup") OrElse .TextEquals("xml") Then
+                model = [in].LoadXml(Of VirtualCell)
+            Else
+                Throw New NotImplementedException
+            End If
+        End With
+
+        Return model.CreateGraph.Save(out).CLICode
     End Function
 End Module
