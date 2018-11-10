@@ -76,7 +76,7 @@ Partial Module CLI
             .AssemblingRegulationNetwork(regulations)
 
         If out.IsGCMarkup Then
-            Return model.ToMarkup(kegg) _
+            Return model.ToMarkup(genome, kegg, regulations) _
                         .GetXml _
                         .SaveTo(out) _
                         .CLICode
