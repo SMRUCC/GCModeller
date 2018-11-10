@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Regprecise
@@ -126,6 +127,7 @@ Namespace Regprecise
     End Class
 
     Public Class FootprintSite : Inherits MotifSiteMatch
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因
@@ -149,6 +151,10 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Property product As String
-
+        ''' <summary>
+        ''' 这个motif位点区域上的序列信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sequenceData As String Implements IPolymerSequenceModel.SequenceData
     End Class
 End Namespace

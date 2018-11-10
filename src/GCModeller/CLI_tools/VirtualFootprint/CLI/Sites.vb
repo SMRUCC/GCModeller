@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -97,25 +98,28 @@ Partial Module CLI
     End Function
 
     ''' <summary>
-    ''' 获取得到给定位点相关的下游基因列表
+    ''' 获取得到给定位点相关的下游基因列表，以及该motif位点的序列片段
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
     ''' 
     <ExportAPI("/Site.match.genes")>
     <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/max.dist <default=500bp> /out <out.csv>]")>
+    <Description("Match genome context for the sites model.")>
     Public Function MatchSiteGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
         Dim maxDist% = args("/max.dist") Or 500
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context.csv"
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
+        Dim nt As FastaSeq = gb.Origin.ToFasta
 
         Using output As New WriteStream(Of FootprintSite)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
                 Dim strand As Strands = site.MappingLocation.Strand
                 Dim downstream As GeneBrief()
                 Dim footprint As FootprintSite
+                Dim sequence As SimpleSegment = nt.CutSequenceLinear(site.MappingLocation)
 
                 ' 挑选出下游的基因
                 If strand = Strands.Forward Then
@@ -142,7 +146,8 @@ Partial Module CLI
                             .ID = site.ID,
                             .location = gene.Location,
                             .product = gene.Product,
-                            .src = site.src
+                            .src = site.src,
+                            .sequenceData = sequence
                         }
                         output.Flush(footprint)
                     Next
@@ -170,7 +175,8 @@ Partial Module CLI
                             .location = gene.Location,
                             .product = gene.Product,
                             .src = site.src,
-                            .strand = site.strand
+                            .strand = site.strand,
+                            .sequenceData = sequence
                         }
                         output.Flush(footprint)
                     Next
