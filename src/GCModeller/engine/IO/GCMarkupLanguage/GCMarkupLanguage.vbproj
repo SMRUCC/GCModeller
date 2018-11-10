@@ -295,6 +295,7 @@
     <Compile Include="GCML_Documents\XmlElements\Metabolism\Pathway.vb" />
     <Compile Include="GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb" />
     <Compile Include="GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb" />
+    <Compile Include="v2\ModelExtensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
