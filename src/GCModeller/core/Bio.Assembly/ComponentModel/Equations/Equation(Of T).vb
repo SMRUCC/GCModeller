@@ -152,7 +152,7 @@ Namespace ComponentModel.EquaionModel
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 判断当前的代谢反应过程是否产生所给定的目标代谢物作为反应产物？
         ''' </summary>
         ''' <param name="Metabolite">Id</param>
         ''' <returns></returns>
@@ -161,6 +161,11 @@ Namespace ComponentModel.EquaionModel
             Return __rightHash.ContainsKey(metabolite.Key)
         End Function
 
+        ''' <summary>
+        ''' 判断当前的代谢过程是否消耗所给定的目标代谢物作为反应底物？
+        ''' </summary>
+        ''' <param name="metabolite"></param>
+        ''' <returns></returns>
         Public Function Consume(metabolite As T) As Boolean
             Return __leftHash.ContainsKey(metabolite.Key)
         End Function

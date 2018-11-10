@@ -119,6 +119,10 @@ Namespace v2
     Public Class MetabolismStructure
 
         <XmlArray("compounds")> Public Property Compounds As Compound()
+        ''' <summary>
+        ''' 在这个属性之中包含有所有的代谢反应过程的定义
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("reactions")> Public Property Reactions As Reaction()
 
         ''' <summary>
