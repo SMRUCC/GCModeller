@@ -53,6 +53,12 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Metagenomics
 
+''' <summary>
+''' 编译器的作用就是进行数据模型和其他的基础模块之间的解耦和作用
+''' 通过这个编译器模块，可以将模型文件模块与其他的模块之间的依赖程度减少
+''' 这样子在模拟计算分析引擎模块之中引用模型文件模块就可以不需要引用额外的其他
+''' 的模块代码的，方便进行数据计算模拟引擎的调试工作
+''' </summary>
 Public Module Workflow
 
     <Extension>
