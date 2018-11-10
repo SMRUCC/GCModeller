@@ -37,14 +37,16 @@ Public Module NetworkViz
             .Select(Function(enzyme)
                         Return enzyme _
                             .catalysis _
-                            .Select(Function(catalysis)
-                                        Return New Node With {
-                                            .ID = catalysis.reaction,
-                                            .NodeType = "reaction"
-                                        }
-                                    End Function)
+                            .Select(Function(catalysis) catalysis.reaction)
                     End Function) _
             .IteratesALL _
+            .Distinct _
+            .Select(Function(rId)
+                        Return New Node With {
+                            .ID = rId,
+                            .NodeType = "reaction"
+                        }
+                    End Function) _
             .ToArray
         ' 产生酶分子的网络节点
         Call cell.MetabolismStructure _
