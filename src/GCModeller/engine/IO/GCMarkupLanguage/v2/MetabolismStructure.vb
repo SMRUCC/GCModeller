@@ -87,6 +87,11 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property Taxonomy As Taxonomy
+        ''' <summary>
+        ''' 基因组结构模型，包含有基因的列表，以及转录调控网络
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Genome As Genome
 
         ''' <summary>
         ''' 代谢组网络结构

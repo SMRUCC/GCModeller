@@ -46,6 +46,11 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 这个函数只是将代谢网络数据给写入到模型之中？
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
     <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/out <out.model.Xml/xlsx>]")>
     Public Function CompileKEGG(args As CommandLine) As Integer
