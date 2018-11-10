@@ -76,11 +76,22 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
 
+    ''' <summary>
+    ''' 虚拟细胞数据模型
+    ''' </summary>
     <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class VirtualCell : Inherits XmlDataModel
 
+        ''' <summary>
+        ''' 物种注释信息
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Taxonomy As Taxonomy
 
+        ''' <summary>
+        ''' 代谢组网络结构
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property MetabolismStructure As MetabolismStructure
 
