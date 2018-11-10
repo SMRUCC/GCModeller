@@ -79,8 +79,8 @@ Public Module Extensions
             .Taxonomy = model.Taxonomy,
             .Genome = New Genome With {
                 .genes = genome.getGenes.ToArray,
-                .regulations = regulations _
-                    .getTFregulations _
+                .regulations = model _
+                    .getTFregulations(regulations) _
                     .ToArray
             },
             .MetabolismStructure = New MetabolismStructure With {
@@ -150,7 +150,9 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getTFregulations(regulations As RegulationFootprint()) As IEnumerable(Of TranscriptionRegulation)
+    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint()) As IEnumerable(Of TranscriptionRegulation)
+        Dim centralDogmas = model.Genotype.CentralDogmas.ToDictionary(Function(d) d.geneID)
+
         For Each reg As RegulationFootprint In regulations
             Yield New TranscriptionRegulation With {
                 .biological_process = reg.biological_process,
@@ -165,7 +167,8 @@ Public Module Extensions
                     .right = reg.motif.Right,
                     .strand = reg.motif.Strand.GetBriefCode,
                     .sequence = reg.sequenceData
-                }
+                },
+                .centralDogma = centralDogmas(.target).ToString
             }
         Next
     End Function

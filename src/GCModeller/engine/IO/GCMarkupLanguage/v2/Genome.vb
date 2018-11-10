@@ -41,6 +41,12 @@ Namespace v2
         Public Property distance As Integer
         Public Property biological_process As String
 
+        ''' <summary>
+        ''' 这个调控关系所影响到的中心法则的名称
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property centralDogma As String
+
         Public Property motif As Motif
 
     End Class
