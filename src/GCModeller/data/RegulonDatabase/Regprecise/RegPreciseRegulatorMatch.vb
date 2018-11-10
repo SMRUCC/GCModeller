@@ -70,7 +70,7 @@ Namespace Regprecise
     End Class
 
     ''' <summary>
-    ''' 调控关系
+    ''' 调控关系，这个对象相当于网络之中的边对象
     ''' </summary>
     Public Class RegulationFootprint : Implements IPolymerSequenceModel
 

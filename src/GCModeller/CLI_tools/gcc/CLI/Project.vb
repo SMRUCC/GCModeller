@@ -39,8 +39,10 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
@@ -52,7 +54,8 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
@@ -67,7 +70,10 @@ Partial Module CLI
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
                           Function(protein) protein!KO)
-        Dim model As CellularModule = genome.AssemblingModel(geneKO, kegg)
+        Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
+        Dim model As CellularModule = genome _
+            .AssemblingMetabolicNetwork(geneKO, kegg) _
+            .AssemblingRegulationNetwork(genome, regulations)
 
         If out.IsGCMarkup Then
             Return model.ToMarkup(kegg) _

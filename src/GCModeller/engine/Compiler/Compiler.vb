@@ -49,10 +49,16 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Metagenomics
 
 Public Module Workflow
+
+    <Extension>
+    Public Function AssemblingRegulationNetwork(model As CellularModule, genome As GBFF.File, regulations As RegulationFootprint()) As CellularModule
+
+    End Function
 
     ''' <summary>
     ''' 输出Model，然后再从Model写出模型文件
@@ -62,7 +68,7 @@ Public Module Workflow
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingModel(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+    Public Function AssemblingMetabolicNetwork(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
         Dim taxonomy As Taxonomy = genome.Source.GetTaxonomy
         Dim genotype As New Genotype With {
             .CentralDogmas = genome _
