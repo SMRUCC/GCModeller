@@ -120,6 +120,12 @@ Namespace v2
 
         <XmlArray("compounds")> Public Property Compounds As Compound()
         <XmlArray("reactions")> Public Property Reactions As Reaction()
+
+        ''' <summary>
+        ''' 在这个属性里面只会出现具有KO分类编号的蛋白序列，如果需要找所有基因的数据，可以
+        ''' 读取<see cref="Genome.genes"/>的数据
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("enzymes")> Public Property Enzymes As Enzyme()
 
         <XmlArray("pathwayMaps")> Public Property Pathways As Pathway()

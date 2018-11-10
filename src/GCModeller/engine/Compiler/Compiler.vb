@@ -57,7 +57,7 @@ Public Module Workflow
 
     <Extension>
     Public Function AssemblingRegulationNetwork(model As CellularModule, genome As GBFF.File, regulations As RegulationFootprint()) As CellularModule
-
+        Dim genes = genome.GbffToPTT(ORF:=False).GeneObjects.ToDictionary(Function(feature) feature.Synonym)
     End Function
 
     ''' <summary>

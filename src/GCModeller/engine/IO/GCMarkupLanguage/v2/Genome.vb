@@ -5,7 +5,7 @@ Namespace v2
     Public Class Genome
 
         ''' <summary>
-        ''' 基因列表
+        ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
         ''' </summary>
         ''' <returns></returns>
         Public Property genes As Gene()
@@ -14,6 +14,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property regulations As TranscriptionRegulation()
+
     End Class
 
     Public Class Gene
