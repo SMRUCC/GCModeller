@@ -548,7 +548,8 @@ Partial Module CLI
                             .regulator = predict.Query,
                             .regulog = predict.Regulog,
                             .species = predict.species,
-                            .site = site
+                            .site = site,
+                            .sequenceData = gene.sequenceData
                         }
                         regulations.Flush(regulation)
                     Next

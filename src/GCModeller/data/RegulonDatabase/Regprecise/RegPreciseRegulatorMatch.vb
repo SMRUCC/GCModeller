@@ -72,7 +72,8 @@ Namespace Regprecise
     ''' <summary>
     ''' 调控关系
     ''' </summary>
-    Public Class RegulationFootprint
+    Public Class RegulationFootprint : Implements IPolymerSequenceModel
+
         ''' <summary>
         ''' 预测出来的基因组之中的调控因子的基因编号
         ''' </summary>
@@ -85,8 +86,19 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Property regulated As String
 
+        ''' <summary>
+        ''' motif位点的基因组坐标位置
+        ''' </summary>
+        ''' <returns></returns>
         <Column("motif-context", GetType(NucleotideLocationParser))>
         Public Property motif As NucleotideLocation
+
+        ''' <summary>
+        ''' 这个位置上的序列片段数据
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sequenceData As String Implements IPolymerSequenceModel.SequenceData
+
         ''' <summary>
         ''' motif位点到被调控的基因之间的最短距离
         ''' </summary>
@@ -124,6 +136,7 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Property site As String
+
     End Class
 
     Public Class FootprintSite : Inherits MotifSiteMatch
