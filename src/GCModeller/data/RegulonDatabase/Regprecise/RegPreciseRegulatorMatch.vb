@@ -105,6 +105,11 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Property distance As Integer
         ''' <summary>
+        ''' 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property replicon As String
+        ''' <summary>
         ''' 受调控的基因的功能
         ''' </summary>
         ''' <returns></returns>
