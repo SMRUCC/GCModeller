@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 
 Namespace v2
 
@@ -9,6 +10,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property replicons As replicon()
+
     End Class
 
     ''' <summary>
@@ -33,6 +35,11 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property regulations As TranscriptionRegulation()
+
+        Public Overrides Function ToString() As String
+            Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
+            Return $"[{type}] {genomeName}"
+        End Function
 
     End Class
 
