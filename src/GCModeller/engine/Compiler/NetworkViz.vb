@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -9,6 +11,36 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 ''' Export network visualize model for cytoscape software.
 ''' </summary>
 Public Module NetworkViz
+
+    ''' <summary>
+    ''' 这个函数如果没有指定编号列表，则导出所有的pathway的数据
+    ''' </summary>
+    ''' <param name="cell"></param>
+    ''' <param name="pathways$">KO pathway编号列表，应该为格式：``koxxxxxx``</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function GetPathwayEnzymes(cell As VirtualCell, Optional pathways$() = Nothing) As IEnumerable(Of String)
+        If pathways.IsNullOrEmpty Then
+            ' 因为有些enzyme可能会没有被归类到某一个代谢途径中
+            ' 所以不做pathway筛选的时候就直接从所有的酶分子列表
+            ' 之中导出来吧
+            Return cell.MetabolismStructure _
+                .Enzymes _
+                .Select(Function(enzyme) enzyme.geneID)
+        Else
+            With pathways.Indexing
+                Return cell.MetabolismStructure _
+                    .Pathways _
+                    .Where(predicate:=Function(pathway)
+                                          Return pathway.ID.IsOneOfA(.ByRef)
+                                      End Function) _
+                    .Select(Function(pathway) pathway.enzymes) _
+                    .IteratesALL _
+                    .Select(Function(enzyme) enzyme.value) _
+                    .Distinct
+            End With
+        End If
+    End Function
 
     ''' <summary>
     ''' 
@@ -23,9 +55,10 @@ Public Module NetworkViz
     ''' </remarks>
     <Extension>
     Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkTables
-        Dim geneNodes = cell.Genome _
+        Dim geneNodes As Dictionary(Of Node) = cell.Genome _
             .genes _
             .Select(Function(gene)
+                        ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
                         Return New Node With {
                             .ID = gene.locus_tag,
                             .NodeType = "gene"
@@ -33,8 +66,13 @@ Public Module NetworkViz
                     End Function) _
             .ToDictionary()
         ' 为了简化模型，在这里仅将存在酶的代谢过程取出来
+        Dim pathwayEnzymes = cell.GetPathwayEnzymes(pathways).Indexing
         Dim reactionNodes = cell.MetabolismStructure _
             .Enzymes _
+            .Where(Function(enzyme)
+                       ' 在这里做代谢途径的酶列表的筛选
+                       Return enzyme.geneID.IsOneOfA(pathwayEnzymes)
+                   End Function) _
             .Select(Function(enzyme)
                         Return enzyme _
                             .catalysis _
@@ -69,6 +107,10 @@ Public Module NetworkViz
 
         Dim enzymeCatalysisEdges = cell.MetabolismStructure _
             .Enzymes _
+            .Where(Function(enzyme)
+                       ' 在这里做代谢途径的酶列表的筛选
+                       Return enzyme.geneID.IsOneOfA(pathwayEnzymes)
+                   End Function) _
             .Select(Function(enzyme)
                         Return enzyme.catalysis _
                             .Select(Function(catalysis)
@@ -81,8 +123,20 @@ Public Module NetworkViz
                     End Function) _
             .IteratesALL _
             .AsList
+
+        ' 如果进行代谢途径筛选的话，则删除剩余的gene节点，这些基因节点都不是目标代谢途径的相关的基因
+        If Not pathways.IsNullOrEmpty Then
+            geneNodes = geneNodes.Values _
+                .Where(Function(gene) gene.ID.IsOneOfA(pathwayEnzymes)) _
+                .ToDictionary
+        End If
+
         Dim transcriptRegulationEdges = cell.Genome _
             .regulations _
+            .Where(Function(reg)
+                       ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
+                       Return geneNodes.ContainsKey(reg.target)
+                   End Function) _
             .Select(Function(reg)
                         Return New NetworkEdge With {
                             .FromNode = reg.regulator,
@@ -104,10 +158,20 @@ Public Module NetworkViz
 
         Return New NetworkTables With {
             .Nodes = geneNodes.Values.AsList + reactionNodes,
-            .Edges = enzymeCatalysisEdges + transcriptRegulationEdges + reactionLinks
+            .Edges = enzymeCatalysisEdges +
+                transcriptRegulationEdges +
+                reactionLinks
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="equationTable"></param>
+    ''' <param name="reactionnodes">
+    ''' 这个列表是已经通过代谢途径筛选的列表，如果不在这个列表之中，则这个函数就不会给出边连接
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Private Iterator Function populateReactionLinks(equationTable As Dictionary(Of String, Equation), reactionnodes As Node()) As IEnumerable(Of NetworkEdge)
         For Each i As Node In reactionnodes
