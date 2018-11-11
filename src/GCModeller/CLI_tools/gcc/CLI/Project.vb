@@ -43,6 +43,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
@@ -125,6 +126,7 @@ Partial Module CLI
 
         Return model.CreateGraph _
             .AnalysisDegrees _
+            .RemovesByDegree(degree:=degree) _
             .Trim(doNothing:=args("/disable.trim")) _
             .Save(out, Encodings.ASCII) _
             .CLICode
