@@ -157,7 +157,7 @@ Partial Module CLI
                     disableTrim
                 )
 
-                If NetworkTables.Load(.ByRef).IsEmpty Then
+                If NetworkTables.IsEmptyTables(.ByRef) Then
                     ' 删除这个空的网络导出结果
                     Call .Delete
                     Call $"Pathway: {pathway} no network was found...".Warning
