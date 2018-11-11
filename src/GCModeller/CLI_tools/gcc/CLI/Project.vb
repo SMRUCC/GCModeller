@@ -36,6 +36,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -59,6 +60,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
+    <Description("Create GCModeller virtual cell data model file.")>
     <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     Public Function CompileKEGG(args As CommandLine) As Integer
@@ -110,6 +112,7 @@ Partial Module CLI
     ''' </remarks>
     <ExportAPI("/export.model.graph")>
     <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/disable.trim /degree <default=1> /out <out.dir>]")>
+    <Description("Export cellular module network from virtual cell model file for cytoscape visualization.")>
     Public Function ExportModelGraph(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network_graph/"
