@@ -22,7 +22,7 @@ Public Module NetworkViz
     ''' 转换为Xml格式对象之后再调用这个方法产生网络可视化的模型
     ''' </remarks>
     <Extension>
-    Public Function CreateGraph(cell As VirtualCell) As NetworkTables
+    Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkTables
         Dim geneNodes = cell.Genome _
             .genes _
             .Select(Function(gene)

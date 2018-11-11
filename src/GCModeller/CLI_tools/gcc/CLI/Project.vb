@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
@@ -111,8 +112,11 @@ Partial Module CLI
     ''' 这个工具导出来的网络默认是至少具有一个连接点的
     ''' </remarks>
     <ExportAPI("/export.model.graph")>
-    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/disable.trim /degree <default=1> /out <out.dir>]")>
+    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/pathway <default=none> /disable.trim /degree <default=1> /out <out.dir>]")>
     <Description("Export cellular module network from virtual cell model file for cytoscape visualization.")>
+    <Argument("/pathway", True, CLITypes.String, AcceptTypes:={GetType(String)},
+              Description:="Apply a pathway module filter on the network model, only the gene contains in the given pathway list then will be output to user. 
+              By default is export all. Pathway id should be a KO pathway id list, like ``ko04146,ko02010``, and id was seperated by comma symbol.")>
     Public Function ExportModelGraph(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network_graph/"
@@ -127,7 +131,7 @@ Partial Module CLI
             End If
         End With
 
-        Return model.CreateGraph _
+        Return model.CreateGraph(pathways:=args("/pathway").Split(","c)) _
             .AnalysisDegrees _
             .RemovesByDegree(degree:=degree) _
             .Trim(doNothing:=args("/disable.trim")) _
