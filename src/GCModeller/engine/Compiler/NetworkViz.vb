@@ -36,7 +36,7 @@ Public Module NetworkViz
                                       End Function) _
                     .Select(Function(pathway) pathway.enzymes) _
                     .IteratesALL _
-                    .Select(Function(enzyme) enzyme.value) _
+                    .Select(Function(enzyme) enzyme.Comment) _
                     .Distinct
             End With
         End If
