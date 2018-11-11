@@ -67,6 +67,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -132,7 +133,8 @@ Namespace v2
         ''' <returns></returns>
         <XmlArray("enzymes")> Public Property Enzymes As Enzyme()
 
-        <XmlArray("pathwayMaps")> Public Property Pathways As Pathway()
+        <XmlArray("pathwayMaps")>
+        Public Property Pathways As Pathway()
 
     End Class
 
@@ -166,6 +168,11 @@ Namespace v2
 
         <XmlElement("enzyme")>
         Public Property enzymes As [Property]()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return $"[{ID}] {name} with {enzymes.Length} enzymes"
+        End Function
 
     End Class
 

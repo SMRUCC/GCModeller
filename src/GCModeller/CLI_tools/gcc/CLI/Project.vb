@@ -156,6 +156,14 @@ Partial Module CLI
                     .ByRef,
                     disableTrim
                 )
+
+                If NetworkTables.Load(.ByRef).IsEmpty Then
+                    ' 删除这个空的网络导出结果
+                    Call .Delete
+                    Call $"Pathway: {pathway} no network was found...".Warning
+                Else
+                    Call pathway.ToString.__INFO_ECHO
+                End If
             End With
         Next
 
