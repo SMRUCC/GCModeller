@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -109,6 +110,11 @@ Public Class KEGG_tools : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As KEGG_tools
+          Return New KEGG_tools(App:=directory & "/" & KEGG_tools.App)
+     End Function
 
 ''' <summary>
 ''' ```

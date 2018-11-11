@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -114,6 +115,11 @@ Public Class NCBI_tools : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As NCBI_tools
+          Return New NCBI_tools(App:=directory & "/" & NCBI_tools.App)
+     End Function
 
 ''' <summary>
 ''' ```
