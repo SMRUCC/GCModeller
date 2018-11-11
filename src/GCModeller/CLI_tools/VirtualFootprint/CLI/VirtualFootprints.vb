@@ -566,13 +566,13 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/regulation.footprints.network")>
-    <Usage("/regulation.footprints.network /in <regulations.csv/repository> [/degree.cutoff <default=1> /duplicated.cutoff <default=1> /out <network.dir>]")>
+    <Usage("/regulation.footprints.network /in <regulations.csv/repository> [/degree.cutoff <default=1> /supports.cutoff <default=1> /out <network.dir>]")>
     Public Function RegulateFootprintNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim degreeCutoff% = args("/degree.cutoff") Or 1
         Dim out$
         Dim regulations As RegulationFootprint()
-        Dim duplicatedCutoff% = args("/duplicated.cutoff") Or 1
+        Dim duplicatedCutoff% = args("/supports.cutoff") Or 1
 
         If [in].FileExists Then
             out = args("/out") Or $"{[in].TrimSuffix}.network/"
@@ -640,7 +640,7 @@ Partial Module CLI
                             .Interaction = "transcript_regulation",
                             .value = 0,
                             .Properties = New Dictionary(Of String, String) From {
-                                {"duplicates", reg.Count}
+                                {"supports", reg.Count}
                             }
                         }
                     End Function) _
