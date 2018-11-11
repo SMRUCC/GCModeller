@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -639,7 +640,8 @@ Partial Module CLI
         Return New NetworkTables With {
             .Edges = edges,
             .Nodes = nodes
-        }.RemovesByDegree(degreeCutoff) _
+        }.AnalysisDegrees _
+         .RemovesByDegree(degreeCutoff) _
          .Save(out) _
          .CLICode
     End Function

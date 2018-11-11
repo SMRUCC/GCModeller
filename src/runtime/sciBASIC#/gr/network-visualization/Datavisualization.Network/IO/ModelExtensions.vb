@@ -375,6 +375,7 @@ Namespace FileStream
         Public Const NoConnections% = 0
 
         ''' <summary>
+        ''' (请确保在调用这个函数之前网络模型对应已经通过<see cref="AnalysisDegrees"/>函数计算了degree，否则会移除所有的网络节点而返回一个空网络)
         ''' 直接按照节点的``Degree``来筛选，节点被移除的同时，相应的边连接也会被删除
         ''' </summary>
         ''' <param name="net"></param>
@@ -388,6 +389,7 @@ Namespace FileStream
 
             Dim nodes As New List(Of Node)
             Dim removes As New List(Of String)
+            Dim allZero As Boolean = True
 
             For Each node As Node In net.Nodes
                 Dim ndg As Integer = CInt(Val(node(names.REFLECTION_ID_MAPPING_DEGREE)))
@@ -396,8 +398,16 @@ Namespace FileStream
                     nodes += node
                 Else
                     removes += node.ID
+
+                    If ndg <> 0 Then
+                        allZero = False
+                    End If
                 End If
             Next
+
+            If allZero Then
+                Call "All of the nodes' degree equals ZERO, an empty network will be return!".Warning
+            End If
 
             removeIDs = removes
 
