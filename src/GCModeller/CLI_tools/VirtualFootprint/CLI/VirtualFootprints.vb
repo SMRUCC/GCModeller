@@ -586,6 +586,11 @@ Partial Module CLI
                 .ToArray
         End If
 
+        Dim genomeReplicon$ = regulations _
+            .FirstOrDefault(Function(reg)
+                                Return InStr(reg.replicon, "plasmid", CompareMethod.Text) = 0
+                            End Function) _
+           ?.replicon
         Dim regulators = regulations _
             .GroupBy(Function(reg) reg.regulator) _
             .ToDictionary(Function(reg) reg.Key,
@@ -604,6 +609,8 @@ Partial Module CLI
 
                         If regulatedGenes.ContainsKey(id) Then
                             data(NameOf(RegulationFootprint.replicon)) = regulatedGenes(id).replicon
+                        Else
+                            data(NameOf(RegulationFootprint.replicon)) = genomeReplicon
                         End If
 
                         If type = "TF" Then
