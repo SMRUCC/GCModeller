@@ -148,7 +148,7 @@ Partial Module CLI
         Dim degree% = args("/degree") Or 1
         Dim out$ = args("/out") Or $"{model.TrimSuffix}.pathways/"
 
-        For Each pathway As Pathway In model.LoadXml(Of VirtualCell).MetabolismStructure.Pathways
+        For Each pathway As Pathway In model.LoadXml(Of VirtualCell).MetabolismStructure.maps
             With $"{out.TrimDIR}/{pathway.ID}__{pathway.name.NormalizePathString}/"
                 Call Apps.GCModellerCompiler.ExportModelGraph(
                     model, pathway.ID,

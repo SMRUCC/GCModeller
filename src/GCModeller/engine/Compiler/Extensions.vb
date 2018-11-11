@@ -99,7 +99,7 @@ Public Module Extensions
                 .Compounds = .Reactions _
                              .getCompounds(KEGG.GetCompounds) _
                              .ToArray,
-                .Pathways = KEGG.GetPathways _
+                .maps = KEGG.GetPathways _
                     .PathwayMaps _
                     .Select(Function(map)
                                 Dim enzymeUnits = map.KEGGOrthology _

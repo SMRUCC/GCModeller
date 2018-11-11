@@ -30,7 +30,7 @@ Public Module NetworkViz
         Else
             With pathways.Indexing
                 Return cell.MetabolismStructure _
-                    .Pathways _
+                    .maps _
                     .Where(predicate:=Function(pathway)
                                           Return pathway.ID.IsOneOfA(.ByRef)
                                       End Function) _

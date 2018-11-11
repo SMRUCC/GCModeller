@@ -134,7 +134,7 @@ Namespace v2
         <XmlArray("enzymes")> Public Property Enzymes As Enzyme()
 
         <XmlArray("pathwayMaps")>
-        Public Property Pathways As Pathway()
+        Public Property maps As FunctionalCategory()
 
     End Class
 
@@ -157,6 +157,19 @@ Namespace v2
 
         <XmlText>
         Public Property Equation As String
+
+    End Class
+
+    Public Class FunctionalCategory
+
+        <XmlAttribute>
+        Public Property category As String
+        <XmlElement("pathway")>
+        Public Property pathways As Pathway()
+
+        Public Overrides Function ToString() As String
+            Return category
+        End Function
 
     End Class
 
