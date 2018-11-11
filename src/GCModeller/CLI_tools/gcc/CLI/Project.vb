@@ -101,12 +101,15 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' 这个工具导出来的网络默认是至少具有一个连接点的
+    ''' </remarks>
     <ExportAPI("/export.model.graph")>
-    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/out <out.dir>]")>
+    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/degree <default=1> /out <out.dir>]")>
     Public Function ExportModelGraph(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network_graph/"
+        Dim degree% = args("/degree") Or 1
         Dim model As VirtualCell
 
         With [in].ExtensionSuffix
