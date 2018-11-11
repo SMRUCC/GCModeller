@@ -25,6 +25,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
+'  /assign.fasta.taxonomy:         
 '  /Assign.Taxonomy.From.Ref:      
 '  /Assign.Taxonomy.SSU:           
 '  /Associates.Brief:              
@@ -116,21 +117,57 @@ Public Class NCBI_tools : Inherits InteropService
 
 ''' <summary>
 ''' ```
-''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt> /acc2taxid &lt;acc2taxid.dmp/DIR> [/gb_priority /out &lt;acc2taxid_match.txt>]
+''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt> /acc2taxid &lt;acc2taxid.dmp/DIR> [/gb_priority /append.src /accid_grep &lt;default=-> /out &lt;acc2taxid_match.txt>]
 ''' ```
 ''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
 '''
-Public Function accidMatch([in] As String, acc2taxid As String, Optional out As String = "", Optional gb_priority As Boolean = False) As Integer
+Public Function accidMatch([in] As String, acc2taxid As String, Optional accid_grep As String = "-", Optional out As String = "", Optional gb_priority As Boolean = False, Optional append_src As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/accid2taxid.Match")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/acc2taxid " & """" & acc2taxid & """ ")
+    If Not accid_grep.StringEmpty Then
+            Call CLI.Append("/accid_grep " & """" & accid_grep & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
     If gb_priority Then
         Call CLI.Append("/gb_priority ")
+    End If
+    If append_src Then
+        Call CLI.Append("/append.src ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /assign.fasta.taxonomy /in &lt;database.fasta> /accession2taxid &lt;accession2taxid.txt> /taxonomy &lt;names.dmp/nodes.dmp> [/accid_grep &lt;default=-> /append &lt;data.csv> /summary.tsv /out &lt;out.directory>]
+''' ```
+''' </summary>
+'''
+Public Function AssignFastaTaxonomy([in] As String, accession2taxid As String, taxonomy As String, Optional accid_grep As String = "-", Optional append As String = "", Optional out As String = "", Optional summary_tsv As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/assign.fasta.taxonomy")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/accession2taxid " & """" & accession2taxid & """ ")
+    Call CLI.Append("/taxonomy " & """" & taxonomy & """ ")
+    If Not accid_grep.StringEmpty Then
+            Call CLI.Append("/accid_grep " & """" & accid_grep & """ ")
+    End If
+    If Not append.StringEmpty Then
+            Call CLI.Append("/append " & """" & append & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If summary_tsv Then
+        Call CLI.Append("/summary.tsv ")
     End If
 
 

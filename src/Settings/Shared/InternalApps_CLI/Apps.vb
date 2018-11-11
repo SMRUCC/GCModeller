@@ -63,6 +63,7 @@ Public NotInheritable Class Apps
     Public Shared ReadOnly Property eggHTS As GCModellerApps.eggHTS
     Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
     Public Shared ReadOnly Property SyntenyVisual As GCModellerApps.Synteny
+    Public Shared ReadOnly Property GCModellerCompiler As GCModellerApps.GCC
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -116,6 +117,7 @@ Public NotInheritable Class Apps
                 _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
                 _metaProfiler = New GCModellerApps.metaProfiler(HOME & "/" & GCModellerApps.metaProfiler.App)
                 _SyntenyVisual = New GCModellerApps.Synteny(HOME & "/" & GCModellerApps.Synteny.App)
+                _GCModellerCompiler = New GCModellerApps.GCC()
 
                 Exit For
             End If
