@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -137,5 +138,27 @@ Partial Module CLI
             .Trim(doNothing:=args("/disable.trim")) _
             .Save(out, Encodings.ASCII) _
             .CLICode
+    End Function
+
+    <ExportAPI("/export.model.pathway_graph")>
+    <Usage("/export.model.pathway_graph /model <GCMarkup.xml/table.xlsx> [/disable.trim /degree <default=1> /out <out.dir>]")>
+    Public Function ExportPathwaysNetwork(args As CommandLine) As Integer
+        Dim model$ = args <= "/model"
+        Dim disableTrim As Boolean = args("/disable.trim")
+        Dim degree% = args("/degree") Or 1
+        Dim out$ = args("/out") Or $"{model.TrimSuffix}.pathways/"
+
+        For Each pathway As Pathway In model.LoadXml(Of VirtualCell).MetabolismStructure.Pathways
+            With $"{out.TrimDIR}/{pathway.ID}__{pathway.name.NormalizePathString}/"
+                Call Apps.GCModellerCompiler.ExportModelGraph(
+                    model, pathway.ID,
+                    degree,
+                    .ByRef,
+                    disableTrim
+                )
+            End With
+        Next
+
+        Return 0
     End Function
 End Module

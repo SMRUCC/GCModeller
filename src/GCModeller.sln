@@ -547,6 +547,7 @@ Global
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{6dcd35db-32b8-4fac-bfe7-9943ebbc0797}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dcd35db-32b8-4fac-bfe7-9943ebbc0797}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dcd35db-32b8-4fac-bfe7-9943ebbc0797}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
