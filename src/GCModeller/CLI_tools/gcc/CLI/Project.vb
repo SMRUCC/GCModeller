@@ -41,6 +41,9 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -105,7 +108,7 @@ Partial Module CLI
     ''' 这个工具导出来的网络默认是至少具有一个连接点的
     ''' </remarks>
     <ExportAPI("/export.model.graph")>
-    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/degree <default=1> /out <out.dir>]")>
+    <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/disable.trim /degree <default=1> /out <out.dir>]")>
     Public Function ExportModelGraph(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network_graph/"
@@ -120,6 +123,10 @@ Partial Module CLI
             End If
         End With
 
-        Return model.CreateGraph.Save(out).CLICode
+        Return model.CreateGraph _
+            .AnalysisDegrees _
+            .Trim(doNothing:=args("/disable.trim")) _
+            .Save(out, Encodings.ASCII) _
+            .CLICode
     End Function
 End Module
