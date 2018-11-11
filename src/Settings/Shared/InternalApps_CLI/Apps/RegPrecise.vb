@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -62,7 +63,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' API list that with functional grouping
 ' 
-' 1. Web api
+' 1. Regulon Builders
+' 
+' 
+'    /regulators.bbh:                    Compiles for the regulators in the bacterial genome mapped on
+'                                        the regprecise database using bbh method.
+' 
+' 
+' 2. Web api
 ' 
 ' 
 '    /Download.Motifs:                   
@@ -93,6 +101,11 @@ Public Class RegPrecise : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As RegPrecise
+          Return New RegPrecise(App:=directory & "/" & RegPrecise.App)
+     End Function
 
 ''' <summary>
 ''' ```
@@ -382,13 +395,13 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Fasta.Downloads /source &lt;sourceDIR> [/out &lt;outDIR>]
+''' /Fasta.Downloads /source &lt;sourceDIR> [/out &lt;outDIR>]
 ''' ```
 ''' Download protein fasta sequence from KEGG database.
 ''' </summary>
 '''
 Public Function DownloadFasta(source As String, Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("Fasta.Downloads")
+    Dim CLI As New StringBuilder("/Fasta.Downloads")
     Call CLI.Append(" ")
     Call CLI.Append("/source " & """" & source & """ ")
     If Not out.StringEmpty Then
@@ -614,6 +627,33 @@ Public Function DownloadProteinMotifs(source As String, Optional kegg_tools As S
     Call CLI.Append("/source " & """" & source & """ ")
     If Not kegg_tools.StringEmpty Then
             Call CLI.Append("/kegg.tools " & """" & kegg_tools & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /regulators.bbh /bbh &lt;bbh.index.Csv> /regprecise &lt;repository.directory> [/description &lt;KEGG_genomes.fasta> /allow.multiple /out &lt;save.csv>]
+''' ```
+''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
+''' </summary>
+'''
+Public Function RegulatorsBBh(bbh As String, regprecise As String, Optional description As String = "", Optional out As String = "", Optional allow_multiple As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/regulators.bbh")
+    Call CLI.Append(" ")
+    Call CLI.Append("/bbh " & """" & bbh & """ ")
+    Call CLI.Append("/regprecise " & """" & regprecise & """ ")
+    If Not description.StringEmpty Then
+            Call CLI.Append("/description " & """" & description & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If allow_multiple Then
+        Call CLI.Append("/allow.multiple ")
     End If
 
 

@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -99,6 +100,11 @@ Public Class metaProfiler : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As metaProfiler
+          Return New metaProfiler(App:=directory & "/" & metaProfiler.App)
+     End Function
 
 ''' <summary>
 ''' ```

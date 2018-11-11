@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -219,6 +220,11 @@ Public Class eggHTS : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As eggHTS
+          Return New eggHTS(App:=directory & "/" & eggHTS.App)
+     End Function
 
 ''' <summary>
 ''' ```
