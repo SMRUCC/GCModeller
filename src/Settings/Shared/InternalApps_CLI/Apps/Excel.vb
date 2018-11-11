@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -53,6 +54,11 @@ Public Class Excel : Inherits InteropService
         MyBase._executableAssembly = App$
     End Sub
 
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As Excel
+          Return New Excel(App:=directory & "/" & Excel.App)
+     End Function
+
 ''' <summary>
 ''' ```
 ''' /Association /a &lt;a.csv> /b &lt;dataset.csv> [/column.A &lt;scan0> /out &lt;out.csv>]
@@ -78,21 +84,30 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /cbind /in &lt;a.csv> /append &lt;b.csv> [/token0.ID &lt;deli, default=&lt;SPACE> /out &lt;ALL.csv>]
+''' /cbind /in &lt;a.csv> /append &lt;b.csv> [/ID.a &lt;default=ID> /ID.b &lt;default=ID> /grep.ID &lt;grep_script, default="token &lt;SPACE> first"> /nothing.as.empty /out &lt;ALL.csv>]
 ''' ```
 ''' Join of two table by a unique ID.
 ''' </summary>
 '''
-Public Function cbind([in] As String, append As String, Optional token0_id As String = "<SPACE", Optional out As String = "") As Integer
+Public Function cbind([in] As String, append As String, Optional id_a As String = "ID", Optional id_b As String = "ID", Optional grep_id As String = "token <SPACE", Optional out As String = "", Optional nothing_as_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/cbind")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/append " & """" & append & """ ")
-    If Not token0_id.StringEmpty Then
-            Call CLI.Append("/token0.id " & """" & token0_id & """ ")
+    If Not id_a.StringEmpty Then
+            Call CLI.Append("/id.a " & """" & id_a & """ ")
+    End If
+    If Not id_b.StringEmpty Then
+            Call CLI.Append("/id.b " & """" & id_b & """ ")
+    End If
+    If Not grep_id.StringEmpty Then
+            Call CLI.Append("/grep.id " & """" & grep_id & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If nothing_as_empty Then
+        Call CLI.Append("/nothing.as.empty ")
     End If
 
 

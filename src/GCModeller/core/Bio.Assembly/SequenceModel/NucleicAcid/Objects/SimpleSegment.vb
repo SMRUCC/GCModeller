@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::a53b1c79148939e68733de4b5bb41c5f, Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SimpleSegment
-    ' 
-    '         Properties: Complement, Ends, ID, Length, SequenceData
-    '                     Start, Strand
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: __getMappingLoci, SimpleFasta, ToPTTGene
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SimpleSegment
+' 
+'         Properties: Complement, Ends, ID, Length, SequenceData
+'                     Start, Strand
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: __getMappingLoci, SimpleFasta, ToPTTGene
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -80,7 +81,12 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         Public Property Complement As String
 
+        ''' <summary>
+        ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Length"/>值相等的
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(SequenceData)
             End Get
@@ -112,10 +118,12 @@ Namespace SequenceModel.NucleotideModels
             Strand = loci.Strand.GetBriefCode
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function __getMappingLoci() As NucleotideLocation
             Return New NucleotideLocation(Start, Ends, Strand).Normalization
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToPTTGene() As GeneBrief
             Return New GeneBrief With {
                 .Code = "-",
@@ -144,8 +152,20 @@ Namespace SequenceModel.NucleotideModels
             }
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator &(seq$, contig As SimpleSegment) As String
             Return seq & contig.SequenceData
+        End Operator
+
+        ''' <summary>
+        ''' 将当前的这个<see cref="IPolymerSequenceModel"/>接口对象的序列信息取出来
+        ''' </summary>
+        ''' <param name="segment"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(segment As SimpleSegment) As String
+            Return segment.SequenceData
         End Operator
     End Class
 End Namespace

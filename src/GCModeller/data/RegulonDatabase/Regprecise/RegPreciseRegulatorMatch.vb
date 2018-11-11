@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Regprecise
@@ -69,9 +70,10 @@ Namespace Regprecise
     End Class
 
     ''' <summary>
-    ''' 调控关系
+    ''' 调控关系，这个对象相当于网络之中的边对象
     ''' </summary>
-    Public Class RegulationFootprint
+    Public Class RegulationFootprint : Implements IPolymerSequenceModel
+
         ''' <summary>
         ''' 预测出来的基因组之中的调控因子的基因编号
         ''' </summary>
@@ -84,8 +86,19 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Property regulated As String
 
+        ''' <summary>
+        ''' motif位点的基因组坐标位置
+        ''' </summary>
+        ''' <returns></returns>
         <Column("motif-context", GetType(NucleotideLocationParser))>
         Public Property motif As NucleotideLocation
+
+        ''' <summary>
+        ''' 这个位置上的序列片段数据
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sequenceData As String Implements IPolymerSequenceModel.SequenceData
+
         ''' <summary>
         ''' motif位点到被调控的基因之间的最短距离
         ''' </summary>
@@ -123,9 +136,11 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Property site As String
+
     End Class
 
     Public Class FootprintSite : Inherits MotifSiteMatch
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' 当前的这个基因组位点相关的在一定长度范围内的下游基因
@@ -149,6 +164,10 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Property product As String
-
+        ''' <summary>
+        ''' 这个motif位点区域上的序列信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sequenceData As String Implements IPolymerSequenceModel.SequenceData
     End Class
 End Namespace
