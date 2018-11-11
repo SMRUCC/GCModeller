@@ -31,6 +31,8 @@ Public Module NetworkViz
             With pathways.Indexing
                 Return cell.MetabolismStructure _
                     .maps _
+                    .Select(Function(map) map.pathways) _
+                    .IteratesALL _
                     .Where(predicate:=Function(pathway)
                                           Return pathway.ID.IsOneOfA(.ByRef)
                                       End Function) _
@@ -55,7 +57,7 @@ Public Module NetworkViz
     ''' </remarks>
     <Extension>
     Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkTables
-        Dim geneNodes As Dictionary(Of Node) = cell.Genome _
+        Dim geneNodes As Dictionary(Of Node) = cell.genome _
             .genes _
             .Select(Function(gene)
                         ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
@@ -96,7 +98,7 @@ Public Module NetworkViz
                          geneNodes(enzyme.geneID).NodeType &= "|enzyme"
                      End Sub)
         ' 产生调控因子的网络节点
-        Call cell.Genome _
+        Call cell.genome _
             .regulations _
             .GroupBy(Function(reg) reg.regulator) _
             .ForEach(Sub(reg, i)
@@ -131,7 +133,7 @@ Public Module NetworkViz
                 .ToDictionary
         End If
 
-        Dim transcriptRegulationEdges = cell.Genome _
+        Dim transcriptRegulationEdges = cell.genome _
             .regulations _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来

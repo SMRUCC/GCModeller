@@ -148,23 +148,27 @@ Partial Module CLI
         Dim degree% = args("/degree") Or 1
         Dim out$ = args("/out") Or $"{model.TrimSuffix}.pathways/"
 
-        For Each pathway As Pathway In model.LoadXml(Of VirtualCell).MetabolismStructure.maps
-            With $"{out.TrimDIR}/{pathway.ID}__{pathway.name.NormalizePathString}/"
-                Call Apps.GCModellerCompiler.ExportModelGraph(
-                    model, pathway.ID,
-                    degree,
-                    .ByRef,
-                    disableTrim
-                )
+        For Each [module] As FunctionalCategory In model.LoadXml(Of VirtualCell).MetabolismStructure.maps
+            Dim mapName = [module].category.NormalizePathString
 
-                If NetworkTables.IsEmptyTables(.ByRef) Then
-                    ' 删除这个空的网络导出结果
-                    Call .Delete
-                    Call $"Pathway: {pathway} no network was found...".Warning
-                Else
-                    Call pathway.ToString.__INFO_ECHO
-                End If
-            End With
+            For Each pathway As Pathway In [module].pathways
+                With $"{out.TrimDIR}/{mapName}/{pathway.ID}__{pathway.name.NormalizePathString}/"
+                    Call Apps.GCModellerCompiler.ExportModelGraph(
+                        model, pathway.ID,
+                        degree,
+                        .ByRef,
+                        disableTrim
+                    )
+
+                    If NetworkTables.IsEmptyTables(.ByRef) Then
+                        ' 删除这个空的网络导出结果
+                        Call .Delete
+                        Call $"Pathway: {pathway} no network was found...".Warning
+                    Else
+                        Call pathway.ToString.__INFO_ECHO
+                    End If
+                End With
+            Next
         Next
 
         Return 0

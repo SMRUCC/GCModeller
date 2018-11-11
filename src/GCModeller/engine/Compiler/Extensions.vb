@@ -40,8 +40,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -76,8 +78,8 @@ Public Module Extensions
                           Function(g) g.ToArray)
 
         Return New VirtualCell With {
-            .Taxonomy = model.Taxonomy,
-            .Genome = New Genome With {
+            .taxonomy = model.Taxonomy,
+            .genome = New Genome With {
                 .genes = genome.getGenes.ToArray,
                 .regulations = model _
                     .getTFregulations(regulations) _
@@ -101,38 +103,59 @@ Public Module Extensions
                              .ToArray,
                 .maps = KEGG.GetPathways _
                     .PathwayMaps _
-                    .Select(Function(map)
-                                Dim enzymeUnits = map.KEGGOrthology _
-                                    .Terms _
-                                    .SafeQuery _
-                                    .Where(Function(term)
-                                               Return KOfunc.ContainsKey(term.name)
-                                           End Function) _
-                                    .Select(Function(term)
-                                                Dim enzymeUnit = KOfunc(term.name) _
-                                                    .Select(Function(protein)
-                                                                Return New [Property] With {
-                                                                    .name = protein.polypeptide,
-                                                                    .Comment = protein.geneID,
-                                                                    .value = term.name
-                                                                }
-                                                            End Function) _
-                                                    .ToArray
-                                                Return enzymeUnit
-                                            End Function) _
-                                    .IteratesALL _
-                                    .ToArray
-
-                                Return New Pathway With {
-                                    .ID = map.KOpathway,
-                                    .name = map.name,
-                                    .enzymes = enzymeUnits
-                                }
-                            End Function) _
-                    .Where(Function(map) Not map.enzymes.IsNullOrEmpty) _
+                    .createMaps(KOfunc) _
                     .ToArray
             }
         }
+    End Function
+
+    <Extension>
+    Private Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
+        Dim mapgroups = pathwayMaps _
+            .Where(Function(map) Not map.brite Is Nothing) _
+            .GroupBy(Function(map) map.brite.class)
+
+        For Each category As IGrouping(Of String, bGetObject.PathwayMap) In mapgroups
+            Dim maps As New List(Of Pathway)
+
+            For Each map As bGetObject.PathwayMap In category
+                Dim enzymeUnits = map.KEGGOrthology _
+                    .Terms _
+                    .SafeQuery _
+                    .Where(Function(term)
+                               Return KOfunc.ContainsKey(term.name)
+                           End Function) _
+                    .Select(Function(term)
+                                Dim enzymeUnit = KOfunc(term.name) _
+                                    .Select(Function(protein)
+                                                Return New [Property] With {
+                                                    .name = protein.polypeptide,
+                                                    .Comment = protein.geneID,
+                                                    .value = term.name
+                                                }
+                                            End Function) _
+                                    .ToArray
+                                Return enzymeUnit
+                            End Function) _
+                    .IteratesALL _
+                    .ToArray
+
+                If Not enzymeUnits.IsNullOrEmpty Then
+                    maps += New Pathway With {
+                        .ID = map.KOpathway,
+                        .name = map.name,
+                        .enzymes = enzymeUnits
+                    }
+                End If
+            Next
+
+            If Not maps = 0 Then
+                Yield New FunctionalCategory With {
+                    .category = category.Key,
+                    .pathways = maps
+                }
+            End If
+        Next
     End Function
 
     <Extension>
