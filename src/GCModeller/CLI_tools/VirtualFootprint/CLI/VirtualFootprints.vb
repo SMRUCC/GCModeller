@@ -566,10 +566,10 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/regulation.footprints.network")>
-    <Usage("/regulation.footprints.network /in <regulations.csv/repository> [/degree.cutoff <default=1> /supports.cutoff <default=1> /out <network.dir>]")>
+    <Usage("/regulation.footprints.network /in <regulations.csv/repository> [/degree.cutoff <default=0> /supports.cutoff <default=1> /out <network.dir>]")>
     Public Function RegulateFootprintNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim degreeCutoff% = args("/degree.cutoff") Or 1
+        Dim degreeCutoff% = args("/degree.cutoff") Or 0
         Dim out$
         Dim regulations As RegulationFootprint()
         Dim duplicatedCutoff% = args("/supports.cutoff") Or 1
