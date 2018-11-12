@@ -1,23 +1,49 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 
 Namespace v2
 
     Public Class Genome
 
         ''' <summary>
+        ''' 一个完整的基因组是由若干个复制子所构成的，复制子主要是指基因组和细菌的质粒基因组
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property replicons As replicon()
+
+    End Class
+
+    ''' <summary>
+    ''' 复制子
+    ''' </summary>
+    Public Class replicon
+
+        ''' <summary>
+        ''' 当前的这个复制子对象是否是质粒基因组？
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property isPlasmid As Boolean
+        <XmlAttribute> Public Property genomeName As String
+
+        ''' <summary>
         ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property genes As Gene()
+        Public Property genes As gene()
         ''' <summary>
         ''' 转录调控网络
         ''' </summary>
         ''' <returns></returns>
         Public Property regulations As TranscriptionRegulation()
 
+        Public Overrides Function ToString() As String
+            Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
+            Return $"[{type}] {genomeName}"
+        End Function
+
     End Class
 
-    Public Class Gene
+    Public Class gene
 
         <XmlAttribute> Public Property locus_tag As String
         <XmlAttribute> Public Property protein_id As String
@@ -27,6 +53,7 @@ Namespace v2
 
         <XmlAttribute> Public Property left As Integer
         <XmlAttribute> Public Property right As Integer
+
         ''' <summary>
         ''' 
         ''' </summary>

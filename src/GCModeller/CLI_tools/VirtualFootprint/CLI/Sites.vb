@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -113,6 +114,8 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context,max_dist={maxDist}.csv"
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
         Dim nt As FastaSeq = gb.Origin.ToFasta
+        Dim isPlasmid As Boolean = gb.IsPlasmidSource
+        Dim replicon$ = gb.Accession.AccessionId Or $"{gb.Accession.AccessionId}=plasmid".When(isPlasmid)
 
         Using output As New WriteStream(Of FootprintSite)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
@@ -147,7 +150,8 @@ Partial Module CLI
                             .location = gene.Location,
                             .product = gene.Product,
                             .src = site.src,
-                            .sequenceData = sequence
+                            .sequenceData = sequence,
+                            .replicon = replicon
                         }
                         output.Flush(footprint)
                     Next
@@ -176,7 +180,8 @@ Partial Module CLI
                             .product = gene.Product,
                             .src = site.src,
                             .strand = site.strand,
-                            .sequenceData = sequence
+                            .sequenceData = sequence,
+                            .replicon = replicon
                         }
                         output.Flush(footprint)
                     Next

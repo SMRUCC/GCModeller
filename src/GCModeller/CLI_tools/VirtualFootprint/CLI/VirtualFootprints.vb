@@ -62,6 +62,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -551,7 +553,8 @@ Partial Module CLI
                             .regulog = predict.Regulog,
                             .species = predict.species,
                             .site = site,
-                            .sequenceData = gene.sequenceData
+                            .sequenceData = gene.sequenceData,
+                            .replicon = gene.replicon
                         }
                         regulations.Flush(regulation)
                     Next
@@ -560,6 +563,96 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/regulation.footprints.network")>
+    <Usage("/regulation.footprints.network /in <regulations.csv/repository> [/degree.cutoff <default=0> /supports.cutoff <default=1> /out <network.dir>]")>
+    Public Function RegulateFootprintNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim degreeCutoff% = args("/degree.cutoff") Or 0
+        Dim out$
+        Dim regulations As RegulationFootprint()
+        Dim duplicatedCutoff% = args("/supports.cutoff") Or 1
+
+        If [in].FileExists Then
+            out = args("/out") Or $"{[in].TrimSuffix}.network/"
+            regulations = [in].LoadCsv(Of RegulationFootprint)
+        Else
+            out = args("/out") Or $"{[in].TrimDIR}.network/"
+            regulations = (ls - l - r - "*.csv" <= [in]) _
+                .Select(Function(path)
+                            Return path.LoadCsv(Of RegulationFootprint)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        End If
+
+        Dim genomeReplicon$ = regulations _
+            .FirstOrDefault(Function(reg)
+                                Return InStr(reg.replicon, "plasmid", CompareMethod.Text) = 0
+                            End Function) _
+           ?.replicon
+        Dim regulators = regulations _
+            .GroupBy(Function(reg) reg.regulator) _
+            .ToDictionary(Function(reg) reg.Key,
+                          Function(reg) reg.ToArray)
+        Dim regulatedGenes = regulations _
+            .GroupBy(Function(reg) reg.regulated) _
+            .ToDictionary(Function(reg) reg.Key,
+                          Function(reg) reg.First)
+        Dim nodes = regulations _
+            .Select(Function(reg) {reg.regulator, reg.regulated}) _
+            .IteratesALL _
+            .Distinct _
+            .Select(Function(id)
+                        Dim type$ = "gene" Or "TF".When(regulators.ContainsKey(id))
+                        Dim data As New Dictionary(Of String, String)
+
+                        If regulatedGenes.ContainsKey(id) Then
+                            data(NameOf(RegulationFootprint.replicon)) = regulatedGenes(id).replicon
+                        Else
+                            data(NameOf(RegulationFootprint.replicon)) = genomeReplicon
+                        End If
+
+                        If type = "TF" Then
+                            data(NameOf(RegulationFootprint.family)) = regulators(id) _
+                                .Select(Function(r) r.family) _
+                                .Distinct _
+                                .JoinBy("|")
+                        End If
+
+                        Return New Node With {
+                            .ID = id,
+                            .NodeType = type,
+                            .Properties = data
+                        }
+                    End Function) _
+            .ToArray
+        Dim edges = regulations _
+            .GroupBy(Function(reg) $"{reg.regulator}__{reg.regulated}") _
+            .Where(Function(reg) reg.Count > duplicatedCutoff) _
+            .Select(Function(reg)
+                        Dim regulation As RegulationFootprint = reg.First
+
+                        Return New NetworkEdge With {
+                            .FromNode = regulation.regulator,
+                            .ToNode = regulation.regulated,
+                            .Interaction = "transcript_regulation",
+                            .value = 0,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"supports", reg.Count}
+                            }
+                        }
+                    End Function) _
+            .ToArray
+
+        Return New NetworkTables With {
+            .Edges = edges,
+            .Nodes = nodes
+        }.AnalysisDegrees _
+         .RemovesByDegree(degreeCutoff) _
+         .Save(out) _
+         .CLICode
     End Function
 
     ''' <summary>
