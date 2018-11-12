@@ -231,7 +231,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MetabolismStructure.vb" />
+    <Compile Include="v2\Genome.vb" />
+    <Compile Include="v2\MetabolismStructure.vb" />
     <Compile Include="EquationGenerator.vb" />
     <Compile Include="FBA\ModelParts\Vector.vb" />
     <Compile Include="FBA\ModelParts\MetabolismFlux.vb" />
@@ -294,6 +295,7 @@
     <Compile Include="GCML_Documents\XmlElements\Metabolism\Pathway.vb" />
     <Compile Include="GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb" />
     <Compile Include="GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb" />
+    <Compile Include="v2\ModelExtensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

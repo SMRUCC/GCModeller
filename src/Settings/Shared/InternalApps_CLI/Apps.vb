@@ -63,6 +63,7 @@ Public NotInheritable Class Apps
     Public Shared ReadOnly Property eggHTS As GCModellerApps.eggHTS
     Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
     Public Shared ReadOnly Property SyntenyVisual As GCModellerApps.Synteny
+    Public Shared ReadOnly Property GCModellerCompiler As GCModellerApps.GCC
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -107,15 +108,16 @@ Public NotInheritable Class Apps
                     Call "Using GCModeller development version.".__DEBUG_ECHO
                 End If
 
-                _eggHTS = New GCModellerApps.eggHTS(HOME & "/eggHTS.exe")
-                _NCBI_tools = New GCModellerApps.NCBI_tools(HOME & "/NCBI_tools.exe")
-                _localblast = New GCModellerApps.localblast(HOME & "/localblast.exe")
-                _MEME = New GCModellerApps.MEME(HOME & "/MEME.exe")
-                _KEGG_tools = New GCModellerApps.KEGG_tools(HOME & "/KEGG_tools.exe")
-                _seqtools = New GCModellerApps.seqtools(HOME & $"/{NameOf(seqtools)}.exe")
-                _VennDiagram = New GCModellerApps.venn(HOME & "/venn.exe")
-                _metaProfiler = New GCModellerApps.metaProfiler(HOME & "/" & GCModellerApps.metaProfiler.App)
-                _SyntenyVisual = New GCModellerApps.Synteny(HOME & "/" & GCModellerApps.Synteny.App)
+                _eggHTS = GCModellerApps.eggHTS.FromEnvironment(directory:=HOME)
+                _NCBI_tools = GCModellerApps.NCBI_tools.FromEnvironment(directory:=HOME)
+                _localblast = GCModellerApps.localblast.FromEnvironment(directory:=HOME)
+                _MEME = GCModellerApps.MEME.FromEnvironment(directory:=HOME)
+                _KEGG_tools = GCModellerApps.KEGG_tools.FromEnvironment(directory:=HOME)
+                _seqtools = GCModellerApps.seqtools.FromEnvironment(directory:=HOME)
+                _VennDiagram = GCModellerApps.venn.FromEnvironment(directory:=HOME)
+                _metaProfiler = GCModellerApps.metaProfiler.FromEnvironment(directory:=HOME)
+                _SyntenyVisual = GCModellerApps.Synteny.FromEnvironment(directory:=HOME)
+                _GCModellerCompiler = GCModellerApps.GCC.FromEnvironment(directory:=HOME)
 
                 Exit For
             End If

@@ -40,10 +40,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
@@ -51,7 +56,7 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 
 Public Module Extensions
 
-    <Extension> Public Function ToMarkup(model As CellularModule, KEGG As RepositoryArguments) As VirtualCell
+    <Extension> Public Function ToMarkup(model As CellularModule, genome As GBFF.File, KEGG As RepositoryArguments, regulations As RegulationFootprint()) As VirtualCell
         Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
             .Genotype _
             .CentralDogmas _
@@ -73,7 +78,13 @@ Public Module Extensions
                           Function(g) g.ToArray)
 
         Return New VirtualCell With {
-            .Taxonomy = model.Taxonomy,
+            .taxonomy = model.Taxonomy,
+            .genome = New Genome With {
+                .genes = genome.getGenes.ToArray,
+                .regulations = model _
+                    .getTFregulations(regulations) _
+                    .ToArray
+            },
             .MetabolismStructure = New MetabolismStructure With {
                 .Reactions = model _
                     .Phenotype _
@@ -90,40 +101,105 @@ Public Module Extensions
                 .Compounds = .Reactions _
                              .getCompounds(KEGG.GetCompounds) _
                              .ToArray,
-                .Pathways = KEGG.GetPathways _
+                .maps = KEGG.GetPathways _
                     .PathwayMaps _
-                    .Select(Function(map)
-                                Dim enzymeUnits = map.KEGGOrthology _
-                                    .Terms _
-                                    .SafeQuery _
-                                    .Where(Function(term)
-                                               Return KOfunc.ContainsKey(term.name)
-                                           End Function) _
-                                    .Select(Function(term)
-                                                Dim enzymeUnit = KOfunc(term.name) _
-                                                    .Select(Function(protein)
-                                                                Return New [Property] With {
-                                                                    .name = protein.polypeptide,
-                                                                    .Comment = protein.geneID,
-                                                                    .value = term.name
-                                                                }
-                                                            End Function) _
-                                                    .ToArray
-                                                Return enzymeUnit
-                                            End Function) _
-                                    .IteratesALL _
-                                    .ToArray
-
-                                Return New Pathway With {
-                                    .ID = map.KOpathway,
-                                    .name = map.name,
-                                    .enzymes = enzymeUnits
-                                }
-                            End Function) _
-                    .Where(Function(map) Not map.enzymes.IsNullOrEmpty) _
+                    .createMaps(KOfunc) _
                     .ToArray
             }
         }
+    End Function
+
+    <Extension>
+    Private Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
+        Dim mapgroups = pathwayMaps _
+            .Where(Function(map) Not map.brite Is Nothing) _
+            .GroupBy(Function(map) map.brite.class)
+
+        For Each category As IGrouping(Of String, bGetObject.PathwayMap) In mapgroups
+            Dim maps As New List(Of Pathway)
+
+            For Each map As bGetObject.PathwayMap In category
+                Dim enzymeUnits = map.KEGGOrthology _
+                    .Terms _
+                    .SafeQuery _
+                    .Where(Function(term)
+                               Return KOfunc.ContainsKey(term.name)
+                           End Function) _
+                    .Select(Function(term)
+                                Dim enzymeUnit = KOfunc(term.name) _
+                                    .Select(Function(protein)
+                                                Return New [Property] With {
+                                                    .name = protein.polypeptide,
+                                                    .Comment = protein.geneID,
+                                                    .value = term.name
+                                                }
+                                            End Function) _
+                                    .ToArray
+                                Return enzymeUnit
+                            End Function) _
+                    .IteratesALL _
+                    .ToArray
+
+                If Not enzymeUnits.IsNullOrEmpty Then
+                    maps += New Pathway With {
+                        .ID = map.KOpathway,
+                        .name = map.name,
+                        .enzymes = enzymeUnits
+                    }
+                End If
+            Next
+
+            If Not maps = 0 Then
+                Yield New FunctionalCategory With {
+                    .category = category.Key,
+                    .pathways = maps
+                }
+            End If
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of Gene)
+        For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
+            Yield New Gene With {
+                .left = gene.Location.Left,
+                .right = gene.Location.Right,
+                .locus_tag = gene.Synonym,
+                .product = gene.Product,
+                .protein_id = gene.PID,
+                .strand = gene.Location.Strand.GetBriefCode
+            }
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint()) As IEnumerable(Of TranscriptionRegulation)
+        Dim centralDogmas = model.Genotype.CentralDogmas.ToDictionary(Function(d) d.geneID)
+
+        For Each reg As RegulationFootprint In regulations
+            Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
+
+            If process.geneID.StringEmpty Then
+                Call $"{reg.regulated} process not found!".Warning
+            End If
+
+            Yield New TranscriptionRegulation With {
+                .biological_process = reg.biological_process,
+                .effector = reg.effector,
+                .mode = reg.mode,
+                .regulator = reg.regulator,
+                .target = reg.regulated,
+                .motif = New Motif With {
+                    .family = reg.family,
+                    .left = reg.motif.Left,
+                    .right = reg.motif.Right,
+                    .strand = reg.motif.Strand.GetBriefCode,
+                    .sequence = reg.sequenceData,
+                    .distance = reg.distance
+                },
+                .centralDogma = process.ToString
+            }
+        Next
     End Function
 
     <Extension>

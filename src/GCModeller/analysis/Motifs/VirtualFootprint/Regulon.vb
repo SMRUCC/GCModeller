@@ -1,52 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::c60daf22fc45ed101314046e81f3dfec, analysis\Motifs\VirtualFootprint\Regulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class RegPreciseRegulon
-    ' 
-    '     Properties: BiologicalProcess, Effectors, Family, hits, Members
-    '                 Pathway, Regulator, Sites
-    ' 
-    '     Function: __merge, Merge, Merges, ToNetwork, ToString
-    ' 
-    ' /********************************************************************************/
+' Class RegPreciseRegulon
+' 
+'     Properties: BiologicalProcess, Effectors, Family, hits, Members
+'                 Pathway, Regulator, Sites
+' 
+'     Function: __merge, Merge, Merges, ToNetwork, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.Regprecise
 
@@ -54,6 +52,7 @@ Imports SMRUCC.genomics.Data.Regprecise
 ''' Regulons object that reconstruct from RegPrecise database by using ``bbh`` method.
 ''' </summary>
 Public Class RegPreciseRegulon
+
     Public Property Regulator As String
     Public Property Family As String
     Public Property Pathway As String
@@ -68,8 +67,8 @@ Public Class RegPreciseRegulon
     End Function
 
     Public Shared Function ToNetwork(source As IEnumerable(Of RegPreciseRegulon)) As FileStream.NetworkTables
-        Dim Nodes As Dictionary(Of String, FileStream.Node) =
-            New Dictionary(Of String, FileStream.Node)
+        Dim Nodes As New Dictionary(Of String, FileStream.Node)
+
         For Each x As RegPreciseRegulon In source
             If Not Nodes.ContainsKey(x.Regulator) Then
                 Dim TF As New FileStream.Node With {
@@ -97,8 +96,7 @@ Public Class RegPreciseRegulon
         Dim edges As New List(Of NetworkEdge)
 
         For Each xGroup In Regulations
-            Dim toNodes As String() =
-                xGroup.Group.Select(Function(x) x.Members).Unlist.Distinct.ToArray
+            Dim toNodes As String() = xGroup.Group.Select(Function(x) x.Members).Unlist.Distinct.ToArray
             For Each member As String In toNodes
                 Dim edge As New NetworkEdge With {
                     .FromNode = xGroup.Regulator,
@@ -123,7 +121,7 @@ Public Class RegPreciseRegulon
 
     Private Shared Function __merge(source As IEnumerable(Of Regulator)) As RegPreciseRegulon
         Dim __1st = source.First
-        Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.LocusId)).Unlist
+        Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.locusId)).Unlist
         Dim effectors = (From x In source Select x.effector Distinct).ToArray
         Dim hits = (From x In source Select x.locus_tag.text Distinct Order By text Ascending).ToArray
         Dim sites = (From x In source Select x.regulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
@@ -160,8 +158,7 @@ Public Class RegPreciseRegulon
                                                       Function(x) x.Group.Select(Function(xxx) xxx.x))).ToArray
         Dim LQuery = (From x
                       In Groups.AsParallel
-                      Select x.parts.Values.Select(
-                          Function(xx) RegPreciseRegulon.Merge(xx))).Unlist.ToVector
+                      Select x.parts.Values.Select(AddressOf RegPreciseRegulon.Merge)).Unlist.ToVector
         Return LQuery
     End Function
 End Class

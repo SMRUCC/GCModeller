@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -172,6 +173,11 @@ Public Class MEME : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As MEME
+          Return New MEME(App:=directory & "/" & MEME.App)
+     End Function
 
 ''' <summary>
 ''' ```

@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -48,6 +49,11 @@ Public Class Profiler : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
+
+     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function FromEnvironment(directory As String) As Profiler
+          Return New Profiler(App:=directory & "/" & Profiler.App)
+     End Function
 
 ''' <summary>
 ''' ```
