@@ -56,10 +56,38 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 
 Public Module Extensions
 
-    <Extension> Public Function ToMarkup(model As CellularModule, genome As GBFF.File, KEGG As RepositoryArguments, regulations As RegulationFootprint()) As VirtualCell
+    <Extension>
+    Private Iterator Function populateReplicons(model As CellularModule,
+                                                genomes As Dictionary(Of String, GBFF.File),
+                                                regulations As RegulationFootprint()) As IEnumerable(Of replicon)
+        For Each genome In genomes
+            Yield New replicon With {
+                .genes = genome.Value _
+                    .getGenes _
+                    .ToArray,
+                .regulations = model _
+                    .getTFregulations(regulations) _
+                    .ToArray
+            }
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="genomes"></param>
+    ''' <param name="KEGG"></param>
+    ''' <param name="regulations">所有的复制子的调控网络应该都是合并在一起通过这个参数传递进来了</param>
+    ''' <returns></returns>
+    <Extension> Public Function ToMarkup(model As CellularModule,
+                                         genomes As Dictionary(Of String, GBFF.File),
+                                         KEGG As RepositoryArguments,
+                                         regulations As RegulationFootprint()) As VirtualCell
+
         Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
             .Genotype _
-            .CentralDogmas _
+            .centralDogmas _
             .Where(Function(process)
                        Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                    End Function) _
@@ -80,10 +108,7 @@ Public Module Extensions
         Return New VirtualCell With {
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
-                .genes = genome.getGenes.ToArray,
-                .regulations = model _
-                    .getTFregulations(regulations) _
-                    .ToArray
+                .replicons = model.populateReplicons(genomes, regulations)
             },
             .MetabolismStructure = New MetabolismStructure With {
                 .Reactions = model _

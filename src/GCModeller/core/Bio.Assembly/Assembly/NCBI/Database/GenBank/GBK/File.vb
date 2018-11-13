@@ -1,54 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::68df1154abd92dea953d3819043850ed, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class File
-    ' 
-    '         Properties: Accession, Comment, DbLinks, Definition, Features
-    '                     HasSequenceData, IsPlasmidSource, IsWGS, Keywords, Locus
-    '                     Origin, Reference, Source, SourceFeature, Taxon
-    '                     Version
-    ' 
-    '         Function: __trims, Load, LoadDatabase, Read, Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class File
+' 
+'         Properties: Accession, Comment, DbLinks, Definition, Features
+'                     HasSequenceData, IsPlasmidSource, IsWGS, Keywords, Locus
+'                     Origin, Reference, Source, SourceFeature, Taxon
+'                     Version
+' 
+'         Function: __trims, Load, LoadDatabase, Read, Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -224,6 +226,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <param name="Path">The target database text file to read.(所要读取的目标数据库文件)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(Path As String) As NCBI.GenBank.GBFF.File
             Return GbkParser.Read(Path)
         End Operator
@@ -246,10 +250,32 @@ Namespace Assembly.NCBI.GenBank.GBFF
             End Try
         End Function
 
+        ''' <summary>
+        ''' 检查目标文件是否为Genbank文件格式
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Shared Function IsValidGenbankFormat(path As String) As Boolean
+            Static samplingHeaders As Index(Of String) = {
+                "LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK"
+            }
+
+            Dim hits%
+
+            For Each line As String In path.IterateAllLines.Take(samplingHeaders.Count)
+                If line.Split.First.IsOneOfA(samplingHeaders) Then
+                    hits += 1
+                End If
+            Next
+
+            Return hits / samplingHeaders.Count >= 0.5
+        End Function
+
         Const GENBANK_MULTIPLE_RECORD_SPLIT As String = "^//$"
 
         ''' <summary>
-        ''' 假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载
+        ''' 假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
+        ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况
         ''' </summary>
         ''' <param name="filePath">The file path of the genbank database file, this gb file may contains sevral gb sections</param>
         ''' <returns></returns>

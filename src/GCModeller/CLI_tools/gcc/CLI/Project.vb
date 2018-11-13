@@ -58,6 +58,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 这个函数只是将代谢网络数据给写入到模型之中？
+    ''' 
+    ''' 如果是包括多个复制子的，例如染色体和质粒等，是可以通过合并在一个gb文件之中传递给这个命令行的
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -65,6 +67,7 @@ Partial Module CLI
     <Description("Create GCModeller virtual cell data model file.")>
     <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in)>
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
@@ -74,7 +77,11 @@ Partial Module CLI
             .KEGGReactions = args <= "/reactions"
         }
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
-        Dim genome As GBFF.File = GBFF.File.Load(path:=[in])
+        Dim genome As Dictionary(Of String, GBFF.File) = GBFF.File _
+            .LoadDatabase(filePath:=[in]) _
+            .ToDictionary(Function(gb)
+                              Return gb.Locus.AccessionID
+                          End Function)
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
