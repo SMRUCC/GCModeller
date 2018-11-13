@@ -97,6 +97,10 @@ RETURN_EMPTY:   Return New ACCESSION With {
 
     Public Class LOCUS : Inherits KeyWord
 
+        ''' <summary>
+        ''' 一般可以通过这个属性来作为整个基因组数据的唯一编号
+        ''' </summary>
+        ''' <returns></returns>
         Public Property AccessionID As String
         Public Property Length As Integer
         Public Property Type As String

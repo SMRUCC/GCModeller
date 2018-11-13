@@ -77,7 +77,11 @@ Partial Module CLI
             .KEGGReactions = args <= "/reactions"
         }
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
-        Dim genome As Dictionary(Of String, GBFF.File) = GBFF.File.LoadDatabase(filePath:=[in])
+        Dim genome As Dictionary(Of String, GBFF.File) = GBFF.File _
+            .LoadDatabase(filePath:=[in]) _
+            .ToDictionary(Function(gb)
+                              Return gb.Locus.AccessionID
+                          End Function)
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
