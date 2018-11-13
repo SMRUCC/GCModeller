@@ -228,7 +228,7 @@ Partial Module CLI
               Extensions:="*.png, *.svg",
               Description:="The file path of the output plot image.")>
     <Group(CLIGroups.DataVisualize_cli)>
-    Public Function DEPHeatmap3D(args As CommandLine) As Integer
+    Public Function DEPHeatmapScatter3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
