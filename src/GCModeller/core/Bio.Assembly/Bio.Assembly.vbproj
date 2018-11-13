@@ -577,6 +577,7 @@
     <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\Extensions.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\MotifSite.vb" />
+    <Compile Include="ComponentModel\Locus\Position.vb" />
     <Compile Include="ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />
     <Compile Include="ContextModel\Algorithm\ContextCore.vb" />

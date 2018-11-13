@@ -339,15 +339,6 @@ Namespace ComponentModel.Loci
         End Function
 
         ''' <summary>
-        ''' 获取当前的位点片段和一个指定的位点片段之间的重叠区域的长度
-        ''' </summary>
-        ''' <param name="loci"></param>
-        ''' <returns></returns>
-        Public Function GetOverlapSize(loci As NucleotideLocation) As Integer
-
-        End Function
-
-        ''' <summary>
         ''' 判断目标位点片段是否与本位点片段具有相互关系，这个函数是忽略掉了链的方向了的
         ''' </summary>
         ''' <param name="Loci"></param>
