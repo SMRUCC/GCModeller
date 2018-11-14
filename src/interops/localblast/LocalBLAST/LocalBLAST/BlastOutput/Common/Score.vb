@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::ce87e3ff41f77858368d2304c66a477f, LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BlastXScore
-    ' 
-    '         Properties: Frame
-    ' 
-    '         Function: ParseText, ToString
-    ' 
-    '     Structure Strand
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class BlastnScore
-    ' 
-    '         Properties: Strand
-    ' 
-    '         Function: ParseBlastn
-    ' 
-    '     Class Score
-    ' 
-    '         Properties: Expect, Gaps, Identities, Method, Positives
-    '                     RawScore, Score
-    ' 
-    '         Function: ScoreTable, ToString, (+2 Overloads) TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BlastXScore
+' 
+'         Properties: Frame
+' 
+'         Function: ParseText, ToString
+' 
+'     Structure Strand
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+'     Class BlastnScore
+' 
+'         Properties: Strand
+' 
+'         Function: ParseBlastn
+' 
+'     Class Score
+' 
+'         Properties: Expect, Gaps, Identities, Method, Positives
+'                     RawScore, Score
+' 
+'         Function: ScoreTable, ToString, (+2 Overloads) TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -186,7 +186,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         ''' 在这个函数之中会需要进行这些空缺的额外处理来保证程序不会出错
         ''' </remarks>
         Public Shared Function ScoreTable(text As String) As Dictionary(Of String, String)
-            Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").LineTokens
+            Dim lines = r.Replace(text.StringSplit("Length[=]\d+").LastOrDefault(""), "Expect\(\d+\)", "Expect").LineTokens
             Dim items = lines _
                 .Select(Function(l) l.Trim.Split(","c)) _
                 .IteratesALL _
