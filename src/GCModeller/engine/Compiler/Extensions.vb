@@ -108,7 +108,9 @@ Public Module Extensions
         Return New VirtualCell With {
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
-                .replicons = model.populateReplicons(genomes, regulations)
+                .replicons = model _
+                    .populateReplicons(genomes, regulations) _
+                    .ToArray
             },
             .MetabolismStructure = New MetabolismStructure With {
                 .Reactions = model _
