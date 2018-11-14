@@ -159,11 +159,11 @@ Namespace Core
                     Case "b"
                         MAX_POST_SIZE = (value)
                     Case "kb"
-                        MAX_POST_SIZE = (value.TagUnit(ByteSize.KB) = ByteSize.B)
+                        MAX_POST_SIZE = (value.Unit(ByteSize.KB) = ByteSize.B)
                     Case "mb"
-                        MAX_POST_SIZE = (value.TagUnit(ByteSize.MB) = ByteSize.B)
+                        MAX_POST_SIZE = (value.Unit(ByteSize.MB) = ByteSize.B)
                     Case "gb"
-                        MAX_POST_SIZE = (value.TagUnit(ByteSize.GB) = ByteSize.B)
+                        MAX_POST_SIZE = (value.Unit(ByteSize.GB) = ByteSize.B)
                     Case Else
                         Throw New InvalidExpressionException($"MAX_POST_SIZE={size}")
                 End Select

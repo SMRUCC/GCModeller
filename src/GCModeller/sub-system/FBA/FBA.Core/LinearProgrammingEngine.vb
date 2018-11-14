@@ -19,7 +19,7 @@ Public Class LinearProgrammingEngine
     ''' 可以将这个函数在继承类之中进行重写，就可以添加诸如调控信息之类的额外的模型信息了
     ''' </remarks>
     Protected Overridable Function CreateMatrix(model As CellularModule, target$()) As Matrix
-
+        Dim matrix#()() = model.Phenotype.fluxes.Select(Function(r) r.substrates)
     End Function
 
     Public Function Run(matrix As Matrix) As LPPSolution

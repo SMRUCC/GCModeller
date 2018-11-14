@@ -72,6 +72,20 @@ Public Structure Reaction
         Return ID
     End Function
 
+    ''' <summary>
+    ''' 获取这个代谢反应过程之中的所有的代谢物的编号列表
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property AllCompounds As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return substrates _
+                .Join(products) _
+                .Select(Function(c) c.text) _
+                .ToArray
+        End Get
+    End Property
+
     Public Function GetEquationString() As String
         Dim substrates As CompoundSpecieReference() = converts(Me.substrates)
         Dim products As CompoundSpecieReference() = converts(Me.products)
