@@ -13,6 +13,13 @@ Public Class Matrix
     ''' <returns></returns>
     Public Property Targets As String()
 
+    ''' <summary>
+    ''' 矩阵的结构为：
+    ''' 
+    ''' + 行应该为Compound
+    ''' + 列应该为代谢过程
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Matrix As Double()()
 
     Public ReadOnly Property NumOfFlux As Integer
