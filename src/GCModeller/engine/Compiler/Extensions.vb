@@ -67,7 +67,9 @@ Public Module Extensions
                     .ToArray,
                 .regulations = model _
                     .getTFregulations(regulations) _
-                    .ToArray
+                    .ToArray,
+                .isPlasmid = genome.Value.IsPlasmidSource,
+                .genomeName = genome.Value.Locus.AccessionID
             }
         Next
     End Function
