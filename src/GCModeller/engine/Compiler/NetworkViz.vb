@@ -58,14 +58,21 @@ Public Module NetworkViz
     <Extension>
     Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkTables
         Dim geneNodes As Dictionary(Of Node) = cell.genome _
-            .genes _
-            .Select(Function(gene)
-                        ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
-                        Return New Node With {
-                            .ID = gene.locus_tag,
-                            .NodeType = "gene"
-                        }
+            .replicons _
+            .Select(Function(genome)
+                        Return genome.genes _
+                            .Select(Function(gene)
+                                        ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
+                                        Return New Node With {
+                                            .ID = gene.locus_tag,
+                                            .NodeType = "gene",
+                                            .Properties = New Dictionary(Of String, String) From {
+                                                {"replicon", genome.genomeName}
+                                            }
+                                        }
+                                    End Function)
                     End Function) _
+            .IteratesALL _
             .ToDictionary()
         ' 为了简化模型，在这里仅将存在酶的代谢过程取出来
         Dim pathwayEnzymes = cell.GetPathwayEnzymes(pathways).Indexing
@@ -99,7 +106,9 @@ Public Module NetworkViz
                      End Sub)
         ' 产生调控因子的网络节点
         Call cell.genome _
-            .regulations _
+            .replicons _
+            .Select(Function(genome) genome.regulations) _
+            .IteratesALL _
             .GroupBy(Function(reg) reg.regulator) _
             .ForEach(Sub(reg, i)
                          ' 调控因子只有一个家族
@@ -134,7 +143,9 @@ Public Module NetworkViz
         End If
 
         Dim transcriptRegulationEdges = cell.genome _
-            .regulations _
+            .replicons _
+            .Select(Function(genome) genome.regulations) _
+            .IteratesALL _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
                        Return geneNodes.ContainsKey(reg.target)

@@ -78,7 +78,7 @@ Public Module Workflow
 
     <Extension>
     Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
-        Dim genes = model.Genotype.CentralDogmas.ToDictionary
+        Dim genes = model.Genotype.centralDogmas.ToDictionary
 
         model.Regulations = model.Regulations _
             .AsList + regulations _
@@ -99,15 +99,18 @@ Public Module Workflow
     ''' <summary>
     ''' 输出Model，然后再从Model写出模型文件
     ''' </summary>
-    ''' <param name="genome"></param>
+    ''' <param name="genomes"></param>
     ''' <param name="KOfunction"></param>
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingMetabolicNetwork(genome As GBFF.File, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
-        Dim taxonomy As Taxonomy = genome.Source.GetTaxonomy
+    Public Function AssemblingMetabolicNetwork(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+        Dim taxonomy As Taxonomy = genomes.Values _
+            .First(Function(gb) Not gb.IsPlasmidSource) _
+            .Source _
+            .GetTaxonomy
         Dim genotype As New Genotype With {
-            .CentralDogmas = genome _
+            .centralDogmas = genomes _
                 .GetCentralDogmas(KOfunction) _
                 .ToArray
         }
@@ -208,19 +211,27 @@ Public Module Workflow
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
 
     <Extension>
-    Private Iterator Function GetCentralDogmas(genome As GBFF.File, KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
-        Dim centralDogmaFeatures = genome _
-            .Features _
-            .Where(Function(feature)
-                       Return feature _
-                           .KeyName _
-                           .IsOneOfA(centralDogmaComponents)
-                   End Function) _
-            .GroupBy(Function(feature)
-                         Return feature.Query("locus_tag")
-                     End Function)
+    Private Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
+        Dim centralDogmaFeatures = genomes.Values _
+            .Select(Function(genome)
+                        Dim repliconId$ = genome.Locus.AccessionID
 
-        For Each feature As IGrouping(Of String, Feature) In centralDogmaFeatures
+                        Return genome.Features _
+                            .Where(Function(feature)
+                                       Return feature _
+                                           .KeyName _
+                                           .IsOneOfA(centralDogmaComponents)
+                                   End Function) _
+                            .GroupBy(Function(feature)
+                                         Return feature.Query("locus_tag")
+                                     End Function) _
+                            .Select(Function(feature)
+                                        Return New NamedCollection(Of Feature)(feature.Key, feature.ToArray, repliconId)
+                                    End Function)
+                    End Function) _
+            .IteratesALL
+
+        For Each feature As NamedCollection(Of Feature) In centralDogmaFeatures
             Dim gene As Feature = feature.First(Function(component) component.KeyName = "gene")
             Dim RNA As Feature = feature _
                 .FirstOrDefault(Function(component)
@@ -230,7 +241,7 @@ Public Module Workflow
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "CDS"
                                 End Function)
-            Dim locus_tag$ = feature.Key
+            Dim locus_tag$ = feature.Name
             Dim rnaType As RNATypes = RNATypes.mRNA
             Dim proteinId As String = Nothing
 
@@ -253,7 +264,7 @@ Public Module Workflow
                 ' 既没有RNA也没有CDS，这个可能是其他的类型的feature
                 ' 例如移动原件之类的
                 ' 跳过这些
-                Call $"Skip invalid locus_tag: {feature.Key}".Warning
+                Call $"Skip invalid locus_tag: {feature.Name}".Warning
 
                 Continue For
             End If
@@ -265,7 +276,8 @@ Public Module Workflow
                     .Value = rnaType
                 },
                 .polypeptide = proteinId,
-                .orthology = KOfunction.TryGetValue(.geneID)
+                .orthology = KOfunction.TryGetValue(.geneID),
+                .replicon = feature.Description
             }
         Next
     End Function
