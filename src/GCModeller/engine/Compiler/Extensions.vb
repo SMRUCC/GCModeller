@@ -67,7 +67,9 @@ Public Module Extensions
                     .ToArray,
                 .regulations = model _
                     .getTFregulations(regulations) _
-                    .ToArray
+                    .ToArray,
+                .isPlasmid = genome.Value.IsPlasmidSource,
+                .genomeName = genome.Value.Locus.AccessionID
             }
         Next
     End Function
@@ -108,7 +110,9 @@ Public Module Extensions
         Return New VirtualCell With {
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
-                .replicons = model.populateReplicons(genomes, regulations)
+                .replicons = model _
+                    .populateReplicons(genomes, regulations) _
+                    .ToArray
             },
             .MetabolismStructure = New MetabolismStructure With {
                 .Reactions = model _
