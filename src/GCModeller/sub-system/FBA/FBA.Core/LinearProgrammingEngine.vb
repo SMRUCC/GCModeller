@@ -62,7 +62,7 @@ Public Class LinearProgrammingEngine
             0.0.Replicate(matrix.NumOfCompounds).ToArray
         )
 
-        Return engine.solve
+        Return engine.solve(showProgress:=True)
     End Function
 
 End Class

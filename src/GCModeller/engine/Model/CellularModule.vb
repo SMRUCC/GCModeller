@@ -64,5 +64,9 @@ Public Structure CellularModule
     Public Phenotype As Phenotype
     Public Regulations As Regulation()
 
+    Public Overrides Function ToString() As String
+        Return Taxonomy.scientificName
+    End Function
+
 End Structure
 

@@ -72,6 +72,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Metagenomics
 
@@ -135,6 +136,14 @@ Namespace v2
 
         <XmlArray("pathwayMaps")>
         Public Property maps As FunctionalCategory()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetAllFluxID() As String()
+            Return Reactions _
+                .SafeQuery _
+                .Select(Function(r) r.ID) _
+                .ToArray
+        End Function
 
     End Class
 

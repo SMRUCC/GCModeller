@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::d4fba6ccd51fb333893104a672ef3dc3, CLI_tools\Solver.FBA\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Export, ImportsRxns
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: Export, ImportsRxns
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,11 +45,16 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Analysis.FBA.Core
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
@@ -77,12 +82,21 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         End Try
     End Sub
 
-    <ExportAPI("/Export", Info:="", Usage:="export -i <fba_model> -o <r_script>", Example:="export -i /home/xieguigang/ecoli.xml -o /home/xieguigang/ecoli.r")>
-    Public Function Export(args As CommandLine) As Integer
-        'Dim FBA As SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder = CommandLine("-i").LoadXml(Of SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder)()
-        'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBA.RScript, append:=False, encoding:=System.Text.Encoding.ASCII)
-        'Return 0
-        Throw New NotImplementedException
+    <ExportAPI("/solve.gcmarkup")>
+    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/objective <flux_names.txt> /out <out.txt>]")>
+    <Argument("/objective", True, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
+              If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.")>
+    Public Function SolveGCMarkup(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.FBA.txt"
+        Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+        Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
+        Dim dataModel As CellularModule = model.CreateModel
+        Dim result As LPPSolution = New LinearProgrammingEngine().Run(dataModel, targets)
+
+        Return result.ToString.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
