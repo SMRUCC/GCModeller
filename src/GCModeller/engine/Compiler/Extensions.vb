@@ -65,7 +65,7 @@ Public Module Extensions
                 .genes = genome.Value _
                     .getGenes _
                     .ToArray,
-                .RNAs = model.getRNAs,
+                .RNAs = model.getRNAs.ToArray,
                 .regulations = model _
                     .getTFregulations(regulations) _
                     .ToArray,
