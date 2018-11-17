@@ -75,6 +75,10 @@ Public Structure CentralDogma : Implements INamedValue
     Public Property geneID As String Implements IKeyedEntity(Of String).Key
 
     Dim RNA As NamedValue(Of RNATypes)
+
+    ''' <summary>
+    ''' 一般为NCBI或者Uniprot数据库之中的蛋白编号
+    ''' </summary>
     Dim polypeptide As String
     ''' <summary>
     ''' 一般是KO编号
