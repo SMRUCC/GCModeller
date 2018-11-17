@@ -62,21 +62,6 @@ Imports SMRUCC.genomics.Metagenomics
 Public Module Workflow
 
     <Extension>
-    Private Function evalEffects(reg As RegulationFootprint) As Double
-        If reg.mode.StringEmpty Then
-            Return 0.25
-        End If
-
-        If reg.mode.TextEquals("repressor") Then
-            Return -1
-        ElseIf reg.mode.TextEquals("activator") Then
-            Return 1
-        Else
-            Return 0.25
-        End If
-    End Function
-
-    <Extension>
     Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
         Dim genes = model.Genotype.centralDogmas.ToDictionary
 
@@ -85,7 +70,7 @@ Public Module Workflow
             .Select(Function(reg)
                         ' 调控的过程为中心法则的转录过程
                         Return New Regulation With {
-                            .effects = reg.evalEffects,
+                            .effects = reg.mode.EvalEffects,
                             .regulator = reg.regulator,
                             .type = Processes.Transcription,
                             .name = reg.biological_process,
@@ -199,12 +184,7 @@ Public Module Workflow
     <Extension>
     Private Function converts(compounds As CompoundSpecieReference()) As FactorString(Of Double)()
         Return compounds _
-            .Select(Function(r)
-                        Return New FactorString(Of Double) With {
-                            .Factor = r.StoiChiometry,
-                            .text = r.ID
-                        }
-                    End Function) _
+            .Select(Function(r) r.AsFactor) _
             .ToArray
     End Function
 

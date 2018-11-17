@@ -1,6 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction
 
 Namespace v2
 
@@ -30,9 +33,20 @@ Namespace v2
             Dim enzymes As Dictionary(Of String, Enzyme) = model.MetabolismStructure _
                 .Enzymes _
                 .ToDictionary(Function(enzyme) enzyme.geneID)
+            Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
 
             For Each replicon In model.genome.replicons
                 genomeName = replicon.genomeName
+                rnaTable = replicon _
+                    .RNAs _
+                    .ToDictionary(Function(r) r.gene,
+                                  Function(r)
+                                      Return New NamedValue(Of RNATypes) With {
+                                          .Name = r.gene,
+                                          .Value = r.type,
+                                          .Description = r.val
+                                      }
+                                  End Function)
 
                 For Each gene As gene In replicon.genes
                     Yield New CentralDogma With {
@@ -40,25 +54,66 @@ Namespace v2
                         .polypeptide = gene.protein_id,
                         .geneID = gene.locus_tag,
                         .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = New NamedValue(Of RNATypes)
+                        .RNA = rnaTable.TryGetValue(.geneID)
                     }
                 Next
             Next
         End Function
 
         <Extension>
-        Private Function istRNA(gene As gene) As Boolean
-
+        Private Function createPhenotype(model As VirtualCell) As Phenotype
+            Return New Phenotype With {.fluxes = model.createFluxes.ToArray}
         End Function
 
         <Extension>
-        Private Function createPhenotype(model As VirtualCell) As Phenotype
+        Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
+            Dim equation As Equation
+            Dim enzymes = model.MetabolismStructure _
+                .Enzymes _
+                .Select(Function(enz)
+                            Return enz _
+                                .catalysis _
+                                .Select(Function(ec)
+                                            Return (rID:=ec.reaction, enz:=enz.KO)
+                                        End Function)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(r) r.rID) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(g)
+                                  Return g.Select(Function(r) r.enz) _
+                                          .Distinct _
+                                          .ToArray
+                              End Function)
 
+            For Each reaction In model.MetabolismStructure.Reactions
+                equation = Equation.TryParse(reaction.Equation)
+
+                Yield New FluxModel With {
+                    .ID = reaction.ID,
+                    .name = reaction.name,
+                    .substrates = equation.Reactants _
+                        .Select(Function(c) c.AsFactor) _
+                        .ToArray,
+                    .products = equation.Products _
+                        .Select(Function(c) c.AsFactor) _
+                        .ToArray,
+                    .enzyme = enzymes.TryGetValue(.ID)
+                }
+            Next
         End Function
 
         <Extension>
         Private Iterator Function exportRegulations(model As VirtualCell) As IEnumerable(Of Regulation)
-
+            For Each reg As transcription In model.genome.regulations
+                Yield New Regulation With {
+                    .effects = reg.mode.EvalEffects,
+                    .name = reg.biological_process,
+                    .process = reg.centralDogma,
+                    .regulator = reg.regulator,
+                    .type = Processes.Transcription
+                }
+            Next
         End Function
     End Module
 End Namespace

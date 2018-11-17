@@ -50,6 +50,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel.DefaultTypes
@@ -73,6 +74,14 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
             Return Equivalence.Equals(Me, b, strict)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function AsFactor() As FactorString(Of Double)
+            Return New FactorString(Of Double) With {
+                .factor = StoiChiometry,
+                .text = ID
+            }
         End Function
 
         Public Overrides Function ToString() As String
