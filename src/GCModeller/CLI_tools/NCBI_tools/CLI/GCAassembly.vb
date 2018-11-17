@@ -82,7 +82,7 @@ Partial Module CLI
 
         Using writer As StreamWriter = out.OpenWriter
             For Each file As String In ls - l - r - {"*.gb", "*.gbk"} <= [in]
-                Call writer.WriteLine(file.ReadAllText)
+                Call writer.WriteLine(file.ReadAllText.TrimEnd(" "c, ASCII.CR, ASCII.LF, ASCII.TAB, "/"c))
                 Call writer.WriteLine(GBFF.File.GenbankMultipleRecordDelimiter)
             Next
         End Using
