@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -123,7 +124,7 @@ Public Structure CentralDogma : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        If IsRNAGene Then
+        If Not IsRNAGene Then
             Return {geneID, RNAName, polypeptide}.JoinBy(" => ")
         Else
             Return {geneID, RNAName}.JoinBy(" -> ")
@@ -134,6 +135,8 @@ End Structure
 Public Enum RNATypes As Byte
     mRNA = 0
     tRNA
+
+    <Description("rRNA")>
     ribosomalRNA
     ''' <summary>
     ''' 其他类型的RNA
