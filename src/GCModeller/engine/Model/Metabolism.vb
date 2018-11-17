@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.TagData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
@@ -70,7 +71,7 @@ Public Class Reaction
     Public enzyme As String()
 
     Public Overrides Function ToString() As String
-        Return ID
+        Return ID & " " & enzyme.GetJson
     End Function
 
     ''' <summary>

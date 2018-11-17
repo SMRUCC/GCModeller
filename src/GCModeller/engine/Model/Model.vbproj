@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CentralDogma.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="Metabolism.vb" />
     <Compile Include="CellularModule.vb" />
     <Compile Include="Regulation.vb" />
