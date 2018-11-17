@@ -115,7 +115,16 @@ Public Structure CentralDogma : Implements INamedValue
 
     Public ReadOnly Property RNAName As String
         Get
-            Return $"{geneID}::{RNA.Value.Description}"
+            Select Case RNA.Value
+                Case RNATypes.mRNA
+                    Return $"{geneID}::{RNA.Value.Description}"
+                Case RNATypes.ribosomalRNA
+                    Return $"{RNA.Description}_rRNA"
+                Case RNATypes.tRNA
+                    Return $"tRNA-{RNA.Description}"
+                Case Else
+                    Return geneID & "::RNA"
+            End Select
         End Get
     End Property
 

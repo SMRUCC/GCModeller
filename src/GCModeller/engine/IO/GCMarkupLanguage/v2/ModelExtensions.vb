@@ -20,7 +20,7 @@ Namespace v2
                 .Genotype = New Genotype With {
                     .centralDogmas = model _
                         .createGenotype _
-                        .OrderByDescending(Function(gene) gene.orthology) _
+                        .OrderByDescending(Function(gene) gene.RNA.Value) _
                         .ToArray
                 },
                 .Phenotype = model.createPhenotype,
@@ -35,6 +35,7 @@ Namespace v2
                 .Enzymes _
                 .ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
+            Dim RNA As NamedValue(Of RNATypes)
 
             For Each replicon In model.genome.replicons
                 genomeName = replicon.genomeName
@@ -50,12 +51,21 @@ Namespace v2
                                   End Function)
 
                 For Each gene As gene In replicon.genes
+                    If rnaTable.ContainsKey(gene.locus_tag) Then
+                        RNA = rnaTable(gene.locus_tag)
+                    Else
+                        ' 枚举的默认值为mRNA
+                        RNA = New NamedValue(Of RNATypes) With {
+                            .Name = gene.locus_tag
+                        }
+                    End If
+
                     Yield New CentralDogma With {
                         .replicon = genomeName,
                         .polypeptide = gene.protein_id,
                         .geneID = gene.locus_tag,
                         .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = rnaTable.TryGetValue(.geneID)
+                        .RNA = RNA
                     }
                 Next
             Next
