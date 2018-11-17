@@ -10,6 +10,7 @@ Namespace v2
         ''' 一个完整的基因组是由若干个复制子所构成的，复制子主要是指基因组和细菌的质粒基因组
         ''' </summary>
         ''' <returns></returns>
+        <XmlElement(NameOf(replicon))>
         Public Property replicons As replicon()
 
         ''' <summary>
