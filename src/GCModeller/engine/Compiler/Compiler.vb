@@ -141,7 +141,8 @@ Public Module Workflow
             Dim catalysis = KOreactions.TryGetValue(enzyme.Value)
 
             For Each flux In catalysis.SafeQuery
-                Dim fluxName$ = flux.flux.CommonNames.ElementAtOrDefault(0) Or flux.flux.Definition.AsDefault
+                Dim fluxName$ = flux _
+                    .flux.CommonNames.ElementAtOrDefault(0) Or flux.flux.Definition.AsDefault
 
                 Yield New Regulation With {
                     .effects = 2,

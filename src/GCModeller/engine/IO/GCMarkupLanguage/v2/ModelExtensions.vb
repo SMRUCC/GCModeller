@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
@@ -62,8 +63,8 @@ Namespace v2
 
                     Yield New CentralDogma With {
                         .replicon = genomeName,
-                        .polypeptide = gene.protein_id,
                         .geneID = gene.locus_tag,
+                        .polypeptide = gene.protein_id Or $"{ .geneID}::peptide".AsDefault,
                         .orthology = enzymes.TryGetValue(.geneID)?.KO,
                         .RNA = RNA
                     }
