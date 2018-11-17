@@ -60,21 +60,25 @@ Public Module Extensions
     Private Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
         For Each genome In genomes
             Yield New replicon With {
+                .genomeName = genome.Value.Locus.AccessionID,
                 .genes = genome.Value _
                     .getGenes _
                     .ToArray,
-                .RNAs = model.getRNAs.ToArray,
-                .isPlasmid = genome.Value.IsPlasmidSource,
-                .genomeName = genome.Value.Locus.AccessionID
+                .RNAs = model _
+                    .getRNAs(.genomeName) _
+                    .ToArray,
+                .isPlasmid = genome.Value.IsPlasmidSource
             }
         Next
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Private Function getRNAs(model As CellularModule) As IEnumerable(Of RNA)
+    <Extension> Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
         Return model.Genotype _
             .centralDogmas _
-            .Where(Function(proc) proc.RNA.Value <> RNATypes.mRNA) _
+            .Where(Function(proc)
+                       Return proc.RNA.Value <> RNATypes.mRNA AndAlso repliconName = proc.replicon
+                   End Function) _
             .Select(Function(proc)
                         Return New RNA With {
                             .type = proc.RNA.Value,
