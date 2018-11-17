@@ -20,6 +20,7 @@ Namespace v2
                 .Genotype = New Genotype With {
                     .centralDogmas = model _
                         .createGenotype _
+                        .OrderByDescending(Function(gene) gene.orthology) _
                         .ToArray
                 },
                 .Phenotype = model.createPhenotype,
@@ -60,9 +61,14 @@ Namespace v2
             Next
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
-            Return New Phenotype With {.fluxes = model.createFluxes.ToArray}
+            Return New Phenotype With {
+                .fluxes = model.createFluxes _
+                    .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                    .ToArray
+            }
         End Function
 
         <Extension>
