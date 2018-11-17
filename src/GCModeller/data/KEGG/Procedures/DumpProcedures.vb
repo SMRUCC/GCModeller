@@ -75,7 +75,7 @@ Public Module DumpProcedures
 
         For Each xml As String In ls - l - r - "*.XML" <= DIR
             Dim map As PathwayMap = xml.LoadXml(Of PathwayMap)
-            Dim image$ = (xml.TrimSuffix & ".png").Open.ZipAsBase64
+            Dim image$ = (xml.TrimSuffix & ".png").Open.GZipAsBase64
 
             data_pathways += New mysql.data_pathway With {
                 .map = image,
