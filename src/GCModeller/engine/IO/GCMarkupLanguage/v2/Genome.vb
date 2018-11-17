@@ -1,5 +1,6 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace v2
 
@@ -9,7 +10,18 @@ Namespace v2
         ''' 一个完整的基因组是由若干个复制子所构成的，复制子主要是指基因组和细菌的质粒基因组
         ''' </summary>
         ''' <returns></returns>
+        <XmlElement(NameOf(replicon))>
         Public Property replicons As replicon()
+
+        ''' <summary>
+        ''' 转录调控网络
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 如果这个基因组是由多个复制子构成的，那么在这里面会由染色体上面的调控因子和质粒上的
+        ''' 调控因子之间的相互调控作用网络的数据而构成
+        ''' </remarks>
+        Public Property regulations As transcription()
 
     End Class
 
@@ -30,11 +42,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property genes As gene()
-        ''' <summary>
-        ''' 转录调控网络
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property regulations As TranscriptionRegulation()
+        Public Property RNAs As RNA()
 
         Public Overrides Function ToString() As String
             Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
@@ -66,7 +74,25 @@ Namespace v2
 
     End Class
 
-    Public Class TranscriptionRegulation
+    ''' <summary>
+    ''' 只记录tRNA，rRNA和其他RNA的数据，对于mRNA则不做记录
+    ''' </summary>
+    Public Class RNA
+
+        ''' <summary>
+        ''' <see cref="v2.gene.locus_tag"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property gene As String
+        <XmlAttribute> Public Property type As RNATypes
+        <XmlAttribute> Public Property val As String
+
+    End Class
+
+    ''' <summary>
+    ''' 基因表达转录调控
+    ''' </summary>
+    Public Class transcription
 
         <XmlAttribute> Public Property regulator As String
         <XmlAttribute> Public Property target As String

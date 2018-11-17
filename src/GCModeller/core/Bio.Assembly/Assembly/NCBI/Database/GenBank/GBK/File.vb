@@ -271,7 +271,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return hits / samplingHeaders.Count >= 0.5
         End Function
 
-        Const GENBANK_MULTIPLE_RECORD_SPLIT As String = "^//$"
+        Public Const GenbankMultipleRecordDelimiterRegexp$ = "^//$"
+        Public Const GenbankMultipleRecordDelimiter$ = "//"
 
         ''' <summary>
         ''' 假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
@@ -284,12 +285,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
         <ExportAPI("Load.DbList", Info:="Using this function to load the ncbi genbank database file if the database file contains more than one genome.")>
         Public Shared Iterator Function LoadDatabase(filePath As String) As IEnumerable(Of File)
             Dim data As String = FileIO.FileSystem.ReadAllText(filePath)
-            Dim parts$() = r.Split(data, GENBANK_MULTIPLE_RECORD_SPLIT, RegexOptions.Multiline)
+            Dim parts$() = r.Split(data, GenbankMultipleRecordDelimiterRegexp, RegexOptions.Multiline)
             Dim sBuf As IEnumerable(Of String()) =
  _
                 From s As String
                 In parts.AsParallel
-                Let ss As String = s & vbCrLf & "//"
+                Let ss As String = s & vbCrLf & GenbankMultipleRecordDelimiter
                 Select ss.LineTokens
 
             Try

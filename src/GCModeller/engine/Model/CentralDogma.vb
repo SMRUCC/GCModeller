@@ -74,7 +74,19 @@ Public Structure CentralDogma : Implements INamedValue
     ''' </summary>
     Public Property geneID As String Implements IKeyedEntity(Of String).Key
 
+    ''' <summary>
+    ''' 在这个属性的Description字段值之中，如果为
+    '''
+    ''' + <see cref="RNATypes.micsRNA"/>或者<see cref="RNATypes.mRNA"/>，则是空的字符串
+    ''' + <see cref="RNATypes.tRNA"/>，则是所绑定的氨基酸的名称
+    ''' + <see cref="RNATypes.ribosomalRNA"/>，则是rRNA的大小，如16S, 23S, 5S等
+    ''' 
+    ''' </summary>
     Dim RNA As NamedValue(Of RNATypes)
+
+    ''' <summary>
+    ''' 一般为NCBI或者Uniprot数据库之中的蛋白编号
+    ''' </summary>
     Dim polypeptide As String
     ''' <summary>
     ''' 一般是KO编号
@@ -123,6 +135,10 @@ Public Enum RNATypes As Byte
     mRNA = 0
     tRNA
     ribosomalRNA
+    ''' <summary>
+    ''' 其他类型的RNA
+    ''' </summary>
+    micsRNA
 End Enum
 
 ''' <summary>

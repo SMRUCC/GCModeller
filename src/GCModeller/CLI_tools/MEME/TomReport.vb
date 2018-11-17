@@ -132,7 +132,7 @@ E-Value: {query.Subject.Evalue}
         Call ReportBuilder.SaveAsHTML(innerHTML.ToString,
                                       outDIR & "/TomQuery.html",
                                       "Motif Query: " & query.Query.ToString)
-        Call GZip.AddToArchive(ls - l - r - "*.*" <= outDIR, outDIR & "/TomQuery.zip", ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
+        Call ZipLib.AddToArchive(ls - l - r - "*.*" <= outDIR, outDIR & "/TomQuery.zip", ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
 
         Return True
     End Function

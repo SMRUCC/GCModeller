@@ -166,7 +166,8 @@ Namespace ComponentModel.Loci
 
             Const complement$ = "complement\([^)]+\)"
 
-            Dim s As Strands = Strands.Forward Or Strands.Reverse.When(r.Match(loci, complement, RegexOptions.IgnoreCase).Success)
+            Dim isComplement As Boolean = r.Match(loci, complement, RegexOptions.IgnoreCase).Success
+            Dim s As Strands = Strands.Forward Or Strands.Reverse.When(isComplement)
             Dim pos%() = LinqAPI.Exec(Of Integer) _
  _
                 () <= From match As Match
