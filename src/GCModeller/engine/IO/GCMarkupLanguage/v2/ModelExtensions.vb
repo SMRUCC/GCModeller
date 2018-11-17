@@ -23,7 +23,7 @@ Namespace v2
                         .ToArray
                 },
                 .Phenotype = model.createPhenotype,
-                .Regulations = model.exportRegulations
+                .Regulations = model.exportRegulations.ToArray
             }
         End Function
 
