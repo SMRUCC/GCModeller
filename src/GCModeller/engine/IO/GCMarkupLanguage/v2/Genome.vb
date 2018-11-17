@@ -12,6 +12,16 @@ Namespace v2
         ''' <returns></returns>
         Public Property replicons As replicon()
 
+        ''' <summary>
+        ''' 转录调控网络
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 如果这个基因组是由多个复制子构成的，那么在这里面会由染色体上面的调控因子和质粒上的
+        ''' 调控因子之间的相互调控作用网络的数据而构成
+        ''' </remarks>
+        Public Property regulations As transcription()
+
     End Class
 
     ''' <summary>
@@ -32,12 +42,6 @@ Namespace v2
         ''' <returns></returns>
         Public Property genes As gene()
         Public Property RNAs As RNA()
-
-        ''' <summary>
-        ''' 转录调控网络
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property regulations As TranscriptionRegulation()
 
         Public Overrides Function ToString() As String
             Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
@@ -84,7 +88,10 @@ Namespace v2
 
     End Class
 
-    Public Class TranscriptionRegulation
+    ''' <summary>
+    ''' 基因表达转录调控
+    ''' </summary>
+    Public Class transcription
 
         <XmlAttribute> Public Property regulator As String
         <XmlAttribute> Public Property target As String

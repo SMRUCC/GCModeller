@@ -57,18 +57,13 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 Public Module Extensions
 
     <Extension>
-    Private Iterator Function populateReplicons(model As CellularModule,
-                                                genomes As Dictionary(Of String, GBFF.File),
-                                                regulations As RegulationFootprint()) As IEnumerable(Of replicon)
+    Private Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
         For Each genome In genomes
             Yield New replicon With {
                 .genes = genome.Value _
                     .getGenes _
                     .ToArray,
                 .RNAs = model.getRNAs.ToArray,
-                .regulations = model _
-                    .getTFregulations(regulations) _
-                    .ToArray,
                 .isPlasmid = genome.Value.IsPlasmidSource,
                 .genomeName = genome.Value.Locus.AccessionID
             }
@@ -126,7 +121,10 @@ Public Module Extensions
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
                 .replicons = model _
-                    .populateReplicons(genomes, regulations) _
+                    .populateReplicons(genomes) _
+                    .ToArray,
+                 .regulations = model _
+                    .getTFregulations(regulations) _
                     .ToArray
             },
             .MetabolismStructure = New MetabolismStructure With {
@@ -217,8 +215,8 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint()) As IEnumerable(Of TranscriptionRegulation)
-        Dim centralDogmas = model.Genotype.CentralDogmas.ToDictionary(Function(d) d.geneID)
+    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint()) As IEnumerable(Of transcription)
+        Dim centralDogmas = model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
 
         For Each reg As RegulationFootprint In regulations
             Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
@@ -227,7 +225,7 @@ Public Module Extensions
                 Call $"{reg.regulated} process not found!".Warning
             End If
 
-            Yield New TranscriptionRegulation With {
+            Yield New transcription With {
                 .biological_process = reg.biological_process,
                 .effector = reg.effector,
                 .mode = reg.mode,
