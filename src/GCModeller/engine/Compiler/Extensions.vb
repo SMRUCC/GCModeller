@@ -83,7 +83,7 @@ Public Module Extensions
             .Select(Function(proc)
                         Return New RNA With {
                             .type = proc.RNA.Value,
-                            .data = proc.RNA.Description,
+                            .val = proc.RNA.Description,
                             .gene = proc.geneID
                         }
                     End Function)

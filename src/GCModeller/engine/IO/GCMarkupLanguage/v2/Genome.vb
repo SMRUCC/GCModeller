@@ -80,9 +80,7 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property gene As String
         <XmlAttribute> Public Property type As RNATypes
-
-        <XmlText>
-        Public Property data As String
+        <XmlAttribute> Public Property val As String
 
     End Class
 
