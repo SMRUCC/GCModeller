@@ -1,5 +1,6 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace v2
 
@@ -30,6 +31,8 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property genes As gene()
+        Public Property RNAs As RNA()
+
         ''' <summary>
         ''' 转录调控网络
         ''' </summary>
@@ -63,6 +66,23 @@ Namespace v2
         ''' 所以在这里使用字符串类型来解决这个问题
         ''' </remarks>
         <XmlAttribute> Public Property strand As String
+
+    End Class
+
+    ''' <summary>
+    ''' 只记录tRNA，rRNA和其他RNA的数据，对于mRNA则不做记录
+    ''' </summary>
+    Public Class RNA
+
+        ''' <summary>
+        ''' <see cref="v2.gene.locus_tag"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property gene As String
+        <XmlAttribute> Public Property type As RNATypes
+
+        <XmlText>
+        Public Property data As String
 
     End Class
 

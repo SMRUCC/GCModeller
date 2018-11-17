@@ -65,6 +65,7 @@ Public Module Extensions
                 .genes = genome.Value _
                     .getGenes _
                     .ToArray,
+                .RNAs = model.getRNAs,
                 .regulations = model _
                     .getTFregulations(regulations) _
                     .ToArray,
@@ -72,6 +73,20 @@ Public Module Extensions
                 .genomeName = genome.Value.Locus.AccessionID
             }
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension> Private Function getRNAs(model As CellularModule) As IEnumerable(Of RNA)
+        Return model.Genotype _
+            .centralDogmas _
+            .Where(Function(proc) proc.RNA.Value <> RNATypes.mRNA) _
+            .Select(Function(proc)
+                        Return New RNA With {
+                            .type = proc.RNA.Value,
+                            .data = proc.RNA.Description,
+                            .gene = proc.geneID
+                        }
+                    End Function)
     End Function
 
     ''' <summary>
