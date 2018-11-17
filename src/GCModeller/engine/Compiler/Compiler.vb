@@ -243,13 +243,16 @@ Public Module Workflow
                                 End Function)
             Dim locus_tag$ = feature.Name
             Dim rnaType As RNATypes = RNATypes.mRNA
+            Dim rnaData As String = ""
             Dim proteinId As String = Nothing
 
             If Not RNA Is Nothing Then
                 If RNA.KeyName = "tRNA" Then
                     rnaType = RNATypes.tRNA
+                    rnaData = tRNAAnticodon.Parse(RNA.Query("anticodon")).aa
                 Else
                     rnaType = RNATypes.ribosomalRNA
+                    rnaData = RNA.Query("product").Trim.Split().First
                 End If
             ElseIf Not CDS Is Nothing Then
                 proteinId = CDS.Query("protein_id")
@@ -273,7 +276,8 @@ Public Module Workflow
                 .geneID = locus_tag,
                 .RNA = New NamedValue(Of RNATypes) With {
                     .Name = locus_tag,
-                    .Value = rnaType
+                    .Value = rnaType,
+                    .Description = rnaData
                 },
                 .polypeptide = proteinId,
                 .orthology = KOfunction.TryGetValue(.geneID),

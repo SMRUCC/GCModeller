@@ -106,9 +106,7 @@ Public Module NetworkViz
                      End Sub)
         ' 产生调控因子的网络节点
         Call cell.genome _
-            .replicons _
-            .Select(Function(genome) genome.regulations) _
-            .IteratesALL _
+            .regulations _
             .GroupBy(Function(reg) reg.regulator) _
             .ForEach(Sub(reg, i)
                          ' 调控因子只有一个家族
@@ -143,9 +141,7 @@ Public Module NetworkViz
         End If
 
         Dim transcriptRegulationEdges = cell.genome _
-            .replicons _
-            .Select(Function(genome) genome.regulations) _
-            .IteratesALL _
+            .regulations _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
                        Return geneNodes.ContainsKey(reg.target)
