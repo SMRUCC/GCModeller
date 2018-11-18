@@ -46,8 +46,8 @@ Public Class LinearProgrammingEngine
             .Compounds = allCompounds,
             .Flux = model.Phenotype _
                 .fluxes _
-                .Select(Function(flux) flux.ID) _
-                .ToArray,
+                .ToDictionary(Function(flux) flux.ID,
+                              Function(flux) flux.bounds),
             .Targets = targets
         }
     End Function
@@ -55,7 +55,7 @@ Public Class LinearProgrammingEngine
     Public Function Run(matrix As Matrix) As LPPSolution
         Dim engine As New LPP(
             OptimizationType.MAX,
-            matrix.Flux,
+            matrix.Flux.Keys.ToArray,
             matrix.GetTargetCoefficients,
             matrix.GetMatrix,
             "=".Replicate(matrix.NumOfCompounds).ToArray,
