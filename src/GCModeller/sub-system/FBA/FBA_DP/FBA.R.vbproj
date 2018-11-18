@@ -253,6 +253,7 @@
     <Compile Include="rFBA\rFBASolver.vb" />
     <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="Simpheny\Tables.vb" />
+    <Compile Include="v2\lpSolveRScript.vb" />
     <Compile Include="Visual\FluxVisual.vb" />
   </ItemGroup>
   <ItemGroup>

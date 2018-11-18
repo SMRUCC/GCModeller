@@ -66,6 +66,8 @@ Namespace lpSolveAPI
     ''' </summary>
     Public Module APIExtensions
 
+        Public Const packageName$ = "lpSolveAPI"
+
         ''' <summary>
         ''' Set the objective function in an lpSolve linear program model object.
         ''' </summary>
@@ -77,7 +79,7 @@ Namespace lpSolveAPI
         ''' from the set {1, ..., n} where n is the number of decision variables in lprec; obj[i] is entered into 
         ''' column indices[i] in objective function. The coefficients for the columns not in indices are set to zero. 
         ''' This argument should be omitted when length(obj) == n.</param>
-        Public Sub setobjfn(lprec$, obj As IEnumerable(Of Integer), Optional indices As IEnumerable(Of Integer) = Nothing)
+        Public Sub setobjfn(lprec$, obj As IEnumerable(Of Double), Optional indices As IEnumerable(Of Integer) = Nothing)
             SyncLock R
                 With R
                     If indices Is Nothing Then
@@ -177,6 +179,53 @@ Namespace lpSolveAPI
             End SyncLock
 
             Return var
+        End Function
+
+        ''' <summary>
+        ''' Retrieve the value of the objective function from a successfully solved lpSolve linear program 
+        ''' model object.
+        ''' </summary>
+        ''' <param name="lprec">an lpSolve linear program model object.</param>
+        ''' <returns>a single numeric value containing the value of the objective function.</returns>
+        Public Function getobjective(lprec As String) As Double
+            SyncLock R
+                With R
+                    Dim result = App.NextTempName
+                    Dim val#
+
+                    .call = $"{result} <- get.objective({lprec});"
+                    val = .Evaluate(result) _
+                          .AsNumeric _
+                          .First
+
+                    Return val
+                End With
+            End SyncLock
+        End Function
+
+        ''' <summary>
+        ''' Retrieve the values of the decision variables from a successfully solved lpSolve linear 
+        ''' program model object.
+        ''' </summary>
+        ''' <param name="lprec">an lpSolve linear program model object.</param>
+        ''' <returns>
+        ''' a numeric vector containing the values of the decision variables corresponding to the 
+        ''' optimal solution.
+        ''' </returns>
+        Public Function getvariables(lprec As String) As Double()
+            SyncLock R
+                With R
+                    Dim result = App.NextTempName
+                    Dim val#()
+
+                    .call = $"{result} <- get.variables({lprec});"
+                    val = .Evaluate(result) _
+                          .AsNumeric _
+                          .ToArray
+
+                    Return val
+                End With
+            End SyncLock
         End Function
     End Module
 
