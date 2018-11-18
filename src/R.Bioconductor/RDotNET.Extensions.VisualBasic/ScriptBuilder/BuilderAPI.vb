@@ -109,12 +109,12 @@ Namespace SymbolBuilder
                             Return getExpr(token, x.prop, x.func, x.param)
                         End Function) _
                 .ToArray
-            Dim args As String() = LinqAPI.Exec(Of String) <=
+            Dim args As String() = LinqAPI.Exec(Of String) _
  _
-                From p As String
-                In parameters
-                Where Not String.IsNullOrEmpty(p)
-                Select p
+                () <= From p As String
+                      In parameters
+                      Where Not String.IsNullOrEmpty(p)
+                      Select p
 
             Dim script As String = $"{name}({String.Join(", " & vbCrLf, args)})"
             Return script
@@ -124,14 +124,23 @@ Namespace SymbolBuilder
         ''' GET API name
         ''' </summary>
         ''' <param name="type"></param>
+        ''' <param name="typeNameAsFuncCalls">
+        ''' 是否允许当程序在查找不到<see cref="RFunc"/>自定义属性标记的时候，直接使用类型的名称作为函数名？
+        ''' 如果不的话，则在没有查找结果的时候会抛出错误
+        ''' </param>
         ''' <returns></returns>
-        <Extension> Public Function GetAPIName(type As Type) As String
-            Dim name As RFunc = type.GetAttribute(Of RFunc) ' Get function name
+        <Extension> Public Function GetAPIName(type As Type, Optional typeNameAsFuncCalls As Boolean = False) As String
+            ' Get function name
+            Dim name As RFunc = type.GetAttribute(Of RFunc)
 
             If name Is Nothing Then
-                Dim ex As New Exception(IsNotAFunc)
-                ex = New Exception(type.FullName, ex)
-                Throw ex
+                If typeNameAsFuncCalls Then
+                    Return type.Name
+                Else
+                    With New Exception(IsNotAFunc)
+                        Throw New Exception(type.FullName, .ByRef)
+                    End With
+                End If
             Else
                 Return name.Name
             End If
