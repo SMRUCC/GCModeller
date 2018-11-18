@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("FBA_DP")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("FBA_DP")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("FBA analysis Rscript builder")>
+<Assembly: AssemblyDescription("FBA analysis Rscript builder")>
+<Assembly: AssemblyCompany("SMRUCC genomics")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © xieguigang 2018")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 
