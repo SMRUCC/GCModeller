@@ -139,6 +139,45 @@ Namespace lpSolveAPI
                 End With
             End SyncLock
         End Sub
+
+        ''' <summary>
+        ''' Set bounds on the decision variables in an lpSolve linear program model object.
+        ''' </summary>
+        ''' <param name="lprec$">an lpSolve linear program model object.</param>
+        ''' <param name="lower$">a numeric vector of lower bounds to be set on the decision variables specified in columns. 
+        ''' If NULL the lower bounds are not changed.</param>
+        ''' <param name="upper$">a numeric vector of upper bounds to be set on the decision variables specified in columns. 
+        ''' If NULL the upper bounds are not changed.</param>
+        ''' <param name="columns$">a numeric vector of values from the set ``{1, ..., n}`` specifying the columns to have 
+        ''' their bounds set. If NULL all columns are set.</param>
+        Public Sub setbounds(lprec$, Optional lower$ = NULL, Optional upper$ = NULL, Optional columns$ = NULL)
+            SyncLock R
+                With R
+                    .call = $"set.bounds({lprec}, lower = {lower}, upper = {upper}, columns = {columns});"
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Create a new lpSolve linear program model object.
+        ''' </summary>
+        ''' <param name="nrow%">a nonnegative integer value specifying the number of constaints in the linear program.</param>
+        ''' <param name="ncol%">a nonnegative integer value specifying the number of decision variables in the linear program.</param>
+        ''' <param name="verbose$">a character string controlling the level of error reporting. The default value "neutral" is no error reporting. 
+        ''' Use "normal" or "full" for more comprehensive error reporting. See the verbose entry in lp.control.options for a complete description 
+        ''' of this argument and its possible values.</param>
+        ''' <returns>an lpSolve linear program model object. Specifically an R external pointer with class lpExtPtr.</returns>
+        Public Function makelp(Optional nrow% = 0, Optional ncol% = 0, Optional verbose$ = "neutral") As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- make.lp(nrow = {nrow}, ncol = {ncol}, verbose = {verbose.Rstring});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
     End Module
 
     <RFunc("add.constraint")>
