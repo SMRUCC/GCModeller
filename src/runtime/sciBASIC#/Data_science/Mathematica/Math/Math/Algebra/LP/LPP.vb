@@ -73,8 +73,8 @@ Namespace Algebra.LinearProgramming
         Dim constraintRightHandSides() As Double
         Dim objectiveFunctionValue As Double
 
-        Const PIVOT_ITERATION_LIMIT As Integer = 1000
-        Const USE_SUBSCRIPT_UNICODE As Boolean = False
+        Public Shared Property PIVOT_ITERATION_LIMIT As Integer = 1000
+        Public Shared Property USE_SUBSCRIPT_UNICODE As Boolean = False
 
         Public Shared Property DecimalFormat As String = "G5"
 
@@ -198,50 +198,6 @@ Namespace Algebra.LinearProgramming
             Next
 
             Return output
-        End Function
-
-        ''' <summary>
-        ''' Convert an integer into a multi-character subscript.
-        ''' </summary>
-        ''' <param name="n"></param>
-        ''' <returns></returns>
-        Private Function subscriptN(n As Integer) As String
-            If Not USE_SUBSCRIPT_UNICODE Then
-                Return "_" & n
-            End If
-
-            Dim index As String = "" & n
-            Dim subscript As String = ""
-            Dim c As Char
-
-            For i As Integer = 0 To index.Length - 1
-                Select Case n
-                    Case 0
-                        c = ChrW(&H2080)
-                    Case 1
-                        c = ChrW(&H2081)
-                    Case 2
-                        c = ChrW(&H2082)
-                    Case 3
-                        c = ChrW(&H2083)
-                    Case 4
-                        c = ChrW(&H2084)
-                    Case 5
-                        c = ChrW(&H2085)
-                    Case 6
-                        c = ChrW(&H2086)
-                    Case 7
-                        c = ChrW(&H2087)
-                    Case 8
-                        c = ChrW(&H2088)
-                    Case Else
-                        c = ChrW(&H2089)
-                End Select
-
-                subscript += c
-            Next
-
-            Return subscript
         End Function
 
         ''' <summary>
