@@ -46,7 +46,7 @@ Namespace Algebra.LinearProgramming
 
     Module Extensions
 
-        Friend Function copyOf(Of T)(original As T(), newLength%) As T()
+        Friend Function copyOfVector(Of T)(original As T(), newLength%) As T()
             Dim copy As T() = New T(newLength - 1) {}
             Array.Copy(original, 0, copy, 0, VBMath.Min(original.Length, newLength))
             Return copy

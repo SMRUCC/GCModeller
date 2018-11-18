@@ -66,8 +66,8 @@ Namespace Algebra.LinearProgramming
         ''' 
         ''' 可以使用objectfunction的系数长度来取出原来的输入的变量名称的列表
         ''' </summary>
-        Dim variableNames() As String
-        Dim objectiveFunctionCoefficients() As Double
+        Dim variableNames As List(Of String)
+        Dim objectiveFunctionCoefficients As List(Of Double)
         Dim constraintCoefficients()() As Double
         Dim constraintTypes() As String
         Dim constraintRightHandSides() As Double
@@ -80,7 +80,7 @@ Namespace Algebra.LinearProgramming
 
         Public ReadOnly Property ObjectFunctionVariables As String()
             Get
-                Return variableNames.Take(objectiveFunctionCoefficients.Length).ToArray
+                Return variableNames.Take(objectiveFunctionCoefficients.Count).ToArray
             End Get
         End Property
 
@@ -146,19 +146,18 @@ Namespace Algebra.LinearProgramming
             Next
 
             Me.objectiveFunctionType = objectiveFunctionType.ParseType
-            Me.variableNames = variableNames
-            Me.objectiveFunctionCoefficients = objectiveFunctionCoefficients
+            Me.variableNames = variableNames.ToList
+            Me.objectiveFunctionCoefficients = objectiveFunctionCoefficients.ToList
             Me.constraintCoefficients = constraintCoefficients
             Me.constraintTypes = constraintTypes
             Me.constraintRightHandSides = constraintRightHandSides
             Me.objectiveFunctionValue = objectiveFunctionValue
         End Sub
 
-
         Public Overrides Function ToString() As String
             Dim output As String = objectiveFunctionType.Description
 
-            output = output & "  " & displayEqLine(objectiveFunctionCoefficients, variableNames)
+            output = output & "  " & displayEqLine(objectiveFunctionCoefficients.ToArray, variableNames)
             output = output & ControlChars.Lf & "subject to the constraints:" & ControlChars.Lf
 
             For j As Integer = 0 To constraintRightHandSides.Length - 1
@@ -172,11 +171,11 @@ Namespace Algebra.LinearProgramming
             Return output & ControlChars.Lf
         End Function
 
-        Private Shared Function displayEqLine(coefficients() As Double, variableNames() As String) As String
+        Private Shared Function displayEqLine(coefficients() As Double, variableNames As List(Of String)) As String
             Dim output As String = ""
 
             Dim startIndex As Integer = 1
-            For i As Integer = 0 To variableNames.Length - 1
+            For i As Integer = 0 To variableNames.Count - 1
                 If coefficients(i) <> 0 Then
                     output = output + coefficients(i).ToString(DecimalFormat) + variableNames(i)
                     Exit For
@@ -185,7 +184,7 @@ Namespace Algebra.LinearProgramming
                 End If
             Next
 
-            For i As Integer = startIndex To variableNames.Length - 1
+            For i As Integer = startIndex To variableNames.Count - 1
                 Dim signString As String = " + "
                 Dim sign As Double = 1.0
 
@@ -288,7 +287,7 @@ Namespace Algebra.LinearProgramming
 
                 For j As Integer = 0 To constraintTypes.Length - 1
                     If constraintTypes(j) = "=" Then
-                        assignments.Add(objectiveFunctionCoefficients.Length + k)
+                        assignments.Add(objectiveFunctionCoefficients.Count + k)
                         k += 1
                     Else
                         assignments.Add(-1)
@@ -359,7 +358,7 @@ Namespace Algebra.LinearProgramming
                 objectiveFunctionCoefficients(varIndex) = 0.0
                 objectiveFunctionValue = objectiveFunctionValue + (pivotVarCoeff * pivotConstraintRHS)
 
-                For i As Integer = 0 To objectiveFunctionCoefficients.Length - 1
+                For i As Integer = 0 To objectiveFunctionCoefficients.Count - 1
                     If i <> varIndex Then
                         objectiveFunctionCoefficients(i) = objectiveFunctionCoefficients(i) + ((-1) * pivotConstraint(i) * pivotVarCoeff)
                     End If
@@ -373,16 +372,11 @@ Namespace Algebra.LinearProgramming
         ''' <param name="constraintIndex"></param>
         ''' <param name="value"></param>
         Private Sub addVariableAt(constraintIndex As Integer, value As Double)
-            Dim newVariableNames() As String = copyOf(variableNames, variableNames.Length + 1)
-            newVariableNames(variableNames.Length) = "v" & subscriptN(variableNames.Length + 1)
-            variableNames = newVariableNames
-
-            Dim newObjectiveFunctionCoefficients() As Double = copyOf(objectiveFunctionCoefficients, objectiveFunctionCoefficients.Length + 1)
-            newObjectiveFunctionCoefficients(objectiveFunctionCoefficients.Length) = 0
-            objectiveFunctionCoefficients = newObjectiveFunctionCoefficients
+            variableNames.Add("v" & subscriptN(variableNames.Count + 1))
+            objectiveFunctionCoefficients.Add(0)
 
             For j As Integer = 0 To constraintCoefficients.Length - 1
-                Dim constraint() As Double = copyOf(constraintCoefficients(j), constraintCoefficients(j).Length + 1)
+                Dim constraint() As Double = copyOfVector(constraintCoefficients(j), constraintCoefficients(j).Length + 1)
                 constraint(constraintCoefficients(j).Length) = If(j <> constraintIndex, 0, value)
                 constraintCoefficients(j) = constraint
             Next
@@ -430,7 +424,7 @@ Namespace Algebra.LinearProgramming
             Next
 
             ' Set up parameters for finding subsets
-            Dim n As Integer = variableNames.Length - q
+            Dim n As Integer = variableNames.Count - q
             Dim powersetsize As Integer = CInt(Fix(Math.Pow(2, n)))
 
             For i As Integer = 0 To powersetsize - 1
@@ -484,7 +478,7 @@ Namespace Algebra.LinearProgramming
             Dim choice As Integer = -1
             Dim maxormin As Integer = If(objectiveFunctionType = OptimizationType.MAX, -1, 1)
 
-            For i As Integer = 0 To objectiveFunctionCoefficients.Length - 1
+            For i As Integer = 0 To objectiveFunctionCoefficients.Count - 1
                 Dim coefficientTerm As Double = maxormin * objectiveFunctionCoefficients(i)
 
                 If Not artificialVariables.Contains(i) Then
@@ -602,7 +596,7 @@ Namespace Algebra.LinearProgramming
             ' Initialize Variables
             ' Point badness if we are going to be incrementing this later?
             Dim solutionLog As New StringBuilder
-            Dim varNum As Integer = variableNames.Length
+            Dim varNum As Integer = variableNames.Count
 
             Call makeStandardForm()
 
@@ -654,13 +648,13 @@ Namespace Algebra.LinearProgramming
 
             ' Close LaTeX and initialize sensitivity variables
             ' LaTeXString += latex.LPPtoLaTeX.endTableaus();
-            Dim optimalSolution(variableNames.Length - 1) As Double
-            Dim reducedCost(variableNames.Length - 1) As Double
+            Dim optimalSolution(variableNames.Count - 1) As Double
+            Dim reducedCost(variableNames.Count - 1) As Double
             Dim shadowPrice(constraintTypes.Length - 1) As Double
             Dim slack(constraintTypes.Length - 1) As Double
 
             ' Collect optimal solution and reduced cost from final tableau
-            For i As Integer = 0 To variableNames.Length - 1
+            For i As Integer = 0 To variableNames.Count - 1
                 If basicVariables.Contains(i) Then
                     Dim basicVariableIndex As Integer = basicVariables.IndexOf(i)
 
@@ -712,7 +706,7 @@ Namespace Algebra.LinearProgramming
 
             ' Return the compiled solution.
             Return New LPPSolution(
-                optimalSolution, objectiveFunctionValue, variableNames, constraintTypes,
+                optimalSolution, objectiveFunctionValue, variableNames.ToArray, constraintTypes,
                 slack,
                 shadowPrice,
                 reducedCost,
