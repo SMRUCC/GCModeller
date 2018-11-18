@@ -60,6 +60,8 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="parameters$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function list(ParamArray parameters$()) As ParameterList
             Return New ParameterList(parameters)
         End Function
@@ -82,7 +84,7 @@ Namespace SymbolBuilder
                 type = token.GetType
             End If
 
-            Return __getScript(token, type)
+            Return type.getScript(token)
         End Function
 
         ''' <summary>
@@ -91,7 +93,7 @@ Namespace SymbolBuilder
         ''' <param name="token"></param>
         ''' <param name="type"></param>
         ''' <returns></returns>
-        Private Function __getScript(token As Object, type As Type) As String
+        <Extension> Private Function getScript(type As Type, token As Object) As String
             Dim name As String = type.GetAPIName
             Dim props = (From prop As PropertyInfo In type.GetProperties
                          Where prop.GetAttribute(Of Ignored) Is Nothing AndAlso
@@ -102,8 +104,11 @@ Namespace SymbolBuilder
                              param.__isOptional,
                              param
                          Order By __isOptional Ascending)
-            Dim parameters As String() =
-                props.Select(Function(x) __getExpr(token, x.prop, x.func, x.param)).ToArray
+            Dim parameters$() = props _
+                .Select(Function(x)
+                            Return getExpr(token, x.prop, x.func, x.param)
+                        End Function) _
+                .ToArray
             Dim args As String() = LinqAPI.Exec(Of String) <=
  _
                 From p As String
@@ -138,11 +143,9 @@ Namespace SymbolBuilder
         ''' <typeparam name="T"></typeparam>
         ''' <param name="token"></param>
         ''' <returns></returns>
-        ''' 
-        <Extension>
-        Public Function GetScript(Of T)(token As T) As String
-            Dim type As Type = GetType(T)
-            Return __getScript(token, type)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function GetScript(Of T)(token As T) As String
+            Return GetType(T).getScript(token)
         End Function
 
         ''' <summary>
@@ -152,10 +155,11 @@ Namespace SymbolBuilder
         ''' <param name="prop"></param>
         ''' <param name="name"></param>
         ''' <returns></returns>
-        Private Function __getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
+        Private Function getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
             Dim value As Object = prop.GetValue(x)
             Dim type = If(param Is Nothing, ValueTypes.String, param.Type)
-            Dim s As String = prop.PropertyType.__getValue(value, type)
+            Dim s As String = prop.PropertyType.getRValue(value, type)
+
             If String.IsNullOrEmpty(s) Then
                 Return ""
             Else
@@ -164,7 +168,7 @@ Namespace SymbolBuilder
         End Function
 
         <Extension>
-        Private Function __getValue(type As Type, value As Object, valueType As ValueTypes) As String
+        Private Function getRValue(type As Type, value As Object, valueType As ValueTypes) As String
             If value Is Nothing Then
                 Return Nothing
             End If
