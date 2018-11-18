@@ -687,11 +687,11 @@ Namespace API
         ''' Functions to construct, coerce and check for both kinds of R lists.
         ''' (实际上这个函数就是相当于创建了一个空的<see cref="Object"/>对象)
         ''' </summary>
-        ''' <param name="objects$">objects, possibly named.(对象的名称列表)</param>
+        ''' <param name="args$">objects, possibly named.(对象的名称列表)</param>
         ''' <returns></returns>
-        Public Function list(ParamArray objects As ArgumentReference()) As String
+        Public Function list(ParamArray args As ArgumentReference()) As String
             Dim var$ = App.NextTempName
-            Dim assigns$() = objects _
+            Dim assigns$() = args _
                 .Select(Function(f)
                             Return f.Expression(
                                 null:=NULL,
@@ -704,6 +704,22 @@ Namespace API
             SyncLock R
                 With R
                     .call = $"{var} <- list({assigns.JoinBy(", ")});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' Create an empty list
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function list() As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list();"
                 End With
             End SyncLock
 
