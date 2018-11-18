@@ -89,9 +89,7 @@ Namespace API
         ''' Unsuccessful results from the underlying LAPACK code will result in an error giving a positive error code: these can only be 
         ''' interpreted by detailed study of the FORTRAN code.
         ''' </remarks>
-        Public Function solve(a$,
-                              Optional b$ = Nothing,
-                              Optional arguments As Dictionary(Of String, String) = Nothing) As Double
+        Public Function solve(a$, Optional b$ = Nothing, Optional arguments As Dictionary(Of String, String) = Nothing) As String
             Dim var$ = App.NextTempName
             Dim args = arguments _
                 .SafeQuery _
@@ -187,6 +185,32 @@ Namespace API
             End Get
             Set(value As String())
                 Call x.__setNames(value, "names")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Retrieve or set the dimnames of an object.
+        ''' </summary>
+        ''' <param name="x">an R object, for example a matrix, array or data frame.</param>
+        ''' <returns>返回变量指针字符串</returns>
+        Public Property dimnames(x As String) As String
+            Get
+                Dim var$ = App.NextTempName
+
+                SyncLock R
+                    With R
+                        .call = $"{var} <- dimnames({x});"
+                    End With
+                End SyncLock
+
+                Return var
+            End Get
+            Set(value As String)
+                SyncLock R
+                    With R
+                        .call = $"dimnames({x}) <- {value}"
+                    End With
+                End SyncLock
             End Set
         End Property
 
@@ -680,6 +704,18 @@ Namespace API
             SyncLock R
                 With R
                     .call = $"{var} <- list({assigns.JoinBy(", ")});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        Public Function list(ParamArray objects$()) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list({objects.JoinBy(",")});"
                 End With
             End SyncLock
 
