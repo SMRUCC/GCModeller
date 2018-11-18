@@ -67,6 +67,54 @@ Namespace API
     Public Module base
 
         ''' <summary>
+        ''' Solve a System of Equations
+        ''' 
+        ''' This generic function solves the equation a %*% x = b for x, where b can be either a 
+        ''' vector or a matrix.
+        ''' </summary>
+        ''' <param name="a$">
+        ''' a square numeric or complex matrix containing the coefficients of the linear system. Logical matrices are coerced to numeric.
+        ''' </param>
+        ''' <param name="b$">
+        ''' a numeric or complex vector or matrix giving the right-hand side(s) of the linear system. If missing, b is taken to be an 
+        ''' identity matrix and solve will return the inverse of a</param>
+        ''' <param name="arguments">further arguments passed to or from other methods</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' a or b can be complex, but this uses double complex arithmetic which might not be available on all platforms.
+        ''' The row and column names of the result are taken from the column names of a and of b respectively. If b is missing the column 
+        ''' names of the result are the row names of a. No check is made that the column names of a and the row names of b are equal.
+        ''' For back-compatibility a can be a (real) QR decomposition, although qr.solve should be called in that case. qr.solve can handle 
+        ''' non-square systems.
+        ''' Unsuccessful results from the underlying LAPACK code will result in an error giving a positive error code: these can only be 
+        ''' interpreted by detailed study of the FORTRAN code.
+        ''' </remarks>
+        Public Function solve(a$,
+                              Optional b$ = Nothing,
+                              Optional arguments As Dictionary(Of String, String) = Nothing) As Double
+            Dim var$ = App.NextTempName
+            Dim args = arguments _
+                .SafeQuery _
+                .Select(Function(v) $"{v.Key} = {v.Value}") _
+                .JoinBy(", ")
+            Dim params$
+
+            SyncLock R
+                With R
+                    If b.StringEmpty Then
+                        params = {a, args}.JoinBy(", ")
+                    Else
+                        params = {a, b, args}.JoinBy(", ")
+                    End If
+
+                    .call = $"{var} <- solve({params});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
         ''' Replicate Elements of Vectors and Lists
         ''' </summary>
         ''' <param name="x$">
