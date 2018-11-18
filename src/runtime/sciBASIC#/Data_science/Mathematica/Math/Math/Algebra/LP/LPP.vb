@@ -68,7 +68,7 @@ Namespace Algebra.LinearProgramming
         ''' </summary>
         Dim variableNames As List(Of String)
         Dim objectiveFunctionCoefficients As List(Of Double)
-        Dim constraintCoefficients()() As Double
+        Dim constraintCoefficients() As List(Of Double)
         Dim constraintTypes() As String
         Dim constraintRightHandSides() As Double
         Dim objectiveFunctionValue As Double
@@ -148,7 +148,9 @@ Namespace Algebra.LinearProgramming
             Me.objectiveFunctionType = objectiveFunctionType.ParseType
             Me.variableNames = variableNames.ToList
             Me.objectiveFunctionCoefficients = objectiveFunctionCoefficients.ToList
-            Me.constraintCoefficients = constraintCoefficients
+            Me.constraintCoefficients = constraintCoefficients _
+                .Select(Function(v) v.ToList) _
+                .ToArray
             Me.constraintTypes = constraintTypes
             Me.constraintRightHandSides = constraintRightHandSides
             Me.objectiveFunctionValue = objectiveFunctionValue
@@ -161,7 +163,7 @@ Namespace Algebra.LinearProgramming
             output = output & ControlChars.Lf & "subject to the constraints:" & ControlChars.Lf
 
             For j As Integer = 0 To constraintRightHandSides.Length - 1
-                Dim constraint() As Double = constraintCoefficients(j)
+                Dim constraint() As Double = constraintCoefficients(j).ToArray
                 output += displayEqLine(constraint, variableNames)
                 output &= " " & constraintTypes(j)
                 output &= " " & constraintRightHandSides(j).ToString(DecimalFormat)
@@ -264,14 +266,14 @@ Namespace Algebra.LinearProgramming
 
         ' TODO: Review
         Public Sub pivot(varIndex As Integer, constIndex As Integer)
-            Dim pivotConstraint() As Double = constraintCoefficients(constIndex)
+            Dim pivotConstraint As List(Of Double) = constraintCoefficients(constIndex)
             Dim pivotConstraintRHS As Double = constraintRightHandSides(constIndex)
 
             If pivotConstraint(varIndex) <> 0 Then
 
                 'Divide the pivot constraint through by the pivot variable coefficient
                 Dim pivotVarCoeff As Double = pivotConstraint(varIndex)
-                For i As Integer = 0 To pivotConstraint.Length - 1
+                For i As Integer = 0 To pivotConstraint.Count - 1
                     Dim coeff As Double = pivotConstraint(i)
                     pivotConstraint(i) = coeff / pivotVarCoeff
                 Next
@@ -286,7 +288,7 @@ Namespace Algebra.LinearProgramming
                     If j <> constIndex Then
 
                         ' make constraint local variables
-                        Dim constraint() As Double = constraintCoefficients(j)
+                        Dim constraint As List(Of Double) = constraintCoefficients(j)
                         Dim constraintRHS As Double = constraintRightHandSides(j)
 
                         ' check the coefficient of the pivot variable in the non-pivot constraint != 0
@@ -294,7 +296,7 @@ Namespace Algebra.LinearProgramming
                             Dim constraintPivotVarCoeff As Double = constraint(varIndex)
 
                             ' perform Elimination variable by variable
-                            For i As Integer = 0 To constraint.Length - 1
+                            For i As Integer = 0 To constraint.Count - 1
                                 constraint(i) = constraint(i) - (pivotConstraint(i) * constraintPivotVarCoeff)
                             Next
 
@@ -332,9 +334,7 @@ Namespace Algebra.LinearProgramming
             objectiveFunctionCoefficients.Add(0)
 
             For j As Integer = 0 To constraintCoefficients.Length - 1
-                Dim constraint() As Double = copyOfVector(constraintCoefficients(j), constraintCoefficients(j).Length + 1)
-                constraint(constraintCoefficients(j).Length) = If(j <> constraintIndex, 0, value)
-                constraintCoefficients(j) = constraint
+                constraintCoefficients(j).Add(If(j <> constraintIndex, 0, value))
             Next
         End Sub
 
@@ -344,7 +344,7 @@ Namespace Algebra.LinearProgramming
             Next
 
             For j As Integer = 0 To lpp.constraintRightHandSides.Length - 1
-                Dim constraint() As Double = lpp.constraintCoefficients(j)
+                Dim constraint As List(Of Double) = lpp.constraintCoefficients(j)
 
                 ' Check all basic variables are non-negative
                 If lpp.constraintRightHandSides(j) < 0 Then
@@ -353,7 +353,7 @@ Namespace Algebra.LinearProgramming
 
                 ' Ensure there are no unequal constraints
                 Dim q As Double = 0
-                For i As Integer = 0 To constraint.Length - 1
+                For i As Integer = 0 To constraint.Count - 1
                     If possibleSolution.Contains(i) Then
                         q = q + constraint(i) * lpp.constraintRightHandSides(possibleSolution.IndexOf(i))
                     End If
@@ -460,7 +460,7 @@ Namespace Algebra.LinearProgramming
 
             ' Run down the column for the given variable, compare ratios of coefficient/RHS
             For j As Integer = 0 To constraintRightHandSides.Length - 1
-                Dim constraint() As Double = constraintCoefficients(j)
+                Dim constraint As List(Of Double) = constraintCoefficients(j)
                 If constraint(n) > 0 Then
                     Dim ratio As Double = constraintRightHandSides(j) / constraint(n)
 
@@ -618,9 +618,9 @@ Namespace Algebra.LinearProgramming
                     If basicVariables.IndexOf(i) <> basicVariables.LastIndexOf(i) Then
                         For k As Integer = 0 To basicVariables.Count - 1
                             If basicVariables(k) = i Then
-                                Dim constraint() As Double = constraintCoefficients(basicVariableIndex)
+                                Dim constraint As List(Of Double) = constraintCoefficients(basicVariableIndex)
 
-                                For m As Integer = 0 To constraint.Length - 1
+                                For m As Integer = 0 To constraint.Count - 1
                                     If constraint(m) <> 0.0 Then
                                         basicVariableIndex = k
                                         Exit For
