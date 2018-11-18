@@ -52,12 +52,20 @@
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
-Namespace lpSolve
+Namespace lpSolveAPI
+
+    ''' <summary>
+    ''' 对目标函数的约束类型
+    ''' </summary>
+    Public Enum optimizations
+        min
+        max
+    End Enum
 
     ''' <summary>
     ''' Interface to 'Lp_solve' v. 5.5 to Solve Linear/Integer Programs
     ''' </summary>
-    Public Module API
+    Public Module APIExtensions
 
         ''' <summary>
         ''' Interface to lp\_solve linear/integer programming system
@@ -93,15 +101,16 @@ Namespace lpSolve
         ''' current version is maintained at http://lpsolve.sourceforge.net/5.5
         ''' Note that every variable is assumed to be >= 0!
         ''' </remarks>
-        Public Function lp(objective_in$, const_mat$, const_dir$, const_rhs$, Optional direction$ = "min",
- Optional transpose_constraints As Boolean = True, Optional presolve# = 0, Optional compute_sens# = 0,
- Optional all_int As Boolean = False, Optional all_bin As Boolean = False, Optional scale# = 196, Optional num_bin_solns# = 1, Optional use_rw As Boolean = False) As String
+        Public Function lp(objective_in$, const_mat$, const_dir$, const_rhs$,
+                           Optional direction As optimizations = optimizations.min,
+                           Optional transpose_constraints As Boolean = True, Optional presolve# = 0, Optional compute_sens# = 0,
+                           Optional all_int As Boolean = False, Optional all_bin As Boolean = False, Optional scale# = 196,
+                           Optional num_bin_solns# = 1, Optional use_rw As Boolean = False) As String
             SyncLock R
                 With R
-
                     Dim var$ = App.NextTempName
 
-                    .call = $"{var} <- lp(direction = {Rstring(direction)}, {objective_in}, {const_mat}, {const_dir}, {const_rhs},
+                    .call = $"{var} <- lp(direction = {Rstring(direction.ToString)}, {objective_in}, {const_mat}, {const_dir}, {const_rhs},
 transpose.constraints = {transpose_constraints.λ}, presolve={presolve}, compute.sens={compute_sens},
  all.int={all_int.λ}, all.bin={all_bin.λ}, scale = {scale}, num.bin.solns={num_bin_solns}, use.rw={use_rw.λ});"
 
