@@ -214,7 +214,12 @@ Namespace SymbolBuilder
                     ' 是一个数字向量
                     Return RScripts.c(vector:=DirectCast(value, Array))
                 Case Else
-                    Return Scripting.ToString(value)
+
+                    If type.IsInheritsFrom(GetType(System.Enum)) Then
+                        Return DirectCast(value, [Enum]).Description
+                    Else
+                        Return Scripting.ToString(value)
+                    End If
             End Select
         End Function
 

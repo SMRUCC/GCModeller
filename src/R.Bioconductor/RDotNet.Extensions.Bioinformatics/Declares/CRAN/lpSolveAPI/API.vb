@@ -131,7 +131,7 @@ Namespace lpSolveAPI
                 With R
                     Dim Rscript$ = New addconstraint With {
                         .lprec = lprec,
-                        .indices = indices.SafeQuery.ToArray,
+                        .indices = indices?.ToArray,
                         .lhs = lhs,
                         .rhs = rhs,
                         .type = type,
