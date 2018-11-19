@@ -76,11 +76,16 @@ Namespace ComponentModel.EquaionModel
                 Dim deli As String = EQUATION_DIRECTIONS_INREVERSIBLE Or EQUATION_DIRECTIONS_REVERSIBLE.When(reversible)
                 Dim tokens As String() = Strings.Split(Equation, deli)
 
+                If tokens.Length < 2 Then
+                    Throw New FormatException($"Invalid format text: {Equation}, it should be in syntax like: left <=> right.")
+                End If
+
                 Try
                     .Reversible = reversible
                     .Reactants = tokens(left).GetSides(Of TCompound)()
                     .Products = tokens(right).GetSides(Of TCompound)()
-                Catch ex As Exception   ' 生成字典的时候可能会因为重复的代谢物而出错
+                Catch ex As Exception
+                    ' 生成字典的时候可能会因为重复的代谢物而出错
                     Dim msg As String = String.Format(Duplicated, Equation)
                     Throw New Exception(msg, ex)
                 End Try
@@ -130,6 +135,7 @@ Namespace ComponentModel.EquaionModel
             Return compound
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToString(GetLeftSide As Func(Of KeyValuePair(Of Double, String)()),
                                  GetRightSide As Func(Of KeyValuePair(Of Double, String)()),
                                  Reversible As Boolean) As String
