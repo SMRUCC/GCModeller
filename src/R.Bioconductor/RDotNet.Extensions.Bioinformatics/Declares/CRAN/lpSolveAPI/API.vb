@@ -50,6 +50,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
@@ -130,12 +131,12 @@ Namespace lpSolveAPI
                 With R
                     Dim Rscript$ = New addconstraint With {
                         .lprec = lprec,
-                        .indices = indices.ToArray,
+                        .indices = indices.SafeQuery.ToArray,
                         .lhs = lhs,
                         .rhs = rhs,
                         .type = type,
                         .xt = xt.ToArray
-                    }
+                    }.RScript
 
                     .call = Rscript
                 End With

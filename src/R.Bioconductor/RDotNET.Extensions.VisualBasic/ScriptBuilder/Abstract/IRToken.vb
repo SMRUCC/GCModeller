@@ -68,8 +68,10 @@ Namespace SymbolBuilder.Abstract
         ''' <summary>
         '''
         ''' </summary>
-        ''' <returns>由于这个对象只是对一个表达式的抽象，最常用的是对一个函数调用的抽象，所以library在这里不可以自动添加，需要自己在后面手工添加</returns>
-        ''' 
+        ''' <returns>
+        ''' 由于这个对象只是对一个表达式的抽象，最常用的是对一个函数调用的抽象，
+        ''' 所以library在这里不可以自动添加，需要自己在后面手工添加
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function RScript() As String
             Return Me.GetScript(Me.GetType)
