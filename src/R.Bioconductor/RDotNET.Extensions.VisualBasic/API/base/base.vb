@@ -620,10 +620,11 @@ Namespace API
                 If .Length = 0 Then
                     Return "NULL"
                 Else
-                    Dim out$ = App.NextTempName
-                    Dim exp$ = $"c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
-                    Call $"{out} <- {exp}".__call
-                    Return out
+                    SyncLock R
+                        Dim out$ = App.NextTempName
+                        R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+                        Return out
+                    End SyncLock
                 End If
             End With
         End Function
