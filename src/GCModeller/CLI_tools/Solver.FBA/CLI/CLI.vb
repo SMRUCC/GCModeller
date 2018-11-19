@@ -95,7 +95,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
         Dim dataModel As CellularModule = model.CreateModel
-        Dim result As LPPSolution = New LinearProgrammingEngine().CreateMatrix(dataModel, targets).Rsolver
+        Dim result As LPPSolution = New LinearProgrammingEngine().CreateMatrix(dataModel, targets).Rsolver(debug:=False)
 
         Return result.ToString.SaveTo(out).CLICode
     End Function

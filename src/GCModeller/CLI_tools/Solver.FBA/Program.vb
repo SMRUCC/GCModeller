@@ -68,7 +68,6 @@ Module Program
     ''' </summary>
     ''' <remarks></remarks>
     Public Function Main() As Integer
-        Call Test2()
         Return GetType(CLI).RunCLI(App.Command)
     End Function
 

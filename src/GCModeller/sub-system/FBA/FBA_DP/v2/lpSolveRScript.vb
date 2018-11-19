@@ -12,7 +12,7 @@ Namespace v2
 
     Public Module lpSolveRScript
 
-        <Extension> Public Function Rsolver(matrix As Matrix) As LPPSolution
+        <Extension> Public Function Rsolver(matrix As Matrix, Optional debug As Boolean = True) As LPPSolution
             ' 加载所需要的线性规划的计算程序包
             require(lpSolveAPI.packageName)
 
@@ -41,22 +41,24 @@ Namespace v2
                 Next
             End Using
 
-            Call print(lprec)
+            If debug Then
+                ' 设置名称，方便进行调试
+                Dim rownames = base.c(compoundNames, stringVector:=True)
+                Dim colNames = base.c(fluxNames, stringVector:=True)
+
+                dimnames(lprec) = base.list(rownames, colNames)
+                print(lprec)
+            End If
 
             Call setbounds(lprec, lower:=base.c(matrix.Flux.Select(Function(f) f.Value.Min)))
             Call setbounds(lprec, upper:=base.c(matrix.Flux.Select(Function(f) f.Value.Max)))
 
-            ' 设置名称，方便进行调试
-            Dim rownames = base.c(compoundNames, stringVector:=True)
-            Dim colNames = base.c(fluxNames, stringVector:=True)
-
-            dimnames(lprec) = base.list(rownames, colNames)
-
             Dim error$ = base.solve(lprec)
             Dim result# = getobjective(lprec)
             Dim fluxDistrib#() = getvariables(lprec)
+            Dim zeroFill = 0R.Replicate(fluxNames.Length).ToArray
 
-            Return New LPPSolution(fluxDistrib, result, fluxNames, constraintTypes, {}, {}, {}, 0, 0, "", "G5")
+            Return New LPPSolution(fluxDistrib, result, fluxNames, constraintTypes, {}, {}, zeroFill, 0, 0, "", "G5")
         End Function
     End Module
 End Namespace

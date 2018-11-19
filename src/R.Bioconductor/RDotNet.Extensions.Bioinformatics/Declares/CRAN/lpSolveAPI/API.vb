@@ -136,7 +136,7 @@ Namespace lpSolveAPI
                         .rhs = rhs,
                         .type = type,
                         .xt = xt.ToArray
-                    }.RScript
+                    }
 
                     .call = Rscript
                 End With
@@ -151,12 +151,19 @@ Namespace lpSolveAPI
         ''' If NULL the lower bounds are not changed.</param>
         ''' <param name="upper$">a numeric vector of upper bounds to be set on the decision variables specified in columns. 
         ''' If NULL the upper bounds are not changed.</param>
-        ''' <param name="columns$">a numeric vector of values from the set ``{1, ..., n}`` specifying the columns to have 
+        ''' <param name="columns">a numeric vector of values from the set ``{1, ..., n}`` specifying the columns to have 
         ''' their bounds set. If NULL all columns are set.</param>
-        Public Sub setbounds(lprec$, Optional lower$ = NULL, Optional upper$ = NULL, Optional columns$ = NULL)
+        Public Sub setbounds(lprec$, Optional lower$ = Nothing, Optional upper$ = Nothing, Optional columns As IEnumerable(Of Integer) = Nothing)
             SyncLock R
                 With R
-                    .call = $"set.bounds({lprec}, lower = {lower}, upper = {upper}, columns = {columns});"
+                    Dim Rscript$ = New setbounds With {
+                        .lprec = lprec,
+                        .columns = columns?.ToArray,
+                        .lower = lower,
+                        .upper = upper
+                    }
+
+                    .call = Rscript
                 End With
             End SyncLock
         End Sub
@@ -229,6 +236,14 @@ Namespace lpSolveAPI
             End SyncLock
         End Function
     End Module
+
+    <RFunc("set.bounds")>
+    Public Class setbounds : Inherits IRToken
+        Public Property lprec As String
+        Public Property lower As String
+        Public Property upper As String
+        Public Property columns As Integer()
+    End Class
 
     <RFunc("add.constraint")>
     Public Class addconstraint : Inherits IRToken
