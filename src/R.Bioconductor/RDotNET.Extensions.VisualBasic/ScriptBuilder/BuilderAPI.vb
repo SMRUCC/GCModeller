@@ -212,7 +212,7 @@ Namespace SymbolBuilder
                     Return DirectCast(value, RExpression).RScript
                 Case GetType(Double()), GetType(Integer())
                     ' 是一个数字向量
-                    Return RScripts.c(value)
+                    Return RScripts.c(vector:=DirectCast(value, Array))
                 Case Else
                     Return Scripting.ToString(value)
             End Select
