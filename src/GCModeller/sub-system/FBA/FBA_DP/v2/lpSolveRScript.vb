@@ -27,6 +27,10 @@ Namespace v2
             Call setobjfn(lprec, matrix.GetTargetCoefficients)
             Call lpcontrol(lprec, direction)
 
+            If matrix.Flux.Count <> matrix.Matrix(Scan0).Length Then
+                Throw New Exception("Matrix size not agree with flux counts data!")
+            End If
+
             Using progress As New ProgressBar("Build lpSolve constraints matrix...")
                 Dim tick As New ProgressProvider(matrix.Matrix.Length)
 
