@@ -45,6 +45,27 @@ Namespace API
     Partial Public Module base
 
         ''' <summary>
+        ''' print prints its argument and returns it invisibly (via invisible(x)). It is a generic function 
+        ''' which means that new printing methods can be easily added for new classes.
+        ''' </summary>
+        ''' <param name="x">an object used to select a method.</param>
+        ''' <remarks>
+        ''' The default method, print.default has its own help page. Use methods("print") to get all the 
+        ''' methods for the print generic.
+        ''' print.factor allows some customization And Is used for printing ordered factors as well.
+        ''' print.table for printing tables allows other customization. As of R 3.0.0, it only prints a 
+        ''' description in case of a table with 0-extents (this can happen if a classifier has no valid data).
+        ''' See noquote As an example Of a Class whose main purpose Is a specific print method.
+        ''' </remarks>
+        Public Sub print(x As String)
+            SyncLock R
+                With R
+                    .call = $"print({x})"
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
         ''' print prints its argument and returns it invisibly (via invisible(x)). It is a generic function which means that new printing methods can be easily added for new classes.
         ''' </summary>
         ''' <param name="x">an object used to select a method.</param>

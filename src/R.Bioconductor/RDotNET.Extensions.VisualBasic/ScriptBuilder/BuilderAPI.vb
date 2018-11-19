@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::6ad9810f676cabad98b2fd93a95630b1, RDotNET.Extensions.VisualBasic\ScriptBuilder\BuilderAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BuilderAPI
-    ' 
-    '         Function: __getExpr, __getName, __getScript, __getValue, __isOptional
-    '                   GetAPIName, (+2 Overloads) GetScript, list
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BuilderAPI
+' 
+'         Function: __getExpr, __getName, __getScript, __getValue, __isOptional
+'                   GetAPIName, (+2 Overloads) GetScript, list
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -166,9 +166,11 @@ Namespace SymbolBuilder
         ''' <returns></returns>
         Private Function getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
             Dim value As Object = prop.GetValue(x)
-            Dim type = If(param Is Nothing, ValueTypes.String, param.Type)
+            Dim type = If(param Is Nothing, ValueTypes.ref, param.Type)
             Dim s As String = prop.PropertyType.getRValue(value, type)
 
+            ' 如果参数值为空值，则会返回空字符串，在后面构建表达式的时候
+            ' 会忽略掉这个空字符串
             If String.IsNullOrEmpty(s) Then
                 Return ""
             Else
@@ -176,6 +178,13 @@ Namespace SymbolBuilder
             End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type">The type info of the property <paramref name="value"/></param>
+        ''' <param name="value"></param>
+        ''' <param name="valueType"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function getRValue(type As Type, value As Object, valueType As ValueTypes) As String
             If value Is Nothing Then
@@ -185,21 +194,38 @@ Namespace SymbolBuilder
             Select Case type
 
                 Case GetType(String)
-                    If valueType = ValueTypes.Path Then
+                    If valueType = ValueTypes.path Then
                         Return Rstring(Scripting.ToString(value).UnixPath)
+                    ElseIf valueType = ValueTypes.ref Then
+                        ' 变量引用，则不添加双引号
+                        Return Scripting.ToString(value)
                     Else
                         Return Rstring(Scripting.ToString(value))
                     End If
                 Case GetType(Boolean)
                     If True = DirectCast(value, Boolean) Then
-                        Return RBoolean.TRUE.__value
+                        Return NameOf(RBoolean.TRUE)
                     Else
-                        Return RBoolean.FALSE.__value
+                        Return NameOf(RBoolean.FALSE)
                     End If
                 Case GetType(RExpression)
                     Return DirectCast(value, RExpression).RScript
+                Case GetType(Double()), GetType(Integer())
+                    ' 是一个数字向量
+                    Return RScripts.c(vector:=DirectCast(value, Array))
                 Case Else
-                    Return Scripting.ToString(value)
+
+                    If type.IsInheritsFrom(GetType(System.Enum)) Then
+                        Dim str$ = DirectCast(value, [Enum]).Description
+
+                        If valueType = ValueTypes.string Then
+                            Return Rstring(str)
+                        Else
+                            Return str
+                        End If
+                    Else
+                        Return Scripting.ToString(value)
+                    End If
             End Select
         End Function
 

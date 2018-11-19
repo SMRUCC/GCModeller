@@ -59,7 +59,7 @@ Namespace ComponentModel.EquaionModel
         ''' <summary>
         ''' 不可逆的代谢反应过程的箭头
         ''' </summary>
-        Public Const EQUATION_DIRECTIONS_IRREVERSIBLE As String = " --> "
+        Public Const EQUATION_DIRECTIONS_INREVERSIBLE As String = " --> "
         Public Const EQUATION_SPECIES_CONNECTOR As String = " + "
 
         ''' <summary>
@@ -73,16 +73,19 @@ Namespace ComponentModel.EquaionModel
         Public Function CreateObject(Of TCompound As ICompoundSpecies, TEquation As IEquation(Of TCompound))(Equation As String) As TEquation
             With Activator.CreateInstance(Of TEquation)()
                 Dim reversible = InStr(Equation, EQUATION_DIRECTIONS_REVERSIBLE) > 0
-                Dim deli As String = If(reversible,
-                    EQUATION_DIRECTIONS_REVERSIBLE,
-                    EQUATION_DIRECTIONS_IRREVERSIBLE)
+                Dim deli As String = EQUATION_DIRECTIONS_INREVERSIBLE Or EQUATION_DIRECTIONS_REVERSIBLE.When(reversible)
                 Dim tokens As String() = Strings.Split(Equation, deli)
+
+                If tokens.Length < 2 Then
+                    Throw New FormatException($"Invalid format text: {Equation}, it should be in syntax like: left <=> right.")
+                End If
 
                 Try
                     .Reversible = reversible
                     .Reactants = tokens(left).GetSides(Of TCompound)()
                     .Products = tokens(right).GetSides(Of TCompound)()
-                Catch ex As Exception   ' 生成字典的时候可能会因为重复的代谢物而出错
+                Catch ex As Exception
+                    ' 生成字典的时候可能会因为重复的代谢物而出错
                     Dim msg As String = String.Format(Duplicated, Equation)
                     Throw New Exception(msg, ex)
                 End Try
@@ -111,26 +114,32 @@ Namespace ComponentModel.EquaionModel
         End Function
 
         Private Function __tryParse(Of T As ICompoundSpecies)(token As String) As T
-            Dim CompoundSpecie As T = Activator.CreateInstance(Of T)()
-            Dim SC As String = Regex.Match(token, "(^| )\d+ ", RegexOptions.Singleline).Value
+            Dim compound As T = Activator.CreateInstance(Of T)()
+            Dim SC As String = Regex.Match(token, "^\s*\d+\s*", RegexICMul).Value
 
             If String.IsNullOrEmpty(SC) Then
-                Dim tokens As String() = token.Trim.Split
-                If tokens.Length > 1 Then
-                    CompoundSpecie.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
-                    CompoundSpecie.Key = token
+                Dim tokens As String() = token.Trim.StringSplit("\s+")
+
+                If tokens.Length > 1 AndAlso tokens(Scan0).IsPattern("\d+(\.\d+)?") Then
+                    ' 2018-11-19
+                    ' 如果不是ID编号的话，则代谢物名字中间可能会包含有空格
+                    ' 所以在这里代谢物名称为tokens跳过第一个数字之后的
+                    ' 所有token的链接结果字符串
+                    compound.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
+                    compound.Key = tokens.Skip(1).JoinBy(" ")
                 Else
-                    CompoundSpecie.StoiChiometry = 1
-                    CompoundSpecie.Key = token
+                    compound.StoiChiometry = 1
+                    compound.Key = token.Trim
                 End If
             Else
-                CompoundSpecie.StoiChiometry = Val(SC)
-                CompoundSpecie.Key = Trim(token.Replace(SC, ""))
+                compound.StoiChiometry = Val(SC.Trim)
+                compound.Key = Mid(token, SC.Length + 1).Trim
             End If
 
-            Return CompoundSpecie
+            Return compound
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToString(GetLeftSide As Func(Of KeyValuePair(Of Double, String)()),
                                  GetRightSide As Func(Of KeyValuePair(Of Double, String)()),
                                  Reversible As Boolean) As String
@@ -142,7 +151,7 @@ Namespace ComponentModel.EquaionModel
             Dim DirectionFlag As String =
                 If(Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
-                EQUATION_DIRECTIONS_IRREVERSIBLE)
+                EQUATION_DIRECTIONS_INREVERSIBLE)
 
             Call EquationBuilder.AppendSides(sBuilder, Compounds:=LeftSide)
             Call sBuilder.Append(DirectionFlag)
@@ -160,7 +169,7 @@ Namespace ComponentModel.EquaionModel
             Dim DirectionFlag As String =
                 If(Equation.Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
-                EQUATION_DIRECTIONS_IRREVERSIBLE)
+                EQUATION_DIRECTIONS_INREVERSIBLE)
 
             Call EquationBuilder.AppendSides(sBuilder, Compounds:=Equation.Reactants)
             Call sBuilder.Append(DirectionFlag)

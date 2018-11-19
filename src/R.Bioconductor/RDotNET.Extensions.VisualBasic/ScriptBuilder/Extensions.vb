@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::83a887a0035c2d47020a70ca9e0c1d17, RDotNET.Extensions.VisualBasic\ScriptBuilder\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RScripts
-    ' 
-    '         Properties: NA
-    ' 
-    '         Function: [dim], (+4 Overloads) c, commandArgs, getOption, library
-    '                   list, median, names, par, Rbool
-    '                   rep, (+2 Overloads) Rstring, t, UnixPath
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RScripts
+' 
+'         Properties: NA
+' 
+'         Function: [dim], (+4 Overloads) c, commandArgs, getOption, library
+'                   list, median, names, par, Rbool
+'                   rep, (+2 Overloads) Rstring, t, UnixPath
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -150,7 +150,12 @@ Namespace SymbolBuilder
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(Of T)(ParamArray x As T()) As String
-            Dim cx As String = String.Join(",", x.Select(Function(o) Scripting.ToString(o, NULL)).ToArray)
+            Dim cx As String = (From o In x Select Scripting.ToString(o, NULL)).JoinBy(", ")
+            Return $"c({cx})"
+        End Function
+
+        Public Function c(vector As Array) As String
+            Dim cx$ = (From o In vector Select Scripting.ToString(o, NULL)).JoinBy(", ")
             Return $"c({cx})"
         End Function
 
@@ -165,8 +170,27 @@ Namespace SymbolBuilder
             Return c(x.ToArray)
         End Function
 
-        Public Function getOption(verbose As String) As String
-            Return $"getOption(""{verbose}"")"
+        ''' <summary>
+        ''' ##### Options Settings
+        ''' 
+        ''' Allow the user to set and examine a variety of global options which affect the way 
+        ''' in which R computes and displays its results.
+        ''' </summary>
+        ''' <param name="x">a character string holding an option name.</param>
+        ''' <param name="default">
+        ''' if the specified option is not set in the options list, this value is returned. 
+        ''' This facilitates retrieving an option and checking whether it is set and setting 
+        ''' it separately if not.
+        ''' </param>
+        ''' <returns>
+        ''' Invoking options() with no arguments returns a list with the current values of the options. 
+        ''' Note that not all options listed below are set initially. To access the value of a single 
+        ''' option, one should use, e.g., getOption("width") rather than options("width") which is a 
+        ''' list of length one.
+        ''' </returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getOption(x$, Optional [default] As Object = NULL) As String
+            Return $"getOption(""{x}"", default = {Scripting.ToString([default], NULL)})"
         End Function
 
         ''' <summary>

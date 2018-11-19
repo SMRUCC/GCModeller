@@ -50,6 +50,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
@@ -130,11 +131,11 @@ Namespace lpSolveAPI
                 With R
                     Dim Rscript$ = New addconstraint With {
                         .lprec = lprec,
-                        .indices = indices,
+                        .indices = indices?.ToArray,
                         .lhs = lhs,
                         .rhs = rhs,
                         .type = type,
-                        .xt = xt
+                        .xt = xt.ToArray
                     }
 
                     .call = Rscript
@@ -150,12 +151,19 @@ Namespace lpSolveAPI
         ''' If NULL the lower bounds are not changed.</param>
         ''' <param name="upper$">a numeric vector of upper bounds to be set on the decision variables specified in columns. 
         ''' If NULL the upper bounds are not changed.</param>
-        ''' <param name="columns$">a numeric vector of values from the set ``{1, ..., n}`` specifying the columns to have 
+        ''' <param name="columns">a numeric vector of values from the set ``{1, ..., n}`` specifying the columns to have 
         ''' their bounds set. If NULL all columns are set.</param>
-        Public Sub setbounds(lprec$, Optional lower$ = NULL, Optional upper$ = NULL, Optional columns$ = NULL)
+        Public Sub setbounds(lprec$, Optional lower$ = Nothing, Optional upper$ = Nothing, Optional columns As IEnumerable(Of Integer) = Nothing)
             SyncLock R
                 With R
-                    .call = $"set.bounds({lprec}, lower = {lower}, upper = {upper}, columns = {columns});"
+                    Dim Rscript$ = New setbounds With {
+                        .lprec = lprec,
+                        .columns = columns?.ToArray,
+                        .lower = lower,
+                        .upper = upper
+                    }
+
+                    .call = Rscript
                 End With
             End SyncLock
         End Sub
@@ -229,14 +237,25 @@ Namespace lpSolveAPI
         End Function
     End Module
 
+    <RFunc("set.bounds")>
+    Public Class setbounds : Inherits IRToken
+        Public Property lprec As String
+        Public Property lower As String
+        Public Property upper As String
+        Public Property columns As Integer()
+    End Class
+
     <RFunc("add.constraint")>
     Public Class addconstraint : Inherits IRToken
 
         Public Property lprec As String
-        Public Property xt As IEnumerable(Of Double)
+        Public Property xt As Double()
+
+        <Parameter("type")>
         Public Property type As constraintTypes = constraintTypes.ltOrEquals
+
         Public Property rhs As Double
-        Public Property indices As IEnumerable(Of Integer)
+        Public Property indices As Integer()
         Public Property lhs As Double?
 
     End Class

@@ -72,7 +72,7 @@ Module RInit
     ''' </summary>
     ''' <returns></returns>
     Private Function searchAuto() As String
-        Dim directories$() = ProgramPathSearchTool.SearchDirectory("R")
+        Dim directories$() = ProgramPathSearchTool.SearchDirectory("R").ToArray
         Dim R$ = Nothing
         Dim files$()
 
@@ -81,7 +81,7 @@ Module RInit
         End If
 
         For Each direactory As String In directories
-            files$ = ProgramPathSearchTool.SearchProgram(direactory, "R")
+            files$ = ProgramPathSearchTool.SearchProgram(direactory, "R").ToArray
 
             If Not files.IsNullOrEmpty Then
                 Return files.First.ParentPath
