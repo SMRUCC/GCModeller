@@ -235,7 +235,10 @@ Namespace lpSolveAPI
 
         Public Property lprec As String
         Public Property xt As Double()
+
+        <Parameter("type")>
         Public Property type As constraintTypes = constraintTypes.ltOrEquals
+
         Public Property rhs As Double
         Public Property indices As Integer()
         Public Property lhs As Double?

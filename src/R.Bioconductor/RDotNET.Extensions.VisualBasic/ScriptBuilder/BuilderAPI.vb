@@ -166,7 +166,7 @@ Namespace SymbolBuilder
         ''' <returns></returns>
         Private Function getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
             Dim value As Object = prop.GetValue(x)
-            Dim type = If(param Is Nothing, ValueTypes.string, param.Type)
+            Dim type = If(param Is Nothing, ValueTypes.ref, param.Type)
             Dim s As String = prop.PropertyType.getRValue(value, type)
 
             ' 如果参数值为空值，则会返回空字符串，在后面构建表达式的时候
@@ -216,7 +216,13 @@ Namespace SymbolBuilder
                 Case Else
 
                     If type.IsInheritsFrom(GetType(System.Enum)) Then
-                        Return DirectCast(value, [Enum]).Description
+                        Dim str$ = DirectCast(value, [Enum]).Description
+
+                        If valueType = ValueTypes.string Then
+                            Return Rstring(str)
+                        Else
+                            Return str
+                        End If
                     Else
                         Return Scripting.ToString(value)
                     End If
