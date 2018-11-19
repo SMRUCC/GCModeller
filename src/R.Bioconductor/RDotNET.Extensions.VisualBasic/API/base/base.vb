@@ -67,6 +67,52 @@ Namespace API
     Public Module base
 
         ''' <summary>
+        ''' Solve a System of Equations
+        ''' 
+        ''' This generic function solves the equation a %*% x = b for x, where b can be either a 
+        ''' vector or a matrix.
+        ''' </summary>
+        ''' <param name="a$">
+        ''' a square numeric or complex matrix containing the coefficients of the linear system. Logical matrices are coerced to numeric.
+        ''' </param>
+        ''' <param name="b$">
+        ''' a numeric or complex vector or matrix giving the right-hand side(s) of the linear system. If missing, b is taken to be an 
+        ''' identity matrix and solve will return the inverse of a</param>
+        ''' <param name="arguments">further arguments passed to or from other methods</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' a or b can be complex, but this uses double complex arithmetic which might not be available on all platforms.
+        ''' The row and column names of the result are taken from the column names of a and of b respectively. If b is missing the column 
+        ''' names of the result are the row names of a. No check is made that the column names of a and the row names of b are equal.
+        ''' For back-compatibility a can be a (real) QR decomposition, although qr.solve should be called in that case. qr.solve can handle 
+        ''' non-square systems.
+        ''' Unsuccessful results from the underlying LAPACK code will result in an error giving a positive error code: these can only be 
+        ''' interpreted by detailed study of the FORTRAN code.
+        ''' </remarks>
+        Public Function solve(a$, Optional b$ = Nothing, Optional arguments As Dictionary(Of String, String) = Nothing) As String
+            Dim var$ = App.NextTempName
+            Dim args = arguments _
+                .SafeQuery _
+                .Select(Function(v) $"{v.Key} = {v.Value}") _
+                .JoinBy(", ")
+            Dim params$
+
+            SyncLock R
+                With R
+                    If b.StringEmpty Then
+                        params = {a, args}.JoinBy(", ")
+                    Else
+                        params = {a, b, args}.JoinBy(", ")
+                    End If
+
+                    .call = $"{var} <- solve({params});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
         ''' Replicate Elements of Vectors and Lists
         ''' </summary>
         ''' <param name="x$">
@@ -139,6 +185,32 @@ Namespace API
             End Get
             Set(value As String())
                 Call x.__setNames(value, "names")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Retrieve or set the dimnames of an object.
+        ''' </summary>
+        ''' <param name="x">an R object, for example a matrix, array or data frame.</param>
+        ''' <returns>返回变量指针字符串</returns>
+        Public Property dimnames(x As String) As String
+            Get
+                Dim var$ = App.NextTempName
+
+                SyncLock R
+                    With R
+                        .call = $"{var} <- dimnames({x});"
+                    End With
+                End SyncLock
+
+                Return var
+            End Get
+            Set(value As String)
+                SyncLock R
+                    With R
+                        .call = $"dimnames({x}) <- {value}"
+                    End With
+                End SyncLock
             End Set
         End Property
 
@@ -615,11 +687,11 @@ Namespace API
         ''' Functions to construct, coerce and check for both kinds of R lists.
         ''' (实际上这个函数就是相当于创建了一个空的<see cref="Object"/>对象)
         ''' </summary>
-        ''' <param name="objects$">objects, possibly named.(对象的名称列表)</param>
+        ''' <param name="args$">objects, possibly named.(对象的名称列表)</param>
         ''' <returns></returns>
-        Public Function list(ParamArray objects As ArgumentReference()) As String
+        Public Function list(ParamArray args As ArgumentReference()) As String
             Dim var$ = App.NextTempName
-            Dim assigns$() = objects _
+            Dim assigns$() = args _
                 .Select(Function(f)
                             Return f.Expression(
                                 null:=NULL,
@@ -632,6 +704,34 @@ Namespace API
             SyncLock R
                 With R
                     .call = $"{var} <- list({assigns.JoinBy(", ")});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' Create an empty list
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function list() As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list();"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        Public Function list(ParamArray objects$()) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list({objects.JoinBy(",")});"
                 End With
             End SyncLock
 

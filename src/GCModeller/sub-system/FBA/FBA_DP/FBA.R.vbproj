@@ -253,6 +253,7 @@
     <Compile Include="rFBA\rFBASolver.vb" />
     <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="Simpheny\Tables.vb" />
+    <Compile Include="v2\lpSolveRScript.vb" />
     <Compile Include="Visual\FluxVisual.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +292,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
+      <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
+      <Name>math-core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj">
       <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>

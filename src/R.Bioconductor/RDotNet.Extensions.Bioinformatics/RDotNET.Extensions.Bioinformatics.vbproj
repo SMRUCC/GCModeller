@@ -294,7 +294,7 @@
     <Compile Include="Declares\bioconductor\clusterProfiler\clusterProfiler.vb" />
     <Compile Include="Declares\CRAN\COX\survminer.vb" />
     <Compile Include="Declares\CRAN\COX\survival.vb" />
-    <Compile Include="Declares\CRAN\lpSolve\API.vb" />
+    <Compile Include="Declares\CRAN\lpSolveAPI\API.vb" />
     <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\deSolve\integrator.vb" />
     <Compile Include="Declares\forecast\Class1.vb" />
