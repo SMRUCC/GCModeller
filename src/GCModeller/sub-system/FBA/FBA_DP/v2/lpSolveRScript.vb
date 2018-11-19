@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports RDotNET.Extensions.Bioinformatics
 Imports RDotNET.Extensions.Bioinformatics.lpSolveAPI.APIExtensions
 Imports RDotNET.Extensions.VisualBasic.API
@@ -21,20 +22,26 @@ Namespace v2
             }
             Dim fluxNames$() = matrix.Flux.Keys.ToArray
             Dim constraintTypes As New List(Of String)
+            Dim compoundNames$() = matrix.Compounds
 
             Call setobjfn(lprec, matrix.GetTargetCoefficients)
             Call lpcontrol(lprec, direction)
 
-            For Each compound As Double() In matrix.Matrix
-                Call addconstraint(lprec, compound, 0, lpSolveAPI.constraintTypes.equals)
-                Call constraintTypes.Add("=")
-            Next
+            Using progress As New ProgressBar("Build lpSolve constraints matrix...")
+                Dim tick As New ProgressProvider(matrix.Matrix.Length)
+
+                For Each compound As Double() In matrix.Matrix
+                    Call addconstraint(lprec, compound, 0, lpSolveAPI.constraintTypes.equals)
+                    Call constraintTypes.Add("=")
+                    Call progress.SetProgress(tick.StepProgress, compoundNames(tick.Current - 1))
+                Next
+            End Using
 
             Call setbounds(lprec, lower:=base.c(matrix.Flux.Select(Function(f) f.Value.Min)))
             Call setbounds(lprec, upper:=base.c(matrix.Flux.Select(Function(f) f.Value.Max)))
 
             ' 设置名称，方便进行调试
-            Dim rownames = base.c(matrix.Compounds, stringVector:=True)
+            Dim rownames = base.c(compoundNames, stringVector:=True)
             Dim colNames = base.c(fluxNames, stringVector:=True)
 
             dimnames(lprec) = base.list(rownames, colNames)
