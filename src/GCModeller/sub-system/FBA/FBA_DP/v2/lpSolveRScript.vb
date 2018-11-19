@@ -41,6 +41,8 @@ Namespace v2
                 Next
             End Using
 
+            Call print(lprec)
+
             Call setbounds(lprec, lower:=base.c(matrix.Flux.Select(Function(f) f.Value.Min)))
             Call setbounds(lprec, upper:=base.c(matrix.Flux.Select(Function(f) f.Value.Max)))
 

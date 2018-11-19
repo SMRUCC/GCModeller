@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::9efb922f4c725e41124c7e1939f4d50e, CLI_tools\Solver.FBA\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Function: Main
-    ' 
-    '     Sub: Test
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Function: Main
+' 
+'     Sub: Test
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,10 +47,13 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports RDotNET
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.API.utils
-Imports RDotNET.Extensions.VisualBasic.API.base
+Imports RDotNet
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.API.utils
+Imports RDotNet.Extensions.VisualBasic.API.base
+Imports SMRUCC.genomics.Analysis.FBA.Core
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports SMRUCC.genomics.Analysis.FBA_DP.v2
 
 ''' <summary>
 ''' 本程序集模块是所有的基于FBA模型的模型的求解方法的集合
@@ -65,6 +68,7 @@ Module Program
     ''' </summary>
     ''' <remarks></remarks>
     Public Function Main() As Integer
+        Call Test2()
         Return GetType(CLI).RunCLI(App.Command)
     End Function
 
@@ -87,5 +91,30 @@ p$solution;")
                 Call out.JoinBy(vbCrLf).__DEBUG_ECHO
             End With
         End SyncLock
+    End Sub
+
+    Sub Test2()
+        Dim matrix As New Matrix With {
+            .Compounds = {"C1", "C2", "C3"},
+            .Flux = New Dictionary(Of String, DoubleRange) From {
+                {"v1", New DoubleRange(0, 100)},
+                {"v2", New DoubleRange(0, 100)},
+                {"v3", New DoubleRange(0, 100)},
+                {"v4", New DoubleRange(0, 100)},
+                {"v5", New DoubleRange(0, 100)},
+                {"v6", New DoubleRange(0, 100)},
+                {"v7", New DoubleRange(0, 100)},
+                {"v8", New DoubleRange(0, 100)}
+            },
+            .Targets = {"v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"},
+            .Matrix = {
+                 {1.0, 1.0, 3.0, 1.0, -1.0, -51.0, 10.0, 10.0},
+                 {.0, 5.0, 30.0, 10.0, 8.0, 1.0, .0, -10.0},
+                 {.0, -2.0, .0, -100.0, .0, -1.0, .0, .0}
+            }.ToVectorList
+        }
+        Dim result = matrix.Rsolver
+
+        Call Console.WriteLine(result.ToString)
     End Sub
 End Module

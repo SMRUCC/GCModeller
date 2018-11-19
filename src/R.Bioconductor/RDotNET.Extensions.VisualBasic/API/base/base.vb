@@ -622,7 +622,13 @@ Namespace API
                 Else
                     SyncLock R
                         Dim out$ = App.NextTempName
-                        R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+
+                        If recursive Then
+                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+                        Else
+                            R.call = $"{out} <- c({ .JoinBy(", ")})"
+                        End If
+
                         Return out
                     End SyncLock
                 End If
