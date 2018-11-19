@@ -59,7 +59,7 @@ Namespace ComponentModel.EquaionModel
         ''' <summary>
         ''' 不可逆的代谢反应过程的箭头
         ''' </summary>
-        Public Const EQUATION_DIRECTIONS_IRREVERSIBLE As String = " --> "
+        Public Const EQUATION_DIRECTIONS_INREVERSIBLE As String = " --> "
         Public Const EQUATION_SPECIES_CONNECTOR As String = " + "
 
         ''' <summary>
@@ -73,9 +73,7 @@ Namespace ComponentModel.EquaionModel
         Public Function CreateObject(Of TCompound As ICompoundSpecies, TEquation As IEquation(Of TCompound))(Equation As String) As TEquation
             With Activator.CreateInstance(Of TEquation)()
                 Dim reversible = InStr(Equation, EQUATION_DIRECTIONS_REVERSIBLE) > 0
-                Dim deli As String = If(reversible,
-                    EQUATION_DIRECTIONS_REVERSIBLE,
-                    EQUATION_DIRECTIONS_IRREVERSIBLE)
+                Dim deli As String = EQUATION_DIRECTIONS_INREVERSIBLE Or EQUATION_DIRECTIONS_REVERSIBLE.When(reversible)
                 Dim tokens As String() = Strings.Split(Equation, deli)
 
                 Try
@@ -111,24 +109,25 @@ Namespace ComponentModel.EquaionModel
         End Function
 
         Private Function __tryParse(Of T As ICompoundSpecies)(token As String) As T
-            Dim CompoundSpecie As T = Activator.CreateInstance(Of T)()
-            Dim SC As String = Regex.Match(token, "(^| )\d+ ", RegexOptions.Singleline).Value
+            Dim compound As T = Activator.CreateInstance(Of T)()
+            Dim SC As String = Regex.Match(token, "^\s*\d+\s*", RegexICMul).Value
 
             If String.IsNullOrEmpty(SC) Then
                 Dim tokens As String() = token.Trim.Split
+
                 If tokens.Length > 1 Then
-                    CompoundSpecie.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
-                    CompoundSpecie.Key = token
+                    compound.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
+                    compound.Key = token
                 Else
-                    CompoundSpecie.StoiChiometry = 1
-                    CompoundSpecie.Key = token
+                    compound.StoiChiometry = 1
+                    compound.Key = token
                 End If
             Else
-                CompoundSpecie.StoiChiometry = Val(SC)
-                CompoundSpecie.Key = Trim(token.Replace(SC, ""))
+                compound.StoiChiometry = Val(SC.Trim)
+                compound.Key = Mid(token, SC.Length + 1).Trim
             End If
 
-            Return CompoundSpecie
+            Return compound
         End Function
 
         Public Function ToString(GetLeftSide As Func(Of KeyValuePair(Of Double, String)()),
@@ -142,7 +141,7 @@ Namespace ComponentModel.EquaionModel
             Dim DirectionFlag As String =
                 If(Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
-                EQUATION_DIRECTIONS_IRREVERSIBLE)
+                EQUATION_DIRECTIONS_INREVERSIBLE)
 
             Call EquationBuilder.AppendSides(sBuilder, Compounds:=LeftSide)
             Call sBuilder.Append(DirectionFlag)
@@ -160,7 +159,7 @@ Namespace ComponentModel.EquaionModel
             Dim DirectionFlag As String =
                 If(Equation.Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
-                EQUATION_DIRECTIONS_IRREVERSIBLE)
+                EQUATION_DIRECTIONS_INREVERSIBLE)
 
             Call EquationBuilder.AppendSides(sBuilder, Compounds:=Equation.Reactants)
             Call sBuilder.Append(DirectionFlag)
