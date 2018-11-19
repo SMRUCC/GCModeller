@@ -118,14 +118,18 @@ Namespace ComponentModel.EquaionModel
             Dim SC As String = Regex.Match(token, "^\s*\d+\s*", RegexICMul).Value
 
             If String.IsNullOrEmpty(SC) Then
-                Dim tokens As String() = token.Trim.Split
+                Dim tokens As String() = token.Trim.StringSplit("\s+")
 
-                If tokens.Length > 1 Then
+                If tokens.Length > 1 AndAlso tokens(Scan0).IsPattern("\d+(\.\d+)?") Then
+                    ' 2018-11-19
+                    ' 如果不是ID编号的话，则代谢物名字中间可能会包含有空格
+                    ' 所以在这里代谢物名称为tokens跳过第一个数字之后的
+                    ' 所有token的链接结果字符串
                     compound.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
-                    compound.Key = token
+                    compound.Key = tokens.Skip(1).JoinBy(" ")
                 Else
                     compound.StoiChiometry = 1
-                    compound.Key = token
+                    compound.Key = token.Trim
                 End If
             Else
                 compound.StoiChiometry = Val(SC.Trim)
