@@ -130,11 +130,11 @@ Namespace lpSolveAPI
                 With R
                     Dim Rscript$ = New addconstraint With {
                         .lprec = lprec,
-                        .indices = indices,
+                        .indices = indices.ToArray,
                         .lhs = lhs,
                         .rhs = rhs,
                         .type = type,
-                        .xt = xt
+                        .xt = xt.ToArray
                     }
 
                     .call = Rscript
@@ -233,10 +233,10 @@ Namespace lpSolveAPI
     Public Class addconstraint : Inherits IRToken
 
         Public Property lprec As String
-        Public Property xt As IEnumerable(Of Double)
+        Public Property xt As Double()
         Public Property type As constraintTypes = constraintTypes.ltOrEquals
         Public Property rhs As Double
-        Public Property indices As IEnumerable(Of Integer)
+        Public Property indices As Integer()
         Public Property lhs As Double?
 
     End Class
