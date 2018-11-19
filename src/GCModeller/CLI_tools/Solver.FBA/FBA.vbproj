@@ -414,9 +414,9 @@
       <Project>{1efb046b-49e0-4828-bebe-733309a96b6d}</Project>
       <Name>FBA.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\sub-system\FBA\FBA_DP\FBA_DP.vbproj">
+    <ProjectReference Include="..\..\sub-system\FBA\FBA_DP\FBA.R.vbproj">
       <Project>{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}</Project>
-      <Name>FBA_DP</Name>
+      <Name>FBA.R</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

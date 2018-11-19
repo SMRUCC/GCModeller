@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::6ad9810f676cabad98b2fd93a95630b1, RDotNET.Extensions.VisualBasic\ScriptBuilder\BuilderAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BuilderAPI
-    ' 
-    '         Function: __getExpr, __getName, __getScript, __getValue, __isOptional
-    '                   GetAPIName, (+2 Overloads) GetScript, list
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BuilderAPI
+' 
+'         Function: __getExpr, __getName, __getScript, __getValue, __isOptional
+'                   GetAPIName, (+2 Overloads) GetScript, list
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,8 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="parameters$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function list(ParamArray parameters$()) As ParameterList
             Return New ParameterList(parameters)
         End Function
@@ -82,7 +84,7 @@ Namespace SymbolBuilder
                 type = token.GetType
             End If
 
-            Return __getScript(token, type)
+            Return type.getScript(token)
         End Function
 
         ''' <summary>
@@ -91,7 +93,7 @@ Namespace SymbolBuilder
         ''' <param name="token"></param>
         ''' <param name="type"></param>
         ''' <returns></returns>
-        Private Function __getScript(token As Object, type As Type) As String
+        <Extension> Private Function getScript(type As Type, token As Object) As String
             Dim name As String = type.GetAPIName
             Dim props = (From prop As PropertyInfo In type.GetProperties
                          Where prop.GetAttribute(Of Ignored) Is Nothing AndAlso
@@ -102,14 +104,17 @@ Namespace SymbolBuilder
                              param.__isOptional,
                              param
                          Order By __isOptional Ascending)
-            Dim parameters As String() =
-                props.Select(Function(x) __getExpr(token, x.prop, x.func, x.param)).ToArray
-            Dim args As String() = LinqAPI.Exec(Of String) <=
+            Dim parameters$() = props _
+                .Select(Function(x)
+                            Return getExpr(token, x.prop, x.func, x.param)
+                        End Function) _
+                .ToArray
+            Dim args As String() = LinqAPI.Exec(Of String) _
  _
-                From p As String
-                In parameters
-                Where Not String.IsNullOrEmpty(p)
-                Select p
+                () <= From p As String
+                      In parameters
+                      Where Not String.IsNullOrEmpty(p)
+                      Select p
 
             Dim script As String = $"{name}({String.Join(", " & vbCrLf, args)})"
             Return script
@@ -119,14 +124,23 @@ Namespace SymbolBuilder
         ''' GET API name
         ''' </summary>
         ''' <param name="type"></param>
+        ''' <param name="typeNameAsFuncCalls">
+        ''' 是否允许当程序在查找不到<see cref="RFunc"/>自定义属性标记的时候，直接使用类型的名称作为函数名？
+        ''' 如果不的话，则在没有查找结果的时候会抛出错误
+        ''' </param>
         ''' <returns></returns>
-        <Extension> Public Function GetAPIName(type As Type) As String
-            Dim name As RFunc = type.GetAttribute(Of RFunc) ' Get function name
+        <Extension> Public Function GetAPIName(type As Type, Optional typeNameAsFuncCalls As Boolean = False) As String
+            ' Get function name
+            Dim name As RFunc = type.GetAttribute(Of RFunc)
 
             If name Is Nothing Then
-                Dim ex As New Exception(IsNotAFunc)
-                ex = New Exception(type.FullName, ex)
-                Throw ex
+                If typeNameAsFuncCalls Then
+                    Return type.Name
+                Else
+                    With New Exception(IsNotAFunc)
+                        Throw New Exception(type.FullName, .ByRef)
+                    End With
+                End If
             Else
                 Return name.Name
             End If
@@ -138,11 +152,9 @@ Namespace SymbolBuilder
         ''' <typeparam name="T"></typeparam>
         ''' <param name="token"></param>
         ''' <returns></returns>
-        ''' 
-        <Extension>
-        Public Function GetScript(Of T)(token As T) As String
-            Dim type As Type = GetType(T)
-            Return __getScript(token, type)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function GetScript(Of T)(token As T) As String
+            Return GetType(T).getScript(token)
         End Function
 
         ''' <summary>
@@ -152,10 +164,13 @@ Namespace SymbolBuilder
         ''' <param name="prop"></param>
         ''' <param name="name"></param>
         ''' <returns></returns>
-        Private Function __getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
+        Private Function getExpr(x As Object, prop As PropertyInfo, name As String, param As Parameter) As String
             Dim value As Object = prop.GetValue(x)
-            Dim type = If(param Is Nothing, ValueTypes.String, param.Type)
-            Dim s As String = prop.PropertyType.__getValue(value, type)
+            Dim type = If(param Is Nothing, ValueTypes.ref, param.Type)
+            Dim s As String = prop.PropertyType.getRValue(value, type)
+
+            ' 如果参数值为空值，则会返回空字符串，在后面构建表达式的时候
+            ' 会忽略掉这个空字符串
             If String.IsNullOrEmpty(s) Then
                 Return ""
             Else
@@ -163,8 +178,15 @@ Namespace SymbolBuilder
             End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type">The type info of the property <paramref name="value"/></param>
+        ''' <param name="value"></param>
+        ''' <param name="valueType"></param>
+        ''' <returns></returns>
         <Extension>
-        Private Function __getValue(type As Type, value As Object, valueType As ValueTypes) As String
+        Private Function getRValue(type As Type, value As Object, valueType As ValueTypes) As String
             If value Is Nothing Then
                 Return Nothing
             End If
@@ -172,21 +194,38 @@ Namespace SymbolBuilder
             Select Case type
 
                 Case GetType(String)
-                    If valueType = ValueTypes.Path Then
+                    If valueType = ValueTypes.path Then
                         Return Rstring(Scripting.ToString(value).UnixPath)
+                    ElseIf valueType = ValueTypes.ref Then
+                        ' 变量引用，则不添加双引号
+                        Return Scripting.ToString(value)
                     Else
                         Return Rstring(Scripting.ToString(value))
                     End If
                 Case GetType(Boolean)
                     If True = DirectCast(value, Boolean) Then
-                        Return RBoolean.TRUE.__value
+                        Return NameOf(RBoolean.TRUE)
                     Else
-                        Return RBoolean.FALSE.__value
+                        Return NameOf(RBoolean.FALSE)
                     End If
                 Case GetType(RExpression)
                     Return DirectCast(value, RExpression).RScript
+                Case GetType(Double()), GetType(Integer())
+                    ' 是一个数字向量
+                    Return RScripts.c(vector:=DirectCast(value, Array))
                 Case Else
-                    Return Scripting.ToString(value)
+
+                    If type.IsInheritsFrom(GetType(System.Enum)) Then
+                        Dim str$ = DirectCast(value, [Enum]).Description
+
+                        If valueType = ValueTypes.string Then
+                            Return Rstring(str)
+                        Else
+                            Return str
+                        End If
+                    Else
+                        Return Scripting.ToString(value)
+                    End If
             End Select
         End Function
 

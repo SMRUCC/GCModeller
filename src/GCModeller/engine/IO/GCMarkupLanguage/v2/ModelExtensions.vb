@@ -118,7 +118,8 @@ Namespace v2
                     .products = equation.Products _
                         .Select(Function(c) c.AsFactor) _
                         .ToArray,
-                    .enzyme = enzymes.TryGetValue(.ID)
+                    .enzyme = enzymes.TryGetValue(.ID, mute:=True),
+                    .bounds = {0R, 10000}
                 }
             Next
         End Function

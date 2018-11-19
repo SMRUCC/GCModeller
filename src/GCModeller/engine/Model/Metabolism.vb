@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -69,6 +70,10 @@ Public Class Reaction
     ''' 酶编号(KO编号或者EC编号)
     ''' </summary>
     Public enzyme As String()
+    ''' <summary>
+    ''' 这个代谢反应过程的流量的上下限限制值
+    ''' </summary>
+    Public bounds As DoubleRange
 
     Public Overrides Function ToString() As String
         Return ID & " " & enzyme.GetJson

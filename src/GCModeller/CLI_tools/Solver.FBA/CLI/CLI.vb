@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.FBA.Core
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Analysis.FBA_DP.v2
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -94,7 +95,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
         Dim dataModel As CellularModule = model.CreateModel
-        Dim result As LPPSolution = New LinearProgrammingEngine().Run(dataModel, targets)
+        Dim result As LPPSolution = New LinearProgrammingEngine().CreateMatrix(dataModel, targets).Rsolver(debug:=False)
 
         Return result.ToString.SaveTo(out).CLICode
     End Function
