@@ -163,6 +163,11 @@ Namespace v2
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property name As String
+        ''' <summary>
+        ''' 这个反应模型是否是需要酶促才会发生了生化反应过程？
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property is_enzymatic As Boolean
 
         <XmlText>
         Public Property Equation As String

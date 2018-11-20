@@ -139,7 +139,8 @@ Public Module Extensions
                                 Return New XmlReaction With {
                                     .ID = r.ID,
                                     .name = r.name,
-                                    .Equation = r.GetEquationString
+                                    .Equation = r.GetEquationString,
+                                    .is_enzymatic = r.is_enzymatic
                                 }
                             End Function) _
                     .ToArray,
