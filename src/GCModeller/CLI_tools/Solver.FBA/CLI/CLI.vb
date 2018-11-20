@@ -101,6 +101,9 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
                                    End Function()
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
 
+        Call {}.FlushAllLines(out)
+        Call $"LPP solution result will save to: {out}".__DEBUG_ECHO
+
         If mute.FileLength > 0 Then
             model = model.DeleteMutation(mute.ReadAllLines)
         End If
