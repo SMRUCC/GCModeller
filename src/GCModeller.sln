@@ -167,7 +167,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Biopax", "GCModeller\models
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CellPhenotype", "GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj", "{EB8DE91E-871C-4CE5-8D4D-73BB4E98012E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA_DP", "GCModeller\sub-system\FBA\FBA_DP\FBA_DP.vbproj", "{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA.R", "GCModeller\sub-system\FBA\FBA_DP\FBA.R.vbproj", "{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PLAS", "GCModeller\sub-system\PLAS.NET\PLAS\PLAS.vbproj", "{93F603F6-30FC-448B-8453-164757B670FF}"
 EndProject

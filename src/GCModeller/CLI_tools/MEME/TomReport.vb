@@ -45,7 +45,6 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.ApplicationServices.GZip
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -132,7 +131,7 @@ E-Value: {query.Subject.Evalue}
         Call ReportBuilder.SaveAsHTML(innerHTML.ToString,
                                       outDIR & "/TomQuery.html",
                                       "Motif Query: " & query.Query.ToString)
-        Call GZip.AddToArchive(ls - l - r - "*.*" <= outDIR, outDIR & "/TomQuery.zip", ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
+        Call ZipLib.AddToArchive(ls - l - r - "*.*" <= outDIR, outDIR & "/TomQuery.zip", ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
 
         Return True
     End Function

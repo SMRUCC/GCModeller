@@ -61,7 +61,7 @@ Public Module PathwayMapRender
         Dim repo$ = App.GetAppSysTempFile(".zip", App.PID)
 
         Call internalResource.FlushStream(zip)
-        Call GZip.ImprovedExtractToDirectory(zip, repo, Overwrite.Always)
+        Call ZipLib.ImprovedExtractToDirectory(zip, repo, Overwrite.Always)
 
         Return keggList.QueryMaps(repo)
     End Function

@@ -62,21 +62,6 @@ Imports SMRUCC.genomics.Metagenomics
 Public Module Workflow
 
     <Extension>
-    Private Function evalEffects(reg As RegulationFootprint) As Double
-        If reg.mode.StringEmpty Then
-            Return 0.25
-        End If
-
-        If reg.mode.TextEquals("repressor") Then
-            Return -1
-        ElseIf reg.mode.TextEquals("activator") Then
-            Return 1
-        Else
-            Return 0.25
-        End If
-    End Function
-
-    <Extension>
     Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
         Dim genes = model.Genotype.centralDogmas.ToDictionary
 
@@ -85,7 +70,7 @@ Public Module Workflow
             .Select(Function(reg)
                         ' 调控的过程为中心法则的转录过程
                         Return New Regulation With {
-                            .effects = reg.evalEffects,
+                            .effects = reg.mode.EvalEffects,
                             .regulator = reg.regulator,
                             .type = Processes.Transcription,
                             .name = reg.biological_process,
@@ -156,7 +141,8 @@ Public Module Workflow
             Dim catalysis = KOreactions.TryGetValue(enzyme.Value)
 
             For Each flux In catalysis.SafeQuery
-                Dim fluxName$ = flux.flux.CommonNames.ElementAtOrDefault(0) Or flux.flux.Definition.AsDefault
+                Dim fluxName$ = flux _
+                    .flux.CommonNames.ElementAtOrDefault(0) Or flux.flux.Definition.AsDefault
 
                 Yield New Regulation With {
                     .effects = 2,
@@ -199,12 +185,7 @@ Public Module Workflow
     <Extension>
     Private Function converts(compounds As CompoundSpecieReference()) As FactorString(Of Double)()
         Return compounds _
-            .Select(Function(r)
-                        Return New FactorString(Of Double) With {
-                            .Factor = r.StoiChiometry,
-                            .text = r.ID
-                        }
-                    End Function) _
+            .Select(Function(r) r.AsFactor) _
             .ToArray
     End Function
 
@@ -243,13 +224,16 @@ Public Module Workflow
                                 End Function)
             Dim locus_tag$ = feature.Name
             Dim rnaType As RNATypes = RNATypes.mRNA
+            Dim rnaData As String = ""
             Dim proteinId As String = Nothing
 
             If Not RNA Is Nothing Then
                 If RNA.KeyName = "tRNA" Then
                     rnaType = RNATypes.tRNA
+                    rnaData = tRNAAnticodon.Parse(RNA.Query("anticodon")).aa
                 Else
                     rnaType = RNATypes.ribosomalRNA
+                    rnaData = RNA.Query("product").Trim.Split().First
                 End If
             ElseIf Not CDS Is Nothing Then
                 proteinId = CDS.Query("protein_id")
@@ -273,7 +257,8 @@ Public Module Workflow
                 .geneID = locus_tag,
                 .RNA = New NamedValue(Of RNATypes) With {
                     .Name = locus_tag,
-                    .Value = rnaType
+                    .Value = rnaType,
+                    .Description = rnaData
                 },
                 .polypeptide = proteinId,
                 .orthology = KOfunction.TryGetValue(.geneID),

@@ -87,7 +87,7 @@ Namespace SabiorkKineticLaws.SBMLParser
         Public Property Fast As Boolean
         Public Property LocalParameters As [property]()
 
-        Friend Shared Function TryParse(strData As String) As kineticLawModel
+        Friend Overloads Shared Function TryParse(strData As String) As kineticLawModel
             Dim KineticRecord As kineticLawModel = New kineticLawModel
             KineticRecord.Identifiers = (From m As Match In Regex.Matches(strData, "rdf:resource="".+?""") Select GetStringValue(m.Value)).ToArray
             Dim strTemp As String = Regex.Match(strData, "<listOfReactants>.+?</listOfReactants>", RegexOptions.Singleline).Value
