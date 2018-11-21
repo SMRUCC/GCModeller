@@ -448,7 +448,9 @@ Public Module Extensions
                                                        Optional explicit As Boolean = False,
                                                        Optional encoding As Encoding = Nothing,
                                                        Optional fast As Boolean = False,
-                                                       Optional maps As NameMapping = Nothing) As List(Of T)
+                                                       Optional maps As NameMapping = Nothing,
+                                                       Optional mute As Boolean = False) As List(Of T)
+
         Call "Start to load csv data....".__DEBUG_ECHO
         Dim st = Stopwatch.StartNew
         Dim bufs = Reflector.Load(Of T)(path, explicit, encoding, fast, maps)
