@@ -84,11 +84,15 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
     End Sub
 
     <ExportAPI("/solve.gcmarkup")>
-    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt> /objective <flux_names.txt> /out <out.txt>]")>
+    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt> /trim /objective <flux_names.txt> /out <out.txt>]")>
     <Argument("/objective", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.")>
+    <Argument("/trim", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
+              virtual cell model? By default is retain these reactions.")>
     Public Function SolveGCMarkup(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim mute$ = args <= "/mute"
@@ -99,6 +103,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
                                            Return $"{[in].TrimSuffix}.FBA.txt"
                                        End If
                                    End Function()
+        Dim trim As Boolean = args("/trim")
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
 
         Call {}.FlushAllLines(out)
@@ -106,6 +111,9 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
         If mute.FileLength > 0 Then
             model = model.DeleteMutation(mute.ReadAllLines)
+        End If
+        If trim Then
+            model = model.Trim
         End If
 
         Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
