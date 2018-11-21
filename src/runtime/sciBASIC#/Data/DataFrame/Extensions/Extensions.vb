@@ -435,7 +435,8 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' Load a csv data file document using a specific object type.(将某一个Csv数据文件加载仅一个特定类型的对象集合中，空文件的话会返回一个空集合，这是一个安全的函数，不会返回空值)
+    ''' Load a csv data file document using a specific object type.
+    ''' (将某一个Csv数据文件加载仅一个特定类型的对象集合中，空文件的话会返回一个空集合，这是一个安全的函数，不会返回空值)
     ''' </summary>
     ''' <typeparam name="T">The type parameter of the element in the returns collection data.</typeparam>
     ''' <param name="path">The csv document file path.(目标Csv数据文件的文件路径)</param>
@@ -456,7 +457,12 @@ Public Module Extensions
         Call "Start to load csv data....".__DEBUG_ECHO(mute:=mute)
 
         With Stopwatch.StartNew
-            buffer = Reflector.Load(Of T)(path, explicit, encoding, fast, maps)
+            buffer = Reflector.Load(Of T)(
+                path, explicit, encoding,
+                fast:=fast,
+                maps:=maps,
+                mute:=mute
+            )
             ms = .ElapsedMilliseconds
             fs = If(ms > 1000, (ms / 1000) & "sec", ms & "ms")
         End With
