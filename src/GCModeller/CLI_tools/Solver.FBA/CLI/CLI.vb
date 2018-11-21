@@ -108,12 +108,23 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
         Call {}.FlushAllLines(out)
         Call $"LPP solution result will save to: {out}".__DEBUG_ECHO
+        Call (vbCrLf &
+              vbCrLf &
+              VirtualCell.Summary(model)).__INFO_ECHO
 
         If mute.FileLength > 0 Then
+            Call $"Apply delete mutation with profile: {mute}".__DEBUG_ECHO
             model = model.DeleteMutation(mute.ReadAllLines)
+            Call (vbCrLf &
+                  vbCrLf &
+                  VirtualCell.Summary(model)).__INFO_ECHO
         End If
         If trim Then
+            Call "Trim model...".__DEBUG_ECHO
             model = model.Trim
+            Call (vbCrLf &
+                  vbCrLf &
+                  VirtualCell.Summary(model)).__INFO_ECHO
         End If
 
         Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
