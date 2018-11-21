@@ -125,6 +125,10 @@ Namespace Assembly.KEGG.WebServices
                     End With
                 ElseIf InStr(href, "/kegg-bin/show_pathway") = 1 Then
                     Return NameOf(Pathway)
+                ElseIf InStr(href, "search_htext?htext=") > 0 Then
+                    ' 查看这张pathway的分类信息
+                    ' 不进行绘制
+                    Return "null"
                 Else
                     Throw New NotImplementedException(Me.GetXml)
                 End If
