@@ -339,6 +339,7 @@ Public Module Extensions
         End With
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("Write.Csv")>
     <Extension> Public Function SaveTo(dat As IEnumerable(Of RowObject), path$, Optional encoding As Encoding = Nothing) As Boolean
         Return CType(dat, IO.File).Save(path, Encoding:=encoding)
@@ -352,6 +353,7 @@ Public Module Extensions
     ''' <remarks></remarks>
     '''
     <ExportAPI(NameOf(DataFrame), Info:="Create a dynamics data frame object from a csv document object.")>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function DataFrame(data As File) As DataFrame
         Return DataFrame.CreateObject(data)
     End Function
@@ -423,15 +425,18 @@ Public Module Extensions
     ''' (将字符串数组转换为数据源对象，注意：请确保第一行为标题行)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="strDataLines"></param>
+    ''' <param name="lines"></param>
     ''' <param name="Delimiter"></param>
     ''' <param name="explicit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function AsDataSource(Of T As Class)(strDataLines As IEnumerable(Of String), Optional delimiter$ = ",", Optional explicit As Boolean = True) As T()
-        Dim Expression As String = String.Format(DataImports.SplitRegxExpression, delimiter)
-        Dim LQuery = (From line As String In strDataLines Select RowParsing(line, Expression)).ToArray
-        Return CType(LQuery, csv.IO.File).AsDataSource(Of T)(explicit)
+    <Extension> Public Function AsDataSource(Of T As Class)(lines As IEnumerable(Of String), Optional delimiter$ = ",", Optional explicit As Boolean = True) As T()
+        Dim splitter As String = String.Format(DataImports.SplitRegxExpression, delimiter)
+        Dim rows As IEnumerable(Of RowObject) = From line As String
+                                                In lines
+                                                Select RowParsing(line, splitter)
+        ' 解析完文本数据之后进行对象的反射加载操作
+        Return New File_csv(rows).AsDataSource(Of T)(explicit)
     End Function
 
     ''' <summary>
