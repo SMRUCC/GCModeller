@@ -1,4 +1,5 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Text
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Metagenomics
 
@@ -39,6 +40,35 @@ Namespace v2
 
         Public Overrides Function ToString() As String
             Return taxonomy.ToString
+        End Function
+
+        ''' <summary>
+        ''' 进行虚拟细胞模型的摘要文本输出
+        ''' </summary>
+        ''' <param name="model"></param>
+        ''' <returns></returns>
+        Public Shared Function Summary(model As VirtualCell) As String
+            Dim sb As New StringBuilder
+
+            Call sb.AppendLine(model.taxonomy.ToString)
+            Call sb.AppendLine()
+            Call sb.AppendLine("genome:")
+
+            For Each replicon In model.genome.replicons
+                Call sb.AppendLine($" [{replicon.genomeName}] {replicon.genes.Length}")
+            Next
+
+            Call sb.AppendLine()
+            Call sb.AppendLine($"transcript regulations: {model.genome.regulations.Length}")
+
+            Call sb.AppendLine("metabolism structure:")
+            Call sb.AppendLine($"  enzymes: {model.MetabolismStructure.Enzymes.Length}")
+            Call sb.AppendLine($"  reactions:")
+            Call sb.AppendLine()
+            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
+            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+
+            Return sb.ToString
         End Function
 
     End Class
