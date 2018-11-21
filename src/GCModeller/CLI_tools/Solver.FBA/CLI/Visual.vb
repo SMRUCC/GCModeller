@@ -41,9 +41,13 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.Bioinformatics
@@ -52,6 +56,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.gplots
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.grDevices
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.utils.read.table
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 
 Partial Module CLI
@@ -104,12 +109,12 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/visual.kegg.pathways")>
-    <Usage("/visual.kegg.pathways /model <virtualCell.GCMarkup> /maps <kegg_maps.repo.directory> [/plasmid.highlight <default=blue> /out <directory>]")>
+    <Usage("/visual.kegg.pathways /model <virtualCell.GCMarkup> /maps <kegg_maps.repo.directory> [/gene <default=red> /plasmid.highlight <default=blue> /out <directory>]")>
     Public Function VisualKEGGPathways(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
-        Dim maps$ = args <= "/maps"
         Dim plasmidHighlight As String = Nothing
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_visual.kegg.pathways/"
+        Dim geneColor$ = args("/gene") Or "red"
 
         If args("/plasmid.highlight") Then
             plasmidHighlight = args("/plasmid.highlight") Or "blue" _
@@ -118,9 +123,46 @@ Partial Module CLI
                                    Return .StringEmpty OrElse .TextEquals("True")
                                End With
                            End Function)
+        Else
+            plasmidHighlight = geneColor
         End If
 
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+        Dim render As LocalRender = LocalRender.FromRepository(args <= "/maps", digitID:=True)
+        Dim chromosome As Index(Of String) = model.genome _
+            .replicons _
+            .Where(Function(chr) Not chr.isPlasmid) _
+            .Select(Function(chr) chr.genes) _
+            .IteratesALL _
+            .Select(Function(gene) gene.locus_tag) _
+            .Indexing
+        Dim genes As NamedValue(Of String)()
+        Dim png$
 
+        For Each category As FunctionalCategory In model.MetabolismStructure.maps
+            For Each pathway In category.pathways
+                genes = pathway.enzymes _
+                    .Select(Function(enz)
+                                Dim locus_tag$ = enz.Comment
+                                Dim color$
+
+                                If locus_tag.IsOneOfA(chromosome) Then
+                                    color = geneColor
+                                Else
+                                    color = plasmidHighlight
+                                End If
+
+                                Return New NamedValue(Of String)(enz.value, color)
+                            End Function) _
+                    .ToArray
+                png = $"{out}/{category.category}/{pathway.ID}.png"
+
+                Call render _
+                    .Rendering(pathway.ID.Match("\d+"), genes) _
+                    .SaveAs(png)
+            Next
+        Next
+
+        Return 0
     End Function
 End Module
