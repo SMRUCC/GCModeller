@@ -62,6 +62,9 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
+    ''' <summary>
+    ''' KEGG的代谢物模型
+    ''' </summary>
     Public Class Compound : Inherits XmlDataModel
         Implements ICompoundObject
 
