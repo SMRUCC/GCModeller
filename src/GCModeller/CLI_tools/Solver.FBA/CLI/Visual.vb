@@ -160,6 +160,7 @@ Partial Module CLI
                 Call render _
                     .Rendering(pathway.ID.Match("\d+"), genes) _
                     .SaveAs(png)
+                Call $"{category.category}\{pathway.name}".__INFO_ECHO
             Next
         Next
 
