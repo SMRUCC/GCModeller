@@ -318,14 +318,19 @@ l;
     ''' <typeparam name="T"></typeparam>
     ''' <param name="var"></param>
     ''' <returns></returns>
-    <Extension> Public Function AsDataFrame(Of T As Class)(var As var, Optional maps As NameMapping = Nothing) As T()
+    <Extension> Public Function AsDataFrame(Of T As Class)(var As var,
+                                                           Optional maps As NameMapping = Nothing,
+                                                           Optional mute As Boolean = False) As T()
         Dim tmp$ = App.GetAppSysTempFile
         Dim out As T()
 
         utils.write.csv(x:=var.Name, file:=tmp, rowNames:=False)
+        ' R的write.csv函数所保存的文件编码默认为UTF8编码
         out = tmp.LoadCsv(Of T)(
             encoding:=Encodings.UTF8.CodePage,
-            maps:=maps) ' R的write.csv函数所保存的文件编码默认为UTF8编码
+            maps:=maps,
+            mute:=mute
+        )
 
         Return out
     End Function
