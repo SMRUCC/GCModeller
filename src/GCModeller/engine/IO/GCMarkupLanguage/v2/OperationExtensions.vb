@@ -15,21 +15,28 @@ Namespace v2
         <Extension> Public Function DeleteMutation(model As VirtualCell, geneList$()) As VirtualCell
             Dim deleted As Index(Of String) = geneList
 
+            ' 删除目标基因组之中所有发生缺失突变的基因
             For Each replicon As replicon In model.genome.replicons
-                replicon.genes = replicon.genes.Where(Function(g) Not g.locus_tag.IsOneOfA(deleted)).ToArray
+                replicon.genes = replicon.genes _
+                    .Where(Function(g)
+                               Return Not g.locus_tag.IsOneOfA(deleted)
+                           End Function) _
+                    .ToArray
             Next
 
+            ' 将对应的调控关系也删除掉
             model.genome.regulations = model.genome _
                 .regulations _
                 .Where(Function(reg)
                            Return Not reg.regulator.IsOneOfA(deleted) AndAlso Not reg.target.IsOneOfA(deleted)
                        End Function) _
                 .ToArray
+            ' 将对应的酶促过程也删除掉
             model.MetabolismStructure.Enzymes = model.MetabolismStructure _
                 .Enzymes _
                 .Where(Function(enz) Not enz.geneID.IsOneOfA(deleted)) _
                 .ToArray
-
+            ' 讲代谢途径之中的酶分子的定义也删除掉
             For Each [module] As FunctionalCategory In model.MetabolismStructure.maps
                 For Each pathway As Pathway In [module].pathways
                     pathway.enzymes = pathway _
