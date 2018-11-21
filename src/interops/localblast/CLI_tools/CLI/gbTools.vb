@@ -266,7 +266,7 @@ Partial Module CLI
     <Argument("/simple", True, AcceptTypes:={GetType(Boolean)},
                    Description:="Fasta sequence short title, which is just only contains locus_tag")>
     <Group(CLIGrouping.GenbankTools)>
-    Public Function ExportPTTDb(args As CommandLine) As Integer
+    Public Function ExportGenbank(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim batch As Boolean = args("/batch")
         Dim simple As Boolean = args("/simple")
@@ -299,6 +299,12 @@ Partial Module CLI
         Dim GFF As GFFTable = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 
         Dim ffn As FastaFile = gb.ExportGeneNtFasta
+        Dim geneList$() = gb.Features _
+            .Where(Function(feature) feature.KeyName = "gene") _
+            .Select(Function(gene)
+                        Return gene.Query(FeatureQualifiers.locus_tag)
+                    End Function) _
+            .ToArray
 
         ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
         name = name.NormalizePathString(False).Replace(" ", "_")
@@ -309,6 +315,7 @@ Partial Module CLI
         Call Faa.Save(out & $"/{name}.faa")
         Call GFF.Save(out & $"/{name}.gff")
         Call ffn.Save(out & $"/{name}.ffn")
+        Call geneList.SaveTo(out & $"/{name}.list")
     End Sub
 
     <ExportAPI("/Export.gb.genes",

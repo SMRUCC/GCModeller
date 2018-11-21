@@ -67,13 +67,20 @@ Public Class Reaction
     ''' </summary>
     Public products As FactorString(Of Double)()
     ''' <summary>
-    ''' 酶编号(KO编号或者EC编号)
+    ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
     ''' </summary>
     Public enzyme As String()
     ''' <summary>
     ''' 这个代谢反应过程的流量的上下限限制值
     ''' </summary>
     Public bounds As DoubleRange
+
+    Public ReadOnly Property is_enzymatic As Boolean
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return enzyme.IsNullOrEmpty
+        End Get
+    End Property
 
     Public Overrides Function ToString() As String
         Return ID & " " & enzyme.GetJson
