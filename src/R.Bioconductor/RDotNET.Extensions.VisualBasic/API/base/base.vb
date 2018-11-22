@@ -624,9 +624,9 @@ Namespace API
                         Dim out$ = App.NextTempName
 
                         If recursive Then
-                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper});"
                         Else
-                            R.call = $"{out} <- c({ .JoinBy(", ")})"
+                            R.call = $"{out} <- c({ .JoinBy(", ")});"
                         End If
 
                         Return out
