@@ -110,7 +110,9 @@ Public Module LargeTextFile
     ''' <param name="length">Peeks of the number of characters.(字符的数目)</param>
     ''' <param name="encoding">Default value is <see cref="DefaultEncoding"/></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' 请注意，如果字符编码是不定长的，则返回的字符串可能会出现乱码的问题
+    ''' </remarks>
     <ExportAPI("Tails")>
     <Extension>
     Public Function Tails(path$, <Parameter("characters", "The number of the characters, not the bytes value.")> length%, Optional encoding As Encoding = Nothing) As String
@@ -134,6 +136,44 @@ Public Module LargeTextFile
 
             Dim value$ = textEncoder.GetString(buffer)
             Return value
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Get last line of the target text file.
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="encoding"></param>
+    ''' <param name="newLine$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function GetLastLine(path$, Optional encoding As Encoding = Nothing, Optional newLine$ = vbLf) As String
+        Using sr As New StreamReader(path, encoding Or UTF8)
+            Dim lastline As String
+            Dim i As Integer = 2
+
+            Call sr.DiscardBufferedData()
+
+            Do
+                If i <= sr.BaseStream.Length Then
+                    sr.BaseStream.Seek(sr.BaseStream.Length - i, SeekOrigin.Begin)
+                    lastline = sr.ReadToEnd
+
+                    If lastline.StartsWith(newLine) Then
+                        Exit Do
+                    End If
+
+                    i += 1
+                Else
+                    ' 目标文本文件只有一行数据
+                    sr.BaseStream.Seek(Scan0, SeekOrigin.Begin)
+                    Return sr.ReadToEnd
+                End If
+            Loop
+
+            ' 因为空格可能是所需要的字符串的数据
+            ' 所以在这里只取出前后的newline字符串
+            Return lastline.Trim(ASCII.CR, ASCII.LF)
         End Using
     End Function
 
