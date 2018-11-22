@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::fd866e55fda5a8309ed0bfa903277167, models\Networks\KEGG\KEGGMap\PathwayMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PathwayMapRender
-    ' 
-    '     Function: (+3 Overloads) QueryMaps, RenderMaps
-    ' 
-    ' /********************************************************************************/
+' Module PathwayMapRender
+' 
+'     Function: (+3 Overloads) QueryMaps, RenderMaps
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -72,23 +73,42 @@ Public Module PathwayMapRender
     End Function
 
     <Extension>
+    Public Function QueryMaps(render As LocalRender, keggList As IEnumerable(Of String),
+                              Optional threshold% = 3,
+                              Optional color$ = "red",
+                              Optional scale$ = "1,1",
+                              Optional throwException As Boolean = True) As IEnumerable(Of NamedValue(Of Image))
+        Return render.QueryMaps(
+            keggList:=keggList.Select(Function(id) New NamedValue(Of String)(id, color)),
+            threshold:=threshold,
+            scale:=scale,
+            throwException:=throwException
+        )
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="render"></param>
+    ''' <param name="keggList">``{id => color}``</param>
+    ''' <param name="threshold%"></param>
+    ''' <param name="scale$"></param>
+    ''' <param name="throwException"></param>
+    ''' <returns></returns>
+    <Extension>
     Public Iterator Function QueryMaps(render As LocalRender,
-                                       keggList As IEnumerable(Of String),
+                                       keggList As IEnumerable(Of NamedValue(Of String)),
                                        Optional threshold% = 3,
-                                       Optional color$ = "red",
                                        Optional scale$ = "1,1",
                                        Optional throwException As Boolean = True) As IEnumerable(Of NamedValue(Of Image))
 
+        Dim idTable As Dictionary(Of NamedValue(Of String)) = keggList.ToDictionary
+
         ' 首先查找出化合物在哪些map之中出现，然后生成绘图查询数据
-        For Each foundResult As NamedValue(Of String()) In render.IteratesMapNames(keggList, 3)
+        For Each foundResult As NamedValue(Of String()) In render.IteratesMapNames(keggList.Keys, 3)
             Dim nodes = foundResult _
                 .Value _
-                .Select(Function(x)
-                            Return New NamedValue(Of String) With {
-                                .Name = x,
-                                .Value = color
-                            }
-                        End Function) _
+                .Select(Function(x) idTable(x)) _
                 .ToArray
 
             Try

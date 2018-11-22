@@ -478,7 +478,7 @@ Namespace Assembly.NCBI.GenBank
                 If GeneFastaDump.Count > 0 Then
                     Call GeneSequenceList.AddRange(GeneFastaDump.ToArray)
                     Call GeneFastaDump.Save(String.Format("{0}/plasmid_genes/{1}.fasta", FastaExport, gb.Accession.AccessionId))
-                    Call GeneFastaDump.FlushData()
+                    Call GeneFastaDump.Clear()
                 End If
             Next
 

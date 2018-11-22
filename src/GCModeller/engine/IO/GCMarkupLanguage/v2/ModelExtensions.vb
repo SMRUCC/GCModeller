@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -88,6 +89,7 @@ Namespace v2
         <Extension>
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
+            ' {reactionID => KO()}
             Dim enzymes = model.MetabolismStructure _
                 .Enzymes _
                 .Select(Function(enz)
@@ -105,9 +107,26 @@ Namespace v2
                                           .Distinct _
                                           .ToArray
                               End Function)
+            Dim KO$()
+            Dim bounds As DoubleRange
 
             For Each reaction In model.MetabolismStructure.Reactions
                 equation = Equation.TryParse(reaction.Equation)
+
+                If reaction.is_enzymatic Then
+                    KO = enzymes.TryGetValue(reaction.ID, mute:=True)
+
+                    If KO.IsNullOrEmpty Then
+                        ' 当前的基因组内没有对应的酶来催化这个反应过程
+                        ' 则限制一个很小的range
+                        bounds = {0, 0.1}
+                    Else
+                        bounds = {0, 1000.0}
+                    End If
+                Else
+                    KO = {}
+                    bounds = {0, 100.0}
+                End If
 
                 Yield New FluxModel With {
                     .ID = reaction.ID,
@@ -118,8 +137,8 @@ Namespace v2
                     .products = equation.Products _
                         .Select(Function(c) c.AsFactor) _
                         .ToArray,
-                    .enzyme = enzymes.TryGetValue(.ID, mute:=True),
-                    .bounds = {0R, 10000}
+                    .enzyme = KO,
+                    .bounds = bounds
                 }
             Next
         End Function

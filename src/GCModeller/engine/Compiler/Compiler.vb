@@ -169,6 +169,7 @@ Public Module Workflow
                     .ToArray
             End If
 
+            ' 如果enzyme属性是空的，说明不是酶促反应过程
             Yield New Reaction With {
                 .enzyme = enzymes,
                 .ID = reaction.ID,
