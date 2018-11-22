@@ -621,18 +621,24 @@ Namespace API
                     Return "NULL"
                 Else
                     SyncLock R
-                        Dim out$ = App.NextTempName
+                        Dim out As var = NULL
 
                         ' 2018-11-22 似乎R的交互式解释器有一个最长表达式的限制
                         ' 所以在这里如果向量的申明表达式过长的画，会触发一个StackOverflow的错误
                         ' 但是如果直接将表达式保存为脚本文件，然后使用source执行，则并不会存在这个bug
 
                         ' 在这里为了避免出现这个问题，会需要将向量按照块进行切割，然后使用append进行合并
-                        If recursive Then
-                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper});"
-                        Else
-                            R.call = $"{out} <- c({ .JoinBy(", ")});"
-                        End If
+                        For Each block As String() In list.Split(50)
+                            Dim v$ = .JoinBy(", ")
+
+                            If recursive Then
+                                v = $"c({v}, recursive = {CStr(recursive).ToUpper})"
+                            Else
+                                v = $"c({v})"
+                            End If
+
+                            R.call = $"{out} <- append({out}, {v});"
+                        Next
 
                         Return out
                     End SyncLock
