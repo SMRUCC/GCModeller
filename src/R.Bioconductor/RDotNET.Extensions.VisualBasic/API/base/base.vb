@@ -629,9 +629,9 @@ Namespace API
 
                         ' 在这里为了避免出现这个问题，会需要将向量按照块进行切割，然后使用append进行合并
                         If recursive Then
-                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+                            R.call = $"{out} <- c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper});"
                         Else
-                            R.call = $"{out} <- c({ .JoinBy(", ")})"
+                            R.call = $"{out} <- c({ .JoinBy(", ")});"
                         End If
 
                         Return out

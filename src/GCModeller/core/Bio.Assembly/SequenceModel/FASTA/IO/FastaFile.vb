@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::3851bf1ece1e26211930f285b89947f8, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FastaFile
-    ' 
-    '         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
-    ' 
-    '         Constructor: (+8 Overloads) Sub New
-    ' 
-    '         Function: [Select], __createNode, __saveUltraLargeSize, AddRange, AsKSource
-    '                   Clone, Contains, Distinct, (+2 Overloads) DocParser, Find
-    '                   Generate, GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile
-    '                   LoadNucleotideData, Match, ParseDocument, (+2 Overloads) Query, QueryAny
-    '                   Read, Remove, (+3 Overloads) Save, SaveData, SingleSequence
-    '                   Take, ToLower, ToString, ToUpper
-    ' 
-    '         Sub: Add, AppendToFile, Clear, CopyTo, FlushData
-    '              Insert, RemoveAt, Split
-    ' 
-    '         Operators: (+3 Overloads) +, <, >
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FastaFile
+' 
+'         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
+' 
+'         Constructor: (+8 Overloads) Sub New
+' 
+'         Function: [Select], __createNode, __saveUltraLargeSize, AddRange, AsKSource
+'                   Clone, Contains, Distinct, (+2 Overloads) DocParser, Find
+'                   Generate, GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile
+'                   LoadNucleotideData, Match, ParseDocument, (+2 Overloads) Query, QueryAny
+'                   Read, Remove, (+3 Overloads) Save, SaveData, SingleSequence
+'                   Take, ToLower, ToString, ToUpper
+' 
+'         Sub: Add, AppendToFile, Clear, CopyTo, FlushData
+'              Insert, RemoveAt, Split
+' 
+'         Operators: (+3 Overloads) +, <, >
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
@@ -62,6 +63,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
@@ -110,8 +112,8 @@ Namespace SequenceModel.FASTA
             _innerList =
                 LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
                                                    In data
-                                                   Where Not fa Is Nothing
-                                                   Select fa
+                                                 Where Not fa Is Nothing
+                                                 Select fa
         End Sub
 
         Sub New(fa As FASTA.FastaSeq)
@@ -335,8 +337,8 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Function QueryAny(KeyWord As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
             Dim LQuery As IEnumerable(Of FastaSeq) = From Fasta As FastaSeq
                                                        In __innerList.AsParallel
-                                                       Where Find(Fasta.Headers, KeyWord, CaseSensitive)
-                                                       Select Fasta '
+                                                     Where Find(Fasta.Headers, KeyWord, CaseSensitive)
+                                                     Select Fasta '
             Return New FastaFile With {
                 .__innerList = LQuery.AsList
             }
@@ -454,79 +456,16 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
         ''' <remarks></remarks>
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            If encoding Is Nothing Then
-                encoding = Encoding.ASCII
-            End If
+            Static ASCII As DefaultValue(Of Encoding) = Encoding.ASCII
 
-            Path = getPath(Path)
-
-            Dim sBuilder As New StringBuilder(10 * 1024)
-            Dim parts = (From fa As FastaSeq
-                         In _innerList.AsParallel
-                         Let NodeText As String =
-                             fa.GenerateDocument(lineBreak:=LineBreak)
-                         Select NodeText,
-                             Len = NodeText.Length).ToArray
-            Dim MaxSize As Double = (From n In parts Select CDbl(n.Len)).Sum
-
-            If MaxSize > sBuilder.MaxCapacity Then
-                Dim getText = From node
-                              In parts
-                              Select node.NodeText
-                Return __saveUltraLargeSize(getText, Path, encoding, MaxSize)
-            Else
-                Using writer As StreamWriter = Path.OpenWriter(encoding)
-                    For Each x In parts
-                        Call writer.WriteLine(x.NodeText)
-                    Next
-                End Using
-
-                Return True
-            End If
-        End Function
-
-        Private Function __saveUltraLargeSize(parts As IEnumerable(Of String), path$, encoding As Encoding, MaxSize#) As Boolean
-            Try
-                Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(path))
-                Call FileIO.FileSystem.DeleteFile(path, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
-            Catch ex As Exception
-                ex = New Exception(path, ex)
-                Call App.LogException(ex)
-            End Try
-
-            Using file As New StreamWriter(New FileStream(path, FileMode.OpenOrCreate), encoding)
-                Dim MAT As String()() = TextPartition(parts)
-
-                Call $"UltralargeSize fasta file partition count is {MAT.Length}".__DEBUG_ECHO
-
-                For Each NodeBuilder As String In (From VEC In MAT.AsParallel Select __createNode(VEC))
-                    Call NodeBuilder.Replace(vbCr, "")
-                    Call file.Write(NodeBuilder & vbCrLf)
+            Using writer As StreamWriter = getPath(Path).OpenWriter(encoding Or ASCII)
+                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
+                    Call writer.WriteLine(seq)
                 Next
-
-                Call file.Flush()
             End Using
 
             Return True
         End Function
-
-        Private Shared Function __createNode(Nodes As String()) As String
-            Dim sBuilder As New StringBuilder(100 * 1024)
-
-            For Each Node As String In Nodes
-                Call sBuilder.AppendLine(Node)
-            Next
-
-            Return sBuilder.ToString
-        End Function
-
-        ''' <summary>
-        ''' Clear the sequence data in this fasta file.
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Sub FlushData()
-            Call _innerList.Clear()
-        End Sub
 
         ''' <summary>
         ''' 在写入数据到文本文件之前需要将目标对象转换为文本字符串
@@ -539,8 +478,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
 
             For Each fa As FastaSeq In __innerList
                 s = fa.GenerateDocument(lineBreak:=60)
-                Call sb.AppendLine(s)
+                sb.AppendLine(s)
             Next
+
             Return sb.ToString
         End Function
 
@@ -593,14 +533,14 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="regxText"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Match(regxText As String, Optional options As RegexOptions = RegexOptions.Singleline) As FastaSeq()
+        Public Iterator Function Match(regxText$, Optional options As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of FastaSeq)
             Dim regexp As New Regex(regxText, options)
-            Dim LQuery As FastaSeq() =
-                LinqAPI.Exec(Of FastaSeq) <= From fasta As FastaSeq
-                                               In Me.__innerList
-                                               Where regexp.Match(fasta.SequenceData.ToUpper).Success
-                                               Select fasta
-            Return LQuery
+
+            For Each fasta As FastaSeq In _innerList
+                If regexp.Match(fasta.SequenceData.ToUpper).Success Then
+                    Yield fasta
+                End If
+            Next
         End Function
 
 #Region "Implementation of IList(Of SequenceModel.FASTA.FASTA) interface."
