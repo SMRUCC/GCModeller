@@ -124,15 +124,18 @@ Public Class var
     ''' <returns></returns>
     Public Function [As](Of T)() As T
         Dim ref As SymbolicExpression = R.Evaluate(Name)
+        Dim value As Object
 
         Select Case GetType(T)
             Case GetType(Integer)
-
+                value = ref.AsInteger.First
             Case GetType(Integer())
-
+                value = ref.AsInteger.ToArray
             Case Else
                 Throw New NotImplementedException(GetType(T).FullName)
         End Select
+
+        Return DirectCast(value, T)
     End Function
 
     Public Overloads Shared Operator <=(x As var, expr As String) As String
