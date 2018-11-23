@@ -713,7 +713,7 @@ Namespace API
                         ' 但是如果直接将表达式保存为脚本文件，然后使用source执行，则并不会存在这个bug
 
                         ' 在这里为了避免出现这个问题，会需要将向量按照块进行切割，然后使用append进行合并
-                        For Each block As String() In .Split(50)
+                        For Each block As String() In .Split(100)
                             Dim v$ = block.JoinBy(", ")
 
                             If recursive Then
