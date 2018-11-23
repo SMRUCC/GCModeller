@@ -69,7 +69,7 @@ Namespace SymbolBuilder
         Const IsNotAFunc = "Target object is not a R function abstract!"
 
         ''' <summary>
-        ''' R.func(param="",...)
+        ''' ``R.func(param="",...)``
         ''' </summary>
         ''' <param name="token"></param>
         ''' <returns></returns>
@@ -179,7 +179,7 @@ Namespace SymbolBuilder
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 将.NET环境之中的变量值转换为R脚本语言环境之中的变量值
         ''' </summary>
         ''' <param name="type">The type info of the property <paramref name="value"/></param>
         ''' <param name="value"></param>
@@ -194,15 +194,27 @@ Namespace SymbolBuilder
             Select Case type
 
                 Case GetType(String)
+
+                    ' 如果在VB.NET环境之中, 值的类型在R语言环境之中可能为:
+                    '
+                    ' 文件路径: 则会自动替换\符号为Linux下面的路径分隔符号/, 并添加双引号在脚本之中表示当前的值为字符串
+                    ' R环境之中的对象引用: 则这个时候不进行任何字符串上面的操作处理
+                    ' R环境之中的字符串: 则直接添加双引号以在R脚本之中表示其为字符串
                     If valueType = ValueTypes.path Then
-                        Return Rstring(Scripting.ToString(value).UnixPath)
+                        ' 因为UnixPath拓展函数可能会自动添加双引号
+                        ' 所以在这里就直接进行字符替换操作了, 避免可能由于UnixPath
+                        ' 函数所可能产生的bug
+                        Return Rstring(Scripting.ToString(value).Replace("\", "/"))
                     ElseIf valueType = ValueTypes.ref Then
                         ' 变量引用，则不添加双引号
                         Return Scripting.ToString(value)
                     Else
                         Return Rstring(Scripting.ToString(value))
                     End If
+
                 Case GetType(Boolean)
+
+                    ' 对于逻辑值,则直接根据值返回R语言环境之中的TRUE或者FALSE
                     If True = DirectCast(value, Boolean) Then
                         Return NameOf(RBoolean.TRUE)
                     Else
@@ -212,12 +224,20 @@ Namespace SymbolBuilder
                     Return DirectCast(value, RExpression).RScript
                 Case GetType(Double()), GetType(Integer())
                     ' 是一个数字向量
+                    ' 返回c()向量表达式, 因为R解释器会存在一个栈空间上线的问题, 所以在API之中会对向量内容进行分块传递
+                    ' 但是在这里的脚本构建器之中, 由于source函数运行部存在这个问题, 所以在这里可以直接通过c()向量函数
+                    ' 来生成最终的脚本表达式结果
                     Return RScripts.c(vector:=DirectCast(value, Array))
                 Case Else
 
-                    If type.IsInheritsFrom(GetType(System.Enum)) Then
+                    ' 对于枚举类型, 则会将枚举值转换为字符串之后传递到R脚本环境之中
+                    If type.IsInheritsFrom(GetType([Enum])) Then
                         Dim str$ = DirectCast(value, [Enum]).Description
 
+                        ' 如果修饰的类型表明当前的参数值应该是一个字符串
+                        ' 则枚举值的描述结果字符串会被封装在双引号之中表明其为一个字符串
+                        ' 反之, 其他的类型装饰则会直接认为当前的枚举值为一个R环境之中
+                        ' 的对象引用表达式, 当前的枚举值的描述结果会被直接生成于脚本之中
                         If valueType = ValueTypes.string Then
                             Return Rstring(str)
                         Else
