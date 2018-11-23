@@ -84,20 +84,58 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
     End Sub
 
     <ExportAPI("/solve.gcmarkup")>
-    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/objective <flux_names.txt> /out <out.txt>]")>
+    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt> /trim /objective <flux_names.txt> /out <out.txt>]")>
     <Argument("/objective", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.")>
+    <Argument("/trim", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
+              virtual cell model? By default is retain these reactions.")>
     Public Function SolveGCMarkup(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.FBA.txt"
+        Dim mute$ = args <= "/mute"
+        Dim out$ = args("/out") Or Function() As String
+                                       If mute.FileLength > 0 Then
+                                           Return $"{[in].TrimSuffix}.FBA,mute={mute.BaseName}.txt"
+                                       Else
+                                           Return $"{[in].TrimSuffix}.FBA.txt"
+                                       End If
+                                   End Function()
+        Dim trim As Boolean = args("/trim")
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+
+        Call {}.FlushAllLines(out)
+        Call $"LPP solution result will save to: {out}".__DEBUG_ECHO
+        Call (vbCrLf &
+              vbCrLf &
+              VirtualCell.Summary(model)).__INFO_ECHO
+
+        If mute.FileLength > 0 Then
+            Call $"Apply delete mutation with profile: {mute}".__DEBUG_ECHO
+            model = model.DeleteMutation(mute.ReadAllLines)
+            Call (vbCrLf &
+                  vbCrLf &
+                  VirtualCell.Summary(model)).__INFO_ECHO
+        End If
+        If trim Then
+            Call "Trim model...".__DEBUG_ECHO
+            model = model.Trim
+            Call (vbCrLf &
+                  vbCrLf &
+                  VirtualCell.Summary(model)).__INFO_ECHO
+        End If
+
         Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
         Dim dataModel As CellularModule = model.CreateModel
-        Dim result As LPPSolution = New LinearProgrammingEngine().CreateMatrix(dataModel, targets).Rsolver(debug:=False)
+        Dim result As LPPSolution = New LinearProgrammingEngine() _
+            .CreateMatrix(dataModel, targets) _
+            .Rsolver(debug:=False)
 
-        Return result.ToString.SaveTo(out).CLICode
+        Return result.ToString _
+                     .SaveTo(out) _
+                     .CLICode
     End Function
 
     ''' <summary>

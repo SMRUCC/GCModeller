@@ -114,12 +114,28 @@ Public Class var
     End Function
 
     ''' <summary>
-    ''' <see cref="out"/>
+    ''' 可以尝试使用这个函数将<see cref="Name"/>在R语言环境之中的变量引用结果解析
+    ''' 为``.NET``环境之中的对象结果值
+    ''' 
+    ''' + 如果是初级类型, 则这个函数可以直接进行转换
+    ''' + 但是对于复杂的数据类型, 则需要在类型定义申明上面添加<see cref="out"/>自定义解释器的修饰
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <returns></returns>
     Public Function [As](Of T)() As T
-        Throw New NotImplementedException
+        Dim ref As SymbolicExpression = R.Evaluate(Name)
+        Dim value As Object
+
+        Select Case GetType(T)
+            Case GetType(Integer)
+                value = ref.AsInteger.First
+            Case GetType(Integer())
+                value = ref.AsInteger.ToArray
+            Case Else
+                Throw New NotImplementedException(GetType(T).FullName)
+        End Select
+
+        Return DirectCast(value, T)
     End Function
 
     Public Overloads Shared Operator <=(x As var, expr As String) As String

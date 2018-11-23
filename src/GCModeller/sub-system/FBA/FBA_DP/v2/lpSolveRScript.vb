@@ -31,7 +31,7 @@ Namespace v2
                 Throw New Exception("Matrix size not agree with flux counts data!")
             End If
 
-            Using progress As New ProgressBar("Build lpSolve constraints matrix...")
+            Using progress As New ProgressBar("Build lpSolve constraints matrix...", Y:=30)
                 Dim tick As New ProgressProvider(matrix.Matrix.Length)
 
                 For Each compound As Double() In matrix.Matrix
