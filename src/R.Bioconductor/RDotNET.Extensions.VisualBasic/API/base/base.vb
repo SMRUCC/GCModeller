@@ -1168,5 +1168,40 @@ Namespace API
 
             Return var
         End Function
+
+        ''' <summary>
+        ''' ##### Sum of Vector Elements
+        ''' 
+        ''' sum returns the sum of all the values present in its arguments.
+        ''' </summary>
+        ''' <param name="ref$">numeric or complex or logical vectors.</param>
+        ''' <param name="narm">logical. Should missing values (including NaN) be removed?</param>
+        ''' <returns>
+        ''' The sum. If all of ... are of type integer or logical, then the sum is integer, and in that case the 
+        ''' result will be NA (with a warning) if integer overflow occurs. Otherwise it is a length-one numeric 
+        ''' or complex vector.
+        '''
+        ''' NB: the sum of an empty set is zero, by definition.
+        ''' </returns>
+        ''' <remarks>
+        ''' This is a generic function: methods can be defined for it directly or via the Summary group generic. 
+        ''' For this to work properly, the arguments ... should be unnamed, and dispatch is on the first argument.
+        ''' If na.rm is FALSE an NA or NaN value in any of the arguments will cause a value of NA or NaN to be 
+        ''' returned, otherwise NA and NaN values are ignored.
+        ''' Logical true values are regarded as one, false values as zero. For historical reasons, NULL is accepted 
+        ''' and treated as if it were integer(0).
+        ''' Loss of accuracy can occur when summing values of different signs: this can even occur for sufficiently 
+        ''' long integer inputs if the partial sums would cause integer overflow. Where possible extended-precision 
+        ''' accumulators are used, but this is platform-dependent.
+        ''' </remarks>
+        Public Function sum(ref$, Optional narm As Boolean = False) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+                    .call = $"{var} <- sum({ref}, na.rm = {Rbool(narm)});"
+                    Return var
+                End With
+            End SyncLock
+        End Function
     End Module
 End Namespace
