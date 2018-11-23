@@ -41,7 +41,14 @@
 
 Public Module Module1
 
+    Sub interpreterStackSizeTest()
+
+    End Sub
+
     Sub Main()
+
+        Call interpreterStackSizeTest()
+
         Dim type = GetType(Module1)
 
         test2("3333", 33)
