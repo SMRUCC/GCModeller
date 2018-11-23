@@ -139,7 +139,6 @@ Namespace API
         ''' <param name="continueEcho">character; gives the prompt to use on continuation lines if echo = TRUE.</param>
         ''' <param name="skipEcho">integer; how many comment lines at the start of the file to skip if echo = TRUE.</param>
         ''' <param name="keepSource">logical: should the source formatting be retained When echoing expressions, If possible?</param>
-        ''' <returns></returns>
         ''' <remarks>
         ''' Note that running code via source differs in a few respects from entering it at the R command line. Since expressions are not executed
         ''' at the top level, auto-printing is not done. So you will need to include explicit print calls for things you want to be printed
