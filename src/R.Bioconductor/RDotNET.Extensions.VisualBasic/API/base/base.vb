@@ -112,6 +112,91 @@ Namespace API
             Return var
         End Function
 
+
+        ''' <summary>
+        ''' The R engine execute a R script. source causes R to accept its input from the named file or URL or connection.
+        ''' Input is read and parsed from that file until the end of the file is reached, then the parsed expressions are
+        ''' evaluated sequentially in the chosen environment.
+        ''' (R引擎执行文件系统之中的一个R脚本)
+        ''' </summary>
+        ''' <param name="file">a connection Or a character String giving the pathname Of the file Or URL To read from. ""
+        ''' indicates the connection stdin().
+        ''' </param>
+        ''' <param name="local">TRUE, FALSE or an environment, determining where the parsed expressions are evaluated.
+        ''' FALSE (the default) corresponds to the user's workspace (the global environment) and TRUE to the environment
+        ''' from which source is called.</param>
+        ''' <param name="echo">logical; if TRUE, each expression is printed after parsing, before evaluation.</param>
+        ''' <param name="printEval">logical; if TRUE, the result of eval(i) is printed for each expression i; defaults to the value of echo.</param>
+        ''' <param name="verbose">if TRUE, more diagnostics (than just echo = TRUE) are printed during parsing and evaluation of input,
+        ''' including extra info for each expression.</param>
+        ''' <param name="promptEcho">character; gives the prompt to be used if echo = TRUE.</param>
+        ''' <param name="maxDeparseLength">integer; is used only if echo is TRUE and gives the maximal number of characters output for
+        ''' the deparse of a single expression.</param>
+        ''' <param name="chdir">logical; if TRUE And file Is a pathname, the R working directory Is temporarily changed to the
+        ''' directory containing file for evaluating.</param>
+        ''' <param name="encoding">character vector. The encoding(s) to be assumed when file is a character string: see file.
+        ''' A possible value is "unknown" when the encoding is guessed: see the ‘Encodings’ section.</param>
+        ''' <param name="continueEcho">character; gives the prompt to use on continuation lines if echo = TRUE.</param>
+        ''' <param name="skipEcho">integer; how many comment lines at the start of the file to skip if echo = TRUE.</param>
+        ''' <param name="keepSource">logical: should the source formatting be retained When echoing expressions, If possible?</param>
+        ''' <remarks>
+        ''' Note that running code via source differs in a few respects from entering it at the R command line. Since expressions are not executed
+        ''' at the top level, auto-printing is not done. So you will need to include explicit print calls for things you want to be printed
+        ''' (and remember that this includes plotting by lattice, FAQ Q7.22). Since the complete file is parsed before any of it is run, syntax
+        ''' errors result in none of the code being run. If an error occurs in running a syntactically correct script, anything assigned into the
+        ''' workspace by code that has been run will be kept (just as from the command line), but diagnostic information such as traceback() will
+        ''' contain additional calls to withVisible.
+        '''
+        ''' All versions Of R accept input from a connection With End Of line marked by LF (As used On Unix), CRLF (As used On DOS/Windows) Or CR
+        ''' (As used On classic Mac OS) And map this To newline. The final line can be incomplete, that Is missing the final End-Of-line marker.
+        '''
+        ''' If keep.source Is True(the Default In interactive use), the source Of functions Is kept so they can be listed exactly As input.
+        '''
+        ''' Unlike input from a console, lines In the file Or On a connection can contain an unlimited number Of characters.
+        '''
+        ''' When skip.echo > 0, that many comment lines at the start of the file will Not be echoed. This does Not affect the execution of the code at all.
+        ''' If there are executable lines within the first skip.echo lines, echoing will start with the first of them.
+        '''
+        ''' If echo Is True And a deparsed expression exceeds max.deparse.length, that many characters are output followed by .... [TRUNCATED] .
+        '''
+        ''' [Encodings]
+        ''' By Default the input Is read And parsed In the current encoding Of the R session. This Is usually what it required, but occasionally re-encoding
+        ''' Is needed, e.g. If a file from a UTF-8-Using system Is To be read On Windows (Or vice versa).
+        '''
+        ''' The rest Of this paragraph applies If file Is an actual filename Or URL (And Not "" nor a connection). If encoding = "unknown", an attempt Is
+        ''' made To guess the encoding: the result Of localeToCharset() Is used As a guide. If encoding has two Or more elements, they are tried In turn
+        ''' until the file/URL can be read without Error In the trial encoding. If an actual encoding Is specified (rather than the Default Or "unknown")
+        ''' In a Latin-1 Or UTF-8 locale Then character strings In the result will be translated To the current encoding And marked As such (see Encoding).
+        '''
+        ''' If file Is a connection (including one specified by "", it Is Not possible To re-encode the input inside source, And so the encoding argument
+        ''' Is just used To mark character strings In the parsed input In Latin-1 And UTF-8 locales: see parse.
+        ''' </remarks>
+        Public Sub source(file As String,
+                          Optional local As Boolean = True,
+                          Optional echo As Boolean = False,
+                          Optional printEval As Boolean = False,
+                          Optional verbose As Boolean = False,
+                          Optional promptEcho As Boolean = False,
+                          Optional maxDeparseLength As Integer = 150,
+                          Optional chdir As Boolean = False,
+                          Optional encoding As String = "unknown",
+                          Optional continueEcho As Boolean = False,
+                          Optional skipEcho As Integer = 0,
+                          Optional keepSource As Boolean = False)
+            SyncLock R
+                With R
+                    .call = $"source(""{If(local, UnixPath(file), file)}"", local = {Rbool(local)}, echo = {Rbool(echo)}, print.eval = {Rbool(printEval)},
+                         verbose = {Rbool(verbose)},
+                         prompt.echo = {Rbool(promptEcho)},
+                         max.deparse.length = {maxDeparseLength}, chdir = {Rbool(chdir)},
+                         encoding = {Rstring(encoding)},
+                         continue.echo = {Rbool(continueEcho)},
+                         skip.echo = {skipEcho}, 
+                         keep.source = {Rbool(keepSource)});"
+                End With
+            End SyncLock
+        End Sub
+
         ''' <summary>
         ''' Replicate Elements of Vectors and Lists
         ''' </summary>
@@ -628,8 +713,8 @@ Namespace API
                         ' 但是如果直接将表达式保存为脚本文件，然后使用source执行，则并不会存在这个bug
 
                         ' 在这里为了避免出现这个问题，会需要将向量按照块进行切割，然后使用append进行合并
-                        For Each block As String() In list.Split(50)
-                            Dim v$ = .JoinBy(", ")
+                        For Each block As String() In .Split(100)
+                            Dim v$ = block.JoinBy(", ")
 
                             If recursive Then
                                 v = $"c({v}, recursive = {CStr(recursive).ToUpper})"
@@ -1082,6 +1167,41 @@ Namespace API
             End SyncLock
 
             Return var
+        End Function
+
+        ''' <summary>
+        ''' ##### Sum of Vector Elements
+        ''' 
+        ''' sum returns the sum of all the values present in its arguments.
+        ''' </summary>
+        ''' <param name="ref$">numeric or complex or logical vectors.</param>
+        ''' <param name="narm">logical. Should missing values (including NaN) be removed?</param>
+        ''' <returns>
+        ''' The sum. If all of ... are of type integer or logical, then the sum is integer, and in that case the 
+        ''' result will be NA (with a warning) if integer overflow occurs. Otherwise it is a length-one numeric 
+        ''' or complex vector.
+        '''
+        ''' NB: the sum of an empty set is zero, by definition.
+        ''' </returns>
+        ''' <remarks>
+        ''' This is a generic function: methods can be defined for it directly or via the Summary group generic. 
+        ''' For this to work properly, the arguments ... should be unnamed, and dispatch is on the first argument.
+        ''' If na.rm is FALSE an NA or NaN value in any of the arguments will cause a value of NA or NaN to be 
+        ''' returned, otherwise NA and NaN values are ignored.
+        ''' Logical true values are regarded as one, false values as zero. For historical reasons, NULL is accepted 
+        ''' and treated as if it were integer(0).
+        ''' Loss of accuracy can occur when summing values of different signs: this can even occur for sufficiently 
+        ''' long integer inputs if the partial sums would cause integer overflow. Where possible extended-precision 
+        ''' accumulators are used, but this is platform-dependent.
+        ''' </remarks>
+        Public Function sum(ref$, Optional narm As Boolean = False) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+                    .call = $"{var} <- sum({ref}, na.rm = {Rbool(narm)});"
+                    Return var
+                End With
+            End SyncLock
         End Function
     End Module
 End Namespace
