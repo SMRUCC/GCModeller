@@ -13,7 +13,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
@@ -61,15 +60,17 @@ Namespace NCBIBlastResult
 
         Public Function DefaultColors() As RangeList(Of Double, NamedValue(Of Color))
             Dim i As int = Scan0
-            Dim colors As Color() = Designer.GetColors("RdBu:c5").AsList + Color.LightGray
+            Dim colors As Color() = Designer.GetColors("RdBu:c8").AsList + Color.LightGray
 
             Return {
-                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 100, New NamedValue(Of Color)("a", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("b", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("c", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("d", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 50, New NamedValue(Of Color)("e", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("f", Color.LightGray))
+                New RangeTagValue(Of Double, NamedValue(Of Color))(95, 100, New NamedValue(Of Color)("a", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 95, New NamedValue(Of Color)("b", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("c", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("d", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("e", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(40, 50, New NamedValue(Of Color)("f", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 40, New NamedValue(Of Color)("f", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("g", Color.LightGray))
             }
         End Function
 
@@ -230,7 +231,13 @@ Namespace NCBIBlastResult
                     Dim barRect As Rectangle
 
                     For Each category As OrthologyProfile In profiles
-                        Call g.DrawString(category.Category, labelFont, Brushes.Black, New PointF(x, y))
+                        Dim label$ = category.Category
+
+                        With g.MeasureString(label, labelFont)
+                            x = boxLeft - .Width - spacing
+                            pos = New Point(x, y)
+                            g.DrawString(label, labelFont, Brushes.Black, pos)
+                        End With
 
                         ' 绘制该功能分组之下的每一个同源层次的条形结果
                         x = boxLeft + boxStroke.Width / 2
@@ -242,7 +249,7 @@ Namespace NCBIBlastResult
                             barWidth = boxWidth * (Val(level.Description) / maxCount)
                             barRect = New Rectangle With {
                                 .Location = New Point(x, y),
-                                .Size = New Size(barWidth, labelSize.Height)
+                                .Size = New Size(barWidth, labelSize.Height * 2 / 3)
                             }
 
                             g.FillRectangle(New SolidBrush(level.Value), barRect)
