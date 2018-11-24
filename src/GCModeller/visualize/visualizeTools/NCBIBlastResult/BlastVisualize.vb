@@ -612,9 +612,9 @@ CONTINUTE:
                 getSubjectHitColor = Function(p, Colors) Colors.GetColor(p)
             Else
                 If IdentityNoColor Then
-                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesNonColors
+                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesMonoChrome
                 Else
-                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesColors
+                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesChromatic
                 End If
 
                 getScore = Function(subjectHit As HitRecord) subjectHit.Identity

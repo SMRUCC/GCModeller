@@ -146,7 +146,7 @@ Namespace NCBIBlastResult
 
             Using g As Graphics2D = devSize.CreateGDIDevice()
                 Dim X As Integer = Margin + maxIdLength.Width, Y As Integer = Margin * 1.3
-                Dim Colors = NCBIBlastResult.ColorSchema.IdentitiesColors
+                Dim Colors = NCBIBlastResult.ColorSchema.IdentitiesChromatic
 
                 Call g.DrawString(title, New Font(FontFace.Ubuntu, 24), Brushes.Black, New Point(g.Width / 2, Margin * 0.5))
 

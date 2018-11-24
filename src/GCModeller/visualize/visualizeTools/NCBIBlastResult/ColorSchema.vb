@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::d26c8eafafbcd9c35f41cd90c873aaee, visualizeTools\NCBIBlastResult\ColorSchema.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ColorSchema
-    ' 
-    '         Function: BitScores, GetBlastnIdentitiesColor, GetColor, IdentitiesBrush, IdentitiesColors
-    '                   IdentitiesNonColors
-    '         Structure __brushHelper
-    ' 
-    '             Function: GetBrush
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ColorSchema
+' 
+'         Function: BitScores, GetBlastnIdentitiesColor, GetColor, IdentitiesBrush, IdentitiesColors
+'                   IdentitiesNonColors
+'         Structure __brushHelper
+' 
+'             Function: GetBrush
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics.ModelAPI
 
 Namespace NCBIBlastResult
@@ -71,7 +72,7 @@ Namespace NCBIBlastResult
         Public Function IdentitiesBrush(scores As Func(Of Analysis.Hit, Double)) As ICOGsBrush
             Return AddressOf New __brushHelper With {
                 .scores = scores,
-                .colors = IdentitiesColors()
+                .colors = IdentitiesChromatic()
             }.GetBrush   ' 获取得到映射的颜色刷子的函数指针
         End Function
 
@@ -121,7 +122,11 @@ Namespace NCBIBlastResult
             End If
         End Function
 
-        Public Function IdentitiesColors() As RangeList(Of Double, NamedValue(Of Color))
+        ''' <summary>
+        ''' 使用<see cref="BBHIndex.GetIdentities(BBHIndex)"/>作为得分的彩色图案配色
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function IdentitiesChromatic() As RangeList(Of Double, NamedValue(Of Color))
             Return New RangeList(Of Double, NamedValue(Of Color)) From {
                 New RangeTagValue(Of Double, NamedValue(Of Color))(0, 30, New NamedValue(Of Color)("<= 30%", Color.Black)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(30, 55, New NamedValue(Of Color)("30% - 55%", Color.Blue)),
@@ -131,7 +136,11 @@ Namespace NCBIBlastResult
             }
         End Function
 
-        Public Function IdentitiesNonColors() As RangeList(Of Double, NamedValue(Of Color))
+        ''' <summary>
+        ''' 使用<see cref="BBHIndex.GetIdentities(BBHIndex)"/>作为得分，但是是黑白单色的
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function IdentitiesMonoChrome() As RangeList(Of Double, NamedValue(Of Color))
             Return New RangeList(Of Double, NamedValue(Of Color)) From {
                 New RangeTagValue(Of Double, NamedValue(Of Color))(0, 50, New NamedValue(Of Color)("<= 50%", Color.LightGray)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(50, 75, New NamedValue(Of Color)("50% - 75%", Color.DarkGray)),

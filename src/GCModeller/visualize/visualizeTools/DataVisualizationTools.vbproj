@@ -220,6 +220,7 @@
     <Compile Include="GC.vb" />
     <Compile Include="NCBIBlastResult\BlastVisualize.vb" />
     <Compile Include="NCBIBlastResult\ColorSchema.vb" />
+    <Compile Include="NCBIBlastResult\OrthologyProfiles.vb" />
     <Compile Include="NCBIBlastResult\VennBesthit.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
