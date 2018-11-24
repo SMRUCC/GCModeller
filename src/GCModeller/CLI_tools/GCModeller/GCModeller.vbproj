@@ -261,19 +261,6 @@
     </WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
-  </ItemGroup>
-  <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -438,10 +425,6 @@
       <Project>{7A0874A9-2E3B-4708-A777-8DDD7EDC50A7}</Project>
       <Name>SyntenyVisual</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\visualize\visualizeTools\DataVisualizationTools.vbproj">
-      <Project>{7A5B87B9-4475-4B34-AB8B-30F0B068C1B7}</Project>
-      <Name>DataVisualizationTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Phylip\Phylip.vbproj">
       <Project>{00073db7-bcd2-4aac-8e8c-142b1b30efd5}</Project>
       <Name>Phylip</Name>
@@ -470,6 +453,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />

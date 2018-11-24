@@ -307,7 +307,7 @@ Partial Module CLI
         Dim hits As List(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim sitesHash As Dictionary(Of MotifSitelog) = (From xml As String In xmls Select xml.LoadXml(Of MotifSitelog)).ToDictionary
         Dim out As String = ("/out" <= args) ^ $"{motifIn.TrimSuffix}-{bbh.BaseName}-virtualFootprints.Csv"
-        Dim hitsHash As Dictionary(Of String, String()) = BBHIndex.BuildHitsHash(hits, args.GetBoolean("/hitshash"))
+        Dim hitsHash As Dictionary(Of String, String()) = BBHIndex.BuildHitsTable(hits, args.GetBoolean("/hitshash"))
         Dim RegPrecise As TranscriptionFactors =
             GCModeller.FileSystem.RegPrecise.RegPreciseRegulations.LoadXml(Of TranscriptionFactors)
         Dim regHash As Dictionary(Of String, String()) = RegPrecise.BuildRegulatesHash
@@ -750,7 +750,7 @@ Partial Module CLI
         Dim RegDIR As String = args - "/RegPrecise"
         Dim hitHash As Boolean = args.GetBoolean("/HitHash")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{NameOf(TFMotifSites)}.fasta/")
-        Dim bbhhash As Dictionary(Of String, String()) = BBHIndex.BuildHitsHash([in].LoadCsv(Of BBHIndex), hitHash)
+        Dim bbhhash As Dictionary(Of String, String()) = BBHIndex.BuildHitsTable([in].LoadCsv(Of BBHIndex), hitHash)
         Dim regulators = (From xml As String
                           In ls - l - wildcards("*.xml") <= RegDIR
                           Let g As BacteriaRegulome = xml.LoadXml(Of BacteriaRegulome)

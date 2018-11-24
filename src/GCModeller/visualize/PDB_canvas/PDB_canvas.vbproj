@@ -259,7 +259,7 @@
       <Project>{2012b86d-493a-40a6-986b-4aa164c1d74c}</Project>
       <Name>RCSB PDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

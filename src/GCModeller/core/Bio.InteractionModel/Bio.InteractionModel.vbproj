@@ -204,7 +204,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataServicesExtension.vb" />
     <Compile Include="Interaction.vb" />
     <Compile Include="ProteinInteractionNetwork.vb" />
     <Compile Include="RegulonModels\API.vb" />
