@@ -87,7 +87,8 @@ Namespace NCBIBlastResult
                     ' 得到盒子的宽和高
                     Dim boxWidth = region.PlotRegion.Width - maxLabelWidth - 5
                     Dim boxHeight = totalHeight
-                    Dim pos As New Point(left + maxLabelWidth, top)
+                    Dim boxLeft% = left + maxLabelWidth + 5
+                    Dim pos As New Point(boxLeft, top)
 
                     ' 绘制盒子边框
                     Call g.DrawRectangle(boxStroke, New Rectangle(pos, New Size(boxWidth, boxHeight)))
@@ -96,9 +97,31 @@ Namespace NCBIBlastResult
                     ' 这个条形图里面还包含有该分类之中的不同程度的同源结果
                     Dim x! = left
                     Dim y! = top + spacing / 2
+                    Dim barWidth!
+                    Dim barRect As Rectangle
 
                     For Each category As OrthologyProfile In profiles
+                        Call g.DrawString(category.Category, labelFont, Brushes.Black, New PointF(x, y))
 
+                        ' 绘制该功能分组之下的每一个同源层次的条形结果
+                        x = boxLeft
+
+                        For Each level As NamedValue(Of Color) In category _
+                            .HomologyDegrees _
+                            .OrderBy(Function(lv) lv.Name)
+
+                            barWidth = boxWidth * (Val(level.Description) / maxCount)
+                            barRect = New Rectangle With {
+                                .Location = New Point(x, y),
+                                .Size = New Size(barWidth, labelSize.Height)
+                            }
+
+                            g.FillRectangle(New SolidBrush(level.Value), barRect)
+                            x += barWidth
+                        Next
+
+                        x = left
+                        y = y + labelSize.Height + spacing
                     Next
                 End Sub
 
