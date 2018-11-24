@@ -1,8 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace NCBIBlastResult
@@ -49,8 +52,19 @@ Namespace NCBIBlastResult
         Public Function Plot(profile As IEnumerable(Of OrthologyProfile),
                              Optional size$ = "3300,2700",
                              Optional margin$ = g.DefaultPadding,
-                             Optional bg$ = "white") As GraphicsData
+                             Optional bg$ = "white",
+                             Optional labelFontCSS$ = CSSFont.Win7LargeBold) As GraphicsData
 
+            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
+            Dim plotInternal =
+                Sub(ByRef g As IGraphics, region As GraphicsRegion)
+
+                End Sub
+
+            Return g.GraphicsPlots(
+                size.SizeParser, margin, bg,
+                plotAPI:=plotInternal
+            )
         End Function
     End Module
 End Namespace
