@@ -62,7 +62,11 @@ Namespace NCBIBlastResult
                              Optional bg$ = "white",
                              Optional labelFontCSS$ = CSSFont.Win7LargeBold,
                              Optional boxBorderStrokeCSS$ = Stroke.AxisStroke,
-                             Optional spacing! = 10) As GraphicsData
+                             Optional spacing! = 10,
+                             Optional title$ = "Orthology Profiles",
+                             Optional axisLabel$ = "Number of Orthology Genes",
+                             Optional titleFontCSS$ = CSSFont.Win7VeryVeryLarge,
+                             Optional axisLabelFontCSS$ = CSSFont.Win7VeryLarge) As GraphicsData
 
             Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
             Dim profiles As OrthologyProfile() = profileData.ToArray
@@ -71,6 +75,8 @@ Namespace NCBIBlastResult
                 .Select(Function(orth) orth.Category) _
                 .MaxLengthString
             Dim boxStroke As Pen = Stroke.TryParse(boxBorderStrokeCSS)
+            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
+            Dim axisLabelFont As Font = CSSFont.TryParse(axisLabelFontCSS)
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
@@ -123,6 +129,21 @@ Namespace NCBIBlastResult
                         x = left
                         y = y + labelSize.Height + spacing
                     Next
+
+                    ' 绘制标题和坐标轴的标签信息
+                    ' 标题居中位置
+                    labelSize = g.MeasureString(title, titleFont)
+                    x = left + (region.PlotRegion.Width - labelSize.Width) / 2
+                    y = top - spacing - labelSize.Height
+
+                    Call g.DrawString(title, titleFont, Brushes.Black, x, y)
+
+                    labelSize = g.MeasureString(axisLabel, axisLabelFont)
+                    x = left + (region.PlotRegion.Width - labelSize.Width) / 2
+                    y = top + boxHeight + spacing
+
+                    Call g.DrawString(axisLabel, axisLabelFont, Brushes.Black, x, y)
+
                 End Sub
 
             Return g.GraphicsPlots(
