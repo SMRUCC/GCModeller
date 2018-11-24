@@ -72,7 +72,12 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.orthology_profiles.png"
         Dim orthology As BBHIndex() = [in].LoadCsv(Of BBHIndex)
 
-
+        Return orthology _
+            .OrthologyProfiles(OrthologyProfiles.DefaultColors) _
+            .Plot _
+            .AsGDIImage _
+            .SaveAs(out) _
+            .CLICode
     End Function
 
     ''' <summary>
