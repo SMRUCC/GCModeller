@@ -181,7 +181,7 @@ Partial Module CLI
                              .ToDictionary(Function(x) x.Last,
                                            Function(x) x.Group.Select(Function(xx) xx.HitName))
         Dim tfHash As Dictionary(Of String, String()) =
-            BBHIndex.BuildHitsHash(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
+            BBHIndex.BuildHitsTable(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)
 
         For Each genome As BacteriaRegulome In RegPrecise.genomes

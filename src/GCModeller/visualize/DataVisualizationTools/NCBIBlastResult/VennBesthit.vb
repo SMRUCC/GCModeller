@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::ef005a43c4c15e1ad4b40516684c4a10, visualizeTools\NCBIBlastResult\VennBesthit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module VennBesthit
-    ' 
-    '         Function: CreateAlphabetTagSerials, InvokeDrawing
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module VennBesthit
+' 
+'         Function: CreateAlphabetTagSerials, InvokeDrawing
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
@@ -146,7 +147,7 @@ Namespace NCBIBlastResult
 
             Using g As Graphics2D = devSize.CreateGDIDevice()
                 Dim X As Integer = Margin + maxIdLength.Width, Y As Integer = Margin * 1.3
-                Dim Colors = NCBIBlastResult.ColorSchema.IdentitiesColors
+                Dim Colors = NCBIBlastResult.ColorSchema.IdentitiesChromatic
 
                 Call g.DrawString(title, New Font(FontFace.Ubuntu, 24), Brushes.Black, New Point(g.Width / 2, Margin * 0.5))
 

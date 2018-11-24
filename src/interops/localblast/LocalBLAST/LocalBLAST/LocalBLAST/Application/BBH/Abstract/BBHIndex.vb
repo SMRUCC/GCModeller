@@ -119,12 +119,13 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' 从bbh结果里面构建出比对信息的哈希表
         ''' </summary>
         ''' <param name="source"></param>
-        ''' <param name="hitsHash">Using <see cref="BBHIndex.HitName"/> as hash key? Default is using <see cref="BBHIndex.QueryName"/></param>
+        ''' <param name="indexByHits">Using <see cref="BBHIndex.HitName"/> as hash key? Default is using <see cref="BBHIndex.QueryName"/></param>
         ''' <param name="trim">这个函数里面默认是消除了KEGG的物种简写代码的</param>
         ''' <returns></returns>
-        Public Shared Function BuildHitsHash(source As IEnumerable(Of BBHIndex),
-                                             Optional hitsHash As Boolean = False,
-                                             Optional trim As Boolean = True) As Dictionary(Of String, String())
+        Public Shared Function BuildHitsTable(source As IEnumerable(Of BBHIndex),
+                                              Optional indexByHits As Boolean = False,
+                                              Optional trim As Boolean = True) As Dictionary(Of String, String())
+
             Dim LQuery As IEnumerable(Of KeyValuePair(Of String, String))
 
             If trim Then
@@ -138,7 +139,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
                           Select New KeyValuePair(Of String, String)(x.QueryName.Split(":"c).Last, x.HitName.Split(":"c).Last))
             End If
 
-            If hitsHash Then
+            If indexByHits Then
                 Return (From x In LQuery
                         Select x
                         Group x By x.Value Into Group) _

@@ -243,6 +243,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Abstract.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
+    <Compile Include="CircosDebugger.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
@@ -331,7 +332,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

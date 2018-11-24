@@ -274,7 +274,7 @@
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

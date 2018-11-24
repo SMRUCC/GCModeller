@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::7205c85fa11da88da26f2a1a0b808522, visualizeTools\GeneticClockDiagram\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DrawingDevice
-    ' 
-    '         Function: Draw, DrawingSerialsLine
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DrawingDevice
+' 
+'         Function: Draw, DrawingSerialsLine
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.InteractionModel
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GeneticClock
 
     Public Class DrawingDevice
 
-        Public Shared Function DrawingSerialsLine(data As ColorRender.ColorProfile, Height As Integer, Scale As Integer) As System.Drawing.Image
+        Public Shared Function DrawingSerialsLine(data As ColorProfile, Height As Integer, Scale As Integer) As System.Drawing.Image
             Dim Bitmap As Bitmap = New Bitmap(width:=data.Profiles.Count * Scale, height:=Height)
             Using Gr As Graphics = Graphics.FromImage(Bitmap)
                 Dim Region As Rectangle = New Rectangle(New Point, Bitmap.Size)
@@ -75,7 +75,7 @@ Namespace GeneticClock
             Return Bitmap
         End Function
 
-        Public Shared Function Draw(SerialsData As SerialsData(), Scale As Integer) As Image
+        Public Shared Function Draw(SerialsData As NumericVector(), Scale As Integer) As Image
             Dim ColorRendering = New ColorRender(SerialsData.Skip(1).ToArray)
             Dim DataChunk = ColorRendering.GetColorRenderingProfiles
             Dim DrawingFont As Font = New Font("Ubuntu", 12)
@@ -110,7 +110,7 @@ Namespace GeneticClock
                 'Call Gr.DrawLine(DrawingPen, New Point(ArrowLeft, y - ArrowHeightOffSet), RuleEndPoint)
                 'Call Gr.DrawLine(DrawingPen, New Point(ArrowLeft, y + ArrowHeightOffSet), RuleEndPoint)
 
-                Dim TimePoints = SerialsData.First.ChunkBuffer
+                Dim TimePoints = SerialsData.First.vector
                 Dim [step] As Integer = 6
                 Dim TimeStep As Integer = TimePoints.Last / [step]
                 Dim DrawStep = ImageWidth / [step]
@@ -132,8 +132,8 @@ Namespace GeneticClock
                     x += DrawStep
                 Next
 
-                MaxSize = SerialsData.First.Tag.MeasureSize(g, DrawingFont)
-                Call g.DrawString(SerialsData.First.Tag, DrawingFont, Brushes.Black, New Point(x - 0.5 * DrawStep, y - 3 - MaxSize.Height / 2))
+                MaxSize = SerialsData.First.name.MeasureSize(g, DrawingFont)
+                Call g.DrawString(SerialsData.First.name, DrawingFont, Brushes.Black, New Point(x - 0.5 * DrawStep, y - 3 - MaxSize.Height / 2))
                 Call ColorRendering.GetDesityRule(50).DrawingDensityRule(g, New Point(ImageOffSet, y), DrawingFont, ImageWidth)
             End Using
 

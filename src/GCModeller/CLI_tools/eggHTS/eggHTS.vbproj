@@ -411,7 +411,7 @@
       <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}</Project>
       <Name>STRING</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

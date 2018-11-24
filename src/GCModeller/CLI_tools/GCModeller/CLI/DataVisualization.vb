@@ -121,15 +121,4 @@ Partial Module CLI
         Dim path As String = (args <= "/subset").TrimSuffix & ".lstID.txt"
         Return LQuery.FlushAllLines(path, Encodings.ASCII).CLICode
     End Function
-
-    <ExportAPI("/Plot.GC", Usage:="/Plot.GC /in <mal.fasta> [/plot <gcskew/gccontent> /colors <Jet> /out <out.png>]")>
-    <Group(CLIGrouping.DataVisualizeTools)>
-    Public Function PlotGC(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim plot As String = args.GetValue("/plot", "gcskew")
-        Dim colors As String = args.GetValue("/colors", "Jet")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & plot & "-" & colors & ".png")
-        Dim img As GraphicsData = GCPlot.PlotGC(New FastaFile([in]), plot, 50, 50,,,,, colors:=colors)
-        Return img.Save(out)
-    End Function
 End Module
