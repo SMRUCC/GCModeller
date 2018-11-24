@@ -14,6 +14,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace NCBIBlastResult
@@ -80,23 +81,44 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         <Extension>
         Public Iterator Function OrthologyProfiles(result As IEnumerable(Of BBHIndex), colors As RangeList(Of Double, NamedValue(Of Color))) As IEnumerable(Of OrthologyProfile)
-            Dim brites As htext = htext.ko00001
-            Dim KOTable As Dictionary(Of String, BriteHText) = brites.GetEntryDictionary
-            Dim categories = result _
-                .Select(Function(hit)
-                            Return (category:=KOTable(hit.HitName).Class, score:=BBHIndex.GetIdentities(hit))
+            Dim geneTable = result _
+                .ToDictionary(Function(gene) gene.QueryName,
+                              Function(gene)
+                                  Return (KO:=gene.HitName, score:=BBHIndex.GetIdentities(gene))
+                              End Function)
+            Dim KO_maps = geneTable _
+                .Where(Function(gene) (Not gene.Value.KO.StringEmpty) AndAlso (Not gene.Value.KO.TextEquals("HITS_NOT_FOUND"))) _
+                .Select(Function(gene)
+                            Return New NamedValue(Of String) With {
+                                .Name = gene.Key,
+                                .Value = gene.Value.KO
+                            }
                         End Function) _
-                .GroupBy(Function(hit) hit.category) _
+                .ToArray
+            Dim categories = PathwayMapping _
+                .KOCatalog(KO_maps) _
+                .GroupBy(Function(gene) gene.Value!Category) _
                 .ToArray
 
-            For Each category As IGrouping(Of String, (name$, score#)) In categories
+            For Each category As IGrouping(Of String, NamedValue(Of Dictionary(Of String, String))) In categories
                 Dim name$ = category.Key
-                Dim scores#() = category.Select(Function(t) t.score).AsVector * 100
+                Dim scores#() = category.Select(Function(t) geneTable(t.Name).score).AsVector * 100
                 Dim degrees = scores _
                     .Select(Function(score)
                                 Return colors.SelectValue(score)
                             End Function) _
+                    .GroupBy(Function(s) s.Name) _
+                    .Select(Function(g)
+                                Return New NamedValue(Of Color) With {
+                                    .Name = g.Key,
+                                    .Description = Math.Log(g.Count, 2),
+                                    .Value = g.First.Value
+                                }
+                            End Function) _
+                    .OrderBy(Function(s) s.Name) _
                     .ToArray
+
+                Call name.__INFO_ECHO
 
                 Yield New OrthologyProfile With {
                     .Category = name,
@@ -144,7 +166,7 @@ Namespace NCBIBlastResult
 
         <Extension>
         Public Function Plot(profileData As IEnumerable(Of OrthologyProfile),
-                             Optional size$ = "2700,2100",
+                             Optional size$ = "3300,2700",
                              Optional margin$ = g.DefaultPadding,
                              Optional bg$ = "white",
                              Optional labelFontCSS$ = CSSFont.Win7LargeBold,
@@ -160,7 +182,9 @@ Namespace NCBIBlastResult
                              Optional tickStroke$ = Stroke.AxisStroke) As GraphicsData
 
             Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
-            Dim profiles As OrthologyProfile() = profileData.ToArray
+            Dim profiles As OrthologyProfile() = profileData _
+                .OrderByDescending(Function(p) p.Total) _
+                .ToArray
             Dim maxCount% = profiles.Max(Function(category) category.Total)
             Dim maxLabel$ = profiles _
                 .Select(Function(orth) orth.Category) _
