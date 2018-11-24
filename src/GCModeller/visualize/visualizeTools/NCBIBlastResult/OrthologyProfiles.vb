@@ -49,15 +49,40 @@ Namespace NCBIBlastResult
         End Function
 
         <Extension>
-        Public Function Plot(profile As IEnumerable(Of OrthologyProfile),
+        Public Function Plot(profileData As IEnumerable(Of OrthologyProfile),
                              Optional size$ = "3300,2700",
                              Optional margin$ = g.DefaultPadding,
                              Optional bg$ = "white",
-                             Optional labelFontCSS$ = CSSFont.Win7LargeBold) As GraphicsData
+                             Optional labelFontCSS$ = CSSFont.Win7LargeBold,
+                             Optional boxBorderStrokeCSS$ = Stroke.AxisStroke) As GraphicsData
 
             Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
+            Dim profiles As OrthologyProfile() = profileData.ToArray
+            Dim maxCount% = profiles.Max(Function(category) category.Total)
+            Dim maxLabel$ = profiles _
+                .Select(Function(orth) orth.Category) _
+                .MaxLengthString
+            Dim boxStroke As Pen = Stroke.TryParse(boxBorderStrokeCSS)
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
+
+                    ' 所有的category标签加起来的总高度，这个总高度也是绘图区域的总高度
+                    Dim labelSize As SizeF = g.MeasureString("A", labelFont)
+                    Dim totalHeight# = labelSize.Height * profiles.Length + (labelSize.Height / 2) * (profiles.Length - 1)
+                    Dim maxLabelWidth% = g.MeasureString(maxLabel, labelFont).Width
+
+                    ' 绘图区域垂直居中显示
+                    Dim top% = (region.Height - totalHeight) / 2
+                    Dim left% = region.Padding.Left
+
+                    ' 绘制盒子
+                    ' 得到盒子的宽和高
+                    Dim boxWidth = region.PlotRegion.Width - maxLabelWidth - 5
+                    Dim boxHeight = totalHeight
+                    Dim pos As New Point(left + maxLabelWidth, top)
+
+                    ' 绘制盒子边框
+                    Call g.DrawRectangle(boxStroke, New Rectangle(pos, New Size(boxWidth, boxHeight)))
 
                 End Sub
 
