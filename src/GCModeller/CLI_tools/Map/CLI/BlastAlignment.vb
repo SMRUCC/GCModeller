@@ -71,6 +71,8 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.orthology_profiles.png"
         Dim orthology As BBHIndex() = [in].LoadCsv(Of BBHIndex)
+
+
     End Function
 
     ''' <summary>

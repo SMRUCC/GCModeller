@@ -3,13 +3,17 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace NCBIBlastResult
@@ -54,9 +58,51 @@ Namespace NCBIBlastResult
 
     Public Module OrthologyProfiles
 
-        <Extension>
-        Public Function OrthologyProfiles(result As IEnumerable(Of BBHIndex), colors As RangeList(Of Double, NamedValue(Of Color))) As OrthologyProfile()
+        Public Function DefaultColors() As RangeList(Of Double, NamedValue(Of Color))
+            Dim i As int = Scan0
+            Dim colors As Color() = Designer.GetColors("RdBu:c5").AsList + Color.LightGray
 
+            Return {
+                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 100, New NamedValue(Of Color)("a", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("b", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("c", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("d", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 50, New NamedValue(Of Color)("e", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("f", Color.LightGray))
+            }
+        End Function
+
+        ''' <summary>
+        ''' 这个函数只适用于KEGG直系同源
+        ''' </summary>
+        ''' <param name="result"></param>
+        ''' <param name="colors"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function OrthologyProfiles(result As IEnumerable(Of BBHIndex), colors As RangeList(Of Double, NamedValue(Of Color))) As IEnumerable(Of OrthologyProfile)
+            Dim brites As htext = htext.ko00001
+            Dim KOTable As Dictionary(Of String, BriteHText) = brites.GetEntryDictionary
+            Dim categories = result _
+                .Select(Function(hit)
+                            Return (category:=KOTable(hit.HitName).Class, score:=BBHIndex.GetIdentities(hit))
+                        End Function) _
+                .GroupBy(Function(hit) hit.category) _
+                .ToArray
+
+            For Each category As IGrouping(Of String, (name$, score#)) In categories
+                Dim name$ = category.Key
+                Dim scores#() = category.Select(Function(t) t.score).AsVector * 100
+                Dim degrees = scores _
+                    .Select(Function(score)
+                                Return colors.SelectValue(score)
+                            End Function) _
+                    .ToArray
+
+                Yield New OrthologyProfile With {
+                    .Category = name,
+                    .HomologyDegrees = degrees
+                }
+            Next
         End Function
 
         ''' <summary>
@@ -66,7 +112,7 @@ Namespace NCBIBlastResult
         ''' <param name="spectrum$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function RenderColors(profile As IEnumerable(Of OrthologyProfile), Optional spectrum$ = "rgb(178,24,43),rgb(209,229,240),rgb(103,169,207),rgb(67,147,195),rgb(33,102,172),rgb(144,144,144)") As IEnumerable(Of OrthologyProfile)
+        Public Iterator Function RenderColors(profile As IEnumerable(Of OrthologyProfile), Optional spectrum$ = "RdBu:c5") As IEnumerable(Of OrthologyProfile)
             Dim colors As LoopArray(Of Color) = Designer.GetColors(spectrum)
             Dim profileData = profile.ToArray
             Dim allLevel As Dictionary(Of String, Color) =
