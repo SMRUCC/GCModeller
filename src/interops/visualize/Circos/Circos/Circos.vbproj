@@ -243,6 +243,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Abstract.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
+    <Compile Include="CircosDebugger.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
