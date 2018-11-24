@@ -76,7 +76,7 @@ Partial Module CLI
                              Not log.regulons.regulators.IsNullOrEmpty
                          Select log)
         Dim result As New List(Of MotifLog)
-        Dim bbhhash = BBHIndex.BuildHitsHash(bbh, True)
+        Dim bbhhash = BBHIndex.BuildHitsTable(bbh, True)
         Dim motifsHash = (From x As MotifLog
                           In motifLogs
                           Select x
