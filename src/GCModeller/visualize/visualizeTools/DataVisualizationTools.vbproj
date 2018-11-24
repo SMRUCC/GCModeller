@@ -261,10 +261,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\java.net\Java.vbproj">
-      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
-      <Name>Java</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
@@ -288,10 +284,6 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
-      <Name>VirtualFootprint</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
