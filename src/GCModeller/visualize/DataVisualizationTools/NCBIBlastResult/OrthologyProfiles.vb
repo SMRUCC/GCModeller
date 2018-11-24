@@ -103,7 +103,7 @@ Namespace NCBIBlastResult
                     ' 开始绘制每一个category的条形图
                     ' 这个条形图里面还包含有该分类之中的不同程度的同源结果
                     Dim x! = left
-                    Dim y! = top + labelSize.Height / 2
+                    Dim y! = top + labelSize.Height / 3
                     Dim barWidth!
                     Dim barRect As Rectangle
 
@@ -134,13 +134,13 @@ Namespace NCBIBlastResult
                     ' 绘制标题和坐标轴的标签信息
                     ' 标题居中位置
                     labelSize = g.MeasureString(title, titleFont)
-                    x = left + (region.PlotRegion.Width - labelSize.Width) / 2
+                    x = boxLeft + (region.PlotRegion.Width - labelSize.Width) / 2
                     y = top - spacing - labelSize.Height
 
                     Call g.DrawString(title, titleFont, Brushes.Black, x, y)
 
                     labelSize = g.MeasureString(axisLabel, axisLabelFont)
-                    x = left + (region.PlotRegion.Width - labelSize.Width) / 2
+                    x = boxLeft + (region.PlotRegion.Width - labelSize.Width) / 2
                     y = top + boxHeight + spacing
 
                     Call g.DrawString(axisLabel, axisLabelFont, Brushes.Black, x, y)
