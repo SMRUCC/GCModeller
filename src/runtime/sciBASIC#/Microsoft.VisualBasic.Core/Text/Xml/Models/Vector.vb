@@ -59,7 +59,7 @@ Namespace Text.Xml.Models
     ''' </summary>
     Public Class NumericVector
 
-        <XmlAttribute> Public Property tag As String
+        <XmlAttribute> Public Property name As String
         <XmlAttribute> Public Property vector As Double()
 
         ''' <summary>
@@ -89,7 +89,11 @@ Namespace Text.Xml.Models
         End Property
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            If name.StringEmpty Then
+                Return vector.GetJson
+            Else
+                Return $"Dim {name} As Vector = {vector.GetJson}"
+            End If
         End Function
     End Class
 
