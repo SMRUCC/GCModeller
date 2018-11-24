@@ -306,7 +306,7 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

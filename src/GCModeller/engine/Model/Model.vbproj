@@ -169,13 +169,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CentralDogma.vb" />
-    <Compile Include="Extensions.vb" />
-    <Compile Include="Metabolism.vb" />
-    <Compile Include="CellularModule.vb" />
-    <Compile Include="Regulation.vb" />
-    <Compile Include="Phenotype.vb" />
-    <Compile Include="Genotype.vb" />
+    <Compile Include="Models\CentralDogma.vb" />
+    <Compile Include="Models\Extensions.vb" />
+    <Compile Include="Models\Metabolism.vb" />
+    <Compile Include="Models\CellularModule.vb" />
+    <Compile Include="Models\Regulation.vb" />
+    <Compile Include="Models\Phenotype.vb" />
+    <Compile Include="Models\Genotype.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -201,6 +201,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Designer.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

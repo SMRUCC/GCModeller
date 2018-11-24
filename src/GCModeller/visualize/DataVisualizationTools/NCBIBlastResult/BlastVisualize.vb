@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::dde41442a03df3d5f5bc9ecea6992ca3, visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BlastVisualize
-    ' 
-    '         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
-    '                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
-    '                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
-    ' 
-    '         Sub: AssignCogClass
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BlastVisualize
+' 
+'         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
+'                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
+'                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
+' 
+'         Sub: AssignCogClass
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -612,9 +613,9 @@ CONTINUTE:
                 getSubjectHitColor = Function(p, Colors) Colors.GetColor(p)
             Else
                 If IdentityNoColor Then
-                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesNonColors
+                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesMonoChrome
                 Else
-                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesColors
+                    ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesChromatic
                 End If
 
                 getScore = Function(subjectHit As HitRecord) subjectHit.Identity
@@ -656,7 +657,7 @@ CONTINUTE:
                     refQuery.Size,
                     alignment.ToString,
                     IDMethod,
-                    DefaultWhite:=False,
+                    defaultWhite:=False,
                     COGsColor:=queryBrush)
 
                 Dim Left As Integer = margin, Height As Integer = margin + 20

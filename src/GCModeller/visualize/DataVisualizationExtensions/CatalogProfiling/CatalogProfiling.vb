@@ -374,14 +374,16 @@ Public Module CatalogProfiling
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' ``<paramref name="tick"/>=-1``的时候表示自动生成序列
+    ''' 反之表示手动生成序列
     ''' </summary>
     ''' <param name="max#"></param>
     ''' <param name="tick!">
-    ''' 如果间隔参数是小于零的话，函数则会自动根据[0, <paramref name="max"/>]区间来生成tick，否则会直接使用<paramref name="tick"/>间隔叠加到<paramref name="max"/>产生tick序列
+    ''' 如果间隔参数是小于零的话，函数则会自动根据[0, <paramref name="max"/>]区间来生成tick，
+    ''' 否则会直接使用<paramref name="tick"/>间隔叠加到<paramref name="max"/>产生tick序列
     ''' </param>
     ''' <returns></returns>
-    Private Function GetTicks(max#, tick!) As Double()
+    Public Function GetTicks(max#, tick!) As Double()
         If tick <= 0 Then
             ' 自动生成
             Call "Ticks created from auto axis ticking...".__INFO_ECHO

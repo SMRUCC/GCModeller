@@ -54,7 +54,7 @@
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.BlastXScore">
     <Position X="21.5" Y="22.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAAAAAAAAAAAAE=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAAAQAAAAAAAAE=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Score.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -68,7 +68,7 @@
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.HitSegment" Collapsed="true">
     <Position X="38.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EIAQAAAAAAAAAAAEAAAAAAAQAAAgAEgAAAAAAAABAIA=</HashCode>
+      <HashCode>EIAAAAAAAAAAAAAEAIAAAAAQAAAgAEgAAAAAAAABAIA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Segment.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -84,28 +84,28 @@
     <Position X="25.5" Y="27.25" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAEAABAAMAIAAAAACAAAAAAQEQAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastn.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastn.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit">
     <Position X="26" Y="22.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AICAAQAAAAEAAAgMAAAAAARIAEAgAgAAAAAAAAQAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastp.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query" Collapsed="true">
     <Position X="42" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAACAQEAAAAAEBMAAAAAAAAAAAAAgAAJEAABAAAAIA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Query.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.v228_BlastX">
     <Position X="8.5" Y="4.5" Width="6" />
     <TypeIdentifier>
       <HashCode>AAIAAKCAAAAAIAAAAAAAAAAgAAAAAAQAAAgAAAAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastX.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastX.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Hit" Collapsed="true">
@@ -165,7 +165,7 @@
     <Position X="40.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAgAAQAAQAAQAAAAAAAgAAAAACAAAAAAA=</HashCode>
-      <FileName>LocalBLAST\LocalBLAST\Application\BBH\BidirectionalBesthit_BLAST.vb</FileName>
+      <FileName>LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BlastnMapping" Collapsed="true" BaseTypeListCollapsed="true">
@@ -186,7 +186,7 @@
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Category" Collapsed="true">
     <Position X="47.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAggAAAAAAggAgAEAAAAAAAAAIAICAAAAAAAAAAAQAI=</HashCode>
+      <HashCode>EAggAgAAAAAAAAAEIAIAAAAAAIEIAAAAAAAIIAAASAI=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -311,52 +311,31 @@
       <FileName>Web\Hit.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v226.Query" Collapsed="true">
-    <Position X="40.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAEAEAIAABAAAACAAAggAIEAAAAAAgAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Query.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v226.Segment" Collapsed="true">
-    <Position X="45.5" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIIAAACAAwAAAAgIAAQgBAAABAAgAAAAAAAAAABAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Segment.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v226.v226">
-    <Position X="1.75" Y="4.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AIIAAKCAAAAAAAAAAAAAAAAgACAAAAQAAAgAAAAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\v226.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.BlastXHit">
     <Position X="31" Y="19" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastXHit.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.HitFragment" Collapsed="true">
     <Position X="47.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAEAAAAAAAACAgEAAAAEAAQAIAgAAAIAAAAAAAABAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\HitFragment.vb</FileName>
+      <HashCode>gAAEAAAAAAAACAgEAAAAEAAAAAAgAAAIAAAAAAAABAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\HitFragment.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Query" Collapsed="true">
     <Position X="38.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAMAAAAFAAAAAAAAAABBAAAACAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\Query.vb</FileName>
+      <HashCode>AAAAAEAAAAAAAAAMAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Query.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228" Collapsed="true">
     <Position X="22.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.QuertTextProvider" Collapsed="true">
@@ -364,28 +343,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.BLASTOutput">
-    <Position X="24.5" Y="4.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AIIAgLCAACAAAAAEAAAgAAAgAAAAAAQAAAgAAAAAAIA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Legacy\BestHit.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.Hit" Collapsed="true">
-    <Position X="40.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAACQAAAACAAgEAAAAAARAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Legacy\Hit.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.Query" Collapsed="true">
-    <Position X="36.75" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIBAAAAAAAAACAAMIAEEBABAAAgAAAAABAAAAQAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Legacy\Query.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit">
@@ -399,7 +356,7 @@
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.BBHIndex">
     <Position X="20" Y="14" Width="8.75" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAgAACAABAEAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>AMAAAAAgAAAAABAEAAAAAAAAAIAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -407,7 +364,7 @@
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">
     <Position X="29.5" Y="14" Width="6.25" />
     <TypeIdentifier>
-      <HashCode>gIIAAAAAAAAAAAgEIAgAAAAgAggAAEAAAAABBIAAAAA=</HashCode>
+      <HashCode>gIIAAAAAAAAAAAgEIAgAAAAgAhgAAEAAAAABBIAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -425,7 +382,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.RpsBLAST">
-    <Position X="1.5" Y="23.5" Width="6" />
+    <Position X="1" Y="22" Width="6" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAQABAAAAAAAEAABAAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Program\RpsBLAST.vb</FileName>
@@ -444,6 +401,41 @@
       <FileName>Analysis\Models.vb</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.BlastnScore" Collapsed="true">
+    <Position X="0.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Common\Score.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastpSubjectHit">
+    <Position X="22.5" Y="25.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAACAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastp.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.FragmentHit" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAgEAAAAAAAAgAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastp.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.blastn.BlastnQuery" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Subject" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAFAAAAAAAAAABAAAAACAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Query.vb</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Parameter" Collapsed="true">
     <Position X="36.75" Y="10" Width="1.5" />
     <TypeIdentifier>
@@ -455,7 +447,7 @@
     <Position X="38.5" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAABAEAAgAAAAAAAAAAAAAHgAAAAAAAACAAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parameters.vb</FileName>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parameters.vb</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Query" Collapsed="true" BaseTypeListCollapsed="true">
@@ -466,10 +458,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
-  <Struct Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Percentage" Collapsed="true">
-    <Position X="40.25" Y="10" Width="1.5" />
+  <Struct Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Strand" Collapsed="true">
+    <Position X="6" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <FileName>LocalBLAST\BlastOutput\Common\Percentage.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAggAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Common\Score.vb</FileName>
     </TypeIdentifier>
   </Struct>
   <Interface Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.IBlastHit">
@@ -484,6 +477,13 @@
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.IMapping" Collapsed="true">
+    <Position X="6" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAgAACAAAAAAgAggAAAAA=</HashCode>
+      <FileName>LocalBLAST\LocalBLAST\Application\BlastnMapping.vb</FileName>
     </TypeIdentifier>
   </Interface>
   <Delegate Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker" Collapsed="true">
@@ -510,7 +510,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.Extensions" Collapsed="true">
     <Position X="36.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAABIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAAAQAEAAAAAAAAAAAAAAABIAAAAA=</HashCode>
       <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -524,15 +524,15 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.OutputReader" Collapsed="true">
     <Position X="36.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAKAAAAFACAEAAAAAAAAAAAAAAAEAABAAAAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\OutputReader.vb</FileName>
+      <HashCode>AAAAAAKEQABFICAEAAAAAAAACAAAAAAEAAAgAgAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\OutputReader.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser" Collapsed="true">
     <Position X="40.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIMIAIAhAAAEAAAAAAAAAAeHAEAAAESAkAAABAAAAAA=</HashCode>
-      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parser.vb</FileName>
+      <HashCode>AIMIAIAhCAAEAAAAAAAAAQeHAEAAAESAkAAABAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder" Collapsed="true">
@@ -570,10 +570,10 @@
       <FileName>LocalBLAST\LocalBLAST\Application\Paralog.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.ParserAPI" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.AlignmentTableParserAPI" Collapsed="true">
     <Position X="42" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAQAAAEAAAAAAAAAAAAAAIEAQAAQAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAQAAAAAAAAAAAAAAAgAAIEAQAAQAgAAAAAEA=</HashCode>
       <FileName>Web\ParserAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -587,7 +587,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser" Collapsed="true">
     <Position X="42" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAEAQAAAAAAIAAAAgAAAAAAEAAAAAAAAoCQgAAAA=</HashCode>
+      <HashCode>AAgIEEIQAAAACAIBAAAgAAAAABEAAAAAAAAoCQgAAIA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -627,7 +627,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.BBHMetaAPI" Collapsed="true">
     <Position X="40.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAQAAEAAAAAAAAAAAAAgAA=</HashCode>
       <FileName>Web\MetaAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -636,6 +636,27 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\COG\COG2014.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastnOutputReader" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastpOutputReader" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEQIAQAAEgAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Extensions" Collapsed="true">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Segoe UI" Size="9" />

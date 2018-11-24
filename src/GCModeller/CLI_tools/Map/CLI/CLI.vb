@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
@@ -230,5 +231,15 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             geneShapeHeight:=geneDrawHeight
         ).Save(out) _
          .CLICode
+    End Function
+
+    <ExportAPI("/Plot.GC", Usage:="/Plot.GC /in <mal.fasta> [/plot <gcskew/gccontent> /colors <Jet> /out <out.png>]")>
+    Public Function PlotGC(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim plot As String = args.GetValue("/plot", "gcskew")
+        Dim colors As String = args.GetValue("/colors", "Jet")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & plot & "-" & colors & ".png")
+        Dim img As GraphicsData = GCPlot.PlotGC(New FastaFile([in]), plot, 50, 50,,,,, colors:=colors)
+        Return img.Save(out)
     End Function
 End Module

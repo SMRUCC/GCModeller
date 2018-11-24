@@ -342,7 +342,7 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COGsUtils.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BidirectionalBesthit_BLAST.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\Operation.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\RpsBLAST.vb" />
