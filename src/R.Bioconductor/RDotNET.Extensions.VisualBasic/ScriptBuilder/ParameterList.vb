@@ -50,8 +50,16 @@ Namespace SymbolBuilder
     ''' </summary>
     Public Class ParameterList
 
+        ''' <summary>
+        ''' 所需要进行参数传递的符号引用列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Property parameters As String()
 
+        ''' <summary>
+        ''' 创建一个可变数量的数组参数对象, 这个一般是用于``list``函数参数或者``...``参数传递
+        ''' </summary>
+        ''' <param name="list$"></param>
         Sub New(list$())
             parameters = list
         End Sub
