@@ -93,7 +93,7 @@ Namespace NCBIBlastResult
                     ' 绘制盒子
                     ' 得到盒子的宽和高
                     Dim boxWidth = region.PlotRegion.Width - maxLabelWidth - 5
-                    Dim boxHeight = totalHeight
+                    Dim boxHeight = totalHeight + boxStroke.Width * 2 + labelSize.Height
                     Dim boxLeft% = left + maxLabelWidth + 5
                     Dim pos As New Point(boxLeft, top)
 
@@ -103,7 +103,7 @@ Namespace NCBIBlastResult
                     ' 开始绘制每一个category的条形图
                     ' 这个条形图里面还包含有该分类之中的不同程度的同源结果
                     Dim x! = left
-                    Dim y! = top + spacing / 2
+                    Dim y! = top + labelSize.Height / 2
                     Dim barWidth!
                     Dim barRect As Rectangle
 
@@ -111,7 +111,7 @@ Namespace NCBIBlastResult
                         Call g.DrawString(category.Category, labelFont, Brushes.Black, New PointF(x, y))
 
                         ' 绘制该功能分组之下的每一个同源层次的条形结果
-                        x = boxLeft
+                        x = boxLeft + boxStroke.Width / 2
 
                         For Each level As NamedValue(Of Color) In category _
                             .HomologyDegrees _
