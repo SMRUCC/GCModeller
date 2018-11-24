@@ -292,7 +292,7 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
