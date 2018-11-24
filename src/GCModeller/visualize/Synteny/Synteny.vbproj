@@ -282,6 +282,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SyntenyVisual\SyntenyVisual.vbproj">
       <Project>{7a0874a9-2e3b-4708-a777-8ddd7edc50a7}</Project>
       <Name>SyntenyVisual</Name>

@@ -283,6 +283,14 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataVisualizationTools\DataVisualizationTools.vbproj">
+      <Project>{7a5b87b9-4475-4b34-ab8b-30f0b068c1b7}</Project>
+      <Name>DataVisualizationTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

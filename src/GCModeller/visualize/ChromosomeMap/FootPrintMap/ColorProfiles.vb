@@ -47,14 +47,13 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.Visualize.GeneticClock
 
 Namespace ComponentModel
 
     Public Class DrawingDevice : Implements IDisposable
 
         Dim _GraphicDevice As Graphics, _ImageData As Bitmap
-        Dim _ColorProfiles As ColorProfile
+        Dim _ColorProfiles As ColorProfiles
 
         Public ReadOnly Property GraphicDevice As Graphics
             Get

@@ -302,6 +302,10 @@
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\visualize\DataVisualizationTools\DataVisualizationTools.vbproj">
+      <Project>{7a5b87b9-4475-4b34-ab8b-30f0b068c1b7}</Project>
+      <Name>DataVisualizationTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\visualize\SyntenyVisual\SyntenyVisual.vbproj">
       <Project>{7A0874A9-2E3B-4708-A777-8DDD7EDC50A7}</Project>
       <Name>SyntenyVisual</Name>
