@@ -22,7 +22,7 @@ Module Module1
                               }
                           End Function
 
-        Dim profiles = 20.SeqRandom.Select(Function(null) getCategory(null)).ToArray
+        Dim profiles = 20.SeqRandom.Select(Function(null) getCategory(null)).RenderColors.ToArray
 
         Call profiles.Plot.AsGDIImage.SaveAs("./test.png")
 

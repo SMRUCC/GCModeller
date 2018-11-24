@@ -1,14 +1,16 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 
 Namespace NCBIBlastResult
 
@@ -57,9 +59,46 @@ Namespace NCBIBlastResult
 
         End Function
 
+        ''' <summary>
+        ''' 测试用
+        ''' </summary>
+        ''' <param name="profile"></param>
+        ''' <param name="spectrum$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function RenderColors(profile As IEnumerable(Of OrthologyProfile), Optional spectrum$ = "rgb(178,24,43),rgb(209,229,240),rgb(103,169,207),rgb(67,147,195),rgb(33,102,172),rgb(144,144,144)") As IEnumerable(Of OrthologyProfile)
+            Dim colors As LoopArray(Of Color) = Designer.GetColors(spectrum)
+            Dim profileData = profile.ToArray
+            Dim allLevel As Dictionary(Of String, Color) =
+                profileData _
+                .Select(Function(category) category.HomologyDegrees.Keys) _
+                .IteratesALL _
+                .OrderBy(Function(l) l) _
+                .Distinct _
+                .ToDictionary(Function(level) level,
+                              Function()
+                                  Return colors.Next
+                              End Function)
+
+            For Each category As OrthologyProfile In profileData
+                category.HomologyDegrees = category _
+                    .HomologyDegrees _
+                    .Select(Function(level)
+                                Return New NamedValue(Of Color) With {
+                                    .Name = level.Name,
+                                    .Description = level.Description,
+                                    .Value = allLevel(.Name)
+                                }
+                            End Function) _
+                    .ToArray
+
+                Yield category
+            Next
+        End Function
+
         <Extension>
         Public Function Plot(profileData As IEnumerable(Of OrthologyProfile),
-                             Optional size$ = "3300,2700",
+                             Optional size$ = "2700,2100",
                              Optional margin$ = g.DefaultPadding,
                              Optional bg$ = "white",
                              Optional labelFontCSS$ = CSSFont.Win7LargeBold,
@@ -69,7 +108,7 @@ Namespace NCBIBlastResult
                              Optional axisLabel$ = "Number of Orthology Genes",
                              Optional titleFontCSS$ = CSSFont.Win7VeryVeryLarge,
                              Optional axisLabelFontCSS$ = CSSFont.Win7VeryLarge,
-                             Optional axisTicksFontCSS$ = CSSFont.Win7Normal,
+                             Optional axisTicksFontCSS$ = CSSFont.Win7LittleLarge,
                              Optional tick# = -1,
                              Optional tickHeight% = 10,
                              Optional tickStroke$ = Stroke.AxisStroke) As GraphicsData
