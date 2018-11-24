@@ -127,7 +127,7 @@ Namespace NCBIBlastResult
         ''' </summary>
         ''' <returns></returns>
         Public Function IdentitiesChromatic() As RangeList(Of Double, NamedValue(Of Color))
-            Return New RangeList(Of Double, NamedValue(Of Color)) From {
+            Return {
                 New RangeTagValue(Of Double, NamedValue(Of Color))(0, 30, New NamedValue(Of Color)("<= 30%", Color.Black)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(30, 55, New NamedValue(Of Color)("30% - 55%", Color.Blue)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(55, 70, New NamedValue(Of Color)("55% - 70%", Color.Green)),
@@ -141,7 +141,7 @@ Namespace NCBIBlastResult
         ''' </summary>
         ''' <returns></returns>
         Public Function IdentitiesMonoChrome() As RangeList(Of Double, NamedValue(Of Color))
-            Return New RangeList(Of Double, NamedValue(Of Color)) From {
+            Return {
                 New RangeTagValue(Of Double, NamedValue(Of Color))(0, 50, New NamedValue(Of Color)("<= 50%", Color.LightGray)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(50, 75, New NamedValue(Of Color)("50% - 75%", Color.DarkGray)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(75, 10000, New NamedValue(Of Color)("> 75%", Color.Gray))
@@ -149,7 +149,7 @@ Namespace NCBIBlastResult
         End Function
 
         Public Function BitScores() As RangeList(Of Double, NamedValue(Of Color))
-            Return New RangeList(Of Double, NamedValue(Of Color)) From {
+            Return {
                 New RangeTagValue(Of Double, NamedValue(Of Color))(0, 40, New NamedValue(Of Color)("< 40", Color.Black)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(40, 50, New NamedValue(Of Color)("40 - 50", Color.Blue)),
                 New RangeTagValue(Of Double, NamedValue(Of Color))(50, 80, New NamedValue(Of Color)("50 - 80", Color.Green)),

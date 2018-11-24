@@ -50,7 +50,7 @@ Namespace ComponentModel.Ranges
 
     Public Class RangeList(Of T As IComparable, V) : Implements IEnumerable(Of RangeTagValue(Of T, V))
 
-        ReadOnly buffer As New List(Of RangeTagValue(Of T, V))
+        Dim buffer As New List(Of RangeTagValue(Of T, V))
 
         Public ReadOnly Iterator Property Values As IEnumerable(Of V)
             Get
@@ -68,8 +68,12 @@ Namespace ComponentModel.Ranges
             End Get
         End Property
 
-        Sub New()
-            buffer = New List(Of RangeTagValue(Of T, V))(128)
+        Sub New(Optional capacity% = 128)
+            If capacity > 0 Then
+                buffer = New List(Of RangeTagValue(Of T, V))(capacity)
+            Else
+                ' do nothing, internal used only
+            End If
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -123,5 +127,12 @@ Namespace ComponentModel.Ranges
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(buffer As RangeTagValue(Of T, V)()) As RangeList(Of T, V)
+            Return New RangeList(Of T, V)(-1) With {
+                .buffer = buffer.AsList
+            }
+        End Operator
     End Class
 End Namespace
