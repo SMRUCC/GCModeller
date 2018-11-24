@@ -305,7 +305,7 @@
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
       <Name>KEGG</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>

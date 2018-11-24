@@ -323,10 +323,6 @@
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
-      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
-      <Name>DataVisualizationExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GO\GO.vbproj">
       <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
       <Name>GO</Name>
