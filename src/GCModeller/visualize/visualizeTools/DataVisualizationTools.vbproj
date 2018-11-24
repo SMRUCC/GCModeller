@@ -206,7 +206,6 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
     <Import Include="System.Threading.Tasks" />
@@ -281,9 +280,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
@@ -292,14 +291,6 @@
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
-      <Name>DatabaseServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>

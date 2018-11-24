@@ -41,31 +41,27 @@
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis
-Imports SMRUCC.genomics.InteractionModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GeneticClock
 
     <[Namespace]("Diagram.Genetic_Clock")> Public Module ShellScriptAPI
 
         <ExportAPI("Doppler_Effect.New_Analysis_Session")>
-        Public Function CreateDopplerEffectsAnalyser(ExperimentData As SerialsData()) As DopplerEffect
+        Public Function CreateDopplerEffectsAnalyser(ExperimentData As NumericVector()) As DopplerEffect
             Return New DopplerEffect(ExperimentData)
         End Function
 
         <ExportAPI("Doppler_Effect.Calculate")>
-        Public Function CalculateDopplerEffect([operator] As DopplerEffect, IdCollection As Generic.IEnumerable(Of Object), Optional WindowSize As Integer = 6) As SerialsData()
+        Public Function CalculateDopplerEffect([operator] As DopplerEffect, IdCollection As Generic.IEnumerable(Of Object), Optional WindowSize As Integer = 6) As NumericVector()
             Return [operator].CalculateDopplerEffect((From item In IdCollection Let strValue As String = item.ToString Select strValue).ToArray, WindowSize)
         End Function
 
-        <ExportAPI("Read.csv.Serials")>
-        Public Function LoadExperimentData(CsvFile As String) As SerialsData()
-            Return DataServicesExtension.LoadCsv(CsvFile)
-        End Function
-
         <ExportAPI("Diagram.Create")>
-        Public Function DrawDiagram(data As SerialsData(), scale As Integer) As System.Drawing.Image
+        Public Function DrawDiagram(data As NumericVector(), scale As Integer) As Image
             Return DrawingDevice.Draw(data, Scale:=scale)
         End Function
 
@@ -77,8 +73,8 @@ Namespace GeneticClock
         End Function
 
         <ExportAPI("Data.Interpolate")>
-        Public Function Interpolate(data As SerialsData(), n As Integer) As SerialsData()
-            Dim LQuery = (From item In data Select New SerialsData With {.Tag = item.Tag, .ChunkBuffer = Interpolate(item.ChunkBuffer, n)}).AsList
+        Public Function Interpolate(data As NumericVector(), n As Integer) As NumericVector()
+            Dim LQuery = (From item In data Select New NumericVector With {.name = item.name, .vector = Interpolate(item.vector, n)}).AsList
             Return LQuery.ToArray
         End Function
 
@@ -90,24 +86,24 @@ Namespace GeneticClock
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Data.Select")>
-        Public Function [Select](data As SerialsData(), id As Generic.IEnumerable(Of Object)) As SerialsData()
+        Public Function [Select](data As NumericVector(), id As IEnumerable(Of Object)) As NumericVector()
             Dim idlist As String() = (From item In id Where Not item Is Nothing Let strValue As String = item.ToString Select strValue Order By strValue Ascending).ToArray
             Dim LQuery = (From valueId As String In idlist
-                          Let SelectedValue = Function() As SerialsData
+                          Let SelectedValue = Function() As NumericVector
                                                   Dim value = data.GetItem(valueId)
-                                                  If value.ChunkBuffer.IsNullOrEmpty Then
+                                                  If value.vector.IsNullOrEmpty Then
                                                       Call Console.WriteLine("Could not found object data ""{0}""", valueId)
                                                       Return Nothing
                                                   End If
                                                   Return value
-                                              End Function() Where Not SelectedValue.ChunkBuffer.IsNullOrEmpty Select SelectedValue).AsList
+                                              End Function() Where Not SelectedValue.vector.IsNullOrEmpty Select SelectedValue).AsList
             Call LQuery.Insert(0, data.First)
             Return LQuery.ToArray
         End Function
 
         <ExportAPI("Data.Filtering_With_Periods")>
-        Public Function FilteringPeriodData(data As SerialsData(), WindowSize As Integer) As SerialsData()
-            Dim Chunkbuffer = (From item In data Select New SerialsVarialble With {.Identifier = item.Tag, .SerialsData = item.ChunkBuffer}).ToArray
+        Public Function FilteringPeriodData(data As NumericVector(), WindowSize As Integer) As NumericVector()
+            Dim Chunkbuffer = (From item In data Select New SerialsVarialble With {.Identifier = item.name, .SerialsData = item.vector}).ToArray
             Dim LQuery = (From item In Chunkbuffer Select PeriodAnalysis.Analysis(item, WindowSize)).ToArray
             Throw New NotImplementedException
         End Function
