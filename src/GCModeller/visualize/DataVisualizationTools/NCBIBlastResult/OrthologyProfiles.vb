@@ -63,14 +63,16 @@ Namespace NCBIBlastResult
             Dim colors As Color() = Designer.GetColors("RdBu:c8").AsList + Color.LightGray
 
             Return {
-                New RangeTagValue(Of Double, NamedValue(Of Color))(95, 100, New NamedValue(Of Color)("a", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 95, New NamedValue(Of Color)("b", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("c", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("d", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("e", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(40, 50, New NamedValue(Of Color)("f", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 40, New NamedValue(Of Color)("f", colors(++i))),
-                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("g", Color.LightGray))
+                New RangeTagValue(Of Double, NamedValue(Of Color))(99.99999999, 100, New NamedValue(Of Color)("a", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(97, 99.99999999, New NamedValue(Of Color)("b", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(95, 97, New NamedValue(Of Color)("c", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 95, New NamedValue(Of Color)("d", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("e", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("f", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("g", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(40, 50, New NamedValue(Of Color)("h", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 40, New NamedValue(Of Color)("i", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("j", Color.LightGray))
             }
         End Function
 
@@ -85,7 +87,14 @@ Namespace NCBIBlastResult
             Dim geneTable = result _
                 .ToDictionary(Function(gene) gene.QueryName,
                               Function(gene)
-                                  Return (KO:=gene.HitName, score:=BBHIndex.GetIdentities(gene))
+                                  Dim coverage# = Val(gene.Properties!coverage)
+
+                                  ' coverage可能会出现大于1的情况
+                                  If coverage > 1 Then
+                                      coverage = 1
+                                  End If
+
+                                  Return (KO:=gene.HitName, score:=BBHIndex.GetIdentities(gene) * coverage)
                               End Function)
             Dim KO_maps = geneTable _
                 .Where(Function(gene) (Not gene.Value.KO.StringEmpty) AndAlso (Not gene.Value.KO.TextEquals("HITS_NOT_FOUND"))) _
