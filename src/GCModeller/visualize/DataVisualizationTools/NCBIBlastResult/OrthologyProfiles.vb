@@ -3,13 +3,17 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace NCBIBlastResult
@@ -54,9 +58,83 @@ Namespace NCBIBlastResult
 
     Public Module OrthologyProfiles
 
-        <Extension>
-        Public Function OrthologyProfiles(result As IEnumerable(Of BBHIndex), colors As RangeList(Of Double, NamedValue(Of Color))) As OrthologyProfile()
+        Public Function DefaultColors() As RangeList(Of Double, NamedValue(Of Color))
+            Dim i As int = Scan0
+            Dim colors As Color() = Designer.GetColors("RdBu:c8").AsList + Color.LightGray
 
+            Return {
+                New RangeTagValue(Of Double, NamedValue(Of Color))(99.99999999, 100, New NamedValue(Of Color)("a", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(97, 99.99999999, New NamedValue(Of Color)("b", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(95, 97, New NamedValue(Of Color)("c", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(90, 95, New NamedValue(Of Color)("d", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(80, 90, New NamedValue(Of Color)("e", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(60, 80, New NamedValue(Of Color)("f", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(50, 60, New NamedValue(Of Color)("g", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(40, 50, New NamedValue(Of Color)("h", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(30, 40, New NamedValue(Of Color)("i", colors(++i))),
+                New RangeTagValue(Of Double, NamedValue(Of Color))(.0, 30, New NamedValue(Of Color)("j", Color.LightGray))
+            }
+        End Function
+
+        ''' <summary>
+        ''' 这个函数只适用于KEGG直系同源
+        ''' </summary>
+        ''' <param name="result"></param>
+        ''' <param name="colors"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function OrthologyProfiles(result As IEnumerable(Of BBHIndex), colors As RangeList(Of Double, NamedValue(Of Color))) As IEnumerable(Of OrthologyProfile)
+            Dim geneTable = result _
+                .ToDictionary(Function(gene) gene.QueryName,
+                              Function(gene)
+                                  Dim coverage# = Val(gene.Properties!coverage)
+
+                                  ' coverage可能会出现大于1的情况
+                                  If coverage > 1 Then
+                                      coverage = 1
+                                  End If
+
+                                  Return (KO:=gene.HitName, score:=BBHIndex.GetIdentities(gene) * coverage)
+                              End Function)
+            Dim KO_maps = geneTable _
+                .Where(Function(gene) (Not gene.Value.KO.StringEmpty) AndAlso (Not gene.Value.KO.TextEquals("HITS_NOT_FOUND"))) _
+                .Select(Function(gene)
+                            Return New NamedValue(Of String) With {
+                                .Name = gene.Key,
+                                .Value = gene.Value.KO
+                            }
+                        End Function) _
+                .ToArray
+            Dim categories = PathwayMapping _
+                .KOCatalog(KO_maps) _
+                .GroupBy(Function(gene) gene.Value!Category) _
+                .ToArray
+
+            For Each category As IGrouping(Of String, NamedValue(Of Dictionary(Of String, String))) In categories
+                Dim name$ = category.Key
+                Dim scores#() = category.Select(Function(t) geneTable(t.Name).score).AsVector * 100
+                Dim degrees = scores _
+                    .Select(Function(score)
+                                Return colors.SelectValue(score)
+                            End Function) _
+                    .GroupBy(Function(s) s.Name) _
+                    .Select(Function(g)
+                                Return New NamedValue(Of Color) With {
+                                    .Name = g.Key,
+                                    .Description = Math.Log(g.Count, 2),
+                                    .Value = g.First.Value
+                                }
+                            End Function) _
+                    .OrderBy(Function(s) s.Name) _
+                    .ToArray
+
+                Call name.__INFO_ECHO
+
+                Yield New OrthologyProfile With {
+                    .Category = name,
+                    .HomologyDegrees = degrees
+                }
+            Next
         End Function
 
         ''' <summary>
@@ -66,7 +144,7 @@ Namespace NCBIBlastResult
         ''' <param name="spectrum$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function RenderColors(profile As IEnumerable(Of OrthologyProfile), Optional spectrum$ = "rgb(178,24,43),rgb(209,229,240),rgb(103,169,207),rgb(67,147,195),rgb(33,102,172),rgb(144,144,144)") As IEnumerable(Of OrthologyProfile)
+        Public Iterator Function RenderColors(profile As IEnumerable(Of OrthologyProfile), Optional spectrum$ = "RdBu:c5") As IEnumerable(Of OrthologyProfile)
             Dim colors As LoopArray(Of Color) = Designer.GetColors(spectrum)
             Dim profileData = profile.ToArray
             Dim allLevel As Dictionary(Of String, Color) =
@@ -98,7 +176,7 @@ Namespace NCBIBlastResult
 
         <Extension>
         Public Function Plot(profileData As IEnumerable(Of OrthologyProfile),
-                             Optional size$ = "2700,2100",
+                             Optional size$ = "3300,2700",
                              Optional margin$ = g.DefaultPadding,
                              Optional bg$ = "white",
                              Optional labelFontCSS$ = CSSFont.Win7LargeBold,
@@ -114,7 +192,9 @@ Namespace NCBIBlastResult
                              Optional tickStroke$ = Stroke.AxisStroke) As GraphicsData
 
             Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
-            Dim profiles As OrthologyProfile() = profileData.ToArray
+            Dim profiles As OrthologyProfile() = profileData _
+                .OrderByDescending(Function(p) p.Total) _
+                .ToArray
             Dim maxCount% = profiles.Max(Function(category) category.Total)
             Dim maxLabel$ = profiles _
                 .Select(Function(orth) orth.Category) _
@@ -160,7 +240,13 @@ Namespace NCBIBlastResult
                     Dim barRect As Rectangle
 
                     For Each category As OrthologyProfile In profiles
-                        Call g.DrawString(category.Category, labelFont, Brushes.Black, New PointF(x, y))
+                        Dim label$ = category.Category
+
+                        With g.MeasureString(label, labelFont)
+                            x = boxLeft - .Width - spacing
+                            pos = New Point(x, y)
+                            g.DrawString(label, labelFont, Brushes.Black, pos)
+                        End With
 
                         ' 绘制该功能分组之下的每一个同源层次的条形结果
                         x = boxLeft + boxStroke.Width / 2
@@ -172,7 +258,7 @@ Namespace NCBIBlastResult
                             barWidth = boxWidth * (Val(level.Description) / maxCount)
                             barRect = New Rectangle With {
                                 .Location = New Point(x, y),
-                                .Size = New Size(barWidth, labelSize.Height)
+                                .Size = New Size(barWidth, labelSize.Height * 2 / 3)
                             }
 
                             g.FillRectangle(New SolidBrush(level.Value), barRect)
