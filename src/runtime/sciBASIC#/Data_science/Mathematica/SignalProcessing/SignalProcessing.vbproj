@@ -91,10 +91,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Signals\DFT.vb" />
-    <Compile Include="Signals\FourierTransform.vb" />
-    <Compile Include="Signals\TestProvider.vb" />
-    <Compile Include="Signals\WaveletTransform.vb" />
+    <Compile Include="Source\ArithmeticSignal.vb" />
+    <Compile Include="Source\Providers.vb" />
+    <Compile Include="Source\Signal.vb" />
+    <Compile Include="DFT.vb" />
+    <Compile Include="FourierTransform.vb" />
+    <Compile Include="Source\DumpsSignal.vb" />
+    <Compile Include="WaveletTransform.vb" />
     <Compile Include="TimeSignals.vb" />
     <Compile Include="WaveletTransform\Constructors\Coiflets.vb" />
     <Compile Include="WaveletTransform\Constructors\Symlets.vb" />
