@@ -110,11 +110,15 @@ Partial Module CLI
 
     <ExportAPI("/visual.kegg.pathways")>
     <Usage("/visual.kegg.pathways /model <virtualCell.GCMarkup> /maps <kegg_maps.repo.directory> [/gene <default=red> /plasmid.highlight <default=blue> /out <directory>]")>
+    <Argument("/gene", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.")>
     Public Function VisualKEGGPathways(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim plasmidHighlight As String = Nothing
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_visual.kegg.pathways/"
         Dim geneColor$ = args("/gene") Or "red"
+        Dim excludeChromosomeGenes As Boolean = geneColor.TextEquals("exclude")
 
         If args("/plasmid.highlight") Then
             plasmidHighlight = args("/plasmid.highlight") Or "blue" _
@@ -124,12 +128,13 @@ Partial Module CLI
                                End With
                            End Function)
         Else
-            plasmidHighlight = geneColor
+            plasmidHighlight = geneColor Or "blue".When(geneColor.TextEquals("exclude"))
         End If
 
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim render As LocalRender = LocalRender.FromRepository(args <= "/maps", digitID:=True)
-        Dim chromosome As Index(Of String) = model.genome _
+        ' 这个是染色体上面的基因id列表
+        Dim chromosomeGenes As Index(Of String) = model.genome _
             .replicons _
             .Where(Function(chr) Not chr.isPlasmid) _
             .Select(Function(chr) chr.genes) _
@@ -141,12 +146,27 @@ Partial Module CLI
 
         For Each category As FunctionalCategory In model.MetabolismStructure.maps
             For Each pathway In category.pathways
-                genes = pathway.enzymes _
+                png = $"{out}/{category.category}/{pathway.ID}.png"
+                genes = pathway _
+                    .enzymes _
+                    .Where(Function(enz)
+                               If Not excludeChromosomeGenes Then
+                                   Return True
+                               Else
+                                   Dim locus_tag$ = enz.Comment
+
+                                   If locus_tag.IsOneOfA(chromosomeGenes) Then
+                                       Return False
+                                   Else
+                                       Return True
+                                   End If
+                               End If
+                           End Function) _
                     .Select(Function(enz)
                                 Dim locus_tag$ = enz.Comment
                                 Dim color$
 
-                                If locus_tag.IsOneOfA(chromosome) Then
+                                If locus_tag.IsOneOfA(chromosomeGenes) Then
                                     color = geneColor
                                 Else
                                     color = plasmidHighlight
@@ -155,7 +175,6 @@ Partial Module CLI
                                 Return New NamedValue(Of String)(enz.value, color)
                             End Function) _
                     .ToArray
-                png = $"{out}/{category.category}/{pathway.ID}.png"
 
                 Call render _
                     .Rendering(pathway.ID.Match("\d+"), genes) _
