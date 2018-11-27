@@ -176,10 +176,12 @@ Partial Module CLI
                             End Function) _
                     .ToArray
 
-                Call render _
-                    .Rendering(pathway.ID.Match("\d+"), genes) _
-                    .SaveAs(png)
-                Call $"{category.category}\{pathway.name}".__INFO_ECHO
+                If genes.Length > 0 Then
+                    Call render _
+                        .Rendering(pathway.ID.Match("\d+"), genes) _
+                        .SaveAs(png)
+                    Call $"{category.category}\{pathway.name}".__INFO_ECHO
+                End If
             Next
         Next
 
