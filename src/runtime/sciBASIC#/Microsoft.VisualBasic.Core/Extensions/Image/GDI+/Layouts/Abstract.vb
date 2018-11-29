@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c18fe1eeefc13ae6629a20c9868cb49, Data_science\Mathematica\Math\Math\Signals\TestProvider.vb"
+﻿#Region "Microsoft.VisualBasic::8e6a85756b8c22b42bc9fa0cfce08b6b, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\Layouts\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,53 +31,38 @@
 
     ' Summaries:
 
-    '     Module TestProvider
+    '     Interface ILayoutedObject
     ' 
-    '         Function: bumps
+    '         Properties: Location
     ' 
-    '         Sub: bump
+    '     Interface ILayoutCoordinate
+    ' 
+    '         Properties: ID, X, Y
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Signals
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Language
+
+Namespace Imaging.LayoutModel
 
     ''' <summary>
-    ''' 
+    ''' Any typed object with a location layout value
     ''' </summary>
-    ''' <remarks>
-    ''' Inspired by Lee Byron's test data generator.
-    ''' </remarks>
-    Public Module TestProvider
+    ''' <typeparam name="T"></typeparam>
+    Public Interface ILayoutedObject(Of T)
+        Inherits Value(Of T).IValueOf
 
-        ''' <summary>
-        ''' Generate signal data for test
-        ''' </summary>
-        ''' <param name="n%"></param>
-        ''' <param name="m%"></param>
-        ''' <returns></returns>
-        Public Function bumps(n%, m%) As Double()
-            Dim a#() = New Double(n - 1) {}
-            Dim seed As New Random
+        Property Location As PointF
+    End Interface
 
-            For i As Integer = 0 To m - 1
-                Call bump(a, n, seed)
-            Next
+    Public Interface ILayoutCoordinate
+        Property ID As String
+        Property X As Double
+        Property Y As Double
+    End Interface
 
-            Return a
-        End Function
-
-        Public Sub bump(a#(), n%, seed As Random)
-            Dim x = 1 / (0.1 + seed.NextDouble),
-            y = 2 * seed.NextDouble - 0.5,
-            Z = 10 / (0.1 + seed.NextDouble)
-
-            For i As Integer = 0 To n - 1
-                Dim w = (i / n - y) * Z
-                a(i) += x * Math.Exp(-w * w)
-            Next
-        End Sub
-    End Module
 End Namespace

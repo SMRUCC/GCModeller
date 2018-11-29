@@ -207,7 +207,9 @@ Namespace Assembly.KEGG
                                         As Dictionary(Of String, NamedValue(Of Integer)())
             Dim brites As htext = htext.ko00001
             Dim KOTable As Dictionary(Of String, BriteHText) = brites.GetEntryDictionary
-            Dim counts = mappings _
+            Dim out As New Dictionary(Of String, NamedValue(Of Integer)())
+
+            KO_counts = mappings _
                 .GroupBy(Function(gene) gene.Value) _
                 .Select(Function(x)
                             ' 对每一个KO进行数量上的统计分析
@@ -228,9 +230,6 @@ Namespace Assembly.KEGG
                             End If
                         End Function) _
                 .ToArray
-            Dim out As New Dictionary(Of String, NamedValue(Of Integer)())
-
-            KO_counts = counts
 
             For Each [class] As BriteHText In brites.Hierarchical.CategoryItems
                 Dim profile As New List(Of NamedValue(Of Integer))
@@ -244,16 +243,19 @@ Namespace Assembly.KEGG
                     profile += New NamedValue(Of Integer) With {
                         .Name = levelACatalog.ClassLabel,
                         .Description = levelACatalog.Description,
-                        .Value = counts _
+                        .Value = KO_counts _
                             .Where(Function(tag) KO(tag.Catalog) > -1) _
                             .Count
                     }
                 Next
 
-                out([class].ClassLabel) = If(
-                    keepsZERO,
-                    profile,
-                    profile.Where(Function(x) x.Value > 0).ToArray)
+                If keepsZERO Then
+                    out([class].ClassLabel) = profile
+                Else
+                    out([class].ClassLabel) = profile _
+                        .Where(Function(x) x.Value > 0) _
+                        .ToArray
+                End If
             Next
 
             Return out

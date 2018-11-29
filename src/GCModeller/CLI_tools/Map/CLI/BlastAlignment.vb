@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Text
@@ -54,6 +55,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -62,6 +64,21 @@ Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics.ModelAPI
 
 Partial Module CLI
+
+    <ExportAPI("/visual.orthology.profiles")>
+    <Usage("/visual.orthology.profiles /in <bbh.csv> [/out <plot.png>]")>
+    Public Function VisualOrthologyProfiles(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.orthology_profiles.png"
+        Dim orthology As BBHIndex() = [in].LoadCsv(Of BBHIndex)
+
+        Return orthology _
+            .OrthologyProfiles(OrthologyProfiles.DefaultColors) _
+            .Plot _
+            .AsGDIImage _
+            .SaveAs(out) _
+            .CLICode
+    End Function
 
     ''' <summary>
     ''' 这个函数是从编译好的blast bbh xml结果之中绘图
