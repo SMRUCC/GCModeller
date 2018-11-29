@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4caad8d2eafb32a0fe43a0b77c8f2eb, Data_science\Mathematica\Math\Math\Distributions\Gaussian.vb"
+﻿#Region "Microsoft.VisualBasic::55fea020473ebb7b64dca7cec8deb246, Data_science\Mathematica\SignalProcessing\TimeSignals.vb"
 
     ' Author:
     ' 
@@ -31,39 +31,34 @@
 
     ' Summaries:
 
-    '     Module Gaussian
+    ' Class TimeSignal
     ' 
-    '         Function: Gaussian
+    '     Properties: intensity, time
     ' 
+    '     Function: SignalSequence, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Distributions
+Imports Microsoft.VisualBasic.Linq
 
-    ''' <summary>
-    ''' ##### Gaussian function
-    ''' 
-    ''' https://en.wikipedia.org/wiki/Gaussian_function
-    ''' </summary>
-    Public Module Gaussian
+Public Class TimeSignal
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="x#"></param>
-        ''' <param name="a#">is the height of the curve's peak</param>
-        ''' <param name="b#">is the position of the center of the peak</param>
-        ''' <param name="c#">(the standard deviation, sometimes called the Gaussian RMS width) 
-        ''' controls the width of the "bell"</param>
-        ''' <returns></returns>
-        Public Function Gaussian(x#, a#, b#, c#) As Double
-            Dim p# = ((x - b) ^ 2) / (2 * c ^ 2)
-            Dim fx# = a * E ^ (-p)
-            Return fx
-        End Function
+    Public Property time As Double
+    Public Property intensity As Double
 
+    Public Overrides Function ToString() As String
+        Return $"[{time}, {intensity}]"
+    End Function
 
-    End Module
-End Namespace
+    Public Shared Iterator Function SignalSequence(data As IEnumerable(Of Double)) As IEnumerable(Of TimeSignal)
+        For Each p As SeqValue(Of Double) In data.SeqIterator(offset:=1)
+            Yield New TimeSignal With {
+                .time = p.i,
+                .intensity = p.value
+            }
+        Next
+    End Function
+End Class
+

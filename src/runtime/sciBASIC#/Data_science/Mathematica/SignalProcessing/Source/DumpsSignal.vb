@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4caad8d2eafb32a0fe43a0b77c8f2eb, Data_science\Mathematica\Math\Math\Distributions\Gaussian.vb"
+﻿#Region "Microsoft.VisualBasic::ab264ba6af633ea183200078cf06f8ab, Data_science\Mathematica\SignalProcessing\Source\DumpsSignal.vb"
 
     ' Author:
     ' 
@@ -31,39 +31,53 @@
 
     ' Summaries:
 
-    '     Module Gaussian
+    '     Module DumpsSignal
     ' 
-    '         Function: Gaussian
+    '         Function: bumps
+    ' 
+    '         Sub: bump
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Distributions
+Namespace Source
 
     ''' <summary>
-    ''' ##### Gaussian function
     ''' 
-    ''' https://en.wikipedia.org/wiki/Gaussian_function
     ''' </summary>
-    Public Module Gaussian
+    ''' <remarks>
+    ''' Inspired by Lee Byron's test data generator.
+    ''' </remarks>
+    Public Module DumpsSignal
 
         ''' <summary>
-        ''' 
+        ''' Generate signal data for test
         ''' </summary>
-        ''' <param name="x#"></param>
-        ''' <param name="a#">is the height of the curve's peak</param>
-        ''' <param name="b#">is the position of the center of the peak</param>
-        ''' <param name="c#">(the standard deviation, sometimes called the Gaussian RMS width) 
-        ''' controls the width of the "bell"</param>
+        ''' <param name="length">信号的长度，点的数量</param>
+        ''' <param name="m">信号的叠加次数</param>
         ''' <returns></returns>
-        Public Function Gaussian(x#, a#, b#, c#) As Double
-            Dim p# = ((x - b) ^ 2) / (2 * c ^ 2)
-            Dim fx# = a * E ^ (-p)
-            Return fx
+        Public Function bumps(length%, Optional m% = 25) As Double()
+            Dim a#() = New Double(length - 1) {}
+            Dim seed As New Random
+
+            For i As Integer = 0 To m - 1
+                Call bump(a, length, seed)
+            Next
+
+            Return a
         End Function
 
+        Private Sub bump(ByRef a#(), length%, seed As Random)
+            Dim x = 1 / (0.1 + seed.NextDouble),
+                y = 2 * seed.NextDouble - 0.5,
+                Z = 10 / (0.1 + seed.NextDouble)
 
+            For i As Integer = 0 To length - 1
+                Dim w = (i / length - y) * Z
+                a(i) += x * Math.Exp(-w * w)
+            Next
+        End Sub
     End Module
 End Namespace

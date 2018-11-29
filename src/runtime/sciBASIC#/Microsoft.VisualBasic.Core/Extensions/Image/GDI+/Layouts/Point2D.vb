@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd51de795fa217e83ca60562489aaf77, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\Layouts\LayoutedObject.vb"
+﻿#Region "Microsoft.VisualBasic::f88945d5b9a69e8946e33cab3084d3e2, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\Layouts\Point2D.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,7 @@
 
     ' Summaries:
 
-    '     Interface ILayoutedObject
-    ' 
-    '         Properties: Location
-    ' 
-    '     Interface ILayoutCoordinate
-    ' 
-    '         Properties: ID, X, Y
-    ' 
-    '     Class mxPoint
+    '     Class Point2D
     ' 
     '         Properties: Point, X, Y
     ' 
@@ -52,32 +44,14 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Language
 Imports sys = System.Math
 
 Namespace Imaging.LayoutModel
 
     ''' <summary>
-    ''' Any typed object with a location layout value
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    Public Interface ILayoutedObject(Of T)
-        Inherits Value(Of T).IValueOf
-
-        Property Location As PointF
-    End Interface
-
-    Public Interface ILayoutCoordinate
-        Property ID As String
-        Property X As Double
-        Property Y As Double
-    End Interface
-
-    ''' <summary>
     ''' Implements a 2-dimensional point with <see cref="Double"/> precision coordinates.
     ''' </summary>
-    <Serializable>
-    Public Class mxPoint : Implements ICloneable
+    <Serializable> Public Class Point2D : Implements ICloneable
 
         ''' <summary>
         ''' Constructs a new point at (0, 0).
@@ -90,7 +64,7 @@ Namespace Imaging.LayoutModel
         ''' Constructs a new point at the location of the given point.
         ''' </summary>
         ''' <param name="point"> Point that specifies the location. </param>
-        Public Sub New(ByVal point As Point)
+        Public Sub New(point As Point)
             Me.New(point.X, point.Y)
         End Sub
 
@@ -98,7 +72,7 @@ Namespace Imaging.LayoutModel
         ''' Constructs a new point at the location of the given point.
         ''' </summary>
         ''' <param name="point"> Point that specifies the location. </param>
-        Public Sub New(ByVal point As mxPoint)
+        Public Sub New(point As Point2D)
             Me.New(point.X, point.Y)
         End Sub
 
@@ -107,9 +81,9 @@ Namespace Imaging.LayoutModel
         ''' </summary>
         ''' <param name="x"> X-coordinate of the point to be created. </param>
         ''' <param name="y"> Y-coordinate of the point to be created. </param>
-        Public Sub New(ByVal x As Double, ByVal y As Double)
-            x = x
-            y = y
+        Public Sub New(x As Double, y As Double)
+            Me.X = x
+            Me.Y = y
         End Sub
 
         ''' <summary>
@@ -138,9 +112,9 @@ Namespace Imaging.LayoutModel
         ''' <summary>
         ''' Returns true if the given object equals this rectangle.
         ''' </summary>
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
-            If TypeOf obj Is mxPoint Then
-                Dim pt As mxPoint = CType(obj, mxPoint)
+        Public Overrides Function Equals(obj As Object) As Boolean
+            If TypeOf obj Is Point2D Then
+                Dim pt As Point2D = CType(obj, Point2D)
 
                 Return pt.X = X AndAlso pt.Y = Y
             End If
@@ -152,7 +126,7 @@ Namespace Imaging.LayoutModel
         ''' Returns a new instance of the same point.
         ''' </summary>
         Public Overridable Function Clone() As Object Implements ICloneable.Clone
-            Return New mxPoint(X, Y)
+            Return New Point2D(X, Y)
         End Function
 
         ''' <summary>
