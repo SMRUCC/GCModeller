@@ -1,70 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::d17df8083fe33966acbf9829d667f755, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
+﻿#Region "Microsoft.VisualBasic::dae2d7fca07f4cdcfa065437fd6f7a42, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CharSet
-    ' 
-    '         Function: GenerateFontWeights, GetGeneralSize, GetWeight, LinearMap
-    '         Class WeightedChar
-    ' 
-    '             Properties: Character, CharacterImage, Weight
-    ' 
-    '             Function: ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CharSet
+' 
+'         Function: GenerateFontWeights, GetGeneralSize, GetWeight, LinearMap
+'         Class WeightedChar
+' 
+'             Properties: Character, CharacterImage, Weight
+' 
+'             Function: ToString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports System.Math
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing2D.Text.ASCIIArt
 
     Public Module CharSet
-
-        Public Class WeightedChar
-
-            Public Property Character As String
-            Public Property CharacterImage As Bitmap
-            Public Property Weight As Double
-
-            Public Overrides Function ToString() As String
-                Return $"{Character} ({Weight})"
-            End Function
-        End Class
 
         '
         '         * The methods contained in this class are executed at the inizialization
@@ -84,17 +74,25 @@ Namespace Drawing2D.Text.ASCIIArt
         '         * 
         '         * All the classes resulting from the calculations are stored in a List so we can access the results.
         '         
-        Public Function GenerateFontWeights() As List(Of WeightedChar)
-            ' Collect chars, their Images and weights in a list of WeightedChar
-            Dim WeightedChars As New List(Of WeightedChar)()
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GenerateFontWeights() As WeightedChar()
+            ' New object to hold Image, Weight and Char of new character
+            ' For i As Integer = 32 To 126
+            Return Enumerable.Range(32, 126 - 32).Select(Function(i) Convert.ToChar(i)).GenerateFontWeights
+        End Function
+
+        <Extension>
+        Public Function GenerateFontWeights(chars As IEnumerable(Of Char)) As WeightedChar()
+            ' Collect chars, their Images and weights in a list of WeightedChar
+            Dim weightedChars As New List(Of WeightedChar)()
             Dim commonsize As SizeF = GetGeneralSize()
+
             ' Get standard size (nxn square), which will be common to all CharImages
-            For i As Integer = 32 To 126
+            For Each c As Char In chars.SafeQuery.Distinct
                 ' Iterate through Chars
                 Dim forweighting = New WeightedChar()
-                ' New object to hold Image, Weight and Char of new character
-                Dim c As Char = Convert.ToChar(i)
+
                 If Not Char.IsControl(c) Then
                     forweighting.Weight = c.GetWeight(commonsize)
                     ' Get character weight
@@ -103,13 +101,15 @@ Namespace Drawing2D.Text.ASCIIArt
                     ' Get character Image
                     forweighting.CharacterImage = DirectCast(HelperMethods.DrawText(c.ToString(), Color.Black, Color.White, commonsize), Bitmap)
                 End If
-                WeightedChars.Add(forweighting)
+
+                weightedChars.Add(forweighting)
             Next
 
-            WeightedChars = WeightedChars.LinearMap()
-            ' Linearly map character weights to be in the range 0-255 -> mapping linearly from: MinCalcWeight - MaxCalcWeight to 0-255; 
+            weightedChars = weightedChars.LinearMap()
+            ' Linearly map character weights to be in the range 0-255 
+            ' -> mapping linearly from: MinCalcWeight - MaxCalcWeight to 0-255; 
             ' This is done to be able to directly map pixels to characters
-            Return WeightedChars
+            Return weightedChars.ToArray
         End Function
 
 #Region "[GenerateFontWeights Helper methods]"
