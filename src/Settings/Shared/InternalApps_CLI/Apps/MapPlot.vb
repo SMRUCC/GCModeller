@@ -27,7 +27,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '  /Config.Template:                 
 '  /draw.map.region:                 
+'  /Plot.GC:                         
 '  /Visual.BBH:                      Visualize the blastp result.
+'  /visual.orthology.profiles:       
 '  /Visualize.blastn.alignment:      Blastn result alignment visualization from the NCBI web blast.
 '                                    This tools is only works for a plasmid blastn search result or
 '                                    a small gene cluster region in a large genome.
@@ -117,6 +119,31 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Plot.GC /in &lt;mal.fasta> [/plot &lt;gcskew/gccontent> /colors &lt;Jet> /out &lt;out.png>]
+''' ```
+''' </summary>
+'''
+Public Function PlotGC([in] As String, Optional plot As String = "", Optional colors As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Plot.GC")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not plot.StringEmpty Then
+            Call CLI.Append("/plot " & """" & plot & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Visual.BBH /in &lt;bbh.Xml> /PTT &lt;genome.PTT> /density &lt;genomes.density.DIR> [/limits &lt;sp-list.txt> /out &lt;image.png>]
 ''' ```
 ''' Visualize the blastp result.
@@ -131,6 +158,25 @@ Public Function BBHVisual([in] As String, PTT As String, density As String, Opti
     If Not limits.StringEmpty Then
             Call CLI.Append("/limits " & """" & limits & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /visual.orthology.profiles /in &lt;bbh.csv> [/out &lt;plot.png>]
+''' ```
+''' </summary>
+'''
+Public Function VisualOrthologyProfiles([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/visual.orthology.profiles")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
