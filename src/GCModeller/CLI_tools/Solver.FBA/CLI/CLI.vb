@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
         Try
             Dim template As String = App.HOME & "/Templates/rFBA.ModifierTemplates.Csv"
+
             If Not template.FileExists Then
                 Dim modifyTemplates As Modifier() = {
                     New Modifier With {.locus = "Gene LocusId 1", .modify = 0, .Comments = "Deletion mutation"},
@@ -93,21 +94,26 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
     End Function
 
     <ExportAPI("/disruptions")>
-    <Usage("/disruptions /model <virtualcell.gcmarkup> [/plasmids.skip /parallel <num_threads, default=1> /out <output.directory>]")>
+    <Usage("/disruptions /model <virtualcell.gcmarkup> [/parallel <num_threads, default=1> /out <output.directory>]")>
     Public Function SingleGeneDisruptions(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim parallel% = args("/parallel") Or 1
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim skipPlasmids As Boolean = args("/plasmids.skip")
-        Dim genes$() = model.genome _
-            .GetAllGeneLocusTags(skipPlasmids) _
+        Dim genes$() = model.MetabolismStructure _
+            .Enzymes _
+            .Select(Function(enz) enz.geneID) _
             .ToArray
         Dim raw$ = out & "/raw/"
 
         Call genes.BatchTask(
             getTask:=Function(locus_tag)
-                         Return Apps.FBA.SolveGCMarkup(model:=[in], mute:=locus_tag, out:=raw & $"/{locus_tag}.txt")
+                         Return Apps.FBA.SolveGCMarkup(
+                             model:=[in],
+                             mute:=locus_tag,
+                             out:=raw & $"/{locus_tag}.txt",
+                             trim:=True
+                         )
                      End Function,
             numThreads:=parallel
         )
