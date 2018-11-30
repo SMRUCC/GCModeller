@@ -93,14 +93,15 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
     End Function
 
     <ExportAPI("/disruptions")>
-    <Usage("/disruptions /model <virtualcell.gcmarkup> [/parallel <num_threads, default=1> /out <output.directory>]")>
+    <Usage("/disruptions /model <virtualcell.gcmarkup> [/plasmids.skip /parallel <num_threads, default=1> /out <output.directory>]")>
     Public Function SingleGeneDisruptions(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim parallel% = args("/parallel") Or 1
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+        Dim skipPlasmids As Boolean = args("/plasmids.skip")
         Dim genes$() = model.genome _
-            .GetAllGeneLocusTags _
+            .GetAllGeneLocusTags(skipPlasmids) _
             .ToArray
         Dim raw$ = out & "/raw/"
 
