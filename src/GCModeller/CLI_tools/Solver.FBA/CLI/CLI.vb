@@ -104,8 +104,16 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
             .ToArray
         Dim raw$ = out & "/raw/"
 
-        Call BatchTasks.BatchTask(genes, Function(locus_tag) Apps.FBA.SolveGCMarkup(model:=[in], mute:=locus_tag, out:=raw & $"/{locus_tag}.txt"), numThreads:=parallel)
+        Call genes.BatchTask(
+            getTask:=Function(locus_tag)
+                         Return Apps.FBA.SolveGCMarkup(model:=[in], mute:=locus_tag, out:=raw & $"/{locus_tag}.txt")
+                     End Function,
+            numThreads:=parallel
+        )
 
+        ' 将计算结果合并为一个表达矩阵文件
+
+        Return 0
     End Function
 
     <ExportAPI("/solve.gcmarkup")>
