@@ -64,6 +64,7 @@ Public NotInheritable Class Apps
     Public Shared ReadOnly Property metaProfiler As GCModellerApps.metaProfiler
     Public Shared ReadOnly Property SyntenyVisual As GCModellerApps.Synteny
     Public Shared ReadOnly Property GCModellerCompiler As GCModellerApps.GCC
+    Public Shared ReadOnly Property FBA As GCModellerApps.FBA
 
     Const developmentPathPattern$ = "GCModeller\GCModeller\bin"
 
@@ -118,6 +119,7 @@ Public NotInheritable Class Apps
                 _metaProfiler = GCModellerApps.metaProfiler.FromEnvironment(directory:=HOME)
                 _SyntenyVisual = GCModellerApps.Synteny.FromEnvironment(directory:=HOME)
                 _GCModellerCompiler = GCModellerApps.GCC.FromEnvironment(directory:=HOME)
+                _FBA = GCModellerApps.FBA.FromEnvironment(directory:=HOME)
 
                 Exit For
             End If

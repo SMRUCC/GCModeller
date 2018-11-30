@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
+Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.FBA.Core
@@ -89,6 +90,22 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         Else
             Return term.Split(","c)
         End If
+    End Function
+
+    <ExportAPI("/disruptions")>
+    <Usage("/disruptions /model <virtualcell.gcmarkup> [/parallel <num_threads, default=1> /out <output.directory>]")>
+    Public Function SingleGeneDisruptions(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim parallel% = args("/parallel") Or 1
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
+        Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+        Dim genes$() = model.genome _
+            .GetAllGeneLocusTags _
+            .ToArray
+        Dim raw$ = out & "/raw/"
+
+        Call BatchTasks.BatchTask(genes, Function(locus_tag) Apps.FBA.SolveGCMarkup(model:=[in], mute:=locus_tag, out:=raw & $"/{locus_tag}.txt"), numThreads:=parallel)
+
     End Function
 
     <ExportAPI("/solve.gcmarkup")>

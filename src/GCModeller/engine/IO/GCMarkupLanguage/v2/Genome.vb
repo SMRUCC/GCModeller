@@ -23,6 +23,13 @@ Namespace v2
         ''' </remarks>
         Public Property regulations As transcription()
 
+        Public Iterator Function GetAllGeneLocusTags() As IEnumerable(Of String)
+            For Each replicon As replicon In replicons
+                For Each gene In replicon.genes
+                    Yield gene.locus_tag
+                Next
+            Next
+        End Function
     End Class
 
     ''' <summary>
