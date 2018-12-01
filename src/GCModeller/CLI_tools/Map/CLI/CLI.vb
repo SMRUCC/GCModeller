@@ -170,7 +170,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
     ReadOnly notMics As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "source"}
 
     <ExportAPI("--Draw.ChromosomeMap.genbank")>
-    <Usage("--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/motifs <motifs.csv> /conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
+    <Usage("--Draw.ChromosomeMap.genbank /gb <genome.gbk> [/motifs <motifs.csv> /hide.mics /conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
     <Description("Draw bacterial genome map from genbank annotation dataset.")>
     Public Function DrawGenbank(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
@@ -179,23 +179,29 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Dim COG As String = args("/COG")
         Dim PTT As PTT = GBFF.File.Load(gb).GbffToPTT(ORF:=False)
         Dim motifs$ = args <= "/motifs"
-        Dim mics = GBFF.File.Load(gb).Features _
-            .Where(Function(feature)
-                       Return Not feature.KeyName.IsOneOfA(notMics)
-                   End Function) _
-            .Select(Function(feature)
-                        Dim site As NucleotideLocation = feature.Location.ContiguousRegion
+        Dim hideMics As Boolean = args("/hide.mics")
+        Dim mics As MultationPointData() = {}
 
-                        Return New MultationPointData With {
-                            .Comments = feature.Query("note"),
-                            .MutationType = MutationTypes.Unknown,
-                            .SiteName = feature.KeyName,
-                            .Left = site.Left,
-                            .Right = site.Right,
-                            .Direction = site.Strand
-                        }
-                    End Function) _
-            .ToArray
+        If Not hideMics Then
+            mics = GBFF.File.Load(gb) _
+                .Features _
+                .Where(Function(feature)
+                           Return Not feature.KeyName.IsOneOfA(notMics)
+                       End Function) _
+                .Select(Function(feature)
+                            Dim site As NucleotideLocation = feature.Location.ContiguousRegion
+
+                            Return New MultationPointData With {
+                                .Comments = feature.Query("note"),
+                                .MutationType = MutationTypes.Unknown,
+                                .SiteName = feature.KeyName,
+                                .Left = site.Left,
+                                .Right = site.Right,
+                                .Direction = site.Strand
+                            }
+                        End Function) _
+                .ToArray
+        End If
 
         Return PTT.Draw(COG, motifs, mics, confInf, out)
     End Function
