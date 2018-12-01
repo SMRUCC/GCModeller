@@ -105,14 +105,15 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/Site.match.genes")>
-    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/max.dist <default=500bp> /out <out.csv>]")>
+    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/skip.RNA /max.dist <default=500bp> /out <out.csv>]")>
     <Description("Match genome context for the sites model.")>
     Public Function MatchSiteGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
         Dim maxDist% = args("/max.dist") Or 500
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.genome_context,max_dist={maxDist}.csv"
-        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=False), name:=gb.Source.SpeciesName)
+        Dim skipRNA As Boolean = args("/skip.RNA")
+        Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=skipRNA), name:=gb.Source.SpeciesName)
         Dim nt As FastaSeq = gb.Origin.ToFasta
         Dim isPlasmid As Boolean = gb.IsPlasmidSource
         Dim replicon$ = gb.Accession.AccessionId Or $"{gb.Accession.AccessionId}=plasmid".When(isPlasmid)
