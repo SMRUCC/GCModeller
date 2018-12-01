@@ -55,11 +55,14 @@ Namespace v2
             Call sb.AppendLine("genomes:")
 
             For Each replicon In model.genome.replicons
-                Call sb.AppendLine($" [{replicon.genomeName}] {replicon.genes.Length}")
+                Call sb.AppendLine($" [{replicon.genomeName}, {If(replicon.isPlasmid, "plasmid", "chromosome")}] {replicon.genes.Length} genes")
             Next
 
             Call sb.AppendLine()
             Call sb.AppendLine($"transcript regulations: {model.genome.regulations.Length}")
+            For Each family In model.genome.regulations.GroupBy(Function(r) r.motif.family)
+                Call sb.AppendLine($"  {family.Key}: {family.Count}")
+            Next
 
             Call sb.AppendLine("metabolism structure:")
             Call sb.AppendLine($"  enzymes: {model.MetabolismStructure.Enzymes.Length}")
