@@ -202,22 +202,34 @@ Partial Module CLI
         Dim topBest As Boolean = args("/top.best")
 
         Using IO As New WriteStream(Of BestHit)(out)
+            Dim descriptionTable As New Dictionary(Of String, String)
             Dim handle As Action(Of Query) = IO _
-                .ToArray(Of Query)(Function(query)
-                                       Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities)
+                .ToArray(Of Query)(
+                [ctype]:=Function(query)
+                             Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities)
 
-                                       If topBest Then
-                                           Return {hits.First}
-                                       Else
-                                           Return hits
-                                       End If
-                                   End Function)
+                             For Each hit As BestHit In hits
+                                 ' 因为是蛋白功能注释
+                                 ' 所以描述信息来自于hit subject
+                                 hit.description = descriptionTable.TryGetValue(hit.HitName)
+                             Next
+
+                             If topBest Then
+                                 Return {hits.First}
+                             Else
+                                 Return hits
+                             End If
+                         End Function)
 
             For Each query As Query In BlastpOutputReader.RunParser(inFile)
                 query.QueryName = qPattern(query.QueryName)
+                descriptionTable.Clear()
 
                 For Each hits In query.SubjectHits.SafeQuery
-                    hits.Name = sPattern(hits.Name)
+                    Dim key$ = sPattern(hits.Name)
+
+                    descriptionTable.Add(key, hits.Name)
+                    hits.Name = key
                 Next
 
                 Call handle(query)
