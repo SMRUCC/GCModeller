@@ -230,6 +230,15 @@ Partial Module CLI
         Dim map As RegPreciseRegulatorMatch
         Dim matches As New List(Of RegPreciseRegulatorMatch)
         Dim description$
+        Dim getQuery, getRegprecise As Func(Of BBHIndex, String)
+
+        If isSBH Then
+            getQuery = Function(hit) hit.QueryName
+            getRegprecise = Function(hit) hit.HitName
+        Else
+            getQuery = Function(hit) hit.HitName
+            getRegprecise = Function(hit) hit.QueryName
+        End If
 
         For Each genome As BacteriaRegulome In genomes
             Dim genomeName$ = genome.genome.name
@@ -268,8 +277,8 @@ Partial Module CLI
                         .Family = regulator.family,
                         .Identities = BBHIndex.GetIdentities(hit),
                         .mode = regulator.regulationMode,
-                        .Query = hit.HitName,
-                        .Regulator = hit.QueryName,
+                        .Query = getQuery(hit),
+                        .Regulator = getRegprecise(hit),
                         .Regulog = regulator.regulog.name,
                         .species = genomeName,
                         .RegulonSites = motifSites,
