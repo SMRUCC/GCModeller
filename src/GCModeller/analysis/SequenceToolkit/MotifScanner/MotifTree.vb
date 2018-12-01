@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -125,6 +126,29 @@ NOT_EQUALS:
                 }
             Next
         Next
+    End Function
+
+    ''' <summary>
+    ''' 可能会有多个家族的调控因子作用在该位点上
+    ''' </summary>
+    ''' <param name="sites"></param>
+    ''' <param name="getFamily"></param>
+    ''' <param name="getTarget"></param>
+    ''' <param name="quantile"></param>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function FilterMotifsQuantile(sites As IEnumerable(Of (loci As NucleotideLocation, maps As BlastnMapping())),
+                                         getFamily As Func(Of String, String),
+                                         getTarget As Func(Of String, String),
+                                         Optional quantile# = 0.65) As IEnumerable(Of NamedValue(Of NucleotideLocation))
+        Dim data = sites.ToArray
+        Dim mapLength As QuantileEstimationGK = data _
+            .Select(Function(d) CDbl(d.maps.Length)) _
+            .GKQuantile
+        Dim hitsBase% = mapLength.Query(quantile)
+
+        Return data.FilterMotifs(getFamily, getTarget, hits:=hitsBase)
     End Function
 
     <Extension>
