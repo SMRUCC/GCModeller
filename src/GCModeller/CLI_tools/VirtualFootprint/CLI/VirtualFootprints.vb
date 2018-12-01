@@ -852,7 +852,9 @@ Partial Module CLI
             .ToArray
         Dim output As MotifSiteMatch() = motifSites _
             .Select(Function(site)
-                        Dim targets As String() = site.Description.LoadJSON(Of String())
+                        Dim targets$() = site _
+                            .Description _
+                            .LoadJSON(Of String())
 
                         Return New MotifSiteMatch With {
                             .ID = site.Name,
