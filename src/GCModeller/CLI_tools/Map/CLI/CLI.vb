@@ -157,9 +157,10 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
                 output(output.Length - 1) = output _
                     .Last _
                     .DrawCatalogProfiling(
-                        COGProfiles,
-                        .Margin,
-                        "2000,1200")
+                        genes:=COGProfiles,
+                        left:= .Margin,
+                        size:="2100,1300"
+                    )
             End If
 
             Return output.SaveImage(out, .SavedFormat)
