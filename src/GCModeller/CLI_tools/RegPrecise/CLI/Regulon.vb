@@ -167,7 +167,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
+    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/sbh /description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
     <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
     <Group(CLIGroups.RegulonTools)>
     <Argument("/allow.multiple", True, CLITypes.Boolean,
@@ -177,12 +177,21 @@ Partial Module CLI
         Dim in$ = args <= "/bbh"
         Dim repo$ = args <= "/regprecise"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.regprecise.regulators.csv"
+        Dim isSBH As Boolean = args("/sbh")
         Dim bbh As Dictionary(Of String, BBHIndex()) = [in] _
             .LoadCsv(Of BBHIndex) _
             .Where(Function(map)
+                       ' 删除hits not found的情况
+                       ' hits not found的时候，identities肯定是0
                        Return Not map.HitName.StringEmpty AndAlso BBHIndex.GetIdentities(map) > 0
                    End Function) _
-            .GroupBy(Function(map) map.QueryName) _
+            .GroupBy(Function(map)
+                         If isSBH Then
+                             Return map.HitName
+                         Else
+                             Return map.QueryName
+                         End If
+                     End Function) _
             .ToDictionary(Function(map) map.Key.Split(":"c).Last,
                           Function(g)
                               Return g.ToArray
