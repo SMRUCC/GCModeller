@@ -52,7 +52,7 @@ Namespace v2
 
             Call sb.AppendLine(model.taxonomy.ToString)
             Call sb.AppendLine()
-            Call sb.AppendLine("genome:")
+            Call sb.AppendLine("genomes:")
 
             For Each replicon In model.genome.replicons
                 Call sb.AppendLine($" [{replicon.genomeName}] {replicon.genes.Length}")
