@@ -215,7 +215,7 @@ Partial Module CLI
 
         Return (ls - l - r - "*.Xml" <= repo) _
             .Select(AddressOf LoadXml(Of BacteriaRegulome)) _
-            .RunMatches(bbh, getDescription, distinct:=Not allowMultiple) _
+            .RunMatches(bbh, getDescription, distinct:=Not allowMultiple, isSBH:=isSBH) _
             .SaveTo(out) _
             .CLICode
     End Function
@@ -224,10 +224,12 @@ Partial Module CLI
     Public Function RunMatches(genomes As IEnumerable(Of BacteriaRegulome),
                                bbh As Dictionary(Of String, BBHIndex()),
                                getDescription As Func(Of String, String),
-                               Optional distinct As Boolean = True) As RegPreciseRegulatorMatch()
+                               Optional distinct As Boolean = True,
+                               Optional isSBH As Boolean = False) As RegPreciseRegulatorMatch()
 
         Dim map As RegPreciseRegulatorMatch
         Dim matches As New List(Of RegPreciseRegulatorMatch)
+        Dim description$
 
         For Each genome As BacteriaRegulome In genomes
             Dim genomeName$ = genome.genome.name
@@ -254,6 +256,12 @@ Partial Module CLI
                     .ToArray
 
                 For Each hit As BBHIndex In bbh(regulator.locus_tag.name)
+                    If isSBH Then
+                        description = getDescription(hit.HitName)
+                    Else
+                        description = getDescription(hit.QueryName)
+                    End If
+
                     map = New RegPreciseRegulatorMatch With {
                         .biological_process = regulator.biological_process,
                         .effector = regulator.effector,
@@ -265,7 +273,7 @@ Partial Module CLI
                         .Regulog = regulator.regulog.name,
                         .species = genomeName,
                         .RegulonSites = motifSites,
-                        .Description = getDescription(hit.QueryName)
+                        .Description = description
                     }
 
                     Call matches.Add(map)
