@@ -108,7 +108,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
               Description:="A directory path that contains csv files that will be merge into one file directly.")>
     Public Function rbind(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out$ = args("/out") Or ([in].TrimSuffix & ".rbind.csv")
+        Dim out$ = args("/out") Or ([in].Split("*"c).First.TrimDIR & ".rbind.csv")
         Dim source$()
 
         If InStr([in], "*") > 0 Then
