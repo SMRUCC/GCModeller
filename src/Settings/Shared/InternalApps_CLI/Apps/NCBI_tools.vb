@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Assign.Taxonomy.From.Ref:      
 '  /Assign.Taxonomy.SSU:           
 '  /Associates.Brief:              
+'  /gbff.union:                    
 '  /gpff.fasta:                    
 '  /MapHits.list:                  
 '  /OTU.Taxonomy.Replace:          Using ``MapHits`` property
@@ -350,6 +351,25 @@ Public Function FilterExports([in] As String, tax As String, gi2taxid As String,
     Call CLI.Append("/tax " & """" & tax & """ ")
     Call CLI.Append("/gi2taxid " & """" & gi2taxid & """ ")
     Call CLI.Append("/words " & """" & words & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /gbff.union /in &lt;data.directory> [/out &lt;directory>]
+''' ```
+''' </summary>
+'''
+Public Function UnionGBK([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gbff.union")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

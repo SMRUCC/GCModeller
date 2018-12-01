@@ -920,7 +920,7 @@ End Function
 ''' Export the *.fna, *.faa, *.ptt file from the gbk file.
 ''' </summary>
 '''
-Public Function ExportPTTDb(gb As String, Optional out As String = "", Optional simple As Boolean = False, Optional batch As Boolean = False) As Integer
+Public Function ExportGenbank(gb As String, Optional out As String = "", Optional simple As Boolean = False, Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.gb")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")

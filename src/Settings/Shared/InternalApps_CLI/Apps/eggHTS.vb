@@ -382,7 +382,7 @@ End Function
 ''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
+Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

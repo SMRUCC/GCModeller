@@ -167,7 +167,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
+    <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/sbh /description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
     <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
     <Group(CLIGroups.RegulonTools)>
     <Argument("/allow.multiple", True, CLITypes.Boolean,
@@ -177,12 +177,21 @@ Partial Module CLI
         Dim in$ = args <= "/bbh"
         Dim repo$ = args <= "/regprecise"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.regprecise.regulators.csv"
+        Dim isSBH As Boolean = args("/sbh")
         Dim bbh As Dictionary(Of String, BBHIndex()) = [in] _
             .LoadCsv(Of BBHIndex) _
             .Where(Function(map)
+                       ' 删除hits not found的情况
+                       ' hits not found的时候，identities肯定是0
                        Return Not map.HitName.StringEmpty AndAlso BBHIndex.GetIdentities(map) > 0
                    End Function) _
-            .GroupBy(Function(map) map.QueryName) _
+            .GroupBy(Function(map)
+                         If isSBH Then
+                             Return map.HitName
+                         Else
+                             Return map.QueryName
+                         End If
+                     End Function) _
             .ToDictionary(Function(map) map.Key.Split(":"c).Last,
                           Function(g)
                               Return g.ToArray
@@ -206,7 +215,7 @@ Partial Module CLI
 
         Return (ls - l - r - "*.Xml" <= repo) _
             .Select(AddressOf LoadXml(Of BacteriaRegulome)) _
-            .RunMatches(bbh, getDescription, distinct:=Not allowMultiple) _
+            .RunMatches(bbh, getDescription, distinct:=Not allowMultiple, isSBH:=isSBH) _
             .SaveTo(out) _
             .CLICode
     End Function
@@ -215,10 +224,21 @@ Partial Module CLI
     Public Function RunMatches(genomes As IEnumerable(Of BacteriaRegulome),
                                bbh As Dictionary(Of String, BBHIndex()),
                                getDescription As Func(Of String, String),
-                               Optional distinct As Boolean = True) As RegPreciseRegulatorMatch()
+                               Optional distinct As Boolean = True,
+                               Optional isSBH As Boolean = False) As RegPreciseRegulatorMatch()
 
         Dim map As RegPreciseRegulatorMatch
         Dim matches As New List(Of RegPreciseRegulatorMatch)
+        Dim description$
+        Dim getQuery, getRegprecise As Func(Of BBHIndex, String)
+
+        If isSBH Then
+            getQuery = Function(hit) hit.QueryName
+            getRegprecise = Function(hit) hit.HitName
+        Else
+            getQuery = Function(hit) hit.HitName
+            getRegprecise = Function(hit) hit.QueryName
+        End If
 
         For Each genome As BacteriaRegulome In genomes
             Dim genomeName$ = genome.genome.name
@@ -245,18 +265,24 @@ Partial Module CLI
                     .ToArray
 
                 For Each hit As BBHIndex In bbh(regulator.locus_tag.name)
+                    If isSBH Then
+                        description = getDescription(hit.HitName)
+                    Else
+                        description = getDescription(hit.QueryName)
+                    End If
+
                     map = New RegPreciseRegulatorMatch With {
                         .biological_process = regulator.biological_process,
                         .effector = regulator.effector,
                         .Family = regulator.family,
                         .Identities = BBHIndex.GetIdentities(hit),
                         .mode = regulator.regulationMode,
-                        .Query = hit.HitName,
-                        .Regulator = hit.QueryName,
+                        .Query = getQuery(hit),
+                        .Regulator = getRegprecise(hit),
                         .Regulog = regulator.regulog.name,
                         .species = genomeName,
                         .RegulonSites = motifSites,
-                        .Description = getDescription(hit.QueryName)
+                        .Description = description
                     }
 
                     Call matches.Add(map)
