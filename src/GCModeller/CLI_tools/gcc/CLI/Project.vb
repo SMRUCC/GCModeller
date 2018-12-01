@@ -59,7 +59,7 @@ Partial Module CLI
     <ExportAPI("/summary")>
     <Usage("/summary <model.GCMarkup>")>
     Public Function Summary(args As CommandLine) As Integer
-        Call (vbCrLf & VirtualCell.Summary((args.Name).LoadXml(Of VirtualCell))).__INFO_ECHO
+        Call (vbCrLf & VirtualCell.Summary((args.Tokens(1)).LoadXml(Of VirtualCell))).__INFO_ECHO
         Return 0
     End Function
 
