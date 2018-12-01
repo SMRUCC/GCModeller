@@ -848,7 +848,7 @@ Partial Module CLI
                               Return q.Split("|"c) _
                                       .Take(2) _
                                       .JoinBy(":")
-                          End Function, hits:=hitsBase) _
+                          End Function, hitsExpression:=hitsBase) _
             .ToArray
         Dim output As MotifSiteMatch() = motifSites _
             .Select(Function(site)
