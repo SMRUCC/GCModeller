@@ -56,6 +56,13 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Partial Module CLI
 
+    <ExportAPI("/summary")>
+    <Usage("/summary <model.GCMarkup>")>
+    Public Function Summary(args As CommandLine) As Integer
+        Call Console.WriteLine(VirtualCell.Summary((args.Tokens(1)).LoadXml(Of VirtualCell)))
+        Return 0
+    End Function
+
     ''' <summary>
     ''' 这个函数只是将代谢网络数据给写入到模型之中？
     ''' 

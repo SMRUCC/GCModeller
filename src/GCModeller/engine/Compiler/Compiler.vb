@@ -231,7 +231,15 @@ Public Module Workflow
             If Not RNA Is Nothing Then
                 If RNA.KeyName = "tRNA" Then
                     rnaType = RNATypes.tRNA
-                    rnaData = tRNAAnticodon.Parse(RNA.Query("anticodon")).aa
+                    rnaData = RNA.Query("anticodon")
+
+                    If rnaData.StringEmpty Then
+                        ' 有些genbank注释里面没有/anticodon=数据
+                        ' 则只能从/product里面拿出对应的氨基酸信息了
+                        rnaData = RNA.Query("product").GetTagValue("-").Value
+                    Else
+                        rnaData = tRNAAnticodon.Parse(rnaData).aa
+                    End If
                 Else
                     rnaType = RNATypes.ribosomalRNA
                     rnaData = RNA.Query("product").Trim.Split().First

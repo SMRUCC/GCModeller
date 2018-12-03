@@ -75,7 +75,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/gbff.union")>
-    <Usage("/gbff.union /in <data.directory> [/out <directory>]")>
+    <Usage("/gbff.union /in <data.directory> [/out <output.union.gb>]")>
     Public Function UnionGBK(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.union.gb"

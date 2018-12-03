@@ -23,6 +23,21 @@ Namespace v2
         ''' </remarks>
         Public Property regulations As transcription()
 
+        Public Iterator Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
+            Dim source As IEnumerable(Of replicon)
+
+            If skipPlasmids Then
+                source = replicons.Where(Function(r) Not r.isPlasmid)
+            Else
+                source = replicons
+            End If
+
+            For Each replicon As replicon In source
+                For Each gene In replicon.genes
+                    Yield gene.locus_tag
+                Next
+            Next
+        End Function
     End Class
 
     ''' <summary>

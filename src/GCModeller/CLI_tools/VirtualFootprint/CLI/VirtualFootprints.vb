@@ -825,10 +825,21 @@ Partial Module CLI
 
     <ExportAPI("/scan.blastn.map.motifsite")>
     <Usage("/scan.blastn.map.motifsite /in <blastn.mapping.csv> [/hits.base <default=2> /out <motifsite.csv>]")>
+    <Argument("/hits.base", True, CLITypes.String,
+              AcceptTypes:={GetType(String), GetType(Integer)},
+              Description:="Quantile expression: ``quantile:[0,1]``")>
     Public Function ScanBlastnMapMotifSites(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim hitsBase% = args("/hits.base") Or 2
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.motif_sites={hitsBase}.csv"
+        Dim hitsBase$ = args("/hits.base") Or 2
+        Dim out$
+
+        If Not hitsBase.IsPattern("\d+") Then
+            ' 是quantile表达式
+            out = args("/out") Or $"{[in].TrimSuffix}.motif_sites={hitsBase.NormalizePathString}.csv"
+        Else
+            out = args("/out") Or $"{[in].TrimSuffix}.motif_sites={hitsBase}.csv"
+        End If
+
         Dim tree As NaiveBinaryTree(Of Location, BlastnMapping) = [in].OpenHandle.AsLinq(Of BlastnMapping).BuildTree
         Dim motifSites As NamedValue(Of NucleotideLocation)() = tree _
             .ExtractSites _
@@ -837,11 +848,13 @@ Partial Module CLI
                               Return q.Split("|"c) _
                                       .Take(2) _
                                       .JoinBy(":")
-                          End Function, hits:=hitsBase) _
+                          End Function, hitsExpression:=hitsBase) _
             .ToArray
         Dim output As MotifSiteMatch() = motifSites _
             .Select(Function(site)
-                        Dim targets As String() = site.Description.LoadJSON(Of String())
+                        Dim targets$() = site _
+                            .Description _
+                            .LoadJSON(Of String())
 
                         Return New MotifSiteMatch With {
                             .ID = site.Name,
