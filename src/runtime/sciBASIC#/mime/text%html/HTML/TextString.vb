@@ -102,7 +102,9 @@ Namespace HTML
                 ' 遇到了一个html标签的起始符号
                 If c = "<"c Then
                     ' 查看一下下一个字符是什么
-                    c = html.PeekNext
+                    ' 因为前面已经移动到下一个位置了
+                    ' 所以在这里直接读取current
+                    c = html.Current
 
                     If charsbuffer.Count > 0 Then
                         Yield New TextString With {
@@ -127,7 +129,7 @@ Namespace HTML
                         End Select
                     Else
                         ' 这个是一个html标记的开始
-                        Dim tag As HtmlElement = html.__nextTag(c)
+                        Dim tag As HtmlElement = html.__nextTag()
                         Dim tagName As String = tag.Name.ToLower
 
                         Select Case tagName
@@ -229,59 +231,84 @@ Namespace HTML
         End Function
 
         <Extension>
-        Private Function __nextTag(buffer As Pointer(Of Char), c As Char) As HtmlElement
-            Dim chars As New List(Of Char)
-            Dim tag As New HtmlElement With {
-                .Name = c & buffer.popTagName.CharString
-            }
+        Private Iterator Function popAttrName(buffer As Pointer(Of Char)) As IEnumerable(Of Char)
+            Dim nameBegin As Boolean = False
 
-            Dim name As String
-            Dim stacked As Boolean
+            Do While Not buffer.EndRead AndAlso buffer.Current <> "="c
+                If buffer.Current = " "c Then
+                    If nameBegin Then
+                        Do While Not buffer.EndRead AndAlso ++buffer <> "="c
+                        Loop
+
+                        Exit Do
+                    Else
+                        Call buffer.MoveNext()
+                    End If
+                Else
+                    nameBegin = True
+
+                    ' 取出当前的字符,直到遇到空格或者等号,即取完了当前的属性名称
+                    Yield ++buffer
+                End If
+            Loop
+        End Function
+
+        <Extension>
+        Private Sub SkipWhiteSpace(buffer As Pointer(Of Char))
+            If buffer.Current <> " "c Then
+                ' 已经不是空格了,则不需要下一步了
+                Return
+            End If
+
+            Do While Not buffer.EndRead AndAlso ++buffer <> " "c
+            Loop
+        End Sub
+
+        <Extension>
+        Private Iterator Function popAttrValue(buffer As Pointer(Of Char)) As IEnumerable(Of Char)
+            Dim quot As Char = buffer.Current
+
+            If quot <> "'"c AndAlso quot <> """"c Then
+                Throw New SyntaxErrorException("Invalid attribute value string!")
+            End If
+
+            Do While Not buffer.EndRead
+                ' 判断是否结束当前的字符串
+                If buffer.Current = quot Then
+                    ' 是的,结束当前的字符串
+                    Exit Do
+                Else
+                    Yield ++buffer
+                End If
+            Loop
+        End Function
+
+        <Extension>
+        Private Function __nextTag(buffer As Pointer(Of Char)) As HtmlElement
+            Dim name, value As String
+            Dim tag As New HtmlElement With {
+                .Name = buffer.popTagName.CharString
+            }
 
             Do While Not buffer.EndRead
                 If buffer.Current = ">"c Then
                     Exit Do
                 End If
 
-                Do While Not buffer.EndRead AndAlso buffer.Current <> "="c
-                    If buffer.Current = " "c Then
-                        If chars.Count > 0 Then
-                            Do While Not buffer.EndRead AndAlso ++buffer <> "="c
-                            Loop
-                            Exit Do   ' 在这里进行解析的是属性的名称，不允许有空格
-                        Else
-                            Call buffer.MoveNext()
-                        End If
-                    Else
-                        chars += +buffer
-                    End If
-                Loop
-                name = New String(chars.PopAll)
-                buffer.MoveNext()
+                ' 解析完标签之后,尝试解析出标签的属性
+                ' 在这里进行解析的是属性的名称，不允许有空格
+                name = buffer.popAttrName.CharString
 
-                Do While Not buffer.EndRead
-                    If buffer.Current = """"c Then
-                        If chars.Count = 0 AndAlso stacked = False Then
-                            stacked = True
-                            buffer.MoveNext()
-                        Else ' 这里是一个结束的标志，准备开始下一个token
-                            stacked = False
-                            buffer.MoveNext()
-                            Exit Do
-                        End If
-                    Else
-                        If buffer.Current = " "c Then
-                            If Not chars.Count = 0 Then
-                                chars += " "c
-                            End If
-                            buffer.MoveNext()
-                        Else
-                            chars += +buffer
-                        End If
-                    End If
-                Loop
+                Call buffer.MoveNext()
+                ' 字符串的起始可能是一串空格,跳过这些空格
+                Call buffer.SkipWhiteSpace
 
-                Call tag.Add(New ValueAttribute(name, New String(chars.PopAll)))
+                value = buffer.popAttrValue.CharString
+
+                tag(name) = New ValueAttribute With {
+                    .Name = name,
+                    .Value = value
+                }
             Loop
 
             Return tag

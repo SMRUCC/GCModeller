@@ -108,45 +108,46 @@ Namespace HTML
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Name As String
+
         ''' <summary>
         ''' 标签的属性列表
         ''' </summary>
         ''' <returns></returns>
         Public Property Attributes As ValueAttribute()
             Get
-                Return __attrs.Values.ToArray
+                Return attrs.Values.ToArray
             End Get
             Set(value As ValueAttribute())
                 If value.IsNullOrEmpty Then
-                    __attrs = New Dictionary(Of ValueAttribute)
+                    attrs = New Dictionary(Of ValueAttribute)
                 Else
-                    __attrs = value.ToDictionary
+                    attrs = value.ToDictionary
                 End If
             End Set
         End Property
 
         Public Property HtmlElements As InnerPlantText()
             Get
-                Return __elementNodes.ToArray
+                Return elementNodes.ToArray
             End Get
             Set(value As InnerPlantText())
                 If value.IsNullOrEmpty Then
-                    __elementNodes = New List(Of InnerPlantText)
+                    elementNodes = New List(Of InnerPlantText)
                 Else
-                    __elementNodes = value.AsList
+                    elementNodes = value.AsList
                 End If
             End Set
         End Property
 
         Default Public Property Attribute(name As String) As ValueAttribute
             Get
-                Return __attrs.TryGetValue(name)
+                Return attrs.TryGetValue(name)
             End Get
             Set(value As ValueAttribute)
-                If __attrs.ContainsKey(name) Then
-                    __attrs(name) = value
+                If attrs.ContainsKey(name) Then
+                    attrs(name) = value
                 Else
-                    Call __attrs.Add(name, value)
+                    Call attrs.Add(name, value)
                 End If
             End Set
         End Property
@@ -157,11 +158,14 @@ Namespace HTML
             End Get
         End Property
 
-        Dim __attrs As Dictionary(Of ValueAttribute)
-        Dim __elementNodes As New List(Of InnerPlantText)
+        Dim attrs As Dictionary(Of ValueAttribute)
+        ''' <summary>
+        ''' 当前的这个节点下面所拥有的子节点
+        ''' </summary>
+        Dim elementNodes As New List(Of InnerPlantText)
 
         Public Overrides Function GetPlantText() As String
-            Dim sbr As StringBuilder = New StringBuilder(Me.InnerText)
+            Dim sbr As New StringBuilder(Me.InnerText)
 
             If Not Me.HtmlElements Is Nothing Then
                 For Each node In HtmlElements
@@ -173,20 +177,20 @@ Namespace HTML
         End Function
 
         Public Sub Add(attr As ValueAttribute)
-            If __attrs Is Nothing Then
-                __attrs = New Dictionary(Of ValueAttribute)
+            If attrs Is Nothing Then
+                attrs = New Dictionary(Of ValueAttribute)
             End If
-            Call __attrs.Add(attr.Name, attr)
+            Call attrs.Add(attr.Name, attr)
         End Sub
 
         Public Sub Add(Node As InnerPlantText)
-            Call __elementNodes.Add(Node)
+            Call elementNodes.Add(Node)
         End Sub
 
         Public ReadOnly Property OnlyInnerText As Boolean
             Get
-                Return __elementNodes.Count = 1 AndAlso
-                __elementNodes(Scan0).IsPlantText
+                Return elementNodes.Count = 1 AndAlso
+                elementNodes(Scan0).IsPlantText
             End Get
         End Property
 
