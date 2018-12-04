@@ -51,7 +51,9 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace HTML
@@ -119,6 +121,20 @@ Namespace HTML
             End With
         End Function
 
+        <Extension>
+        Public Function GetFontColor(node As HtmlElement) As String
+            With node("style")
+                If .IsEmpty Then
+                    Return Nothing
+                Else
+                    Return CssParser.GetProperty(.Value) _
+                        .Where(Function(p) p.key = "color") _
+                        .FirstOrDefault _
+                        .value
+                End If
+            End With
+        End Function
+
         ' html -->  <font face="Microsoft YaHei" size="1.5"><strong>text</strong><b><i>value</i></b></font> 
         ' 解析上述的表达式会产生一个栈，根据html标记来赋值字符串的gdi+属性
 
@@ -135,7 +151,7 @@ Namespace HTML
             Dim currentStyle As New TextString With {
                 .font = defaultFont,
                 .weight = TextString.WeightStyles.normal,
-                .color = NameOf(Color.Black)
+                .color = Black
             }
 
             For Each part As TextString In htmlParser(buffer, currentStyle)
@@ -144,6 +160,8 @@ Namespace HTML
                 Yield part
             Next
         End Function
+
+        ReadOnly Black As DefaultValue(Of String) = NameOf(Color.Black)
 
         Private Iterator Function htmlParser(html As Pointer(Of Char), defaultStyle As TextString) As IEnumerable(Of TextString)
             Dim charsbuffer As New List(Of Char)
@@ -187,19 +205,24 @@ Namespace HTML
                         Dim tag As HtmlElement = html.__nextTag()
                         Dim tagName As String = tag.Name.ToLower
                         Dim localScopeStyle As Font = tag.GetCssFont
+                        Dim localFontColor$ = tag.GetFontColor Or currentStyle.color.AsDefault
 
                         styleStack.Push(currentStyle)
 
                         ' 没有在style之中定义字体样式
                         ' 则任然使用原来的字体样式
                         If localScopeStyle Is Nothing Then
-                            ' do nothing
+                            ' make a copy from previous stack
+                            ' to avoid class object modify
+                            currentStyle = New TextString(currentStyle)
                         Else
                             ' 更换新的字体样式
                             currentStyle = New TextString(currentStyle) With {
                                 .font = localScopeStyle
                             }
                         End If
+
+                        currentStyle.color = localFontColor
 
                         Select Case tagName
                             Case "font"
