@@ -90,6 +90,11 @@ Namespace HTML
             ''' </summary>
             [sub]
         End Enum
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(text As TextString) As String
+            Return text.text
+        End Operator
     End Class
 
     ''' <summary>

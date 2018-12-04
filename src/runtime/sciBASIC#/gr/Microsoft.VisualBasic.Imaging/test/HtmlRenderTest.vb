@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
 Public Module HtmlRenderTest
@@ -14,8 +15,9 @@ Public Module HtmlRenderTest
 
         Dim content = TextAPI.TryParse(testHTML).ToArray
 
-        Using g As IGraphics = New Size(500, 500).CreateGDIDevice
-
+        Using g As Graphics2D = New Size(500, 500).CreateGDIDevice
+            Call g.RenderHTML(content, New Point(20, 20))
+            Call g.Save("./test.png", ImageFormats.Png)
         End Using
 
         Pause()
