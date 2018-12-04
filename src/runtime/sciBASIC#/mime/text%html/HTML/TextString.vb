@@ -102,7 +102,7 @@ Namespace HTML
                 ' 遇到了一个html标签的起始符号
                 If c = "<"c Then
                     ' 查看一下下一个字符是什么
-                    c = ++html
+                    c = html.PeekNext
 
                     If charsbuffer.Count > 0 Then
                         Yield New TextString With {
