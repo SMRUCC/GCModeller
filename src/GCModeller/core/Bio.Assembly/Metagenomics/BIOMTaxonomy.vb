@@ -62,7 +62,7 @@ Namespace Metagenomics
         Public ReadOnly Property BIOMPrefix As String() = {"k__", "p__", "c__", "o__", "f__", "g__", "s__"}
 
         ''' <summary>
-        ''' 
+        ''' ``["superkingdom__", "phylum__", "class__", "order__", "family__", "genus__", "species__"]``
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
