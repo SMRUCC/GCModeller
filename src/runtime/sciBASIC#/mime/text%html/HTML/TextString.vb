@@ -58,15 +58,53 @@ Namespace HTML
 
     Public Class TextString
 
-        Public Property Font As Font
-        Public Property Text As String
+        Public Property font As Font
+        Public Property text As String
+        Public Property weight As WeightStyles
+        Public Property color As String
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As TextString)
+            font = copy.font.Clone
+            text = copy.text
+            weight = copy.weight
+            color = copy.color
+        End Sub
 
         Public Overrides Function ToString() As String
-            Return Text
+            Return text
         End Function
+
+        Public Enum WeightStyles As Integer
+            normal = 0
+            ''' <summary>
+            ''' 上标
+            ''' </summary>
+            [sup]
+            ''' <summary>
+            ''' 下标
+            ''' </summary>
+            [sub]
+        End Enum
     End Class
 
+    ''' <summary>
+    ''' 用于简单的HTML文档渲染
+    ''' </summary>
     Public Module TextAPI
+
+        <Extension>
+        Public Function GetCssFont(node As HtmlElement) As Font
+            With node("style")
+                If .IsEmpty Then
+                    Return Nothing
+                Else
+                    Dim css As CSSFont = CSSFont.TryParse(.Value)
+                End If
+            End With
+        End Function
 
         ' html -->  <font face="Microsoft YaHei" size="1.5"><strong>text</strong><b><i>value</i></b></font> 
         ' 解析上述的表达式会产生一个栈，根据html标记来赋值字符串的gdi+属性
@@ -81,20 +119,29 @@ Namespace HTML
         Public Iterator Function TryParse(html$, Optional defaultFontCSS$ = CSSFont.Win7Normal) As IEnumerable(Of TextString)
             Dim defaultFont As Font = CSSFont.TryParse(defaultFontCSS)
             Dim buffer As New Pointer(Of Char)(html.ToCharArray)
+            Dim currentStyle As New TextString With {
+                .font = defaultFont,
+                .weight = TextString.WeightStyles.normal,
+                .color = NameOf(Color.Black)
+            }
 
-            For Each part As TextString In htmlParser(buffer, defaultFont)
+            For Each part As TextString In htmlParser(buffer, currentStyle)
                 ' 在这里处理转义
-                part.Text = XmlEntity.UnescapeHTML(part.Text)
+                part.text = XmlEntity.UnescapeHTML(part.text)
                 Yield part
             Next
         End Function
 
-        Private Iterator Function htmlParser(html As Pointer(Of Char), defaultFont As Font) As IEnumerable(Of TextString)
+        Private Iterator Function htmlParser(html As Pointer(Of Char), defaultStyle As TextString) As IEnumerable(Of TextString)
             Dim charsbuffer As New List(Of Char)
             Dim c As Char
             Dim bold As Boolean = False
             Dim italic As Boolean = False
-            Dim currentFont As Font = defaultFont
+            Dim currentStyle As TextString = defaultStyle
+
+            ' 每遇到一个新的标签就进栈
+            ' 遇到结束标记则退栈
+            Dim styleStack As New Stack(Of TextString)
 
             Do While Not html.EndRead
                 c = ++html
@@ -108,14 +155,17 @@ Namespace HTML
 
                     If charsbuffer.Count > 0 Then
                         Yield New TextString With {
-                            .Font = currentFont,
-                            .Text = New String(charsbuffer.PopAll)
+                            .font = currentStyle.font,
+                            .text = New String(charsbuffer.PopAll),
+                            .color = currentStyle.color,
+                            .weight = currentStyle.weight
                         }
                     End If
 
                     ' 这个是一个结束的标记
+                    ' 退出当前的栈
                     If c = "/"c Then
-                        Dim tag As String = html.nextEndTag
+                        Dim tag As String = html.nextEndTag.CharString
 
                         Select Case tag.ToLower
                             Case "font"
@@ -156,8 +206,8 @@ Namespace HTML
 
             If charsbuffer.Count > 0 Then
                 Yield New TextString With {
-                    .Font = currentFont,
-                    .Text = New String(charsbuffer.PopAll)
+                    .font = currentFont,
+                    .text = New String(charsbuffer.PopAll)
                 }
             End If
         End Function
@@ -207,14 +257,13 @@ Namespace HTML
         End Function
 
         <Extension>
-        Private Function nextEndTag(buffer As Pointer(Of Char)) As String
-            Dim chars As New List(Of Char)
+        Private Iterator Function nextEndTag(buffer As Pointer(Of Char)) As IEnumerable(Of Char)
+            ' 跳过当前的/符号
+            Call buffer.MoveNext()
 
             Do While Not buffer.EndRead AndAlso buffer.Current <> ">"c
-                chars += (+buffer)
+                Yield ++buffer
             Loop
-
-            Return New String(chars)
         End Function
 
         ''' <summary>
