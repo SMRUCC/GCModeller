@@ -69,14 +69,14 @@ Namespace Drawing2D.Text
 
         <Extension>
         Private Function drawSub(g As IGraphics, text As TextString, ByRef topleft As Point) As SizeF
-            Dim font As New Font(text.font.Name, text.font.Size / 3)
+            Dim font As New Font(text.font.Name, text.font.Size / 2)
             Dim size As SizeF = g.MeasureString(text.text, font)
             Dim color As New SolidBrush(text.color.TranslateColor)
 
             g.DrawString(
                 text, font, color, New Point With {
                     .X = topleft.X,
-                    .Y = topleft.Y + size.Height * 2.5
+                    .Y = topleft.Y + size.Height
             })
             topleft = New Point With {
                 .X = topleft.X + size.Width,
@@ -88,14 +88,14 @@ Namespace Drawing2D.Text
 
         <Extension>
         Private Function drawSup(g As IGraphics, text As TextString, ByRef topleft As Point) As SizeF
-            Dim font As New Font(text.font.Name, text.font.Size / 3)
+            Dim font As New Font(text.font.Name, text.font.Size / 2)
             Dim size As SizeF = g.MeasureString(text.text, font)
             Dim color As New SolidBrush(text.color.TranslateColor)
 
             g.DrawString(
                 text, font, color, New Point With {
                     .X = topleft.X,
-                    .Y = topleft.Y - size.Height / 2
+                    .Y = topleft.Y
             })
             topleft = New Point With {
                 .X = topleft.X + size.Width,

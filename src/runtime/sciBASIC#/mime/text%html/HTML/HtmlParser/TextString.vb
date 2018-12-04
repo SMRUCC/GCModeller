@@ -49,6 +49,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -158,10 +159,14 @@ Namespace HTML
                 .weight = TextString.WeightStyles.normal,
                 .color = Black
             }
+            Dim blanks As New Regex("\s+")
 
             For Each part As TextString In htmlParser(buffer, currentStyle)
+                ' 忽略掉多余的空白
+                part.text = blanks.Replace(part.text, " ")
                 ' 在这里处理转义
                 part.text = XmlEntity.UnescapeHTML(part.text)
+
                 Yield part
             Next
         End Function
