@@ -101,7 +101,8 @@ Namespace HTML
 
                 ' 遇到了一个html标签的起始符号
                 If c = "<"c Then
-                    c = +html
+                    ' 查看一下下一个字符是什么
+                    c = ++html
 
                     If charsbuffer.Count > 0 Then
                         Yield New TextString With {
@@ -214,16 +215,25 @@ Namespace HTML
             Return New String(chars)
         End Function
 
+        ''' <summary>
+        ''' 当遇到空格或者>符号的时候, 说明得到了一个html标签
+        ''' </summary>
+        ''' <param name="buffer"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Private Iterator Function popTagName(buffer As Pointer(Of Char)) As IEnumerable(Of Char)
+            Do While Not buffer.EndRead AndAlso buffer.Current <> " "c AndAlso buffer.Current <> ">"c
+                Yield ++buffer
+            Loop
+        End Function
+
         <Extension>
         Private Function __nextTag(buffer As Pointer(Of Char), c As Char) As HtmlElement
-            Dim chars As New List(Of Char) From {c}
-            Dim tag As New HtmlElement
-
-            Do While Not buffer.EndRead AndAlso buffer.Current <> " "c AndAlso buffer.Current <> ">"c
-                chars += +buffer
-            Loop
-
-            tag.Name = New String(chars.PopAll)
+            Dim chars As New List(Of Char)
+            Dim tag As New HtmlElement With {
+                .Name = c & buffer.popTagName.CharString
+            }
 
             Dim name As String
             Dim stacked As Boolean
