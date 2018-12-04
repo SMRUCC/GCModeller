@@ -1,7 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
-Imports Microsoft.VisualBasic.Text
 
 Namespace Drawing2D.Text
 

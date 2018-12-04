@@ -51,6 +51,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Emit.Marshal
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -151,13 +152,18 @@ Namespace HTML
         ''' </summary>
         ''' <param name="html">假设所传递进入这个函数参数的html文本字符串都是完全正确的格式的</param>
         ''' <returns></returns>
-        Public Iterator Function TryParse(html$, Optional defaultFontCSS$ = CSSFont.Win7Normal) As IEnumerable(Of TextString)
-            Dim defaultFont As Font = CSSFont.TryParse(defaultFontCSS)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TryParse(html$, Optional defaultFont$ = CSSFont.Win7Normal, Optional defaultColor$ = NameOf(Color.Black)) As IEnumerable(Of TextString)
+            Return TryParse(html, CSSFont.TryParse(defaultFont), defaultColor.TranslateColor)
+        End Function
+
+        Public Iterator Function TryParse(html$, defaultFont As Font, defaultColor As Color) As IEnumerable(Of TextString)
             Dim buffer As New Pointer(Of Char)(html.ToCharArray)
             Dim currentStyle As New TextString With {
                 .font = defaultFont,
                 .weight = TextString.WeightStyles.normal,
-                .color = Black
+                .color = defaultColor.ToHtmlColor
             }
             Dim blanks As New Regex("\s+")
 
@@ -170,8 +176,6 @@ Namespace HTML
                 Yield part
             Next
         End Function
-
-        ReadOnly Black As DefaultValue(Of String) = NameOf(Color.Black)
 
         Private Iterator Function htmlParser(html As Pointer(Of Char), defaultStyle As TextString) As IEnumerable(Of TextString)
             Dim charsbuffer As New List(Of Char)
