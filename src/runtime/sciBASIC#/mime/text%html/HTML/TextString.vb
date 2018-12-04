@@ -235,8 +235,10 @@ Namespace HTML
                                 currentStyle.font = currentStyle.font.getLocalScopeFontStyle(bold, italic)
                             Case "br"
                                 charsbuffer += vbLf
-                            Case Else
-
+                            Case "sup"
+                                currentStyle.weight = TextString.WeightStyles.sup
+                            Case "sub"
+                                currentStyle.weight = TextString.WeightStyles.sub
                         End Select
                     End If
 
