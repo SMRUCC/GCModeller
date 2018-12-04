@@ -162,6 +162,7 @@ Namespace HTML
         Const FontFaceTag As String = "face"
         Const FontSizeTag As String = "size"
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function getLocalScopeFontStyle(font As Font, bold As Boolean, italic As Boolean) As Font
             Return New Font(font, getFontStyle(bold, italic))
@@ -214,12 +215,12 @@ Namespace HTML
         End Function
 
         <Extension>
-        Private Function __nextTag(str As Pointer(Of Char), c As Char) As HtmlElement
+        Private Function __nextTag(buffer As Pointer(Of Char), c As Char) As HtmlElement
             Dim chars As New List(Of Char) From {c}
             Dim tag As New HtmlElement
 
-            Do While Not str.EndRead AndAlso str.Current <> " "c AndAlso str.Current <> ">"c
-                chars += +str
+            Do While Not buffer.EndRead AndAlso buffer.Current <> " "c AndAlso buffer.Current <> ">"c
+                chars += +buffer
             Loop
 
             tag.Name = New String(chars.PopAll)
@@ -227,45 +228,45 @@ Namespace HTML
             Dim name As String
             Dim stacked As Boolean
 
-            Do While Not str.EndRead
-                If str.Current = ">"c Then
+            Do While Not buffer.EndRead
+                If buffer.Current = ">"c Then
                     Exit Do
                 End If
 
-                Do While Not str.EndRead AndAlso str.Current <> "="c
-                    If str.Current = " "c Then
+                Do While Not buffer.EndRead AndAlso buffer.Current <> "="c
+                    If buffer.Current = " "c Then
                         If chars.Count > 0 Then
-                            Do While Not str.EndRead AndAlso ++str <> "="c
+                            Do While Not buffer.EndRead AndAlso ++buffer <> "="c
                             Loop
                             Exit Do   ' 在这里进行解析的是属性的名称，不允许有空格
                         Else
-                            Call str.MoveNext()
+                            Call buffer.MoveNext()
                         End If
                     Else
-                        chars += +str
+                        chars += +buffer
                     End If
                 Loop
                 name = New String(chars.PopAll)
-                str.MoveNext()
+                buffer.MoveNext()
 
-                Do While Not str.EndRead
-                    If str.Current = """"c Then
+                Do While Not buffer.EndRead
+                    If buffer.Current = """"c Then
                         If chars.Count = 0 AndAlso stacked = False Then
                             stacked = True
-                            str.MoveNext()
+                            buffer.MoveNext()
                         Else ' 这里是一个结束的标志，准备开始下一个token
                             stacked = False
-                            str.MoveNext()
+                            buffer.MoveNext()
                             Exit Do
                         End If
                     Else
-                        If str.Current = " "c Then
+                        If buffer.Current = " "c Then
                             If Not chars.Count = 0 Then
                                 chars += " "c
                             End If
-                            str.MoveNext()
+                            buffer.MoveNext()
                         Else
-                            chars += +str
+                            chars += +buffer
                         End If
                     End If
                 Loop

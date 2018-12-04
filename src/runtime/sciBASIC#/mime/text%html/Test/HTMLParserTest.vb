@@ -1,4 +1,6 @@
-﻿Module HTMLParserTest
+﻿Imports Microsoft.VisualBasic.MIME.Markup.HTML
+
+Module HTMLParserTest
 
     ReadOnly testHTML$ =
         <div style='font-style: normal; font-size: 14; font-family: "Microsoft YaHei";'>
@@ -8,7 +10,8 @@
 
     Sub Main()
 
+        Dim content = TextAPI.TryParse(testHTML).ToArray
 
-
+        Pause()
     End Sub
 End Module
