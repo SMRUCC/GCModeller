@@ -186,7 +186,7 @@ Namespace HTML
                         ' 当前的字体样式需要圧栈
                         Dim tag As HtmlElement = html.__nextTag()
                         Dim tagName As String = tag.Name.ToLower
-                        Dim localScopeStyle As CSSFont = tag.GetCssFont
+                        Dim localScopeStyle As Font = tag.GetCssFont
 
                         styleStack.Push(currentStyle)
 
