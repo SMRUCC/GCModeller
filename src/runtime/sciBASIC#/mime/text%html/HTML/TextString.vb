@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::09f1a6775f814b7fbf7b71ef46fbc302, mime\text%html\HTML\TextString.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TextString
-    ' 
-    '         Properties: Font, Text
-    ' 
-    '         Function: ToString
-    ' 
-    '     Module TextAPI
-    ' 
-    '         Function: __getFontStyle, __nextEndTag, __nextTag, __setFont, __setFontStyle
-    '                   TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TextString
+' 
+'         Properties: Font, Text
+' 
+'         Function: ToString
+' 
+'     Module TextAPI
+' 
+'         Function: __getFontStyle, __nextEndTag, __nextTag, __setFont, __setFontStyle
+'                   TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace HTML
 
@@ -72,118 +73,119 @@ Namespace HTML
 
         ''' <summary>
         ''' 执行html栈空间解析
+        ''' 
+        ''' > 在这里假设所有的文本之中的``&lt;``符号已经被转义为``&amp;lt;``
         ''' </summary>
-        ''' <param name="html"></param>
+        ''' <param name="html">假设所传递进入这个函数参数的html文本字符串都是完全正确的格式的</param>
         ''' <returns></returns>
-        Public Function TryParse(html As String, Optional defaultFont As Font = Nothing) As TextString()
-            Dim chars As New List(Of Char)
-            Dim str As New Pointer(Of Char)(html.ToCharArray)
-            Dim tokens As New List(Of TextString)
+        Public Iterator Function TryParse(html$, Optional defaultFontCSS$ = CSSFont.Win7Normal) As IEnumerable(Of TextString)
+            Dim defaultFont As Font = CSSFont.TryParse(defaultFontCSS)
+            Dim buffer As New Pointer(Of Char)(html.ToCharArray)
 
-            If defaultFont Is Nothing Then
-                defaultFont = New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Regular)
-            End If
+            For Each part As TextString In htmlParser(buffer, defaultFont)
+                ' 在这里处理转义
+                part.Text = XmlEntity.UnescapeHTML(part.Text)
+                Yield part
+            Next
+        End Function
 
-            ' 在这里假设所有的文本之中的<符号已经被转义为&lt;
-
+        Private Iterator Function htmlParser(html As Pointer(Of Char), defaultFont As Font) As IEnumerable(Of TextString)
+            Dim charsbuffer As New List(Of Char)
             Dim c As Char
             Dim bold As Boolean = False
             Dim italic As Boolean = False
-            Dim curFont As Font = defaultFont
+            Dim currentFont As Font = defaultFont
 
-            Do While Not str.EndRead
-                c = +str
+            Do While Not html.EndRead
+                c = ++html
 
-                If c = "<"c Then  ' 遇到了一个html标签的起始符号
-                    c = +str
+                ' 遇到了一个html标签的起始符号
+                If c = "<"c Then
+                    c = +html
 
-                    If chars.Count > 0 Then
-                        tokens += New TextString With {
-                        .Font = curFont,
-                        .Text = New String(chars.PopAll)
-                    }
+                    If charsbuffer.Count > 0 Then
+                        Yield New TextString With {
+                            .Font = currentFont,
+                            .Text = New String(charsbuffer.PopAll)
+                        }
                     End If
 
-                    If c = "/"c Then  ' 这个是一个结束的标记
-                        Dim tag As String = str.__nextEndTag
+                    ' 这个是一个结束的标记
+                    If c = "/"c Then
+                        Dim tag As String = html.nextEndTag
 
                         Select Case tag.ToLower
                             Case "font"
-                                curFont = defaultFont
+                                currentFont = defaultFont
                             Case "b", "strong"
                                 bold = False
-                                curFont = curFont.__setFontStyle(bold, italic)
+                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
                             Case "i"
                                 italic = False
-                                curFont = curFont.__setFontStyle(bold, italic)
+                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
                         End Select
-                    Else ' 这个是一个html标记的开始
-                        Dim tag As HtmlElement = str.__nextTag(c)
+                    Else
+                        ' 这个是一个html标记的开始
+                        Dim tag As HtmlElement = html.__nextTag(c)
                         Dim tagName As String = tag.Name.ToLower
 
                         Select Case tagName
                             Case "font"
-                                curFont = tag.__setFont(bold, italic, defaultFont)
+                                currentFont = tag.setFont(bold, italic, defaultFont)
                             Case "strong", "b"
                                 bold = True
-                                curFont = curFont.__setFontStyle(bold, italic)
+                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
                             Case "i"
                                 italic = True
-                                curFont = curFont.__setFontStyle(bold, italic)
+                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
                             Case "br"
-                                chars += vbLf
+                                charsbuffer += vbLf
                             Case Else
 
                         End Select
                     End If
 
-                    str.MoveNext()
+                    html.MoveNext()
                 Else
-                    chars += c
+                    charsbuffer += c
                 End If
             Loop
 
-            If chars.Count > 0 Then
-                tokens += New TextString With {
-                .Font = curFont,
-                .Text = New String(chars.PopAll)
-            }
+            If charsbuffer.Count > 0 Then
+                Yield New TextString With {
+                    .Font = currentFont,
+                    .Text = New String(charsbuffer.PopAll)
+                }
             End If
-
-            ' 在这里处理转义
-            For Each x In tokens
-                x.Text = x.Text.Replace("&lt;", "<")
-            Next
-
-            Return tokens
         End Function
 
         Const FontFaceTag As String = "face"
         Const FontSizeTag As String = "size"
 
         <Extension>
-        Private Function __setFontStyle(font As Font, bold As Boolean, italic As Boolean) As Font
-            Return New Font(font, __getFontStyle(bold, italic))
+        Private Function getLocalScopeFontStyle(font As Font, bold As Boolean, italic As Boolean) As Font
+            Return New Font(font, getFontStyle(bold, italic))
         End Function
 
-        Private Function __getFontStyle(bold As Boolean, italic As Boolean) As FontStyle
+        Private Function getFontStyle(bold As Boolean, italic As Boolean) As FontStyle
             Dim style As FontStyle
 
-            If bold Then
-                style += FontStyle.Bold
-            End If
-            If italic Then
-                style += FontStyle.Italic
-            End If
             If Not bold AndAlso Not italic Then
                 style = FontStyle.Regular
+            Else
+                If bold Then
+                    style += FontStyle.Bold
+                End If
+                If italic Then
+                    style += FontStyle.Italic
+                End If
             End If
 
             Return style
         End Function
 
         <Extension>
-        Private Function __setFont(font As HtmlElement, bold As Boolean, italic As Boolean, [default] As Font) As Font
+        Private Function setFont(font As HtmlElement, bold As Boolean, italic As Boolean, [default] As Font) As Font
             Dim name As String = font(FontFaceTag).Value
             Dim size As String = font(FontSizeTag).Value
 
@@ -194,18 +196,18 @@ Namespace HTML
                 size = [default].Size
             End If
 
-            Dim style As FontStyle = __getFontStyle(bold, italic)
+            Dim style As FontStyle = getFontStyle(bold, italic)
             Dim sz As Single = Scripting.CTypeDynamic(Of Single)(size)
 
             Return New Font(name, sz, style)
         End Function
 
         <Extension>
-        Private Function __nextEndTag(str As Pointer(Of Char)) As String
+        Private Function nextEndTag(buffer As Pointer(Of Char)) As String
             Dim chars As New List(Of Char)
 
-            Do While Not str.EndRead AndAlso str.Current <> ">"c
-                chars += (+str)
+            Do While Not buffer.EndRead AndAlso buffer.Current <> ">"c
+                chars += (+buffer)
             Loop
 
             Return New String(chars)

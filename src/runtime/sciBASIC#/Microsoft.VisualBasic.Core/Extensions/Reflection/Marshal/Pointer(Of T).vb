@@ -214,6 +214,11 @@ Namespace Emit.Marshal
         '    Return p(offset)
         'End Operator
 
+        ''' <summary>
+        ''' 获取得到当前的元素
+        ''' </summary>
+        ''' <param name="p"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Narrowing Operator CType(p As Pointer(Of T)) As T
             Return p.Current
