@@ -95,13 +95,26 @@ Namespace HTML
     ''' </summary>
     Public Module TextAPI
 
-        <Extension>
-        Public Function GetCssFont(node As HtmlElement) As Font
+        ''' <summary>
+        ''' 从当前的这个html节点之中的style属性获取得到字体样式的定义数据
+        ''' </summary>
+        ''' <param name="node"></param>
+        ''' <returns></returns>
+        <Extension> Public Function GetCssFont(node As HtmlElement) As Font
             With node("style")
                 If .IsEmpty Then
                     Return Nothing
                 Else
-                    Dim css As CSSFont = CSSFont.TryParse(.Value)
+                    Dim hasValue As Boolean = False
+                    Dim css As CSSFont = CSSFont.TryParse(.Value, hasValue:=hasValue)
+
+                    ' 因为解析函数无论是否存在数据都会返回一个cssfont实例
+                    ' 所以会需要借助这个hasValue变量来判断
+                    If hasValue Then
+                        Return css
+                    Else
+                        Return Nothing
+                    End If
                 End If
             End With
         End Function
@@ -165,32 +178,38 @@ Namespace HTML
                     ' 这个是一个结束的标记
                     ' 退出当前的栈
                     If c = "/"c Then
+                        ' 需要调用下面的方法在html指针上产生位移
                         Dim tag As String = html.nextEndTag.CharString
-
-                        Select Case tag.ToLower
-                            Case "font"
-                                currentFont = defaultFont
-                            Case "b", "strong"
-                                bold = False
-                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
-                            Case "i"
-                                italic = False
-                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
-                        End Select
+                        currentStyle = styleStack.Pop()
                     Else
                         ' 这个是一个html标记的开始
+                        ' 当前的字体样式需要圧栈
                         Dim tag As HtmlElement = html.__nextTag()
                         Dim tagName As String = tag.Name.ToLower
+                        Dim localScopeStyle As CSSFont = tag.GetCssFont
+
+                        styleStack.Push(currentStyle)
+
+                        ' 没有在style之中定义字体样式
+                        ' 则任然使用原来的字体样式
+                        If localScopeStyle Is Nothing Then
+                            ' do nothing
+                        Else
+                            ' 更换新的字体样式
+                            currentStyle = New TextString(currentStyle) With {
+                                .font = localScopeStyle
+                            }
+                        End If
 
                         Select Case tagName
                             Case "font"
-                                currentFont = tag.setFont(bold, italic, defaultFont)
+                               ' currentFont = tag.setFont(bold, italic, defaultFont)
                             Case "strong", "b"
                                 bold = True
-                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
+                                currentStyle.font = currentStyle.font.getLocalScopeFontStyle(bold, italic)
                             Case "i"
                                 italic = True
-                                currentFont = currentFont.getLocalScopeFontStyle(bold, italic)
+                                currentStyle.font = currentStyle.font.getLocalScopeFontStyle(bold, italic)
                             Case "br"
                                 charsbuffer += vbLf
                             Case Else
@@ -206,8 +225,10 @@ Namespace HTML
 
             If charsbuffer.Count > 0 Then
                 Yield New TextString With {
-                    .font = currentFont,
-                    .text = New String(charsbuffer.PopAll)
+                    .font = currentStyle.font,
+                    .text = New String(charsbuffer.PopAll),
+                    .color = currentStyle.color,
+                    .weight = currentStyle.weight
                 }
             End If
         End Function
