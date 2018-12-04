@@ -158,7 +158,7 @@ Namespace HTML
             End Get
         End Property
 
-        Dim attrs As Dictionary(Of ValueAttribute)
+        Dim attrs As New Dictionary(Of ValueAttribute)
         ''' <summary>
         ''' 当前的这个节点下面所拥有的子节点
         ''' </summary>
@@ -177,9 +177,6 @@ Namespace HTML
         End Function
 
         Public Sub Add(attr As ValueAttribute)
-            If attrs Is Nothing Then
-                attrs = New Dictionary(Of ValueAttribute)
-            End If
             Call attrs.Add(attr.Name, attr)
         End Sub
 

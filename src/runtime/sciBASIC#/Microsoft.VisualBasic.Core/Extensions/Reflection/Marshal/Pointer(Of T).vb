@@ -213,7 +213,7 @@ Namespace Emit.Marshal
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"* {GetType(T).Name} + {index} --> {Current}  // {Scan0.ToString}"
+            Return $"*{GetType(T).Name}: ({index}) {Current}"
         End Function
 
         '''' <summary>

@@ -266,7 +266,7 @@ Namespace HTML
 
         <Extension>
         Private Iterator Function popAttrValue(buffer As Pointer(Of Char)) As IEnumerable(Of Char)
-            Dim quot As Char = buffer.Current
+            Dim quot As Char = ++buffer
 
             If quot <> "'"c AndAlso quot <> """"c Then
                 Throw New SyntaxErrorException("Invalid attribute value string!")
@@ -276,6 +276,8 @@ Namespace HTML
                 ' 判断是否结束当前的字符串
                 If buffer.Current = quot Then
                     ' 是的,结束当前的字符串
+                    ' 在结束前需要跳过当前的quot,否则后面会出错
+                    quot = ++buffer
                     Exit Do
                 Else
                     Yield ++buffer
