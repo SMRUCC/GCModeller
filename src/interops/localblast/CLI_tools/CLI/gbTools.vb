@@ -262,7 +262,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.gb",
                Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
-               Usage:="/Export.gb /gb <genbank.gb/DIR> [/out <outDIR> /simple /batch]")>
+               Usage:="/Export.gb /gb <genbank.gb/DIR> [/flat /out <outDIR> /simple /batch]")>
     <Argument("/simple", True, AcceptTypes:={GetType(Boolean)},
                    Description:="Fasta sequence short title, which is just only contains locus_tag")>
     <Group(CLIGrouping.GenbankTools)>
@@ -270,6 +270,7 @@ Partial Module CLI
         Dim gb As String = args("/gb")
         Dim batch As Boolean = args("/batch")
         Dim simple As Boolean = args("/simple")
+        Dim flat As Boolean = args("/flat")
 
         If batch Then
             Dim EXPORT As String = args("/out") Or $"{gb.TrimDIR}.EXPORT"
@@ -278,21 +279,30 @@ Partial Module CLI
                 Dim out As String = file.TrimSuffix
 
                 For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
-                    Call x.exportTo(out, simple)
+                    Call x.exportTo(out, simple, flat)
                 Next
             Next
         Else
             Dim out As String = args("/out") Or args("/gb").TrimSuffix
 
             For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-                Call x.exportTo(out, simple)
+                Call x.exportTo(out, simple, flat)
             Next
         End If
 
         Return 0
     End Function
 
-    <Extension> Private Sub exportTo(gb As GBFF.File, out As String, simple As Boolean)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="out$"></param>
+    ''' <param name="simple"></param>
+    ''' <param name="flat">
+    ''' 如果为true，则所有的结果都会在一个文件夹之中
+    ''' </param>
+    <Extension> Private Sub exportTo(gb As GBFF.File, out$, simple As Boolean, flat As Boolean)
         Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaSeq = gb.Origin.ToFasta
@@ -308,7 +318,10 @@ Partial Module CLI
 
         ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
         name = name.NormalizePathString(False).Replace(" ", "_")
-        out = out & "/" & gb.Locus.AccessionID
+
+        If Not flat Then
+            out = out & "/" & gb.Locus.AccessionID
+        End If
 
         Call PTT.Save(out & $"/{name}.ptt")
         Call Fna.SaveTo(out & $"/{name}.fna")

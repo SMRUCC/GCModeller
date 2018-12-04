@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
+Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.FBA.Core
@@ -67,6 +68,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
         Try
             Dim template As String = App.HOME & "/Templates/rFBA.ModifierTemplates.Csv"
+
             If Not template.FileExists Then
                 Dim modifyTemplates As Modifier() = {
                     New Modifier With {.locus = "Gene LocusId 1", .modify = 0, .Comments = "Deletion mutation"},
@@ -83,8 +85,46 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         End Try
     End Sub
 
+    Private Function getIDlist(term As String) As String()
+        If term.FileExists AndAlso term.FileLength > 0 Then
+            Return term.ReadAllLines
+        Else
+            Return term.Split(","c)
+        End If
+    End Function
+
+    <ExportAPI("/disruptions")>
+    <Usage("/disruptions /model <virtualcell.gcmarkup> [/parallel <num_threads, default=1> /out <output.directory>]")>
+    Public Function SingleGeneDisruptions(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim parallel% = args("/parallel") Or 1
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
+        Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
+        Dim genes$() = model.MetabolismStructure _
+            .Enzymes _
+            .Select(Function(enz) enz.geneID) _
+            .ToArray
+        Dim raw$ = out & "/raw/"
+
+        Call genes.BatchTask(
+            getTask:=Function(locus_tag)
+                         Return Apps.FBA.SolveGCMarkup(
+                             model:=[in],
+                             mute:=locus_tag,
+                             out:=raw & $"/{locus_tag}.txt",
+                             trim:=True
+                         )
+                     End Function,
+            numThreads:=parallel
+        )
+
+        ' 将计算结果合并为一个表达矩阵文件
+
+        Return 0
+    End Function
+
     <ExportAPI("/solve.gcmarkup")>
-    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt> /trim /objective <flux_names.txt> /out <out.txt>]")>
+    <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt/list> /trim /objective <flux_names.txt> /out <out.txt>]")>
     <Argument("/objective", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
@@ -93,12 +133,18 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
               AcceptTypes:={GetType(Boolean)},
               Description:="Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
               virtual cell model? By default is retain these reactions.")>
+    <Argument("/mute", True, CLITypes.String,
+              AcceptTypes:={GetType(String())},
+              Description:="+ If this parameter is a file path, then locus_tag should be one tag per line in the text file;
+              + And this parameter is also can be a id list, which the id should seperated by comma symbol, format like: ``id1,id2,id3``.")>
     Public Function SolveGCMarkup(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim mute$ = args <= "/mute"
         Dim out$ = args("/out") Or Function() As String
-                                       If mute.FileLength > 0 Then
+                                       If mute.FileExists Then
                                            Return $"{[in].TrimSuffix}.FBA,mute={mute.BaseName}.txt"
+                                       ElseIf mute.Length > 0 Then
+                                           Return $"{[in].TrimSuffix}.FBA,mute={mute}.txt"
                                        Else
                                            Return $"{[in].TrimSuffix}.FBA.txt"
                                        End If
@@ -112,13 +158,17 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
               vbCrLf &
               VirtualCell.Summary(model)).__INFO_ECHO
 
-        If mute.FileLength > 0 Then
-            Call $"Apply delete mutation with profile: {mute}".__DEBUG_ECHO
-            model = model.DeleteMutation(mute.ReadAllLines)
-            Call (vbCrLf &
-                  vbCrLf &
-                  VirtualCell.Summary(model)).__INFO_ECHO
-        End If
+        With getIDlist(term:=mute)
+            If .Length > 0 Then
+                model = model.DeleteMutation(.ByRef)
+
+                Call $"Apply delete mutation with profile: {mute}".__DEBUG_ECHO
+                Call (vbCrLf &
+                      vbCrLf &
+                      VirtualCell.Summary(model)).__INFO_ECHO
+            End If
+        End With
+
         If trim Then
             Call "Trim model...".__DEBUG_ECHO
             model = model.Trim

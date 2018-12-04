@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
@@ -49,18 +50,30 @@ Namespace v2
         ''' <returns></returns>
         Public Shared Function Summary(model As VirtualCell) As String
             Dim sb As New StringBuilder
+            Dim type$
 
             Call sb.AppendLine(model.taxonomy.ToString)
             Call sb.AppendLine()
-            Call sb.AppendLine("genome:")
+            Call sb.AppendLine("genomes:")
 
             For Each replicon In model.genome.replicons
-                Call sb.AppendLine($" [{replicon.genomeName}] {replicon.genes.Length}")
+                type = If(replicon.isPlasmid, "plasmid", "chromosome")
+                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.Length} genes")
             Next
 
             Call sb.AppendLine()
             Call sb.AppendLine($"transcript regulations: {model.genome.regulations.Length}")
+            For Each family As NamedValue(Of Integer) In model.genome.regulations _
+                .GroupBy(Function(r) r.motif.family) _
+                .Select(Function(g)
+                            Return New NamedValue(Of Integer)(g.Key, g.Count)
+                        End Function) _
+                .OrderByDescending(Function(g) g.Value)
 
+                Call sb.AppendLine($"  {family.Name}: {family.Value}")
+            Next
+
+            Call sb.AppendLine()
             Call sb.AppendLine("metabolism structure:")
             Call sb.AppendLine($"  enzymes: {model.MetabolismStructure.Enzymes.Length}")
             Call sb.AppendLine($"  reactions:")

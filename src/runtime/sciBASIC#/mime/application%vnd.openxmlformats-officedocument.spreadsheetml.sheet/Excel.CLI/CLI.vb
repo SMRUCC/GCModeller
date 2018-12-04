@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::a01a728df32fa57c55ec7efe4a995379, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Association, cbind, Extract, newEmpty, Print
-    '               PushTable, rbind, rbindGroup
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Association, cbind, Extract, newEmpty, Print
+'               PushTable, rbind, rbindGroup
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -108,9 +108,22 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
               Description:="A directory path that contains csv files that will be merge into one file directly.")>
     Public Function rbind(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out$ = args("/out") Or ([in].TrimSuffix & ".rbind.csv")
+        Dim out$ = args("/out") Or ([in].Split("*"c).First.TrimDIR & ".rbind.csv")
+        Dim source$()
 
-        Return (ls - l - r - "*.csv" <= [in]) _
+        If InStr([in], "*") > 0 Then
+            Dim t$() = [in].Split("*"c)
+            Dim dir$ = t(Scan0)
+            Dim file$ = t(1)
+
+            source = dir.ListDirectory() _
+                .Select(Function(folder) $"{folder}/{file}") _
+                .ToArray
+        Else
+            source = (ls - l - r - "*.csv" <= [in]).ToArray
+        End If
+
+        Return source _
             .DirectAppends(EXPORT:=out) _
             .CLICode
     End Function
@@ -138,7 +151,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
     <Usage("/push /write <*.xlsx> /table <*.csv> [/sheetName <name_string> /saveAs <*.xlsx>]")>
     <Description("Write target csv table its content data as a worksheet into the target Excel package.")>
     <Argument("/sheetName", True, CLITypes.String, PipelineTypes.std_in,
-              Description:="The new sheet table name, if this argument is not presented, then the program will using the file basename as the sheet table name. If the sheet table name is exists in current xlsx file, then the exists table value will be updated, otherwise will add new table.")>
+              Description:="The New sheet table name, if this argument Is Not presented, then the program will using the file basename as the sheet table name. If the sheet table name Is exists in current xlsx file, then the exists table value will be updated, otherwise will add New table.")>
     Public Function PushTable(args As CommandLine) As Integer
         With args <= "/write"
 
@@ -157,7 +170,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
     <Usage("/Create /target <xlsx>")>
     <Description("Create an empty Excel xlsx package file on a specific file path")>
     <Argument("/Create", False, CLITypes.File,
-              Description:="The file path for save this new created Excel xlsx package.")>
+              Description:="The file path for save this New created Excel xlsx package.")>
     Public Function newEmpty(args As CommandLine) As Integer
         Return "" _
             .SaveTo(args <= "/target", Encodings.ASCII) _
@@ -166,11 +179,11 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
     <ExportAPI("/Extract")>
     <Usage("/Extract /open <xlsx> [/sheetName <name_string, default=*> /out <out.csv/directory>]")>
-    <Description("Open target excel file and get target table and save into a csv file.")>
+    <Description("Open target excel file And get target table And save into a csv file.")>
     <Argument("/open", False, CLITypes.File,
-              Description:="File path of the Excel ``*.xlsx`` file for open and read.")>
+              Description:="File path of the Excel ``*.xlsx`` file for open And read.")>
     <Argument("/sheetName", True, CLITypes.String,
-              Description:="The worksheet table name for read data and save as csv file. 
+              Description:="The worksheet table name for read data And save as csv file. 
               If this argument value is equals to ``*``, then all of the tables in the target xlsx excel file will be extract.")>
     <Argument("/out", True, CLITypes.File,
               Description:="The csv output file path or a directory path value when the ``/sheetName`` parameter is value ``*``.")>

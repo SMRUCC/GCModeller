@@ -25,7 +25,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /Analysis.Phenotype:         
-'  /Export:                     
 '  /Flux.Coefficient:           
 '  /Flux.KEGG.Filter:           
 '  /Func.Coefficient:           
@@ -41,8 +40,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /phenos.out.MAT:             1. Merge flux.csv result as a Matrix, for the calculation of the coefficient
 '                               of the genes with the metabolism flux.
 '  /Solve:                      solve a FBA model from a specific (SBML) model file.
+'  /solve.gcmarkup:             
 '  /Solver.KEGG:                
 '  /Solver.rFBA:                
+'  /visual.kegg.pathways:       
 '  compile:                     Compile data source into a model file so that the fba program can using
 '                               the data to performing the simulation calculation.
 ' 
@@ -101,23 +102,6 @@ Public Function rFBABatch([in] As String, reg As String, obj As String, Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' export -i &lt;fba_model> -o &lt;r_script>
-''' ```
-''' </summary>
-'''
-Public Function Export(i As String, o As String) As Integer
-    Dim CLI As New StringBuilder("export")
-    Call CLI.Append(" ")
-    Call CLI.Append("-i " & """" & i & """ ")
-    Call CLI.Append("-o " & """" & o & """ ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -405,6 +389,34 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /solve.gcmarkup /model &lt;model.GCMarkup> [/mute &lt;locus_tags.txt/list> /trim /objective &lt;flux_names.txt> /out &lt;out.txt>]
+''' ```
+''' </summary>
+'''
+Public Function SolveGCMarkup(model As String, Optional mute As String = "", Optional objective As String = "", Optional out As String = "", Optional trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/solve.gcmarkup")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    If Not mute.StringEmpty Then
+            Call CLI.Append("/mute " & """" & mute & """ ")
+    End If
+    If Not objective.StringEmpty Then
+            Call CLI.Append("/objective " & """" & objective & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If trim Then
+        Call CLI.Append("/trim ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Solver.KEGG /in &lt;model.xml> /objs &lt;locus.txt> [/out &lt;outDIR>]
 ''' ```
 ''' </summary>
@@ -449,6 +461,32 @@ Public Function AnalysisPhenotype([in] As String, reg As String, obj As String, 
     End If
     If Not modify.StringEmpty Then
             Call CLI.Append("/modify " & """" & modify & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /visual.kegg.pathways /model &lt;virtualCell.GCMarkup> /maps &lt;kegg_maps.repo.directory> [/gene &lt;default=red> /plasmid.highlight &lt;default=blue> /out &lt;directory>]
+''' ```
+''' </summary>
+'''
+Public Function VisualKEGGPathways(model As String, maps As String, Optional gene As String = "red", Optional plasmid_highlight As String = "blue", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/visual.kegg.pathways")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not gene.StringEmpty Then
+            Call CLI.Append("/gene " & """" & gene & """ ")
+    End If
+    If Not plasmid_highlight.StringEmpty Then
+            Call CLI.Append("/plasmid.highlight " & """" & plasmid_highlight & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")

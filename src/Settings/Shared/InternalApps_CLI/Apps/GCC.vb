@@ -25,13 +25,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /compile.KEGG:           Create GCModeller virtual cell data model file.
-'  /export.model.graph:     Export cellular module network from virtual cell model file for cytoscape
-'                           visualization.
-'  -add_replacement:        
-'  -add_rule:               
-'  compile_metacyc:         compile a metacyc database into a gcml(genetic clock markup language) model
-'                           file.
+'  /compile.KEGG:                   Create GCModeller virtual cell data model file.
+'  /export.model.graph:             Export cellular module network from virtual cell model file for
+'                                   cytoscape visualization.
+'  /export.model.pathway_graph:     
+'  -add_replacement:                
+'  -add_rule:                       
+'  compile_metacyc:                 compile a metacyc database into a gcml(genetic clock markup language)
+'                                   model file.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -99,6 +100,31 @@ Public Function ExportModelGraph(model As String, Optional pathway As String = "
     If Not pathway.StringEmpty Then
             Call CLI.Append("/pathway " & """" & pathway & """ ")
     End If
+    If Not degree.StringEmpty Then
+            Call CLI.Append("/degree " & """" & degree & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If disable_trim Then
+        Call CLI.Append("/disable.trim ")
+    End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /export.model.pathway_graph /model &lt;GCMarkup.xml/table.xlsx> [/disable.trim /degree &lt;default=1> /out &lt;out.dir>]
+''' ```
+''' </summary>
+'''
+Public Function ExportPathwaysNetwork(model As String, Optional degree As String = "1", Optional out As String = "", Optional disable_trim As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/export.model.pathway_graph")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
     If Not degree.StringEmpty Then
             Call CLI.Append("/degree " & """" & degree & """ ")
     End If
