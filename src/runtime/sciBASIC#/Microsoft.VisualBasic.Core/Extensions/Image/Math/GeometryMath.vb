@@ -317,22 +317,22 @@ Namespace Imaging.Math2D
         ''' <param name="p"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function QuadrantRegion(origin As PointF, p As PointF) As QuadrantRegions
+        Public Function QuadrantRegion(origin As PointF, p As PointF, Optional d! = 5) As QuadrantRegions
             If p.X > origin.X AndAlso p.Y < origin.Y Then
                 Return QuadrantRegions.RightTop
-            ElseIf p.X = origin.X AndAlso p.Y < origin.Y Then
+            ElseIf Math.Abs(p.X - origin.X) <= d AndAlso p.Y < origin.Y Then
                 Return QuadrantRegions.YTop
             ElseIf p.X < origin.X AndAlso p.Y < origin.Y Then
                 Return QuadrantRegions.LeftTop
-            ElseIf p.X < origin.X AndAlso p.Y = origin.Y Then
+            ElseIf p.X < origin.X AndAlso Math.Abs(p.Y - origin.Y) <= d Then
                 Return QuadrantRegions.XLeft
             ElseIf p.X < origin.X AndAlso p.Y > origin.Y Then
                 Return QuadrantRegions.LeftBottom
-            ElseIf p.X = origin.X AndAlso p.Y > origin.Y Then
+            ElseIf Math.Abs(p.X - origin.X) <= d AndAlso p.Y > origin.Y Then
                 Return QuadrantRegions.YBottom
             ElseIf p.X > origin.X AndAlso p.Y > origin.Y Then
                 Return QuadrantRegions.RightBottom
-            ElseIf p.X > origin.X AndAlso p.Y = origin.Y Then
+            ElseIf p.X > origin.X AndAlso Math.Abs(p.Y - origin.Y) <= d Then
                 Return QuadrantRegions.XRight
             Else
                 Return QuadrantRegions.Origin
