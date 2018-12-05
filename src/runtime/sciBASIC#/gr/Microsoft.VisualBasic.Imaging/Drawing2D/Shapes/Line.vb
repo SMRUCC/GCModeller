@@ -179,8 +179,8 @@ Namespace Drawing2D.Shapes
             Dim dx = d * Cos
             Dim dy = d * Sin
             Dim newA As New PointF With {
-                .X = A.X + dx,
-                .Y = A.Y + dy
+                .X = A.X - dx,
+                .Y = A.Y - dy
             }
 
             Return CopyStyle(newA, B)
