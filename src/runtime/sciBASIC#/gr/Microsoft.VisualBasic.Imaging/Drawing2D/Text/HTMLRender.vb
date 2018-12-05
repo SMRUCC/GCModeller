@@ -35,10 +35,14 @@ Namespace Drawing2D.Text
 
                         ' n等于零,则不变
                         If n = 1 Then
-                            dW = g.MeasureString(lines(Scan0), font).Width
+                            With g.MeasureString(lines(Scan0), font)
+                                dW = .Width
+                                dh = .Height
+                            End With
+
                             size = New Size With {
                                 .Width = size.Width + dW,
-                                .Height = size.Height
+                                .Height = {size.Height, dh}.Max
                             }
                         ElseIf n > 1 Then
                             dh = g.MeasureString(lines(Scan0), font).Height
