@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Scripting
 Imports SMRUCC.WebCloud.GIS.MaxMind.geolite2
 
 Namespace MaxMind
@@ -61,7 +62,7 @@ Namespace MaxMind
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function ImportsGeoLite2CountryBlocksIPv4(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsGeoLite2CountryBlocksIPv4(mysql As MySqli, df As String) As Boolean
             Dim data As geolite2_country_blocks_ipv4() = df.LoadCsv(Of geolite2_country_blocks_ipv4)
             Dim SQL As New Value(Of String)
 
@@ -89,22 +90,22 @@ Namespace MaxMind
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function ImportsGeoLite2CountryBlocksIPv6(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsGeoLite2CountryBlocksIPv6(mysql As MySqli, df As String) As Boolean
             Return mysql.ImportsLargeBlock(Of geolite2_country_blocks_ipv6)(df)
         End Function
 
         <Extension>
-        Public Function ImportsGeoLite2CityBlocksIPv6(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsGeoLite2CityBlocksIPv6(mysql As MySqli, df As String) As Boolean
             Return mysql.ImportsLargeBlock(Of geolite2_city_blocks_ipv6)(df)
         End Function
 
         <Extension>
-        Public Function ImportsGeoLite2CityBlocksIPv4(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsGeoLite2CityBlocksIPv4(mysql As MySqli, df As String) As Boolean
             Return mysql.ImportsLargeBlock(Of geolite2_city_blocks_ipv4)(df)
         End Function
 
         <Extension>
-        Public Function ImportsLargeBlock(Of T As MySQLTable)(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsLargeBlock(Of T As MySQLTable)(mysql As MySqli, df As String) As Boolean
             Dim SQL As New Value(Of String)
 
             Using reader As New DataStream(df,, 1024 * 1024 * 10)
@@ -120,7 +121,7 @@ Namespace MaxMind
         End Function
 
         <Extension>
-        Public Function ImportsGeoLite2CountryLocations(mysql As MySQL, DIR As String, Optional locale As String = Nothing) As Boolean
+        Public Function ImportsGeoLite2CountryLocations(mysql As MySqli, DIR As String, Optional locale As String = Nothing) As Boolean
             Dim files As IEnumerable(Of String) =
                 If(Not String.IsNullOrEmpty(locale), {
                     $"{DIR}/GeoLite2-Country-Locations-{locale}.csv"
@@ -131,7 +132,7 @@ Namespace MaxMind
         End Function
 
         <Extension>
-        Public Function ImportsGeoLite2CityLocations(mysql As MySQL, DIR As String, Optional locale As String = Nothing) As Boolean
+        Public Function ImportsGeoLite2CityLocations(mysql As MySqli, DIR As String, Optional locale As String = Nothing) As Boolean
             Dim files As IEnumerable(Of String) =
                 If(Not String.IsNullOrEmpty(locale), {
                     $"{DIR}/GeoLite2-City-Locations-{locale}.csv"
@@ -149,7 +150,7 @@ Namespace MaxMind
         End Function
 
         <Extension>
-        Public Function ImportsLocationFiles(Of T As MySQLTable)(mysql As MySQL, files As IEnumerable(Of String), Optional invoke As Action(Of T) = Nothing) As Boolean
+        Public Function ImportsLocationFiles(Of T As MySQLTable)(mysql As MySqli, files As IEnumerable(Of String), Optional invoke As Action(Of T) = Nothing) As Boolean
             Call mysql.ClearTable(Of T)
 
             If invoke Is Nothing Then
