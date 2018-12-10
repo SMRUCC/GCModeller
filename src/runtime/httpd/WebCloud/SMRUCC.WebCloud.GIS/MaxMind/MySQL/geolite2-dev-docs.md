@@ -1,24 +1,45 @@
-# MySQL development docs
-Mysql database field attributes notes:
+# MySql Development Docs #
 
-> AI: Auto Increment; B: Binary; NN: Not Null; PK: Primary Key; UQ: Unique; UN: Unsigned; ZF: Zero Fill
+MySql database field attributes notes in this development document:
+
+> + **AI**: Auto Increment;
+> + **B**:  Binary;
+> + **G**:  Generated
+> + **NN**: Not Null;
+> + **PK**: Primary Key;
+> + **UQ**: Unique;
+> + **UN**: Unsigned;
+> + **ZF**: Zero Fill
+
+Generate time: 12/2/2018 7:45:34 PM<br />
+By: ``mysqli.vb`` reflector tool ([https://github.com/xieguigang/mysqli.vb](https://github.com/xieguigang/mysqli.vb))
+
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_city_blocks_ipv4
+
 								
 
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|network|VarChar (128)|``NN``|This is the IPv4 or IPv6 network in CIDR format such as ''2.21.92.0/29'' or ''2001:4b0::/80''. We offer a utility to convert this column to start/end IPs or start/end integers. See the conversion utility section for details.|
+|network|VarChar (128)|``NN``, ``PK``|This is the IPv4 or IPv6 network in CIDR format such as ''2.21.92.0/29'' or ''2001:4b0::/80''. We offer a utility to convert this column to start/end IPs or start/end integers. See the conversion utility section for details.|
 |geoname_id|Int64 (11)||A unique identifier for the network’s location as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |registered_country_geoname_id|Int64 (11)||The registered country is the country in which the ISP has registered the network. This column contains a unique identifier for the network’s registered country as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |represented_country_geoname_id|Int64 (11)||The represented country is the country which is represented by users of the IP address. For instance, the country represented by an overseas military base. This column contains a unique identifier for the network’s registered country as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |is_anonymous_proxy|Int64 (11)||A 1 if the network is an anonymous proxy, otherwise 0.|
 |is_satellite_provider|Int64 (11)||A 1 if the network is for a satellite provider that provides service to multiple countries, otherwise 0.|
-|postal_code|Text||The postal code associated with the IP address. These are available for some IP addresses in Australia, Canada, France, Germany, Italy, Spain, Switzerland, United Kingdom, and the US. We return the first 3 characters for Canadian postal codes. We return the the first 2-4 characters (outward code) for postal codes in the United Kingdom.|
-|latitude|Double||The latitude of the location associated with the network.|
-|longitude|Double||The longitude of the location associated with the network.|
-|accuracy_radius|Double||The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.|
+|postal_code|Text ()||The postal code associated with the IP address. These are available for some IP addresses in Australia, Canada, France, Germany, Italy, Spain, Switzerland, United Kingdom, and the US. We return the first 3 characters for Canadian postal codes. We return the the first 2-4 characters (outward code) for postal codes in the United Kingdom.|
+|latitude|Double ()||The latitude of the location associated with the network.|
+|longitude|Double ()||The longitude of the location associated with the network.|
+|accuracy_radius|Double ()||The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.|
+
+<div style="page-break-after: always;"></div>
+
+
+#### SQL Declare
 
 ```SQL
 CREATE TABLE `geolite2_city_blocks_ipv4` (
@@ -34,27 +55,36 @@ CREATE TABLE `geolite2_city_blocks_ipv4` (
   `accuracy_radius` double DEFAULT NULL COMMENT 'The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.',
   PRIMARY KEY (`network`),
   UNIQUE KEY `network_UNIQUE` (`network`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='								\n';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='								\n';
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_city_blocks_ipv6
+
 								
 
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|network|VarChar (128)|``NN``|This is the IPv4 or IPv6 network in CIDR format such as ''2.21.92.0/29'' or ''2001:4b0::/80''. We offer a utility to convert this column to start/end IPs or start/end integers. See the conversion utility section for details.|
+|network|VarChar (128)|``NN``, ``PK``|This is the IPv4 or IPv6 network in CIDR format such as ''2.21.92.0/29'' or ''2001:4b0::/80''. We offer a utility to convert this column to start/end IPs or start/end integers. See the conversion utility section for details.|
 |geoname_id|Int64 (11)||A unique identifier for the network’s location as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |registered_country_geoname_id|Int64 (11)||The registered country is the country in which the ISP has registered the network. This column contains a unique identifier for the network’s registered country as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |represented_country_geoname_id|Int64 (11)||The represented country is the country which is represented by users of the IP<br />address. For instance, the country represented by an overseas military base. This column contains a unique identifier for the network’s registered country as specified by GeoNames. This ID can be used to look up the location information in the Location file.|
 |is_anonymous_proxy|Int64 (11)||A 1 if the network is an anonymous proxy, otherwise 0.|
 |is_satellite_provider|Int64 (11)||A 1 if the network is for a satellite provider that provides service to multiple countries, otherwise 0.|
-|postal_code|Text||The postal code associated with the IP address. These are available for some IP addresses in Australia, Canada, France, Germany, Italy, Spain, Switzerland, United Kingdom, and the US. We return the first 3 characters for Canadian postal codes. We return the the first 2-4 characters (outward code) for postal codes in the United Kingdom.|
-|latitude|Double||The latitude of the location associated with the network.|
-|longitude|Double||The longitude of the location associated with the network.|
-|accuracy_radius|Double||The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.|
+|postal_code|Text ()||The postal code associated with the IP address. These are available for some IP addresses in Australia, Canada, France, Germany, Italy, Spain, Switzerland, United Kingdom, and the US. We return the first 3 characters for Canadian postal codes. We return the the first 2-4 characters (outward code) for postal codes in the United Kingdom.|
+|latitude|Double ()||The latitude of the location associated with the network.|
+|longitude|Double ()||The longitude of the location associated with the network.|
+|accuracy_radius|Double ()||The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.|
+
+<div style="page-break-after: always;"></div>
+
+
+#### SQL Declare
 
 ```SQL
 CREATE TABLE `geolite2_city_blocks_ipv6` (
@@ -70,19 +100,23 @@ CREATE TABLE `geolite2_city_blocks_ipv6` (
   `accuracy_radius` double DEFAULT NULL COMMENT 'The approximate accuracy radius, in kilometers, around the latitude and longitude for the geographical entity (country, subdivision, city or postal code) associated with the IP address. We have a 67% confidence that the location of the end-user falls within the area defined by the accuracy radius and the latitude and longitude coordinates.',
   PRIMARY KEY (`network`),
   UNIQUE KEY `network_UNIQUE` (`network`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='								\n';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='								\n';
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_city_locations
+
 												
 
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|geoname_id|Int64 (11)|``NN``|A unique identifier for the a location as specified by GeoNames. This ID can be used as a key for the Location file.|
-|locale_code|VarChar (16)|``NN``|The locale that the names in this row are in. This will always correspond to the locale name of the file.|
+|geoname_id|Int64 (11)|``NN``, ``PK``|A unique identifier for the a location as specified by GeoNames. This ID can be used as a key for the Location file.|
+|locale_code|VarChar (16)|``NN``, ``PK``|The locale that the names in this row are in. This will always correspond to the locale name of the file.|
 |continent_code|VarChar (32)||The continent code for this location. Possible codes are:<br />AF - Africa<br />AS - Asia<br />EU - Europe <br />NA - North America<br />OC - Oceania<br />SA - South America|
 |continent_name|VarChar (512)||The continent name for this location in the file’s locale.|
 |country_iso_code|VarChar (512)||A two-character ISO 3166-1 country code for the country associated with the location.|
@@ -94,6 +128,11 @@ CREATE TABLE `geolite2_city_blocks_ipv6` (
 |city_name|VarChar (512)||The city name for this location in the file’s locale.|
 |metro_code|Int64 (11)||The metro code associated with the IP address. These are only available for networks in the US. MaxMind provides the same metro codes as the Google AdWords API.|
 |time_zone|VarChar (128)||The time zone associated with location, as specified by the IANA Time Zone Database, e.g., ''America/New_York''.|
+
+<div style="page-break-after: always;"></div>
+
+
+#### SQL Declare
 
 ```SQL
 CREATE TABLE `geolite2_city_locations` (
@@ -111,22 +150,29 @@ CREATE TABLE `geolite2_city_locations` (
   `metro_code` int(11) DEFAULT NULL COMMENT 'The metro code associated with the IP address. These are only available for networks in the US. MaxMind provides the same metro codes as the Google AdWords API.',
   `time_zone` varchar(128) DEFAULT NULL COMMENT 'The time zone associated with location, as specified by the IANA Time Zone Database, e.g., ''America/New_York''.',
   PRIMARY KEY (`geoname_id`,`locale_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='												\n';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='												\n';
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_country_blocks_ipv4
 
 
+
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|network|VarChar (32)|``NN``||
+|network|VarChar (32)|``NN``, ``PK``||
 |geoname_id|VarChar (45)|||
 |registered_country_geoname_id|VarChar (45)|||
 |represented_country_geoname_id|VarChar (45)|||
 |is_anonymous_proxy|VarChar (45)|||
 |is_satellite_provider|VarChar (45)|||
+
+
+#### SQL Declare
 
 ```SQL
 CREATE TABLE `geolite2_country_blocks_ipv4` (
@@ -138,22 +184,29 @@ CREATE TABLE `geolite2_country_blocks_ipv4` (
   `is_satellite_provider` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`network`),
   UNIQUE KEY `network_UNIQUE` (`network`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_country_blocks_ipv6
 
 
+
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|network|VarChar (128)|``NN``||
+|network|VarChar (128)|``NN``, ``PK``||
 |geoname_id|VarChar (45)|||
 |registered_country_geoname_id|VarChar (45)|||
 |represented_country_geoname_id|VarChar (45)|||
 |is_anonymous_proxy|VarChar (45)|||
 |is_satellite_provider|VarChar (45)|||
+
+
+#### SQL Declare
 
 ```SQL
 CREATE TABLE `geolite2_country_blocks_ipv6` (
@@ -165,23 +218,46 @@ CREATE TABLE `geolite2_country_blocks_ipv6` (
   `is_satellite_provider` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`network`),
   UNIQUE KEY `network_UNIQUE` (`network`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
 
+<div style="page-break-after: always;"></div>
+
+***
 
 ## geolite2_country_locations
 
 
+
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|geoname_id|Int64 (11)|``NN``||
-|locale_code|VarChar (45)|``NN``||
+|geoname_id|Int64 (11)|``NN``, ``PK``||
+|locale_code|VarChar (45)|``NN``, ``PK``||
 |continent_code|VarChar (45)|||
 |continent_name|VarChar (45)|||
 |country_iso_code|VarChar (45)|||
-|country_name|Text|||
+|country_name|Text ()|||
+
+
+#### SQL Declare
 
 ```SQL
-CREATE TABLE `geolite2_country_locatio
+CREATE TABLE `geolite2_country_locations` (
+  `geoname_id` int(11) NOT NULL,
+  `locale_code` varchar(45) NOT NULL,
+  `continent_code` varchar(45) DEFAULT NULL,
+  `continent_name` varchar(45) DEFAULT NULL,
+  `country_iso_code` varchar(45) DEFAULT NULL,
+  `country_name` tinytext,
+  PRIMARY KEY (`geoname_id`,`locale_code`),
+  UNIQUE KEY `geoname_id_UNIQUE` (`geoname_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+<div style="page-break-after: always;"></div>
+
+
+
 

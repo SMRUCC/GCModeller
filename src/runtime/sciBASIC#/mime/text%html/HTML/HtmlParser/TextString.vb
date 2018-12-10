@@ -53,7 +53,6 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
 Imports Microsoft.VisualBasic.Text.Xml
@@ -76,6 +75,15 @@ Namespace HTML
             weight = copy.weight
             color = copy.color
         End Sub
+
+        Public Function GetWeightedFont() As Font
+            Select Case weight
+                Case WeightStyles.sub, WeightStyles.sup
+                    Return New Font(font.Name, font.Size / 2)
+                Case Else
+                    Return font
+            End Select
+        End Function
 
         Public Overrides Function ToString() As String
             Return text
@@ -169,6 +177,7 @@ Namespace HTML
 
             For Each part As TextString In htmlParser(buffer, currentStyle)
                 ' 忽略掉多余的空白
+                ' 因为转义操作会产真正所需要的的空白符, 所以去除多余的空白符要先于转义操作之前进行
                 part.text = blanks.Replace(part.text, " ")
                 ' 在这里处理转义
                 part.text = XmlEntity.UnescapeHTML(part.text)

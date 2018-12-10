@@ -10,6 +10,59 @@ Namespace Drawing2D.Text
     Public Module HTMLRender
 
         ''' <summary>
+        ''' 估算出文本的绘制区域大小
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="html"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function MeasureSize(g As IGraphics, html As TextString()) As SizeF
+            Dim size As SizeF
+            Dim dW%, dh%
+
+            For Each fragment As TextString In html
+                Select Case fragment.weight
+                    Case TextString.WeightStyles.sub, TextString.WeightStyles.sup
+                        dW = g.MeasureString(fragment, fragment.GetWeightedFont).Width
+                        size = New SizeF With {
+                            .Height = size.Height,
+                            .Width = size.Width + dW
+                        }
+                    Case Else
+                        Dim lines$() = fragment.text.LineTokens
+                        Dim n% = lines.Length
+                        Dim font As Font = fragment.font
+
+                        ' n等于零,则不变
+                        If n = 1 Then
+                            With g.MeasureString(lines(Scan0), font)
+                                dW = .Width
+                                dh = .Height
+                            End With
+
+                            size = New Size With {
+                                .Width = size.Width + dW,
+                                .Height = {size.Height, dh}.Max
+                            }
+                        ElseIf n > 1 Then
+                            dh = g.MeasureString(lines(Scan0), font).Height
+                            dW = lines _
+                                .Select(Function(l)
+                                            Return g.MeasureString(l, font).Width
+                                        End Function) _
+                                .Max
+                            size = New SizeF With {
+                                .Width = {dW, size.Width}.Max,
+                                .Height = size.Height + dh * n
+                            }
+                        End If
+                End Select
+            Next
+
+            Return size
+        End Function
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="g"></param>
@@ -68,7 +121,7 @@ Namespace Drawing2D.Text
 
         <Extension>
         Private Function drawSub(g As IGraphics, text As TextString, ByRef topleft As Point) As SizeF
-            Dim font As New Font(text.font.Name, text.font.Size / 2)
+            Dim font As Font = text.GetWeightedFont
             Dim size As SizeF = g.MeasureString(text.text, font)
             Dim color As New SolidBrush(text.color.TranslateColor)
 
@@ -87,7 +140,7 @@ Namespace Drawing2D.Text
 
         <Extension>
         Private Function drawSup(g As IGraphics, text As TextString, ByRef topleft As Point) As SizeF
-            Dim font As New Font(text.font.Name, text.font.Size / 2)
+            Dim font As Font = text.GetWeightedFont
             Dim size As SizeF = g.MeasureString(text.text, font)
             Dim color As New SolidBrush(text.color.TranslateColor)
 
