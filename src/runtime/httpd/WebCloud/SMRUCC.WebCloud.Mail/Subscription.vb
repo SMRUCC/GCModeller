@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::48a4afd62d6da295c58238562a5bfba0, WebCloud\SMRUCC.WebCloud.Mail\Subscription.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class SubscriptionMgr
-    ' 
-    '     Properties: AppId, MySQL
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __changeStatus, Active, Add
-    ' 
-    '     Sub: Remove
-    ' 
-    ' /********************************************************************************/
+' Class SubscriptionMgr
+' 
+'     Properties: AppId, MySQL
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __changeStatus, Active, Add
+' 
+'     Sub: Remove
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Uri
 Imports SMRUCC.WebCloud.DataCenter.mysql
 
 Public Class SubscriptionMgr
 
-    Public ReadOnly Property MySQL As MySQL
+    Public ReadOnly Property MySQL As MySqli
     Public ReadOnly Property AppId As Integer
 
     Sub New(app%, cnn As ConnectionUri)
-        MySQL = New MySQL(cnn)
+        MySQL = New MySqli(cnn)
         AppId = app
     End Sub
 

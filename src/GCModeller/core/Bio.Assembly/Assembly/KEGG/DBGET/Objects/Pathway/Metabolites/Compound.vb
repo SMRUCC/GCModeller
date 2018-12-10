@@ -115,6 +115,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Set
         End Property
 
+        ''' <summary>
+        ''' 2D分子结构数据
+        ''' </summary>
+        ''' <returns></returns>
         Public Property KCF As String
         Public Property Image As String
 
