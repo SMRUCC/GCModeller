@@ -47,6 +47,9 @@ Namespace NeuralNetwork
     ''' <summary>
     ''' （神经元的）突触 a connection between two nerve cells
     ''' </summary>
+    ''' <remarks>
+    ''' 可以将这个对象看作为网络节点之间的边链接
+    ''' </remarks>
     Public Class Synapse
 
 #Region "-- Properties --"
@@ -60,7 +63,6 @@ Namespace NeuralNetwork
         Public Property WeightDelta() As Double
 #End Region
 
-#Region "-- Constructor --"
         Public Sub New(inputNeuron As Neuron, outputNeuron As Neuron)
             Me.InputNeuron = inputNeuron
             Me.OutputNeuron = outputNeuron
@@ -68,7 +70,6 @@ Namespace NeuralNetwork
             ' 计算权重
             Weight = Helpers.GetRandom()
         End Sub
-#End Region
 
     End Class
 End Namespace

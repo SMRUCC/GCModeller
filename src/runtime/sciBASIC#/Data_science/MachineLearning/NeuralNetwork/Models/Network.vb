@@ -66,8 +66,6 @@ Namespace NeuralNetwork
         Public Property OutputLayer As Layer
 #End Region
 
-#Region "-- Constructor --"
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -88,7 +86,6 @@ Namespace NeuralNetwork
             HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, active)
             OutputLayer = New Layer(outputSize, active, input:=HiddenLayer.Output)
         End Sub
-#End Region
 
         Public Overrides Function ToString() As String
             Dim summary As New StringBuilder
@@ -128,6 +125,19 @@ Namespace NeuralNetwork
             End While
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function CalculateError(ParamArray targets As Double()) As Double
+            Return OutputLayer _
+                .Neurons _
+                .Select(Function(n, i)
+                            Return Math.Abs(n.CalculateError(targets(i)))
+                        End Function) _
+                .Sum()
+        End Function
+#End Region
+
+#Region "ANN compute"
+
         ''' <summary>
         ''' 这个函数会返回<see cref="OutputLayer"/>
         ''' </summary>
@@ -161,16 +171,6 @@ Namespace NeuralNetwork
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Compute(ParamArray inputs As Double()) As Double()
             Return ForwardPropagate(inputs).Output
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function CalculateError(ParamArray targets As Double()) As Double
-            Return OutputLayer _
-                .Neurons _
-                .Select(Function(n, i)
-                            Return Math.Abs(n.CalculateError(targets(i)))
-                        End Function) _
-                .Sum()
         End Function
 #End Region
     End Class

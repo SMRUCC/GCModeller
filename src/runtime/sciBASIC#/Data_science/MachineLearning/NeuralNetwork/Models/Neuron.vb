@@ -76,8 +76,8 @@ Namespace NeuralNetwork
             activation = active Or defaultActivation
         End Sub
 
-        Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional func As IActivationFunction = Nothing)
-            Call Me.New(func)
+        Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional active As IActivationFunction = Nothing)
+            Call Me.New(active)
 
             For Each inputNeuron As Neuron In inputNeurons
                 Dim synapse As New Synapse(inputNeuron, Me)
