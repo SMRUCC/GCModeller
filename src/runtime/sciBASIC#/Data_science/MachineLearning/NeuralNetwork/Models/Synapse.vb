@@ -53,14 +53,14 @@ Namespace NeuralNetwork
     Public Class Synapse
 
 #Region "-- Properties --"
-        Public Property InputNeuron() As Neuron
-        Public Property OutputNeuron() As Neuron
+        Public Property InputNeuron As Neuron
+        Public Property OutputNeuron As Neuron
         ''' <summary>
         ''' 两个神经元之间的连接强度
         ''' </summary>
         ''' <returns></returns>
-        Public Property Weight() As Double
-        Public Property WeightDelta() As Double
+        Public Property Weight As Double
+        Public Property WeightDelta As Double
 #End Region
 
         Public Sub New(inputNeuron As Neuron, outputNeuron As Neuron)
@@ -70,6 +70,5 @@ Namespace NeuralNetwork
             ' 计算权重
             Weight = Helpers.GetRandom()
         End Sub
-
     End Class
 End Namespace
