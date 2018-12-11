@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.Activations
 
@@ -99,8 +100,8 @@ Namespace NeuralNetwork.Activations
         Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
             Get
                 Return New ActiveFunction With {
-                    .Arguments = New Dictionary(Of String, Double) From {
-                        {"alpha", Alpha}
+                    .Arguments = {
+                        New NamedValue With {.name = "alpha", .text = Alpha}
                     },
                     .Name = NameOf(BipolarSigmoidFunction)
                 }

@@ -83,7 +83,7 @@ Namespace NeuralNetwork.Activations
         Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
             Get
                 Return New ActiveFunction With {
-                    .Arguments = New Dictionary(Of String, Double),
+                    .Arguments = {},
                     .Name = NameOf(ThresholdFunction)
                 }
             End Get
