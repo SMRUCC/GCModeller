@@ -93,6 +93,8 @@ Namespace NeuralNetwork
                 Layers(i) = New Layer(size(i), active, input:=hiddenPortal)
                 hiddenPortal = Layers(i)
             Next
+
+            Me.Size = size.Length
         End Sub
 
         Public Sub ForwardPropagate()
