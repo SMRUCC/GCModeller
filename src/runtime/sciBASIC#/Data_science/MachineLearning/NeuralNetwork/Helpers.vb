@@ -65,17 +65,14 @@ Namespace NeuralNetwork
         Public Const MaxEpochs As Integer = 5000
         Public Const MinimumError As Double = 0.01
 
-#Region "-- Globals --"
-        ReadOnly Random As New Random()
-#End Region
-
-#Region "-- Helpers --"
+        ReadOnly rand As New Random()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetRandom() As Double
-            Return 2 * Random.NextDouble() - 1
+        Friend Function GetRandom() As Double
+            SyncLock rand
+                Return 2 * rand.NextDouble() - 1
+            End SyncLock
         End Function
-#End Region
 
         <Extension>
         Public Sub Train(ByRef neuron As Network, data As List(Of DataSet), Optional trainingType As TrainingType = TrainingType.Epoch)

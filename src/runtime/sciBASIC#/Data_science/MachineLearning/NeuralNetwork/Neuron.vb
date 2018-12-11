@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 
 Namespace NeuralNetwork
 
@@ -64,22 +65,22 @@ Namespace NeuralNetwork
         ''' The active function
         ''' </summary>
         ''' <returns></returns>
-        <ScriptIgnore> Public ReadOnly Property IFunc As IFuncs.IActivationFunction
+        <ScriptIgnore> Public ReadOnly Property IFunc As IActivationFunction
 #End Region
 
 #Region "-- Constructors --"
-        Public Sub New(Optional func As IFuncs.IActivationFunction = Nothing)
+        Public Sub New(Optional func As IActivationFunction = Nothing)
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()
             Bias = Helpers.GetRandom()
 
             If func Is Nothing Then
-                func = New IFuncs.Sigmoid
+                func = New Sigmoid
             End If
             IFunc = func
         End Sub
 
-        Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional func As IFuncs.IActivationFunction = Nothing)
+        Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional func As IActivationFunction = Nothing)
             Me.New(func)
             For Each inputNeuron As Neuron In inputNeurons
                 Dim synapse As New Synapse(inputNeuron, Me)
@@ -99,7 +100,7 @@ Namespace NeuralNetwork
             Return target - Value
         End Function
 
-        Public Function CalculateGradient(Optional target As System.Nullable(Of Double) = Nothing) As Double
+        Public Function CalculateGradient(Optional target As Double? = Nothing) As Double
             If target Is Nothing Then
                 Gradient = OutputSynapses.Sum(Function(a) a.OutputNeuron.Gradient * a.Weight) * IFunc.Derivative(Value)
                 Return Gradient

@@ -46,8 +46,13 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+
 Namespace NeuralNetwork
 
+    ''' <summary>
+    ''' https://github.com/trentsartain/Neural-Network
+    ''' </summary>
     Public Class Network
 
 #Region "-- Properties --"
@@ -71,7 +76,7 @@ Namespace NeuralNetwork
         Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
                        Optional learnRate As Double = Nothing,
                        Optional momentum As Double = Nothing,
-                       Optional active As IFuncs.IActivationFunction = Nothing)
+                       Optional active As IActivationFunction = Nothing)
 
             Me.LearnRate = If(learnRate = 0R, 0.1, learnRate)
             Me.Momentum = If(momentum = 0R, 0.9, momentum)
@@ -152,10 +157,12 @@ Namespace NeuralNetwork
         Private Function CalculateError(ParamArray targets As Double()) As Double
             Dim sum As Double = 0
             Dim i As Integer = 0
+
             For Each a In OutputLayer
                 sum += Math.Abs(a.CalculateError(targets(i)))
                 i += 1
             Next
+
             Return sum
         End Function
 #End Region
