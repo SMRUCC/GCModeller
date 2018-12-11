@@ -85,7 +85,7 @@ Namespace NeuralNetwork
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
+        Public Sub New(inputSize As Integer, hiddenSize As Integer(), outputSize As Integer,
                        Optional learnRate As Double = 0.1,
                        Optional momentum As Double = 0.9,
                        Optional active As IActivationFunction = Nothing)
