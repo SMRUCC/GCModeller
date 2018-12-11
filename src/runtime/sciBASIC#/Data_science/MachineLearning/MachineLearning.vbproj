@@ -320,6 +320,7 @@
     <Compile Include="NeuralNetwork\ActiveFunctions\Sigmoid.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\SigmoidFunction.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\ThresholdFunction.vb" />
+    <Compile Include="NeuralNetwork\Layer.vb" />
     <Compile Include="NeuralNetwork\Dataset.vb" />
     <Compile Include="NeuralNetwork\Helpers.vb" />
     <Compile Include="NeuralNetwork\Network.vb" />

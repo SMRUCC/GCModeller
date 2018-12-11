@@ -61,19 +61,19 @@ Namespace NeuralNetwork
         Public Property BiasDelta As Double
         Public Property Gradient As Double
         Public Property Value As Double
+
         ''' <summary>
         ''' The active function
         ''' </summary>
-        ''' <returns></returns>
-        <ScriptIgnore> Public ReadOnly Property IFunc As IActivationFunction
+        Dim activation As IActivationFunction
 #End Region
 
 #Region "-- Constructors --"
-        Public Sub New(Optional func As IActivationFunction = Nothing)
+        Public Sub New(Optional active As IActivationFunction = Nothing)
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()
             Bias = Helpers.GetRandom()
-            IFunc = func Or defaultActivation
+            activation = active Or defaultActivation
         End Sub
 
         Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional func As IActivationFunction = Nothing)
@@ -87,6 +87,10 @@ Namespace NeuralNetwork
         End Sub
 #End Region
 
+        Public Overrides Function ToString() As String
+            Return $"bias={Bias}, bias_delta={BiasDelta}, gradient={Gradient}, value={Value}"
+        End Function
+
 #Region "-- Values & Weights --"
 
         ''' <summary>
@@ -97,7 +101,7 @@ Namespace NeuralNetwork
         ''' 赋值给<see cref="Value"/>,然后返回<see cref="Value"/>
         ''' </remarks>
         Public Overridable Function CalculateValue() As Double
-            Value = IFunc.Function(InputSynapses.Sum(Function(a) a.Weight * a.InputNeuron.Value) + Bias)
+            Value = activation.Function(InputSynapses.Sum(Function(a) a.Weight * a.InputNeuron.Value) + Bias)
             Return Value
         End Function
 
@@ -107,10 +111,10 @@ Namespace NeuralNetwork
 
         Public Function CalculateGradient(Optional target As Double? = Nothing) As Double
             If target Is Nothing Then
-                Gradient = OutputSynapses.Sum(Function(a) a.OutputNeuron.Gradient * a.Weight) * IFunc.Derivative(Value)
+                Gradient = OutputSynapses.Sum(Function(a) a.OutputNeuron.Gradient * a.Weight) * activation.Derivative(Value)
                 Return Gradient
             Else
-                Gradient = CalculateError(target.Value) * IFunc.Derivative(Value)
+                Gradient = CalculateError(target.Value) * activation.Derivative(Value)
                 Return Gradient
             End If
         End Function

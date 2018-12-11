@@ -20,7 +20,11 @@ Module neuronTest
         Call test.Add({0, 0, 0, 1, 1, 1}, {1, 0, 0})
         Call test.Add({0, 0, 0, 1, 1, 1}, {1, 0, 0})
         Call test.Add({0, 0, 0, 1, 1, 1}, {1, 0, 0})
-        Call test.Add({0, 0, 0, 1, 1, 1}, {1, 0, 0})
+        Call test.Add({1, 0, 0, 1, 1, 1}, {0, 0, 1})
+        Call test.Add({1, 0, 0, 1, 1, 1}, {0, 0, 1})
+        Call test.Add({1, 0, 0, 1, 1, 1}, {0, 0, 1})
+        Call test.Add({1, 0, 0, 1, 1, 1}, {0, 0, 1})
+        Call test.Add({1, 0, 0, 1, 1, 1}, {0, 0, 1})
 
         Call test.Train()
 

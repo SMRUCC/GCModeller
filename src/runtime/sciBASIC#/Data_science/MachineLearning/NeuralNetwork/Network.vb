@@ -59,9 +59,9 @@ Namespace NeuralNetwork
 #Region "-- Properties --"
         Public Property LearnRate As Double
         Public Property Momentum As Double
-        Public Property InputLayer As IList(Of Neuron)
-        Public Property HiddenLayer As IList(Of Neuron)
-        Public Property OutputLayer As IList(Of Neuron)
+        Public Property InputLayer As Layer
+        Public Property HiddenLayer As HiddenLayers
+        Public Property OutputLayer As Layer
 #End Region
 
 #Region "-- Constructor --"
@@ -74,26 +74,14 @@ Namespace NeuralNetwork
         ''' <param name="outputSize">``>=1``</param>
         ''' <param name="learnRate"></param>
         ''' <param name="momentum"></param>
-        Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
+        Public Sub New(inputSize As Integer, hiddenSize As Integer(), outputSize As Integer,
                        Optional learnRate As Double = 0.1,
                        Optional momentum As Double = 0.9,
                        Optional active As IActivationFunction = Nothing)
 
-            InputLayer = New List(Of Neuron)()
-            HiddenLayer = New List(Of Neuron)()
-            OutputLayer = New List(Of Neuron)()
-
-            For i As Integer = 0 To inputSize - 1
-                Call InputLayer.Add(New Neuron(active))
-            Next
-
-            For i As Integer = 0 To hiddenSize - 1
-                Call HiddenLayer.Add(New Neuron(InputLayer, active))
-            Next
-
-            For i As Integer = 0 To outputSize - 1
-                Call OutputLayer.Add(New Neuron(HiddenLayer, active))
-            Next
+            InputLayer = New Layer(inputSize, active)
+            HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, active)
+            OutputLayer = New Layer(outputSize, active, input:=HiddenLayer.Output)
         End Sub
 #End Region
 
@@ -130,25 +118,22 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <param name="inputs"></param>
         ''' <returns></returns>
-        Private Function ForwardPropagate(inputs As Double()) As IList(Of Neuron)
-            For i As Integer = 0 To inputs.Length - 1
-                InputLayer(i).Value = inputs(i)
-            Next
-
-            Call HiddenLayer.ForEach(Sub(a, i) a.CalculateValue())
-            Call OutputLayer.ForEach(Sub(a, i) a.CalculateValue())
+        Private Function ForwardPropagate(inputs As Double()) As Layer
+            Call InputLayer.Input(data:=inputs)
+            Call HiddenLayer.ForwardPropagate()
+            Call OutputLayer.CalculateValue()
 
             Return OutputLayer
         End Function
 
+        ''' <summary>
+        ''' 反向传播
+        ''' </summary>
+        ''' <param name="targets"></param>
         Private Sub BackPropagate(ParamArray targets As Double())
-            For i As Integer = 0 To targets.Length - 1
-                OutputLayer(i).CalculateGradient(targets(i))
-            Next
-
-            Call HiddenLayer.ForEach(Sub(a, i) a.CalculateGradient())
-            Call HiddenLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
-            Call OutputLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
+            Call OutputLayer.CalculateGradient(targets)
+            Call HiddenLayer.BackPropagate(LearnRate, Momentum)
+            Call OutputLayer.UpdateWeights(LearnRate, Momentum)
         End Sub
 
         ''' <summary>
@@ -160,19 +145,17 @@ Namespace NeuralNetwork
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Compute(ParamArray inputs As Double()) As Double()
-            Return ForwardPropagate(inputs).[Select](Function(a) a.Value).ToArray()
+            Return ForwardPropagate(inputs).Output
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function CalculateError(ParamArray targets As Double()) As Double
-            Dim sum As Double = 0
-            Dim i As Integer = 0
-
-            For Each a In OutputLayer
-                sum += Math.Abs(a.CalculateError(targets(i)))
-                i += 1
-            Next
-
-            Return sum
+            Return OutputLayer _
+                .Neurons _
+                .Select(Function(n, i)
+                            Return Math.Abs(n.CalculateError(targets(i)))
+                        End Function) _
+                .Sum()
         End Function
 #End Region
     End Class
