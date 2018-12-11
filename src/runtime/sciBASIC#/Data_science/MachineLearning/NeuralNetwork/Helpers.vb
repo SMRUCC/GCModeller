@@ -59,6 +59,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork
 

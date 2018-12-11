@@ -49,6 +49,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork
 
@@ -102,9 +103,9 @@ Namespace NeuralNetwork
 #Region "-- Training --"
         Public Sub Train(dataSets As List(Of DataSet), numEpochs As Integer)
             For i As Integer = 0 To numEpochs - 1
-                For Each DataSet As NeuralNetwork.DataSet In dataSets
-                    ForwardPropagate(DataSet.Values)
-                    BackPropagate(DataSet.Targets)
+                For Each dataSet As DataSet In dataSets
+                    ForwardPropagate(dataSet.Status)
+                    BackPropagate(dataSet.Target)
                 Next
             Next
         End Sub
@@ -116,10 +117,10 @@ Namespace NeuralNetwork
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
                 Dim errors As New List(Of Double)()
 
-                For Each dataSet As NeuralNetwork.DataSet In dataSets
-                    ForwardPropagate(dataSet.Values)
-                    BackPropagate(dataSet.Targets)
-                    errors.Add(CalculateError(dataSet.Targets))
+                For Each dataSet As DataSet In dataSets
+                    ForwardPropagate(dataSet.Status)
+                    BackPropagate(dataSet.Target)
+                    errors.Add(CalculateError(dataSet.Target))
                 Next
 
                 [error] = errors.Average()

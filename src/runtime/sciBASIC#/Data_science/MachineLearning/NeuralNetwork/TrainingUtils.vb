@@ -46,6 +46,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork
 
@@ -127,11 +128,11 @@ Namespace NeuralNetwork
         Public Sub Corrects(input As Double(), convertedResults As Double(), expectedResults As Double(), Optional train As Boolean = True)
             Dim offendingDataSet As DataSet = _dataSets _
                 .FirstOrDefault(Function(x)
-                                    Return x.Values.SequenceEqual(input) AndAlso x.Targets.SequenceEqual(convertedResults)
+                                    Return x.Status.SequenceEqual(input) AndAlso x.Target.SequenceEqual(convertedResults)
                                 End Function)
             _dataSets.Remove(offendingDataSet)
 
-            If Not _dataSets.Exists(Function(x) x.Values.SequenceEqual(input) AndAlso x.Targets.SequenceEqual(expectedResults)) Then
+            If Not _dataSets.Exists(Function(x) x.Status.SequenceEqual(input) AndAlso x.Target.SequenceEqual(expectedResults)) Then
                 Call _dataSets.Add(New DataSet(input, expectedResults))
             End If
 
@@ -141,7 +142,7 @@ Namespace NeuralNetwork
         End Sub
 
         Public Sub Corrects(dataset As DataSet, expectedResults As Double(), Optional train As Boolean = True)
-            Call Corrects(dataset.Values, dataset.Targets, expectedResults, train)
+            Call Corrects(dataset.Status, dataset.Target, expectedResults, train)
         End Sub
     End Class
 End Namespace
