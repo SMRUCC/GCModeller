@@ -66,11 +66,12 @@ Namespace NeuralNetwork
         Public Const MinimumError As Double = 0.01
 
 #Region "-- Globals --"
-        Private ReadOnly Random As New Random()
+        ReadOnly Random As New Random()
 #End Region
 
 #Region "-- Helpers --"
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRandom() As Double
             Return 2 * Random.NextDouble() - 1
         End Function
@@ -105,8 +106,9 @@ Namespace NeuralNetwork
             Get
                 If maps.ContainsKey(x) Then
                     Return maps(x)
+                Else
+                    Return Nothing
                 End If
-                Return Nothing
             End Get
             Set(value As Double)
                 maps(x) = value

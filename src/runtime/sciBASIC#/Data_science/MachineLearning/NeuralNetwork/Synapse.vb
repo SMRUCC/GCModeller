@@ -61,9 +61,11 @@ Namespace NeuralNetwork
 #End Region
 
 #Region "-- Constructor --"
-        Public Sub New(inputNeuron__1 As Neuron, outputNeuron__2 As Neuron)
-            InputNeuron = inputNeuron__1
-            OutputNeuron = outputNeuron__2
+        Public Sub New(inputNeuron As Neuron, outputNeuron As Neuron)
+            Me.InputNeuron = inputNeuron
+            Me.OutputNeuron = outputNeuron
+
+            ' 计算权重
             Weight = Helpers.GetRandom()
         End Sub
 #End Region

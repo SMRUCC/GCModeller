@@ -1,53 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::36cbe805a4982e33065e0153c2770c49, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\NeuralNetwork\Network.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Network
-    ' 
-    '         Properties: HiddenLayer, InputLayer, LearnRate, Momentum, OutputLayer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: CalculateError, Compute
-    ' 
-    '         Sub: BackPropagate, ForwardPropagate, (+2 Overloads) Train
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Network
+' 
+'         Properties: HiddenLayer, InputLayer, LearnRate, Momentum, OutputLayer
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: CalculateError, Compute
+' 
+'         Sub: BackPropagate, ForwardPropagate, (+2 Overloads) Train
+' 
+' 
+' /********************************************************************************/
 
 #End Region
-
-Imports System.Collections.Generic
-Imports System.Linq
 
 Namespace NeuralNetwork
 
@@ -69,15 +66,15 @@ Namespace NeuralNetwork
         ''' <param name="inputSize">>=2</param>
         ''' <param name="hiddenSize">>=2</param>
         ''' <param name="outputSize">>=1</param>
-        ''' <param name="learnRate__1"></param>
-        ''' <param name="momentum__2"></param>
+        ''' <param name="learnRate"></param>
+        ''' <param name="momentum"></param>
         Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
-                       Optional learnRate__1 As Double = Nothing,
-                       Optional momentum__2 As Double = Nothing,
+                       Optional learnRate As Double = Nothing,
+                       Optional momentum As Double = Nothing,
                        Optional active As IFuncs.IActivationFunction = Nothing)
 
-            LearnRate = If(learnRate__1 = 0R, 0.1, learnRate__1)
-            Momentum = If(momentum__2 = 0R, 0.9, momentum__2)
+            Me.LearnRate = If(learnRate = 0R, 0.1, learnRate)
+            Me.Momentum = If(momentum = 0R, 0.9, momentum)
             InputLayer = New List(Of Neuron)()
             HiddenLayer = New List(Of Neuron)()
             OutputLayer = New List(Of Neuron)()

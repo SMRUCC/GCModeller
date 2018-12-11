@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::acf3c5c6559225404f18de25a15706b0, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\NeuralNetwork\TrainingUtils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TrainingUtils
-    ' 
-    '         Properties: NeuronNetwork, TrainingType, XP
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, Encouraging, RemoveLast, Train
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TrainingUtils
+' 
+'         Properties: NeuronNetwork, TrainingType, XP
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, Encouraging, RemoveLast, Train
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 
 Namespace NeuralNetwork
@@ -58,11 +59,13 @@ Namespace NeuralNetwork
         ReadOnly _dataSets As New List(Of DataSet)
 
         Public ReadOnly Property XP As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _dataSets.Count
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Encouraging()
             Call Train()
         End Sub
@@ -83,9 +86,6 @@ Namespace NeuralNetwork
 
         Public Sub Add(x As DataSet)
             Call _dataSets.Add(x)
-#If DEBUG Then
-            Call _dataSets.Count.__DEBUG_ECHO
-#End If
         End Sub
 
         Public Sub Train()
@@ -99,8 +99,10 @@ Namespace NeuralNetwork
         ''' <param name="convertedResults">The error outputs</param>
         ''' <param name="expectedResults">The corrects output</param>
         Public Sub Corrects(input As Double(), convertedResults As Double(), expectedResults As Double(), Optional train As Boolean = True)
-            Dim offendingDataSet As DataSet = _dataSets.FirstOrDefault(
-                Function(x) x.Values.SequenceEqual(input) AndAlso x.Targets.SequenceEqual(convertedResults))
+            Dim offendingDataSet As DataSet = _dataSets _
+                .FirstOrDefault(Function(x)
+                                    Return x.Values.SequenceEqual(input) AndAlso x.Targets.SequenceEqual(convertedResults)
+                                End Function)
             _dataSets.Remove(offendingDataSet)
 
             If Not _dataSets.Exists(Function(x) x.Values.SequenceEqual(input) AndAlso x.Targets.SequenceEqual(expectedResults)) Then
