@@ -43,47 +43,53 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
-Namespace NeuralNetwork
+Namespace NeuralNetwork.StoreProcedure
 
     ''' <summary>
     ''' The training dataset
     ''' </summary>
-    Public Class DataSet
+    Public Class DataSet : Implements INamedValue
 
-#Region "-- Properties --"
+        ''' <summary>
+        ''' 可选的数据集唯一标记信息
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
         ''' Neuron network input parameters
         ''' </summary>
         ''' <returns></returns>
-        Public Property Values() As Double()
+        Public Property Status As Double()
         ''' <summary>
         ''' The network expected output values
         ''' </summary>
         ''' <returns></returns>
-        Public Property Targets() As Double()
-#End Region
-
-#Region "-- Constructor --"
+        Public Property Target As Double()
 
         ''' <summary>
-        ''' 
+        ''' Create a new training dataset
         ''' </summary>
         ''' <param name="values">Neuron network input parameters</param>
         ''' <param name="targets">The network expected output values</param>
-        Public Sub New(values As Double(), targets As Double())
-            Me.Values = values
-            Me.Targets = targets
+        Public Sub New(values#(), targets#())
+            Me.Status = values
+            Me.Target = targets
         End Sub
 
+        ''' <summary>
+        ''' Create a new empty training dataset
+        ''' </summary>
         Sub New()
         End Sub
-#End Region
 
         Public Overrides Function ToString() As String
-            Return Values.Join(Targets).GetJson
+            Return $"{Status.AsVector.ToString} => {Target.AsVector.ToString}"
         End Function
     End Class
 End Namespace

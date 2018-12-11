@@ -1,6 +1,6 @@
 ﻿Namespace NeuralNetwork
 
-    Public Module StoreProcedure
+    Public Module StoreProcedureExtensions
 
 
     End Module
