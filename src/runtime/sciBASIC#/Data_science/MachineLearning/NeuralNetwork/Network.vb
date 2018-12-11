@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 
 Namespace NeuralNetwork
@@ -114,24 +115,33 @@ Namespace NeuralNetwork
 
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
                 Dim errors As New List(Of Double)()
+
                 For Each dataSet As NeuralNetwork.DataSet In dataSets
                     ForwardPropagate(dataSet.Values)
                     BackPropagate(dataSet.Targets)
                     errors.Add(CalculateError(dataSet.Targets))
                 Next
+
                 [error] = errors.Average()
                 numEpochs += 1
             End While
         End Sub
 
-        Private Sub ForwardPropagate(ParamArray inputs As Double())
+        ''' <summary>
+        ''' 这个函数会返回<see cref="OutputLayer"/>
+        ''' </summary>
+        ''' <param name="inputs"></param>
+        ''' <returns></returns>
+        Private Function ForwardPropagate(inputs As Double()) As IList(Of Neuron)
             For i As Integer = 0 To inputs.Length - 1
                 InputLayer(i).Value = inputs(i)
             Next
 
             HiddenLayer.ForEach(Sub(a, i) a.CalculateValue())
             OutputLayer.ForEach(Sub(a, i) a.CalculateValue())
-        End Sub
+
+            Return OutputLayer
+        End Function
 
         Private Sub BackPropagate(ParamArray targets As Double())
             For i As Integer = 0 To targets.Length - 1
@@ -149,9 +159,10 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <param name="inputs"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Compute(ParamArray inputs As Double()) As Double()
-            ForwardPropagate(inputs)
-            Return OutputLayer.[Select](Function(a) a.Value).ToArray()
+            Return ForwardPropagate(inputs).[Select](Function(a) a.Value).ToArray()
         End Function
 
         Private Function CalculateError(ParamArray targets As Double()) As Double
