@@ -47,6 +47,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 
 Namespace NeuralNetwork
@@ -87,6 +88,16 @@ Namespace NeuralNetwork
             OutputLayer = New Layer(outputSize, active, input:=HiddenLayer.Output)
         End Sub
 #End Region
+
+        Public Overrides Function ToString() As String
+            Dim summary As New StringBuilder
+
+            Call summary.AppendLine(InputLayer.ToString)
+            Call summary.AppendLine(HiddenLayer.ToString)
+            Call summary.AppendLine(OutputLayer.ToString)
+
+            Return summary.ToString
+        End Function
 
 #Region "-- Training --"
         Public Sub Train(dataSets As List(Of DataSet), numEpochs As Integer)

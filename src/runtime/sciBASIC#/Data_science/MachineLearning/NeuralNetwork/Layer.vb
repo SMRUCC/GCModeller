@@ -122,5 +122,9 @@ Namespace NeuralNetwork
                 Call revLayer.UpdateWeights(learnRate, momentum)
             Next
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{Size} hidden layers => {Layers.Select(Function(l) l.Neurons.Length).ToArray.GetJson }"
+        End Function
     End Class
 End Namespace

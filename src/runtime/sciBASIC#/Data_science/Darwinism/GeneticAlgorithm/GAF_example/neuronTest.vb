@@ -28,7 +28,8 @@ Module neuronTest
 
         Call test.Train()
 
-        Dim classes = test.NeuronNetwork.Compute(0, 0, 0, 1, 1, 1)
+        Dim classes1 = test.NeuronNetwork.Compute(0, 0, 0, 1, 1, 1)
+        Dim classes2 = test.NeuronNetwork.Compute(1, 0, 0, 1, 1, 1)
 
         Pause()
     End Sub
