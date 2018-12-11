@@ -41,23 +41,27 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork.Activations
 
     ''' <summary>
     ''' https://github.com/trentsartain/Neural-Network/blob/master/NeuralNetwork/NeuralNetwork/Network/Sigmoid.cs
     ''' </summary>
-    Public NotInheritable Class Sigmoid
-        Implements IActivationFunction
-        Implements ICloneable
+    Public NotInheritable Class Sigmoid : Implements IActivationFunction
+
+        Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
+            Get
+                Return New ActiveFunction With {
+                    .Arguments = New Dictionary(Of String, Double),
+                    .Name = NameOf(Sigmoid)
+                }
+            End Get
+        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative(x As Double) As Double Implements IActivationFunction.Derivative
             Return x * (1 - x)
-        End Function
-
-        Public Function Clone() As Object Implements ICloneable.Clone
-            Return Me
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

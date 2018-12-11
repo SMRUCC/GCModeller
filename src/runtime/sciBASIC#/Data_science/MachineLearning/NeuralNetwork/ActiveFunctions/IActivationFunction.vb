@@ -47,6 +47,8 @@
 ' andrew.kirillov@gmail.com
 '
 
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+
 Namespace NeuralNetwork.Activations
 
     ''' <summary>
@@ -59,6 +61,8 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     ''' 
     Public Interface IActivationFunction
+
+        ReadOnly Property Store As ActiveFunction
 
         ''' <summary>
         ''' Calculates function value.
@@ -103,5 +107,6 @@ Namespace NeuralNetwork.Activations
         ''' </remarks>
         ''' 
         Function Derivative2(y As Double) As Double
+
     End Interface
 End Namespace

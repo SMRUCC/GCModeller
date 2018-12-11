@@ -52,6 +52,7 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork.Activations
 
@@ -79,9 +80,7 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     ''' 
     <Serializable>
-    Public Class SigmoidFunction
-        Implements IActivationFunction
-        Implements ICloneable
+    Public Class SigmoidFunction : Implements IActivationFunction
 
         ''' <summary>
         ''' Sigmoid's alpha value.
@@ -96,6 +95,17 @@ Namespace NeuralNetwork.Activations
         ''' </remarks>
         ''' 
         Public Property Alpha() As Double = 2.0R
+
+        Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
+            Get
+                Return New ActiveFunction With {
+                    .Arguments = New Dictionary(Of String, Double) From {
+                        {"alpha", Alpha}
+                    },
+                    .Name = NameOf(SigmoidFunction)
+                }
+            End Get
+        End Property
 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="SigmoidFunction"/> class.
@@ -164,18 +174,6 @@ Namespace NeuralNetwork.Activations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
             Return (_Alpha * y * (1 - y))
-        End Function
-
-        ''' <summary>
-        ''' Creates a new object that is a copy of the current instance.
-        ''' </summary>
-        ''' 
-        ''' <returns>
-        ''' A new object that is a copy of this instance.
-        ''' </returns>
-        ''' 
-        Public Function Clone() As Object Implements ICloneable.Clone
-            Return New SigmoidFunction(_Alpha)
         End Function
     End Class
 End Namespace

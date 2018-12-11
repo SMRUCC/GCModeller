@@ -50,6 +50,7 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork.Activations
 
@@ -71,15 +72,22 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     '''
     <Serializable>
-    Public Class ThresholdFunction
-        Implements IActivationFunction
-        Implements ICloneable
+    Public Class ThresholdFunction : Implements IActivationFunction
 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ThresholdFunction"/> class.
         ''' </summary>
         Public Sub New()
         End Sub
+
+        Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
+            Get
+                Return New ActiveFunction With {
+                    .Arguments = New Dictionary(Of String, Double),
+                    .Name = NameOf(ThresholdFunction)
+                }
+            End Get
+        End Property
 
         ''' <summary>
         ''' Calculates function value.
@@ -123,18 +131,6 @@ Namespace NeuralNetwork.Activations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
             Return 0
-        End Function
-
-        ''' <summary>
-        ''' Creates a new object that is a copy of the current instance.
-        ''' </summary>
-        ''' 
-        ''' <returns>
-        ''' A new object that is a copy of this instance.
-        ''' </returns>
-        ''' 
-        Public Function Clone() As Object Implements ICloneable.Clone
-            Return New ThresholdFunction()
         End Function
     End Class
 End Namespace
