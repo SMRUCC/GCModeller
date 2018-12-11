@@ -55,12 +55,12 @@ Namespace NeuralNetwork
     Public Class Neuron
 
 #Region "-- Properties --"
-        <ScriptIgnore> Public Property InputSynapses() As List(Of Synapse)
-        <ScriptIgnore> Public Property OutputSynapses() As List(Of Synapse)
-        Public Property Bias() As Double
-        Public Property BiasDelta() As Double
-        Public Property Gradient() As Double
-        Public Property Value() As Double
+        <ScriptIgnore> Public Property InputSynapses As List(Of Synapse)
+        <ScriptIgnore> Public Property OutputSynapses As List(Of Synapse)
+        Public Property Bias As Double
+        Public Property BiasDelta As Double
+        Public Property Gradient As Double
+        Public Property Value As Double
         ''' <summary>
         ''' The active function
         ''' </summary>
@@ -73,15 +73,12 @@ Namespace NeuralNetwork
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()
             Bias = Helpers.GetRandom()
-
-            If func Is Nothing Then
-                func = New Sigmoid
-            End If
-            IFunc = func
+            IFunc = func Or defaultActivation
         End Sub
 
         Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional func As IActivationFunction = Nothing)
-            Me.New(func)
+            Call Me.New(func)
+
             For Each inputNeuron As Neuron In inputNeurons
                 Dim synapse As New Synapse(inputNeuron, Me)
                 inputNeuron.OutputSynapses.Add(synapse)
@@ -91,6 +88,14 @@ Namespace NeuralNetwork
 #End Region
 
 #Region "-- Values & Weights --"
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 赋值给<see cref="Value"/>,然后返回<see cref="Value"/>
+        ''' </remarks>
         Public Overridable Function CalculateValue() As Double
             Value = IFunc.Function(InputSynapses.Sum(Function(a) a.Weight * a.InputNeuron.Value) + Bias)
             Return Value

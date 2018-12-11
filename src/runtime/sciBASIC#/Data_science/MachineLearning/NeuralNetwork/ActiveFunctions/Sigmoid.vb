@@ -40,6 +40,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace NeuralNetwork.Activations
 
     ''' <summary>
@@ -49,6 +51,7 @@ Namespace NeuralNetwork.Activations
         Implements IActivationFunction
         Implements ICloneable
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative(x As Double) As Double Implements IActivationFunction.Derivative
             Return x * (1 - x)
         End Function
@@ -57,10 +60,12 @@ Namespace NeuralNetwork.Activations
             Return Me
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [Function](x As Double) As Double Implements IActivationFunction.Function
             Return If(x < -45.0, 0.0, If(x > 45.0, 1.0, 1.0 / (1.0 + Math.Exp(-x))))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
             Return Derivative(y)
         End Function

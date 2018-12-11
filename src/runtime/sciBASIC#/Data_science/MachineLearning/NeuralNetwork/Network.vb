@@ -57,11 +57,11 @@ Namespace NeuralNetwork
     Public Class Network
 
 #Region "-- Properties --"
-        Public Property LearnRate() As Double
-        Public Property Momentum() As Double
-        Public Property InputLayer() As IList(Of Neuron)
-        Public Property HiddenLayer() As IList(Of Neuron)
-        Public Property OutputLayer() As IList(Of Neuron)
+        Public Property LearnRate As Double
+        Public Property Momentum As Double
+        Public Property InputLayer As IList(Of Neuron)
+        Public Property HiddenLayer As IList(Of Neuron)
+        Public Property OutputLayer As IList(Of Neuron)
 #End Region
 
 #Region "-- Constructor --"
@@ -75,12 +75,10 @@ Namespace NeuralNetwork
         ''' <param name="learnRate"></param>
         ''' <param name="momentum"></param>
         Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
-                       Optional learnRate As Double = Nothing,
-                       Optional momentum As Double = Nothing,
+                       Optional learnRate As Double = 0.1,
+                       Optional momentum As Double = 0.9,
                        Optional active As IActivationFunction = Nothing)
 
-            Me.LearnRate = If(learnRate = 0R, 0.1, learnRate)
-            Me.Momentum = If(momentum = 0R, 0.9, momentum)
             InputLayer = New List(Of Neuron)()
             HiddenLayer = New List(Of Neuron)()
             OutputLayer = New List(Of Neuron)()
@@ -137,8 +135,8 @@ Namespace NeuralNetwork
                 InputLayer(i).Value = inputs(i)
             Next
 
-            HiddenLayer.ForEach(Sub(a, i) a.CalculateValue())
-            OutputLayer.ForEach(Sub(a, i) a.CalculateValue())
+            Call HiddenLayer.ForEach(Sub(a, i) a.CalculateValue())
+            Call OutputLayer.ForEach(Sub(a, i) a.CalculateValue())
 
             Return OutputLayer
         End Function
@@ -148,9 +146,9 @@ Namespace NeuralNetwork
                 OutputLayer(i).CalculateGradient(targets(i))
             Next
 
-            HiddenLayer.ForEach(Sub(a, i) a.CalculateGradient())
-            HiddenLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
-            OutputLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
+            Call HiddenLayer.ForEach(Sub(a, i) a.CalculateGradient())
+            Call HiddenLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
+            Call OutputLayer.ForEach(Sub(a, i) a.UpdateWeights(LearnRate, Momentum))
         End Sub
 
         ''' <summary>

@@ -51,6 +51,8 @@
 ' contacts@aforgenet.com
 '
 
+Imports System.Runtime.CompilerServices
+
 Namespace NeuralNetwork.Activations
 
     ''' <summary>
@@ -121,7 +123,7 @@ Namespace NeuralNetwork.Activations
         ''' <returns>Function output value, <i>f(x)</i>.</returns>
         '''
         ''' <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
-        '''
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [Function](x As Double) As Double Implements IActivationFunction.[Function]
             Return (1 / (1 + Math.Exp(-_Alpha * x)))
         End Function
@@ -135,7 +137,7 @@ Namespace NeuralNetwork.Activations
         ''' <returns>Function derivative, <i>f'(x)</i>.</returns>
         ''' 
         ''' <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
-        '''
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative(x As Double) As Double Implements IActivationFunction.Derivative
             Dim y As Double = [Function](x)
 
@@ -159,7 +161,7 @@ Namespace NeuralNetwork.Activations
         ''' <para><note>Some applications require as function value, as derivative value,
         ''' so they can save the amount of calculations using this method to calculate derivative.</note></para>
         ''' </remarks>
-        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
             Return (_Alpha * y * (1 - y))
         End Function

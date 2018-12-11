@@ -49,6 +49,8 @@
 ' contacts@aforgenet.com
 '
 
+Imports System.Runtime.CompilerServices
+
 Namespace NeuralNetwork.Activations
 
     ''' <summary>
@@ -88,7 +90,7 @@ Namespace NeuralNetwork.Activations
         ''' <returns>Function output value, <i>f(x)</i>.</returns>
         '''
         ''' <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
-        '''
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [Function](x As Double) As Double Implements IActivationFunction.[Function]
             Return If((x >= 0), 1, 0)
         End Function
@@ -103,7 +105,7 @@ Namespace NeuralNetwork.Activations
         ''' 
         ''' <remarks><para><note>The method is not supported, because it is not possible to
         ''' calculate derivative of the function.</note></para></remarks>
-        '''
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative(x As Double) As Double Implements IActivationFunction.Derivative
             Return 0
         End Function
@@ -118,7 +120,7 @@ Namespace NeuralNetwork.Activations
         ''' 
         ''' <remarks><para><note>The method is not supported, because it is not possible to
         ''' calculate derivative of the function.</note></para></remarks>
-        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
             Return 0
         End Function
