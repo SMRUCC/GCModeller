@@ -45,6 +45,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 
 Namespace NeuralNetwork
 
@@ -54,10 +55,19 @@ Namespace NeuralNetwork
     Public Class TrainingUtils
 
         Public Property TrainingType As TrainingType = TrainingType.Epoch
+
+        ''' <summary>
+        ''' 最终得到的训练结果神经网络
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property NeuronNetwork As Network
 
         ReadOnly _dataSets As New List(Of DataSet)
 
+        ''' <summary>
+        ''' 训练所使用到的经验数量,即数据集的大小s
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property XP As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -74,12 +84,25 @@ Namespace NeuralNetwork
             NeuronNetwork = net
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
+                       Optional learnRate As Double = 0.1,
+                       Optional momentum As Double = 0.9,
+                       Optional active As IActivationFunction = Nothing)
+            Call Me.New(New Network(inputSize, hiddenSize, outputSize, learnRate, momentum, active))
+        End Sub
+
         Public Sub RemoveLast()
             If Not _dataSets.Count = 0 Then
                 Call _dataSets.RemoveLast
             End If
         End Sub
 
+        ''' <summary>
+        ''' 在这里添加训练使用的数据集
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <param name="output"></param>
         Public Sub Add(input As Double(), output As Double())
             Call _dataSets.Add(New DataSet(input, output))
         End Sub
@@ -88,6 +111,9 @@ Namespace NeuralNetwork
             Call _dataSets.Add(x)
         End Sub
 
+        ''' <summary>
+        ''' 开始进行训练
+        ''' </summary>
         Public Sub Train()
             Call Helpers.Train(NeuronNetwork, _dataSets, TrainingType)
         End Sub

@@ -69,9 +69,9 @@ Namespace NeuralNetwork
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="inputSize">>=2</param>
-        ''' <param name="hiddenSize">>=2</param>
-        ''' <param name="outputSize">>=1</param>
+        ''' <param name="inputSize">``>=2``</param>
+        ''' <param name="hiddenSize">``>=2``</param>
+        ''' <param name="outputSize">``>=1``</param>
         ''' <param name="learnRate"></param>
         ''' <param name="momentum"></param>
         Public Sub New(inputSize As Integer, hiddenSize As Integer, outputSize As Integer,
