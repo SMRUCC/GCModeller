@@ -69,6 +69,11 @@ Namespace NeuralNetwork
 #End Region
 
 #Region "-- Constructors --"
+
+        ''' <summary>
+        ''' 创建的神经链接是空的
+        ''' </summary>
+        ''' <param name="active"></param>
         Public Sub New(Optional active As IActivationFunction = Nothing)
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()

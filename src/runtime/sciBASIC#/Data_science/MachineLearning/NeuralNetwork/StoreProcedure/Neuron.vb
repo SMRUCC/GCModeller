@@ -1,4 +1,6 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 Namespace NeuralNetwork.StoreProcedure
 
@@ -12,6 +14,23 @@ Namespace NeuralNetwork.StoreProcedure
         ''' <returns></returns>
         <XmlAttribute> Public Property Weight As Double
         <XmlAttribute> Public Property WeightDelta As Double
+
+    End Class
+
+    ''' <summary>
+    ''' 一个神经元节点的数据模型
+    ''' </summary>
+    Public Class NeuronNode : Implements INamedValue
+
+        ''' <summary>
+        ''' 当前的这个神经元的唯一标记
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
+        <XmlAttribute> Public Property Bias As Double
+        <XmlAttribute> Public Property BiasDelta As Double
+        <XmlAttribute> Public Property Gradient As Double
+        <XmlAttribute> Public Property Value As Double
 
     End Class
 End Namespace

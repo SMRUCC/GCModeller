@@ -64,6 +64,12 @@ Namespace NeuralNetwork
         Public Property InputLayer As Layer
         Public Property HiddenLayer As HiddenLayers
         Public Property OutputLayer As Layer
+
+        ''' <summary>
+        ''' 激活函数
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ActiveFunction As ActiveFunction
 #End Region
 
         ''' <summary>
@@ -81,6 +87,7 @@ Namespace NeuralNetwork
 
             Me.LearnRate = learnRate
             Me.Momentum = momentum
+            Me.ActiveFunction = (active Or defaultActivation).Store
 
             InputLayer = New Layer(inputSize, active)
             HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, active)

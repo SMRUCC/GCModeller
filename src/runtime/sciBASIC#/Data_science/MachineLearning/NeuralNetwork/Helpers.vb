@@ -90,6 +90,11 @@ Namespace NeuralNetwork
                 Call neuron.Train(data, Helpers.MinimumError)
             End If
         End Sub
+
+        <Extension>
+        Friend Function PopulateAllSynapses(neuron As Neuron) As IEnumerable(Of Synapse)
+            Return neuron.InputSynapses.ToArray + neuron.OutputSynapses.AsList
+        End Function
     End Module
 
     Public Enum TrainingType
