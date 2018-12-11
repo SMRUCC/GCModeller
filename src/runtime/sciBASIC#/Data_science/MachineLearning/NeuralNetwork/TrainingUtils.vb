@@ -63,7 +63,7 @@ Namespace NeuralNetwork
         ''' <returns></returns>
         Public ReadOnly Property NeuronNetwork As Network
 
-        ReadOnly _dataSets As New List(Of DataSet)
+        ReadOnly _dataSets As New List(Of Sample)
 
         ''' <summary>
         ''' 训练所使用到的经验数量,即数据集的大小s
@@ -105,10 +105,10 @@ Namespace NeuralNetwork
         ''' <param name="input"></param>
         ''' <param name="output"></param>
         Public Sub Add(input As Double(), output As Double())
-            Call _dataSets.Add(New DataSet(input, output))
+            Call _dataSets.Add(New Sample(input, output))
         End Sub
 
-        Public Sub Add(x As DataSet)
+        Public Sub Add(x As Sample)
             Call _dataSets.Add(x)
         End Sub
 
@@ -126,14 +126,14 @@ Namespace NeuralNetwork
         ''' <param name="convertedResults">The error outputs</param>
         ''' <param name="expectedResults">The corrects output</param>
         Public Sub Corrects(input As Double(), convertedResults As Double(), expectedResults As Double(), Optional train As Boolean = True)
-            Dim offendingDataSet As DataSet = _dataSets _
+            Dim offendingDataSet As Sample = _dataSets _
                 .FirstOrDefault(Function(x)
                                     Return x.Status.SequenceEqual(input) AndAlso x.Target.SequenceEqual(convertedResults)
                                 End Function)
             _dataSets.Remove(offendingDataSet)
 
             If Not _dataSets.Exists(Function(x) x.Status.SequenceEqual(input) AndAlso x.Target.SequenceEqual(expectedResults)) Then
-                Call _dataSets.Add(New DataSet(input, expectedResults))
+                Call _dataSets.Add(New Sample(input, expectedResults))
             End If
 
             If train Then
@@ -141,7 +141,7 @@ Namespace NeuralNetwork
             End If
         End Sub
 
-        Public Sub Corrects(dataset As DataSet, expectedResults As Double(), Optional train As Boolean = True)
+        Public Sub Corrects(dataset As Sample, expectedResults As Double(), Optional train As Boolean = True)
             Call Corrects(dataset.Status, dataset.Target, expectedResults, train)
         End Sub
     End Class

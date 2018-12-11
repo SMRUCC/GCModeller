@@ -101,23 +101,23 @@ Namespace NeuralNetwork
         End Function
 
 #Region "-- Training --"
-        Public Sub Train(dataSets As List(Of DataSet), numEpochs As Integer)
+        Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer)
             For i As Integer = 0 To numEpochs - 1
-                For Each dataSet As DataSet In dataSets
+                For Each dataSet As Sample In dataSets
                     ForwardPropagate(dataSet.Status)
                     BackPropagate(dataSet.Target)
                 Next
             Next
         End Sub
 
-        Public Sub Train(dataSets As List(Of DataSet), minimumError As Double)
+        Public Sub Train(dataSets As List(Of Sample), minimumError As Double)
             Dim [error] = 1.0
             Dim numEpochs = 0
 
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
                 Dim errors As New List(Of Double)()
 
-                For Each dataSet As DataSet In dataSets
+                For Each dataSet As Sample In dataSets
                     ForwardPropagate(dataSet.Status)
                     BackPropagate(dataSet.Target)
                     errors.Add(CalculateError(dataSet.Target))

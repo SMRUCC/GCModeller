@@ -53,7 +53,7 @@ Namespace NeuralNetwork.StoreProcedure
     ''' <summary>
     ''' The training dataset
     ''' </summary>
-    Public Class DataSet : Implements INamedValue
+    Public Class Sample : Implements INamedValue
 
         ''' <summary>
         ''' 可选的数据集唯一标记信息
@@ -91,5 +91,14 @@ Namespace NeuralNetwork.StoreProcedure
         Public Overrides Function ToString() As String
             Return $"{Status.AsVector.ToString} => {Target.AsVector.ToString}"
         End Function
+    End Class
+
+    ''' <summary>
+    ''' A training dataset that stored in XML file.
+    ''' </summary>
+    Public Class DataSet
+
+        Public Property DataSamples As Sample()
+
     End Class
 End Namespace
