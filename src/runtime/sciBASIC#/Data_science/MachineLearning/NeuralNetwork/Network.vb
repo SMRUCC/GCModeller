@@ -79,6 +79,9 @@ Namespace NeuralNetwork
                        Optional momentum As Double = 0.9,
                        Optional active As IActivationFunction = Nothing)
 
+            Me.LearnRate = learnRate
+            Me.Momentum = momentum
+
             InputLayer = New Layer(inputSize, active)
             HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, active)
             OutputLayer = New Layer(outputSize, active, input:=HiddenLayer.Output)

@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace NeuralNetwork
 
@@ -58,6 +60,10 @@ Namespace NeuralNetwork
                 Call neuron.CalculateGradient()
             Next
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{Neurons.Length} neurons => {Output.AsVector.ToString}"
+        End Function
     End Class
 
     Public Class HiddenLayers
