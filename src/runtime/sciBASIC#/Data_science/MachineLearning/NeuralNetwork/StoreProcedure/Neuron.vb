@@ -12,8 +12,8 @@ Namespace NeuralNetwork.StoreProcedure
         ''' 两个神经元之间的连接强度
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Weight As Double
-        <XmlAttribute> Public Property WeightDelta As Double
+        <XmlAttribute> Public Property weight As Double
+        <XmlAttribute> Public Property weightDelta As Double
 
     End Class
 
@@ -27,10 +27,10 @@ Namespace NeuralNetwork.StoreProcedure
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
-        <XmlAttribute> Public Property Bias As Double
-        <XmlAttribute> Public Property BiasDelta As Double
-        <XmlAttribute> Public Property Gradient As Double
-        <XmlAttribute> Public Property Value As Double
+        <XmlAttribute> Public Property bias As Double
+        <XmlAttribute> Public Property biasDelta As Double
+        <XmlAttribute> Public Property gradient As Double
+        <XmlAttribute> Public Property value As Double
 
     End Class
 End Namespace
