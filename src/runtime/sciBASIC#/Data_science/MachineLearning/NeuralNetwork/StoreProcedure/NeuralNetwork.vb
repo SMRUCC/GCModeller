@@ -75,7 +75,7 @@ Namespace NeuralNetwork.StoreProcedure
             nodes += GetLayerNodes(instance.InputLayer, hash2Uid, id)
             inputlayer = GetGuids(instance.InputLayer, hash2Uid)
 
-            For Each layer As SeqValue(Of Layer) In instance.HiddenLayer.Layers.SeqIterator
+            For Each layer As SeqValue(Of Layer) In instance.HiddenLayer.SeqIterator
                 nodes += GetLayerNodes(layer, hash2Uid, id)
                 hiddenlayers += New NeuronLayer With {
                     .id = layer.i + 1,
@@ -89,7 +89,7 @@ Namespace NeuralNetwork.StoreProcedure
             ' edges
             connections += GetNodeConnections(instance.InputLayer, hash2Uid)
 
-            For Each layer As Layer In instance.HiddenLayer.Layers
+            For Each layer As Layer In instance.HiddenLayer
                 connections += GetNodeConnections(layer, hash2Uid)
             Next
 
