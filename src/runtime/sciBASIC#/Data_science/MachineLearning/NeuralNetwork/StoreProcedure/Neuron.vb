@@ -37,9 +37,10 @@ Namespace NeuralNetwork.StoreProcedure
 
     End Class
 
-    Public Class NeuronLayer : Inherits ListOf
+    <XmlType("layer")> Public Class NeuronLayer : Inherits ListOf
         Implements INamedValue
 
+        <XmlAttribute>
         Public Property id As String Implements IKeyedEntity(Of String).Key
         Public Property neurons As String()
 
