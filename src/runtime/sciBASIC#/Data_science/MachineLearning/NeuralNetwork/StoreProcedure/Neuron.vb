@@ -1,6 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.StoreProcedure
 
@@ -34,5 +35,16 @@ Namespace NeuralNetwork.StoreProcedure
         <XmlText>
         Public Property value As Double
 
+    End Class
+
+    Public Class NeuronLayer : Inherits ListOf
+        Implements INamedValue
+
+        Public Property id As String Implements IKeyedEntity(Of String).Key
+        Public Property neurons As String()
+
+        Protected Overrides Function getSize() As Integer
+            Return neurons?.Length
+        End Function
     End Class
 End Namespace
