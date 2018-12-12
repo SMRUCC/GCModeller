@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.StoreProcedure
 
@@ -9,7 +9,7 @@ Namespace NeuralNetwork.StoreProcedure
     ''' Xml文件存储格式
     ''' </summary>
     <XmlRoot("NeuralNetwork", [Namespace]:="http://machinelearning.scibasic.net/ANN/")>
-    Public Class NeuralNetwork
+    Public Class NeuralNetwork : Inherits XmlDataModel
 
         Public Property ActiveFunction As ActiveFunction
         Public Property learnRate As Double
