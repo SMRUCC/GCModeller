@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.StoreProcedure
@@ -6,11 +7,12 @@ Namespace NeuralNetwork.StoreProcedure
     ''' <summary>
     ''' Xml文件存储格式
     ''' </summary>
+    <XmlRoot("NeuralNetwork", [Namespace]:="http://machinelearning.scibasic.net/ANN/")>
     Public Class NeuralNetwork
 
         Public Property ActiveFunction As ActiveFunction
-        Public Property LearnRate As Double
-        Public Property Momentum As Double
+        Public Property learnRate As Double
+        Public Property momentum As Double
 
         Public Property neurons As NeuronNode()
         Public Property connections As Synapse()
@@ -26,11 +28,11 @@ Namespace NeuralNetwork.StoreProcedure
                 hash2Uid(neuron) = guid
 
                 Yield New NeuronNode With {
-                    .Bias = neuron.Bias,
-                    .BiasDelta = neuron.BiasDelta,
-                    .Gradient = neuron.Gradient,
-                    .ID = guid,
-                    .Value = neuron.Value
+                    .bias = neuron.Bias,
+                    .delta = neuron.BiasDelta,
+                    .gradient = neuron.Gradient,
+                    .id = guid,
+                    .value = neuron.Value
                 }
             Next
         End Function
@@ -39,10 +41,10 @@ Namespace NeuralNetwork.StoreProcedure
             For Each neuron As Neuron In layer.Neurons
                 For Each edge In neuron.PopulateAllSynapses
                     Yield New Synapse With {
-                        .InputNeuron = hash2Uid(edge.InputNeuron),
-                        .OutputNeuron = hash2Uid(edge.OutputNeuron),
-                        .Weight = edge.Weight,
-                        .WeightDelta = edge.WeightDelta
+                        .[in] = hash2Uid(edge.InputNeuron),
+                        .out = hash2Uid(edge.OutputNeuron),
+                        .w = edge.Weight,
+                        .delta = edge.WeightDelta
                     }
                 Next
             Next
@@ -60,7 +62,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' <param name="instance"></param>
         ''' <returns></returns>
         Public Shared Function Snapshot(instance As Network) As NeuralNetwork
-            Dim id As New Uid
+            Dim id As New Uid(1000, False)
             Dim hash2Uid As New Dictionary(Of Neuron, String)
             Dim nodes As New List(Of NeuronNode)
             Dim hiddenlayers As New List(Of TermsVector)
@@ -93,8 +95,8 @@ Namespace NeuralNetwork.StoreProcedure
 
             Return New NeuralNetwork With {
                 .ActiveFunction = instance.ActiveFunction,
-                .LearnRate = instance.LearnRate,
-                .Momentum = instance.Momentum,
+                .learnRate = instance.LearnRate,
+                .momentum = instance.Momentum,
                 .neurons = nodes,
                 .hiddenlayers = hiddenlayers,
                 .inputlayer = New TermsVector With {.Terms = inputlayer},
