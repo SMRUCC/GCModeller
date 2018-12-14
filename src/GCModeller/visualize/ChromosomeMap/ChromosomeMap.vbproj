@@ -232,7 +232,7 @@
     </Compile>
     <Compile Include="PlasmidMap\DrawingDevice.vb" />
     <Compile Include="PlasmidMap\PlasmidMap.vb" />
-    <Compile Include="PlasmidMap\SegmentObject.vb" />
+    <Compile Include="PlasmidMap\DrawGene.vb" />
     <Compile Include="PlasmidMap\ShellScriptAPI.vb" />
   </ItemGroup>
   <ItemGroup>

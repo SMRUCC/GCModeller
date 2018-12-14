@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::b90edca5af10b759ce517ef767ac7d62, ChromosomeMap\PlasmidMap\ShellScriptAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ShellScriptAPI
-    ' 
-    '         Function: TestDEBUG
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ShellScriptAPI
+' 
+'         Function: TestDEBUG
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace PlasmidMap
 
@@ -54,15 +55,17 @@ Namespace PlasmidMap
 #If DEBUG Then
         <ExportAPI("test_debug()", Info:="Just for debugging...")>
         Public Function TestDEBUG() As Boolean
-            Dim model As New PlasmidMap.PlasmidMapDrawingModel With {
-                .GeneObjects = {New DrawingModels.SegmentObject With {
+            Dim model As New PlasmidMapDrawingModel With {
+                .GeneObjects = {
+                New SegmentObject With {
                 .LocusTag = "TEST_1",
                 .Direction = 0,
                 .CommonName = "TEST_Annotations_TEXT",
                 .Left = 100,
                 .Right = 200,
-                .GenomeLength = 600,
-                .Color = Color.Black}}}
+                .Color = Brushes.Black}},
+                .genomeSize = 600
+            }
             Call New DrawingDevice().InvokeDrawing(model).Save(My.Computer.FileSystem.SpecialDirectories.Temp & "/Test.bmp")
             Return True
         End Function
