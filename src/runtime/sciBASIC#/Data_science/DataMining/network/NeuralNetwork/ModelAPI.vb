@@ -61,11 +61,11 @@ Namespace NeuralNetwork.Models
                 .ToDictionary(Function(x) x.value,
                               Function(x) x.i)
 
-            network += net.HiddenLayer.Select(Function(x) x.__node(NameOf(net.HiddenLayer), hash))
+            network += net.HiddenLayer.Select(Function(x) x.Select(Function(n) n.__node(NameOf(net.HiddenLayer), hash))).IteratesALL
             network += net.InputLayer.Select(Function(x) x.__node(NameOf(net.InputLayer), hash))
             network += net.OutputLayer.Select(Function(x) x.__node(NameOf(net.OutputLayer), hash))
 
-            network += net.HiddenLayer.Select(Function(x) x.__edges(NameOf(net.HiddenLayer), hash)).IteratesALL
+            network += net.HiddenLayer.Select(Function(x) x.Select(Function(n) n.__edges(NameOf(net.HiddenLayer), hash))).IteratesALL.IteratesALL
             network += net.InputLayer.Select(Function(x) x.__edges(NameOf(net.InputLayer), hash)).IteratesALL
             network += net.OutputLayer.Select(Function(x) x.__edges(NameOf(net.OutputLayer), hash)).IteratesALL
 
