@@ -20,6 +20,7 @@ REM config KEGG repository data directory location at here
 SET br08901_maps="P:\91001_GB\KGML\br08901"
 SET KEGG_cpds="P:\91001_GB\KGML\KEGG_cpd"
 SET br08201_network="P:\91001_GB\KGML\br08201"
+SET maps="P:\91001_GB\KGML\Maps"
 
 REM config myva COG database files location
 SET myva="E:\GCModeller-repo\COGs\Myva\myva"
@@ -58,6 +59,8 @@ foreach dir in %genome% do blastp -query "$file/%sp_name%.faa" -db %uniprot% -ev
 REM and then export raw blastp output result using GCModeller CLI tools.
 foreach *.txt in "%KO_base%\blastp" do localblast /SBH.Export.Large /in $file /out "%KO_base%\KO_align_sbh\$basename.csv" /s.pattern "tokens | first" /q.pattern "tokens | 4" /identities 0.15 /coverage 0.5 /top.best
 foreach *.csv in "%KO_base%\KO_align_sbh" do eggHTS /proteins.KEGG.plot /in "$file" /field "hit_name" /geneId.field "query_name" /size 2600,2200 /tick -1 /out "%KO_base%\KO_profiles\$basename"
+REM mark the gene hits on KEGG pathway maps
+foreach dir in "%KO_base%\KO_profiles" do eggHTS /KEGG.Color.Pathway /in "$file/KOCatalogs.csv" /ref %maps% /out "$file/maps"
 
 REM COG annotation base on SBH
 foreach dir in %genome% do blastp -query "$file/%sp_name%.faa" -db %myva% -evalue 1e-5 -num_threads 8 -out "%COG_base%\blastp\$basename.txt"
@@ -91,6 +94,10 @@ foreach *.txt in "%TF_base%\regulators\blastp" do localblast /SBH.Export.Large /
 
 REM regulator annotations
 foreach *.csv in "%TF_base%\regulators\sbh" do regprecise /regulators.bbh /bbh $file /regprecise %regprecise% /sbh /allow.multiple /description %regpreciseRegulators% /out "%TF_base%\regulators\mappings\$basename.csv"
+
+REM if want to union the regulator predicts data between different replicons
+REM the using
+REM Excel /rbind /in "%TF_base%\regulators\mappings\%chromosome_id%.csv" /out %TF_union%
 
 REM build TF regulation network after we have create the motif site and TF predictions
 foreach *.csv in "%TF_base%\regulators\mappings" do VirtualFootprint /regulation.footprints /regulator "$file" /footprint "%TF_base%\motifs\contexts\$basename.csv" /out "%TF_base%\result_networks\$basename.csv"
