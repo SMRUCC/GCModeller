@@ -27,6 +27,11 @@ SET whog="E:\GCModeller-repo\COGs\Myva\whog.XML"
 REM config for UniProt reference sequence database
 SET uniprot="P:\91001_GB\KO\uniprot-bacteria.KO.faa"
 
+REM config for RegPrecise database repository
+SET regpreciseMotifs="P:\91001_GB\transcript_regulations\Regprecise.motifs.fasta"
+SET regpreciseRegulators="P:\91001_GB\transcript_regulations\regulators\KEGG_genomes.fasta"
+SET regprecise="P:\91001_GB\transcript_regulations\RegpreciseDownloads"
+
 REM config for the component output directory
 SET KO_base=%base%\KO
 SET COG_base=%base%\COG
@@ -61,9 +66,12 @@ foreach *.csv in "%COG_base%\profiles" do eggHTS /COG.profiling.plot /in "$file"
 REM motif predicts
 foreach dir in %genome% do makeblastdb -in "$file/%sp_name%.fna" -dbtype nucl
 
+mkdir "%TF_base%\motifs\blastn"
+mkdir "%TF_base%\regulators\blastp"
+
 REM blastn mappings
 REM no evalue filter
-foreach dir in %genome% do blastn -query "P:\91001_GB\transcript_regulations\Regprecise.motifs.fasta" -db "$file/%sp_name%.fna" -word_size 5 -out "%TF_base%\motifs\blastn\$basename.txt" /@set "/parallel=8;/clr=false"
+foreach dir in %genome% do blastn -query %regpreciseMotifs% -db "$file/%sp_name%.fna" -word_size 5 -out "%TF_base%\motifs\blastn\$basename.txt" /@set "/parallel=8;/clr=false"
 
 REM export blastn mapping result and do motif tree cluster for the predictions
 foreach *.txt in "%TF_base%\motifs\blastn" do localblast /Export.blastnMaps /in $file /out "%TF_base%\motifs\mappings\$basename.csv"
@@ -71,8 +79,8 @@ foreach *.csv in "%TF_base%\motifs\mappings" do VirtualFootprint /scan.blastn.ma
 foreach *.csv in "%TF_base%\motifs\sites" do VirtualFootprint /Site.match.genes /in $file /genome "%genome%\$basename.gbk" /max.dist 300 /out "%TF_base%\motifs\contexts\$basename.csv" /skip.RNA
 
 REM TF regulators predictions
-makeblastdb -in "P:\91001_GB\transcript_regulations\regulators\KEGG_genomes.fasta" -dbtype prot
-foreach dir in %genome% do blastp -query "$file/%sp_name%.faa" -db "P:\91001_GB\transcript_regulations\regulators\KEGG_genomes.fasta" -evalue 1e-5 -num_threads 7 -out "%TF_base%\regulators\blastp\$basename.txt"
+makeblastdb -in %regpreciseRegulators% -dbtype prot
+foreach dir in %genome% do blastp -query "$file/%sp_name%.faa" -db %regpreciseRegulators% -evalue 1e-5 -num_threads 7 -out "%TF_base%\regulators\blastp\$basename.txt"
 
 REM sbh method
 REM due to the reason of orthology can be inherits from multiple source
@@ -81,7 +89,7 @@ REM This will resulted multiple genome source regulation network that will be cr
 foreach *.txt in "%TF_base%\regulators\blastp" do localblast /SBH.Export.Large /in $file /out "%TF_base%\regulators\sbh\$basename.csv" /s.pattern "tokens ' ' first" /q.pattern "tokens | 4" /identities 0.6 /coverage 0.8
 
 REM regulator annotations
-foreach *.csv in "%TF_base%\regulators\sbh" do regprecise /regulators.bbh /bbh $file /regprecise "P:\91001_GB\transcript_regulations\RegpreciseDownloads" /sbh /allow.multiple /description "P:\91001_GB\transcript_regulations\regulators\KEGG_genomes.fasta" /out "%TF_base%\regulators\mappings\$basename.csv"
+foreach *.csv in "%TF_base%\regulators\sbh" do regprecise /regulators.bbh /bbh $file /regprecise %regprecise% /sbh /allow.multiple /description %regpreciseRegulators% /out "%TF_base%\regulators\mappings\$basename.csv"
 
 REM build TF regulation network after we have create the motif site and TF predictions
 foreach *.csv in "%TF_base%\regulators\mappings" do VirtualFootprint /regulation.footprints /regulator "$file" /footprint "%TF_base%\motifs\contexts\$basename.csv" /out "%TF_base%\result_networks\$basename.csv"

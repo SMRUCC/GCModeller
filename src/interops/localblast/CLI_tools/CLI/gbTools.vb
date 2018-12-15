@@ -332,6 +332,7 @@ Partial Module CLI
         Call GFF.Save(out & $"/{name}.gff")
         Call ffn.Save(out & $"/{name}.ffn")
         Call geneList.SaveTo(out & $"/{name}.list")
+        Call gb.Save($"{out}/{name}.gbff")
     End Sub
 
     <ExportAPI("/Export.gb.genes",
