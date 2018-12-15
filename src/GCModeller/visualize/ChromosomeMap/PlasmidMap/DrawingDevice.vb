@@ -64,11 +64,9 @@ Namespace PlasmidMap
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
                     Dim canvasSize As Size = region.PlotRegion.Size
                     Dim center As New Point(canvasSize.Width / 2, canvasSize.Height / 2)
-                    Dim r! = Math.Min(canvasSize.Width, canvasSize.Height) / 2
+                    Dim r! = Math.Min(canvasSize.Width, canvasSize.Height)
                     Dim r1 As Double = r * r1Scale
                     Dim r2 As Double = r * r2Scale
-#Const DEBUG = 1
-
 #If DEBUG Then
                     ' 在调试模式下，会首先将参考用的圆心绘制出来
                     Call g.FillPie(Brushes.Red, New Rectangle(New Point(center.X - 5, center.Y - 5), New Size(10, 10)), 0, 360)

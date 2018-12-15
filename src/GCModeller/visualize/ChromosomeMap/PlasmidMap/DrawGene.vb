@@ -66,13 +66,22 @@ Namespace PlasmidMap.DrawingModels
         ''' <remarks></remarks>
         Public Function Draw(g As IGraphics, center As Point, gene As SegmentObject, genomeSize%, r1!, r2!) As Size
             Dim path As New GraphicsPath
-            Dim startAngle! = gene.Left / genomeSize * (2 * Math.PI)
-            Dim endAngle! = gene.Right / genomeSize * (2 * Math.PI)
+            Dim startAngle! = gene.Left / genomeSize * (2 * 360) - 90
+            Dim endAngle! = gene.Right / genomeSize * (2 * 360) - 90
             Dim line As New Pen(Color.Black, Math.Abs(r1 - r2)) With {
-                .EndCap = LineCap.AnchorMask
+                .EndCap = LineCap.ArrowAnchor
             }
+            Dim ref As New PointF With {
+                .X = center.X - r2 / 2,
+                .Y = center.Y - r2 / 2
+            }
+            Dim region As New RectangleF(ref, New Size(r2, r2))
 
-            Call g.DrawArc(line, New RectangleF(center, New Size(r2, r2)), startAngle, endAngle)
+#If DEBUG Then
+            Call g.DrawRectangle(Pens.Green, region)
+#End If
+
+            Call g.DrawArc(line, region, startAngle, endAngle)
         End Function
     End Module
 End Namespace
