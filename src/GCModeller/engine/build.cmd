@@ -38,7 +38,7 @@ mkdir %TF_base%
 
 REM first of all
 REM Extract sequence data and genome context files
-foreach *.gbk in %genome% do localblast /Export.gb /gb $file /flat
+foreach *.gbk in %genome% do localblast /Export.gb /gb $file /out %genome%
 
 REM KO annotation base on SBH
 
