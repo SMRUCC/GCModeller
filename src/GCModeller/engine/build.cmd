@@ -13,6 +13,7 @@ REM Whitespace and non-ascii character and symbols should avoid in the path stri
 REM config the genome data source and the virtual cell model output path
 SET genome="%base%\genome"
 SET chromosome_gbk=%genome%\huang.gbk
+SET chromosome_id=huang
 SET model_output="%base%\bacterial.GCmarkup"
 
 REM config KEGG repository data directory location at here
@@ -76,7 +77,7 @@ foreach dir in %genome% do blastn -query %regpreciseMotifs% -db "$file/%sp_name%
 REM export blastn mapping result and do motif tree cluster for the predictions
 foreach *.txt in "%TF_base%\motifs\blastn" do localblast /Export.blastnMaps /in $file /out "%TF_base%\motifs\mappings\$basename.csv"
 foreach *.csv in "%TF_base%\motifs\mappings" do VirtualFootprint /scan.blastn.map.motifsite /in $file /hits.base 5 /out "%TF_base%\motifs\sites\$basename.csv"
-foreach *.csv in "%TF_base%\motifs\sites" do VirtualFootprint /Site.match.genes /in $file /genome "%genome%\$basename\%sp_name%.gbff" /max.dist 250 /out "%TF_base%\motifs\contexts\$basename.csv" /skip.RNA
+foreach *.csv in "%TF_base%\motifs\sites" do VirtualFootprint /Site.match.genes /in $file /genome "%genome%\$basename\%sp_name%.gbff" /max.dist 250 /replicon "locus" /out "%TF_base%\motifs\contexts\$basename.csv" /skip.RNA
 
 REM TF regulators predictions
 makeblastdb -in %regpreciseRegulators% -dbtype prot
@@ -95,11 +96,11 @@ REM build TF regulation network after we have create the motif site and TF predi
 foreach *.csv in "%TF_base%\regulators\mappings" do VirtualFootprint /regulation.footprints /regulator "$file" /footprint "%TF_base%\motifs\contexts\$basename.csv" /out "%TF_base%\result_networks\$basename.csv"
 
 REM TF from chromosome regulates genes from plasmids
-foreach *.csv in "%TF_base%\motifs\contexts" do VirtualFootprint /regulation.footprints /regulator "P:\91001_GB\transcript_regulations\regulators\mappings\NC_005810.csv" /footprint "$file" /out "%TF_base%\result_networks\$basename.csv"
+foreach *.csv in "%TF_base%\motifs\contexts" do VirtualFootprint /regulation.footprints /regulator "%TF_base%\regulators\mappings\%chromosome_id%.csv" /footprint "$file" /out "%TF_base%\result_networks\$basename.csv"
 
 REM chromosome map plot
 mapplot /Config.Template /out "%genome%\plot\config.inf"
-mapplot --Draw.ChromosomeMap.genbank /gb "%chromosome_gbk%" /motifs "P:\91001_GB\transcript_regulations\motifs\contexts\NC_005810.csv" /hide.mics /conf "%genome%\plot\config.inf" /out "%genome%\plot" /COG "P:\91001_GB\COG\profiles\NC_005810.csv"
+mapplot --Draw.ChromosomeMap.genbank /gb "%chromosome_gbk%" /motifs "%TF_base%\motifs\contexts\%chromosome_id%.csv" /hide.mics /conf "%genome%\plot\config.inf" /out "%genome%\plot" /COG "%COG_base%\profiles\%chromosome_id%.csv"
 
 REM compile virtual cell data model
 
