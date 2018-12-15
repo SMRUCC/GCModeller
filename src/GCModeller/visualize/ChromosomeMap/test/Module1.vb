@@ -6,7 +6,7 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.PlasmidMap
 Module Module1
 
     Sub Main()
-
+        Call TestDEBUG()
     End Sub
 
     <ExportAPI("test_debug()", Info:="Just for debugging...")>

@@ -57,18 +57,21 @@ Namespace PlasmidMap
         Public Function DrawMap(plasmid As PlasmidMapDrawingModel,
                                 Optional size$ = "1200,1200",
                                 Optional margin$ = g.DefaultPadding,
-                                Optional bg$ = "white") As GraphicsData
+                                Optional bg$ = "white",
+                                Optional r1Scale# = 0.9,
+                                Optional r2Scale# = 0.8) As GraphicsData
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
                     Dim canvasSize As Size = region.PlotRegion.Size
                     Dim center As New Point(canvasSize.Width / 2, canvasSize.Height / 2)
-                    Dim r1 As Double = Math.Min(canvasSize.Width, canvasSize.Height) * 0.95
-                    Dim r2 As Double = Math.Min(canvasSize.Width, canvasSize.Height) * 0.85
+                    Dim r! = Math.Min(canvasSize.Width, canvasSize.Height) / 2
+                    Dim r1 As Double = r * r1Scale
+                    Dim r2 As Double = r * r2Scale
 #Const DEBUG = 1
 
 #If DEBUG Then
                     ' 在调试模式下，会首先将参考用的圆心绘制出来
-                    Call g.DrawPie(Pens.Red, New Rectangle(New Point(center.X - 5, center.Y - 5), New Size(10, 10)), 0, 360)
+                    Call g.FillPie(Brushes.Red, New Rectangle(New Point(center.X - 5, center.Y - 5), New Size(10, 10)), 0, 360)
 #End If
                     For i As Integer = 0 To plasmid.GeneObjects.Count - 1
                         Dim gene = plasmid.GeneObjects(i)
