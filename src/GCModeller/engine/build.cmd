@@ -76,7 +76,7 @@ foreach dir in %genome% do blastn -query %regpreciseMotifs% -db "$file/%sp_name%
 REM export blastn mapping result and do motif tree cluster for the predictions
 foreach *.txt in "%TF_base%\motifs\blastn" do localblast /Export.blastnMaps /in $file /out "%TF_base%\motifs\mappings\$basename.csv"
 foreach *.csv in "%TF_base%\motifs\mappings" do VirtualFootprint /scan.blastn.map.motifsite /in $file /hits.base 5 /out "%TF_base%\motifs\sites\$basename.csv"
-foreach *.csv in "%TF_base%\motifs\sites" do VirtualFootprint /Site.match.genes /in $file /genome "%genome%\$basename.gbk" /max.dist 300 /out "%TF_base%\motifs\contexts\$basename.csv" /skip.RNA
+foreach *.csv in "%TF_base%\motifs\sites" do VirtualFootprint /Site.match.genes /in $file /genome "%genome%\$basename\%sp_name%.gbff" /max.dist 250 /out "%TF_base%\motifs\contexts\$basename.csv" /skip.RNA
 
 REM TF regulators predictions
 makeblastdb -in %regpreciseRegulators% -dbtype prot
