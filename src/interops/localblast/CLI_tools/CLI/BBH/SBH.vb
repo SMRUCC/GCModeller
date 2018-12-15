@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::c6d4653b6935ee24d83a6498bcba4dd1, CLI_tools\CLI\BBH\SBH.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __evalueRow, __HitsRow, _2_KOBASOutput, EvalueMatrix, ExportBBHLarge
-    '               ExportOverviews, ExportParalog, ExportSBH, SBH_topHits
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __evalueRow, __HitsRow, _2_KOBASOutput, EvalueMatrix, ExportBBHLarge
+'               ExportOverviews, ExportParalog, ExportSBH, SBH_topHits
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -202,35 +202,22 @@ Partial Module CLI
         Dim topBest As Boolean = args("/top.best")
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim descriptionTable As New Dictionary(Of String, String)
             Dim handle As Action(Of Query) = IO _
                 .ToArray(Of Query)(
-                [ctype]:=Function(query)
-                             Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities)
-
-                             For Each hit As BestHit In hits
-                                 ' 因为是蛋白功能注释
-                                 ' 所以描述信息来自于hit subject
-                                 hit.description = descriptionTable.TryGetValue(hit.HitName)
-                             Next
+                [ctype]:=Iterator Function(query)
+                             Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities, grepHitId:=sPattern)
 
                              If topBest Then
-                                 Return {hits.First}
+                                 Yield hits.First
                              Else
-                                 Return hits
+                                 For Each output As BestHit In hits
+                                     Yield output
+                                 Next
                              End If
                          End Function)
 
             For Each query As Query In BlastpOutputReader.RunParser(inFile)
                 query.QueryName = qPattern(query.QueryName)
-                descriptionTable.Clear()
-
-                For Each hits In query.SubjectHits.SafeQuery
-                    Dim key$ = sPattern(hits.Name)
-
-                    descriptionTable.Add(key, hits.Name)
-                    hits.Name = key
-                Next
 
                 Call handle(query)
 

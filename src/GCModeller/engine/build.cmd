@@ -41,10 +41,11 @@ REM Extract sequence data and genome context files
 foreach *.gbk in %genome% do localblast /Export.gb /gb $file /out %genome%
 
 REM KO annotation base on SBH
+mkdir "%KO_base%\blastp"
+mkdir "%COG_base%\blastp"
 
 REM blastp procedures
 makeblastdb -in "%uniprot%" -dbtype prot
-mkdir "%KO_base%\blastp"
 
 foreach dir in %genome% do makeblastdb -in "$file/%sp_name%.faa" -dbtype prot
 foreach dir in %genome% do blastp -query "$file/%sp_name%.faa" -db %uniprot% -evalue 1e-5 -num_threads 8 -out "%KO_base%\blastp\$basename.txt"
