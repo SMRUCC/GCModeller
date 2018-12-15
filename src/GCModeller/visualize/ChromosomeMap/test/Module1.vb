@@ -22,7 +22,7 @@ Module Module1
             .Color = Brushes.Black}},
             .genomeSize = 600
         }
-        Call New DrawingDevice().InvokeDrawing(model).Save(My.Computer.FileSystem.SpecialDirectories.Temp & "/Test.bmp")
+        Call DrawingDevice.DrawMap(model).Save("./Test.png")
         Return True
     End Function
 End Module
