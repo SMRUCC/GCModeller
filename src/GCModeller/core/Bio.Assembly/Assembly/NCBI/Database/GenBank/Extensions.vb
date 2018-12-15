@@ -189,16 +189,16 @@ Namespace Assembly.NCBI.GenBank
         ''' <summary>
         ''' Export protein sequence with full annotation.
         ''' </summary>
-        ''' <param name="Gbk"></param>
+        ''' <param name="gbk"></param>
         ''' <returns></returns>
         <ExportAPI("Protein.Export", Info:="Export protein sequence with full annotation.")>
-        <Extension> Public Function ExportProteins(Gbk As NCBI.GenBank.GBFF.File) As FastaFile
+        <Extension> Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File) As FastaFile
             Dim LQuery = From feature As gbffFeature
-                         In Gbk.Features
+                         In gbk.Features
                          Where String.Equals(feature.KeyName, "CDS")
                          Let attrs As String() = New String() {
                              "gi",
-                             Gbk.Accession.ToString,
+                             gbk.Accession.ToString,
                              "gb",
                              feature.Query("protein_id"),
                              feature.Query("locus_tag"),
@@ -210,7 +210,7 @@ Namespace Assembly.NCBI.GenBank
                              .Headers = attrs,
                              .SequenceData = feature.Query("translation")
                          } '
-            Dim Fasta As FastaFile = CType(LQuery.ToArray, FastaFile)
+            Dim Fasta As New FastaFile(LQuery)
             Return Fasta
         End Function
 
@@ -228,8 +228,8 @@ Namespace Assembly.NCBI.GenBank
             Dim LQuery = From feature As gbffFeature
                          In gb.Features
                          Where String.Equals(feature.KeyName, "CDS")
-                         Select feature.__protShort(OnlyLocusTag) '
-            Dim Fasta As FASTA.FastaFile = New FASTA.FastaFile(LQuery)
+                         Select feature.__protShort(OnlyLocusTag)
+            Dim Fasta As New FastaFile(LQuery)
             Return Fasta
         End Function
 
