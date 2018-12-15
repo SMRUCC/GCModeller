@@ -69,7 +69,7 @@ Namespace PlasmidMap.DrawingModels
             Dim startAngle! = gene.Left / genomeSize * 360
             Dim endAngle! = gene.Right / genomeSize * 360
             Dim sweep = endAngle - startAngle
-            Dim line As New Pen(Color.Black, Math.Abs(r1 - r2)) With {
+            Dim line As New Pen(Color.Black, Math.Abs(r1 - r2) / 3) With {
                 .EndCap = LineCap.ArrowAnchor
             }
             Dim ref As New PointF With {
