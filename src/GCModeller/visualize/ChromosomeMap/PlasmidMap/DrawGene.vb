@@ -134,7 +134,7 @@ Namespace PlasmidMap.DrawingModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function Internal_createArcBase(r As Integer, refPoint As Point) As Rectangle
-            Dim size As Size = New Size(r, r)
+            Dim size As New Size(r, r)
             Dim leftTop As Point = New Point(refPoint.X - 0.5 * r, refPoint.Y - 0.5 * r)
             Dim value = New Rectangle(leftTop, size)
             Return value
