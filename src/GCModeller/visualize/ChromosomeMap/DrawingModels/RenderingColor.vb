@@ -107,31 +107,31 @@ Namespace DrawingModels
         End Function
 
         <Extension>
-        Public Function ApplyingCOGNumberColors(Of MyvaCOG As IFeatureDigest)(genes As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+        Public Function ApplyingCOGNumberColors(Of MyvaCOG As IFeatureDigest)(genes As MyvaCOG(), chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
             Dim ColorProfiles = RenderingColor.InitCOGColors((From cogAlign In genes
                                                               Select cogAlign.Feature
                                                               Distinct).ToArray).ToDictionary(Function(obj) obj.Key,
                                                                                               Function(obj) DirectCast(New SolidBrush(obj.Value), Brush))
-            Dim DefaultCogColor As New SolidBrush(Chromesome.Configuration.NoneCogColor)
+            Dim defaultCogColor As New SolidBrush(chromesome.Configuration.NoneCogColor)
             Dim geneTable As Dictionary(Of MyvaCOG) = genes.ToDictionary
 
-            For Each gene As SegmentObject In Chromesome.GeneObjects
-                Dim Cog As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
+            For Each gene As SegmentObject In chromesome.GeneObjects
+                Dim COG As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
 
-                If Not Cog Is Nothing Then
-                    If Not String.IsNullOrEmpty(Cog.Feature) Then
-                        gene.Color = ColorProfiles(Cog.Feature)
+                If Not COG Is Nothing Then
+                    If Not String.IsNullOrEmpty(COG.Feature) Then
+                        gene.Color = ColorProfiles(COG.Feature)
                     Else
-                        gene.Color = DefaultCogColor
+                        gene.Color = defaultCogColor
                     End If
                 Else
-                    gene.Color = DefaultCogColor
+                    gene.Color = defaultCogColor
                 End If
             Next
 
-            Call Chromesome.COGs.SetValue(ColorProfiles)
+            Call chromesome.COGs.SetValue(ColorProfiles)
 
-            Return Chromesome
+            Return chromesome
         End Function
     End Module
 End Namespace

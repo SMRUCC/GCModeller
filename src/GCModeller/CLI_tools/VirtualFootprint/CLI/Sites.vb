@@ -105,8 +105,10 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/Site.match.genes")>
-    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/skip.RNA /max.dist <default=500bp> /out <out.csv>]")>
+    <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/replicon <default=accession> /skip.RNA /max.dist <default=500bp> /out <out.csv>]")>
     <Description("Match genome context for the sites model.")>
+    <Argument("/replicon", True, CLITypes.String, AcceptTypes:={GetType(String)},
+              Description:="This argument indicate the replicon name source of your export result. The option can be ``accession/locus``, by default is ``accession``.")>
     Public Function MatchSiteGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim gb As GBFF.File = GBFF.File.Load(args <= "/genome")
@@ -116,7 +118,13 @@ Partial Module CLI
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=skipRNA), name:=gb.Source.SpeciesName)
         Dim nt As FastaSeq = gb.Origin.ToFasta
         Dim isPlasmid As Boolean = gb.IsPlasmidSource
-        Dim replicon$ = gb.Accession.AccessionId Or $"{gb.Accession.AccessionId}=plasmid".When(isPlasmid)
+        Dim replicon$
+
+        If (args("/replicon") Or "accession").TextEquals("accession") Then
+            replicon = gb.Accession.AccessionId Or $"{gb.Accession.AccessionId}=plasmid".When(isPlasmid)
+        Else
+            replicon = gb.Locus.AccessionID Or $"{gb.Locus.AccessionID}=plasmid".When(isPlasmid)
+        End If
 
         Using output As New WriteStream(Of FootprintSite)(out)
             For Each site As MotifSiteMatch In [in].LoadCsv(Of MotifSiteMatch)
