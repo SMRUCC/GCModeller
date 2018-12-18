@@ -93,14 +93,14 @@ Namespace DrawingModels
             {MutationTypes.Unknown, AddressOf GetDeleteMutationModel}
         }
 
-        Protected Shared ReadOnly __color As Dictionary(Of MutationTypes, Color) = New Dictionary(Of MutationTypes, Color) From {
+        Protected Shared ReadOnly __color As New Dictionary(Of MutationTypes, Color) From {
             {MutationTypes.DeleteMutation, Color.Red},
             {MutationTypes.IntegrationMutant, Color.Blue},
             {MutationTypes.Unknown, Color.RosyBrown}
         }
 
-        Public Overrides Sub Draw(g As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
-            Dim flagShape As GraphicsPath = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
+        Public Overrides Sub Draw(g As IGraphics, location As Point, flagLen As Integer, flagHeight As Integer)
+            Dim flagShape As GraphicsPath = __drawingModel(Me.MutationType)(location, Me.Direction, flagLen, flagHeight)
             Dim color As Color = __color(Me.MutationType)
 
             Call g.DrawPath(New Pen(color, 8), flagShape)
@@ -112,24 +112,24 @@ Namespace DrawingModels
         ''' </summary>
         ''' <param name="ref"></param>
         ''' <param name="direction"></param>
-        ''' <param name="FlagLength"></param>
-        ''' <param name="FLAG_HEIGHT"></param>
+        ''' <param name="flagLen"></param>
+        ''' <param name="flagHeight"></param>
         ''' <returns></returns>
-        Private Shared Function GetTriangleModel(ref As Point, direction As Integer, FlagLength As Integer, FLAG_HEIGHT As Integer) As GraphicsPath
-            Dim ModelGraph = New Drawing2D.GraphicsPath
-            Dim Height = FLAG_HEIGHT * 0.4
+        Private Shared Function GetTriangleModel(ref As Point, direction As Integer, flagLen As Integer, flagHeight As Integer) As GraphicsPath
+            Dim modelGraph As New GraphicsPath
+            Dim height = flagHeight * 0.4
             Dim offset As Integer = 5
-            Dim pt_top As Point = New Point(ref.X, ref.Y - Height - offset)
-            Dim pt_direction = New Point(ref.X + direction * FlagLength, pt_top.Y + Height / 2)
-            Dim pt_trroot = New Point(ref.X, ref.Y - offset)
+            Dim pt_top As New Point(ref.X, ref.Y - height - offset)
+            Dim pt_direction As New Point(ref.X + direction * flagLen, pt_top.Y + height / 2)
+            Dim pt_trroot As New Point(ref.X, ref.Y - offset)
 
-            Call ModelGraph.AddLine(pt_top, pt_direction)
-            Call ModelGraph.AddLine(pt_direction, pt_trroot)
-            Call ModelGraph.AddLine(pt_trroot, pt_top)
+            Call modelGraph.AddLine(pt_top, pt_direction)
+            Call modelGraph.AddLine(pt_direction, pt_trroot)
+            Call modelGraph.AddLine(pt_trroot, pt_top)
 
-            Call ModelGraph.CloseAllFigures()
+            Call modelGraph.CloseAllFigures()
 
-            Return ModelGraph
+            Return modelGraph
         End Function
 
         ''' <summary>
@@ -138,12 +138,12 @@ Namespace DrawingModels
         ''' <param name="ref"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function GetDeleteMutationModel(ref As Point, direction As Integer, FlagLength As Integer, FLAG_HEIGHT As Integer) As GraphicsPath
+        Private Shared Function GetDeleteMutationModel(ref As Point, direction As Integer, flagLen As Integer, flagHeight As Integer) As GraphicsPath
             Dim flag As New GraphicsPath
-            Dim top As New Point(ref.X, ref.Y - FLAG_HEIGHT)
+            Dim top As New Point(ref.X, ref.Y - flagHeight)
             Dim flagDirection As New Point With {
-                .X = ref.X + direction * FlagLength,
-                .Y = top.Y + 0.4 * FLAG_HEIGHT
+                .X = ref.X + direction * flagLen,
+                .Y = top.Y + 0.4 * flagHeight
             }
             Dim flagroot As New Point(ref.X, flagDirection.Y)
             Dim flagmain = ref
