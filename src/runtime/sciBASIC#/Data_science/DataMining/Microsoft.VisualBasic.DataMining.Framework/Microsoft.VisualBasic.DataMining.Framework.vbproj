@@ -433,7 +433,6 @@
     <Compile Include="Kernel\Neuron\Neuron.vb" />
     <Compile Include="Kernel\Bayesian.vb" />
     <Compile Include="ComponentModel\Entity.vb" />
-    <Compile Include="ComponentModel\Vector.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

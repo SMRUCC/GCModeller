@@ -52,14 +52,18 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Kernel.Classifier
 
     Public Delegate Function ActiveFunction(weights As Double(), properties As Double()) As Double
 
     ''' <summary>
-    ''' 朴素神经元分类器
+    ''' 朴素神经元分类器,只能够进行一些简单的分类工作
     ''' </summary>
+    ''' <remarks>
+    ''' 这个对象并没有什么卵用,只是起着理解基本工作原理的作用存在这个模块之中
+    ''' </remarks>
     Public Class Neuron
 
         Public Property W As Double()
@@ -84,7 +88,7 @@ Namespace Kernel.Classifier
         End Property
 
         Sub New(Length As Integer, Output As ActiveFunction)
-            W = ComponentModel.Vector.Randomize(Length).ToArray
+            W = Vector.rand(Length)
             OutputFunction = Output
         End Sub
 
