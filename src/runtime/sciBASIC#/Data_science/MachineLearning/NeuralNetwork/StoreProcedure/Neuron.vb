@@ -42,6 +42,7 @@ Namespace NeuralNetwork.StoreProcedure
 
         <XmlAttribute>
         Public Property id As String Implements IKeyedEntity(Of String).Key
+        <XmlElement("neuron")>
         Public Property neurons As String()
 
         Protected Overrides Function getSize() As Integer
