@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
+﻿Imports Microsoft.VisualBasic.Data.visualize.NeuralNetwork.Models
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module ANNVisualize
@@ -39,7 +40,7 @@ Module ANNVisualize
 
 
         Call ANN.TakeSnapshot.GetXml.SaveTo("./ANN_snapshot.Xml")
-
+        Call ANN.NeuronNetwork.VisualizeModel.Save("./ANN_network/")
 
         Pause()
     End Sub
