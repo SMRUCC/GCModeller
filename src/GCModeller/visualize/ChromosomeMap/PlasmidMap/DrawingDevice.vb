@@ -42,35 +42,43 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.PlasmidMap.DrawingModels
 
 Namespace PlasmidMap
 
-    Public Class DrawingDevice
+    Public Module DrawingDevice
 
-        Sub New()
-
-        End Sub
-
-        Public Function InvokeDrawing(plasmid As PlasmidMapDrawingModel) As Bitmap
-            Using g = (New Size(1000, 1000)).CreateGDIDevice(filled:=Color.White)
-
-                Dim center As Point = New Point(g.Width / 2, g.Height / 2)
-                Dim r1 As Double = Math.Min(g.Width, g.Height) * 0.95
-                Dim r2 As Double = Math.Min(g.Width, g.Height) * 0.85
-
-#Const DEBUG = 1
+        <Extension>
+        Public Function DrawMap(plasmid As PlasmidMapDrawingModel,
+                                Optional size$ = "1200,1200",
+                                Optional margin$ = g.DefaultPadding,
+                                Optional bg$ = "white",
+                                Optional r1Scale# = 0.9,
+                                Optional r2Scale# = 0.8) As GraphicsData
+            Dim plotInternal =
+                Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                    Dim canvasSize As Size = region.PlotRegion.Size
+                    Dim center As New Point(canvasSize.Width / 2, canvasSize.Height / 2)
+                    Dim r! = Math.Min(canvasSize.Width, canvasSize.Height)
+                    Dim r1 As Double = r * r1Scale
+                    Dim r2 As Double = r * r2Scale
 #If DEBUG Then
-                Call g.Graphics.DrawPie(Pens.Black, New Rectangle(New Point(center.X - 5, center.Y - 5), New Size(10, 10)), 0, 360)
+                    ' 在调试模式下，会首先将参考用的圆心绘制出来
+                    Call g.FillPie(Brushes.Red, New Rectangle(New Point(center.X - 5, center.Y - 5), New Size(10, 10)), 0, 360)
 #End If
-                For i As Integer = 0 To plasmid.GeneObjects.Count - 1
-                    Dim gene = plasmid.GeneObjects(i)
-                    Dim size = DrawGene.Draw(g, center, gene, plasmid.genomeSize, r1, r2)
-                Next
+                    For i As Integer = 0 To plasmid.GeneObjects.Count - 1
+                        Dim gene = plasmid.GeneObjects(i)
 
-                Return g.ImageResource
-            End Using
+                        Call DrawGene.Draw(g, center, gene, plasmid.genomeSize, r1, r2)
+                    Next
+                End Sub
+
+            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
         End Function
-    End Class
+    End Module
 End Namespace

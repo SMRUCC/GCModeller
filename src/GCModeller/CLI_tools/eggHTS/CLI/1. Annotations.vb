@@ -87,6 +87,9 @@ Partial Module CLI
     <ExportAPI("/KEGG.Color.Pathway")>
     <Usage("/KEGG.Color.Pathway /in <protein.annotations.csv> /ref <KEGG.ref.pathwayMap.directory repository> [/out <out.directory>]")>
     <Group(CLIGroups.Annotation_CLI)>
+    <Argument("/ref", False, CLITypes.File, AcceptTypes:={GetType(Map)},
+              Extensions:="*.Xml",
+              Description:="")>
     Public Function ColorKEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ref$ = args <= "/ref"
