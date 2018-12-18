@@ -42,6 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
@@ -54,55 +55,76 @@ Namespace NeuralNetwork.Models
     ''' </summary>
     Public Module NetworkModelAPI
 
-        <Extension> Public Function VisualizeModel(net As NeuronNetwork) As FileStream.NetworkTables
-            Dim network As New FileStream.NetworkTables
-            Dim hash = (New List(Of Neuron) + net.HiddenLayer + net.InputLayer + net.OutputLayer) _
+        ''' <summary>
+        ''' 将人工神经网络的对象模型转换为网络数据模型以进行可视化操作
+        ''' </summary>
+        ''' <param name="net"></param>
+        ''' <returns></returns>
+        <Extension> Public Function VisualizeModel(net As NeuronNetwork) As NetworkTables
+            Dim network As New NetworkTables
+            Dim neuronTable = (New List(Of Neuron) + net.HiddenLayer + net.InputLayer + net.OutputLayer) _
                 .SeqIterator _
                 .ToDictionary(Function(x) x.value,
                               Function(x) x.i)
 
-            network += net.HiddenLayer.Select(Function(x) x.Select(Function(n) n.__node(NameOf(net.HiddenLayer), hash))).IteratesALL
-            network += net.InputLayer.Select(Function(x) x.__node(NameOf(net.InputLayer), hash))
-            network += net.OutputLayer.Select(Function(x) x.__node(NameOf(net.OutputLayer), hash))
+            network += net.HiddenLayer.Select(Function(x, i) x.Select(Function(n) n.createNode(NameOf(net.HiddenLayer) & "_" & i, neuronTable))).IteratesALL
+            network += net.InputLayer.Select(Function(x) x.createNode(NameOf(net.InputLayer), neuronTable))
+            network += net.OutputLayer.Select(Function(x) x.createNode(NameOf(net.OutputLayer), neuronTable))
 
-            network += net.HiddenLayer.Select(Function(x) x.Select(Function(n) n.__edges(NameOf(net.HiddenLayer), hash))).IteratesALL.IteratesALL
-            network += net.InputLayer.Select(Function(x) x.__edges(NameOf(net.InputLayer), hash)).IteratesALL
-            network += net.OutputLayer.Select(Function(x) x.__edges(NameOf(net.OutputLayer), hash)).IteratesALL
+            network += net.HiddenLayer.Select(Function(x, i) x.Select(Function(n) n.createEdges(NameOf(net.HiddenLayer) & "_" & i, neuronTable))).IteratesALL.IteratesALL
+            network += net.InputLayer.Select(Function(x) x.createEdges(NameOf(net.InputLayer), neuronTable)).IteratesALL
+            network += net.OutputLayer.Select(Function(x) x.createEdges(NameOf(net.OutputLayer), neuronTable)).IteratesALL
 
             Return network
         End Function
 
         <Extension>
-        Private Function __node(neuron As Neuron, type As String, uidhash As Dictionary(Of Neuron, Integer)) As FileStream.Node
-            Dim uid As String = uidhash(neuron).ToString
-            Return New FileStream.Node With {
+        Private Function createNode(neuron As Neuron, layer$, neuronTable As Dictionary(Of Neuron, Integer)) As Node
+            Dim uid As String = neuronTable(neuron).ToString
+
+            Return New Node With {
                 .ID = uid,
-                .NodeType = type
+                .NodeType = layer
             }
         End Function
 
+        ''' <summary>
+        ''' 网络模型之中的边是从神经元对象之间的突触链接构建的
+        ''' </summary>
+        ''' <param name="neuron"></param>
+        ''' <param name="layer"></param>
+        ''' <param name="neuronTable"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function __edges(neuron As Neuron, type As String, uidHash As Dictionary(Of Neuron, Integer)) As FileStream.NetworkEdge()
-            Dim LQuery = (From c As Synapse
-                          In neuron.InputSynapses
-                          Where c.Weight <> 0R  ' 忽略掉没有链接强度的神经元链接
-                          Let itName As String = $"{type}-{NameOf(neuron.InputSynapses)}"
-                          Select c.__synapse(itName, uidHash)).AsList +
-                          (From c As Synapse
-                           In neuron.OutputSynapses
-                           Where c.Weight <> 0R
-                           Select c.__synapse(type & "-" & NameOf(neuron.OutputSynapses), uidHash))
-
-            Return LQuery.ToArray
+        Private Function createEdges(neuron As Neuron, layer$, neuronTable As Dictionary(Of Neuron, Integer)) As IEnumerable(Of NetworkEdge)
+            Return neuron.InputSynapses _
+                .createEdges($"{layer}_in", neuronTable) _
+                .AsList +
+                   neuron _
+                       .OutputSynapses _
+                       .createEdges($"{layer}_out", neuronTable)
         End Function
 
         <Extension>
-        Private Function __synapse(synapse As Synapse, type As String, uidHash As Dictionary(Of Neuron, Integer)) As FileStream.NetworkEdge
-            Return New FileStream.NetworkEdge With {
+        Private Iterator Function createEdges(synapses As IEnumerable(Of Synapse), name$, neuronTable As Dictionary(Of Neuron, Integer)) As IEnumerable(Of NetworkEdge)
+            For Each syn As Synapse In synapses _
+                .Where(Function(s)
+                           ' 忽略掉没有链接强度的神经元链接
+                           Return s.Weight <> 0R
+                       End Function)
+                Yield syn.__synapse(name, neuronTable)
+            Next
+        End Function
+
+        <Extension>
+        Private Function __synapse(synapse As Synapse, layer$, neuronTable As Dictionary(Of Neuron, Integer)) As NetworkEdge
+            Return New NetworkEdge With {
                 .value = synapse.Weight,
-                .FromNode = CStr(uidHash(synapse.InputNeuron)),
-                .ToNode = CStr(uidHash(synapse.OutputNeuron)),
-                .Interaction = type
+                .FromNode = CStr(neuronTable(synapse.InputNeuron)),
+                .ToNode = CStr(neuronTable(synapse.OutputNeuron)),
+                .Interaction = layer
             }
         End Function
     End Module
