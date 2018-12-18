@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 
-Namespace Kmeans
+Namespace KMeans
 
     Public Module KMeansNetwork
 
