@@ -263,7 +263,7 @@
     <Compile Include="Kmeans\Kmeans.vb" />
     <Compile Include="Kmeans\KMeansNetwork.vb" />
     <Compile Include="CorrelationNetwork.vb" />
-    <Compile Include="NeuralNetwork\ModelAPI.vb" />
+    <Compile Include="ModelAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -280,7 +280,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="BinaryTree\Tree.vb" />
-    <Compile Include="NeuralNetwork\Extensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
