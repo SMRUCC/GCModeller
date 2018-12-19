@@ -120,7 +120,7 @@ Namespace NeuralNetwork
                 For i As Integer = 0 To numEpochs - 1
                     For Each dataSet As Sample In dataSets
                         Call ForwardPropagate(dataSet.status, parallel)
-                        Call BackPropagate(dataSet.target)
+                        Call BackPropagate(dataSet.target, parallel)
                         Call errors.Add(CalculateError(dataSet.target))
                     Next
 
@@ -139,7 +139,7 @@ Namespace NeuralNetwork
 
                 For Each dataSet As Sample In dataSets
                     Call ForwardPropagate(dataSet.status, parallel)
-                    Call BackPropagate(dataSet.target)
+                    Call BackPropagate(dataSet.target, parallel)
                     Call errors.Add(CalculateError(dataSet.target))
                 Next
 
@@ -180,10 +180,10 @@ Namespace NeuralNetwork
         ''' 反向传播
         ''' </summary>
         ''' <param name="targets"></param>
-        Private Sub BackPropagate(ParamArray targets As Double())
+        Private Sub BackPropagate(targets As Double(), parallel As Boolean)
             Call OutputLayer.CalculateGradient(targets)
-            Call HiddenLayer.BackPropagate(LearnRate, Momentum)
-            Call OutputLayer.UpdateWeights(LearnRate, Momentum)
+            Call HiddenLayer.BackPropagate(LearnRate, Momentum, parallel)
+            Call OutputLayer.UpdateWeights(LearnRate, Momentum, parallel)
         End Sub
 
         ''' <summary>

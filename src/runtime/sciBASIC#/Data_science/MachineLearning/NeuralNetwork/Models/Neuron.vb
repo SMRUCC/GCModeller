@@ -133,7 +133,7 @@ Namespace NeuralNetwork
             End If
         End Function
 
-        Public Sub UpdateWeights(learnRate As Double, momentum As Double)
+        Public Function UpdateWeights(learnRate As Double, momentum As Double) As Integer
             Dim prevDelta = BiasDelta
             BiasDelta = learnRate * Gradient
             Bias += BiasDelta + momentum * prevDelta
@@ -143,7 +143,9 @@ Namespace NeuralNetwork
                 synapse.WeightDelta = learnRate * Gradient * synapse.InputNeuron.Value
                 synapse.Weight += synapse.WeightDelta + momentum * prevDelta
             Next
-        End Sub
+
+            Return 0
+        End Function
 #End Region
     End Class
 End Namespace

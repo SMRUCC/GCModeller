@@ -47,10 +47,17 @@ Namespace NeuralNetwork
             Next
         End Sub
 
-        Public Sub UpdateWeights(learnRate#, momentum#)
-            For Each neuron As Neuron In Neurons
-                Call neuron.UpdateWeights(learnRate, momentum)
-            Next
+        Public Sub UpdateWeights(learnRate#, momentum#, Optional parallel As Boolean = False)
+            If Not parallel Then
+                For Each neuron As Neuron In Neurons
+                    Call neuron.UpdateWeights(learnRate, momentum)
+                Next
+            Else
+                With Aggregate neuron As Neuron
+                     In Neurons.AsParallel
+                     Into Sum(neuron.UpdateWeights(learnRate, momentum))
+                End With
+            End If
         End Sub
 
         ''' <summary>
@@ -80,10 +87,17 @@ Namespace NeuralNetwork
             Next
         End Sub
 
-        Public Sub CalculateGradient()
-            For Each neuron As Neuron In Neurons
-                Call neuron.CalculateGradient()
-            Next
+        Public Sub CalculateGradient(Optional parallel As Boolean = False)
+            If Not parallel Then
+                For Each neuron As Neuron In Neurons
+                    Call neuron.CalculateGradient()
+                Next
+            Else
+                With Aggregate neuron As Neuron
+                     In Neurons.AsParallel
+                     Into Sum(neuron.CalculateGradient)
+                End With
+            End If
         End Sub
 
         Public Overrides Function ToString() As String
@@ -164,7 +178,7 @@ Namespace NeuralNetwork
             Next
         End Sub
 
-        Public Sub BackPropagate(learnRate#, momentum#)
+        Public Sub BackPropagate(learnRate#, momentum#, parallel As Boolean)
             Dim reverse = Layers.Reverse.ToArray
 
             ' 因为在调用函数计算之后,值变了
