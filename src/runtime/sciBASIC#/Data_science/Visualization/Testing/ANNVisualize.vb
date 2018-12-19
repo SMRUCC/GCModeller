@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.NeuralNetwork.Models
+﻿Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.Serialization.JSON
 
