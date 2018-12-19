@@ -126,6 +126,9 @@ Namespace NeuralNetwork
         ''' <summary>
         ''' 开始进行训练
         ''' </summary>
+        ''' <param name="parallel">
+        ''' 小型的人工神经网络的训练,并不建议使用并行化
+        ''' </param>
         Public Sub Train(Optional parallel As Boolean = False)
             Call Helpers.Train(NeuronNetwork, _dataSets, TrainingType, parallel)
         End Sub

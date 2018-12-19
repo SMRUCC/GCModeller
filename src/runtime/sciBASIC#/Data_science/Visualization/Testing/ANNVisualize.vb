@@ -73,7 +73,7 @@ Module ANNVisualize
             Call ANN.Add(v, {1, 0, 1})
         Next
 
-        Call ANN.Train(True)
+        Call ANN.Train(parallel:=False)
 
         Call ANN.NeuronNetwork.Compute(100, 109, 110, 89, 93).GetJson.__DEBUG_ECHO
         Call ANN.NeuronNetwork.Compute(130, 75, 98, 89, 0).GetJson.__DEBUG_ECHO
