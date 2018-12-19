@@ -3,6 +3,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Distributions
 
 Namespace NeuralNetwork.StoreProcedure
 
@@ -16,8 +17,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("matrix")>
-        Public Property matrix As DoubleRange()
-        Public Property averages As Double()
+        Public Property matrix As SampleDistribution()
         ''' <summary>
         ''' 属性名称列表,这个序列的长度是和<see cref="matrix"/>的长度一致的,并且元素的顺序一一对应的
         ''' </summary>
@@ -31,10 +31,10 @@ Namespace NeuralNetwork.StoreProcedure
             Return sample _
                 .status _
                 .Select(Function(x, i)
-                            x = matrix(i).ScaleMapping(x, normalRange)
+                            x = matrix(i).GetRange.ScaleMapping(x, normalRange)
 
                             If x.IsNaNImaginary Then
-                                Return averages(i)
+                                Return matrix(i).average
                             Else
                                 Return x
                             End If
@@ -46,21 +46,20 @@ Namespace NeuralNetwork.StoreProcedure
             With samples.ToArray
                 Dim len% = .First.status.Length
                 Dim index%
-                Dim matrix As New List(Of DoubleRange)
+                Dim matrix As New List(Of SampleDistribution)
                 Dim averages As New List(Of Double)
                 Dim [property] As Double()
 
                 For i As Integer = 0 To len - 1
                     index = i
                     [property] = .Select(Function(sample) sample.status(index)).ToArray
-                    matrix += [property].Range
+                    matrix += New SampleDistribution([property])
                     averages.Add([property].Average)
                 Next
 
                 Return New NormalizeMatrix With {
                     .matrix = matrix,
-                    .names = names.ToArray,
-                    .averages = averages
+                    .names = names.ToArray
                 }
             End With
         End Function
