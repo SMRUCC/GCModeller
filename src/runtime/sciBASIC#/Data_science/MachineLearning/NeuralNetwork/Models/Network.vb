@@ -111,7 +111,7 @@ Namespace NeuralNetwork
         End Function
 
 #Region "-- Training --"
-        Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer)
+        Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer, Optional parallel As Boolean = False)
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(numEpochs)
                 Dim msg$
@@ -119,9 +119,9 @@ Namespace NeuralNetwork
 
                 For i As Integer = 0 To numEpochs - 1
                     For Each dataSet As Sample In dataSets
-                        ForwardPropagate(dataSet.status)
-                        BackPropagate(dataSet.target)
-                        errors.Add(CalculateError(dataSet.target))
+                        Call ForwardPropagate(dataSet.status, parallel)
+                        Call BackPropagate(dataSet.target)
+                        Call errors.Add(CalculateError(dataSet.target))
                     Next
 
                     msg = $"Iterations: [{i}/{numEpochs}], Err={errors.Average}"
@@ -130,7 +130,7 @@ Namespace NeuralNetwork
             End Using
         End Sub
 
-        Public Sub Train(dataSets As List(Of Sample), minimumError As Double)
+        Public Sub Train(dataSets As List(Of Sample), minimumError As Double, Optional parallel As Boolean = False)
             Dim [error] = 1.0
             Dim numEpochs = 0
 
@@ -138,9 +138,9 @@ Namespace NeuralNetwork
                 Dim errors As New List(Of Double)()
 
                 For Each dataSet As Sample In dataSets
-                    ForwardPropagate(dataSet.status)
-                    BackPropagate(dataSet.target)
-                    errors.Add(CalculateError(dataSet.target))
+                    Call ForwardPropagate(dataSet.status, parallel)
+                    Call BackPropagate(dataSet.target)
+                    Call errors.Add(CalculateError(dataSet.target))
                 Next
 
                 [error] = errors.Average()
@@ -168,9 +168,9 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <param name="inputs"></param>
         ''' <returns></returns>
-        Private Function ForwardPropagate(inputs As Double()) As Layer
+        Private Function ForwardPropagate(inputs As Double(), parallel As Boolean) As Layer
             Call InputLayer.Input(data:=inputs)
-            Call HiddenLayer.ForwardPropagate()
+            Call HiddenLayer.ForwardPropagate(parallel)
             Call OutputLayer.CalculateValue()
 
             Return OutputLayer
@@ -195,7 +195,7 @@ Namespace NeuralNetwork
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Compute(ParamArray inputs As Double()) As Double()
-            Return ForwardPropagate(inputs).Output
+            Return ForwardPropagate(inputs, parallel:=False).Output
         End Function
 #End Region
     End Class

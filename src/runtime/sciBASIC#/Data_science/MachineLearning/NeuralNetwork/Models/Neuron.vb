@@ -107,7 +107,7 @@ Namespace NeuralNetwork
 #Region "-- Values & Weights --"
 
         ''' <summary>
-        ''' 
+        ''' 计算分类预测结果
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
