@@ -56,6 +56,7 @@ Namespace NeuralNetwork
     Public Class TrainingUtils
 
         Public Property TrainingType As TrainingType = TrainingType.Epoch
+        Public Property MinError As Double = Helpers.MinimumError
 
         ''' <summary>
         ''' 最终得到的训练结果神经网络
@@ -130,7 +131,7 @@ Namespace NeuralNetwork
         ''' 小型的人工神经网络的训练,并不建议使用并行化
         ''' </param>
         Public Sub Train(Optional parallel As Boolean = False)
-            Call Helpers.Train(NeuronNetwork, _dataSets, TrainingType, parallel)
+            Call Helpers.Train(NeuronNetwork, _dataSets, TrainingType, minErr:=MinError, parallel:=parallel)
         End Sub
 
         ''' <summary>
