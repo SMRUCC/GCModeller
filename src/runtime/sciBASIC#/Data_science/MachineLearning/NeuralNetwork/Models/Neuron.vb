@@ -47,6 +47,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 
@@ -78,6 +79,8 @@ Namespace NeuralNetwork
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()
             Bias = Helpers.GetRandom()
+            Value = Helpers.GetRandom
+            BiasDelta = Helpers.GetRandom
             activation = active Or defaultActivation
         End Sub
 
@@ -115,6 +118,7 @@ Namespace NeuralNetwork
             Return Value
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CalculateError(target As Double) As Double
             Return target - Value
         End Function
