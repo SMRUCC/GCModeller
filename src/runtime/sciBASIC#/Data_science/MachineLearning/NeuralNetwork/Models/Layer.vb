@@ -185,10 +185,10 @@ Namespace NeuralNetwork
             ' 所以在这里会需要使用两个for each
             ' 不然计算会出bug
             For Each revLayer As Layer In reverse
-                Call revLayer.CalculateGradient()
+                Call revLayer.CalculateGradient(parallel)
             Next
             For Each revLayer As Layer In reverse
-                Call revLayer.UpdateWeights(learnRate, momentum)
+                Call revLayer.UpdateWeights(learnRate, momentum, parallel)
             Next
         End Sub
 

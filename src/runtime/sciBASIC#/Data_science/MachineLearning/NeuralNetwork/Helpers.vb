@@ -83,11 +83,14 @@ Namespace NeuralNetwork
         End Function
 
         <Extension>
-        Public Sub Train(ByRef neuron As Network, data As List(Of Sample), Optional trainingType As TrainingType = TrainingType.Epoch)
+        Public Sub Train(ByRef neuron As Network, data As List(Of Sample),
+                         Optional trainingType As TrainingType = TrainingType.Epoch,
+                         Optional parallel As Boolean = False)
+
             If trainingType = TrainingType.Epoch Then
-                Call neuron.Train(data, Helpers.MaxEpochs)
+                Call neuron.Train(data, Helpers.MaxEpochs, parallel)
             Else
-                Call neuron.Train(data, Helpers.MinimumError)
+                Call neuron.Train(data, Helpers.MinimumError, parallel)
             End If
         End Sub
 
