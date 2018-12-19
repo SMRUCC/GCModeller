@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -50,7 +51,12 @@ Module ANNVisualize
     End Sub
 
     Sub test2()
-        Dim ANN As New TrainingUtils(5, {10, 13, 60, 30, 6}, 3)
+        Dim activations As New LayerActives With {
+            .input = New SigmoidFunction,
+            .output = New ThresholdFunction,
+            .hiddens = New Sigmoid
+        }
+        Dim ANN As New TrainingUtils(5, {10, 13, 60, 30, 6}, 3, learnRate:=0.3, momentum:=0.6, active:=activations)
 
         For i As Integer = 0 To 6
             Call ANN.Add(rand(5, {85, 125}), {1, 1, 1})

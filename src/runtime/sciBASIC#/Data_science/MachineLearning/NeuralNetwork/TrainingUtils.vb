@@ -98,7 +98,7 @@ Namespace NeuralNetwork
         Public Sub New(inputSize As Integer, hiddenSize As Integer(), outputSize As Integer,
                        Optional learnRate As Double = 0.1,
                        Optional momentum As Double = 0.9,
-                       Optional active As IActivationFunction = Nothing)
+                       Optional active As LayerActives = Nothing)
             Call Me.New(New Network(inputSize, hiddenSize, outputSize, learnRate, momentum, active))
         End Sub
 

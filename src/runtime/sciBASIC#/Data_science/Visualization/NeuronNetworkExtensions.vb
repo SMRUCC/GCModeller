@@ -81,6 +81,7 @@ Public Module NeuronNetworkExtensions
         Dim inputLayer = model.inputlayer.neurons.Indexing
         Dim outputLayer = model.outputlayer.neurons.Indexing
         Dim hiddens = model.hiddenlayers _
+            .layers _
             .Select(Function(l, i)
                         Return New NamedValue(Of Index(Of String)) With {
                             .Name = $"hidden_layer{i}",
