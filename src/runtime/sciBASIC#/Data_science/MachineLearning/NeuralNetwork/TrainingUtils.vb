@@ -112,7 +112,7 @@ Namespace NeuralNetwork
         ''' <summary>
         ''' 在这里添加训练使用的数据集
         ''' (请注意,因为ANN的output结果向量只输出``[0,1]``之间的结果,所以在训练的时候,output应该是被编码为0或者1的;
-        ''' input可以接受任意实数的向量,但是最好也归一化编码为0或者1)
+        ''' input可以接受任意实数的向量,但是这个要求所有属性都应该在同一个scale区间内,所以最好也归一化编码为0到1之间的小数)
         ''' </summary>
         ''' <param name="input"></param>
         ''' <param name="output"></param>
