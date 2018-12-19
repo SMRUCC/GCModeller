@@ -29,7 +29,7 @@ Namespace NeuralNetwork
                 Next
             Else
                 For i As Integer = 0 To size - 1
-                    Neurons(i) = New Neuron(input.Neurons)
+                    Neurons(i) = New Neuron(input.Neurons, active)
                 Next
             End If
         End Sub

@@ -73,7 +73,7 @@ Namespace NeuralNetwork
         ''' <summary>
         ''' 创建的神经链接是空的
         ''' </summary>
-        ''' <param name="active"></param>
+        ''' <param name="active"><see cref="Sigmoid"/> as default</param>
         Public Sub New(Optional active As IActivationFunction = Nothing)
             InputSynapses = New List(Of Synapse)()
             OutputSynapses = New List(Of Synapse)()
@@ -81,6 +81,11 @@ Namespace NeuralNetwork
             activation = active Or defaultActivation
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="inputNeurons"></param>
+        ''' <param name="active"><see cref="Sigmoid"/> as default</param>
         Public Sub New(inputNeurons As IEnumerable(Of Neuron), Optional active As IActivationFunction = Nothing)
             Call Me.New(active)
 

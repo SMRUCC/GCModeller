@@ -96,7 +96,7 @@ Namespace NeuralNetwork.StoreProcedure
             connections += GetNodeConnections(instance.OutputLayer, hash2Uid)
 
             Return New NeuralNetwork With {
-                .ActiveFunction = instance.ActiveFunction,
+                .ActiveFunction = instance.Activations,
                 .learnRate = instance.LearnRate,
                 .momentum = instance.Momentum,
                 .neurons = nodes,

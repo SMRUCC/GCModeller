@@ -73,7 +73,7 @@ Namespace NeuralNetwork
         ''' <remarks>
         ''' 这个属性在这里只是起着存储到XML模型之中的作用,并没有实际的计算功能
         ''' </remarks>
-        Public ReadOnly Property ActiveFunction As ActiveFunction
+        Public ReadOnly Property Activations As IReadOnlyDictionary(Of String, ActiveFunction)
 #End Region
 
         ''' <summary>
@@ -84,18 +84,20 @@ Namespace NeuralNetwork
         ''' <param name="outputSize">``>=1``</param>
         ''' <param name="learnRate"></param>
         ''' <param name="momentum"></param>
-        Public Sub New(inputSize As Integer, hiddenSize As Integer(), outputSize As Integer,
-                       Optional learnRate As Double = 0.1,
-                       Optional momentum As Double = 0.9,
-                       Optional active As IActivationFunction = Nothing)
+        Public Sub New(inputSize%, hiddenSize%(), outputSize%,
+                       Optional learnRate# = 0.1,
+                       Optional momentum# = 0.9,
+                       Optional active As LayerActives = Nothing)
+
+            Dim activations As LayerActives = active Or LayerActives.GetDefaultConfig
 
             Me.LearnRate = learnRate
             Me.Momentum = momentum
-            Me.ActiveFunction = (active Or defaultActivation).Store
+            Me.Activations = activations.GetXmlModels
 
-            InputLayer = New Layer(inputSize, active)
-            HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, active)
-            OutputLayer = New Layer(outputSize, active, input:=HiddenLayer.Output)
+            InputLayer = New Layer(inputSize, activations.input)
+            HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, activations.hiddens)
+            OutputLayer = New Layer(outputSize, activations.output, input:=HiddenLayer.Output)
         End Sub
 
         Public Overrides Function ToString() As String
