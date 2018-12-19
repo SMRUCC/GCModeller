@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 
@@ -8,7 +9,7 @@ Namespace NeuralNetwork.StoreProcedure
     ''' <summary>
     ''' 进行所输入的样本数据的归一化的矩阵
     ''' </summary>
-    Public Class NormalizeMatrix
+    Public Class NormalizeMatrix : Inherits XmlDataModel
 
         ''' <summary>
         ''' 每一个属性都具有一个归一化区间

@@ -22,13 +22,12 @@ Namespace NeuralNetwork.StoreProcedure
         Public Property hiddenlayers As HiddenLayer
 
         ''' <summary>
-        ''' 进行所输入的样本数据的归一化的矩阵
+        ''' 
         ''' </summary>
+        ''' <param name="normalize">进行所输入的样本数据的归一化的矩阵</param>
         ''' <returns></returns>
-        Public Property normalize As NormalizeMatrix
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetPredictLambda() As Func(Of Sample, Double())
+        Public Function GetPredictLambda(normalize As NormalizeMatrix) As Func(Of Sample, Double())
             With Me.LoadModel
                 Return Function(sample)
                            Return .Compute(normalize.NormalizeInput(sample))
