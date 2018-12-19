@@ -58,6 +58,8 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize
+Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans

@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::29cdc95a05930940b25fcdd42352e8af, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class v228
-    ' 
-    '         Properties: ParameterSummary, Queries
-    ' 
-    '         Function: Save
-    '         Delegate Function
-    ' 
-    '             Function: __checkIntegrity, __generateLine, __hitsOverview, CheckIntegrity, EmptyHit
-    '                       ExportAllBestHist, ExportBestHit, ExportBesthits, ExportOverview, Grep
-    '                       SBHLines
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class v228
+' 
+'         Properties: ParameterSummary, Queries
+' 
+'         Function: Save
+'         Delegate Function
+' 
+'             Function: __checkIntegrity, __generateLine, __hitsOverview, CheckIntegrity, EmptyHit
+'                       ExportAllBestHist, ExportBestHit, ExportBesthits, ExportOverview, Grep
+'                       SBHLines
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
@@ -158,13 +159,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="coverage"></param>
         ''' <param name="identities"></param>
         ''' <returns></returns>
-        Public Shared Function SBHLines(Query As Query, coverage As Double, identities As Double) As LocalBLAST.Application.BBH.BestHit()
+        Public Shared Function SBHLines(Query As Query, coverage#, identities#, Optional grepHitId As TextGrepMethod = Nothing) As BestHit()
             Dim Besthits As SubjectHit() = Query.GetBesthits(coverage, identities)
 
             If Besthits.IsNullOrEmpty Then
                 Return New BestHit() {EmptyHit(Query)}
             Else
-                Return ExportBesthits(Query.QueryName, Query.QueryLength, Besthits)
+                Return ExportBesthits(Query.QueryName, Query.QueryLength, Besthits, grepHitId)
             End If
         End Function
 
@@ -233,16 +234,18 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit()) As BestHit()
+        Shared ReadOnly tokenFirst As New DefaultValue(Of TextGrepMethod)(Function(hitName) hitName.Split.First)
+
+        Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(), Optional grepHitId As TextGrepMethod = Nothing) As BestHit()
             Dim locusID$ = QueryName.Split.First
+            Dim getHitId As TextGrepMethod = grepHitId Or tokenFirst
             Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
  _
                 () <= From besthit As SubjectHit
                       In Besthits
                       Let Score As Score = besthit.Score
                       Let hitName = besthit.Name.Trim
-                      Let hitID = hitName.Split.First
-                      Let def As String = Mid(hitName, Len(hitID) + 1).Trim  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
+                      Let hitID As String = getHitId(hitName)
                       Let rawScore = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.RawScore).Average, Score.RawScore)
                       Let exp = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Expect).Average, Score.Expect)
                       Let identity = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Identities.Value).Average, Score.Identities.Value)
@@ -260,7 +263,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .length_hit = besthit.LengthHit,
                           .length_query = besthit.LengthQuery,
                           .length_hsp = gaps,
-                          .description = def
+                          .description = hitName  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
                       }
 
             Return sbh
