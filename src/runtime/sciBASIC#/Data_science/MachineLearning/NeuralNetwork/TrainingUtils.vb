@@ -86,11 +86,6 @@ Namespace NeuralNetwork
             Return StoreProcedure.NeuralNetwork.Snapshot(NeuronNetwork)
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Encouraging()
-            Call Train()
-        End Sub
-
         Sub New(net As Network)
             NeuronNetwork = net
         End Sub
@@ -130,8 +125,14 @@ Namespace NeuralNetwork
         ''' <param name="parallel">
         ''' 小型的人工神经网络的训练,并不建议使用并行化
         ''' </param>
-        Public Sub Train(Optional parallel As Boolean = False)
-            Call Helpers.Train(NeuronNetwork, _dataSets, TrainingType, minErr:=MinError, parallel:=parallel)
+        Public Sub Train(Optional parallel As Boolean = False, Optional normalize As Boolean = False)
+            Dim trainingDataSet As Sample() = _dataSets.ToArray
+
+            If normalize Then
+                trainingDataSet = trainingDataSet.NormalizeSamples
+            End If
+
+            Call Helpers.Train(NeuronNetwork, trainingDataSet, TrainingType, minErr:=MinError, parallel:=parallel)
         End Sub
 
         ''' <summary>
@@ -142,7 +143,8 @@ Namespace NeuralNetwork
         ''' <param name="expectedResults">The corrects output</param>
         Public Sub Corrects(input As Double(), convertedResults As Double(), expectedResults As Double(),
                             Optional train As Boolean = True,
-                            Optional parallel As Boolean = False)
+                            Optional parallel As Boolean = False,
+                            Optional normalize As Boolean = False)
 
             Dim offendingDataSet As Sample = _dataSets _
                 .FirstOrDefault(Function(x)
@@ -155,7 +157,7 @@ Namespace NeuralNetwork
             End If
 
             If train Then
-                Call Me.Train(parallel)
+                Call Me.Train(parallel, normalize)
             End If
         End Sub
 

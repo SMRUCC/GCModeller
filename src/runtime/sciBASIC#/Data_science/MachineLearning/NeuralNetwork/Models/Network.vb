@@ -112,7 +112,7 @@ Namespace NeuralNetwork
         End Function
 
 #Region "-- Training --"
-        Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer, Optional parallel As Boolean = False)
+        Public Sub Train(dataSets As Sample(), numEpochs As Integer, Optional parallel As Boolean = False)
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(numEpochs)
                 Dim msg$
@@ -131,7 +131,7 @@ Namespace NeuralNetwork
             End Using
         End Sub
 
-        Public Sub Train(dataSets As List(Of Sample), minimumError As Double, Optional parallel As Boolean = False)
+        Public Sub Train(dataSets As Sample(), minimumError As Double, Optional parallel As Boolean = False)
             Dim [error] = 1.0
             Dim numEpochs = 0
 

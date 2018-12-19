@@ -60,6 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace NeuralNetwork
 
@@ -83,7 +84,7 @@ Namespace NeuralNetwork
         End Function
 
         <Extension>
-        Public Sub Train(ByRef neuron As Network, data As List(Of Sample),
+        Public Sub Train(ByRef neuron As Network, data As Sample(),
                          Optional trainingType As TrainingType = TrainingType.Epoch,
                          Optional minErr As Double = MinimumError,
                          Optional parallel As Boolean = False)
@@ -98,6 +99,43 @@ Namespace NeuralNetwork
         <Extension>
         Friend Function PopulateAllSynapses(neuron As Neuron) As IEnumerable(Of Synapse)
             Return neuron.InputSynapses.ToArray + neuron.OutputSynapses.AsList
+        End Function
+
+        ''' <summary>
+        ''' 将所有的属性结果都归一化为相同等级的``[0,1]``区间内的数
+        ''' </summary>
+        ''' <param name="samples"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function NormalizeSamples(samples As Sample()) As Sample()
+            ' 每一行数据不可以直接比较
+            ' 但是每一列数据是可以直接做比较的
+            Dim v As Vector
+            Dim m As Integer = samples(Scan0).status.Length
+            Dim n As Integer = samples(Scan0).target.Length
+            Dim index%
+
+            For i As Integer = 0 To m - 1
+                index = i
+                v = samples.Select(Function(x) x.status(index)).AsVector
+                v = v / v.Max
+
+                For j As Integer = 0 To samples.Length - 1
+                    samples(j).status(index) = v.Item(j)
+                Next
+            Next
+
+            For i As Integer = 0 To n - 1
+                index = i
+                v = samples.Select(Function(x) x.target(index)).AsVector
+                v = v / v.Max
+
+                For j As Integer = 0 To samples.Length - 1
+                    samples(j).target(index) = v.Item(j)
+                Next
+            Next
+
+            Return samples
         End Function
     End Module
 
