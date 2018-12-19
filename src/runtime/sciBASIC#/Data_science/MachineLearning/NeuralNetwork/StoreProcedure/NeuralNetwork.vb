@@ -99,7 +99,7 @@ Namespace NeuralNetwork.StoreProcedure
                 .momentum = instance.Momentum,
                 .neurons = nodes,
                 .hiddenlayers = New HiddenLayer With {
-                    .activation = instance.Activations!hidden,
+                    .activation = instance.Activations!hiddens,
                     .layers = hiddenlayers
                 },
                 .inputlayer = New NeuronLayer With {

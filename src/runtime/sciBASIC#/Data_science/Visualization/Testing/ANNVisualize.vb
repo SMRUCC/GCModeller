@@ -53,10 +53,10 @@ Module ANNVisualize
     Sub test2()
         Dim activations As New LayerActives With {
             .input = New SigmoidFunction,
-            .output = New ThresholdFunction,
+            .output = New BipolarSigmoidFunction,
             .hiddens = New Sigmoid
         }
-        Dim ANN As New TrainingUtils(5, {10, 13, 60, 30, 6}, 3, learnRate:=0.3, momentum:=0.6, active:=activations)
+        Dim ANN As New TrainingUtils(5, {10, 13, 60, 30, 6}, 3, momentum:=0.9, active:=activations)
 
         For i As Integer = 0 To 6
             Call ANN.Add(rand(5, {85, 125}), {1, 1, 1})
