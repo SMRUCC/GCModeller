@@ -97,7 +97,7 @@ Partial Module CLI
         Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args("/flat")
         Dim updates As Boolean = args("/updates")
-        Dim failures As List(Of String) = BriteHEntry.Compound _
+        Dim failures As List(Of String) = CompoundBrite _
             .DownloadFromResource(
                 EXPORT:=save,
                 DirectoryOrganized:=Not flat,
