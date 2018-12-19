@@ -51,6 +51,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 
 Namespace NeuralNetwork
 
@@ -111,7 +112,7 @@ Namespace NeuralNetwork
         End Function
 
 #Region "-- Training --"
-        Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer, Optional parallel As Boolean = False)
+        Public Sub Train(dataSets As Sample(), numEpochs As Integer, Optional parallel As Boolean = False)
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(numEpochs)
                 Dim msg$
@@ -130,7 +131,7 @@ Namespace NeuralNetwork
             End Using
         End Sub
 
-        Public Sub Train(dataSets As List(Of Sample), minimumError As Double, Optional parallel As Boolean = False)
+        Public Sub Train(dataSets As Sample(), minimumError As Double, Optional parallel As Boolean = False)
             Dim [error] = 1.0
             Dim numEpochs = 0
 
@@ -146,7 +147,7 @@ Namespace NeuralNetwork
                 [error] = errors.Average()
                 numEpochs += 1
 
-                Call $"{numEpochs}\t{(minimumError / [error] * 100).ToString("F2")}%".__DEBUG_ECHO
+                Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={((minimumError / [error]) * 100).ToString("F2")}%".__DEBUG_ECHO
             End While
         End Sub
 
