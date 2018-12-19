@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize.DataMining
-Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.Data.visualize
+Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
@@ -105,7 +105,7 @@ Partial Module CLI
         Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
         Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
 
-        Return Kmeans.Scatter2D(clusterData, (A, B), size,
+        Return KmeansExtensions.Scatter2D(clusterData, (A, B), size,
                                 schema:=schema,
                                 pointSize:=ptSize,
                                 padding:=g.DefaultUltraLargePadding

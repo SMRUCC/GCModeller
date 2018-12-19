@@ -78,7 +78,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     '''  br08009  Natural toxins
     '''  br08010  Target-based classification of compounds
     ''' </remarks>
-    Public Class Compound
+    Public Class CompoundBrite
 
         Public Property [Class] As String
         Public Property Category As String
@@ -86,8 +86,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property Order As String
         Public Property Entry As KeyValuePair
 
-        Private Shared Function Build(Model As BriteHText) As Compound()
-            Dim list As New List(Of Compound)
+        Private Shared Function Build(Model As BriteHText) As CompoundBrite()
+            Dim list As New List(Of CompoundBrite)
 
             Select Case Model.Degree
 
@@ -105,7 +105,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                             list += From htext As BriteHText
                                     In category.CategoryItems
-                                    Select New Compound With {
+                                    Select New CompoundBrite With {
                                         .Class = [Class].ClassLabel,
                                         .Category = category.ClassLabel,
                                         .Entry = New KeyValuePair With {
@@ -134,7 +134,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                                 list += From br As BriteHText
                                         In subCategory.CategoryItems
-                                        Select New Compound With {
+                                        Select New CompoundBrite With {
                                             .Class = [Class].ClassLabel,
                                             .Category = category.ClassLabel,
                                             .SubCategory = subCategory.ClassLabel,
@@ -167,7 +167,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                                     list += From br As BriteHText
                                             In order.CategoryItems
-                                            Select New Compound With {
+                                            Select New CompoundBrite With {
                                                 .Class = [class].ClassLabel,
                                                 .Category = category.ClassLabel,
                                                 .SubCategory = subCategory.ClassLabel,
@@ -193,9 +193,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
         ''' </summary>
         ''' <returns></returns>
-        Public Shared Function Lipids() As Compound()
+        Public Shared Function Lipids() As CompoundBrite()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return Compound.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
+            Return CompoundBrite.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
         End Function
 
         ''' <summary>
@@ -296,21 +296,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
-                New NamedValue(Of Compound())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
-                New NamedValue(Of Compound())("Lipids", Build(BriteHText.Load(satellite.GetString(cpd_br08002)))),
-                New NamedValue(Of Compound())("Phytochemical compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08003)))),
-                New NamedValue(Of Compound())("Bioactive peptides", Build(BriteHText.Load(satellite.GetString(cpd_br08005)))),
-                New NamedValue(Of Compound())("Endocrine disrupting compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08006)))),
-                New NamedValue(Of Compound())("Pesticides", Build(BriteHText.Load(satellite.GetString(cpd_br08007)))),
-                New NamedValue(Of Compound())("Carcinogens", Build(BriteHText.Load(satellite.GetString(cpd_br08008)))),
-                New NamedValue(Of Compound())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
-                New NamedValue(Of Compound())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
+                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
+                New NamedValue(Of CompoundBrite())("Lipids", CompoundBrite.Lipids),
+                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08003)))),
+                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHText.Load(satellite.GetString(cpd_br08005)))),
+                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08006)))),
+                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHText.Load(satellite.GetString(cpd_br08007)))),
+                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHText.Load(satellite.GetString(cpd_br08008)))),
+                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
+                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
             }
             Dim failures As New List(Of String)
             ' 这个是为了解决重复下载的问题而设计的
             Dim successFiles As New Dictionary(Of String, String)
 
-            For Each briteEntry As NamedValue(Of Compound()) In resource
+            For Each briteEntry As NamedValue(Of CompoundBrite()) In resource
                 With briteEntry
                     Call downloadsInternal(
                         .Name, .Value,
@@ -426,7 +426,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Sub
 
         Private Shared Sub downloadsInternal(key$,
-                                             briteEntry As Compound(),
+                                             briteEntry As CompoundBrite(),
                                              ByRef failures As List(Of String),
                                              ByRef successList As Dictionary(Of String, String),
                                              EXPORT$,
@@ -435,7 +435,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                              structInfo As Boolean)
             ' 2017-3-12
             ' 有些entry的编号是空值？？？
-            Dim keys As Compound() = briteEntry _
+            Dim keys As CompoundBrite() = briteEntry _
                 .Where(Function(ID)
                            Return (Not ID Is Nothing) AndAlso
                                 (Not ID.Entry Is Nothing) AndAlso
@@ -447,7 +447,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 Dim tick As New ProgressProvider(keys.Length)
                 Dim skip As Boolean = False
 
-                For Each entry As Compound In keys
+                For Each entry As CompoundBrite In keys
                     Dim EntryId As String = entry.Entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
                     Dim xmlFile$ = $"{saveDIR}/{EntryId}.xml"
@@ -504,10 +504,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                                  Optional DirectoryOrganized As Boolean = True,
                                                  Optional forceUpdate As Boolean = False) As String()
 
-            Dim BriefEntries As Compound() = LoadFile(briefFile)
+            Dim BriefEntries As CompoundBrite() = LoadFile(briefFile)
             Dim failures As New List(Of String)
 
-            For Each entry As Compound In BriefEntries
+            For Each entry As CompoundBrite In BriefEntries
                 Dim EntryId As String = entry.Entry.Key
                 Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
@@ -529,7 +529,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
-        Public Shared Function LoadFile(path As String) As Compound()
+        Public Shared Function LoadFile(path As String) As CompoundBrite()
             Dim Model = BriteHText.Load(FileIO.FileSystem.ReadAllText(path))
             Return Build(Model)
         End Function
