@@ -98,7 +98,7 @@ Namespace NeuralNetwork
 
         <Extension>
         Friend Function PopulateAllSynapses(neuron As Neuron) As IEnumerable(Of Synapse)
-            Return neuron.InputSynapses.ToArray + neuron.OutputSynapses.AsList
+            Return neuron.InputSynapses + neuron.OutputSynapses.AsList
         End Function
 
         ''' <summary>
@@ -158,6 +158,10 @@ Namespace NeuralNetwork
         MinimumError
     End Enum
 
+    ''' <summary>
+    ''' 可以尝试使用这个对象将非数值的离散数据对象映射为连续的数值，从而能够被应用于ANN分析之中
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class Encoder(Of T)
 
         Dim maps As New Dictionary(Of T, Double)
@@ -175,10 +179,12 @@ Namespace NeuralNetwork
             End Set
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddMap(x As T, value As Double)
             Call maps.Add(x, value)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Encode(x As T) As Double
             Return maps(x)
         End Function
