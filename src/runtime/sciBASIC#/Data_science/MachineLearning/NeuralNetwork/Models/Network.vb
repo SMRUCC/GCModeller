@@ -70,6 +70,9 @@ Namespace NeuralNetwork
         ''' 激活函数
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个属性在这里只是起着存储到XML模型之中的作用,并没有实际的计算功能
+        ''' </remarks>
         Public ReadOnly Property ActiveFunction As ActiveFunction
 #End Region
 
@@ -109,14 +112,18 @@ Namespace NeuralNetwork
         Public Sub Train(dataSets As List(Of Sample), numEpochs As Integer)
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(numEpochs)
+                Dim msg$
+                Dim errors As New List(Of Double)()
 
                 For i As Integer = 0 To numEpochs - 1
                     For Each dataSet As Sample In dataSets
                         ForwardPropagate(dataSet.status)
                         BackPropagate(dataSet.target)
+                        errors.Add(CalculateError(dataSet.target))
                     Next
 
-                    Call progress.SetProgress(tick.StepProgress, $"Iterations: [{i}/{numEpochs}]")
+                    msg = $"Iterations: [{i}/{numEpochs}], Err={errors.Average}"
+                    progress.SetProgress(tick.StepProgress, msg)
                 Next
             End Using
         End Sub

@@ -65,7 +65,7 @@ Namespace NeuralNetwork
 
     Public Module Helpers
 
-        Public Const MaxEpochs As Integer = 5000
+        Public Const MaxEpochs As Integer = 10000
         Public Const MinimumError As Double = 0.01
 
         ''' <summary>
