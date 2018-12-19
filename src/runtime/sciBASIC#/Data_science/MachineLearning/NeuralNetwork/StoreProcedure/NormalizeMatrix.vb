@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 
@@ -9,7 +10,16 @@ Namespace NeuralNetwork.StoreProcedure
     ''' </summary>
     Public Class NormalizeMatrix
 
+        ''' <summary>
+        ''' 每一个属性都具有一个归一化区间
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("matrix")>
         Public Property matrix As DoubleRange()
+        ''' <summary>
+        ''' 属性名称列表,这个序列的长度是和<see cref="matrix"/>的长度一致的,并且元素的顺序一一对应的
+        ''' </summary>
+        ''' <returns></returns>
         Public Property names As String()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
