@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.Kernel.Classifier
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports NeuronNetwork = Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Network
 
 ''' <summary>
@@ -75,11 +76,12 @@ Public Module NeuronNetworkExtensions
     ''' </summary>
     ''' <param name="net"></param>
     ''' <returns></returns>
-    <Extension> Public Function VisualizeModel(net As NeuronNetwork) As NetworkTables
+    <Extension> Public Function VisualizeModel(net As NeuronNetwork, Optional connectionCutoff# = 0.6) As NetworkTables
         Dim model = NeuralNetwork.Snapshot(net)
         Dim inputLayer = model.inputlayer.neurons.Indexing
         Dim outputLayer = model.outputlayer.neurons.Indexing
         Dim hiddens = model.hiddenlayers _
+            .layers _
             .Select(Function(l, i)
                         Return New NamedValue(Of Index(Of String)) With {
                             .Name = $"hidden_layer{i}",
@@ -118,7 +120,13 @@ Public Module NeuronNetworkExtensions
                         }
                     End Function) _
             .ToArray
+        Dim weights As QuantileEstimationGK = model _
+            .connections _
+            .Select(Function(syn) Math.Abs(syn.w)) _
+            .GKQuantile
+        Dim threshold# = weights.Query(connectionCutoff)
         Dim edges = model.connections _
+            .Where(Function(syn) Math.Abs(syn.w) >= threshold) _
             .Select(Function(syn)
                         Return New NetworkEdge With {
                             .FromNode = syn.in,

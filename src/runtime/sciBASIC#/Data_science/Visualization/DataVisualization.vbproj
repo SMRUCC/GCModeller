@@ -263,7 +263,7 @@
     <Compile Include="Kmeans\Kmeans.vb" />
     <Compile Include="Kmeans\KMeansNetwork.vb" />
     <Compile Include="CorrelationNetwork.vb" />
-    <Compile Include="ModelAPI.vb" />
+    <Compile Include="NeuronNetworkExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
