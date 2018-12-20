@@ -5,6 +5,11 @@ Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Module CLI
 
+    ''' <summary>
+    ''' 这个函数会输出训练好的模型, 训练集测试结果, 错误率变化曲线图, 训练日志
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/training")>
     <Usage("/training /samples <sample_matrix.Xml> [/config <config.ini> /parallel /out <ANN.Xml>]")>
     Public Function Train(args As CommandLine) As Integer
