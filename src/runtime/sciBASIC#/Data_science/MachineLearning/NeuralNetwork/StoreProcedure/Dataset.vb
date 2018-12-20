@@ -64,7 +64,8 @@ Namespace NeuralNetwork.StoreProcedure
         ''' 可选的数据集唯一标记信息
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
+        <XmlAttribute("id")>
+        Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
         ''' Neuron network input parameters
