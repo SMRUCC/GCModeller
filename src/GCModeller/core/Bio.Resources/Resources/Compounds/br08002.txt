@@ -25,6 +25,8 @@ D      C16535  Nonadecanoic acid
 D      C06425  Icosanoic acid
 D      C08281  Docosanoic acid
 D      C08320  Tetracosanoic acid
+D      C21931  Hexacosanoic acid
+D      C21933  Octacosanoic acid
 C    FA0102 Branched fatty acids
 D      C08262  3-Methylbutanoic acid
 D      C16665  12-Methyltetradecanoic acid
@@ -49,34 +51,49 @@ D      C04834  (2E,6E)-10,11-Epoxy-3,7,11-trimethyltridecadienoic acid
 C    FA0103 Unsaturated fatty acids
 D      Monounsaturated fatty acids
 E        C08322  (Z)-Tetradec-9-enoic acid
+E        C21942  (Z)-Hexadec-6-enoic acid
 E        C08362  (Z)-Hexadec-9-enoic acid
 E        C16536  (E)-Heptadec-9-enoic acid
 E        C08363  (Z)-Octadec-6-enoic acid
 E        C00712  (Z)-Octadec-9-enoic acid
 E        C01712  (E)-Octadec-9-enoic acid
+E        C21944  (Z)-Octadec-11-enoic acid
 E        C08367  (E)-Octadec-11-enoic acid
 E        C16526  (Z)-Icos-11-enoic acid
+E        C21946  (Z)-Icos-13-enoic acid
 E        C08316  (Z)-Docos-13-enoic acid
 E        C08323  (Z)-Tetracos-15-enoic acid
+E        C17278  (Z)-Hexacos-17-enoic acid
 D      Polyunsaturated fatty acids
-E        C16344  (8Z,11Z,14Z)-8,11,14-Heptadecatrienoic acid
+E        C21980  (6Z,9Z)-Hexadeca-6,9-dienoic acid
+E        C16344  (8Z,11Z,14Z)-Heptadeca-8,11,14-trienoic acid
 E        C04056  (9Z,11E)-Octadeca-9,11-dienoic acid
 E        C01595  (9Z,12Z)-Octadeca-9,12-dienoic acid
 E        C06426  (6Z,9Z,12Z)-Octadeca-6,9,12-trienoic acid
 E        C08315  (9Z,11E,13E)-Octadeca-9,11,13-trienoic acid
 E        C06427  (9Z,12Z,15Z)-Octadeca-9,12,15-trienoic acid
-E        C16300  (6Z,9Z,12Z,15Z)-Octadecatetraenoic acid
+E        C16300  (6Z,9Z,12Z,15Z)-Octadeca-6,9,12,15-tetraenoic acid
 E        C16525  (11Z,14Z)-Icosa-11,14-dienoic acid
-E        C03242  (8Z,11Z,14Z)-Icosatri-8,11,14-enoic acid
-E        C16522  (11Z,14Z,17Z)-Icosatri-11,14,17-enoic acid
-E        C00219  (5Z,8Z,11Z,14Z)-Icosatetra-5,8,11,14-enoic acid
-E        C12083  (5Z,7E,9E,14Z,17Z)-Icosapenta-5,7,9,14,17-enoic acid
-E        C06428  (5Z,8Z,11Z,14Z,17Z)-Icosapenta-5,8,11,14,17-enoic acid
-E        C16533  (13Z,16Z)-Docosadi-13,16-enoic acid
-E        C16534  (13E,16E,19E)-Docosatri-13,16,19-enoic acid
-E        C16527  (7Z,10Z,13Z,16Z)-Docosatetra-7,10,13,16-enoic acid
-E        C16513  (7Z,10Z,13Z,16Z,19Z)-Docosapenta-7,10,13,16,19-enoic acid
-E        C06429  (4Z,7Z,10Z,13Z,16Z,19Z)-Docosahexa-4,7,10,13,16,19-enoic acid
+E        C21936  (8Z,11Z)-Icosa-8,11-dienoic acid
+E        C03242  (8Z,11Z,14Z)-Icosa-8,11,14-trienoic acid
+E        C16522  (11Z,14Z,17Z)-Icosa-11,14,17-trienoic acid
+E        C21938  (5Z,8Z,11Z)-Icosa-5,8,11-trienoic acid
+E        C00219  (5Z,8Z,11Z,14Z)-Icosa-5,8,11,14-tetraenoic acid
+E        C12083  (5Z,7E,9E,14Z,17Z)-Icosa-5,7,9,14,17-pentaenoic acid
+E        C06428  (5Z,8Z,11Z,14Z,17Z)-Icosa-5,8,11,14,17-pentaenoic acid
+E        C16533  (13Z,16Z)-Docosa-13,16-dienoic acid
+E        C16534  (13E,16E,19E)-Docosa-13,16,19-trienoic acid
+E        C16527  (7Z,10Z,13Z,16Z)-Docosa-7,10,13,16-tetraenoic acid
+E        C16513  (7Z,10Z,13Z,16Z,19Z)-Docosa-7,10,13,16,19-pentaenoic acid
+E        C06429  (4Z,7Z,10Z,13Z,16Z,19Z)-Docosa-4,7,10,13,16,19-hexaenoic acid
+E        C21960  (11Z,14Z,17Z,20Z)-Hexacosa-11,14,17,20-tetraenoic acid
+E        C21948  (11Z,14Z,17Z,20Z,23Z)-Hexacosa-11,14,17,20,23-pentaenoic acid
+E        C21964  (8Z,11Z,14Z,17Z,20Z)-Hexacosa-8,11,14,17,20-pentaenoic acid
+E        C21952  (8Z,11Z,14Z,17Z,20Z,23Z)-Hexacosa-8,11,14,17,20,23-hexaenoic acid
+E        C21962  (13Z,16Z,19Z,22Z)-Octacosa-13,16,19,22-tetraenoic acid
+E        C21950  (13Z,16Z,19Z,22Z,25Z)-Octacosa-13,16,19,22,25-pentaenoic acid
+E        C21966  (10Z,13Z,16Z,19Z,22Z)-Octacosa-10,13,16,19,22-pentaenoic acid
+E        C21958  (10Z,13Z,16Z,19Z,22Z,25Z)-Octacosa-10,13,16,19,22,25-hexaenoic acid
 C    FA0104 Hydroperoxy fatty acids
 D      C07338  (9Z,12Z)-(11S)-11-Hydroperoxyoctadeca-9,12-dienoic acid
 D      C04717  (9Z,11E)-(13S)-13-Hydroperoxyoctadeca-9,11-dienoic acid
@@ -384,6 +401,8 @@ D      C00412  Octadecanoyl-CoA
 D      C02041  Icosanoyl-CoA
 D      C16528  Docosanoyl-CoA
 D      C16529  Tetracosanoyl-CoA
+D      C21932  Hexacosanoyl-CoA
+D      C21934  Octacosanoyl-CoA
 D      C02451  (2E)-Pentenoyl-CoA
 D      C05271  (2E)-Hexenoyl-CoA
 D      C05276  (2E)-Octenoyl-CoA
@@ -394,31 +413,63 @@ D      C05273  (2E)-Tetradecenoyl-CoA
 D      C06737  (11Z)-Tetradecenoyl-CoA
 D      C06736  (11E)-Tetradecenoyl-CoA
 D      C05272  (2E)-Hexadecenoyl-CoA
-D      C00510  (9Z)-Ocatadecenoyl-CoA
+D      C21943  (6Z)-Hexadecenoyl-CoA
+D      C21072  (9Z)-Hexadecenoyl-CoA
+D      C00510  (9Z)-Octadecenoyl-CoA
+D      C21945  (11Z)-Octadecenoyl-CoA
 D      C16530  (11Z)-Icosenoyl-CoA
+D      C21947  (13Z)-Icosenoyl-CoA
 D      C16531  (13Z)-Docosenoyl-CoA
 D      C16532  (15Z)-Tetracosenoyl-CoA
-D      C02050  (6Z,9Z)-Octadecadienoyl-CoA
-D      C03035  (6Z,9Z,12Z)-Octadecatrienoyl-CoA
+D      C17279  (17Z)-Hexacosenoyl-CoA
+D      C21981  (6Z,9Z)-Hexadecadienoyl-CoA
+D      C21935  (6Z,9Z)-Octadecadienoyl-CoA
+D      C02050  (9Z,12Z)-Octadecadienoyl-CoA
 D      C16162  (9Z,12Z,15Z)-Octadecatrienoyl-CoA
+D      C03035  (6Z,9Z,12Z)-Octadecatrienoyl-CoA
 D      C16163  (6Z,9Z,12Z,15Z)-Octadecatetraenoyl-CoA
-D      C03595  (8Z,11Z,14Z)-Icosatrienoyl-CoA
+D      C21937  (8Z,11Z)-Icosadienoyl-CoA
+D      C16180  (11Z,14Z)-Icosadienoyl-CoA
 D      C16179  (11Z,14Z,17Z)-Icosatrienoyl-CoA
+D      C03595  (8Z,11Z,14Z)-Icosatrienoyl-CoA
+D      C16164  (8Z,11Z,14Z,17Z)-Icosatetraenoyl-CoA
+D      C21939  (5Z,8Z,11Z)-Icosatrienoyl-CoA
 D      C02249  (5Z,8Z,11Z,14Z)-Icosatetraenonyl-CoA
 D      C16165  (5Z,8Z,11Z,14Z,17Z)-Icosapentaenoyl-CoA
+D      C16645  (13Z,16Z)-Docosadienoyl-CoA
+D      C21941  (7Z,10Z,13Z)-Docosatrienoyl-CoA
 D      C16170  (7Z,10Z,13Z,16Z)-Docosatetraenoyl-CoA
 D      C16166  (7Z,10Z,13Z,16Z,19Z)-Docosapentaenoyl-CoA
+D      C16173  (4Z,7Z,10Z,13Z,16Z)-Docosapentaenoyl-CoA
 D      C16169  (4Z,7Z,10Z,13Z,16Z,19Z)-Docosahexaenoyl-CoA
+D      C16171  (9Z,12Z,15Z,18Z)-Tetracosatetraenoyl-CoA
+D      C16167  (9Z,12Z,15Z,18Z,21Z)-Tetracosapentaenoyl-CoA
+D      C16172  (6Z,9Z,12Z,15Z,18Z)-Tetracosapentaenoyl-CoA
+D      C16168  (6Z,9Z,12Z,15Z,18Z,21Z)-Tetracosahexaenoyl-CoA
+D      C16387  (2E,6Z,9Z,12Z,15Z,18Z)-Tetracosahexaenoyl-CoA
+D      C16374  (2E,6Z,9Z,12Z,15Z,18Z,21Z)-Tetracosaheptaenoyl-CoA
+D      C21961  (11Z,14Z,17Z,20Z)-Hexacosatetraenoyl-CoA
+D      C21949  (11Z,14Z,17Z,20Z,23Z)-Hexacosapentaenoyl-CoA
+D      C21965  (8Z,11Z,14Z,17Z,20Z)-Hexacosapentaenoyl-CoA
+D      C21953  (8Z,11Z,14Z,17Z,20Z,23Z)-Hexacosahexaenoyl-CoA
+D      C21963  (13Z,16Z,19Z,22Z)-Octacosatetraenoyl-CoA
+D      C21951  (13Z,16Z,19Z,22Z,25Z)-Octacosapentaenoyl-CoA
+D      C21967  (10Z,13Z,16Z,19Z,22Z)-Octacosapentaenoyl-CoA
+D      C21959  (10Z,13Z,16Z,19Z,22Z,25Z)-Octacosahexaenoyl-CoA
 D      C05268  (S)-3-Hydroxyhexanoyl-CoA
 D      C05266  (S)-3-Hydroxyoctanoyl-CoA
 D      C05264  (S)-3-Hydroxydecanoyl-CoA
 D      C05262  (S)-3-Hydroxydodecanoyl-CoA
 D      C16217  3-Hydroxyoctadecanoyl-CoA
+D      C16388  (3R,6Z,9Z,12Z,15Z,18Z)-3-Hydroxytetracosapentaenoyl-CoA
+D      C16375  (3R,6Z,9Z,12Z,15Z,18Z,21Z)-3-Hydroxytetracosahexaenoyl-CoA
 D      C05269  3-Oxohexanoyl-CoA
 D      C05267  3-Oxooctanoyl-CoA
 D      C05265  3-Oxodecanoyl-CoA
 D      C05263  3-Oxododecanoyl-CoA
 D      C16216  3-Oxooctadecanoyl-CoA
+D      C16389  (6Z,9Z,12Z,15Z,18Z)-3-Oxotetracosapentaenoyl-CoA
+D      C16376  (6Z,9Z,12Z,15Z,18Z,21Z)-3-Oxotetracosahexaenoyl-CoA
 C    FA0706 Fatty acyl ACPs
 D      C05745  Butyryl-[acp]
 D      C05749  Hexanoyl-[acp]
@@ -2806,5 +2857,5 @@ B  PK00 Other Polyketides
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: April 4, 2018
+#Last updated: November 8, 2018
 #<br>Classification based on <a href="http://www.lipidmaps.org/">LIPID MAPS</a> [ <a href="http://www.ncbi.nlm.nih.gov/pubmed/15722563,19098281">pubmed</a> ]
