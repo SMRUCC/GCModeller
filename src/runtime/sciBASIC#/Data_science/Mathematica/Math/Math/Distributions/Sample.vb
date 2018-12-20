@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -14,12 +15,15 @@ Namespace Distributions
         Public Property max As Double
         Public Property average As Double
         Public Property stdErr As Double
+
+        <XmlAttribute>
         Public Property size As Integer
 
         ''' <summary>
         ''' 分别为0%, 25%, 50%, 75%, 100%
         ''' </summary>
         ''' <returns></returns>
+        <XmlAttribute>
         Public Property quantile As Double()
 
         Sub New()

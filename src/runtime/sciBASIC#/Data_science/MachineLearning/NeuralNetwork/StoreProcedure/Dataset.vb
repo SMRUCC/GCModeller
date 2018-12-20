@@ -66,12 +66,12 @@ Namespace NeuralNetwork.StoreProcedure
         ''' Neuron network input parameters
         ''' </summary>
         ''' <returns></returns>
-        Public Property status As Double()
+        <XmlAttribute> Public Property status As Double()
         ''' <summary>
         ''' The network expected output values
         ''' </summary>
         ''' <returns></returns>
-        Public Property target As Double()
+        <XmlAttribute> Public Property target As Double()
 
         ''' <summary>
         ''' Create a new training dataset
@@ -99,7 +99,9 @@ Namespace NeuralNetwork.StoreProcedure
     ''' </summary>
     Public Class DataSet : Inherits XmlDataModel
 
+        <XmlElement("sample")>
         Public Property DataSamples As Sample()
+        <XmlElement("normalization")>
         Public Property NormalizeMatrix As NormalizeMatrix
 
     End Class
