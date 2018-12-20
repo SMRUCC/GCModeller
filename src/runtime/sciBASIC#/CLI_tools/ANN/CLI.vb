@@ -58,6 +58,7 @@ Module CLI
             Call training.Add(sample.status, sample.target)
         Next
 
+        Call Console.WriteLine(network.ToString)
         Call training.Train(parallel, normalize:=True)
 
         Return training.TakeSnapshot _
