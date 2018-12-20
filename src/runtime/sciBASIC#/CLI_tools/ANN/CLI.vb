@@ -45,11 +45,12 @@ Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/encourage")>
-    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/out <out.Xml>]")>
+    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /out <out.Xml>]")>
     Public Function Encourage(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim samples$ = args <= "/samples"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.encouraged.Xml"
+        Dim parallel As Boolean = args("/parallel")
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
 
@@ -57,7 +58,7 @@ Module CLI
             Call training.Add(sample.status, sample.target)
         Next
 
-        Call training.Train()
+        Call training.Train(parallel, normalize:=True)
 
         Return training.TakeSnapshot _
             .GetXml _
