@@ -33,7 +33,7 @@ Public Module FoldChangeBar
             a = intervalRange.ScaleMapping(interval(0), countRange)
             b = intervalRange.ScaleMapping(interval(1), countRange)
             subset = colors _
-                .slice(a, b) _
+                .slice(a, b - 1) _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
 
@@ -134,7 +134,7 @@ Public Module FoldChangeBar
                 Dim rect As Rectangle = region.PlotRegion
                 Dim maxLabel$ = values.Keys.MaxLengthString
 
-                If (maxLabel > maxLabelLen) Then
+                If (maxLabel.Length > maxLabelLen) Then
                     maxLabel = Mid(maxLabel, 1, maxLabelLen) & "..."
                 End If
 
@@ -172,11 +172,11 @@ Public Module FoldChangeBar
                 For Each sample As NamedValue(Of Double) In values
                     ' 绘制左边的标签
                     x = boxLeft - g.MeasureString(sample.Name, labelFont).Width - 5
-                    Call g.DrawString(sample.Name, labelFont, Brushes.Black, New PointF(x, y))
+                    g.DrawString(sample.Name, labelFont, Brushes.Black, New PointF(x, y))
 
                     ' 绘制图表数据
                     barWidth = Math.Abs(sample.Value) / samples.max * boxWidth
-                    x = boxMiddle - barWidth
+                    x = boxMiddle
 
                     ' 确定颜色
                     barRibbon = colorRanges _
@@ -191,7 +191,7 @@ Public Module FoldChangeBar
 
                         ' 进行条形图的颜色填充
                         ' 需要根据值来决定填充和绘制的方向
-                        dx = Math.Sign(sample.Value)
+                        dx = Math.Sign(sample.Value) * dx
 
                         For i As Integer = 0 To barRibbon.Length - 1
                             barFragment = New RectangleF With {

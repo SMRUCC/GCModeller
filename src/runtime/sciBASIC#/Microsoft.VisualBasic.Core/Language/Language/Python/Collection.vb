@@ -65,6 +65,7 @@ Namespace Language.Python
                 [stop] = array.Length + [stop]
             End If
 
+            [stop] -= start
             [stop] -= 1
 
             For i As Integer = 0 To [stop] Step [step]
