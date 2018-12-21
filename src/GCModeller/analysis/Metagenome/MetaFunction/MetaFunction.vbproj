@@ -106,6 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AntibioticResistance.vb" />
+    <Compile Include="CARD\CARDdata.vb" />
+    <Compile Include="CARD\Fasta.vb" />
+    <Compile Include="CARD\Tables.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -153,10 +157,6 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\data\functional_DATA\functional_DATA.vbproj">
-      <Project>{614cde0c-5e3f-4ee4-9803-b024afffe259}</Project>
-      <Name>functional_DATA</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
