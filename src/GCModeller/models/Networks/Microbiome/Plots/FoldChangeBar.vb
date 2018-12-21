@@ -67,14 +67,14 @@ Public Module FoldChangeBar
                 ' 需要吧当前区间内的颜色给提出来
                 fills += rangeColors.slice(0, range.ScaleMapping(value, {0, len}))
                 Exit For
-            ElseIf value > range.Max AndAlso i = colors.Length - 1 Then
-                ' 一直fill最后一种颜色
-                fills += rangeColors.Last
-                Exit For
             ElseIf value >= range.Max Then
                 fills += rangeColors
             End If
         Next
+
+        If value > colors.Last.range.Max Then
+            fills += colors.Last.colors.Last
+        End If
 
         Return fills
     End Function
@@ -101,20 +101,20 @@ Public Module FoldChangeBar
     ''' <returns></returns>
     <Extension>
     Public Function Plot(data As IEnumerable(Of NamedValue(Of Double)),
-                         Optional size$ = "2700,3300",
-                         Optional margin$ = g.DefaultPadding,
+                         Optional size$ = "2700,1800",
+                         Optional margin$ = g.DefaultUltraLargePadding,
                          Optional bg$ = "white",
                          Optional scaleColorSchema$ = "YlGnBu:c8",
                          Optional colorRangeInterval$ = "0,1,2,5",
-                         Optional colorlevels% = 120,
+                         Optional colorlevels% = 20,
                          Optional maxLabelLen% = 56,
-                         Optional labelFontCSS$ = CSSFont.PlotLabelNormal,
+                         Optional labelFontCSS$ = CSSFont.Win7LittleLarge,
                          Optional boxBorderCSS$ = Stroke.AxisStroke,
                          Optional referenceStroke$ = Stroke.AxisGridStroke,
                          Optional title$ = "FoldChange Bar Plot",
-                         Optional titleFontCSS$ = CSSFont.PlotTitle,
+                         Optional titleFontCSS$ = CSSFont.Win7VeryLarge,
                          Optional tickHeight% = 10,
-                         Optional tickFontCSS$ = CSSFont.Win7Normal) As GraphicsData
+                         Optional tickFontCSS$ = CSSFont.Win7LittleLarge) As GraphicsData
 
         Dim colorIntervals As Vector = colorRangeInterval
         Dim colors As Color() = Designer.GetColors(scaleColorSchema, colorlevels)
@@ -157,14 +157,16 @@ Public Module FoldChangeBar
                 Call g.DrawRectangle(boxStroke, box)
 
                 Dim barWidth!
-                Dim barHeight! = boxHeight / (values.Length + 1)
+                Dim barHeight! = (boxHeight / (values.Length + 1)) * 0.8
+                Dim dy = (boxHeight - values.Length * barHeight) / (values.Length + 1)
                 Dim samples As New SampleDistribution(Vector.Abs(values.Values.AsVector))
                 Dim barRibbon As SolidBrush()
                 Dim dx!
                 Dim barFragment As RectangleF
                 Dim x! = boxLeft
-                Dim y! = rect.Top + barHeight / 2
+                Dim y! = rect.Top + dy
                 Dim tickSize As SizeF
+                Dim direction%
 
                 boxWidth = boxWidth / 2
 
@@ -182,7 +184,8 @@ Public Module FoldChangeBar
                     barRibbon = colorRanges _
                         .getColors(Math.Abs(sample.Value)) _
                         .ToArray
-                    dx = barWidth / barRibbon.Length
+                    dx = colorIntervals.Max / samples.max * boxWidth
+                    dx = dx / colorlevels - 1
 
                     If sample.Value = 0# Then
                         ' 零，则在中线上画一条线
@@ -191,23 +194,45 @@ Public Module FoldChangeBar
 
                         ' 进行条形图的颜色填充
                         ' 需要根据值来决定填充和绘制的方向
-                        dx = Math.Sign(sample.Value) * dx
+                        direction = Math.Sign(sample.Value)
+
+                        If direction < 0 Then
+                            x -= dx
+                        End If
 
                         For i As Integer = 0 To barRibbon.Length - 1
                             barFragment = New RectangleF With {
                                 .X = x,
-                                .Width = Math.Abs(dx),
+                                .Width = Math.Abs(dx) + 1,
                                 .Y = y,
                                 .Height = barHeight
                             }
 
-                            x += dx
+                            x += direction * dx
                             g.FillRectangle(barRibbon(i), barFragment)
+                            barWidth -= dx
                         Next
+
+                        If barWidth > 0 Then
+                            Dim lastColor As SolidBrush = barRibbon.Last
+
+                            If direction < 0 Then
+                                x -= barWidth
+                                barWidth += dx
+                            End If
+
+                            barFragment = New RectangleF With {
+                                .X = x,
+                                .Height = barHeight,
+                                .Width = barWidth,
+                                .Y = y
+                            }
+                            g.FillRectangle(lastColor, barFragment)
+                        End If
 
                     End If
 
-                    y += barHeight
+                    y += barHeight + dy
                 Next
 
                 ' 绘制大标题
