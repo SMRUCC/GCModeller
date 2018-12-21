@@ -249,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PathwayProfile.vb" />
-    <Compile Include="Plots\FoldChangeBar.vb" />
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuild.vb" />
     <Compile Include="UniProt\TaxonomyIndex.vb" />
@@ -316,10 +315,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
       <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots\Plots.vbproj">
-      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
-      <Name>Plots</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
