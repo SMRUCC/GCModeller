@@ -49,7 +49,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports SMRUCC.genomics.Data.Functional
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 Public Module AntibioticResistance
