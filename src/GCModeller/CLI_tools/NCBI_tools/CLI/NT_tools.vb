@@ -82,6 +82,11 @@ Partial Module CLI
                 If acc.IsOneOfA(idlist) Then
                     Call writer.WriteLine(fa.GenerateDocument(120))
                     Call fa.Title.__INFO_ECHO
+                    Call idlist.Delete(acc)
+
+                    If idlist.Count = 0 Then
+                        Exit For
+                    End If
                 End If
             Next
         End Using
