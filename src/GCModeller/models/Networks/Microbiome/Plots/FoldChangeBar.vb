@@ -102,7 +102,7 @@ Public Module FoldChangeBar
     <Extension>
     Public Function Plot(data As IEnumerable(Of NamedValue(Of Double)),
                          Optional size$ = "2700,1800",
-                         Optional margin$ = g.DefaultUltraLargePadding,
+                         Optional margin$ = "padding:150px 150px 150px 150px;",
                          Optional bg$ = "white",
                          Optional scaleColorSchema$ = "YlGnBu:c8",
                          Optional colorRangeInterval$ = "0,1,2,5",
@@ -114,7 +114,9 @@ Public Module FoldChangeBar
                          Optional title$ = "FoldChange Bar Plot",
                          Optional titleFontCSS$ = CSSFont.Win7VeryLarge,
                          Optional tickHeight% = 10,
-                         Optional tickFontCSS$ = CSSFont.Win7LittleLarge) As GraphicsData
+                         Optional tickFontCSS$ = CSSFont.Win7LittleLarge,
+                         Optional shadowDistance# = 15,
+                         Optional shadowAngle# = 45) As GraphicsData
 
         Dim colorIntervals As Vector = colorRangeInterval
         Dim colors As Color() = Designer.GetColors(scaleColorSchema, colorlevels)
@@ -189,7 +191,10 @@ Public Module FoldChangeBar
 
                     If sample.Value = 0# Then
                         ' 零，则在中线上画一条线
-                        Call g.FillRectangle(Brushes.Black, New Rectangle(boxMiddle - 1, y, 2, barHeight))
+                        barFragment = New Rectangle(boxMiddle - 1, y, 2, barHeight)
+
+                        Call g.DropdownShadows(barFragment.Move(shadowDistance, shadowAngle))
+                        Call g.FillRectangle(Brushes.Black, barFragment)
                     Else
 
                         ' 进行条形图的颜色填充
@@ -197,8 +202,23 @@ Public Module FoldChangeBar
                         direction = Math.Sign(sample.Value)
 
                         If direction < 0 Then
+                            barFragment = New RectangleF With {
+                                .X = x - barWidth,
+                                .Height = barHeight,
+                                .Y = y,
+                                .Width = barWidth
+                            }
                             x -= dx
+                        Else
+                            barFragment = New RectangleF With {
+                                .X = x,
+                                .Width = barWidth,
+                                .Height = barHeight,
+                                .Y = y
+                            }
                         End If
+
+                        Call g.DropdownShadows(barFragment.Move(shadowDistance, shadowAngle))
 
                         For i As Integer = 0 To barRibbon.Length - 1
                             barFragment = New RectangleF With {
