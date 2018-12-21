@@ -243,3 +243,4 @@ pip-log.txt
 /src/Assembly/ProteoWizard.d/App
 *.dtbcache
 /plot
+/src/runtime/sciBASIC#/CLI_tools/Apps
