@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9068ae5739d353aaeeb30f013667730, Microsoft.VisualBasic.Core\Extensions\Collection\Enumerable.vb"
+﻿#Region "Microsoft.VisualBasic::8ea134180a40bffae99e68390d983785, Microsoft.VisualBasic.Core\Extensions\Collection\Enumerable.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,13 @@ Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 <Extension>
 Public Module IEnumerations
 
+    ''' <summary>
+    ''' Get a random element
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="random"></param>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function [Next](Of T)(random As Random, data As T()) As T

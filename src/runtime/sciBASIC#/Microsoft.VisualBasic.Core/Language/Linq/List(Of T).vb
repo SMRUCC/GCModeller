@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d40988cf8a83daadb7b668e0c41b6191, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::52ec399d0193b08b140bd319a1c3d6c9, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
 
     ' Author:
     ' 
@@ -409,6 +409,7 @@ Namespace Language
 
         ''' <summary>
         ''' Adds the elements of the specified collection to the end of the <see cref="List(Of T)"/>.
+        ''' (这个操作符并不会修改所输入的两个原始序列的内容)
         ''' </summary>
         ''' <param name="vals"></param>
         ''' <param name="list"></param>

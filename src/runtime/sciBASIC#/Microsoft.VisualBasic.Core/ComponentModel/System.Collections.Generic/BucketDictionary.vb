@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a88e9569f7b8e09e9d75be3000120c9, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\BucketDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::68b048fd5e6efadf7dd7cf304d168f50, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\BucketDictionary.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Count, Keys, Values
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ContainsKey, GetEnumerator, IEnumerable_GetEnumerator, ToString, TryGetValue
     ' 
     '     Module BucketDictionaryExtensions
@@ -73,6 +73,10 @@ Namespace ComponentModel.Collection
 
         Sub New()
             Call Me.New(Short.MaxValue * 10)
+        End Sub
+
+        Sub New(buckets As IEnumerable(Of Dictionary(Of K, V)))
+            __buckets = buckets.AsList
         End Sub
 
         ''' <summary>

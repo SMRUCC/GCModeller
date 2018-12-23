@@ -295,6 +295,10 @@
       <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
       <Name>ExperimentDesigner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\Metagenome\MetaFunction\MetaFunction.vbproj">
+      <Project>{36d2e8de-a28b-4353-9b4d-79c301314355}</Project>
+      <Name>MetaFunction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\Metagenome\Metagenome\Metagenome.vbproj">
       <Project>{ab10b480-33b1-476c-8237-23e15ce635bd}</Project>
       <Name>Metagenome</Name>
@@ -314,10 +318,6 @@
     <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
       <Name>Bio.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\data\functional_DATA\functional_DATA.vbproj">
-      <Project>{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}</Project>
-      <Name>functional_DATA</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98b68c31-ea5a-4b07-a748-3a009fabfa39}</Project>

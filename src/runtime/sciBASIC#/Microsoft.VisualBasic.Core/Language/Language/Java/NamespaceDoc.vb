@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bee94588c6b14170dcc1ccdbef37f6e, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\HashValue.vb"
+﻿#Region "Microsoft.VisualBasic::778fade6af9fcd57355c0a28a9bad6b0, Microsoft.VisualBasic.Core\Language\Language\Java\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -31,41 +31,20 @@
 
     ' Summaries:
 
-    '     Structure HashValue
+    '     Class NamespaceDoc
     ' 
-    '         Properties: key, value
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    '         Operators: +
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Serialization.JSON
+Namespace Language.Java
 
-Namespace ComponentModel.Collection
-
-    Public Structure HashValue : Implements INamedValue
-
-        Public Property key As String Implements INamedValue.Key
-        Public Property value As String
-
-        Sub New(name As String, value As String)
-            Me.key = name
-            Me.value = value
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-
-        Public Shared Operator +(hash As Dictionary(Of String, String), tag As HashValue) As Dictionary(Of String, String)
-            Call hash.Add(tag.key, tag.value)
-            Return hash
-        End Operator
-    End Structure
+    ''' <summary>
+    ''' Helper for translate ``Java`` source file to VB.NET source file.
+    ''' </summary>
+    Public Class NamespaceDoc
+    End Class
 End Namespace

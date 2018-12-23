@@ -931,6 +931,7 @@
     <Compile Include="ComponentModel\Ranges\Selector\SelectorExtensions.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\NumericTagged.vb" />
     <Compile Include="ComponentModel\Ranges\Unit.vb" />
+    <Compile Include="ComponentModel\Settings\Inf\IOProvider.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\FactorValue.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\Indexing.vb" />
     <Compile Include="Extensions\Collection\ByteStreamExtensions.vb" />
@@ -954,6 +955,8 @@
     <Compile Include="Extensions\Trinity\Word.vb" />
     <Compile Include="Extensions\Trinity\WordClass.vb" />
     <Compile Include="Extensions\ValueTypes\TimeSpanScale.vb" />
+    <Compile Include="Language\Language\Java\NamespaceDoc.vb" />
+    <Compile Include="Language\Language\Python\NamespaceDoc.vb" />
     <Compile Include="Net\HTTP\ZipStream.vb" />
     <Compile Include="Net\HTTP\Multipart.vb" />
     <Compile Include="Net\HTTP\DataURI.vb" />
@@ -1019,7 +1022,7 @@
     <Compile Include="ComponentModel\DataSource\SchemaMaps\Mappings.vb" />
     <Compile Include="ComponentModel\DataSource\SchemaMaps\Schema.vb" />
     <Compile Include="ComponentModel\DataStructures\CapacityQueue.vb" />
-    <Compile Include="ComponentModel\DataStructures\BucketDictionary.vb" />
+    <Compile Include="ComponentModel\System.Collections.Generic\BucketDictionary.vb" />
     <Compile Include="ComponentModel\DataStructures\FuzzyGroup.vb" />
     <Compile Include="ComponentModel\DataStructures\Tree\ITreeNode.vb" />
     <Compile Include="ComponentModel\DataStructures\Tree\TreeNodeBase.vb" />
@@ -1047,7 +1050,6 @@
     <Compile Include="ComponentModel\System.Collections.Generic\PriorityQueue\BinaryPriorityQueue.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\IndexOf.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\MapsHelper.vb" />
-    <Compile Include="ComponentModel\System.Collections.Generic\HashValue.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\Dictionary%28Of T, V%29.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\PriorityQueue\Abstract.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\LineValue.vb" />

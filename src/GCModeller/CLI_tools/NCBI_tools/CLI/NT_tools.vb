@@ -1,56 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::90f75d9b4690a63ed58a4caeef1987ac, CLI_tools\NCBI_tools\CLI\NT_tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: GetWordTokens, NtKeyMatches, NtNameMatches
-    ' 
-    ' Class WordTokens
-    ' 
-    '     Properties: name, tokens
-    ' 
-    '     Function: GetTokens, Match, ToString
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: GetWordTokens, NtKeyMatches, NtNameMatches
+' 
+' Class WordTokens
+' 
+'     Properties: name, tokens
+' 
+'     Function: GetTokens, Match, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
@@ -60,6 +62,37 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     ' 这里主要是和处理nt数据库文件的相关工具
+
+    <ExportAPI("/nt.matches.accession")>
+    <Usage("/nt.matches.accession /in <nt.fasta> /list <accession.list> [/accid <default=""tokens '.' first""> /out <subset.fasta>]")>
+    <Group(CLIGrouping.NTTools)>
+    Public Function NtAccessionMatches(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim list$ = args <= "/list"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}_subsetof({list.BaseName}).fasta"
+        Dim idlist As Index(Of String) = list.ReadAllLines.Select(AddressOf Strings.LCase).Indexing
+        Dim accid As TextGrepMethod = TextGrepScriptEngine.Compile(args("/accid") Or "tokens '.' first").PipelinePointer
+
+        Call idlist.Objects.GetJson.__DEBUG_ECHO
+
+        Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
+            For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
+                Dim acc As String = accid(fa.Title).ToLower
+
+                If acc.IsOneOfA(idlist) Then
+                    Call writer.WriteLine(fa.GenerateDocument(120))
+                    Call fa.Title.__INFO_ECHO
+                    Call idlist.Delete(acc)
+
+                    If idlist.Count = 0 Then
+                        Exit For
+                    End If
+                End If
+            Next
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/nt.matches.key", Usage:="/nt.matches.key /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
     <Group(CLIGrouping.NTTools)>
