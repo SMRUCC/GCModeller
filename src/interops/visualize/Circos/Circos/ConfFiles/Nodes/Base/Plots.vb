@@ -1,65 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::1cb8cab5c0d77c91e84a63863efe1e78, visualize\Circos\Circos\ConfFiles\Nodes\Base\Plots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HeatMap
-    ' 
-    '         Properties: color, scale_log_base, type
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetProperties
-    ' 
-    '     Class Histogram
-    ' 
-    '         Properties: extend_bin, fill_color, type
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetProperties
-    ' 
-    '     Class TextLabel
-    ' 
-    '         Properties: color, label_font, label_size, label_snuggle, link_color
-    '                     link_dims, link_thickness, max_snuggle_distance, padding, rpadding
-    '                     show_links, snuggle_link_overlap_test, snuggle_link_overlap_tolerance, snuggle_refine, snuggle_sampling
-    '                     snuggle_tolerance, type
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetProperties
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HeatMap
+' 
+'         Properties: color, scale_log_base, type
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetProperties
+' 
+'     Class Histogram
+' 
+'         Properties: extend_bin, fill_color, type
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: GetProperties
+' 
+'     Class TextLabel
+' 
+'         Properties: color, label_font, label_size, label_snuggle, link_color
+'                     link_dims, link_thickness, max_snuggle_distance, padding, rpadding
+'                     show_links, snuggle_link_overlap_test, snuggle_link_overlap_tolerance, snuggle_refine, snuggle_sampling
+'                     snuggle_tolerance, type
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetProperties
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
@@ -107,8 +108,11 @@ Namespace Configurations.Nodes.Plots
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig.GenerateConfigurations(Of HeatMap)(Me)
+            Return SimpleConfig _
+                .GenerateConfigurations(Of HeatMap)(Me) _
+                .ToArray
         End Function
     End Class
 
@@ -163,8 +167,11 @@ Namespace Configurations.Nodes.Plots
             Call MyBase.New(data)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig.GenerateConfigurations(Of Histogram)(Me)
+            Return SimpleConfig _
+                .GenerateConfigurations(Of Histogram)(Me) _
+                .ToArray
         End Function
     End Class
 
@@ -223,8 +230,11 @@ Namespace Configurations.Nodes.Plots
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig.GenerateConfigurations(Of TextLabel)(Me)
+            Return SimpleConfig _
+                .GenerateConfigurations(Of TextLabel)(Me) _
+                .ToArray
         End Function
     End Class
 End Namespace
