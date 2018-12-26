@@ -70,6 +70,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
 
+    ''' <summary>
+    ''' 药物分子的注释信息
+    ''' </summary>
     Public Class Drug : Implements INamedValue, IKEGGRemarks
 
         Public Property Entry As String Implements INamedValue.Key
@@ -80,8 +83,12 @@ Namespace Assembly.KEGG.Medical
         Public Property Remarks As String() Implements IKEGGRemarks.Remarks
         Public Property Activity As String
         Public Property DBLinks As DBLink()
+
+#Region "KCF data"
         Public Property Atoms As Atom()
         Public Property Bounds As Bound()
+#End Region
+
         Public Property Comments As String()
         Public Property Targets As String()
         Public Property Metabolism As NamedValue(Of String)()

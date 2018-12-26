@@ -57,8 +57,13 @@ Namespace Assembly.KEGG.Medical
     ''' </summary>
     Public Module DrugParser
 
-        Public Iterator Function ParseStream(path$) As IEnumerable(Of Drug)
-            Dim lines$() = path.ReadAllLines
+        ''' <summary>
+        ''' 解析药物数据库的文件
+        ''' </summary>
+        ''' <param name="pathOrDoc$">文件路径或者文件的文本内容</param>
+        ''' <returns></returns>
+        Public Iterator Function ParseStream(pathOrDoc As String) As IEnumerable(Of Drug)
+            Dim lines$() = pathOrDoc.SolveStream.LineTokens
 
             For Each pack As String() In lines.Split("///")
                 Yield pack.ParseStream.CreateDrugModel
