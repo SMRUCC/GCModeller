@@ -75,15 +75,39 @@ Namespace Assembly.KEGG.Medical
         Public Property Label As String
         Public Property Categories As NamedValue(Of String)()
 
+        ''' <summary>
+        ''' 是否为药物
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsAgent As Boolean
             Get
                 Return InStr(Label, "agent", CompareMethod.Text) > 0
             End Get
         End Property
 
+        ''' <summary>
+        ''' 是否为氨基酸
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsAminoAcid As Boolean
             Get
                 Return Categories.Any(Function(item) InStr(item.Value, "Amino acid", CompareMethod.Text) > 0)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 是否为消炎药物
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsAntiInflammatory As Boolean
+            Get
+                Return Label.TextEquals("Anti-inflammatory")
+            End Get
+        End Property
+
+        Public ReadOnly Property IsAntibacterial As Boolean
+            Get
+                Return Label.TextEquals("Antibacterial")
             End Get
         End Property
 
