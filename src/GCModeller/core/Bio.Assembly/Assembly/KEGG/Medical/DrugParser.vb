@@ -160,6 +160,9 @@ Namespace Assembly.KEGG.Medical
                     .Select(AddressOf DBLink.FromTagValue) _
                     .ToArray,
                 .Efficacy = getValue("EFFICACY").JoinBy(ASCII.TAB),
+                .Classes = ClassInheritance _
+                    .PopulateClasses(getValue("CLASS")) _
+                    .ToArray,
                 .Atoms = __atoms(getValue("ATOM")),
                 .Bounds = __bounds(getValue("BOUND")),
                 .Comments = getValue("COMMENT"),
@@ -185,7 +188,8 @@ Namespace Assembly.KEGG.Medical
         ''' <returns></returns>
         <Extension> Friend Function ParseStream(lines$(), Optional ByRef ref As Reference() = void) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
-            Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
+            ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
+            Dim tag$ = ""
             Dim values As New List(Of String)
             Dim add = Sub()
                           ' 忽略掉original，bracket这些分子结构参数，因为可以很方便的从ChEBI数据库之中获取得到
@@ -236,14 +240,13 @@ Namespace Assembly.KEGG.Medical
             ' 还会有剩余的数据的，在这里将他们添加上去
             Call add()
 
-            Dim getValue = Function(KEY$) As String()
-                               If list.ContainsKey(KEY) Then
-                                   Return list(KEY).Value
-                               Else
-                                   Return {}
-                               End If
-                           End Function
-            Return getValue
+            Return Function(key As String) As String()
+                       If list.ContainsKey(key) Then
+                           Return list(key).Value
+                       Else
+                           Return {}
+                       End If
+                   End Function
         End Function
 
         Private Function __atoms(lines$()) As Atom()
