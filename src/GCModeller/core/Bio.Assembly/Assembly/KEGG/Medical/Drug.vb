@@ -81,7 +81,7 @@ Namespace Assembly.KEGG.Medical
         Public Property Exact_Mass As Double
         Public Property Mol_Weight As Double
         Public Property Remarks As String() Implements IKEGGRemarks.Remarks
-        Public Property Activity As String
+        Public Property Efficacy As String
         Public Property DBLinks As DBLink()
 
 #Region "KCF data"

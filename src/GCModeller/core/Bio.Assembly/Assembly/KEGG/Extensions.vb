@@ -180,7 +180,7 @@ Namespace Assembly.KEGG
         End Function
 
         Public Function SingleID(theSameAs As String) As String
-            Dim tokens = theSameAs.Trim.StringSplit("\s+")
+            Dim tokens = Strings.Trim(theSameAs).StringSplit("\s+")
             Dim CID As String = tokens _
                 .Where(Function(id) id.IsPattern("C\d+")) _
                 .FirstOrDefault
