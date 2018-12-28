@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::3f579af13be4426c2188d534a39a2842, Bio.Assembly\Assembly\KEGG\Medical\DrugParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DrugParser
-    ' 
-    '         Function: __atoms, __bounds, __classGroup, CreateDrugGroupModel, CreateDrugModel
-    '                   LoadDrugGroup, (+2 Overloads) ParseStream
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DrugParser
+' 
+'         Function: __atoms, __bounds, __classGroup, CreateDrugGroupModel, CreateDrugModel
+'                   LoadDrugGroup, (+2 Overloads) ParseStream
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -57,8 +58,13 @@ Namespace Assembly.KEGG.Medical
     ''' </summary>
     Public Module DrugParser
 
-        Public Iterator Function ParseStream(path$) As IEnumerable(Of Drug)
-            Dim lines$() = path.ReadAllLines
+        ''' <summary>
+        ''' 解析药物数据库的文件
+        ''' </summary>
+        ''' <param name="pathOrDoc$">文件路径或者文件的文本内容</param>
+        ''' <returns></returns>
+        Public Iterator Function ParseStream(pathOrDoc As String) As IEnumerable(Of Drug)
+            Dim lines$() = pathOrDoc.SolveStream.LineTokens
 
             For Each pack As String() In lines.Split("///")
                 Yield pack.ParseStream.CreateDrugModel
@@ -153,7 +159,10 @@ Namespace Assembly.KEGG.Medical
                 .DBLinks = getValue("DBLINKS") _
                     .Select(AddressOf DBLink.FromTagValue) _
                     .ToArray,
-                .Activity = getValue("ACTIVITY").JoinBy(" "),
+                .Efficacy = getValue("EFFICACY").JoinBy(ASCII.TAB),
+                .Classes = ClassInheritance _
+                    .PopulateClasses(getValue("CLASS")) _
+                    .ToArray,
                 .Atoms = __atoms(getValue("ATOM")),
                 .Bounds = __bounds(getValue("BOUND")),
                 .Comments = getValue("COMMENT"),
@@ -179,7 +188,8 @@ Namespace Assembly.KEGG.Medical
         ''' <returns></returns>
         <Extension> Friend Function ParseStream(lines$(), Optional ByRef ref As Reference() = void) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
-            Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
+            ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
+            Dim tag$ = ""
             Dim values As New List(Of String)
             Dim add = Sub()
                           ' 忽略掉original，bracket这些分子结构参数，因为可以很方便的从ChEBI数据库之中获取得到
@@ -230,14 +240,13 @@ Namespace Assembly.KEGG.Medical
             ' 还会有剩余的数据的，在这里将他们添加上去
             Call add()
 
-            Dim getValue = Function(KEY$) As String()
-                               If list.ContainsKey(KEY) Then
-                                   Return list(KEY).Value
-                               Else
-                                   Return {}
-                               End If
-                           End Function
-            Return getValue
+            Return Function(key As String) As String()
+                       If list.ContainsKey(key) Then
+                           Return list(key).Value
+                       Else
+                           Return {}
+                       End If
+                   End Function
         End Function
 
         Private Function __atoms(lines$()) As Atom()
