@@ -130,11 +130,12 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
     <ExportAPI("/union")>
     <Description("")>
-    <Usage("/union /in <*.csv.DIR> [/out <export.csv>]")>
+    <Usage("/union /in <*.csv.DIR> [/tag.field <null> /out <export.csv>]")>
     Public Function Union(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out$ = args("/out") Or ([in].Split("*"c).First.TrimDIR & ".union.csv")
         Dim source$()
+        Dim tagField As String = args("/tag.field")
 
         If InStr([in], "*") > 0 Then
             Dim t$() = [in].Split("*"c)
@@ -150,8 +151,16 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
         Dim unionData As DATA.DataFrame = DATA.DataFrame.Load(source(Scan0))
 
+        If Not tagField.StringEmpty Then
+            unionData.TagFieldName(source(Scan0).BaseName, tagField)
+        End If
+
         For Each file As String In source.Skip(1)
-            unionData += EntityObject.LoadDataSet(file)
+            If tagField.StringEmpty Then
+                unionData += EntityObject.LoadDataSet(file)
+            Else
+                unionData += MappingsHelper.TagFieldName(EntityObject.LoadDataSet(file), file.BaseName, tagField)
+            End If
         Next
 
         Return unionData.SaveTable(out).CLICode

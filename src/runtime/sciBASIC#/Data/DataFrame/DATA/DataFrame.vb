@@ -66,6 +66,13 @@ Namespace DATA
             entityList = list.ToDictionary
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub TagFieldName(tag$, fieldName$)
+            Call MappingsHelper _
+                .TagFieldName(entityList.Values, tag, fieldName) _
+                .ToArray
+        End Sub
+
         ''' <summary>
         ''' Convert row object as target .NET object
         ''' </summary>
