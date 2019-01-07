@@ -181,9 +181,10 @@ Namespace Styling
                     End With
                 Next
 
-                Dim t = expression.MapExpressionParser ' 解析映射表达式字符串
+                ' 解析映射表达式字符串
+                Dim t = expression.MapExpressionParser
 
-                If t.type.TextEquals("Continuous") Then
+                If t.type = MapperTypes.Continuous Then
                     Dim colors As Color()
 
                     If (Not t.values(0).IsColorExpression) AndAlso t.values(1).MatchPattern(RegexpDouble) Then
@@ -208,7 +209,7 @@ Namespace Styling
                     End If
 
                     Dim range As DoubleRange = $"0,{colors.Length}"
-                    Dim selector = t.var.SelectNodeValue
+                    Dim selector = t.propertyName.SelectNodeValue
                     Dim getValue = Function(node As Node) Val(selector(node))
                     Return Function(nodes)
                                Dim index = nodes.ValDegreeAsSize(getValue, range) ' 在这里将属性值映射为等级的index，后面就可以直接引用颜色谱之中的结果了
@@ -230,7 +231,7 @@ Namespace Styling
                                 End Function) _
                         .ToArray
                     Return Function(nodes)
-                               Dim maps = nodes.DiscreteMapping(t.var)
+                               Dim maps = nodes.DiscreteMapping(t.propertyName)
                                Dim out = maps _
                                    .Select(Function(map)
                                                Return New Map(Of Node, Color) With {
@@ -256,20 +257,6 @@ Namespace Styling
                                .ToArray
                        End Function
             End If
-        End Function
-
-        ''' <summary>
-        ''' 表达式之中的值不可以有逗号或者括号
-        ''' </summary>
-        ''' <param name="expression$"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function MapExpressionParser(expression$) As (var$, type$, values As String())
-            Dim t$() = expression _
-                .GetStackValue("(", ")") _
-                .Trim("("c, ")"c) _
-                .Split(","c)
-            Return (t(0), t(1), t.Skip(2).ToArray)
         End Function
     End Module
 End Namespace

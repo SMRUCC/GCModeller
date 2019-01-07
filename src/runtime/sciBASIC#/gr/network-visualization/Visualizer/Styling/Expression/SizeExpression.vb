@@ -13,17 +13,17 @@ Namespace Styling
         ''' 
         ''' </summary>
         ''' <param name="expression$">
-        ''' + 单词
+        ''' + propertyName
         ''' + 数字
         ''' + map表达式：
-        '''    + ``map(单词, Continuous, min, max)``
-        '''    + ``map(单词, Discrete, size1, size2, size3, ...)``
+        '''    + ``map(propertyName, [min, max])`` 区间映射
+        '''    + ``map(propertyName, val1=size1, val2=size2, val3=size3, ...)`` 离散映射
         ''' </param>
         ''' <returns></returns>
         Public Function Evaluate(expression As String) As GetSize
             If expression.MatchPattern(Casting.RegexpDouble) Then
                 Return expression.unifySize
-            ElseIf expression.MatchPattern("map\(.+\)", RegexICSng) Then
+            ElseIf IsMapExpression(expression) Then
                 Return expression.mappingSize
             Else
                 Return expression.passthroughSize
@@ -39,10 +39,11 @@ Namespace Styling
         Private Function mappingSize(expression As String) As GetSize
             Dim t = expression.MapExpressionParser
 
-            If t.type.TextEquals("Continuous") Then
+            If t.type = MapperTypes.Continuous Then
                 Dim range As DoubleRange = $"{t.values(0)},{t.values(1)}"
-                Dim selector = t.var.SelectNodeValue
+                Dim selector = t.propertyName.SelectNodeValue
                 Dim getValue = Function(node As Node) Val(selector(node))
+
                 Return Function(nodes)
                            Return nodes.ValDegreeAsSize(getValue, range)
                        End Function
@@ -50,8 +51,9 @@ Namespace Styling
                 Dim sizeList#() = t.values _
                     .Select(AddressOf Val) _
                     .ToArray
+
                 Return Function(nodes)
-                           Dim maps = nodes.DiscreteMapping(t.var)
+                           Dim maps = nodes.DiscreteMapping(t.propertyName)
                            Dim out = maps _
                                .Select(Function(map)
                                            Return New Map(Of Node, Double) With {
@@ -68,9 +70,8 @@ Namespace Styling
         ''' <summary>
         ''' 从节点的给定属性之中得到对应的节点大小值
         ''' </summary>
-        ''' <param name="expression"></param>
+        ''' <param name="expression">这个表达式应该是属性名称</param>
         ''' <returns></returns>
-        ''' 
         <Extension>
         Private Function passthroughSize(expression As String) As GetSize
             ' 单词
