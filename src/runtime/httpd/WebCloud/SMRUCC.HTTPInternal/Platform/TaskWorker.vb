@@ -23,10 +23,10 @@ Namespace Platform
         End Sub
 
         Public Sub Push()
-            Call taskQueue.AddToQueue(AddressOf RunInternal)
+            Call taskQueue.AddToQueue(AddressOf runInternal)
         End Sub
 
-        Private Sub RunInternal()
+        Private Sub runInternal()
             Do While doTask()
                 ' 只要返回true, 则这个循环会一直执行下去
             Loop
