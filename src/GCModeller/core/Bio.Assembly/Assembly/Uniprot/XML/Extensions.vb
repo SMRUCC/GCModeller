@@ -54,7 +54,7 @@ Namespace Assembly.Uniprot.XML
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions
-                Yield ("UniProtKB", accession)
+                Yield (entry.dataset, accession)
             Next
 
             Yield ("geneName", entry.name)
