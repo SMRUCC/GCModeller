@@ -53,16 +53,16 @@ Namespace Assembly.Uniprot.XML
 
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
-            For Each accession As String In entry.accessions
+            For Each accession As String In entry.accessions.SafeQuery
                 Yield (entry.dataset, accession)
             Next
 
             Yield ("geneName", entry.name)
 
-            For Each reference As dbReference In entry.dbReferences
+            For Each reference As dbReference In entry.dbReferences.SafeQuery
                 Yield (reference.type, reference.id)
 
-                For Each prop As [property] In reference.properties
+                For Each prop As [property] In reference.properties.SafeQuery
                     Yield (reference.type & ":" & prop.type.Replace(" ", "_"), prop.value)
                 Next
             Next
