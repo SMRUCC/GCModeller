@@ -52,6 +52,11 @@ Namespace Assembly.Uniprot.XML
     Public Module Extensions
 
         <Extension>
+        Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
+
+        End Function
+
+        <Extension>
         Public Function ECNumberList(protein As entry) As String()
             Return protein?. _
                 protein?. _
