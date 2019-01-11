@@ -262,13 +262,13 @@ Namespace ComponentModel.Settings.Inf
                         ' 找到了
                         ' 在这里进行值替换，然后退出循环
                         lines(i) = $"{key}={value}"
-                        Exit For
+                        Return lines
                     ElseIf r.Match(line.Trim, RegexoSectionHeader).Success Then
                         ' 已经匹配到了下一个section的起始了
                         ' 没有找到，则进行新建
                         ' 然后退出循环
                         lines.Insert(i - 1, $"{key}={value}")
-                        Exit For
+                        Return lines
                     End If
 
                     lastLine = i

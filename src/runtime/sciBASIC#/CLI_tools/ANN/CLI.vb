@@ -89,7 +89,7 @@ Module CLI
             config.momentum
         )
 
-        For Each sample As Sample In samples.DataSamples.items
+        For Each sample As Sample In samples.PopulateNormalizedSamples
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 

@@ -165,6 +165,21 @@ Namespace NeuralNetwork.StoreProcedure
             End Get
         End Property
 
+        Public Iterator Function PopulateNormalizedSamples() As IEnumerable(Of Sample)
+            Dim input#()
+
+            For Each sample As Sample In DataSamples.items
+                input = NormalizeMatrix.NormalizeInput(sample)
+                sample = New Sample With {
+                    .ID = sample.ID,
+                    .status = input,
+                    .target = sample.target
+                }
+
+                Yield sample
+            Next
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"DataSet with {Size.Height} samples and {Size.Width} properties in each sample."
         End Function
