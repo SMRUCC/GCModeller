@@ -93,7 +93,7 @@ Module CLI
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
-        Call trainingHelper.Train()
+        Call trainingHelper.Train(parallel)
 
         Return trainingHelper _
             .TakeSnapshot _
