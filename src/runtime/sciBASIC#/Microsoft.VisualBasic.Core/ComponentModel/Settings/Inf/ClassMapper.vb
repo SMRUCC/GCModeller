@@ -123,7 +123,12 @@ Namespace ComponentModel.Settings.Inf
             For Each map In maps.Value
                 Dim key As String = map.field.Name
                 Dim value As String = Scripting.ToString(map.GetValue(x))
-                Call ini.WriteValue(maps.Name, key, value)
+
+                If value.StringEmpty Then
+                    Call ini.WriteComment(maps.Name, key, $"{key}=<{map.Type.FullName}>")
+                Else
+                    Call ini.WriteValue(maps.Name, key, value)
+                End If
             Next
         End Sub
 
