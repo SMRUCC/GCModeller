@@ -105,6 +105,9 @@ Namespace NeuralNetwork.StoreProcedure
     ''' <summary>
     ''' A training dataset that stored in XML file.
     ''' </summary>
+    ''' <remarks>
+    ''' 一般只需要生成这个数据对象, 之后就可以直接使用这个对象来进行统一的训练代码调用即可
+    ''' </remarks>
     Public Class DataSet : Inherits XmlDataModel
 
         <XmlElement("sample")>
