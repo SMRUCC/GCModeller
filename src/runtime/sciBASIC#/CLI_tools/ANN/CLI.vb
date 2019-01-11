@@ -93,6 +93,9 @@ Module CLI
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
+        Helpers.MaxEpochs = config.iterations
+
+        Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
         Call trainingHelper.Train(parallel)
 
         Return trainingHelper _
