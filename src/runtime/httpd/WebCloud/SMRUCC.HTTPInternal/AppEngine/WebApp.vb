@@ -102,7 +102,7 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="request"></param>
         ''' <returns></returns>
-        Public Delegate Function IGET(request As HttpRequest, response As StreamWriter) As Boolean
+        Public Delegate Function IGET(request As HttpRequest, response As HttpResponse) As Boolean
 
         ''' <summary>
         ''' <see cref="APIMethods.POST"/>
@@ -110,7 +110,7 @@ Namespace AppEngine
         ''' <param name="request"></param>
         ''' <param name="response"></param>
         ''' <returns></returns>
-        Public Delegate Function IPOST(request As HttpPOSTRequest, response As StreamWriter) As Boolean
+        Public Delegate Function IPOST(request As HttpPOSTRequest, response As HttpResponse) As Boolean
 
         ''' <summary>
         ''' 只会加载有<see cref="APIMethod"/>属性标记的实例方法
