@@ -89,7 +89,7 @@ Module CLI
             config.momentum
         )
 
-        For Each sample As Sample In samples.DataSamples
+        For Each sample As Sample In samples.DataSamples.items
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
@@ -118,7 +118,7 @@ Module CLI
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
 
-        For Each sample As Sample In samples.LoadXml(Of DataSet).DataSamples
+        For Each sample As Sample In samples.LoadXml(Of DataSet).DataSamples.items
             Call training.Add(sample.status, sample.target)
         Next
 

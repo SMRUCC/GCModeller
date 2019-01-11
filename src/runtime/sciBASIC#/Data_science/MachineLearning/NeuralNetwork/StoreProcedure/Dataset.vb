@@ -126,24 +126,24 @@ Namespace NeuralNetwork.StoreProcedure
         Public Class SampleList : Inherits ListOf
 
             <XmlElement>
-            Public Property samples As Sample()
+            Public Property items As Sample()
 
             Default Public ReadOnly Property Item(index As Integer) As Sample
                 <MethodImpl(MethodImplOptions.AggressiveInlining)>
                 Get
-                    Return samples(index)
+                    Return items(index)
                 End Get
             End Property
 
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Protected Overrides Function getSize() As Integer
-                Return samples?.Length
+                Return items?.Length
             End Function
 
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Public Shared Widening Operator CType(samples As Sample()) As SampleList
                 Return New SampleList With {
-                    .samples = samples
+                    .items = samples
                 }
             End Operator
         End Class
