@@ -84,19 +84,6 @@ Namespace NeuralNetwork
         End Function
 
         <Extension>
-        Public Sub Train(ByRef neuron As Network, data As Sample(),
-                         Optional trainingType As TrainingType = TrainingType.Epoch,
-                         Optional minErr As Double = 0.01,
-                         Optional parallel As Boolean = False)
-
-            If trainingType = TrainingType.Epoch Then
-                Call neuron.Train(data, Helpers.MaxEpochs, parallel)
-            Else
-                Call neuron.Train(data, minimumError:=minErr, parallel:=parallel)
-            End If
-        End Sub
-
-        <Extension>
         Friend Function PopulateAllSynapses(neuron As Neuron) As IEnumerable(Of Synapse)
             Return neuron.InputSynapses + neuron.OutputSynapses.AsList
         End Function
@@ -157,56 +144,4 @@ Namespace NeuralNetwork
         ''' </summary>
         MinimumError
     End Enum
-
-    ''' <summary>
-    ''' 可以尝试使用这个对象将非数值的离散数据对象映射为连续的数值，从而能够被应用于ANN分析之中
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    Public Class Encoder(Of T)
-
-        Dim maps As New Dictionary(Of T, Double)
-
-        Default Public Property item(x As T) As Double
-            Get
-                If maps.ContainsKey(x) Then
-                    Return maps(x)
-                Else
-                    Return Nothing
-                End If
-            End Get
-            Set(value As Double)
-                maps(x) = value
-            End Set
-        End Property
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddMap(x As T, value As Double)
-            Call maps.Add(x, value)
-        End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Encode(x As T) As Double
-            Return maps(x)
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="out">神经网络的输出值</param>
-        ''' <returns></returns>
-        Public Function Decode(out As Double) As T
-            Dim minX As T, minD As Double = 9999
-
-            For Each x In maps
-                Dim d As Double = Math.Abs(x.Value - out)
-
-                If d < minD Then
-                    minD = d
-                    minX = x.Key
-                End If
-            Next
-
-            Return minX
-        End Function
-    End Class
 End Namespace

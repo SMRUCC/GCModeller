@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::0d6d464b6c3ea57b1498fc09f5359866, Data_science\MachineLearning\NeuralNetwork\TrainingUtils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TrainingUtils
-    ' 
-    '         Properties: MinError, NeuronNetwork, TrainingType, XP
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: TakeSnapshot
-    ' 
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, Train
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TrainingUtils
+' 
+'         Properties: MinError, NeuronNetwork, TrainingType, XP
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: TakeSnapshot
+' 
+'         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, Train
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 
 Namespace NeuralNetwork
 
@@ -135,8 +137,63 @@ Namespace NeuralNetwork
                 trainingDataSet = trainingDataSet.NormalizeSamples
             End If
 
-            Call Helpers.Train(NeuronNetwork, trainingDataSet, TrainingType, minErr:=MinError, parallel:=parallel)
+            If TrainingType = TrainingType.Epoch Then
+                Call Train(trainingDataSet, Helpers.MaxEpochs, parallel)
+            Else
+                Call Train(trainingDataSet, minimumError:=Helpers.MinimumError, parallel:=parallel)
+            End If
         End Sub
+
+#Region "-- Training --"
+        Public Sub Train(dataSets As Sample(), numEpochs As Integer, Optional parallel As Boolean = False)
+            Using progress As New ProgressBar("Training ANN...")
+                Dim tick As New ProgressProvider(numEpochs)
+                Dim msg$
+                Dim errors As New List(Of Double)()
+
+                For i As Integer = 0 To numEpochs - 1
+                    For Each dataSet As Sample In dataSets
+                        Call NeuronNetwork.ForwardPropagate(dataSet.status, parallel)
+                        Call NeuronNetwork.BackPropagate(dataSet.target, parallel)
+                        Call errors.Add(CalculateError(dataSet.target))
+                    Next
+
+                    msg = $"Iterations: [{i}/{numEpochs}], Err={errors.Average}"
+                    progress.SetProgress(tick.StepProgress, msg)
+                Next
+            End Using
+        End Sub
+
+        Public Sub Train(dataSets As Sample(), minimumError As Double, Optional parallel As Boolean = False)
+            Dim [error] = 1.0
+            Dim numEpochs = 0
+
+            While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
+                Dim errors As New List(Of Double)()
+
+                For Each dataSet As Sample In dataSets
+                    Call NeuronNetwork.ForwardPropagate(dataSet.status, parallel)
+                    Call NeuronNetwork.BackPropagate(dataSet.target, parallel)
+                    Call errors.Add(CalculateError(dataSet.target))
+                Next
+
+                [error] = errors.Average()
+                numEpochs += 1
+
+                Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={((minimumError / [error]) * 100).ToString("F2")}%".__DEBUG_ECHO
+            End While
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function CalculateError(ParamArray targets As Double()) As Double
+            Return NeuronNetwork.OutputLayer _
+                .Neurons _
+                .Select(Function(n, i)
+                            Return Math.Abs(n.CalculateError(targets(i)))
+                        End Function) _
+                .Sum()
+        End Function
+#End Region
 
         ''' <summary>
         ''' 
