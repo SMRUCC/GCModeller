@@ -68,8 +68,20 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property NeuronNetwork As Network
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return network
+            End Get
+        End Property
+
+        Public ReadOnly Property TrainingSet As Sample()
+            Get
+                Return _dataSets.ToArray
+            End Get
+        End Property
 
         ReadOnly _dataSets As New List(Of Sample)
+        ReadOnly network As Network
 
         ''' <summary>
         ''' 训练所使用到的经验数量,即数据集的大小s
@@ -88,11 +100,11 @@ Namespace NeuralNetwork
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TakeSnapshot() As StoreProcedure.NeuralNetwork
-            Return StoreProcedure.NeuralNetwork.Snapshot(NeuronNetwork)
+            Return StoreProcedure.NeuralNetwork.Snapshot(network)
         End Function
 
         Sub New(net As Network)
-            NeuronNetwork = net
+            network = net
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -149,16 +161,16 @@ Namespace NeuralNetwork
 
                 For i As Integer = 0 To numEpochs - 1
                     For Each dataSet As Sample In dataSets
-                        Call NeuronNetwork.ForwardPropagate(dataSet.status, parallel)
-                        Call NeuronNetwork.BackPropagate(dataSet.target, parallel)
-                        Call errors.Add(CalculateError(dataSet.target))
+                        Call network.ForwardPropagate(dataSet.status, parallel)
+                        Call network.BackPropagate(dataSet.target, parallel)
+                        Call errors.Add(CalculateError(network, dataSet.target))
                     Next
 
                     msg = $"Iterations: [{i}/{numEpochs}], Err={errors.Average}"
                     progress.SetProgress(tick.StepProgress, msg)
 
                     If Not reporter Is Nothing Then
-                        Call reporter(i, errors.Average, NeuronNetwork)
+                        Call reporter(i, errors.Average, network)
                     End If
                 Next
             End Using
@@ -172,9 +184,9 @@ Namespace NeuralNetwork
                 Dim errors As New List(Of Double)()
 
                 For Each dataSet As Sample In dataSets
-                    Call NeuronNetwork.ForwardPropagate(dataSet.status, parallel)
-                    Call NeuronNetwork.BackPropagate(dataSet.target, parallel)
-                    Call errors.Add(CalculateError(dataSet.target))
+                    Call network.ForwardPropagate(dataSet.status, parallel)
+                    Call network.BackPropagate(dataSet.target, parallel)
+                    Call errors.Add(CalculateError(network, dataSet.target))
                 Next
 
                 [error] = errors.Average()
@@ -183,14 +195,14 @@ Namespace NeuralNetwork
                 Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={((minimumError / [error]) * 100).ToString("F2")}%".__DEBUG_ECHO
 
                 If Not reporter Is Nothing Then
-                    Call reporter(numEpochs, errors.Average, NeuronNetwork)
+                    Call reporter(numEpochs, errors.Average, network)
                 End If
             End While
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function CalculateError(ParamArray targets As Double()) As Double
-            Return NeuronNetwork.OutputLayer _
+        Friend Shared Function CalculateError(neuronNetwork As Network, targets As Double()) As Double
+            Return neuronNetwork.OutputLayer _
                 .Neurons _
                 .Select(Function(n, i)
                             Return Math.Abs(n.CalculateError(targets(i)))
