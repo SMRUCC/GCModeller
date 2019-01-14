@@ -19,14 +19,19 @@ Namespace NeuralNetwork.Accelerator
                 .ToArray
             Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(populationSize)
             Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
-            Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness, cacheSize:=-1)
+            Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
             Dim engine As New EnvironmentDriver(Of WeightVector)(ga) With {
                 .Iterations = iterations,
                 .Threshold = 0.005
             }
 
-            Call engine.AttachReporter(Sub(i, e, g) EnvironmentDriver(Of WeightVector).CreateReport(i, e, g).ToString.__DEBUG_ECHO)
+            Call "Run GA helper!".__DEBUG_ECHO
+            Call engine.AttachReporter(AddressOf doPrint)
             Call engine.Train()
+        End Sub
+
+        Private Sub doPrint(i%, e#, g As GeneticAlgorithm(Of WeightVector))
+            Call EnvironmentDriver(Of WeightVector).CreateReport(i, e, g).ToString.__DEBUG_ECHO
         End Sub
     End Module
 
@@ -57,9 +62,13 @@ Namespace NeuralNetwork.Accelerator
         ''' 需要这个方法重写来生成唯一的key
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 如果向量长度非常长的话,则会导致字符串非常长,这会导致缓存的键名称的内存占用非常高
+        ''' 由于ANN网络之中的突触非常多,所以在这里会需要使用MD5来减少内存占用
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return String.Join(";", weights)
+            Return String.Join(";", weights).MD5
         End Function
 
         Public Function Crossover(another As WeightVector) As IEnumerable(Of WeightVector) Implements Chromosome(Of WeightVector).Crossover
