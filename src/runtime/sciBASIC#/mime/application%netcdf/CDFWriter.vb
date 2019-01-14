@@ -4,12 +4,7 @@ Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
 Public Module CDFWriter
 
-    Public Function CreateWriter(path As String,
-                                 dimensions As Dimension(),
-                                 attrs As attribute(),
-                                 variables As variable(),
-                                 elements%)
-
+    Public Function CreateWriter(path As String, h As Header)
         Dim output As New BinaryDataWriter(path.Open) With {
             .ByteOrder = ByteOrder.BigEndian
         }
@@ -19,29 +14,29 @@ Public Module CDFWriter
         Call output.Write(CByte(2))
 
         ' >>>>>>> header
-        Call output.Write(CUInt(elements))
+        Call output.Write(CUInt(h.recordDimension.length))
         ' -------------------------dimensionsList----------------------------
         ' List of dimensions
         Call output.Write(CUInt(Header.NC_DIMENSION))
         ' dimensionSize
-        Call output.Write(CUInt(dimensions.Length))
+        Call output.Write(CUInt(h.dimensions.Length))
 
-        For Each dimension In dimensions
+        For Each dimension In h.dimensions
             Call output.Write(dimension.name, BinaryStringFormat.UInt32LengthPrefix)
             Call output.writePadding
             Call output.Write(CUInt(dimension.size))
         Next
 
         ' ------------------------attributesList-----------------------------
-        Call output.writeAttributes(attrs)
+        Call output.writeAttributes(h.globalAttributes)
 
         ' -----------------------variablesList--------------------------
         ' List of variables
         Call output.Write(CUInt(Header.NC_VARIABLE))
         ' variableSize 
-        Call output.Write(CUInt(variables.Length))
+        Call output.Write(CUInt(h.variables.Length))
 
-        For Each var In variables
+        For Each var In h.variables
             Call output.Write(var.name, BinaryStringFormat.UInt32LengthPrefix)
             Call output.writePadding
             ' dimensionality 
