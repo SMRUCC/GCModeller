@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
@@ -99,11 +100,17 @@ Module CLI
         Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
 
         If Not args("/GA.optimize").IsTrue Then
-            Call trainingHelper _
-                .AttachReporter(Sub(i, e, g)
-                                    Call $"[{i}] errors={e}, learn={g.LearnRate}".__DEBUG_ECHO
-                                End Sub) _
-                .Train(parallel)
+            Using log As StreamWriter = $"{out.TrimSuffix}.log".OpenWriter
+                Dim synapses = trainingHelper.NeuronNetwork.GetSynapseGroups
+
+                Call log.WriteLine(synapses.Keys.JoinBy(vbCrLf))
+                Call trainingHelper _
+                    .AttachReporter(Sub(i, e, g)
+                                        Call $"[{i}] errors={e}, learn={g.LearnRate}".__DEBUG_ECHO
+                                        Call log.WriteLine((New Double() {i, e, g.LearnRate}.AsList + synapses.Select(Function(s) s.First.Weight)).JoinBy(vbTab))
+                                    End Sub) _
+                    .Train(parallel)
+            End Using
         Else
             Call trainingHelper _
                 .NeuronNetwork _

@@ -11,13 +11,18 @@ Namespace NeuralNetwork.Accelerator
     Public Module GAExtensions
 
         <Extension>
-        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000, Optional iterations% = 10000)
-            Dim synapses = network.PopulateAllSynapses _
+        Public Function GetSynapseGroups(network As Network) As NamedCollection(Of Synapse)()
+            Return network.PopulateAllSynapses _
                 .GroupBy(Function(s) s.ToString) _
                 .Select(Function(sg)
                             Return New NamedCollection(Of Synapse)(sg.Key, sg.ToArray)
                         End Function) _
                 .ToArray
+        End Function
+
+        <Extension>
+        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000, Optional iterations% = 10000)
+            Dim synapses = network.GetSynapseGroups
             Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(populationSize)
             Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
             Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
