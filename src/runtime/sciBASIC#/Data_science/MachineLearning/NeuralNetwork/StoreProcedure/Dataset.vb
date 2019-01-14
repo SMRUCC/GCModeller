@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports row = Microsoft.VisualBasic.Data.csv.IO.DataSet
 
 Namespace NeuralNetwork.StoreProcedure
 
@@ -164,6 +165,14 @@ Namespace NeuralNetwork.StoreProcedure
                 Return DataSamples(Scan0).target.Length
             End Get
         End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetInput(data As row) As Double()
+            Return NormalizeMatrix _
+                .names _
+                .Select(Function(key) data(key)) _
+                .ToArray
+        End Function
 
         Public Iterator Function PopulateNormalizedSamples() As IEnumerable(Of Sample)
             Dim input#()

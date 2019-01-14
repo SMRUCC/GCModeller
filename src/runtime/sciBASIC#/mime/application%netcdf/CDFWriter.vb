@@ -4,14 +4,31 @@ Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
 Public Class CDFWriter
 
+    Dim output As BinaryDataWriter
+    Dim globalAttrs As attribute()
+
+    Sub New(path As String)
+        output = New BinaryDataWriter(path.Open) With {
+            .ByteOrder = ByteOrder.BigEndian
+        }
+
+        ' magic and version
+        Call output.Write(netCDFReader.Magic, BinaryStringFormat.NoPrefixOrTermination)
+        ' classic format
+        Call output.Write(CByte(1))
+    End Sub
+
+    Public Function GlobalAttributes(attrs As attribute()) As CDFWriter
+        globalAttrs = attrs
+        Return Me
+    End Function
+
     Public Function CreateWriter(path As String, h As Header)
         Dim output As New BinaryDataWriter(path.Open) With {
             .ByteOrder = ByteOrder.BigEndian
         }
 
-        ' Magic and version
-        Call output.Write(netCDFReader.Magic, BinaryStringFormat.NoPrefixOrTermination)
-        Call output.Write(CByte(2))
+
 
         ' >>>>>>> header
         Call output.Write(CUInt(h.recordDimension.length))
