@@ -19,7 +19,7 @@ Namespace NeuralNetwork.Accelerator
                 .ToArray
             Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(populationSize)
             Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
-            Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
+            Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness, cacheSize:=-1)
             Dim engine As New EnvironmentDriver(Of WeightVector)(ga) With {
                 .Iterations = iterations,
                 .Threshold = 0.005
@@ -95,6 +95,12 @@ Namespace NeuralNetwork.Accelerator
             Me.network = network
             Me.synapses = synapses
         End Sub
+
+        Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of WeightVector).Cacheable
+            Get
+                Return False
+            End Get
+        End Property
 
         Public Function Calculate(chromosome As WeightVector) As Double Implements Fitness(Of WeightVector).Calculate
             For i As Integer = 0 To chromosome.weights.Length - 1
