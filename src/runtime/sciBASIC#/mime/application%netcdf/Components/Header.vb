@@ -61,9 +61,10 @@ Namespace Components
 
 #Region "Grammar constants"
         Const ZERO = 0
-        Const NC_DIMENSION = 10
-        Const NC_VARIABLE = 11
-        Const NC_ATTRIBUTE = 12
+
+        Public Const NC_DIMENSION = 10
+        Public Const NC_VARIABLE = 11
+        Public Const NC_ATTRIBUTE = 12
 #End Region
 
         ''' <summary>

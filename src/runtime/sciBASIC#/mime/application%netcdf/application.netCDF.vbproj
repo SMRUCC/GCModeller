@@ -229,6 +229,7 @@
     <Compile Include="CDFDataTypes.vb" />
     <Compile Include="Data\Xml.vb" />
     <Compile Include="Components\CDFData.vb" />
+    <Compile Include="CDFWriter.vb" />
     <Compile Include="ToString.vb" />
     <Compile Include="DataReader.vb" />
     <Compile Include="Components\Components.vb" />
