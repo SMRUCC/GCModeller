@@ -99,6 +99,15 @@ Namespace Assembly.Uniprot.XML
             Return model
         End Function
 
+        Public Overloads Shared Function [GetType](file As String) As String
+            Dim head As String() = file.Peeks.Split(">"c)
+            ' 第一个元素为 <?xml version='1.0' encoding='UTF-8'?> 文件申明
+            ' 第二个元素则肯定是Xml文件的根节点名称
+            ' 判断一下<uniparc是否在第一个位置即可了解数据库的类型
+            Dim rootName = head(1).Trim.Split.First.Trim("<"c)
+            Return rootName
+        End Function
+
         ''' <summary>
         ''' Enumerate all of the data entries in a ultra large size uniprot XML database.
         ''' (使用这个函数来读取超大的uniprot XML数据库)

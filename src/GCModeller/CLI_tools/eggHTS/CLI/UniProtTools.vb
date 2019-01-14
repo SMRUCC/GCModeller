@@ -88,7 +88,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Retrieve.ID.mapping")>
-    <Usage("/Retrieve.ID.mapping /list <geneID.list> /uniprot <uniprot.Xml> [/out <map.list.csv>]")>
+    <Usage("/Retrieve.ID.mapping /list <geneID.list> /uniprot <uniprot/uniparc.Xml> [/out <map.list.csv>]")>
     <Description("Convert the protein id from other database to UniProtKB.")>
     Public Function RetrieveIDmapping(args As CommandLine) As Integer
         Dim in$ = args <= "/list"
@@ -101,16 +101,26 @@ Partial Module CLI
             .Select(Function(id) id.Split("."c).First) _
             .Indexing
         Dim maps As New Value(Of String())
+        Dim isUniParc As Boolean = UniProtXML.GetType(uniprot).TextEquals("uniparc")
 
         Using mapping As StreamWriter = out.OpenWriter
             Call mapping.WriteLine(New RowObject("ID", "source", "UniProtKB").AsLine)
 
-            For Each protein As entry In UniProtXML.EnumerateEntries(uniprot)
-                Dim uniprotKB$ = protein.accessions.JoinBy(" ")
+            For Each protein As entry In UniProtXML.EnumerateEntries(uniprot, isUniParc)
+                Dim uniprotKB As List(Of String)
+
+                If isUniParc Then
+                    uniprotKB = protein.dbReferences _
+                        .Where(Function(r) r.type = "UniProtKB/TrEMBL") _
+                        .Select(Function(r) r.id) _
+                        .AsList
+                Else
+                    uniprotKB = protein.accessions.AsList
+                End If
 
                 For Each id In protein.EnumerateAllIDs
                     If id.xrefID.IsOneOfA(list) Then
-                        Call mapping.WriteLine(New RowObject(maps = {id.xrefID, id.Database, uniprotKB}).AsLine)
+                        Call mapping.WriteLine(New RowObject(maps = {id.xrefID, id.Database} + uniprotKB).AsLine)
                         Call list.Delete(id.xrefID)
                         Call maps.GetJson.__DEBUG_ECHO
 
