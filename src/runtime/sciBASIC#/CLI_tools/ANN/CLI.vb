@@ -99,7 +99,11 @@ Module CLI
         Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
 
         If Not args("/GA.optimize").IsTrue Then
-            Call trainingHelper.Train(parallel)
+            Call trainingHelper _
+                .AttachReporter(Sub(i, e, g)
+                                    Call $"[{i}] errors={e}, learn={g.LearnRate}".__DEBUG_ECHO
+                                End Sub) _
+                .Train(parallel)
         Else
             Call trainingHelper _
                 .NeuronNetwork _
