@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
-Public Module CDFWriter
+Public Class CDFWriter
 
     Public Function CreateWriter(path As String, h As Header)
         Dim output As New BinaryDataWriter(path.Open) With {
@@ -28,7 +28,7 @@ Public Module CDFWriter
         Next
 
         ' ------------------------attributesList-----------------------------
-        Call output.writeAttributes(h.globalAttributes)
+        ' Call output.writeAttributes(h.globalAttributes)
 
         ' -----------------------variablesList--------------------------
         ' List of variables
@@ -44,7 +44,7 @@ Public Module CDFWriter
             ' dimensionsIds
             Call output.Write(var.dimensions)
             ' attributes of this variable
-            Call output.writeAttributes(var.attributes)
+            ' Call output.writeAttributes(var.attributes)
             Call output.Write(CUInt(str2num(var.type)))
             ' varSize
             Call output.Write(CUInt(var.size))
@@ -56,7 +56,6 @@ Public Module CDFWriter
         ' <<<<<<<< header
     End Function
 
-    <Extension>
     Private Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
         ' List of global attributes
         Call output.Write(CUInt(Header.NC_ATTRIBUTE))
@@ -73,4 +72,4 @@ Public Module CDFWriter
             Call output.writePadding
         Next
     End Sub
-End Module
+End Class
