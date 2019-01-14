@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.SecurityString
 
 Namespace NeuralNetwork.Accelerator
 
@@ -47,6 +48,7 @@ Namespace NeuralNetwork.Accelerator
         Friend weights#()
 
         Shared ReadOnly random As New Random
+        ReadOnly keyCache As New Md5HashProvider
 
         Sub New(Optional synapses As NamedCollection(Of Synapse)() = Nothing)
             If Not synapses Is Nothing Then
@@ -68,7 +70,7 @@ Namespace NeuralNetwork.Accelerator
         ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return String.Join(";", weights).MD5
+            Return keyCache.GetMd5Hash(String.Join(";", weights))
         End Function
 
         Public Function Crossover(another As WeightVector) As IEnumerable(Of WeightVector) Implements Chromosome(Of WeightVector).Crossover
