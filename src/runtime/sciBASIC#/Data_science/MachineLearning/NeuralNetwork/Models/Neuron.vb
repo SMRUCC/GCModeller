@@ -122,6 +122,10 @@ Namespace NeuralNetwork
         ''' 赋值给<see cref="Value"/>,然后返回<see cref="Value"/>
         ''' </remarks>
         Public Overridable Function CalculateValue() As Double
+            ' 在这里的计算过程为:
+            ' 使用突触链接的权重值乘上当该突触的上游输入节点的训练值 + 误差
+            ' 使用遗传算法进行优化的时候,可以将bias设置零
+            ' 用遗传算法生成的应该是网络的拓扑结构,而网络的拓扑结构是和突触链接的权重相关的
             Value = activation.Function(InputSynapses.Sum(Function(a) a.Weight * a.InputNeuron.Value) + Bias)
             Return Value
         End Function
