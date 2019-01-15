@@ -136,6 +136,13 @@ Public Class BinaryDataWriter
     End Property
 
     ''' <summary>
+    ''' 为了兼容一些VB6.0的程序数据, 启用这个选项之后,
+    ''' 所有的<see cref="Integer"/>在写入文件之前都将会被转换为<see cref="UInteger"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property RerouteInt32ToUnsigned As Boolean = False
+
+    ''' <summary>
     ''' Gets the encoding used for string related operations where no other encoding has been provided. Due to the
     ''' way the underlying <see cref="BinaryWriter"/> is instantiated, it can only be specified at creation time.
     ''' </summary>
@@ -328,6 +335,8 @@ Public Class BinaryDataWriter
         If _needsReversion Then
             Dim bytes As Byte() = BitConverter.GetBytes(value)
             WriteReversed(bytes)
+        ElseIf RerouteInt32ToUnsigned Then
+            MyBase.Write(CUInt(value))
         Else
             MyBase.Write(value)
         End If
