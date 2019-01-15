@@ -91,7 +91,7 @@ Module Module2
             New SampleGroup With {.sample_group = "14d", .sample_name = "dog3-14d"},
             New SampleGroup With {.sample_group = "14d", .sample_name = "dog4-14d"},
             New SampleGroup With {.sample_group = "14d", .sample_name = "dog5-14d"},
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog2-14d（混样）"},
+            New SampleGroup With {.sample_group = "14d", .sample_name = "dog2-14d"},
  _
             New SampleGroup With {.sample_group = "21d", .sample_name = "dog1-21d"},
             New SampleGroup With {.sample_group = "21d", .sample_name = "dog2-21d"},
@@ -102,7 +102,7 @@ Module Module2
 
         Dim analysis = {
          New AnalysisDesigner With {.Controls = "0d", .Treatment = "1d"},
-          New AnalysisDesigner With {.Controls = "0d", .Treatment = "2d"},
+          New AnalysisDesigner With {.Controls = "0d", .Treatment = "10d"},
            New AnalysisDesigner With {.Controls = "0d", .Treatment = "3d"},
             New AnalysisDesigner With {.Controls = "0d", .Treatment = "7d"},
              New AnalysisDesigner With {.Controls = "0d", .Treatment = "14d"},
@@ -110,7 +110,7 @@ Module Module2
        }
 
 
-        For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis)
+        For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
             Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
         Next
     End Sub
