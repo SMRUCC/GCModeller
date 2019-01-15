@@ -227,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CDFDataTypes.vb" />
+    <Compile Include="Data\StructureParser.vb" />
     <Compile Include="Data\Xml.vb" />
     <Compile Include="Components\CDFData.vb" />
     <Compile Include="CDFWriter.vb" />
