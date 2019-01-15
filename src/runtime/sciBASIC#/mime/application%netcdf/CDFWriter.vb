@@ -67,7 +67,6 @@ Public Class CDFWriter
             Call output.Write(CUInt(var.size))
             ' version = 2, write 8 bytes
             Call output.Write(CUInt(var.offset))
-            Call output.Write(CUInt(var.offset))
         Next
 
         ' <<<<<<<< header
