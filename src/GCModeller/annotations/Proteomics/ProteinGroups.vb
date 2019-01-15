@@ -62,6 +62,9 @@ Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
+''' <summary>
+''' Label Free/iTraq/TMT结果注释数据处理
+''' </summary>
 Public Module ProteinGroups
 
     Public Function GetProteinIds(path$, Optional column$ = "Protein IDs") As String()
