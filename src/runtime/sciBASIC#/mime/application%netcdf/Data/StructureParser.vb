@@ -2,6 +2,9 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
+''' <summary>
+''' 在这个模块之中进行CDF文件的每一个Section的解析操作
+''' </summary>
 Module StructureParser
 
     Const NC_UNLIMITED = 0

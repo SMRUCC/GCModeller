@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
 ''' <summary>
 ''' Data reader methods for a given variable data value.
+''' (在这个模块之中读取<see cref="variable.value"/>数据变量的值)
 ''' </summary>
 Module DataReader
 
