@@ -45,7 +45,7 @@ Public Module FoldChangeMatrix
             For Each designer As AnalysisDesigner In analysisDesigners
                 Dim controls$() = groups(designer.Controls)
                 Dim treatment$() = groups(designer.Treatment)
-                Dim matrix As DataSet() = .iTraqMatrix((treatment, controls))
+                Dim matrix As DataSet() = .iTraqMatrix((treatment, controls)).ToArray
 
                 Yield New NamedCollection(Of DataSet) With {
                     .Name = designer.Title,
