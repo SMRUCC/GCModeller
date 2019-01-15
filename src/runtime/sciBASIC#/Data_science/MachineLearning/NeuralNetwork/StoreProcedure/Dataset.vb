@@ -159,6 +159,10 @@ Namespace NeuralNetwork.StoreProcedure
             End Get
         End Property
 
+        ''' <summary>
+        ''' 神经网络的输出节点的数量
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property OutputSize As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -166,6 +170,11 @@ Namespace NeuralNetwork.StoreProcedure
             End Get
         End Property
 
+        ''' <summary>
+        ''' 从csv文件数据之中读取和当前的数据集一样的元素顺序的向量用于预测分析
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetInput(data As row) As Double()
             Return NormalizeMatrix _

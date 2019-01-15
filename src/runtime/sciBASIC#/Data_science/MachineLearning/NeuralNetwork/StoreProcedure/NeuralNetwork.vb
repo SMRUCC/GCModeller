@@ -67,7 +67,9 @@ Namespace NeuralNetwork.StoreProcedure
         Public Property hiddenlayers As HiddenLayer
 
         ''' <summary>
+        ''' 输入一个样本信息然后输出分类结果预测
         ''' 
+        ''' 这个函数假设目标样本输入是在当前的这个<paramref name="normalize"/>矩阵的范围之中的
         ''' </summary>
         ''' <param name="normalize">进行所输入的样本数据的归一化的矩阵</param>
         ''' <returns></returns>
