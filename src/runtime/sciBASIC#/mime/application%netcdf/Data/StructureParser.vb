@@ -100,7 +100,7 @@ Module StructureParser
 
             ' Read attribute
             Dim size = buffer.ReadUInt32()
-            Dim Value = TypeExtensions.readType(buffer, type, size)
+            Dim val = TypeExtensions.readType(buffer, type, size)
 
             ' Apply padding
             Call Utils.padding(buffer)
@@ -108,7 +108,7 @@ Module StructureParser
             Yield New attribute With {
                 .name = name,
                 .type = TypeExtensions.num2str(type),
-                .value = Value
+                .value = val
             }
         Next
     End Function

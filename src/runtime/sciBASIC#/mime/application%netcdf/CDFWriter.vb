@@ -23,13 +23,7 @@ Public Class CDFWriter
         Return Me
     End Function
 
-    Public Function CreateWriter(path As String, h As Header)
-        Dim output As New BinaryDataWriter(path.Open) With {
-            .ByteOrder = ByteOrder.BigEndian
-        }
-
-
-
+    Public Function CreateWriter(h As Header)
         ' >>>>>>> header
         Call output.Write(CUInt(h.recordDimension.length))
         ' -------------------------dimensionsList----------------------------
@@ -45,7 +39,8 @@ Public Class CDFWriter
         Next
 
         ' ------------------------attributesList-----------------------------
-        ' Call output.writeAttributes(h.globalAttributes)
+        ' global attributes
+        Call writeAttributes(output, h.globalAttributes)
 
         ' -----------------------variablesList--------------------------
         ' List of variables
