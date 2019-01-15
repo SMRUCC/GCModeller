@@ -53,6 +53,7 @@ Module Module1
         Dim file As New netCDFReader(path, Encodings.UTF8WithoutBOM)
 
         Call file.ToString.__DEBUG_ECHO
+        Call file.ToString.SaveTo("./dump.txt")
 
         Dim massvalue = file.getDataVariable("mass_values")
 
