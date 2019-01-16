@@ -17,7 +17,23 @@ Public Module SignificanceAB
     ''' 
     <Extension>
     Public Function Significance(ratio As Vector) As Vector
-        ratio = Vector.Log(ratio, base:=2)
-        Dim orders = ratio
+        Dim log2 = Vector.Log(ratio, base:=2)
+        Dim q#() = log2.Quantile(0.1587, 0.5, 0.8413)
+        Dim rl = q(Scan0) ' r-1
+        Dim rm = q(1)     ' r0
+        Dim rh = q(2)     ' r1
+        Dim p As Vector = log2 _
+            .Select(Function(x)
+                        Dim z#
+
+                        If x > rm Then
+                            z = (x - rm) / (rh - rm)
+                        Else
+                            z = (rm - x) / (rm - rl)
+                        End If
+
+
+                    End Function)
+
     End Function
 End Module
