@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
@@ -10,13 +11,15 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Public Module SignificanceAB
 
     ''' <summary>
+    ''' #### Significance A
+    ''' 
     ''' 函数返回FoldChange向量所对应的P值向量
     ''' </summary>
     ''' <param name="ratio">某一个比对组别的FoldChange值向量</param>
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function Significance(ratio As Vector) As Vector
+    Public Function SignificanceA(ratio As Vector) As Vector
         Dim log2 = Vector.Log(ratio, base:=2)
         Dim q#() = log2.Quantile(0.1587, 0.5, 0.8413)
         Dim rl = q(Scan0) ' r-1
@@ -32,8 +35,10 @@ Public Module SignificanceAB
                             z = (rm - x) / (rm - rl)
                         End If
 
+                        Return pnorm.AboveStandardDistribution(z, 10000, m:=0, sd:=1)
+                    End Function) _
+            .AsVector
 
-                    End Function)
-
+        Return p
     End Function
 End Module
