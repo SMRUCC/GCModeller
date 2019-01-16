@@ -74,9 +74,10 @@ Public Module LabelFreeTtest
         ' calc the different expression proteins
         Dim calc = data _
             .Where(Function(d)
+                       ' 当原始数据全部都是NaN的时候，R会出错，在这里直接忽略掉这些原始样本
                        Return Not d.Properties _
                            .Values _
-                           .All(AddressOf IsNaNImaginary)  ' 当原始数据全部都是NaN的时候，R会出错，在这里直接忽略掉这些原始样本
+                           .All(AddressOf IsNaNImaginary)
                    End Function) _
             .Select(Function(protein)
                         Dim FC# = protein(experiment).Average / protein(controls).Average

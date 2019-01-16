@@ -80,9 +80,9 @@ Namespace Assembly.Uniprot.XML
         Public Property version As String
 
         ''' <summary>
-        ''' 从文件系统中的rdf文件加载XML反序列化数据结果
+        ''' 从文件系统中的rdf文件加载XML反序列化数据结果.(这个函数只适用于小文件的加载操作)
         ''' </summary>
-        ''' <param name="path$"></param>
+        ''' <param name="path">XML文件路径</param>
         ''' <returns></returns>
         Public Shared Function Load(path$) As UniProtXML
             Dim xml As String = path.ReadAllText
@@ -99,16 +99,29 @@ Namespace Assembly.Uniprot.XML
             Return model
         End Function
 
+        Public Overloads Shared Function [GetType](file As String) As String
+            Dim head As String() = file.Peeks.Split(">"c)
+            ' 第一个元素为 <?xml version='1.0' encoding='UTF-8'?> 文件申明
+            ' 第二个元素则肯定是Xml文件的根节点名称
+            ' 判断一下<uniparc是否在第一个位置即可了解数据库的类型
+            Dim rootName = head(1).Trim.Split.First.Trim("<"c)
+            Return rootName
+        End Function
+
         ''' <summary>
         ''' Enumerate all of the data entries in a ultra large size uniprot XML database.
         ''' (使用这个函数来读取超大的uniprot XML数据库)
         ''' </summary>
-        ''' <param name="path$"></param>
+        ''' <param name="path">因为uniprot和uniparc这两个数据库的数据结构都是一样的,所以可以使用这个函数来兼容这两个数据库</param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(path$) As IEnumerable(Of entry)
-            Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
+        Public Shared Function EnumerateEntries(path$, Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+            If isUniParc Then
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc")
+            Else
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
+            End If
         End Function
 
         ''' <summary>
