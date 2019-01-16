@@ -80,6 +80,23 @@ Namespace API
             Throw New NotImplementedException
         End Function
 
+        Public Function quantile(x$,
+                                 Optional probs$ = "seq(0, 1, 0.25)",
+                                 Optional narm As Boolean = False,
+                                 Optional names As Boolean = True,
+                                 Optional type% = 7) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- quantile({x}, probs = {probs}, na.rm = {narm.λ},
+         names = {names.λ}, type = {type})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
         ''' <summary>
         ''' Fit an ARIMA model to a univariate time series.
         ''' </summary>

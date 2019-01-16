@@ -66,6 +66,30 @@ Namespace API
     ''' </summary>
     Public Module base
 
+        Public Function log2(vector As IEnumerable(Of Double)) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- log2({c(vector)});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        Public Function order(x$, Optional nalast As Boolean = True, Optional decreasing As Boolean = False, Optional method$ = "shell") As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- order({x}, na.last = {nalast.λ}, decreasing = {decreasing.λ}, method = {Rstring(method)});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
         ''' <summary>
         ''' Solve a System of Equations
         ''' 

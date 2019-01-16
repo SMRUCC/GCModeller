@@ -41,15 +41,53 @@
 
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports RDotNET
+Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNET.Extensions.VisualBasic.RSystem
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 
 Module Module2
 
+    Sub ptest()
+
+        Dim fc As Vector = rand(1000, {0, 4})
+        Dim p = fc.SignificanceA_VB
+        Dim pp As Vector
+
+        SyncLock R
+            With R
+                .Evaluate("
+get_significance <- function(ratio){
+  ratio <- log2(as.numeric(ratio))
+  order_ratio <- ratio[order(ratio)]
+  quantiletmp <- quantile(order_ratio, c(0.1587,0.5,0.8413))
+  rl <- as.numeric(quantiletmp[1])      #对应公式中的r-1
+  rm <- as.numeric(quantiletmp[2])      #对应公式中的r0
+  rh <- as.numeric(quantiletmp[3])      #对应公式中的r1
+  p <- unlist(lapply(ratio, function(x){
+    if (x > rm){
+      z <- (x-rm)/(rh-rm)
+      pnorm(z,lower.tail = F)
+    }else{
+      z <- (rm-x)/(rm-rl)
+      pnorm(z,lower.tail = F)
+    }
+  }))
+}
+")
+                pp = .Evaluate($"get_significance({base.c(fc)});").AsNumeric.ToArray
+            End With
+        End SyncLock
+
+        Pause()
+    End Sub
+
     Sub Main()
-        Call matrixSplitTest()
+        Call ptest()
+        ' Call matrixSplitTest()
 
     End Sub
 

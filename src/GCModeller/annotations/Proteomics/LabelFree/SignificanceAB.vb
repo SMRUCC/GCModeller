@@ -19,7 +19,7 @@ Public Module SignificanceAB
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function SignificanceA(ratio As Vector) As Vector
+    Public Function SignificanceA_VB(ratio As Vector) As Vector
         Dim log2 = Vector.Log(ratio, base:=2)
         Dim q#() = log2.Quantile(0.1587, 0.5, 0.8413)
         Dim rl = q(Scan0) ' r-1
@@ -35,10 +35,14 @@ Public Module SignificanceAB
                             z = (rm - x) / (rm - rl)
                         End If
 
-                        Return pnorm.AboveStandardDistribution(z, 10000, m:=0, sd:=1)
+                        Return pnorm.AboveStandardDistribution(z, 100000, m:=0, sd:=1)
                     End Function) _
             .AsVector
 
         Return p
+    End Function
+
+    Public Function SignificanceA(ratio As Vector) As Vector
+
     End Function
 End Module
