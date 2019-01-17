@@ -42,6 +42,7 @@
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.RSystem
@@ -149,7 +150,7 @@ get_significance <- function(ratio){
        }
 
         For Each design In analysis
-            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True).SaveTo($"D:\test\HXB\{design.Title}.csv")
+            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True).SaveTo($"D:\test\HXB\{design.Title}.csv", Encodings.UTF8)
         Next
 
 

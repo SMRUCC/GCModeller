@@ -84,6 +84,12 @@ Public Module LabelFreeTtest
                            .Values _
                            .All(AddressOf IsNaNImaginary)
                    End Function) _
+            .Where(Function(d)
+                       ' 所有结果都是零的蛋白也都剔除掉
+                       Return Not d.Properties _
+                           .Values _
+                           .All(Function(x) x = 0R)
+                   End Function) _
             .ToArray
 
         If significantA Then
