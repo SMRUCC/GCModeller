@@ -160,7 +160,7 @@ Public Class CDFWriter : Implements IDisposable
 
         ' magic and version
         Call output.Write(netCDFReader.Magic, BinaryStringFormat.NoPrefixOrTermination)
-        ' classic format
+        ' classic format, version = 1
         Call output.Write(CByte(1))
     End Sub
 
@@ -177,9 +177,41 @@ Public Class CDFWriter : Implements IDisposable
     ''' <summary>
     ''' 会需要在这个函数之中进行offset的计算操作
     ''' </summary>
-    ''' <returns></returns>
-    Private Function FileWriter(recordDimensionLength As UInteger)
+    Private Sub Save()
         ' >>>>>>> header
+        Call writeCDFHeaders()
+        ' <<<<<<<< header
+        Call writeDataBlocks()
+    End Sub
+
+    ''' <summary>
+    ''' 在这里写入变量的值的部分数据
+    ''' </summary>
+    Private Sub writeDataBlocks()
+        ' 数据块写入开始
+        For Each var As variable In variables
+            ' 在这里offset应该是等于output的当前的指针位置的
+            ' 判断一下
+            ' 如果不相等，则说明前面的数据写入出错，或者计算出错了
+            If var.offset <> output.Position Then
+                Throw New Exception("Invalid offset position for the variable data blocks!")
+            End If
+
+            If var.record Then
+
+            Else
+                ' nonrecord写入的是一个数组
+                If var.value.cdfDataType = CDFDataTypes.CHAR Then
+                    ' 直接写入字符串
+                    Call output.Write(var.value.chars)
+                Else
+                    Call output.Write(var.value.GetBuffer(Nothing))
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub writeCDFHeaders()
         Call output.Write(recordDimensionLength)
         ' -------------------------dimensionsList----------------------------
         ' List of dimensions
@@ -202,7 +234,9 @@ Public Class CDFWriter : Implements IDisposable
         Call output.Write(CUInt(Header.NC_VARIABLE))
         ' variableSize 
         Call output.Write(CUInt(variables.Count))
+        Call CalcOffsets()
 
+        ' 在这个循环仅写入了变量的头部数据
         For Each var As variable In variables
             Call output.Write(var.name, BinaryStringFormat.UInt32LengthPrefix)
             Call output.writePadding
@@ -211,16 +245,22 @@ Public Class CDFWriter : Implements IDisposable
             ' dimensionsIds
             Call output.Write(var.dimensions)
             ' attributes of this variable
-            ' Call output.writeAttributes(var.attributes)
-            Call output.Write(CUInt(str2num(var.type)))
+            Call writeAttributes(output, var.attributes)
+            Call output.Write(str2num(var.type))
             ' varSize
-            Call output.Write(CUInt(var.size))
-            ' version = 2, write 8 bytes
-            Call output.Write(CUInt(var.offset))
+            Call output.Write(var.size)
+            ' version = 1, write 4 bytes
+            Call output.Write(var.offset)
         Next
+    End Sub
 
-        ' <<<<<<<< header
-        End Sub
+    ''' <summary>
+    ''' 这个函数在完成计算之后会直接修改<see cref="Variable"/> class之中的属性值
+    ''' 完成函数调用之后可以直接读取属性值
+    ''' </summary>
+    Private Sub CalcOffsets()
+        Dim current = output.Position
+    End Sub
 
     Private Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
         ' List of global attributes
