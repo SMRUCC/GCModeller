@@ -124,6 +124,8 @@ Namespace Assembly.KEGG
         ''' HSA:6929 5087
         ''' ```
         ''' </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function IDlistStrings(tag$, list$()) As String
             Return $"{tag}:{list.JoinBy(" ")}"
@@ -134,6 +136,8 @@ Namespace Assembly.KEGG
         ''' </summary>
         ''' <param name="s$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ValidateEntryFormat(s$) As Boolean
             Return s.MatchPattern("[a-z]+\d+")
@@ -157,6 +161,12 @@ Namespace Assembly.KEGG
             Return tags.Value
         End Function
 
+        ''' <summary>
+        ''' 将Remarks数据转换为字典对象
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="o"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function RemarksTable(Of T As IKEGGRemarks)(o As T) As Dictionary(Of String, String)
             If Not o.Remarks.IsNullOrEmpty Then
@@ -169,6 +179,26 @@ Namespace Assembly.KEGG
             End If
         End Function
 
+        Public Function SingleID(theSameAs As String) As String
+            Dim tokens = Strings.Trim(theSameAs).StringSplit("\s+")
+            Dim CID As String = tokens _
+                .Where(Function(id) id.IsPattern("C\d+")) _
+                .FirstOrDefault
+
+            If CID.StringEmpty Then
+                Return tokens.FirstOrDefault
+            Else
+                Return CID
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 得到和这个药物同义的KEGG代谢物编号, 返回来的字符串可能会包含有多个ID编号
+        ''' 例如C\d+和G\d+可能会同时出现
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="o"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function TheSameAs(Of T As IKEGGRemarks)(o As T) As String
             If Not o.Remarks.IsNullOrEmpty Then

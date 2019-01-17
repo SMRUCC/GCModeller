@@ -527,6 +527,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Platform\TaskWorker.vb" />
     <Compile Include="Platform\PlatformEngine.vb" />
     <Compile Include="Platform\Plugin\Scripting.vb" />
     <Compile Include="Platform\Submodule.vb" />

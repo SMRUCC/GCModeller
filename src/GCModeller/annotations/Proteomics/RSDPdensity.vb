@@ -57,6 +57,12 @@ Imports RDotNET.Extensions.VisualBasic.API
 ''' </summary>
 Public Module RSDPdensity
 
+    ''' <summary>
+    ''' 计算得到每一个蛋白的质量点
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="n%"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function RSDP(data As IEnumerable(Of DataSet), n%) As PointF()
         Dim ZERO#() = 0#.Replicate(n).ToArray
@@ -73,6 +79,17 @@ Public Module RSDPdensity
 
     ReadOnly P_threshold# = -Math.Log10(0.05)
 
+    ''' <summary>
+    ''' iTraq/TMT数据质谱质量曲线作图
+    ''' </summary>
+    ''' <param name="points">每一个蛋白的质量点</param>
+    ''' <param name="size">图片大小</param>
+    ''' <param name="padding">页边距</param>
+    ''' <param name="bg">背景色</param>
+    ''' <param name="schema">质量点密度映射的颜色谱名称</param>
+    ''' <param name="RSD">RSD参考值</param>
+    ''' <param name="lineStroke">线条的样式</param>
+    ''' <returns></returns>
     <Extension>
     Public Function RSDPdensity(points As IEnumerable(Of PointF),
                                 Optional size$ = "1800,1600",
@@ -112,6 +129,7 @@ Public Module RSDPdensity
                 New Line(Pa, Pb, line), New Line(Ra, Rb, line)
             }
 
+            ' 做出来的图不从零开始可能会比较好一些
             Return DensityPlot.Plot(
                 .ByRef,
                 size, padding, bg, schema, levels:=100,
@@ -123,8 +141,8 @@ Public Module RSDPdensity
                 legendWidth:=200,
                 xMax:=xMax,
                 yMin:=0,
-                xMin:=-0.25) ' 做出来的图不从零开始可能会比较好一些
-
+                xMin:=-0.25
+            )
         End With
     End Function
 End Module

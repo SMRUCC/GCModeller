@@ -83,6 +83,12 @@ Public Class AnalysisDesigner
     <XmlText>
     Public Property Note As String
 
+    Public ReadOnly Property Title As String
+        Get
+            Return $"{Controls} vs {Treatment}"
+        End Get
+    End Property
+
     ''' <summary>
     ''' 对于iTraq实验数据而言，这里是具体的样品的编号的比对
     ''' 对于LabelFree实验数据而言，由于需要手工计算FC值，所以在这里比对的是样品的组别名称

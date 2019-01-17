@@ -87,11 +87,10 @@ Namespace Math
         ''' If a negative number is specified, the absolute value of the number is used.
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Seed() As Integer
-            Dim seeds& = CLng(Integer.MaxValue) * 2
-            Randomize()
-            seeds = (Rnd() * SecurityString.ToLong(SecurityString.GetMd5Hash(Now.ToString))) / seeds
-            Return CInt(seeds)
+            Return Math.Abs(CInt(Math.Log10(Rnd() * Now.ToBinary + 1) + 1) * (100 + 10000 * Rnd()))
         End Function
 
         Const RandfMultiply# = 10000
@@ -112,7 +111,7 @@ Namespace Math
             Return resultInteger / RandfMultiply
         End Function
 
-        ReadOnly seeds As New Random(Rnd() * 10000)
+        ReadOnly seeds As New Random()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function RandomSingle() As Single
@@ -167,6 +166,12 @@ Namespace Math
             Return rand_normal
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <ExportAPI("NextGaussian")>
+        Public Function NextGaussian(Optional mu As Double = 0, Optional sigma As Double = 1) As Double
+            Return seeds.NextGaussian(mu, sigma)
+        End Function
+
         ''' <summary>
         ''' Generates values from a triangular distribution.
         ''' </summary>
@@ -211,6 +216,12 @@ Namespace Math
                 list(j) = list(i)
                 list(i) = temp
             Next
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Sub Shuffle(Of T)(ByRef list As List(Of T))
+            Call seeds.Shuffle(list)
         End Sub
 
         ''' <summary>

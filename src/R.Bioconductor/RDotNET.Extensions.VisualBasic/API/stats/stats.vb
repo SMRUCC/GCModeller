@@ -1,63 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::3a2c4ffab9b7df1883b17d9348f1a8e8, RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module stats
-    ' 
-    '         Function: anova, arima, ts
-    '         Enum padjusts
-    ' 
-    '             BH, bonferroni, BY, fdr, hochberg
-    '             holm, hommel, none
-    ' 
-    ' 
-    ' 
-    '         Structure TtestResult
-    ' 
-    '             Properties: alternative, confint, dataname, estimate, method
-    '                         nullvalue, parameter, pvalue, statistic
-    ' 
-    '             Function: padjust, ToString, (+2 Overloads) Ttest
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module stats
+' 
+'         Function: anova, arima, ts
+'         Enum padjusts
+' 
+'             BH, bonferroni, BY, fdr, hochberg
+'             holm, hommel, none
+' 
+' 
+' 
+'         Structure TtestResult
+' 
+'             Properties: alternative, confint, dataname, estimate, method
+'                         nullvalue, parameter, pvalue, statistic
+' 
+'             Function: padjust, ToString, (+2 Overloads) Ttest
+' 
+'  
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -78,6 +80,95 @@ Namespace API
         ''' </returns>
         Public Function anova(object$, Optional additional As Dictionary(Of String, String) = Nothing) As String
             Throw New NotImplementedException
+        End Function
+
+        ReadOnly quartile As DefaultValue(Of Double()) = {0, 0.25, 0.5, 0.75, 1}
+
+        ''' <summary>
+        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
+        ''' The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+        ''' </summary>
+        ''' <param name="x">numeric vector whose sample quantiles are wanted, or an object of a class for which 
+        ''' a method has been defined (see also ‘details’). NA and NaN values are not allowed in numeric vectors 
+        ''' unless na.rm is TRUE.</param>
+        ''' <param name="probs">numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 
+        ''' outside that range are accepted and moved to the nearby endpoint.)</param>
+        ''' <param name="narm">
+        ''' logical; if true, any NA and NaN's are removed from x before the quantiles are computed.
+        ''' </param>
+        ''' <param name="names">
+        ''' logical; if true, the result has a names attribute. Set to FALSE for speedup with many probs.
+        ''' </param>
+        ''' <param name="type">
+        ''' an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used.
+        ''' </param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function quantile(x As IEnumerable(Of Double),
+                                 Optional probs#() = Nothing,
+                                 Optional narm As Boolean = False,
+                                 Optional names As Boolean = True,
+                                 Optional type% = 7) As String
+            Return quantile(c(x), c(probs Or quartile), narm, names, type)
+        End Function
+
+        ''' <summary>
+        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
+        ''' The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+        ''' </summary>
+        ''' <param name="x">numeric vector whose sample quantiles are wanted, or an object of a class for which 
+        ''' a method has been defined (see also ‘details’). NA and NaN values are not allowed in numeric vectors 
+        ''' unless na.rm is TRUE.</param>
+        ''' <param name="probs">numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 
+        ''' outside that range are accepted and moved to the nearby endpoint.)</param>
+        ''' <param name="narm">
+        ''' logical; if true, any NA and NaN's are removed from x before the quantiles are computed.
+        ''' </param>
+        ''' <param name="names">
+        ''' logical; if true, the result has a names attribute. Set to FALSE for speedup with many probs.
+        ''' </param>
+        ''' <param name="type">
+        ''' an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function quantile(x$,
+                                 Optional probs$ = "seq(0, 1, 0.25)",
+                                 Optional narm As Boolean = False,
+                                 Optional names As Boolean = True,
+                                 Optional type% = 7) As String
+
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- quantile({x}, probs = {probs}, na.rm = {narm.λ},
+         names = {names.λ}, type = {type})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="q">vector of quantiles.</param>
+        ''' <param name="mean">vector of means.</param>
+        ''' <param name="sd">vector of standard deviations.</param>
+        ''' <param name="lowertail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
+        ''' <param name="logp">logical; if TRUE, probabilities p are given as log(p).</param>
+        ''' <returns></returns>
+        Public Function pnorm(q$, Optional mean# = 0, Optional sd# = 1, Optional lowertail As Boolean = True, Optional logp As Boolean = False) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- pnorm({q}, mean = {mean}, sd = {sd}, lower.tail = {lowertail.λ}, log.p = {logp.λ});"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>

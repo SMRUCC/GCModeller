@@ -59,7 +59,7 @@ Namespace kb_UniProtKB
         ''' Create mysql database dump from <see cref="UniProtXML"/> database
         ''' </summary>
         ''' <param name="uniprot">
-        ''' For imports a ultra large size XML database, using linq method <see cref="UniProtXML.EnumerateEntries(String)"/>
+        ''' For imports a ultra large size XML database, using linq method <see cref="UniProtXML.EnumerateEntries"/>
         ''' </param>
         ''' <returns></returns>
         <Extension>
