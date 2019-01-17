@@ -42,9 +42,11 @@
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.RSystem
+Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -86,14 +88,14 @@ get_significance <- function(ratio){
     End Sub
 
     Sub Main()
-        Call ptest()
-        ' Call matrixSplitTest()
+        ' Call ptest()
+        Call matrixSplitTest()
 
     End Sub
 
     Sub matrixSplitTest()
 
-        Dim rawMatrix = DataSet.LoadDataSet("D:\test\HXB.csv")
+        Dim rawMatrix = DataSet.LoadDataSet("D:\test\HXB.csv").TotalSumNormalize.ToArray
         Dim sampleInfo = {
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},
@@ -147,10 +149,14 @@ get_significance <- function(ratio){
               New AnalysisDesigner With {.Controls = "0d", .Treatment = "21d"}
        }
 
-
-        For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
-            Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
+        For Each design In analysis
+            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True).SaveTo($"D:\test\HXB\{design.Title}.csv", Encodings.UTF8)
         Next
+
+
+        'For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
+        '    Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
+        'Next
     End Sub
 
     Sub plotTest()

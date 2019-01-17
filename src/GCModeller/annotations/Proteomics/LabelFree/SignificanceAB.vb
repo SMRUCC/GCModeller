@@ -53,22 +53,26 @@ Public Module SignificanceAB
         Dim quantile#()
 
         ratio = ratio.Log(base:=2)
-        quantile = stats.quantile(ratio, {0.1587, 0.5, 0.8413}).Rvar.As(Of Double())
+        quantile = stats.quantile(ratio, {0.1587, 0.5, 0.8413}, narm:=True).Rvar.As(Of Double())
 
         Dim rl# = quantile(Scan0)
         Dim rm# = quantile(1)
         Dim rh# = quantile(2)
         Dim p As Vector = ratio _
             .Select(Function(x As Double) As String
-                        Dim z#
-
-                        If x > rm Then
-                            z = (x - rm) / (rh - rm)
+                        If x.IsNaNImaginary Then
+                            Return 0
                         Else
-                            z = (rm - x) / (rm - rl)
-                        End If
+                            Dim z#
 
-                        Return stats.pnorm(z, lowertail:=False)
+                            If x > rm Then
+                                z = (x - rm) / (rh - rm)
+                            Else
+                                z = (rm - x) / (rm - rl)
+                            End If
+
+                            Return stats.pnorm(z, lowertail:=False)
+                        End If
                     End Function) _
             .Select(Function(x)
                         Return var.EvaluateAs(Of Double)(x)

@@ -708,6 +708,26 @@ Namespace API
         End Function
 
         ''' <summary>
+        ''' 这个函数会自动将NAN,Inf等结果值转换为R之中的NA值
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function c(x As IEnumerable(Of Double)) As String
+            Return base.c(list:=x _
+                .Select(Function(d)
+                            If d.IsNaNImaginary Then
+                                Return "NA"
+                            Else
+                                Return CStr(d)
+                            End If
+                        End Function),
+                recursive:=False
+            )
+        End Function
+
+        ''' <summary>
         ''' Combine Values into a Vector or List
         ''' 
         ''' This is a generic function which combines its arguments.
