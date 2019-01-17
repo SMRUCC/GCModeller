@@ -118,6 +118,11 @@ Public Module RSystem
         End If
     End Sub
 
+    ''' <summary>
+    ''' 从一个变量名称创建一个R变量帮助对象
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Rvar(name As String) As var

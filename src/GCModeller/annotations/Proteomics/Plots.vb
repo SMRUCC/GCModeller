@@ -121,7 +121,7 @@ Public Module Plots
                                    Optional color$ = "lightblue",
                                    Optional type$ = NameOf(DEP_iTraq.log2FC)) As GraphicsData
 
-        Dim histData As IntegerTagged(Of Double)() = Nothing
+        Dim histData As HistogramData() = Nothing
         Dim logFC As Vector
 
         If type.TextEquals(NameOf(DEP_iTraq.log2FC)) Then

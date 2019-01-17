@@ -42,7 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports RDotNET.Internals
 
-Public Module Vector
+Public Module VectorExtensions
 
     ''' <summary>
     ''' 目标必须是一个character向量类型，否则会出现空值错误的
