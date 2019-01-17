@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API
 
 ''' <summary>
 ''' 当T检验无法正常工作的时候，使用这个模块进行P值的计算
@@ -42,7 +44,37 @@ Public Module SignificanceAB
         Return p
     End Function
 
+    ''' <summary>
+    ''' R server based
+    ''' </summary>
+    ''' <param name="ratio"></param>
+    ''' <returns></returns>
     Public Function SignificanceA(ratio As Vector) As Vector
+        Dim quantile#()
 
+        ratio = ratio.Log(base:=2)
+        quantile = stats.quantile(ratio, {0.1587, 0.5, 0.8413}).Rvar.As(Of Double())
+
+        Dim rl# = quantile(Scan0)
+        Dim rm# = quantile(1)
+        Dim rh# = quantile(2)
+        Dim p As Vector = ratio _
+            .Select(Function(x As Double) As String
+                        Dim z#
+
+                        If x > rm Then
+                            z = (x - rm) / (rh - rm)
+                        Else
+                            z = (rm - x) / (rm - rl)
+                        End If
+
+                        Return stats.pnorm(z, lowertail:=False)
+                    End Function) _
+            .Select(Function(x)
+                        Return var.EvaluateAs(Of Double)(x)
+                    End Function) _
+            .AsVector
+
+        Return p
     End Function
 End Module

@@ -54,7 +54,7 @@ Module Module2
     Sub ptest()
 
         Dim fc As Vector = rand(1000, {0, 4})
-        Dim p = fc.SignificanceA_VB
+        Dim p = SignificanceA(fc)
         Dim pp As Vector
 
         SyncLock R
