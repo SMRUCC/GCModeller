@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports RDotNET.Extensions.VisualBasic
@@ -96,6 +97,29 @@ Public Module SignificanceAB
     ''' <param name="n">将所有的蛋白FoldChange计算结果等分为n份</param>
     ''' <returns></returns>
     Public Function SignificantB(ratio As Vector, n%) As Vector
+        Dim bins = CutBins.EqualFrequencyBins(ratio, k:=n, eval:=Function(x) x).ToArray
+        ' 然后对每一个bin都做一次significantA计算即可
+        Dim pblocks = bins _
+            .Select(Function(b) SignificanceA(b.Raw)) _
+            .ToArray
+        ' 现在需要将pvalue放回原来的位置
+        ' pindex = [ratio => pvalue]
+        Dim pindex As New Dictionary(Of Double, Double)
 
+        Call bins _
+            .ForEach(Sub(b, i)
+                         Dim pvalues As Vector = pblocks(i)
+                         Dim ratioBock As Double() = b.Raw
+
+                         For j As Integer = 0 To b.Count - 1
+                             If Not pindex.ContainsKey(ratioBock(j)) Then
+                                 Call pindex.Add(ratioBock(j), pvalues(j))
+                             End If
+                         Next
+                     End Sub)
+
+        Return ratio _
+            .Select(Function(r) pindex(r)) _
+            .AsVector
     End Function
 End Module
