@@ -22,6 +22,34 @@ Public Module FoldChangeMatrix
     End Function
 
     ''' <summary>
+    ''' 对原始峰面积矩阵进行总峰归一化
+    ''' </summary>
+    ''' <param name="rawMatrix"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function TotalSumNormalize(rawMatrix As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+        Dim data As DataSet() = rawMatrix.ToArray
+        Dim samples = data.PropertyNames
+        Dim normalized = samples _
+            .ToDictionary(Function(name) name,
+                          Function(name)
+                              Return TotalSumNormalize(data.Vector(name))
+                          End Function)
+        Dim index%
+
+        For i As Integer = 0 To data.Length - 1
+            index = i
+
+            Yield New DataSet With {
+                .ID = data(i).ID,
+                .Properties = normalized _
+                    .ToDictionary(Function(sample) sample.Key,
+                                  Function(sample) sample.Value(index))
+            }
+        Next
+    End Function
+
+    ''' <summary>
     ''' 生成的matrix里面的foldchange结果是``experiment/controls``
     ''' </summary>
     ''' <param name="rawMatrix">原始的峰面积数据</param>
