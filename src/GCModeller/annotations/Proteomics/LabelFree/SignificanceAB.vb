@@ -81,4 +81,21 @@ Public Module SignificanceAB
 
         Return p
     End Function
+
+    ''' <summary>
+    ''' For highly abundant proteins the statistical spread of unregulated proteins Is much more 
+    ''' focused than For low abundant ones. Because Of this, a protein that shows, For instance, 
+    ''' a ratio Of two should be very significant When it Is highly abundant, while at very low 
+    ''' abundance it should only be marginally significant. To capture this effect we define another 
+    ''' quantity, called significance B, which Is calculated in the same way as significance A, 
+    ''' but on protein subsets obtained by grouping them into intensity bins. We divide the proteins 
+    ''' into bins Of equal occupancy such that Each bin contains at least 300 proteins. The above 
+    ''' calculation For significance A Is Then repeated In each bin to obtain significance B.
+    ''' </summary>
+    ''' <param name="ratio"></param>
+    ''' <param name="n">将所有的蛋白FoldChange计算结果等分为n份</param>
+    ''' <returns></returns>
+    Public Function SignificantB(ratio As Vector, n%) As Vector
+
+    End Function
 End Module
