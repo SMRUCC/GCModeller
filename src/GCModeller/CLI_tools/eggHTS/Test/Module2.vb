@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.RSystem
+Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -147,10 +148,14 @@ get_significance <- function(ratio){
               New AnalysisDesigner With {.Controls = "0d", .Treatment = "21d"}
        }
 
-
-        For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
-            Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
+        For Each design In analysis
+            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True).SaveTo($"D:\test\HXB\{design.Title}.csv")
         Next
+
+
+        'For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
+        '    Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
+        'Next
     End Sub
 
     Sub plotTest()

@@ -66,7 +66,7 @@ Public Module LabelFreeTtest
     <Extension>
     Public Function logFCtest(data As IEnumerable(Of DataSet),
                               analysis As AnalysisDesigner,
-                              sampleInfo As SampleInfo(),
+                              sampleInfo As SampleGroup(),
                               Optional level# = 1.5,
                               Optional pvalue# = 0.05,
                               Optional fdrThreshold# = 0.05,
