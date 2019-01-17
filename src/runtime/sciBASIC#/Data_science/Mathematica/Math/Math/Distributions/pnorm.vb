@@ -1,7 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 Imports sys = System.Math
@@ -32,7 +30,8 @@ Namespace Distributions
         ''' <returns></returns>
         ''' <remarks>https://github.com/mpadge/tnorm</remarks>
         Public Function TruncNDist(len%, sd#) As Vector
-            Dim eps As Vector ' Set up truncated normal distribution
+            ' Set up truncated normal distribution
+            Dim eps As Vector
             Dim z As New List(Of Double)()
 
             While z.Count < len
@@ -53,12 +52,82 @@ Namespace Distributions
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function StandardDistribution#(x#)
+        Public Function StandardDistribution(x As Double) As Double
             Dim answer As Double = 1 / ((sys.Sqrt(2 * sys.PI)))
             Dim exp1 As Double = sys.Pow(x, 2) / 2
             Dim exp As Double = sys.Pow(sys.E, -(exp1))
             answer = answer * exp
             Return answer
+        End Function
+
+#Region "pnorm implementation"
+
+        ''' <summary>
+        ''' Density, distribution function, quantile function and random generation for the 
+        ''' normal distribution with mean equal to mean and standard deviation equal to sd.
+        ''' </summary>
+        ''' <param name="q">vector of quantiles.</param>
+        ''' <param name="mean">vector of means.</param>
+        ''' <param name="sd">vector of standard deviations.</param>
+        ''' <param name="lower_tail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
+        ''' <param name="logP">logical; if TRUE, probabilities p are given as log(p).</param>
+        ''' <returns></returns>
+        Public Function Eval(q#,
+                             Optional mean# = 0,
+                             Optional sd# = 1,
+                             Optional lower_tail As Boolean = True,
+                             Optional logP As Boolean = False,
+                             Optional resolution% = 30000) As Double
+            Dim p#
+
+            If lower_tail Then
+                p = pnorm.BelowStandardDistribution(q, resolution, mean, sd)
+            Else
+                p = pnorm.AboveStandardDistribution(q, resolution, mean, sd)
+            End If
+
+            If logP Then
+                Return Math.Log10(p)
+            Else
+                Return p
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Density, distribution function, quantile function and random generation for the 
+        ''' normal distribution with mean equal to mean and standard deviation equal to sd.
+        ''' </summary>
+        ''' <param name="q">vector of quantiles.</param>
+        ''' <param name="mean">vector of means.</param>
+        ''' <param name="sd">vector of standard deviations.</param>
+        ''' <param name="lower_tail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
+        ''' <param name="logP">logical; if TRUE, probabilities p are given as log(p).</param>
+        ''' <returns></returns>
+        Public Function Eval(q As Vector,
+                             Optional mean# = 0,
+                             Optional sd# = 1,
+                             Optional lower_tail As Boolean = True,
+                             Optional logP As Boolean = False,
+                             Optional resolution% = 30000) As Vector
+            Dim p As Vector
+            Dim pdist As Func(Of Double, Double, Double, Double, Double)
+
+            If lower_tail Then
+                pdist = AddressOf pnorm.BelowStandardDistribution
+            Else
+                pdist = AddressOf pnorm.AboveStandardDistribution
+            End If
+
+            p = q.Select(Function(x)
+                             Return pdist(x, resolution, mean, sd)
+                         End Function) _
+                 .AsVector
+
+            If logP Then
+                Return p.Log(base:=10)
+            Else
+                Return p
+            End If
         End Function
 
         ''' <summary>
@@ -84,29 +153,33 @@ Namespace Distributions
             Dim expP2 As Double = 2 * sys.Pow(sd, 2.0)
             Dim expP3 = sys.E ^ -(exp / expP2)
             Dim y As Vector = answer * expP3
+
             Return y
         End Function
 
         Public Function AboveStandardDistribution(upperX As Double, resolution As Double, m As Double, sd As Double) As Double
             Dim lowerX As Double = m - 4.1 * sd
             Dim answer As Double = TrapezodialRule(lowerX, upperX, resolution, m, sd)
+
             Return 1 - answer
         End Function
 
         Public Function BelowStandardDistribution(upperX As Double, resolution As Double, m As Double, sd As Double) As Double
             Dim lowerX As Double = m + 4.1 * sd
             Dim answer As Double = TrapezodialRule(lowerX, upperX, resolution, m, sd)
-            Return 1 + answer 'lol
+
+            ' lol
+            Return 1 + answer
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function BetweenStandardDistribution(lowerX As Double, upperX As Double, resolution As Double, m As Double, sd As Double) As Double
-            Dim answer As Double = TrapezodialRule(lowerX, upperX, resolution, m, sd)
-            Return answer
+            Return TrapezodialRule(lowerX, upperX, resolution, m, sd)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function OutsideStandardDistribution(lowerX As Double, upperX As Double, resolution As Double, m As Double, sd As Double) As Double
-            Dim answer As Double = 1 - TrapezodialRule(lowerX, upperX, resolution, m, sd)
-            Return answer
+            Return 1 - TrapezodialRule(lowerX, upperX, resolution, m, sd)
         End Function
 
         ''' <summary>
@@ -118,18 +191,19 @@ Namespace Distributions
         ''' <param name="m#"></param>
         ''' <param name="sd#"></param>
         ''' <returns></returns>
-        Public Function TrapezodialRule(a#, b#, resolution#, m#, sd#) As Double
-            Dim changeX As Double = (b - a) / resolution
+        Public Function TrapezodialRule(a#, b#, resolution%, m#, sd#) As Double
+            Dim dx As Double = (b - a) / resolution
             Dim a1 As Double = ProbabilityDensity(a, m, sd)
             Dim b1 As Double = ProbabilityDensity(b, m, sd)
             Dim c As Double = 0.5 * (a1 + b1)
 
-            For i As Double = 1 To resolution - 1
-                c = c + ProbabilityDensity((a + (i * changeX)), m, sd)
-            Next i
-            c = changeX * c
+            For i As Integer = 1 To resolution - 1
+                c = c + ProbabilityDensity((a + (i * dx)), m, sd)
+            Next
 
-            Return c
+            Return dx * c
         End Function
+#End Region
+
     End Module
 End Namespace
