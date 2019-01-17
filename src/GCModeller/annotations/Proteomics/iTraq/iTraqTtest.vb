@@ -151,21 +151,25 @@ Public Module iTraqTtest
 
         Return data _
             .Select(Function(protein)
-                        Dim FC As Double = protein.Properties.Values.Average
-                        Dim log2FC = Log2(FC)
-
-                        Return New DEP_iTraq With {
-                            .ID = protein.ID,
-                            .log2FC = log2FC,
-                            .FCavg = FC,
-                            .FDR = 0,
-                            .pvalue = 0,
-                            .Properties = protein _
-                                .Properties _
-                                .AsCharacter,
-                            .isDEP = Math.Abs(.log2FC) >= log2FCThreshold
-                        }
+                        Return createResult(protein, log2FCThreshold)
                     End Function) _
             .ToArray
+    End Function
+
+    Private Function createResult(protein As DataSet, threshold#) As DEP_iTraq
+        Dim FC As Double = protein.Properties.Values.Average
+        Dim log2FC = Math.Log(FC, 2)
+
+        Return New DEP_iTraq With {
+            .ID = protein.ID,
+            .log2FC = log2FC,
+            .FCavg = FC,
+            .FDR = 0,
+            .pvalue = 0,
+            .Properties = protein _
+                .Properties _
+                .AsCharacter,
+            .isDEP = Math.Abs(.log2FC) >= threshold
+        }
     End Function
 End Module
