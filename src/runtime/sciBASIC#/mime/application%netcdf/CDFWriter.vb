@@ -2,6 +2,12 @@
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
+''' <summary>
+''' 这个对象没有显式调用的文件写函数,必须要通过<see cref="IDisposable"/>接口来完成文件数据的写操作
+''' </summary>
+''' <remarks>
+''' 
+''' </remarks>
 Public Class CDFWriter : Implements IDisposable
 
 #Region ""
@@ -144,6 +150,7 @@ Public Class CDFWriter : Implements IDisposable
     Dim globalAttrs As attribute()
     Dim dimensionList As Dimension()
     Dim variables As List(Of variable)
+    Dim recordDimensionLength As UInteger
 
     Sub New(path As String)
         output = New BinaryDataWriter(path.Open) With {
@@ -167,7 +174,7 @@ Public Class CDFWriter : Implements IDisposable
         Return Me
     End Function
 
-    Private Function FileWriter(recordDimensionLength As UInteger)
+    Private Sub Save()
         ' >>>>>>> header
         Call output.Write(recordDimensionLength)
         ' -------------------------dimensionsList----------------------------
@@ -209,7 +216,7 @@ Public Class CDFWriter : Implements IDisposable
         Next
 
         ' <<<<<<<< header
-    End Function
+    End Sub
 
     Private Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
         ' List of global attributes
@@ -228,11 +235,12 @@ Public Class CDFWriter : Implements IDisposable
         Next
     End Sub
 
+    ''' <summary>
+    ''' 会需要在这个函数里面根据字节大小计算出offset?
+    ''' </summary>
+    ''' <param name="name$"></param>
+    ''' <param name="data"></param>
     Public Sub AddVariable(name$, data As CDFData)
-
-    End Sub
-
-    Public Sub Save()
 
     End Sub
 
@@ -244,6 +252,10 @@ Public Class CDFWriter : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects).
+                Call Save()
+                Call output.Flush()
+                Call output.Close()
+                Call output.Dispose()
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
