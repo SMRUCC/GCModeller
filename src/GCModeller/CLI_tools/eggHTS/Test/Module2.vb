@@ -86,8 +86,8 @@ get_significance <- function(ratio){
     End Sub
 
     Sub Main()
-        Call ptest()
-        ' Call matrixSplitTest()
+        ' Call ptest()
+        Call matrixSplitTest()
 
     End Sub
 
