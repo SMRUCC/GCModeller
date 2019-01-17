@@ -98,6 +98,27 @@ Namespace API
         End Function
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="q">vector of quantiles.</param>
+        ''' <param name="mean">vector of means.</param>
+        ''' <param name="sd">vector of standard deviations.</param>
+        ''' <param name="lowertail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
+        ''' <param name="logp">logical; if TRUE, probabilities p are given as log(p).</param>
+        ''' <returns></returns>
+        Public Function pnorm(q$, Optional mean# = 0, Optional sd# = 1, Optional lowertail As Boolean = True, Optional logp As Boolean = False) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- pnorm({q}, mean = {mean}, sd = {sd}, lower.tail = {lowertail.λ}, log.p = {logp.λ});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
         ''' Fit an ARIMA model to a univariate time series.
         ''' </summary>
         ''' <param name="x">a univariate time series</param>
