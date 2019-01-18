@@ -111,9 +111,15 @@ Public Module Extensions
         End If
     End Function
 
+    ''' <summary>
+    ''' 从所给定的样本信息列表之中,取出指定组别编号的所有的样本信息
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <param name="groupLabel"><see cref="SampleInfo.sample_group"/></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function TakeGroup(sampleInfo As IEnumerable(Of SampleInfo), groupLabel$) As SampleInfo()
+    Public Function TakeGroup(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T), groupLabel$) As T()
         Return sampleInfo _
             .Where(Function(sample) sample.sample_group = groupLabel) _
             .ToArray
