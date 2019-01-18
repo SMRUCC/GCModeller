@@ -182,7 +182,8 @@ Module CLI
                  New Components.attribute With {.name = "output_layer", .type = CDFDataTypes.CHAR, .value = network.OutputLayer.Neurons.Length},
                  New Components.attribute With {.name = "hidden_layers", .type = CDFDataTypes.CHAR, .value = network.HiddenLayer.Select(Function(l) l.Neurons.Length).JoinBy(", ")},
                  New Components.attribute With {.name = "synapse_edges", .type = CDFDataTypes.CHAR, .value = synapses.Length},
-                 New Components.attribute With {.name = "times", .type = CDFDataTypes.CHAR, .value = App.ElapsedMilliseconds}
+                 New Components.attribute With {.name = "times", .type = CDFDataTypes.CHAR, .value = App.ElapsedMilliseconds},
+                 New Components.attribute With {.name = "ANN", .type = CDFDataTypes.CHAR, .value = network.GetType.FullName}
             }
             Dim dimensions = {
                 New Components.Dimension With {.name = "index_number", .size = 4},
