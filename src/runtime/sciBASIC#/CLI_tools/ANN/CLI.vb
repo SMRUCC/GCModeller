@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MIME.application.netCDF
 
 Module CLI
 
@@ -148,17 +149,35 @@ Module CLI
             Call training.Add(sample.status, sample.target)
         Next
 
+        Dim synapses = training _
+            .NeuronNetwork _
+            .GetSynapseGroups _
+            .Select(Function(g) g.First) _
+            .ToArray
+        Dim synapsesWeights As New Dictionary(Of String, List(Of Double))
+        Dim errors As New List(Of Double)
+        Dim index As New List(Of Integer)
+
+        For Each s In synapses
+            synapsesWeights.Add(s.ToString, New List(Of Double))
+        Next
+
         Call Console.WriteLine(network.ToString)
         Call training _
             .AttachReporter(Sub(i, err, model)
-                                If i Mod 5 = 0 Then
-                                    Call NeuralNetwork _
-                                        .Snapshot(model) _
-                                        .GetXml _
-                                        .SaveTo($"{logs}/[{i}]error={err}.Xml")
-                                End If
+                                Call index.Add(i)
+                                Call errors.Add(err)
+                                Call synapses.DoEach(Sub(s) synapsesWeights(s.ToString).Add(s.Weight))
                             End Sub) _
             .Train(parallel)
+
+        Using debugger As New CDFWriter(out.TrimSuffix & ".debugger.CDF")
+            Dim globalAttrs = {
+                 New Components.attribute With {.name = "Date", .type = CDFDataTypes.CHAR, .value = Now.ToString}
+            }
+
+
+        End Using
 
         Return training.TakeSnapshot _
             .GetXml _
