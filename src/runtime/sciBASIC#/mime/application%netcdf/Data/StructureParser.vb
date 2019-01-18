@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Data.IO
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
@@ -24,6 +25,8 @@ Module StructureParser
     '''  + `recordName`: name of the dimension that has unlimited size
     '''  
     ''' </returns>
+    ''' 
+    <Extension>
     Friend Function dimensionsList(buffer As BinaryDataReader) As DimensionList
         Dim dimList = buffer.ReadUInt32()
 
@@ -77,6 +80,8 @@ Module StructureParser
     '''  + `value`: A number Or String With the value Of the attribute
     '''  
     ''' </returns>
+    ''' 
+    <Extension>
     Friend Iterator Function attributesList(buffer As BinaryDataReader) As IEnumerable(Of attribute)
         Dim gAttList = buffer.ReadUInt32()
 
@@ -94,7 +99,7 @@ Module StructureParser
             ' Read name
             Dim name = Utils.readName(buffer)
             ' Read type
-            Dim type = buffer.ReadUInt32()
+            Dim type As CDFDataTypes = buffer.ReadUInt32()
 
             Utils.notNetcdf(((type < 1) Or (type > 6)), $"non valid type {type}")
 
@@ -107,7 +112,7 @@ Module StructureParser
 
             Yield New attribute With {
                 .name = name,
-                .type = TypeExtensions.num2str(type),
+                .type = type,
                 .value = val
             }
         Next
@@ -131,6 +136,8 @@ Module StructureParser
     '''  + `offset`: Number with the offset where of the variable begins
     '''  + `record`: True if Is a record variable, false otherwise (unlimited size)
     '''  </returns>
+    '''  
+    <Extension>
     Friend Function variablesList(buffer As BinaryDataReader, recordId%?, version As Byte) As (variables As variable(), recordStep%)
         Dim varList = buffer.ReadUInt32()
         Dim recordStep = 0
@@ -161,7 +168,7 @@ Module StructureParser
             ' Read variables size
             Dim attributes = attributesList(buffer).ToArray
             ' Read type
-            Dim type = buffer.ReadUInt32()
+            Dim type As CDFDataTypes = buffer.ReadUInt32()
 
             Utils.notNetcdf(((type < 1) AndAlso (type > 6)), $"non valid type {type}")
 
@@ -189,7 +196,7 @@ Module StructureParser
                 .name = name,
                 .dimensions = dimensionsIds,
                 .attributes = attributes,
-                .type = TypeExtensions.num2str(type),
+                .type = type,
                 .size = varSize,
                 .offset = offset,
                 .record = record
