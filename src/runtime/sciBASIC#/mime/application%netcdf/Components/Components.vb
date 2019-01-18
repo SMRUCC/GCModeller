@@ -70,7 +70,7 @@ Imports System.Xml.Serialization
 Namespace Components
 
     ''' <summary>
-    ''' 
+    ''' ``[name => size]``
     ''' </summary>
     ''' 
     <XmlType("dim", [Namespace]:=Xml.netCDF)>
@@ -93,8 +93,14 @@ Namespace Components
 
     Public Class DimensionList
 
-        <XmlAttribute> Public Property recordId As Integer
+        <XmlAttribute> Public Property recordId As Integer?
         <XmlAttribute> Public Property recordName As String
+
+        Public ReadOnly Property HaveRecordDimension As Boolean
+            Get
+                Return Not (recordId Is Nothing AndAlso recordName = "NA")
+            End Get
+        End Property
 
         Public Property dimensions As Dimension()
 
@@ -153,7 +159,17 @@ Namespace Components
         ''' A number or string with the value of the attribute
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property value As String
+        <XmlText>
+        Public Property value As String
+
+        Sub New()
+        End Sub
+
+        Sub New(name$, value$, type As CDFDataTypes)
+            Me.name = name
+            Me.value = value
+            Me.type = type
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"Dim {name} As {type.Description} = {value}"
