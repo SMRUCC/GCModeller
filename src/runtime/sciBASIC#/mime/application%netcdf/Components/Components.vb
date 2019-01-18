@@ -148,7 +148,7 @@ Namespace Components
         ''' String with the type of the attribute
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property type As String
+        <XmlAttribute> Public Property type As CDFDataTypes
         ''' <summary>
         ''' A number or string with the value of the attribute
         ''' </summary>
@@ -156,7 +156,7 @@ Namespace Components
         <XmlText> Public Property value As String
 
         Public Overrides Function ToString() As String
-            Return $"Dim {name} As {type} = {value}"
+            Return $"Dim {name} As {type.Description} = {value}"
         End Function
     End Class
 
@@ -171,7 +171,8 @@ Namespace Components
         ''' <returns></returns>
         <XmlAttribute> Public Property name As String
         ''' <summary>
-        ''' Array with the dimension IDs of the variable
+        ''' Array with the dimension IDs of the variable.
+        ''' (<see cref="Header.dimensions"/>)
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property dimensions As Integer()
@@ -194,7 +195,7 @@ Namespace Components
         ''' Number with the offset where of the variable begins
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property offset As Long
+        <XmlAttribute> Public Property offset As UInteger
         ''' <summary>
         ''' True if Is a record variable, false otherwise
         ''' </summary>

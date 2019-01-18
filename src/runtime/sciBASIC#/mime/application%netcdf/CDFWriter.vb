@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 Imports Microsoft.VisualBasic.Text
 
@@ -153,12 +154,12 @@ Public Class CDFWriter : Implements IDisposable
 
     Dim output As BinaryDataWriter
     Dim globalAttrs As attribute()
-    Dim dimensionList As Dimension()
+    Dim dimensionList As Dictionary(Of String, SeqValue(Of Dimension))
     Dim variables As List(Of variable)
     Dim recordDimensionLength As UInteger
 
-    Sub New(path As String)
-        output = New BinaryDataWriter(path.Open, Encodings.ASCII) With {
+    Sub New(path As String, Optional encoding As Encodings = Encodings.UTF8)
+        output = New BinaryDataWriter(path.Open, encoding) With {
             .ByteOrder = ByteOrder.BigEndian,
             .RerouteInt32ToUnsigned = True
         }
@@ -175,7 +176,10 @@ Public Class CDFWriter : Implements IDisposable
     End Function
 
     Public Function Dimensions([dim] As Dimension()) As CDFWriter
-        dimensionList = [dim]
+        dimensionList = [dim] _
+            .SeqIterator _
+            .ToDictionary(Function(d) d.value.name,
+                          Function(d) d)
         Return Me
     End Function
 
@@ -187,13 +191,15 @@ Public Class CDFWriter : Implements IDisposable
         Call output.Write(recordDimensionLength)
         ' -------------------------dimensionsList----------------------------
         ' List of dimensions
-        Call output.Write(CUInt(Header.NC_DIMENSION))
+        Call output.Write(Header.NC_DIMENSION)
         ' dimensionSize
-        Call output.Write(CUInt(dimensionList.Length))
+        Call output.Write(dimensionList.Count)
 
-        For Each dimension In dimensionList
-            Call output.writeName(dimension.name)
-            Call output.Write(CUInt(dimension.size))
+        For Each [dim] In dimensionList
+            Dim dimension As Dimension = [dim].Value
+
+            Call output.writeName([dim].Key)
+            Call output.Write(dimension.size)
         Next
 
         ' ------------------------attributesList-----------------------------
@@ -210,7 +216,7 @@ Public Class CDFWriter : Implements IDisposable
         Dim variableBuffers As New List(Of Byte())
 
         For Each var As variable In variables
-            variableBuffers.Add(getVariableHeaderBuffer(var))
+            variableBuffers.Add(getVariableHeaderBuffer(var, output))
         Next
 
         Dim dataChunks As Byte() = CalcOffsets(variableBuffers)
@@ -233,18 +239,22 @@ Public Class CDFWriter : Implements IDisposable
     ''' </summary>
     ''' <param name="var"></param>
     ''' <returns></returns>
-    Private Shared Function getVariableHeaderBuffer(var As variable) As Byte()
+    Private Shared Function getVariableHeaderBuffer(var As variable, writerTemplate As BinaryDataWriter) As Byte()
         Dim buffer As New MemoryStream
 
-        Using output = New BinaryDataWriter(buffer, Encoding.ASCII)
+        Using output = New BinaryDataWriter(buffer, writerTemplate.Encoding) With {
+            .ByteOrder = writerTemplate.ByteOrder,
+            .RerouteInt32ToUnsigned = writerTemplate.RerouteInt32ToUnsigned
+        }
             Call output.writeName(var.name)
+
             ' dimensionality 
             Call output.Write(CUInt(var.dimensions.Length))
             ' dimensionsIds
             Call output.Write(var.dimensions)
             ' attributes of this variable
             Call writeAttributes(output, var.attributes)
-            Call output.Write(sizeof(var.type))
+            Call output.Write(var.type)
             ' varSize
             Call output.Write(var.size)
             ' version = 1, write 4 bytes
@@ -269,12 +279,12 @@ Public Class CDFWriter : Implements IDisposable
         ' 这个位置是在所有的变量头部之后的
         ' 因为这个函数是发生在变量写入之前的，所以会需要加上自身的长度
         ' 才会将offset的位置移动到数据区域的起始位置
-        Dim current = output.Position + buffers.Sum(Function(v) v.Length)
+        Dim current As UInteger = output.Position + buffers.Sum(Function(v) v.Length)
         Dim dataBuffer As New List(Of Byte)
         Dim chunk As Byte()
 
         For i As Integer = 0 To variables.Count - 1
-            buffers(i).Fill(BitConverter.GetBytes(current), buffers(i).Length - 8)
+            buffers(i).Fill(BitConverter.GetBytes(current), buffers(i).Length - 4)
             chunk = variables(i).value.GetBuffer(output.Encoding)
             current += chunk.Length
             dataBuffer.AddRange(chunk)
@@ -284,18 +294,49 @@ Public Class CDFWriter : Implements IDisposable
     End Function
 
     Private Shared Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
+        If attrs Is Nothing Then
+            attrs = {}
+        End If
+
         ' List of global attributes
-        Call output.Write(CUInt(Header.NC_ATTRIBUTE))
+        Call output.Write(Header.NC_ATTRIBUTE)
         ' attributeSize
-        Call output.Write(CUInt(attrs.Length))
+        Call output.Write(attrs.Length)
 
         For Each attr In attrs
             Call output.writeName(attr.name)
-            Call output.Write(CUInt(str2num(attr.type)))
+            ' type
+            Call output.Write(attr.type)
             ' one string, size = 1
-            Call output.Write(CUInt(1))
-            Call output.Write(attr.value, BinaryStringFormat.NoPrefixOrTermination)
-            Call output.writePadding
+
+            ' 在attributes里面，除了字符串，其他类型的数据都是只有一个元素
+            Select Case attr.type
+                Case CDFDataTypes.BYTE
+                    Call output.Write(1)
+                    Call output.Write(Byte.Parse(attr.value))
+                Case CDFDataTypes.CHAR
+                    Dim stringBuffer = output.Encoding.GetBytes(attr.value)
+                    Call output.Write(attr.value.Length)
+                    Call output.Write(stringBuffer)
+                    Call output.writePadding
+#If DEBUG Then
+                    Call $"{attr.value} [buffersize={stringBuffer.Length}]".__DEBUG_ECHO
+#End If
+                Case CDFDataTypes.DOUBLE
+                    Call output.Write(1)
+                    Call output.Write(Double.Parse(attr.value))
+                Case CDFDataTypes.FLOAT
+                    Call output.Write(1)
+                    Call output.Write(Single.Parse(attr.value))
+                Case CDFDataTypes.INT
+                    Call output.Write(1)
+                    Call output.Write(UInteger.Parse(attr.value))
+                Case CDFDataTypes.SHORT
+                    Call output.Write(1)
+                    Call output.Write(Short.Parse(attr.value))
+                Case Else
+                    Throw New NotImplementedException(attr.type.Description)
+            End Select
         Next
     End Sub
 
@@ -308,16 +349,49 @@ Public Class CDFWriter : Implements IDisposable
     ''' 所以可以在这里直接添加变量值对象，但是仅限于<see cref="CDFDataTypes"/>
     ''' 之中所限定的类型元素或者其数组
     ''' </param>
-    ''' 
+    ''' <param name="dims">
+    ''' 这个列表必须要是<see cref="CDFWriter.Dimensions(Dimension())"/>之中的
+    ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Sub AddVariable(name$, data As CDFData, Optional attrs As attribute() = Nothing)
+    Public Sub AddVariable(name$, data As CDFData, dims$(), Optional attrs As attribute() = Nothing)
         variables += New variable With {
             .name = name,
             .size = data.Length,
             .type = data.cdfDataType,
             .value = data,
-            .attributes = attrs
+            .attributes = attrs,
+            .dimensions = dims _
+                .Select(Function(d) dimensionList(d).i) _
+                .ToArray
         }
+    End Sub
+
+    ''' <summary>
+    ''' 如果<paramref name="dims"/>是不存在的，则会自动添加
+    ''' 反之会使用旧的编号
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="data"></param>
+    ''' <param name="dims"></param>
+    ''' <param name="attrs"></param>
+    Public Sub AddVariable(name$, data As CDFData, dims As Dimension(), Optional attrs As attribute() = Nothing)
+        Dim dimNames As New List(Of String)
+
+        For Each d As Dimension In dims
+            If Not dimensionList.ContainsKey(d.name) Then
+                dimensionList(d.name) = New SeqValue(Of Dimension) With {
+                    .i = dimensionList.Count,
+                    .value = New Dimension With {
+                        .name = d.name,
+                        .size = d.size
+                    }
+                }
+            End If
+
+            Call dimNames.Add(d.name)
+        Next
+
+        Call AddVariable(name, data, dimNames, attrs)
     End Sub
 
 #Region "IDisposable Support"
