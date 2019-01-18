@@ -137,7 +137,7 @@ Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/encourage")>
-    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /out <out.Xml>]")>
+    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /iterations <default=10000> /out <out.Xml>]")>
     Public Function Encourage(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim samples$ = args <= "/samples"
@@ -146,6 +146,8 @@ Module CLI
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
         Dim logs$ = out.TrimSuffix & ".logs/"
+
+        Helpers.MaxEpochs = args("/iterations") Or 10000
 
         For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples
             Call training.Add(sample.status, sample.target)
