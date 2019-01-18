@@ -4,37 +4,56 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.SecurityString
 
 Namespace NeuralNetwork.Accelerator
 
     Public Module GAExtensions
 
         <Extension>
-        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000)
-            Dim synapses = network.PopulateAllSynapses _
+        Public Function GetSynapseGroups(network As Network) As NamedCollection(Of Synapse)()
+            Return network.PopulateAllSynapses _
                 .GroupBy(Function(s) s.ToString) _
                 .Select(Function(sg)
                             Return New NamedCollection(Of Synapse)(sg.Key, sg.ToArray)
                         End Function) _
                 .ToArray
+        End Function
+
+        <Extension>
+        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000, Optional iterations% = 10000)
+            Dim synapses = network.GetSynapseGroups
             Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(populationSize)
             Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
             Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
             Dim engine As New EnvironmentDriver(Of WeightVector)(ga) With {
-                .Iterations = 10000,
+                .Iterations = iterations,
                 .Threshold = 0.005
             }
 
-            Call engine.AttachReporter(Sub(i, e, g) EnvironmentDriver(Of WeightVector).CreateReport(i, e, g).ToString.__DEBUG_ECHO)
+            Call "Run GA helper!".__DEBUG_ECHO
+            Call engine.AttachReporter(AddressOf doPrint)
             Call engine.Train()
+        End Sub
+
+        Private Sub doPrint(i%, e#, g As GeneticAlgorithm(Of WeightVector))
+            Call EnvironmentDriver(Of WeightVector).CreateReport(i, e, g).ToString.__DEBUG_ECHO
         End Sub
     End Module
 
+    ''' <summary>
+    ''' 在这里假设所有的<see cref="Neuron.Bias"/>偏差值都是零
+    ''' 所以GA优化就被简化为只和突触链接的权重相关
+    ''' </summary>
     Public Class WeightVector : Implements Chromosome(Of WeightVector), ICloneable
 
+        ''' <summary>
+        ''' 突触链接的权重
+        ''' </summary>
         Friend weights#()
 
         Shared ReadOnly random As New Random
+        ReadOnly keyCache As New Md5HashProvider
 
         Sub New(Optional synapses As NamedCollection(Of Synapse)() = Nothing)
             If Not synapses Is Nothing Then
@@ -46,8 +65,17 @@ Namespace NeuralNetwork.Accelerator
             End If
         End Sub
 
+        ''' <summary>
+        ''' 需要这个方法重写来生成唯一的key
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 如果向量长度非常长的话,则会导致字符串非常长,这会导致缓存的键名称的内存占用非常高
+        ''' 由于ANN网络之中的突触非常多,所以在这里会需要使用MD5来减少内存占用
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return ""
+            Return keyCache.GetMd5Hash(String.Join(";", weights))
         End Function
 
         Public Function Crossover(another As WeightVector) As IEnumerable(Of WeightVector) Implements Chromosome(Of WeightVector).Crossover
@@ -84,6 +112,12 @@ Namespace NeuralNetwork.Accelerator
             Me.synapses = synapses
         End Sub
 
+        Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of WeightVector).Cacheable
+            Get
+                Return False
+            End Get
+        End Property
+
         Public Function Calculate(chromosome As WeightVector) As Double Implements Fitness(Of WeightVector).Calculate
             For i As Integer = 0 To chromosome.weights.Length - 1
                 For Each s In synapses(i)
@@ -95,7 +129,10 @@ Namespace NeuralNetwork.Accelerator
 
             For Each dataSet As Sample In dataSets
                 Call network.ForwardPropagate(dataSet.status, False)
-                Call network.BackPropagate(dataSet.target, False)
+                ' 2019-1-14 因为在这里是计算误差，不是训练过程
+                ' 所以在这里不需要进行反向传播修改权重和bias参数
+                ' 否则会造成其他的解决方案的错误计算，因为反向传播将weights等参数更新了
+                ' Call network.BackPropagate(dataSet.target, False)
                 Call errors.Add(TrainingUtils.CalculateError(network, dataSet.target))
             Next
 

@@ -113,6 +113,12 @@ Namespace NeuralNetwork
             Next
         End Sub
 
+        ''' <summary>
+        ''' 调用这个函数将会修改突触链接的权重值，这个函数只会在训练的时候被调用
+        ''' </summary>
+        ''' <param name="learnRate#"></param>
+        ''' <param name="momentum#"></param>
+        ''' <param name="parallel"></param>
         Public Sub UpdateWeights(learnRate#, momentum#, Optional parallel As Boolean = False)
             If Not parallel Then
                 For Each neuron As Neuron In Neurons
@@ -140,6 +146,11 @@ Namespace NeuralNetwork
             Else
                 ' 在这里将结果值赋值到一个临时的匿名变量中
                 ' 来触发这个并行调用表达式
+                '
+                ' 2019-1-14 因为在计算的时候，取的neuron.value是上一层网络的值
+                ' 只是修改当前网络的节点值
+                ' 并没有修改上一层网络的任何参数
+                ' 所以在这里的并行是没有问题的
                 With Aggregate neuron As Neuron
                      In Neurons.AsParallel
                      Into Sum(neuron.CalculateValue)

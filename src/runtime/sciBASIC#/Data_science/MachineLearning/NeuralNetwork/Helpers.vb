@@ -74,6 +74,10 @@ Namespace NeuralNetwork
 
         ReadOnly rand As New Random()
 
+        ''' <summary>
+        ''' 通过这个帮助函数生成``[-1, 1]``之间的随机数
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Function GetRandom() As Double
             SyncLock rand

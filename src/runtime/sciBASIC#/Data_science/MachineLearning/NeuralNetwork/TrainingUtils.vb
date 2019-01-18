@@ -157,45 +157,48 @@ Namespace NeuralNetwork
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(numEpochs)
                 Dim msg$
-                Dim errors As New List(Of Double)()
+                Dim errors#
+                Dim ETA$
 
                 For i As Integer = 0 To numEpochs - 1
-                    For Each dataSet As Sample In dataSets
-                        Call network.ForwardPropagate(dataSet.status, parallel)
-                        Call network.BackPropagate(dataSet.target, parallel)
-                        Call errors.Add(CalculateError(network, dataSet.target))
-                    Next
-
-                    msg = $"Iterations: [{i}/{numEpochs}], Err={errors.Average}"
+                    errors = trainingImpl(dataSets, parallel)
+                    ETA = $"ETA: {tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                    msg = $"Iterations: [{i}/{numEpochs}], Err={errors}{vbTab} {ETA}"
                     progress.SetProgress(tick.StepProgress, msg)
 
                     If Not reporter Is Nothing Then
-                        Call reporter(i, errors.Average, network)
+                        Call reporter(i, errors, network)
                     End If
                 Next
             End Using
         End Sub
 
+        Private Function trainingImpl(dataSets As Sample(), parallel As Boolean) As Double
+            Dim errors As New List(Of Double)()
+
+            For Each dataSet As Sample In dataSets
+                Call network.ForwardPropagate(dataSet.status, parallel)
+                Call network.BackPropagate(dataSet.target, parallel)
+                Call errors.Add(CalculateError(network, dataSet.target))
+            Next
+
+            Return errors.Average
+        End Function
+
         Public Overloads Sub Train(dataSets As Sample(), minimumError As Double, Optional parallel As Boolean = False)
             Dim [error] = 1.0
             Dim numEpochs = 0
+            Dim progress$
 
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
-                Dim errors As New List(Of Double)()
-
-                For Each dataSet As Sample In dataSets
-                    Call network.ForwardPropagate(dataSet.status, parallel)
-                    Call network.BackPropagate(dataSet.target, parallel)
-                    Call errors.Add(CalculateError(network, dataSet.target))
-                Next
-
-                [error] = errors.Average()
+                [error] = trainingImpl(dataSets, parallel)
                 numEpochs += 1
+                progress = ((minimumError / [error]) * 100).ToString("F2")
 
-                Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={((minimumError / [error]) * 100).ToString("F2")}%".__DEBUG_ECHO
+                Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
 
                 If Not reporter Is Nothing Then
-                    Call reporter(numEpochs, errors.Average, network)
+                    Call reporter(numEpochs, [error], network)
                 End If
             End While
         End Sub
