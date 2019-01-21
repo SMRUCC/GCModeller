@@ -121,10 +121,10 @@ Module CLI
     <Extension>
     Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, parallel As Boolean) As TrainingUtils
         Dim synapses = trainer _
-          .NeuronNetwork _
-          .GetSynapseGroups _
-          .Select(Function(g) g.First) _
-          .ToArray
+            .NeuronNetwork _
+            .GetSynapseGroups _
+            .Select(Function(g) g.First) _
+            .ToArray
         Dim synapsesWeights As New Dictionary(Of String, List(Of Double))
         Dim errors As New List(Of Double)
         Dim index As New List(Of Integer)
