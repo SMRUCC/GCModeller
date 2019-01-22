@@ -145,9 +145,13 @@ Public Module GoStat
                           Function(null) New Dictionary(Of NamedValue(Of int)))
 
         For Each g As gene In genes
-            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x)
-                                                                               Return Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID)
-                                                                           End Function)
+            Dim goCounts = getGO(g) _
+                .Where(Function(x)
+                           Return Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID)
+                       End Function) _
+                .ToArray
+
+            For Each value As (goID$, Number As Integer) In goCounts
                 Dim goID As String = value.goID
                 Dim term As Term = GO_terms(goID)
                 Dim count = out(term.namespace)
@@ -165,11 +169,11 @@ Public Module GoStat
             Next
         Next
 
-        Return out.ToDictionary(
-            Function(x) x.Key,
-            Function(value) As NamedValue(Of Integer)()
-                Return __t(value.Value.Values)
-            End Function)
+        Return out _
+            .ToDictionary(Function(x) x.Key,
+                          Function(value) As NamedValue(Of Integer)()
+                              Return __t(value.Value.Values)
+                          End Function)
     End Function
 
     <Extension>
