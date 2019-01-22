@@ -90,9 +90,7 @@ Module CLI
             samples.OutputSize,
             config.learnRate,
             config.momentum
-        ) With {
-            .Truncate = 1
-        }
+        )
 
         For Each sample As Sample In samples.PopulateNormalizedSamples
             Call trainingHelper.Add(sample.status, sample.target)
