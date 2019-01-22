@@ -87,11 +87,19 @@ Namespace NeuralNetwork.StoreProcedure
                 With Me
                     Select Case name
                         Case NameOf(Activations.BipolarSigmoidFunction)
-                            Return New BipolarSigmoidFunction(!alpha)
+                            If HasKey("alpha") Then
+                                Return New BipolarSigmoidFunction(!alpha)
+                            Else
+                                Return New BipolarSigmoidFunction
+                            End If
                         Case NameOf(Activations.SigmoidFunction)
                             Return New SigmoidFunction
                         Case NameOf(Activations.Sigmoid)
-                            Return New Sigmoid(!alpha)
+                            If HasKey("alpha") Then
+                                Return New Sigmoid(!alpha)
+                            Else
+                                Return New Sigmoid
+                            End If
                         Case NameOf(Activations.ThresholdFunction)
                             Return New ThresholdFunction
                         Case NameOf(Activations.ReLU)
@@ -105,6 +113,11 @@ Namespace NeuralNetwork.StoreProcedure
                 End With
             End Get
         End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function HasKey(name As String) As Boolean
+            Return Arguments.Any(Function(tag) tag.name.TextEquals(name))
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
