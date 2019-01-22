@@ -116,7 +116,11 @@ Namespace NeuralNetwork.StoreProcedure
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function HasKey(name As String) As Boolean
-            Return Arguments.Any(Function(tag) tag.name.TextEquals(name))
+            If Arguments Is Nothing Then
+                Return False
+            Else
+                Return Arguments.Any(Function(tag) tag.name.TextEquals(name))
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
