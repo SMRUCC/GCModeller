@@ -46,7 +46,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.ClustalOrg
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module MothurContigsOTU
