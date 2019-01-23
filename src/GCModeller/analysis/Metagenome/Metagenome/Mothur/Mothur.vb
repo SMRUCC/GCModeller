@@ -58,8 +58,13 @@ Public Class Mothur
     ReadOnly docker As Environment
     ReadOnly powershell As New PowerShell
 
-    Sub New(container As Image)
-        docker = New Environment(container)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="container"></param>
+    ''' <param name="mount"></param>
+    Sub New(container As Image, mount As Mount)
+        docker = New Environment(container).Mount([shared]:=mount)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
