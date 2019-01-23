@@ -1,76 +1,75 @@
 ﻿#Region "Microsoft.VisualBasic::5ce377d87fc045615c3b8d7e8095825b, analysis\Metagenome\Metagenome\Mothur\Mothur.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Mothur
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
-    '               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
-    '               (+2 Overloads) Summary_seqs, Unique_seqs
-    ' 
-    ' /********************************************************************************/
+' Class Mothur
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
+'               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
+'               (+2 Overloads) Summary_seqs, Unique_seqs
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.InteropService
+Imports Darwinism.Docker
+Imports Darwinism.Docker.Arguments
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
 ''' mothur的输入文件名之中不可以存在双引号
 ''' </summary>
-Public Class Mothur : Inherits InteropService
+''' <remarks>
+''' Mothur在windows平台上面存在着一个内存问题,所以在这里是通过Docker在Centos上面运行Mothur的
+''' </remarks>
+Public Class Mothur
+
+    ReadOnly docker As Environment
+    ReadOnly powershell As New PowerShell
 
     ''' <summary>
-    ''' 使用应用程序的路径构建出Mothur对象
+    ''' 
     ''' </summary>
-    ''' <param name="App"></param>
-    Sub New(App As String)
-        If Not App.FileExists Then
-            Dim platform$ = Environment.OSVersion.Platform.ToString
-            Dim msg$ = App & $" is unavaliable! (platform={platform})"
-
-            Throw New EntryPointNotFoundException(msg)
-        Else
-            _executableAssembly = App.GetFullPath
-        End If
+    ''' <param name="container"></param>
+    ''' <param name="mount"></param>
+    Sub New(container As Image, mount As Mount)
+        docker = New Environment(container).Mount([shared]:=mount)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RunMothur(args As String) As String
-        With MyBase.RunProgram($"""#{args};""")
-            Call .Run()
-            Return .StandardOutput
-        End With
+        Return powershell(docker.CreateDockerCommand($"""#{args};"""))
     End Function
 
     ''' <summary>
