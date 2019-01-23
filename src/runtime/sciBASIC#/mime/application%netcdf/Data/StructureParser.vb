@@ -1,4 +1,46 @@
-﻿Imports Microsoft.VisualBasic.Data.IO
+﻿#Region "Microsoft.VisualBasic::fd44bacb0fc3aceb2332b8344b038cc3, mime\application%netcdf\Data\StructureParser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module StructureParser
+    ' 
+    '     Function: attributesList, dimensionsList, variablesList
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
 
@@ -24,6 +66,8 @@ Module StructureParser
     '''  + `recordName`: name of the dimension that has unlimited size
     '''  
     ''' </returns>
+    ''' 
+    <Extension>
     Friend Function dimensionsList(buffer As BinaryDataReader) As DimensionList
         Dim dimList = buffer.ReadUInt32()
 
@@ -77,6 +121,8 @@ Module StructureParser
     '''  + `value`: A number Or String With the value Of the attribute
     '''  
     ''' </returns>
+    ''' 
+    <Extension>
     Friend Iterator Function attributesList(buffer As BinaryDataReader) As IEnumerable(Of attribute)
         Dim gAttList = buffer.ReadUInt32()
 
@@ -94,7 +140,7 @@ Module StructureParser
             ' Read name
             Dim name = Utils.readName(buffer)
             ' Read type
-            Dim type = buffer.ReadUInt32()
+            Dim type As CDFDataTypes = buffer.ReadUInt32()
 
             Utils.notNetcdf(((type < 1) Or (type > 6)), $"non valid type {type}")
 
@@ -107,7 +153,7 @@ Module StructureParser
 
             Yield New attribute With {
                 .name = name,
-                .type = TypeExtensions.num2str(type),
+                .type = type,
                 .value = val
             }
         Next
@@ -131,6 +177,8 @@ Module StructureParser
     '''  + `offset`: Number with the offset where of the variable begins
     '''  + `record`: True if Is a record variable, false otherwise (unlimited size)
     '''  </returns>
+    '''  
+    <Extension>
     Friend Function variablesList(buffer As BinaryDataReader, recordId%?, version As Byte) As (variables As variable(), recordStep%)
         Dim varList = buffer.ReadUInt32()
         Dim recordStep = 0
@@ -161,7 +209,7 @@ Module StructureParser
             ' Read variables size
             Dim attributes = attributesList(buffer).ToArray
             ' Read type
-            Dim type = buffer.ReadUInt32()
+            Dim type As CDFDataTypes = buffer.ReadUInt32()
 
             Utils.notNetcdf(((type < 1) AndAlso (type > 6)), $"non valid type {type}")
 
@@ -189,7 +237,7 @@ Module StructureParser
                 .name = name,
                 .dimensions = dimensionsIds,
                 .attributes = attributes,
-                .type = TypeExtensions.num2str(type),
+                .type = type,
                 .size = varSize,
                 .offset = offset,
                 .record = record
@@ -199,3 +247,4 @@ Module StructureParser
         Return (variables:=variables, recordStep:=recordStep)
     End Function
 End Module
+

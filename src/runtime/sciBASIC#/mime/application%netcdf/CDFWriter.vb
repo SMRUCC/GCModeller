@@ -1,7 +1,63 @@
-﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.IO
-Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
+﻿#Region "Microsoft.VisualBasic::c9ad4f5b61c1f0d5ee361de328edd523, mime\application%netcdf\CDFWriter.vb"
 
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class CDFWriter
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: CalcOffsets, Dimensions, getVariableHeaderBuffer, GlobalAttributes
+    ' 
+    '     Sub: (+2 Overloads) AddVariable, (+2 Overloads) Dispose, Save, writeAttributes
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.application.netCDF.Components
+Imports Microsoft.VisualBasic.Text
+
+''' <summary>
+''' 这个对象没有显式调用的文件写函数,必须要通过<see cref="IDisposable"/>接口来完成文件数据的写操作
+''' </summary>
+''' <remarks>
+''' CDF文件之中，字符串仅允许ASCII字符，因为CDF文件之中的字符只有一个字节长度
+''' 如果要写入中文之类的非ASCII编码的字符串的话，只能够首先转换为字节流，然后再写入到variable的数据之中
+''' </remarks>
 Public Class CDFWriter : Implements IDisposable
 
 #Region ""
@@ -142,18 +198,19 @@ Public Class CDFWriter : Implements IDisposable
 
     Dim output As BinaryDataWriter
     Dim globalAttrs As attribute()
-    Dim dimensionList As Dimension()
+    Dim dimensionList As Dictionary(Of String, SeqValue(Of Dimension))
     Dim variables As List(Of variable)
+    Dim recordDimensionLength As UInteger
 
-    Sub New(path As String)
-        output = New BinaryDataWriter(path.Open) With {
+    Sub New(path As String, Optional encoding As Encodings = Encodings.UTF8)
+        output = New BinaryDataWriter(path.Open, encoding) With {
             .ByteOrder = ByteOrder.BigEndian,
             .RerouteInt32ToUnsigned = True
         }
 
         ' magic and version
         Call output.Write(netCDFReader.Magic, BinaryStringFormat.NoPrefixOrTermination)
-        ' classic format
+        ' classic format, version = 1
         Call output.Write(CByte(1))
     End Sub
 
@@ -163,23 +220,30 @@ Public Class CDFWriter : Implements IDisposable
     End Function
 
     Public Function Dimensions([dim] As Dimension()) As CDFWriter
-        dimensionList = [dim]
+        dimensionList = [dim] _
+            .SeqIterator _
+            .ToDictionary(Function(d) d.value.name,
+                          Function(d) d)
         Return Me
     End Function
 
-    Private Function FileWriter(recordDimensionLength As UInteger)
-        ' >>>>>>> header
+    ''' <summary>
+    ''' 会需要在这个函数之中进行offset的计算操作
+    ''' </summary>
+    Private Sub Save()
+
         Call output.Write(recordDimensionLength)
         ' -------------------------dimensionsList----------------------------
         ' List of dimensions
-        Call output.Write(CUInt(Header.NC_DIMENSION))
+        Call output.Write(Header.NC_DIMENSION)
         ' dimensionSize
-        Call output.Write(CUInt(dimensionList.Length))
+        Call output.Write(dimensionList.Count)
 
-        For Each dimension In dimensionList
-            Call output.Write(dimension.name, BinaryStringFormat.UInt32LengthPrefix)
-            Call output.writePadding
-            Call output.Write(CUInt(dimension.size))
+        For Each [dim] In dimensionList
+            Dim dimension As Dimension = [dim].Value
+
+            Call output.writeName([dim].Key)
+            Call output.Write(dimension.size)
         Next
 
         ' ------------------------attributesList-----------------------------
@@ -192,48 +256,195 @@ Public Class CDFWriter : Implements IDisposable
         ' variableSize 
         Call output.Write(CUInt(variables.Count))
 
+        ' 先生成每一个变量的header的buffer
+        Dim variableBuffers As New List(Of Byte())
+
         For Each var As variable In variables
-            Call output.Write(var.name, BinaryStringFormat.UInt32LengthPrefix)
-            Call output.writePadding
+            variableBuffers.Add(getVariableHeaderBuffer(var, output))
+        Next
+
+        Dim tmp As String = CalcOffsets(variableBuffers)
+
+        ' 在这个循环仅写入了变量的头部数据
+        For i As Integer = 0 To variables.Count - 1
+            ' offset已经在计算offset函数的调用过程之中被替换掉了
+            ' 在这里直接写入buffer数据
+            Call output.Write(variableBuffers(i))
+        Next
+
+        Using buffer As Stream = tmp.Open
+            ' 接着就是写入数据块了
+            Call output.Write(buffer)
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 因为这个步骤是发生在计算offset之前的
+    ''' 所以<see cref="variable.offset"/>，全部都是零
+    ''' 可以在计算完成之后，将buffer的末尾4个字节替换掉再写入文件
+    ''' </summary>
+    ''' <param name="var"></param>
+    ''' <returns></returns>
+    Private Shared Function getVariableHeaderBuffer(var As variable, writerTemplate As BinaryDataWriter) As Byte()
+        Dim buffer As New MemoryStream
+
+        Using output = New BinaryDataWriter(buffer, writerTemplate.Encoding) With {
+            .ByteOrder = writerTemplate.ByteOrder,
+            .RerouteInt32ToUnsigned = writerTemplate.RerouteInt32ToUnsigned
+        }
+            Call output.writeName(var.name)
+
             ' dimensionality 
             Call output.Write(CUInt(var.dimensions.Length))
             ' dimensionsIds
             Call output.Write(var.dimensions)
             ' attributes of this variable
-            ' Call output.writeAttributes(var.attributes)
-            Call output.Write(CUInt(str2num(var.type)))
+            Call writeAttributes(output, var.attributes)
+            Call output.Write(var.type)
             ' varSize
-            Call output.Write(CUInt(var.size))
-            ' version = 2, write 8 bytes
-            Call output.Write(CUInt(var.offset))
-        Next
+            Call output.Write(var.size)
+            ' version = 1, write 4 bytes
+            Call output.Write(var.offset)
+            Call output.Flush()
+        End Using
 
-        ' <<<<<<<< header
+        Return buffer.ToArray
     End Function
 
-    Private Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
+    ''' <summary>
+    ''' 这个函数在完成计算之后会直接修改<see cref="Variable"/> class之中的属性值
+    ''' 完成函数调用之后可以直接读取属性值
+    ''' </summary>
+    ''' <param name="buffers">
+    ''' 这个是和<see cref="variables"/>之中的元素一一对应的
+    ''' </param>
+    ''' <remarks>
+    ''' 函数返回数据块的缓存
+    ''' </remarks>
+    Private Function CalcOffsets(buffers As List(Of Byte())) As String
+        ' 这个位置是在所有的变量头部之后的
+        ' 因为这个函数是发生在变量写入之前的，所以会需要加上自身的长度
+        ' 才会将offset的位置移动到数据区域的起始位置
+        Dim current As UInteger = output.Position + buffers.Sum(Function(v) v.Length)
+        Dim chunk As Byte()
+        Dim handle$ = App.GetAppSysTempFile(".dat", App.PID)
+
+        ' 2019-1-21 当写入一个超大的CDF文件的时候
+        ' 字节数量会超过Array的最大元素数量上限
+        ' 所以在这里会需要使用Stream对象来避免这个可能的问题
+        Using dataBuffer As FileStream = handle.Open
+            For i As Integer = 0 To variables.Count - 1
+                chunk = BitConverter.GetBytes(current)
+                ' 因为CDF文件的byteorder是Big，所以在这里填充的时候会需要翻转一下顺序
+                buffers(i).Fill(chunk, -4, reverse:=True)
+                chunk = variables(i).value.GetBuffer(output.Encoding)
+                current += chunk.Length
+                dataBuffer.Write(chunk, Scan0, chunk.Length)
+            Next
+
+            Call dataBuffer.Flush()
+        End Using
+
+        Return handle
+    End Function
+
+    Private Shared Sub writeAttributes(output As BinaryDataWriter, attrs As attribute())
+        If attrs Is Nothing Then
+            attrs = {}
+        End If
+
         ' List of global attributes
-        Call output.Write(CUInt(Header.NC_ATTRIBUTE))
+        Call output.Write(Header.NC_ATTRIBUTE)
         ' attributeSize
-        Call output.Write(CUInt(attrs.Length))
+        Call output.Write(attrs.Length)
 
         For Each attr In attrs
-            Call output.Write(attr.name, BinaryStringFormat.UInt32LengthPrefix)
-            Call output.writePadding
-            Call output.Write(CUInt(str2num(attr.type)))
-            ' one string, size = 1
-            Call output.Write(CUInt(1))
-            Call output.Write(attr.value, BinaryStringFormat.NoPrefixOrTermination)
+            Call output.writeName(attr.name)
+            ' type
+            Call output.Write(attr.type)
+
+            ' 在attributes里面，除了字符串，其他类型的数据都是只有一个元素
+            Select Case attr.type
+                Case CDFDataTypes.BYTE
+                    Call output.Write(1)
+                    Call output.Write(Byte.Parse(attr.value))
+                Case CDFDataTypes.CHAR
+                    Dim stringBuffer = output.Encoding.GetBytes(attr.value)
+                    Call output.Write(attr.value.Length)
+                    Call output.Write(stringBuffer)
+                Case CDFDataTypes.DOUBLE
+                    Call output.Write(1)
+                    Call output.Write(Double.Parse(attr.value))
+                Case CDFDataTypes.FLOAT
+                    Call output.Write(1)
+                    Call output.Write(Single.Parse(attr.value))
+                Case CDFDataTypes.INT
+                    Call output.Write(1)
+                    Call output.Write(UInteger.Parse(attr.value))
+                Case CDFDataTypes.SHORT
+                    Call output.Write(1)
+                    Call output.Write(Short.Parse(attr.value))
+                Case Else
+                    Throw New NotImplementedException(attr.type.Description)
+            End Select
+
+            ' 都必须要做一次padding
             Call output.writePadding
         Next
     End Sub
 
-    Public Sub AddVariable(name$, data As CDFData)
-
+    ''' <summary>
+    ''' 添加一个变量数据
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="data">
+    ''' 可以直接添加变量值，因为<see cref="CDFData"/>对象之中定义有转换操作符，
+    ''' 所以可以在这里直接添加变量值对象，但是仅限于<see cref="CDFDataTypes"/>
+    ''' 之中所限定的类型元素或者其数组
+    ''' </param>
+    ''' <param name="dims">
+    ''' 这个列表必须要是<see cref="CDFWriter.Dimensions(Dimension())"/>之中的
+    ''' </param>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Sub AddVariable(name$, data As CDFData, dims$(), Optional attrs As attribute() = Nothing)
+        variables += New variable With {
+            .name = name,
+            .type = data.cdfDataType,
+            .size = data.Length * sizeof(.type),
+            .value = data,
+            .attributes = attrs,
+            .dimensions = dims _
+                .Select(Function(d) dimensionList(d).i) _
+                .ToArray
+        }
     End Sub
 
-    Public Sub Save()
+    ''' <summary>
+    ''' 如果<paramref name="dims"/>是不存在的，则会自动添加
+    ''' 反之会使用旧的编号
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="data"></param>
+    ''' <param name="dims"></param>
+    ''' <param name="attrs"></param>
+    Public Sub AddVariable(name$, data As CDFData, dims As Dimension(), Optional attrs As attribute() = Nothing)
+        Dim dimNames As New List(Of String)
 
+        For Each d As Dimension In dims
+            If Not dimensionList.ContainsKey(d.name) Then
+                dimensionList(d.name) = New SeqValue(Of Dimension) With {
+                    .i = dimensionList.Count,
+                    .value = New Dimension With {
+                        .name = d.name,
+                        .size = d.size
+                    }
+                }
+            End If
+
+            Call dimNames.Add(d.name)
+        Next
+
+        Call AddVariable(name, data, dimNames, attrs)
     End Sub
 
 #Region "IDisposable Support"
@@ -244,6 +455,10 @@ Public Class CDFWriter : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects).
+                Call Save()
+                Call output.Flush()
+                Call output.Close()
+                Call output.Dispose()
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
@@ -268,3 +483,4 @@ Public Class CDFWriter : Implements IDisposable
     End Sub
 #End Region
 End Class
+

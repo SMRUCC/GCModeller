@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::6c6f14e7c999dc298d47b08ae6398bf4, Data_science\MachineLearning\NeuralNetwork\Models\Layer.vb"
+﻿#Region "Microsoft.VisualBasic::0663593de3469bc1076b230d5360e6f2, Data_science\MachineLearning\NeuralNetwork\Models\Layer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Layer
-' 
-'         Properties: Neurons, Output
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: GetEnumerator, IEnumerable_GetEnumerator, ToString
-' 
-'         Sub: (+2 Overloads) CalculateGradient, CalculateValue, Input, UpdateWeights
-' 
-'     Class HiddenLayers
-' 
-'         Properties: Layers, Output, Size
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: GetEnumerator, IEnumerable_GetEnumerator, ToString
-' 
-'         Sub: BackPropagate, ForwardPropagate
-' 
-' 
-' /********************************************************************************/
+    '     Class Layer
+    ' 
+    '         Properties: Neurons, Output
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, ToString
+    ' 
+    '         Sub: (+2 Overloads) CalculateGradient, CalculateValue, Input, UpdateWeights
+    ' 
+    '     Class HiddenLayers
+    ' 
+    '         Properties: Layers, Output, Size
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, ToString
+    ' 
+    '         Sub: BackPropagate, ForwardPropagate
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -158,21 +158,21 @@ Namespace NeuralNetwork
             End If
         End Sub
 
-        Public Sub CalculateGradient(targets As Double())
+        Public Sub CalculateGradient(targets As Double(), truncate As Double)
             For i As Integer = 0 To targets.Length - 1
-                Neurons(i).CalculateGradient(targets(i))
+                Neurons(i).CalculateGradient(targets(i), truncate)
             Next
         End Sub
 
-        Public Sub CalculateGradient(Optional parallel As Boolean = False)
+        Public Sub CalculateGradient(Optional parallel As Boolean = False, Optional truncate# = -1)
             If Not parallel Then
                 For Each neuron As Neuron In Neurons
-                    Call neuron.CalculateGradient()
+                    Call neuron.CalculateGradient(truncate)
                 Next
             Else
                 With Aggregate neuron As Neuron
                      In Neurons.AsParallel
-                     Into Sum(neuron.CalculateGradient)
+                     Into Sum(neuron.CalculateGradient(truncate))
                 End With
             End If
         End Sub
@@ -270,14 +270,14 @@ Namespace NeuralNetwork
             Next
         End Sub
 
-        Public Sub BackPropagate(learnRate#, momentum#, parallel As Boolean)
+        Public Sub BackPropagate(learnRate#, momentum#, truncate#, parallel As Boolean)
             Dim reverse = Layers.Reverse.ToArray
 
             ' 因为在调用函数计算之后,值变了
             ' 所以在这里会需要使用两个for each
             ' 不然计算会出bug
             For Each revLayer As Layer In reverse
-                Call revLayer.CalculateGradient(parallel)
+                Call revLayer.CalculateGradient(parallel, truncate)
             Next
             For Each revLayer As Layer In reverse
                 Call revLayer.UpdateWeights(learnRate, momentum, parallel)

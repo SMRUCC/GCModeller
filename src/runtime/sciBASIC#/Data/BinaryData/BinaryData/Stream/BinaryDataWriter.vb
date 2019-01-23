@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8e5b031db8e63f0395ba0573449066e, Data\BinaryData\BinaryData\Stream\BinaryDataWriter.vb"
+﻿#Region "Microsoft.VisualBasic::16e06b4a4616fb5a613dc0f23793fe2d, Data\BinaryData\BinaryData\Stream\BinaryDataWriter.vb"
 
     ' Author:
     ' 
@@ -33,14 +33,14 @@
 
     ' Class BinaryDataWriter
     ' 
-    '     Properties: ByteOrder, Encoding, Position
+    '     Properties: ByteOrder, Encoding, Position, RerouteInt32ToUnsigned
     ' 
     '     Constructor: (+5 Overloads) Sub New
     ' 
-    '     Function: DecimalToBytes, ReserveOffset, (+2 Overloads) Seek, (+2 Overloads) TemporarySeek
+    '     Function: DecimalToBytes, ReserveOffset, (+2 Overloads) Seek, (+2 Overloads) TemporarySeek, (+2 Overloads) Write
+    '               WriteByteLengthPrefixString, WriteDwordLengthPrefixString, WriteNoPrefixOrTerminationString, WriteWordLengthPrefixString, WriteZeroTerminatedString
     ' 
-    '     Sub: Align, (+21 Overloads) Write, WriteByteLengthPrefixString, WriteDwordLengthPrefixString, WriteMultiple
-    '          WriteNoPrefixOrTerminationString, WriteReversed, WriteWordLengthPrefixString, WriteZeroTerminatedString
+    '     Sub: Align, (+19 Overloads) Write, WriteMultiple, WriteReversed
     ' 
     ' /********************************************************************************/
 
@@ -267,6 +267,39 @@ Public Class BinaryDataWriter
     End Sub
 
     ''' <summary>
+    ''' 将<paramref name="buffer"/>之中的所有数据都追加到当前的数据流之中
+    ''' </summary>
+    ''' <param name="buffer"></param>
+    Public Overloads Sub Write(buffer As Stream, Optional chunkSize% = 4096)
+        Dim chunk As Byte() = New Byte(chunkSize - 1) {}
+        Dim ends& = buffer.Length
+        Dim dl&
+
+        ' 重置读取指针位置
+        Call buffer.Seek(Scan0, SeekOrigin.Begin)
+
+        ' 分块读取buffer，然后写入流数据
+        Do While buffer.Position < ends
+            dl = ends - buffer.Position
+
+            If dl > chunkSize Then
+                ' buffer之中还存在充足的数据进行复制
+                Call buffer.Read(chunk, Scan0, chunkSize)
+            Else
+                ' 数据不足了
+                chunk = New Byte(dl - 1) {}
+                buffer.Read(chunk, Scan0, dl)
+            End If
+
+            Call Write(chunk)
+
+            If dl < chunkSize Then
+                Exit Do
+            End If
+        Loop
+    End Sub
+
+    ''' <summary>
     ''' Writes the specified number of <see cref="Decimal"/> values into the current stream and advances the current
     ''' position by that number of <see cref="Decimal"/> values multiplied with the size of a single value.
     ''' </summary>
@@ -435,7 +468,7 @@ Public Class BinaryDataWriter
             Case BinaryStringFormat.WordLengthPrefix
                 Return WriteWordLengthPrefixString(value, encoding)
 
-            Case BinaryStringFormat.DwordLengthPrefix
+            Case BinaryStringFormat.DwordLengthPrefix, BinaryStringFormat.UInt32LengthPrefix
                 Return WriteDwordLengthPrefixString(value, encoding)
 
             Case BinaryStringFormat.ZeroTerminated

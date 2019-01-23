@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::0d6d464b6c3ea57b1498fc09f5359866, Data_science\MachineLearning\NeuralNetwork\TrainingUtils.vb"
+﻿#Region "Microsoft.VisualBasic::c246c82a03b290bfded94e5a9624160d, Data_science\MachineLearning\NeuralNetwork\TrainingUtils.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class TrainingUtils
-' 
-'         Properties: MinError, NeuronNetwork, TrainingType, XP
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: TakeSnapshot
-' 
-'         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, Train
-' 
-' 
-' /********************************************************************************/
+    '     Class TrainingUtils
+    ' 
+    '         Properties: MinError, NeuronNetwork, TrainingSet, TrainingType, XP
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: CalculateError, TakeSnapshot, trainingImpl
+    ' 
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,11 @@ Namespace NeuralNetwork
 
         Public Property TrainingType As TrainingType = TrainingType.Epoch
         Public Property MinError As Double = Helpers.MinimumError
+        ''' <summary>
+        ''' 对<see cref="Neuron.Gradient"/>的剪裁限制阈值，小于等于零表示不进行剪裁，默认不剪裁
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Truncate As Double = -1
 
         ''' <summary>
         ''' 最终得到的训练结果神经网络
@@ -163,7 +168,7 @@ Namespace NeuralNetwork
                 For i As Integer = 0 To numEpochs - 1
                     errors = trainingImpl(dataSets, parallel)
                     ETA = $"ETA: {tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
-                    msg = $"Iterations: [{i}/{numEpochs}], Err={errors}{vbTab} {ETA}"
+                    msg = $"Iterations: [{i}/{numEpochs}], errors={errors}{vbTab}learn_rate={network.LearnRate} {ETA}"
                     progress.SetProgress(tick.StepProgress, msg)
 
                     If Not reporter Is Nothing Then
@@ -178,7 +183,7 @@ Namespace NeuralNetwork
 
             For Each dataSet As Sample In dataSets
                 Call network.ForwardPropagate(dataSet.status, parallel)
-                Call network.BackPropagate(dataSet.target, parallel)
+                Call network.BackPropagate(dataSet.target, Truncate, parallel)
                 Call errors.Add(CalculateError(network, dataSet.target))
             Next
 

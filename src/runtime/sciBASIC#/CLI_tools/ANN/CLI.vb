@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46e3cc83f4675c24a0e360758d28c365, CLI_tools\ANN\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::748308d6cc55dd5c318770db251e36f0, CLI_tools\ANN\CLI.vb"
 
 ' Author:
 ' 
@@ -39,10 +39,11 @@
 
 #End Region
 
-Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
@@ -84,11 +85,17 @@ Module CLI
                 .ToArray
         End If
 
+        Dim actives As New Activations.LayerActives With {
+            .hiddens = New Activations.Sigmoid,
+            .input = New Activations.Sigmoid,
+            .output = New Activations.Sigmoid
+        }
         Dim trainingHelper As New TrainingUtils(
             samples.Size.Width, hiddenSize,
             samples.OutputSize,
             config.learnRate,
-            config.momentum
+            config.momentum,
+            actives
         )
 
         For Each sample As Sample In samples.PopulateNormalizedSamples
@@ -100,17 +107,7 @@ Module CLI
         Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
 
         If Not args("/GA.optimize").IsTrue Then
-            Using log As StreamWriter = $"{out.TrimSuffix}.log".OpenWriter
-                Dim synapses = trainingHelper.NeuronNetwork.GetSynapseGroups
-
-                Call log.WriteLine(synapses.Keys.JoinBy(vbCrLf))
-                Call trainingHelper _
-                    .AttachReporter(Sub(i, e, g)
-                                        Call $"[{i}] errors={e}, learn={g.LearnRate}".__DEBUG_ECHO
-                                        Call log.WriteLine((New Double() {i, e, g.LearnRate}.AsList + synapses.Select(Function(s) s.First.Weight)).JoinBy(vbTab))
-                                    End Sub) _
-                    .Train(parallel)
-            End Using
+            Call trainingHelper.runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel)
         Else
             Call trainingHelper _
                 .NeuronNetwork _
@@ -127,6 +124,35 @@ Module CLI
             .CLICode
     End Function
 
+    <Extension>
+    Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, parallel As Boolean) As TrainingUtils
+        Dim synapses = trainer _
+            .NeuronNetwork _
+            .GetSynapseGroups _
+            .Select(Function(g) g.First) _
+            .ToArray
+        Dim synapsesWeights As New Dictionary(Of String, List(Of Double))
+        Dim errors As New List(Of Double)
+        Dim index As New List(Of Integer)
+
+        For Each s In synapses
+            synapsesWeights.Add(s.ToString, New List(Of Double))
+        Next
+
+        Call Console.WriteLine(trainer.NeuronNetwork.ToString)
+        Call trainer _
+            .AttachReporter(Sub(i, err, model)
+                                Call index.Add(i)
+                                Call errors.Add(err)
+                                Call synapses.DoEach(Sub(s) synapsesWeights(s.ToString).Add(s.Weight))
+                            End Sub) _
+            .Train(parallel)
+
+        Call Debugger.WriteCDF(trainer.NeuronNetwork, debugCDF, synapses, errors, index, synapsesWeights)
+
+        Return trainer
+    End Function
+
     ''' <summary>
     ''' 使用测试训练数据集继续训练人工神经网络模型
     ''' </summary>
@@ -134,7 +160,7 @@ Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/encourage")>
-    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /out <out.Xml>]")>
+    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /iterations <default=10000> /out <out.Xml>]")>
     Public Function Encourage(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim samples$ = args <= "/samples"
@@ -142,28 +168,18 @@ Module CLI
         Dim parallel As Boolean = args("/parallel")
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
-        Dim logs$ = out.TrimSuffix & ".logs/"
+
+        Helpers.MaxEpochs = args("/iterations") Or 10000
 
         For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples
             Call training.Add(sample.status, sample.target)
         Next
 
-        Call Console.WriteLine(network.ToString)
-        Call training _
-            .AttachReporter(Sub(i, err, model)
-                                If i Mod 5 = 0 Then
-                                    Call NeuralNetwork _
-                                        .Snapshot(model) _
-                                        .GetXml _
-                                        .SaveTo($"{logs}/[{i}]error={err}.Xml")
-                                End If
-                            End Sub) _
-            .Train(parallel)
-
-        Return training.TakeSnapshot _
+        Return training _
+            .runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel) _
+            .TakeSnapshot _
             .GetXml _
             .SaveTo(out) _
             .CLICode
     End Function
 End Module
-

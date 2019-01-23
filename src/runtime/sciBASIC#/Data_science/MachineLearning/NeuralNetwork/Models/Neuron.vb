@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::91fd0f9eaa4c0b944c343e903bd2f92a, Data_science\MachineLearning\NeuralNetwork\Models\Neuron.vb"
+﻿#Region "Microsoft.VisualBasic::8648fe83a66ddf5e41cf174952956ce4, Data_science\MachineLearning\NeuralNetwork\Models\Neuron.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Neuron
-' 
-'         Properties: Bias, BiasDelta, Gradient, InputSynapses, OutputSynapses
-'                     Value
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: CalculateError, CalculateGradient, CalculateValue, ToString, UpdateWeights
-' 
-' 
-' /********************************************************************************/
+    '     Class Neuron
+    ' 
+    '         Properties: Bias, BiasDelta, Gradient, Guid, InputSynapses
+    '                     OutputSynapses, Value
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: CalculateError, (+2 Overloads) CalculateGradient, CalculateValue, ToString, UpdateWeights
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -157,13 +157,38 @@ Namespace NeuralNetwork
             Return target - Value
         End Function
 
-        Public Function CalculateGradient(target As Double) As Double
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="target"></param>
+        ''' <param name="truncate">大于零的时候，如果计算出来的<see cref="Gradient"/>大于这个阈值，将会被剪裁</param>
+        ''' <returns></returns>
+        Public Function CalculateGradient(target As Double, truncate As Double) As Double
             Gradient = CalculateError(target) * activation.Derivative(Value)
+
+            If truncate > 0 Then
+                If Gradient > truncate OrElse Gradient < -truncate Then
+                    Gradient = Math.Sign(Gradient) * truncate
+                End If
+            End If
+
             Return Gradient
         End Function
 
-        Public Function CalculateGradient() As Double
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="truncate">小于零表示不进行梯度剪裁</param>
+        ''' <returns></returns>
+        Public Function CalculateGradient(truncate As Double) As Double
             Gradient = OutputSynapses.Sum(Function(a) a.OutputNeuron.Gradient * a.Weight) * activation.Derivative(Value)
+
+            If truncate > 0 Then
+                If Gradient > truncate OrElse Gradient < -truncate Then
+                    Gradient = Math.Sign(Gradient) * truncate
+                End If
+            End If
+
             Return Gradient
         End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::247033f8f560ed10c7f90c81a1895b81, mime\application%netcdf\Components\Header.vb"
+﻿#Region "Microsoft.VisualBasic::b13ae30c26706b004795cb6a866175a5, mime\application%netcdf\Components\Header.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,6 @@
     '         Properties: dimensions, globalAttributes, recordDimension, variables, version
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: attributesList, dimensionsList, variablesList
     ' 
     ' 
     ' /********************************************************************************/
@@ -101,17 +100,17 @@ Namespace Components
             Me.version = version
 
             ' List of dimensions
-            Dim dimList = dimensionsList(buffer)
+            Dim dimList As DimensionList = buffer.dimensionsList()
 
-            Me.recordDimension.id = dimList.recordId
+            Me.recordDimension.id = If(dimList.recordId, dimList.recordId, -100)
             Me.recordDimension.name = dimList.recordName
             Me.dimensions = dimList.dimensions
 
             ' List of global attributes
-            Me.globalAttributes = attributesList(buffer).ToArray
+            Me.globalAttributes = buffer.attributesList().ToArray
 
             ' List of variables
-            Dim variables = variablesList(buffer, dimList.recordId, version)
+            Dim variables = buffer.variablesList(dimList.recordId, version)
             Me.variables = variables.variables
             Me.recordDimension.recordStep = variables.recordStep
         End Sub

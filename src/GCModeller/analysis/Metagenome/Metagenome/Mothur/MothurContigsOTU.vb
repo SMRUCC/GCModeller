@@ -46,7 +46,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.ClustalOrg
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module MothurContigsOTU
@@ -68,7 +67,7 @@ Public Module MothurContigsOTU
     ''' http://www.opiniomics.org/a-mothur-tutorial-what-can-we-find-out-about-the-horse-gut-metagenome/
     ''' </remarks>
     Public Sub ClusterOTUByMothur(left$, right$, silva$, Optional workspace$ = Nothing, Optional processor% = 2)
-        Dim mothur As New Mothur(App:=Settings.Mothur)
+        Dim mothur As New Mothur(Settings.Mothur Or die("Please config GCModeller docker container at first!"))
         Dim contigs$ = $"{workspace}/contigs.files"
         Dim groups$
         Dim align$ = ""
