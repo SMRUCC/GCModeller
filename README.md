@@ -17,11 +17,12 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 **Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC``, ``Microsoft Azure Cloud`` <br />
 **Development:** Microsoft VisualStudio 2017 | VisualBasic.NET<br />
 **Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.5 beta &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
-**Installation:** ``VS2017`` is required of compiles this project. After the source code have been clone using git, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.
+**Installation:** ``VS2017`` is required of compiles this project. After the source code have been clone using git, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.<br />
 **Dependency:** Part of the GCModeller function required running Linux tools through [Darwinism](https://github.com/xieguigang/Darwinism) Docker environment for VB.NET (If you are running GCModeller on Windows Platform). This toolkit required of these environment installed on your windows server:
-    + Microsoft PowerShell SDK 3.0
-	+ Latest version of Docker for X64
-	+ Then pull environment container image via: ``docker pull xieguigang/gcmodeller-env``.
+
+ + Microsoft PowerShell SDK 3.0
+ + Latest version of Docker for X64
+ + Then pull environment container image via: ``docker pull xieguigang/gcmodeller-env``.
 
 **NOTE:** Due to the reason of this project is using git submodule for manage some runtime component, so that **please do not directly download** the project source code from github by using the ``Donwload Zip`` button. The internal github client in the VisualStudio is recommended using for download the project source code.
 
