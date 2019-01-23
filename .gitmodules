@@ -5,6 +5,6 @@
 [submodule "src/R-sharp"]
 	path = src/R-sharp
 	url = https://github.com/SMRUCC/R-sharp.git
-[submodule "src/runtime/sciBASIC.ComputingServices"]
-	path = src/runtime/sciBASIC.ComputingServices
-	url = https://github.com/xieguigang/sciBASIC.ComputingServices.git
+[submodule "src/runtime/Darwinism"]
+	path = src/runtime/Darwinism
+	url = https://github.com/xieguigang/Darwinism.git
