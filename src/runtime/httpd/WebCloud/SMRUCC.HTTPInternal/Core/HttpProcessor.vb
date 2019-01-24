@@ -337,7 +337,8 @@ Namespace Core
             ' Call Console.WriteLine("get post data start")
 
             Dim content_len As Integer = 0
-            Dim ms As New MemoryStream()
+            Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
+            Dim content As Stream = handle.Open()
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
 
@@ -364,14 +365,15 @@ Namespace Core
                     End If
 
                     to_read -= numread
-                    ms.Write(buf, 0, numread)
+                    content.Write(buf, 0, numread)
                 End While
 
-                Call ms.Seek(Scan0, SeekOrigin.Begin)
+                Call content.Seek(Scan0, SeekOrigin.Begin)
+                Call content.Flush()
             End If
 
             ' Call Console.WriteLine("get post data end")
-            Call srv.handlePOSTRequest(Me, ms)
+            Call srv.handlePOSTRequest(Me, content)
         End Sub
 
         ''' <summary>
