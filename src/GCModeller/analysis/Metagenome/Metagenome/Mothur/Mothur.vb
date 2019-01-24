@@ -42,9 +42,11 @@
 
 #End Region
 
+Imports System.Environment
 Imports System.Runtime.CompilerServices
 Imports Darwinism.Docker
 Imports Darwinism.Docker.Arguments
+Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
@@ -53,7 +55,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' <remarks>
 ''' Mothur在windows平台上面存在着一个内存问题,所以在这里是通过Docker在Centos上面运行Mothur的
 ''' </remarks>
-Public Class Mothur
+Public Class Mothur : Inherits InteropService
 
     ReadOnly docker As Environment
     ReadOnly powershell As New PowerShell
@@ -65,6 +67,17 @@ Public Class Mothur
     ''' <param name="mount"></param>
     Sub New(container As Image, mount As Mount)
         docker = New Environment(container).Mount([shared]:=mount)
+    End Sub
+
+    Sub New(app As String)
+        If Not app.FileExists Then
+            Dim platform$ = OSVersion.Platform.ToString
+            Dim msg$ = app & $" is unavaliable! (platform={platform})"
+
+            Throw New EntryPointNotFoundException(msg)
+        Else
+            _executableAssembly = app.GetFullPath
+        End If
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
