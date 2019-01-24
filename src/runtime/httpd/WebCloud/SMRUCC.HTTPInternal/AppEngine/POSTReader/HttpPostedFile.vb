@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::fe7474ad7d3abcf2ea5bfbc0532c108a, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\HttpPostedFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpPostedFile
-    ' 
-    '         Properties: ContentLength, ContentType, FileName, InputStream
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Summary
-    ' 
-    '         Sub: SaveAs
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpPostedFile
+' 
+'         Properties: ContentLength, ContentType, FileName, InputStream
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Summary
+' 
+'         Sub: SaveAs
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -101,13 +101,8 @@ Namespace AppEngine.POSTParser
             Me.ContentType = content_type
             Me.TempPath = App.GetAppSysTempFile(, App.PID)
 
-            With New ReadSubStream(base_stream, offset, length)
-                Using file As FileStream = TempPath.Open
-                    For Each block In .PopulateBlocks
-                        Call file.Write(block, Scan0, block.Length)
-                    Next
-                End Using
-            End With
+            ' 数据写入到临时文件之中
+            Call SaveAs(TempPath, New ReadSubStream(base_stream, offset, length))
         End Sub
 
         Public Function Summary() As Dictionary(Of String, String)
@@ -118,38 +113,47 @@ Namespace AppEngine.POSTParser
             }
         End Function
 
+        Public Sub SaveAs(filename As String)
+            Call ensureTargetNotExists(filename)
+            Call TempPath.FileCopy(filename)
+        End Sub
+
+        Private Shared Sub ensureTargetNotExists(filename As String)
+            Try
+                If filename.FileExists Then
+                    Call File.Delete(filename)
+                End If
+            Catch ex As Exception
+            Finally
+                ' 当目标文件不存在的时候，可能文件夹也是不存在的
+                ' 需要提前创建好文件夹，否则后面的文件保存会出错
+                Call filename.ParentPath.MkDIR
+            End Try
+        End Sub
+
         ''' <summary>
         ''' 将用户上传的文件保存到指定的目标文件<paramref name="filename"/>之中
         ''' </summary>
         ''' <param name="filename"></param>
-        Public Sub SaveAs(filename As String)
-            'Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
-            'Dim old_post As Long = InputStream.Position
+        Private Shared Sub SaveAs(filename As String, inputStream As Stream)
+            Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
+            Dim old_post As Long = inputStream.Position
 
-            'Try
-            '    If filename.FileExists Then
-            '        Call File.Delete(filename)
-            '    End If
-            'Catch ex As Exception
-            'Finally
-            '    ' 当目标文件不存在的时候，可能文件夹也是不存在的
-            '    ' 需要提前创建好文件夹，否则后面的文件保存会出错
-            '    Call filename.ParentPath.MkDIR
-            'End Try
+            Call ensureTargetNotExists(filename)
 
-            'Try
-            '    Using fs As FileStream = File.Create(filename)
-            '        Dim n As int = Scan0
+            Try
+                Using fs As FileStream = File.Create(filename)
+                    Dim n As int = Scan0
 
-            '        InputStream.Position = 0
+                    inputStream.Position = 0
 
-            '        While (n = InputStream.Read(buffer, 0, 16 * 1024)) <> 0
-            '            fs.Write(buffer, 0, n.Value)
-            '        End While
-            '    End Using
-            'Finally
-            '    InputStream.Position = old_post
-            'End Try
+                    While (n = inputStream.Read(buffer, 0, 16 * 1024)) <> 0
+                        fs.Write(buffer, 0, n.Value)
+                    End While
+                End Using
+            Finally
+                inputStream.Position = old_post
+            End Try
         End Sub
     End Class
 End Namespace
