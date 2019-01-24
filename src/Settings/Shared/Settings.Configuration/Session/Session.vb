@@ -219,7 +219,7 @@ Namespace Settings
         End Function
 
         ''' <summary>
-        ''' 获取得到安装有Mothur程序的Docker容器的ID
+        ''' 获取得到安装有Mothur程序的Docker容器的ID, 或者可执行文件路径
         ''' </summary>
         ''' <returns></returns>
         Public Function Mothur() As String

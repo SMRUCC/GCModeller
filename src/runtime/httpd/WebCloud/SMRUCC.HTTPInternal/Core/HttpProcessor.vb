@@ -79,6 +79,7 @@ Namespace Core
         Public outputStream As StreamWriter
 
         Public Property http_method As String
+
         ''' <summary>
         ''' File location or GET/POST request arguments
         ''' </summary>
@@ -108,6 +109,7 @@ Namespace Core
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE
+            Me.MAX_POST_SIZE = -1
         End Sub
 
         ''' <summary>
@@ -337,13 +339,24 @@ Namespace Core
             ' Call Console.WriteLine("get post data start")
 
             Dim content_len As Integer = 0
-            Dim ms As New MemoryStream()
+            Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
+                content_len = writeTemp(handle)
+            End If
 
+            ' Call Console.WriteLine("get post data end")
+            Call srv.handlePOSTRequest(Me, handle)
+        End Sub
+
+        Private Function writeTemp(handle$) As Long
+            Dim content_len%
+
+            Using content As Stream = handle.Open()
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
 
-                If content_len > MAX_POST_SIZE Then
+                ' 小于零的时候不进行限制
+                If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
                     Throw New Exception(String.Format(packageTooLarge, content_len))
                 End If
 
@@ -364,15 +377,15 @@ Namespace Core
                     End If
 
                     to_read -= numread
-                    ms.Write(buf, 0, numread)
+                    content.Write(buf, 0, numread)
                 End While
 
-                Call ms.Seek(Scan0, SeekOrigin.Begin)
-            End If
+                ' Call content.Seek(Scan0, SeekOrigin.Begin)
+                Call content.Flush()
+            End Using
 
-            ' Call Console.WriteLine("get post data end")
-            Call srv.handlePOSTRequest(Me, ms)
-        End Sub
+            Return content_len
+        End Function
 
         ''' <summary>
         ''' 默认是html文件类型
