@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::bd9280471248c5a4df25bff667499b55, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\PostReader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PostReader
-    ' 
-    '         Properties: ContentEncoding, ContentType, Files, Form, InputStream
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GetParameter, GetSubStream
-    ' 
-    '         Sub: __loadMultiPart, LoadMultiPart
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PostReader
+' 
+'         Properties: ContentEncoding, ContentType, Files, Form, InputStream
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GetParameter, GetSubStream
+' 
+'         Sub: __loadMultiPart, LoadMultiPart
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -97,12 +97,12 @@ Namespace AppEngine.POSTParser
         End Function
 
         Public ReadOnly Property ContentType() As String
-        Public ReadOnly Property InputStream() As MemoryStream
+        Public ReadOnly Property InputStream() As Stream
         Public ReadOnly Property ContentEncoding As Encoding
         Public ReadOnly Property Form As New NameValueCollection
         Public ReadOnly Property Files As New Dictionary(Of String, List(Of HttpPostedFile))
 
-        Sub New(input As MemoryStream, contentType As String, encoding As Encoding, Optional fileName$ = Nothing)
+        Sub New(input As Stream, contentType As String, encoding As Encoding, Optional fileName$ = Nothing)
             Me.InputStream = input
             Me.ContentType = contentType
             Me.ContentEncoding = encoding
@@ -133,7 +133,7 @@ Namespace AppEngine.POSTParser
                 ' 另外的一种就是只有单独的一个文件的POST上传，
                 ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
 
-                If DirectCast(InputStream, MemoryStream).Length >= 2048 Then
+                If DirectCast(InputStream, FileStream).Length >= 2048 Then
                     ' 是一个单独的文件
                     Dim [sub] As New HttpPostedFile(
                        fileName,
@@ -146,7 +146,7 @@ Namespace AppEngine.POSTParser
                     Files("file") = New List(Of HttpPostedFile) From {[sub]}
                 Else
                     ' probably is a jquery post
-                    Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
+                    Dim byts As Byte() = InputStream.ReadAllBytes
                     Dim s As String = ContentEncoding.GetString(byts)
 
                     _Form = s.PostUrlDataParser

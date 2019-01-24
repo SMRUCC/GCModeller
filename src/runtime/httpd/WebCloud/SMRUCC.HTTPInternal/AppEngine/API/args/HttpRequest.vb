@@ -153,7 +153,7 @@ Namespace AppEngine.APIMethods.Arguments
 
         Shared ReadOnly uploadfile As DefaultValue(Of String) = NameOf(uploadfile)
 
-        Sub New(request As HttpProcessor, inputData As MemoryStream)
+        Sub New(request As HttpProcessor, inputData As Stream)
             Call MyBase.New(request)
 
             POSTData = New PostReader(
