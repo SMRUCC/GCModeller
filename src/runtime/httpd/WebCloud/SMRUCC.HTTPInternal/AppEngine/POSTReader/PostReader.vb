@@ -97,13 +97,24 @@ Namespace AppEngine.POSTParser
             Return header.Substring(ap + 1, [end] - ap - 1)
         End Function
 
-        Public ReadOnly Property ContentType() As String
-        Public ReadOnly Property InputStream() As Stream
+        Public ReadOnly Property ContentType As String
+        ''' <summary>
+        ''' 所POST上传的数据的临时文件的文件路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property InputStream As String
         Public ReadOnly Property ContentEncoding As Encoding
         Public ReadOnly Property Form As New NameValueCollection
         Public ReadOnly Property Files As New Dictionary(Of String, List(Of HttpPostedFile))
 
-        Sub New(input As Stream, contentType As String, encoding As Encoding, Optional fileName$ = Nothing)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="input">所POST上传的数据是保存在一个临时文件之中的</param>
+        ''' <param name="contentType$"></param>
+        ''' <param name="encoding"></param>
+        ''' <param name="fileName$"></param>
+        Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing)
             Me.InputStream = input
             Me.ContentType = contentType
             Me.ContentEncoding = encoding
@@ -114,11 +125,9 @@ Namespace AppEngine.POSTParser
         ''' <summary>
         ''' GetSubStream returns a 'copy' of the InputStream with Position set to 0.
         ''' </summary>
-        ''' <param name="stream"></param>
         ''' <returns></returns>
-        Private Shared Function GetSubStream(stream As Stream) As Stream
-            Dim other As MemoryStream = DirectCast(stream, MemoryStream)
-            Return New MemoryStream(other.GetBuffer(), 0, CInt(other.Length), False, True)
+        Private Function GetSubStream() As Stream
+            Return InputStream.Open
         End Function
 
         ''' <summary>
@@ -126,6 +135,7 @@ Namespace AppEngine.POSTParser
         ''' </summary>
         Private Sub LoadMultiPart(fileName As String)
             Dim boundary As String = GetParameter(ContentType, "; boundary=")
+            Dim inputStream As FileStream = Me.InputStream.Open
 
             If boundary Is Nothing Then
 
@@ -134,14 +144,14 @@ Namespace AppEngine.POSTParser
                 ' 另外的一种就是只有单独的一个文件的POST上传，
                 ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
 
-                If DirectCast(InputStream, FileStream).Length >= 2048 Then
+                If inputStream.Length >= 2048 Then
                     ' 是一个单独的文件
                     Dim [sub] As New HttpPostedFile(
                        fileName,
                        ContentType,
-                       InputStream,
+                       inputStream,
                        Scan0,
-                       InputStream.Length
+                       inputStream.Length
                     )
 
                     Files("file") = New List(Of HttpPostedFile) From {[sub]}
@@ -172,7 +182,7 @@ Namespace AppEngine.POSTParser
         End Sub
 
         Private Sub __loadMultiPart(boundary$)
-            Dim input As Stream = GetSubStream(InputStream)
+            Dim input As Stream = Me.GetSubStream()
             Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
             Dim read As New Value(Of HttpMultipart.Element)
             Dim str As String

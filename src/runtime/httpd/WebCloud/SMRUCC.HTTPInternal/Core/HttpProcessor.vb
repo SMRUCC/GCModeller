@@ -341,10 +341,19 @@ Namespace Core
 
             Dim content_len As Integer = 0
             Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
-            Dim content As Stream = handle.Open()
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
+                content_len = writeTemp(handle)
+            End If
 
+            ' Call Console.WriteLine("get post data end")
+            Call srv.handlePOSTRequest(Me, handle)
+        End Sub
+
+        Private Function writeTemp(handle$) As Long
+            Dim content_len%
+
+            Using content As Stream = handle.Open()
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
 
                 ' 小于零的时候不进行限制
@@ -374,11 +383,10 @@ Namespace Core
 
                 Call content.Seek(Scan0, SeekOrigin.Begin)
                 Call content.Flush()
-            End If
+            End Using
 
-            ' Call Console.WriteLine("get post data end")
-            Call srv.handlePOSTRequest(Me, content)
-        End Sub
+            Return content_len
+        End Function
 
         ''' <summary>
         ''' 默认是html文件类型
