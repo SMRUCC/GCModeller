@@ -109,7 +109,6 @@ Namespace Core
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE
-
             Me.MAX_POST_SIZE = -1
         End Sub
 

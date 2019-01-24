@@ -126,19 +126,14 @@ Namespace AppEngine.POSTParser
         ''' GetSubStream returns a 'copy' of the InputStream with Position set to 0.
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function GetSubStream() As Stream
             Return InputStream.Open(doClear:=False)
         End Function
 
-        ''' <summary>
-        ''' Loads the data on the form for multipart/form-data
-        ''' </summary>
-        Private Sub LoadMultiPart(fileName As String)
-            Dim boundary As String = GetParameter(ContentType, "; boundary=")
-            Dim inputStream As FileStream = Me.InputStream.Open(doClear:=False)
-
-            If boundary Is Nothing Then
-
+        Private Sub loadjQueryPOST(fileName As String)
+            Using inputStream As FileStream = Me.InputStream.Open(doClear:=False)
                 ' 在这里可能存在两种情况：
                 ' 一种是jquery POST
                 ' 另外的一种就是只有单独的一个文件的POST上传，
@@ -147,17 +142,17 @@ Namespace AppEngine.POSTParser
                 If inputStream.Length >= 2048 Then
                     ' 是一个单独的文件
                     Dim [sub] As New HttpPostedFile(
-                       fileName,
-                       ContentType,
-                       inputStream,
-                       Scan0,
-                       inputStream.Length
+                        fileName,
+                        ContentType,
+                        inputStream,
+                        Scan0,
+                        inputStream.Length
                     )
 
                     Files("file") = New List(Of HttpPostedFile) From {[sub]}
                 Else
                     ' probably is a jquery post
-                    Dim byts As Byte() = InputStream _
+                    Dim byts As Byte() = inputStream _
                         .PopulateBlocks _
                         .IteratesALL _
                         .ToArray
@@ -165,8 +160,21 @@ Namespace AppEngine.POSTParser
 
                     _Form = s.PostUrlDataParser
                 End If
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' Loads the data on the form for multipart/form-data
+        ''' </summary>
+        Private Sub LoadMultiPart(fileName As String)
+            Dim boundary As String = GetParameter(ContentType, "; boundary=")
+
+            If boundary Is Nothing Then
+                Call loadjQueryPOST(fileName)
             Else
-                Call __loadMultiPart(boundary)
+                Using input As Stream = Me.GetSubStream()
+                    Call __loadMultiPart(boundary, input)
+                End Using
             End If
 
             Call Files _
@@ -181,8 +189,7 @@ Namespace AppEngine.POSTParser
                 .Warning
         End Sub
 
-        Private Sub __loadMultiPart(boundary$)
-            Dim input As Stream = Me.GetSubStream()
+        Private Sub __loadMultiPart(boundary$, input As Stream)
             Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
             Dim read As New Value(Of HttpMultipart.Element)
             Dim str As String
@@ -216,9 +223,6 @@ Namespace AppEngine.POSTParser
                     Files(data.Name) += [sub]
                 End If
             End While
-
-            ' 关闭文件句柄
-            Call input.Dispose()
         End Sub
     End Class
 End Namespace
