@@ -55,18 +55,25 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' <remarks>
 ''' Mothur在windows平台上面存在着一个内存问题,所以在这里是通过Docker在Centos上面运行Mothur的
 ''' </remarks>
-Public Class Mothur : Inherits InteropService
+Public Class Mothur
 
     ReadOnly docker As Environment
     ReadOnly powershell As New PowerShell
+    ReadOnly cli As InteropService
+    ReadOnly appHome$
 
     ''' <summary>
     ''' Create a new mothur docker environment
     ''' </summary>
     ''' <param name="container">The docker container image ID</param>
     ''' <param name="mount"></param>
-    Sub New(container As Image, mount As Mount)
+    ''' <param name="home">
+    ''' 通过``docker pull xieguigang/gcmodeller-env``得到的容器环境之中,
+    ''' Mothur应用程序的默认位置为: ``/home/Mothur.linux_64``
+    ''' </param>
+    Sub New(container As Image, mount As Mount, Optional home$ = "/home/Mothur.linux_64/")
         docker = New Environment(container).Mount([shared]:=mount)
+        appHome = home
     End Sub
 
     Sub New(app As String)
@@ -76,13 +83,13 @@ Public Class Mothur : Inherits InteropService
 
             Throw New EntryPointNotFoundException(msg)
         Else
-            _executableAssembly = app.GetFullPath
+            cli = New InteropService(app)
         End If
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RunMothur(args As String) As String
-        Return powershell(docker.CreateDockerCommand($"""#{args};"""))
+        Return powershell(docker.CreateDockerCommand($"mothur ""#{args};""", workdir:=appHome))
     End Function
 
     ''' <summary>
