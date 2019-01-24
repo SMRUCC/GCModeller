@@ -79,6 +79,7 @@ Namespace Core
         Public outputStream As StreamWriter
 
         Public Property http_method As String
+
         ''' <summary>
         ''' File location or GET/POST request arguments
         ''' </summary>
@@ -108,6 +109,8 @@ Namespace Core
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE
+
+            Me.MAX_POST_SIZE = -1
         End Sub
 
         ''' <summary>
@@ -344,7 +347,8 @@ Namespace Core
 
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
 
-                If content_len > MAX_POST_SIZE Then
+                ' 小于零的时候不进行限制
+                If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
                     Throw New Exception(String.Format(packageTooLarge, content_len))
                 End If
 
