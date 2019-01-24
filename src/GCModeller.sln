@@ -357,9 +357,9 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataTools", "repository\Dat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repository", "repository", "{9BF14533-E7E4-4893-83C4-BD0DE59C076D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LINQ", "runtime\sciBASIC.ComputingServices\LINQ\LINQ\LINQ.vbproj", "{0A9B9FA6-E12D-48FD-B979-9F021A591E69}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LINQ", "runtime\Darwinism\LINQ\LINQ\LINQ.vbproj", "{0A9B9FA6-E12D-48FD-B979-9F021A591E69}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RQL", "runtime\sciBASIC.ComputingServices\RQL\RQL.vbproj", "{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RQL", "runtime\Darwinism\RQL\RQL.vbproj", "{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "GCModeller\annotations\KEGG\KEGG.vbproj", "{282E1290-3475-4A7F-B232-608132FF561D}"
 EndProject
@@ -403,7 +403,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "text.yaml", "runtime\sciBAS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{C790863D-8CC5-4BDC-8BCA-54A29338371D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "metaProfiler", "GCModeller\CLI_tools\meta-assmebly\metaProfiler.vbproj", "{CC88FECD-EEEE-40D3-830C-CE98FCF598DC}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "metaProfiler", "GCModeller\CLI_tools\metaProfiler\metaProfiler.vbproj", "{CC88FECD-EEEE-40D3-830C-CE98FCF598DC}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "GCModeller\models\Networks\KEGG\KEGG.vbproj", "{83C6A265-8264-4F16-A70A-1F4E692290EC}"
 EndProject
@@ -479,7 +479,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "font-awesome", "runtime\htt
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "highcharts.js", "runtime\httpd\WebCloud\JavaScript\highcharts.js\highcharts.js.vbproj", "{021B5E01-F386-4C93-98B3-CD7F8383AE70}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ossutil", "runtime\sciBASIC.ComputingServices\ossutil\ossutil.vbproj", "{ADEAFBBD-06C0-4E53-B985-1AE8978F54AA}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ossutil", "runtime\Darwinism\ossutil\ossutil.vbproj", "{ADEAFBBD-06C0-4E53-B985-1AE8978F54AA}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GSEA", "GCModeller\annotations\GSEA\GSEA\GSEA.vbproj", "{DB374D72-08F4-4B27-8168-B90785F71BDC}"
 EndProject
@@ -487,7 +487,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Profiler", "GCModeller\anno
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Raw", "GCModeller\engine\IO\Raw\Raw.vbproj", "{07CC0292-9EDA-4E02-BF0D-043391C99F07}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ComputingServices", "runtime\sciBASIC.ComputingServices\ComputingServices\ComputingServices.vbproj", "{87383048-1B31-49B7-9FB7-0DED1B80ACE8}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ComputingServices", "runtime\Darwinism\ComputingServices\ComputingServices.vbproj", "{87383048-1B31-49B7-9FB7-0DED1B80ACE8}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Model", "GCModeller\engine\Model\Model.vbproj", "{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}"
 EndProject
@@ -508,6 +508,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataVisualization", "runtime\sciBASIC#\Data_science\Visualization\DataVisualization.vbproj", "{3A114030-D9FD-4913-8E85-A78C032E9000}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MetaFunction", "GCModeller\analysis\Metagenome\MetaFunction\MetaFunction.vbproj", "{36D2E8DE-A28B-4353-9B4D-79C301314355}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Docker", "runtime\Darwinism\Docker\Docker.vbproj", "{B028826A-E615-4F26-B192-B9B0A997696A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -21738,6 +21740,114 @@ Global
 		{36D2E8DE-A28B-4353-9B4D-79C301314355}.Yilia-Release_x64|x64.Build.0 = Release|x64
 		{36D2E8DE-A28B-4353-9B4D-79C301314355}.Yilia-Release_x64|x86.ActiveCfg = Release|Any CPU
 		{36D2E8DE-A28B-4353-9B4D-79C301314355}.Yilia-Release_x64|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep_UNIX_x64|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biodeep|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|x64.ActiveCfg = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|x64.Build.0 = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|x86.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Biostack-Debug|x86.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|x64.ActiveCfg = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|x64.Build.0 = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Debug|x86.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|Any CPU.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|x64.ActiveCfg = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|x64.Build.0 = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|x86.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.DEMO|x86.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|x64.ActiveCfg = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|x64.Build.0 = Debug|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|x86.ActiveCfg = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.docs|x86.Build.0 = Debug|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GCModeller(UNIX-Release_X64)|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.GTA5-game-test|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.installer_x64|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.ProteoWizard.d|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Publish|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Release|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.sciBASIC.NET-test-release|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Surveillance-of-infectious-diseases|x86.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|Any CPU.Build.0 = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|x64.ActiveCfg = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|x64.Build.0 = Release|x64
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|x86.ActiveCfg = Release|Any CPU
+		{B028826A-E615-4F26-B192-B9B0A997696A}.Yilia-Release_x64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -21990,6 +22100,7 @@ Global
 		{7A5B87B9-4475-4B34-AB8B-30F0B068C1B7} = {C7330DEB-980A-4CD1-9EC2-65C10D290EEE}
 		{3A114030-D9FD-4913-8E85-A78C032E9000} = {852FA545-CC24-443C-8991-B82EF14FA61D}
 		{36D2E8DE-A28B-4353-9B4D-79C301314355} = {DE94544C-FAF5-4D59-B7F5-65C916B45BCE}
+		{B028826A-E615-4F26-B192-B9B0A997696A} = {04E8ABCF-08A7-4F56-89FF-4FFAB0F3CFD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
