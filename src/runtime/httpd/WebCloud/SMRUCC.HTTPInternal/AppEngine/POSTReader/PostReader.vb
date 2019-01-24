@@ -127,7 +127,7 @@ Namespace AppEngine.POSTParser
         ''' </summary>
         ''' <returns></returns>
         Private Function GetSubStream() As Stream
-            Return InputStream.Open
+            Return InputStream.Open(doClear:=False)
         End Function
 
         ''' <summary>
@@ -135,7 +135,7 @@ Namespace AppEngine.POSTParser
         ''' </summary>
         Private Sub LoadMultiPart(fileName As String)
             Dim boundary As String = GetParameter(ContentType, "; boundary=")
-            Dim inputStream As FileStream = Me.InputStream.Open
+            Dim inputStream As FileStream = Me.InputStream.Open(doClear:=False)
 
             If boundary Is Nothing Then
 
@@ -216,6 +216,9 @@ Namespace AppEngine.POSTParser
                     Files(data.Name) += [sub]
                 End If
             End While
+
+            ' 关闭文件句柄
+            Call input.Dispose()
         End Sub
     End Class
 End Namespace

@@ -381,7 +381,7 @@ Namespace Core
                     content.Write(buf, 0, numread)
                 End While
 
-                Call content.Seek(Scan0, SeekOrigin.Begin)
+                ' Call content.Seek(Scan0, SeekOrigin.Begin)
                 Call content.Flush()
             End Using
 
