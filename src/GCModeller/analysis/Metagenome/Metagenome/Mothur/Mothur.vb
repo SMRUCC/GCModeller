@@ -59,9 +59,9 @@ Public Class Mothur
     ReadOnly powershell As New PowerShell
 
     ''' <summary>
-    ''' 
+    ''' Create a new mothur docker environment
     ''' </summary>
-    ''' <param name="container"></param>
+    ''' <param name="container">The docker container image ID</param>
     ''' <param name="mount"></param>
     Sub New(container As Image, mount As Mount)
         docker = New Environment(container).Mount([shared]:=mount)

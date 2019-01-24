@@ -19,6 +19,12 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 **Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.5 beta &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
 **Installation:** ``VS2017`` is required of compiles this project. After the source code have been clone using git, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.
 
+
+The docker container image contains these utils that required by GCModeller:
+
+> + MEME suite for motif analysis
+> + Mothur for construct OTU
+
 **NOTE:** Due to the reason of this project is using git submodule for manage some runtime component, so that **please do not directly download** the project source code from github by using the ``Donwload Zip`` button. The internal github client in the VisualStudio is recommended using for download the project source code.
 
 ---------------------------------------------------------------------------------------------------
