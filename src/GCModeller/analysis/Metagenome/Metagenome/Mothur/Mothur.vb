@@ -57,13 +57,11 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' </remarks>
 Public Class Mothur
 
-    ReadOnly docker As Environment
-    ReadOnly powershell As New PowerShell
+    ReadOnly docker As DockerAppDriver
     ReadOnly cli As InteropService
-    ReadOnly appHome$
 
     ''' <summary>
-    ''' Create a new mothur docker environment
+    ''' Create a new mothur docker environment.(工作于Windows Server平台之上)
     ''' </summary>
     ''' <param name="container">The docker container image ID</param>
     ''' <param name="mount"></param>
@@ -71,15 +69,20 @@ Public Class Mothur
     ''' 通过``docker pull xieguigang/gcmodeller-env``得到的容器环境之中,
     ''' Mothur应用程序的默认位置为: ``/home/Mothur.linux_64``
     ''' </param>
-    Sub New(container As Image, mount As Mount, Optional home$ = "/home/Mothur.linux_64/")
-        docker = New Environment(container).Mount([shared]:=mount)
-        appHome = home
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(container As Image, mount As Mount, Optional home$ = "/home/Mothur.linux_64")
+        docker = New DockerAppDriver(container, "mothur", mount, home)
     End Sub
 
+    ''' <summary>
+    ''' 如果GCModeller运行在Linux平台上,则应该调用这个接口
+    ''' </summary>
+    ''' <param name="app"></param>
     Sub New(app As String)
         If Not app.FileExists Then
             Dim platform$ = OSVersion.Platform.ToString
-            Dim msg$ = app & $" is unavaliable! (platform={platform})"
+            Dim msg$ = $"{app} is unavaliable! (platform={platform})"
 
             Throw New EntryPointNotFoundException(msg)
         Else
@@ -87,9 +90,23 @@ Public Class Mothur
         End If
     End Sub
 
+    Public Function CreateMothurApp() As Mothur
+        If App.IsMicrosoftPlatform Then
+            ' Linux in Docker
+            Return New Mothur(Settings.Mothur, Nothing)
+        Else
+            ' Linux
+            Return New Mothur(Settings.Mothur)
+        End If
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RunMothur(args As String) As String
-        Return powershell(docker.CreateDockerCommand($"mothur ""#{args};""", workdir:=appHome))
+        If Not docker Is Nothing Then
+            Return docker.Shell($"""#{args};""")
+        Else
+            Return cli.RunProgram($"""#{args};""").StandardOutput
+        End If
     End Function
 
     ''' <summary>
