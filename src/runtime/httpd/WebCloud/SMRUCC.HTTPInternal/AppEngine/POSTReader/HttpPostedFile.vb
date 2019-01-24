@@ -84,18 +84,30 @@ Namespace AppEngine.POSTParser
     Public Class HttpPostedFile
 
         Public ReadOnly Property FileName() As String
-        Public ReadOnly Property InputStream() As Stream
+        ''' <summary>
+        ''' 为了降低内存的使用率,在这里是将文件保存在临时文件之中的
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property TempPath As String
         Public ReadOnly Property ContentType As String
         Public ReadOnly Property ContentLength As Integer
             Get
-                Return CInt(InputStream.Length)
+                Return TempPath.FileLength
             End Get
         End Property
 
         Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
             Me.FileName = name
             Me.ContentType = content_type
-            Me.InputStream = New ReadSubStream(base_stream, offset, length)
+            Me.TempPath = App.GetAppSysTempFile(, App.PID)
+
+            With New ReadSubStream(base_stream, offset, length)
+                Using file As FileStream = TempPath.Open
+                    For Each block In .PopulateBlocks
+                        Call file.Write(block, Scan0, block.Length)
+                    Next
+                End Using
+            End With
         End Sub
 
         Public Function Summary() As Dictionary(Of String, String)
@@ -111,33 +123,33 @@ Namespace AppEngine.POSTParser
         ''' </summary>
         ''' <param name="filename"></param>
         Public Sub SaveAs(filename As String)
-            Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
-            Dim old_post As Long = InputStream.Position
+            'Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
+            'Dim old_post As Long = InputStream.Position
 
-            Try
-                If filename.FileExists Then
-                    Call File.Delete(filename)
-                End If
-            Catch ex As Exception
-            Finally
-                ' 当目标文件不存在的时候，可能文件夹也是不存在的
-                ' 需要提前创建好文件夹，否则后面的文件保存会出错
-                Call filename.ParentPath.MkDIR
-            End Try
+            'Try
+            '    If filename.FileExists Then
+            '        Call File.Delete(filename)
+            '    End If
+            'Catch ex As Exception
+            'Finally
+            '    ' 当目标文件不存在的时候，可能文件夹也是不存在的
+            '    ' 需要提前创建好文件夹，否则后面的文件保存会出错
+            '    Call filename.ParentPath.MkDIR
+            'End Try
 
-            Try
-                Using fs As FileStream = File.Create(filename)
-                    Dim n As int = Scan0
+            'Try
+            '    Using fs As FileStream = File.Create(filename)
+            '        Dim n As int = Scan0
 
-                    InputStream.Position = 0
+            '        InputStream.Position = 0
 
-                    While (n = InputStream.Read(buffer, 0, 16 * 1024)) <> 0
-                        fs.Write(buffer, 0, n.Value)
-                    End While
-                End Using
-            Finally
-                InputStream.Position = old_post
-            End Try
+            '        While (n = InputStream.Read(buffer, 0, 16 * 1024)) <> 0
+            '            fs.Write(buffer, 0, n.Value)
+            '        End While
+            '    End Using
+            'Finally
+            '    InputStream.Position = old_post
+            'End Try
         End Sub
     End Class
 End Namespace

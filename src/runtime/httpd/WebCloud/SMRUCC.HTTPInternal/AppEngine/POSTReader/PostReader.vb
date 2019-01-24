@@ -51,6 +51,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace AppEngine.POSTParser
@@ -146,7 +147,10 @@ Namespace AppEngine.POSTParser
                     Files("file") = New List(Of HttpPostedFile) From {[sub]}
                 Else
                     ' probably is a jquery post
-                    Dim byts As Byte() = InputStream.ReadAllBytes
+                    Dim byts As Byte() = InputStream _
+                        .PopulateBlocks _
+                        .IteratesALL _
+                        .ToArray
                     Dim s As String = ContentEncoding.GetString(byts)
 
                     _Form = s.PostUrlDataParser
