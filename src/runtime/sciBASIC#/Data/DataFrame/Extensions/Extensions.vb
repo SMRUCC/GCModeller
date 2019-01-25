@@ -470,7 +470,7 @@ Public Module Extensions
                 fast:=fast,
                 maps:=maps,
                 mute:=mute
-            )
+            ).AsList
             ms = .ElapsedMilliseconds
             fs = If(ms > 1000, (ms / 1000) & "sec", ms & "ms")
         End With

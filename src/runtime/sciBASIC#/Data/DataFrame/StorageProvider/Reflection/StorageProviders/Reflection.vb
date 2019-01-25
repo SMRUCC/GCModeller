@@ -177,18 +177,18 @@ Namespace StorageProvider.Reflection
                                             Optional encoding As Encoding = Nothing,
                                             Optional fast As Boolean = False,
                                             Optional maps As Dictionary(Of String, String) = Nothing,
-                                            Optional mute As Boolean = False) As List(Of T)
+                                            Optional mute As Boolean = False) As IEnumerable(Of T)
             If Not path.FileExists Then
                 ' 空文件
                 Call $"Csv file ""{path.ToFileURL}"" is empty!".Warning
-                Return New List(Of T)
+                Return {}
             Else
                 Call "Load data from filestream....".__DEBUG_ECHO(mute:=mute)
             End If
 
             ' read csv data
             Dim reader As DataFrame = IO.DataFrame.Load(path, encoding, fast)
-            Dim buffer As List(Of T)
+            Dim buffer As IEnumerable(Of T)
 
             If Not maps Is Nothing Then
                 ' 改变列的名称映射以方便进行反序列化数据加载
