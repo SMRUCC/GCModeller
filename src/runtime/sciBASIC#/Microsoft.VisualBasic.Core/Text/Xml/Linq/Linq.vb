@@ -89,7 +89,7 @@ Namespace Text.Xml.Linq
         End Function
 
         <Extension>
-        Public Function GetXmlNode(element As XElement) As XmlNode
+        Public Function GetXmlNodeDoc(element As XElement) As XmlDocument
             Using xmlReader As XmlReader = element.CreateReader()
                 Dim XmlDoc As New XmlDocument()
                 XmlDoc.Load(xmlReader)
@@ -236,7 +236,7 @@ Namespace Text.Xml.Linq
         End Function
 
         ''' <summary>
-        ''' 可以使用函数<see cref="GetXmlNode(XElement)"/>来进行类型的转换操作
+        ''' 可以使用函数<see cref="GetXmlNodeDoc(XElement)"/>来进行类型的转换操作
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <param name="typeName$"></param>
