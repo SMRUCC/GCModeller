@@ -88,6 +88,15 @@ Namespace Text.Xml.Linq
             Return xmlDoc
         End Function
 
+        <Extension>
+        Public Function GetXmlNode(element As XElement) As XmlNode
+            Using xmlReader As XmlReader = element.CreateReader()
+                Dim XmlDoc As New XmlDocument()
+                XmlDoc.Load(xmlReader)
+                Return XmlDoc
+            End Using
+        End Function
+
         ''' <summary>
         ''' Using <paramref name="default"/> string name or <see cref="Type.Name"/>
         ''' </summary>
@@ -226,6 +235,12 @@ Namespace Text.Xml.Linq
             End With
         End Function
 
+        ''' <summary>
+        ''' 可以使用函数<see cref="GetXmlNode(XElement)"/>来进行类型的转换操作
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <param name="typeName$"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function IteratesArrayNodes(path$, typeName$) As IEnumerable(Of XElement)
