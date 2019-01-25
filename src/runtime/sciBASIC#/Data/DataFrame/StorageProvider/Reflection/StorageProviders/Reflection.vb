@@ -153,10 +153,12 @@ Namespace StorageProvider.Reflection
         ''' <remarks>在这里查找所有具有写属性的属性对象即可</remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Convert(Of TClass As Class)(df As DataFrame, Optional explicit As Boolean = True) As List(Of TClass)
+        Public Function Convert(Of TClass As Class)(df As DataFrame, Optional explicit As Boolean = True) As IEnumerable(Of TClass)
             Return df _
                 .LoadDataToObject(GetType(TClass), explicit) _
-                .ToList(Function(x) DirectCast(x, TClass))
+                .Select(Function(x)
+                            Return DirectCast(x, TClass)
+                        End Function)
         End Function
 
         ''' <summary>
