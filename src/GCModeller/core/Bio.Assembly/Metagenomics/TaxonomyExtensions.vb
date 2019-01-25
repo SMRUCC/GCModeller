@@ -194,7 +194,9 @@ Namespace Metagenomics
         ''' Select samples' taxonomy abundance by a given list of taxonomy.
         ''' </summary>
         ''' <param name="taxs"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' 返回来的结果的长度以及物种信息是和函数的参数长度一致的
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function SelectSamples(taxs As IEnumerable(Of Taxonomy)) As KeyValuePair(Of Taxonomy, Double)()
             Return taxs _
