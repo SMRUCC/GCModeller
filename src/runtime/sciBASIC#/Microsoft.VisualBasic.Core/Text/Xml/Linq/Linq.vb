@@ -219,16 +219,22 @@ Namespace Text.Xml.Linq
         ''' <returns></returns>
         <Extension>
         Public Function LoadUltraLargeXMLDataSet(Of T As Class)(path$, Optional typeName$ = Nothing, Optional xmlns$ = Nothing) As IEnumerable(Of T)
-            Dim nodeName$ = GetType(T).GetTypeName([default]:=typeName)
-            Return nodeName _
-                .UltraLargeXmlNodesIterator(path) _
-                .NodeInstanceBuilder(Of T)(xmlns, xmlNode:=nodeName)
+            With GetType(T).GetTypeName([default]:=typeName)
+                Return .UltraLargeXmlNodesIterator(path) _
+                    .Select(Function(node) node.ToString) _
+                    .NodeInstanceBuilder(Of T)(xmlns, xmlNode:= .ByRef)
+            End With
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IteratesArrayNodes(path$, typeName$) As IEnumerable(Of XElement)
+            Return typeName.UltraLargeXmlNodesIterator(path)
         End Function
 
         <Extension>
-        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$) As IEnumerable(Of String)
+        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$) As IEnumerable(Of XElement)
             Dim el As New Value(Of XElement)
-            Dim XML$
 
             Using reader As XmlReader = XmlReader.Create(path)
 
@@ -238,8 +244,7 @@ Namespace Text.Xml.Linq
                     ' Parse the file And return each of the child_node
                     If (reader.NodeType = XmlNodeType.Element AndAlso reader.Name = nodeName) Then
                         If (Not (el = XNode.ReadFrom(reader)) Is Nothing) Then
-                            XML = el.Value.ToString
-                            Yield XML
+                            Yield el.Value
                         End If
                     End If
                 Loop
