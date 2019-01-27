@@ -1,76 +1,112 @@
 ﻿#Region "Microsoft.VisualBasic::5ce377d87fc045615c3b8d7e8095825b, analysis\Metagenome\Metagenome\Mothur\Mothur.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Mothur
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
-    '               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
-    '               (+2 Overloads) Summary_seqs, Unique_seqs
-    ' 
-    ' /********************************************************************************/
+' Class Mothur
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: align_seqs, Bin_seqs, Cluster, Count_seqs, Dist_seqs
+'               (+2 Overloads) filter_seqs, GetOTUrep, (+2 Overloads) Make_contigs, RunMothur, (+2 Overloads) Screen_seqs
+'               (+2 Overloads) Summary_seqs, Unique_seqs
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Environment
 Imports System.Runtime.CompilerServices
+Imports Darwinism.Docker
+Imports Darwinism.Docker.Arguments
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
 ''' mothur的输入文件名之中不可以存在双引号
 ''' </summary>
-Public Class Mothur : Inherits InteropService
+''' <remarks>
+''' Mothur在windows平台上面存在着一个内存问题,所以在这里是通过Docker在Centos上面运行Mothur的
+''' </remarks>
+Public Class Mothur
+
+    ReadOnly docker As DockerAppDriver
+    ReadOnly cli As InteropService
 
     ''' <summary>
-    ''' 使用应用程序的路径构建出Mothur对象
+    ''' Create a new mothur docker environment.(工作于Windows Server平台之上)
     ''' </summary>
-    ''' <param name="App"></param>
-    Sub New(App As String)
-        If Not App.FileExists Then
-            Dim platform$ = Environment.OSVersion.Platform.ToString
-            Dim msg$ = App & $" is unavaliable! (platform={platform})"
+    ''' <param name="container">The docker container image ID</param>
+    ''' <param name="mount"></param>
+    ''' <param name="home">
+    ''' 通过``docker pull xieguigang/gcmodeller-env``得到的容器环境之中,
+    ''' Mothur应用程序的默认位置为: ``/home/Mothur.linux_64``
+    ''' </param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(container As Image, mount As Mount, Optional home$ = "/home/Mothur.linux_64")
+        docker = New DockerAppDriver(container, "mothur", mount, home)
+    End Sub
+
+    ''' <summary>
+    ''' 如果GCModeller运行在Linux平台上,则应该调用这个接口
+    ''' </summary>
+    ''' <param name="app"></param>
+    Sub New(app As String)
+        If Not app.FileExists Then
+            Dim platform$ = OSVersion.Platform.ToString
+            Dim msg$ = $"{app} is unavaliable! (platform={platform})"
 
             Throw New EntryPointNotFoundException(msg)
         Else
-            _executableAssembly = App.GetFullPath
+            cli = New InteropService(app)
         End If
     End Sub
 
+    Public Function CreateMothurApp() As Mothur
+        If App.IsMicrosoftPlatform Then
+            ' Linux in Docker
+            Return New Mothur(Settings.Mothur, Nothing)
+        Else
+            ' Linux
+            Return New Mothur(Settings.Mothur)
+        End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RunMothur(args As String) As String
-        With MyBase.RunProgram($"""#{args};""")
-            Call .Run()
-            Return .StandardOutput
-        End With
+        If Not docker Is Nothing Then
+            Return docker.Shell($"""#{args};""")
+        Else
+            Return cli.RunProgram($"""#{args};""").StandardOutput
+        End If
     End Function
 
     ''' <summary>

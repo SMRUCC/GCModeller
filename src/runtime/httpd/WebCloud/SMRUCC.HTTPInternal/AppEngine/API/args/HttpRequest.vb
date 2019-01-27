@@ -153,7 +153,12 @@ Namespace AppEngine.APIMethods.Arguments
 
         Shared ReadOnly uploadfile As DefaultValue(Of String) = NameOf(uploadfile)
 
-        Sub New(request As HttpProcessor, inputData As MemoryStream)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="request"></param>
+        ''' <param name="inputData">一个临时文件的文件路径,POST上传的原始数据都被保存在这个临时文件中</param>
+        Sub New(request As HttpProcessor, inputData$)
             Call MyBase.New(request)
 
             POSTData = New PostReader(

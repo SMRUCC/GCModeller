@@ -155,7 +155,7 @@ Namespace Platform
 
         Public Const contentType As String = "Content-Type"
 
-        Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As MemoryStream)
+        Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData$)
             Dim request As New HttpPOSTRequest(p, inputData)
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.InvokePOST(request, response)
@@ -163,7 +163,7 @@ Namespace Platform
             Call __finally(request, success)
         End Sub
 
-        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData As MemoryStream)
+        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData$)
             Dim request As New HttpPOSTRequest(p, inputData)
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.InvokePOST(request, response)
