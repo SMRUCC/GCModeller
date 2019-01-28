@@ -167,11 +167,11 @@ Namespace Metagenomics
         End Function
     End Module
 
-    Public Class SampleAbundanceSelector
+    Public Class SampleAbundanceSelector(Of T)
 
-        Dim taxonomyAbundance As (taxonomy As Taxonomy, Double)()
+        Dim taxonomyAbundance As (taxonomy As Taxonomy, T)()
 
-        Default Public ReadOnly Property Abundances(taxonomy As Taxonomy()) As KeyValuePair(Of Taxonomy, Double)()
+        Default Public ReadOnly Property Abundances(taxonomy As Taxonomy()) As KeyValuePair(Of Taxonomy, T())()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return SelectSamples(taxonomy)
@@ -179,12 +179,12 @@ Namespace Metagenomics
         End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Sub New(abundance As IEnumerable(Of (taxonomy As Taxonomy, Double)))
+        Sub New(abundance As IEnumerable(Of (taxonomy As Taxonomy, T)))
             taxonomyAbundance = abundance.ToArray
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Sub New(abundance As IEnumerable(Of KeyValuePair(Of Taxonomy, Double)))
+        Sub New(abundance As IEnumerable(Of KeyValuePair(Of Taxonomy, T)))
             taxonomyAbundance = abundance _
                 .Select(Function(tax) (tax.Key, tax.Value)) _
                 .ToArray
@@ -198,23 +198,15 @@ Namespace Metagenomics
         ''' 返回来的结果的长度以及物种信息是和函数的参数长度一致的
         ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function SelectSamples(taxs As IEnumerable(Of Taxonomy)) As KeyValuePair(Of Taxonomy, Double)()
+        Public Function SelectSamples(taxs As IEnumerable(Of Taxonomy)) As KeyValuePair(Of Taxonomy, T())()
             Return taxs _
                 .Select(Function(tax As Taxonomy)
                             Dim list = taxonomyAbundance _
                                 .SelectByTaxonomyRange(tax, Function(m) m.taxonomy, Function(m) m) _
+                                .Select(Function(s) s.Item2) _
                                 .ToArray
-                            Dim S#
 
-                            If list.Length = 0 Then
-                                S = 0
-                            Else
-                                S = Aggregate t As (Taxonomy, Double)
-                                    In list
-                                    Into Sum(t.Item2)
-                            End If
-
-                            Return New KeyValuePair(Of Taxonomy, Double)(tax, S)
+                            Return New KeyValuePair(Of Taxonomy, T())(tax, list)
                         End Function) _
                 .ToArray
         End Function
