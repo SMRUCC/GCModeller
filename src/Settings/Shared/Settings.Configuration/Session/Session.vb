@@ -223,12 +223,16 @@ Namespace Settings
         ''' </summary>
         ''' <returns></returns>
         Public Function Mothur() As String
+#If UNIX Then
+
+#End If
+
             ' 如果配置文件之中不存在,则尝试从命令行之中获取
-            If SettingsFile.Mothur.StringEmpty Then
-                Return App.GetVariable
-            Else
-                Return SettingsFile.Mothur
-            End If
+            'If SettingsFile.Mothur.StringEmpty Then
+            '    Return App.GetVariable
+            'Else
+            '    Return SettingsFile.Mothur
+            'End If
         End Function
 
         ''' <summary>

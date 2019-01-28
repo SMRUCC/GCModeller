@@ -69,15 +69,17 @@ Namespace Settings
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement,
-            ProfileItem(Name:="DIR.BlastBin", Description:="The ncbi blast program group directory.", Type:=ValueTypes.Directory)>
+        <XmlElement, ProfileItem(Name:="DIR.BlastBin", Description:="The ncbi blast program group directory.", Type:=ValueTypes.Directory)>
         Public Property BlastBin As String
-        <XmlElement,
-            ProfileItem(Name:="blastdb", Description:="The directory which contains the fasta sequence database files.", Type:=ValueTypes.Directory)>
+        <XmlElement, ProfileItem(Name:="blastdb", Description:="The directory which contains the fasta sequence database files.", Type:=ValueTypes.Directory)>
         Public Property BlastDb As String
-        <XmlElement,
-            ProfileItem(Name:="mothur", Description:="The mothur program group directory.", Type:=ValueTypes.Directory)>
-        Public Property Mothur As String
+
+        ''' <summary>
+        ''' The mothur program configuration.
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement, ProfileItem(Name:="mothur", Description:="The mothur program group directory.")>
+        Public Property Mothur As Docker
 
         <XmlElement, ProfileItem(Name:="cog2003-2014", Description:="The prot2003-2014.fasta NCBI cog fasta database for the COG annotation.", Type:=ValueTypes.File)>
         Public Property COG2003_2014 As String
@@ -86,8 +88,7 @@ Namespace Settings
         ''' The R program install location on your computer. This property value is the directory path value like: D:\R\bin or C:\Program Files\R\bin
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement,
-            ProfileItem(Name:=NameOf(R_HOME),
+        <XmlElement, ProfileItem(Name:=NameOf(R_HOME),
                         Type:=ValueTypes.Directory,
                         Description:="The R program install location on your computer. This property value is the directory path value like: D:\R\bin or C:\Program Files\R\bin")>
         Public Property R_HOME As String
@@ -95,6 +96,19 @@ Namespace Settings
             ProfileItem(Name:="Phylip", Type:=ValueTypes.Directory,
                         Description:="The directory location of the phylip program group.")>
         Public Property Phylip As String
+
+        Const ReadMe$ = "
+
+This is a GCModeller repository directory; use the 'RQL' or 
+'GCModeller.Workbench.Model_Repository' tools to examine it.  
+Do not add, delete, or modify files here unless you know how 
+to avoid corrupting the repository.
+
+Visit http://GCModeller.org/ for more information.
+
+
+                                  SMRUCC/GCModeller Dev-Team
+"
 
         ''' <summary>
         ''' The root directory for stores the GCModeller database such as fasta sequence for annotation.
@@ -111,15 +125,11 @@ Namespace Settings
                 _repositoryRoot = value
 
                 Try
-                    Call FileIO.FileSystem.CreateDirectory(_repositoryRoot)
-                    Call <README>This is a GCModeller repository; use the 'RQL' or 'GCModeller.Workbench.Model_Repository'
-tools to examine it.  Do not add, delete, or modify files here
-unless you know how to avoid corrupting the repository.
-
-Visit http://GCModeller.org/ for more information.
-
-GCModeller Dev-Team</README>.SaveTo(_repositoryRoot & "/readme.txt")
-                Finally   ' 当使用并行化拓展的时候，可能会出现文件被占用的情况而导致程序出错，在这里不影响应用，忽略掉这个错误
+                    Call _repositoryRoot.MkDIR
+                    Call ReadMe.Trim.SaveTo(_repositoryRoot & "/readme.txt")
+                Finally
+                    ' 当使用并行化拓展的时候，可能会出现文件被占用的情况而
+                    ' 导致程序出错， 在这里不影响应用， 忽略掉这个错误
                 End Try
             End Set
         End Property
