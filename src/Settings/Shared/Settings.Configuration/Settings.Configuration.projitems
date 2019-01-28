@@ -9,6 +9,7 @@
     <Import_RootNamespace>Settings.Configuration</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Docker.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\File.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\C2.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\GCC.vb" />

@@ -232,6 +232,14 @@ Namespace Settings
         End Function
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function MothurHome() As String
+
+        End Function
+
+        ''' <summary>
         ''' 首先尝试通过配置文件得到脚本环境，假若没有配置这个值，则会尝试通过本身程序来测试，因为这个函数的调用可能是来自于Shoal脚本的
         ''' </summary>
         ''' <returns></returns>
