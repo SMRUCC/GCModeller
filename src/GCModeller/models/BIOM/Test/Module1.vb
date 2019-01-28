@@ -71,7 +71,7 @@ Module Module1
     Sub testCDFBIOM()
 
         Dim file = "D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom"
-        Dim reader As New netCDFReader(file)
+        Dim reader As New HDF5Reader(file)
 
         Pause()
     End Sub
