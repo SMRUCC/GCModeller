@@ -90,7 +90,7 @@ Namespace ComponentModel.Settings.Inf
         ''' <typeparam name="T"></typeparam>
         ''' <param name="ini"></param>
         ''' <returns></returns>
-        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ClassWriter(Of T As {New, Class})(ini As IniFile) As T
             Return DirectCast(ClassWriter(ini, GetType(T)), T)
@@ -120,12 +120,12 @@ Namespace ComponentModel.Settings.Inf
         Public Sub ClassDumper(type As Type, x As Object, ini As IniFile)
             Dim maps = MapParser(type)
 
-            For Each map In maps.Value
+            For Each map As BindProperty(Of DataFrameColumnAttribute) In maps.Value
                 Dim key As String = map.field.Name
                 Dim value As String = Scripting.ToString(map.GetValue(x))
 
                 If value.StringEmpty Then
-                    Call ini.WriteComment(maps.Name, key, $"{key}=<{map.Type.FullName}>")
+                    Call ini.WriteComment(maps.Name, $"{key}=<{map.Type.FullName}>", key)
                 Else
                     Call ini.WriteValue(maps.Name, key, value)
                 End If

@@ -44,6 +44,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -85,6 +86,11 @@ Namespace ComponentModel.Settings.Inf
         ''' </summary>
         Dim configTable As Dictionary(Of HashValue)
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Have(key As String) As Boolean
+            Return configTable.ContainsKey(key.ToLower)
+        End Function
+
         Public Function GetValue(Key As String) As String
             With Key.ToLower
                 If configTable.ContainsKey(.ByRef) Then
@@ -94,6 +100,14 @@ Namespace ComponentModel.Settings.Inf
                 End If
             End With
         End Function
+
+        Public Sub Delete(name As String)
+            With name.ToLower
+                If configTable.ContainsKey(.ByRef) Then
+                    Call configTable.Remove(.ByRef)
+                End If
+            End With
+        End Sub
 
         ''' <summary>
         ''' 不存在则自动添加
@@ -114,6 +128,11 @@ Namespace ComponentModel.Settings.Inf
             }
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub SetComments(name$, comments$)
+            SetValue(name, GetValue(name), comments)
+        End Sub
+
         ''' <summary>
         ''' 利用这个函数所生成的文档片段的格式如下所示
         ''' 
@@ -132,7 +151,12 @@ Namespace ComponentModel.Settings.Inf
         Public Function CreateDocFragment() As String
             Dim sb As New StringBuilder($"[{Name}]")
 
+            Call sb.AppendLine()
             Call appendComments(sb, Comment, "#")
+
+            If Not Comment.StringEmpty Then
+                Call sb.AppendLine()
+            End If
 
             For Each item As HashValue In configTable.Values
                 Call appendComments(sb, item.Comment, ";")
