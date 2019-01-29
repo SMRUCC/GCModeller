@@ -57,11 +57,12 @@ Module RInit
     ''' </remarks>
     Public Function StartEngineServices() As ExtendedEngine
         Static R_HOME As New DefaultValue(Of String) With {
-            .LazyValue = New Lazy(Of String)(AddressOf searchAuto)
+            .lazy = New Lazy(Of String)(AddressOf searchAuto)
         }
 
-        ' Read R_HOME path from environment variable or using auto path search value 
-        ' as default if the R_HOME variable is nothing in the commandline.
+        ' Read R_HOME path from environment variable or using 
+        ' auto Path search value as default if the R_HOME 
+        ' variable Is Nothing in the commandline.
         With App.GetVariable(NameOf(R_HOME)) Or R_HOME
             Return RInit.StartEngineServices(R_HOME:= .ByRef)
         End With
