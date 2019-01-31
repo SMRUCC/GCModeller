@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0340bbf3fd11fb37fa3a1563bc6c1d23, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::29780966ae991c26144d68667543b1b1, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26c4c3505c832357e5a7f11d8052eb8c, Bio.Assembly\Assembly\UniProt\XML\Model\CommentData.vb"
+﻿#Region "Microsoft.VisualBasic::26c4c3505c832357e5a7f11d8052eb8c, Bio.Assembly\Assembly\Uniprot\XML\Model\CommentData.vb"
 
     ' Author:
     ' 
