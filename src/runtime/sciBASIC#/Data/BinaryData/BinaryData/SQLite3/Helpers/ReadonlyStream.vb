@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::719c6bf3a315c28946227601f3c07a9a, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::f782d25b9a1cf540ca28df0d9d916386, Data\BinaryData\BinaryData\SQLite3\Helpers\ReadonlyStream.vb"
 
     ' Author:
     ' 
@@ -31,54 +31,39 @@
 
     ' Summaries:
 
-    '     Class Leaf
+    '     Class ReadonlyStream
     ' 
+    '         Properties: CanWrite
     ' 
-    ' 
-    '     Class ProjectionGroup
-    ' 
-    ' 
-    ' 
-    '     Class [Event]
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Flush, SetLength, Write
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Imaging.LayoutModel
-Imports number = System.Double
+Imports System.IO
 
-Namespace Layouts.Cola
-
-    Public Class Leaf
-        Public bounds As Rectangle2D
-        Public variable As Variable
-    End Class
-
-    Public Class ProjectionGroup
-        Public bounds As Rectangle2D
-        Public padding As Number
-        Public stiffness As Number
-        Public leaves As Leaf()
-        Public groups As ProjectionGroup()
-        Public minVar As Variable
-        Public maxVar As Variable
-    End Class
-
-    Public Class [Event]
-
-        Public isOpen As Boolean
-        Public v As Node
-        Public pos As number
-
-        Sub New(isOpen As Boolean, v As Node, pos As number)
-            Me.isOpen = isOpen
-            Me.v = v
-            Me.pos = pos
+Namespace ManagedSqlite.Core.Helpers
+    Friend MustInherit Class ReadonlyStream
+        Inherits Stream
+        Public Overrides Sub Flush()
+            Throw New NotImplementedException()
         End Sub
 
+        Public Overrides Sub SetLength(value As Long)
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Overrides ReadOnly Property CanWrite() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
     End Class
 End Namespace
+

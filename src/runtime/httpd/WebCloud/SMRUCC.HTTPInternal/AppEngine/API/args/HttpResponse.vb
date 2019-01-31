@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8acb9794f328af8a66ff41b724fc8d5b, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpResponse.vb"
+﻿#Region "Microsoft.VisualBasic::02ec558646b385743793747b48b93736, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpResponse.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,8 @@
     ' Summaries:
 
     '     Class HttpResponse
+    ' 
+    '         Properties: AccessControlAllowOrigin
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
