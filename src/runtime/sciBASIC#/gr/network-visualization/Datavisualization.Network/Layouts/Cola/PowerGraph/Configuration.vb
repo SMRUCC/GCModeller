@@ -83,7 +83,8 @@ Namespace Layouts.Cola
             Else
                 Me.roots.Add(New ModuleSet())
                 For i As Integer = 0 To n - 1
-                    Me.roots(0).add(InlineAssignHelper(Me.modules(i), New [Module](i)))
+                    Me.modules(i) = New [Module](i)
+                    Me.roots(0).add(Me.modules(i))
                 Next
             End If
             Me.R = edges.Length
@@ -147,7 +148,7 @@ Namespace Layouts.Cola
         ''' <param name="b"></param>
         ''' <param name="k"></param>
         ''' <returns></returns>
-        Public Function merge(a As [Module], b As [Module], Optional k As Double = 0) As [Module]
+        Public Function merge(a As [Module], b As [Module], Optional k As Integer = 0) As [Module]
             Dim inInt = a.incoming.intersection(b.incoming)
             Dim outInt = a.outgoing.intersection(b.outgoing)
             Dim children = New ModuleSet()
@@ -222,9 +223,9 @@ Namespace Layouts.Cola
             Return Me.R - inInt.count() - outInt.count()
         End Function
 
-        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge)) As List(Of Group)
-            Dim groups As New List(Of Group)
-            Dim root As New Group
+        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge(Of Integer))) As List(Of IndexGroup)
+            Dim groups As New List(Of IndexGroup)
+            Dim root As New IndexGroup
 
             Call toGroups(Me.roots(0), root, groups)
             Call Me.allEdges() _
@@ -233,29 +234,24 @@ Namespace Layouts.Cola
                             Dim b = Me.modules(e.target)
                             Dim from% = If(a.gid Is Nothing, e.source, groups(a.gid))
                             Dim to% = If(b.gid Is Nothing, e.target, groups(b.gid))
-                            Dim pe As New PowerEdge(from%, to%, e.type)
+                            Dim pe As New PowerEdge(Of Integer)(from%, to%, e.type)
 
                             retargetedEdges.Add(pe)
                         End Sub)
             Return groups
         End Function
 
-        Private Function allEdges() As List(Of PowerEdge)
-            Dim es As New List(Of PowerEdge)
+        Private Function allEdges() As List(Of PowerEdge(Of Integer))
+            Dim es As New List(Of PowerEdge(Of Integer))
             Configuration(Of Link).getEdges(Me.roots(0), es)
             Return es
         End Function
 
-        Shared Sub getEdges(modules As ModuleSet, es As List(Of PowerEdge))
+        Shared Sub getEdges(modules As ModuleSet, es As List(Of PowerEdge(Of Integer)))
             modules.forAll(Sub(m)
                                m.getEdges(es)
                                Configuration(Of Link).getEdges(m.children, es)
                            End Sub)
         End Sub
-
-        Private Shared Function InlineAssignHelper(Of T)(ByRef target As T, value As T) As T
-            target = value
-            Return value
-        End Function
     End Class
 End Namespace

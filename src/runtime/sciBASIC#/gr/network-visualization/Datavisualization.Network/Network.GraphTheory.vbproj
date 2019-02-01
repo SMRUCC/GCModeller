@@ -390,6 +390,8 @@
     <Compile Include="Graph\GraphTree.vb" />
     <Compile Include="Layouts\Cola\batch.vb" />
     <Compile Include="Layouts\Cola\descent.vb" />
+    <Compile Include="Layouts\Cola\Layout\ProjectionExtensions.vb" />
+    <Compile Include="Layouts\Cola\Layout\Projection.vb" />
     <Compile Include="Layouts\Cola\Models\DirectedEdge.vb" />
     <Compile Include="Graph\Selector.vb" />
     <Compile Include="IO\FileStream\Json\json.vb" />
@@ -404,7 +406,7 @@
     <Compile Include="Layouts\Cola\Layout\Node.vb" />
     <Compile Include="Layouts\Cola\Layout\Event.vb" />
     <Compile Include="Layouts\Cola\Layout\layout.vb" />
-    <Compile Include="Layouts\Cola\Layout3D\LinkAccessor.vb" />
+    <Compile Include="Layouts\Cola\Models\Accessor\LinkAccessor.vb" />
     <Compile Include="Layouts\Cola\Layout3D\layout3d.vb" />
     <Compile Include="Layouts\Cola\Layout3D\Module1.vb" />
     <Compile Include="Layouts\Cola\linklengths.vb" />
@@ -415,8 +417,9 @@
     <Compile Include="Layouts\Cola\Models\Locks.vb" />
     <Compile Include="Layouts\Cola\Models\Node3D.vb" />
     <Compile Include="Layouts\Cola\Models\Link3D.vb" />
+    <Compile Include="Layouts\Cola\PowerGraph\PowerGraph.vb" />
     <Compile Include="Layouts\Cola\PowerGraph\Configuration.vb" />
-    <Compile Include="Layouts\Cola\PowerGraph\powergraph.vb" />
+    <Compile Include="Layouts\Cola\PowerGraph\AlgorithmExtensions.vb" />
     <Compile Include="Layouts\Cola\PowerGraph\Module.vb" />
     <Compile Include="Layouts\Cola\PowerGraph\LinkSet.vb" />
     <Compile Include="Layouts\Cola\PowerGraph\PowerEdge.vb" />

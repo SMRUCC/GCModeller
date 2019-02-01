@@ -1,68 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::064f88a98661b0cfface4cdf684fb6d3, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout\Node.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class InputNode
-    ' 
-    ' 
-    ' 
-    '     Class Node
-    ' 
-    '         Function: makeRBTree
-    ' 
-    '     Class Group
-    ' 
-    '         Function: isGroup
-    ' 
-    '     Class Link
-    ' 
-    '         Properties: length, source, target, weight
-    ' 
-    '     Delegate Function
-    ' 
-    ' 
-    '     Class LinkLengthTypeAccessor
-    ' 
-    '         Function: [getType]
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class InputNode
+' 
+' 
+' 
+'     Class Node
+' 
+'         Function: makeRBTree
+' 
+'     Class Group
+' 
+'         Function: isGroup
+' 
+'     Class Link
+' 
+'         Properties: length, source, target, weight
+' 
+'     Delegate Function
+' 
+' 
+'     Class LinkLengthTypeAccessor
+' 
+'         Function: [getType]
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
+Imports Microsoft.VisualBasic.Language.JavaScript
 
 Namespace Layouts.Cola
 
@@ -109,10 +112,34 @@ Namespace Layouts.Cola
         Public id As Integer
         Public name As String
         Public routerNode As Node
-        Public prev As RBNode(Of Node, Object)
-        Public [next] As RBNode(Of Node, Object)
+        Public prev As RBTree(Of Integer, Node)
+        Public [next] As RBTree(Of Integer, Node)
+
+        Default Public Property GetNode(direction As String) As RBTree(Of Integer, Node)
+            Get
+                Select Case direction
+                    Case NameOf(prev)
+                        Return prev
+                    Case NameOf([next])
+                        Return [next]
+                    Case Else
+                        Throw New NotImplementedException(direction)
+                End Select
+            End Get
+            Set
+                Select Case direction
+                    Case NameOf(prev)
+                        prev = Value
+                    Case NameOf([next])
+                        [next] = Value
+                    Case Else
+                        Throw New NotImplementedException(direction)
+                End Select
+            End Set
+        End Property
 
         Public r As Rectangle2D
+        Public v As Variable
         Public bounds As Rectangle2D
         Public pos As Double
         Public _dragGroupOffsetY As Double
@@ -121,37 +148,56 @@ Namespace Layouts.Cola
         Public py As Double?
         Public parent As Group
 
-        Public Shared Function makeRBTree() As RBNode(Of Node, Object)
-            Return New RBNode(Of Node, Object)(Nothing, Nothing)
+        Sub New()
+        End Sub
+
+        Sub New(v As Variable, r As Rectangle2D, pos As Double)
+            Me.v = v
+            Me.r = r
+            Me.pos = pos
+
+            prev = makeRBTree()
+            [next] = makeRBTree()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function makeRBTree() As RBTree(Of Integer, Node)
+            Return New RBTree(Of Integer, Node)(Function(x, y) x - y, Function(i) i.ToString)
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(node As Node) As Point2D
+            Return New Point2D(node.x, node.y)
+        End Operator
+    End Class
+
+    Public Interface IGroup(Of TGroups, TLeaves)
+        Property id As Integer
+        Property groups As List(Of TGroups)
+        Property leaves As List(Of TLeaves)
+    End Interface
+
+    Public Class IndexGroup : Inherits DynamicPropertyBase(Of Object)
+        Implements IGroup(Of Integer, Integer)
+
+        Public Property leaves As List(Of Integer) Implements IGroup(Of Integer, Integer).leaves
+        Public Property groups As List(Of Integer) Implements IGroup(Of Integer, Integer).groups
+        Public Property id As Integer Implements IGroup(Of Integer, Integer).id
 
     End Class
 
-    Public Class Group
+    Public Class Group : Inherits JavaScriptObject
+        Implements IGroup(Of Group, Node)
 
         Public routerNode As Group
-        Public id As Integer
         Public bounds As Rectangle2D
-        Public leaves As List(Of Node)
-        Public groups As List(Of Group)
         Public padding As Double?
         Public parent As Group
         Public index As Integer
 
-        Public ReadOnly Iterator Property keys As IEnumerable(Of String)
-            Get
-
-            End Get
-        End Property
-
-        Default Public Property PropertyValue(name As String) As Object
-            Get
-
-            End Get
-            Set(value As Object)
-
-            End Set
-        End Property
+        Public Property groups As List(Of Group) Implements IGroup(Of Group, Node).groups
+        Public Property leaves As List(Of Node) Implements IGroup(Of Group, Node).leaves
+        Public Property id As Integer Implements IGroup(Of Group, Node).id
 
         Public Shared Function isGroup(g As Group) As Boolean
             Return g.leaves IsNot Nothing OrElse g.groups IsNot Nothing

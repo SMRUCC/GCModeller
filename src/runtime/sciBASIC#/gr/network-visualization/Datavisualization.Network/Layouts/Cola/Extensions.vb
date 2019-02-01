@@ -55,19 +55,18 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.JavaScript
 Imports Microsoft.VisualBasic.Language.Python
-Imports number = System.Double
 
 Namespace Layouts.Cola
 
-    Public Class Leaf
+    Public Class Leaf : Inherits JavaScriptObject
         Public bounds As Rectangle2D
         Public variable As Variable
     End Class
 
     Public Class ProjectionGroup
         Public bounds As Rectangle2D
-        Public padding As number
-        Public stiffness As number
+        Public padding As Double
+        Public stiffness As Double
         Public leaves As Leaf()
         Public groups As ProjectionGroup()
         Public minVar As Variable
@@ -84,11 +83,11 @@ Namespace Layouts.Cola
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Sub setYCentre(rect As Rectangle2D, cy As number)
+        Public Sub setYCentre(rect As Rectangle2D, cy As Double)
             rect.Y += (cy - rect.CenterY)
         End Sub
 
-        Public Function compareEvents(a As [Event], b As [Event]) As Double
+        Public Function compareEvents(a As [Event], b As [Event]) As Integer
             If (a.pos > b.pos) Then
                 Return 1
             End If
