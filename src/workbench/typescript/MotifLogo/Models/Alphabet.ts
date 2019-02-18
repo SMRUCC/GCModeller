@@ -43,7 +43,7 @@
                 }
             }
 
-            if (typeof bg !== "undefined") {
+            if ((typeof bg !== "undefined") && !Strings.Empty(bg, true)) {
                 this.parseBackground(bg.split(/\s+/));
             } else {
                 var freq: number;

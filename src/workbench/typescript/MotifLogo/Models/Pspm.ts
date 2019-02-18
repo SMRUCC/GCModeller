@@ -15,10 +15,10 @@
 
         public constructor(matrix: Pspm | string | number[][],
             name: string = null,
-            ltrim: number = null,
-            rtrim: number = null,
-            nsites: number = null,
-            evalue: number | string = null) {
+            ltrim: number = 0,
+            rtrim: number = 0,
+            nsites: number = 20,
+            evalue: number | string = 0) {
 
             if (matrix instanceof Pspm) {
                 this.copyInternal(matrix);
@@ -215,19 +215,20 @@
             return this;
         }
 
-        public get_stack(position, alphabet) {
+        public get_stack(position: number, alphabet: Alphabet) {
             "use strict";
-            var row, stack_ic, alphabet_ic, stack, i
+            var row:number[]
+            var stack_ic:number, alphabet_ic:number, stack: Symbol[]
             var sym: Symbol;
-            if (this.alph_length != alphabet.get_size()) {
+            if (this.alph_length != alphabet.size) {
                 throw new Error("ALPHABET_MISMATCH");
             }
             row = this.pspm[position];
             stack_ic = this.get_stack_ic(position, alphabet);
-            alphabet_ic = alphabet.get_ic();
+            alphabet_ic = alphabet.ic;
             stack = [];
-            for (i = 0; i < this.alph_length; i++) {
-                if (alphabet.is_ambig(i)) {
+            for (var i = 0; i < this.alph_length; i++) {
+                if (alphabet.isAmbig(i)) {
                     continue;
                 }
                 sym = new Symbol(i, row[i] * stack_ic / alphabet_ic, alphabet);
