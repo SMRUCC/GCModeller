@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bea1ca07eea63cb5c177327511268e4, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout3D\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::4059f06d9685f72d40afc59012800b42, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Models\Node3D.vb"
 
 ' Author:
 ' 
@@ -31,43 +31,25 @@
 
 ' Summaries:
 
-'     Class IConstraint
+'     Class Node3D
 ' 
-'         Properties: axis, gap, left, right
-' 
-'     Interface DirectedEdgeConstraints
-' 
-'         Properties: axis, gap
-' 
-'     Class LinkSepAccessor
-' 
-' 
-'         Delegate Function
-' 
-'             Properties: getMinSeparation
-' 
+'         Constructor: (+1 Overloads) Sub New
 ' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-
-Imports Microsoft.VisualBasic.Language.JavaScript
-
 Namespace Layouts.Cola
 
-    Public Class IConstraint
-        Public Property axis As String
-        Public Property left() As Double
-        Public Property right() As Double
-        Public Property gap() As Double
-    End Class
+    Public Class Node3D : Inherits Node
 
-    Public Class LinkSepAccessor(Of Link)
-        Inherits LinkAccessor
+        Public z As Double
 
-        Public Property axis As String
-
+        Public Sub New(Optional x As Double = 0, Optional y As Double = 0, Optional z As Double = 0)
+            Me.x = x
+            Me.y = y
+            Me.z = z
+        End Sub
     End Class
 End Namespace

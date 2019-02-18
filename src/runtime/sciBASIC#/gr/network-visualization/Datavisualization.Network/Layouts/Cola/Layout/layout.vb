@@ -77,11 +77,20 @@ Namespace Layouts.Cola
         Private _nodes As Node() = {}
         Private _groups As Group() = {}
         Private _rootGroup As Group
+
+        ''' <summary>
+        ''' 与<see cref="_indexLinks"/>是一一对应的
+        ''' </summary>
         Private _links As Link(Of Node)() = {}
-        Private _constraints As Constraint() = {}
+        ''' <summary>
+        ''' 因为在typescript里面，类型是可变的，所以在这里会需要这个额外的index对象来保持兼容
+        ''' </summary>
+        Private _indexLinks As Link(Of Integer)() = {}
+
+        Private _constraints As Constraint(Of Integer)() = {}
         Private _distanceMatrix As Integer()() = Nothing
         Private _descent As Descent = Nothing
-        Private _directedLinkConstraints As any = Nothing
+        Private _directedLinkConstraints As LinkSepAccessor(Of Link(Of Node)) = Nothing
         Private _threshold As UnionType(Of Double) = 0.01
         Private _visibilityGraph As any = Nothing
         Private _groupCompactness As Double = 0.000001
@@ -108,7 +117,8 @@ Namespace Layouts.Cola
         ' sub-classes can override this method to replace with a more sophisticated eventing mechanism
         Protected Sub trigger(e As [Event])
             If Not Me.[event] Is Nothing AndAlso Me.[event](e.type) IsNot Nothing Then
-                Call Me.[event](e.type)(e)
+                Dim action As Action(Of [Event]) = Me.event(e.type)
+                Call action(e)
             End If
         End Sub
 
@@ -199,7 +209,7 @@ Namespace Layouts.Cola
                 ' if we have links but no nodes, create the nodes array now with empty objects for the links to point at.
                 ' in this case the links are expected to be numeric indices for nodes in the range 0..n-1 where n is the number of nodes
                 Dim n = 0
-                Me._links.DoEach(Sub(l) n = Math.Max(n, CType(l.source, number), CType(l.target, number)))
+                Me._links.DoEach(Sub(l) n = Math.Max(n, l.source.id, l.target.id))
                 Me._nodes = New Node(Interlocked.Increment(n)) {}
                 For i As Integer = 0 To n - 1
                     Me._nodes(i) = New Node
@@ -251,10 +261,10 @@ Namespace Layouts.Cola
             Return Me
         End Function
 
-        Public Function powerGraphGroups(f As Action(Of any)) As Layout
+        Public Function powerGraphGroups(f As Action(Of IndexPowerGraph)) As Layout
             Dim g = powergraphExtensions.getGroups(Of Link(Of Node))(Me._nodes, Me._links, Me.linkAccessor, Me._rootGroup)
             Me.groups(g.groups)
-            f(g)
+            Call f(g)
             Return Me
         End Function
 
@@ -300,17 +310,17 @@ Namespace Layouts.Cola
         '     
 
         Public Function flowLayout(Optional axis As String = "y", Optional minSeparation As Double = 0) As Layout
-            Me._directedLinkConstraints = New With {
-            Key .axis = axis,
-            Key .getMinSeparation = minSeparation
+            Me._directedLinkConstraints = New LinkSepAccessor(Of Link(Of Node)) With {
+            .axis = axis,
+            .getMinSeparation = minSeparation
         }
             Return Me
         End Function
 
-        Public Function flowLayout(Optional axis As String = "y", Optional minSeparation As Func(Of any, number) = Nothing) As Layout
-            Me._directedLinkConstraints = New With {
-            Key .axis = axis,
-            Key .getMinSeparation = Function() minSeparation
+        Public Function flowLayout(Optional axis As String = "y", Optional minSeparation As Func(Of Link(Of Node), Double) = Nothing) As Layout
+            Me._directedLinkConstraints = New LinkSepAccessor(Of Link(Of Node)) With {
+            .axis = axis,
+           .getMinSeparation = New UnionType(Of number) With {.lambda1 = minSeparation}
         }
             Return Me
         End Function
@@ -337,11 +347,11 @@ Namespace Layouts.Cola
         '     * @default empty list
         '     
 
-        Public Function constraints() As Constraint()
+        Public Function constraints() As Constraint(Of Integer)()
             Return Me._constraints
         End Function
 
-        Public Function constraints(c As Constraint()) As Layout
+        Public Function constraints(c As Constraint(Of Integer)()) As Layout
             Me._constraints = c
             Return Me
         End Function
@@ -423,7 +433,7 @@ Namespace Layouts.Cola
             Return Me
         End Function
 
-        Public Function linkDistance(x As LinkNumericPropertyAccessor) As Layout
+        Public Function linkDistance(x As Func(Of Link(Of Node), Double)) As Layout
             Me._linkDistance = New UnionType(Of number) With {
                 .lambda1 = Function(any) x(any)
             }
@@ -491,19 +501,17 @@ Namespace Layouts.Cola
             End If
         End Function
 
-        Public Shared Sub setLinkLength(link As Link(Of Node), length As Double)
-            link.length = length
-        End Sub
-
         Private Function getLinkType(link As Link(Of Node)) As Double
             Return If(_linkType.IsLambda, _linkType(link), 0)
         End Function
 
-        Private linkAccessor As New LinkLengthTypeAccessor() With {
+        Private linkAccessor As New LinkTypeAccessor(Of Link(Of Node)) With {
         .getSourceIndex = AddressOf Layout.getSourceIndex,
         .getTargetIndex = AddressOf Layout.getTargetIndex,
-        .setLength = AddressOf Layout.setLinkLength,
-        .[getType] = Function(l) If(GetType(_linkType) = [Function], Me._linkType(l), 0)
+        .setLength = Sub(l, len) l.length = len,
+        .GetLinkType = Function(l)
+                           Return If(_linkType.IsLambda, Me._linkType(l), 0)
+                       End Function
     }
 
         '*
@@ -599,14 +607,12 @@ Namespace Layouts.Cola
                 ' G is a square matrix with G[i][j] = 1 iff there exists an edge between node i and node j
                 ' otherwise 2. (
                 G__3 = Descent.createSquareMatrix(N__2, Function() 2)
-                Me._links.DoEach(Sub(l)
-                                     If GetType(l.source) Is Double Then
-                                         l.source = Me._nodes(l.source)
-                                     End If
-                                     If GetType(l.target) Is Double Then
-                                         l.target = Me._nodes(l.target)
-                                     End If
-                                 End Sub)
+                Me._links.ForEach(Sub(l, i)
+                                      Dim index = _indexLinks(i)
+
+                                      l.source = Me._nodes(index.source)
+                                      l.target = Me._nodes(index.target)
+                                  End Sub)
                 Me._links.DoEach(Sub(e)
                                      Dim u = Layout.getSourceIndex(e)
                                      Dim v = Layout.getTargetIndex(e)
@@ -661,12 +667,13 @@ Namespace Layouts.Cola
             }
             End If
 
-            Dim curConstraints = If(Me._constraints Is Nothing, Me._constraints, New Object() {})
-            If Me._directedLinkConstraints Then
+            Dim curConstraints As Constraint(Of Integer)() = If(Me._constraints Is Nothing, Me._constraints, {})
+
+            If Me._directedLinkConstraints IsNot Nothing Then
                 Me.linkAccessor.getMinSeparation = Me._directedLinkConstraints.getMinSeparation
 
                 ' todo: add containment constraints between group dummy nodes and their children
-                curConstraints = curConstraints.Concat(generateDirectedEdgeConstraints(Of Link(Of Node))(n__1, Me._links, Me._directedLinkConstraints.axis, (Me.linkAccessor)))
+                curConstraints = curConstraints.Concat(generateDirectedEdgeConstraints(Of Link(Of Node))(n__1, Me._links, Me._directedLinkConstraints.axis, Me.linkAccessor))
             End If
 
             Me.avoidOverlaps(False)
@@ -692,7 +699,7 @@ Namespace Layouts.Cola
 
             ' apply initialIterations with user constraints but no nonoverlap constraints
             If curConstraints.Length > 0 Then
-                Me._descent.project = New Projection(Me._nodes, Me._groups, Me._rootGroup, curConstraints).projectFunctions()
+                Me._descent.project = New Projection(Of Node)(Me._nodes, Me._groups, Me._rootGroup, curConstraints).projectFunctions()
             End If
             Me._descent.run(initialUserConstraintIterations)
             Me.separateOverlappingComponents(w, h, centerGraph)
@@ -704,7 +711,7 @@ Namespace Layouts.Cola
                                       v.x = x(i)
                                       v.y = y(i)
                                   End Sub)
-                Me._descent.project = New Projection(Me._nodes, Me._groups, Me._rootGroup, curConstraints, True).projectFunctions()
+                Me._descent.project = New Projection(Of Node)(Me._nodes, Me._groups, Me._rootGroup, curConstraints, True).projectFunctions()
                 Me._nodes.ForEach(Sub(v, i)
                                       x(i) = v.x
                                       y(i) = v.y
