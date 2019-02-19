@@ -1,7 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
-Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.JavaScript
 
@@ -33,8 +32,8 @@ Namespace Layouts.Cola
                                                   Optional isContained As Boolean = False) As Constraint()
 
             Dim padding As Double = root.padding
-            Dim gn = If(root.groups IsNot Nothing, root.groups.Length, 0)
-            Dim ln = If(root.leaves IsNot Nothing, root.leaves.Length, 0)
+            Dim gn = If(root.groups IsNot Nothing, root.groups.Count, 0)
+            Dim ln = If(root.leaves IsNot Nothing, root.leaves.Count, 0)
             Dim childConstraints As Constraint()
 
             If Not gn Then
@@ -153,13 +152,14 @@ Namespace Layouts.Cola
         Private Sub findXNeighbours(v As Node, scanline As RBTree(Of Integer, Node))
             Dim f = Sub(forward As String, reverse As String)
                         Dim it = scanline.findIter(v.id)
-                        Dim u As New Value(Of Object)
+                        Dim u As New Value(Of Node)
 
                         While (u = it(forward)()) IsNot Nothing
-                            Dim uovervX = u.r.overlapX(v.r)
-                            If uovervX <= 0 OrElse uovervX <= u.r.overlapY(v.r) Then
+                            Dim uovervX = u.Value.r.OverlapX(v.r)
+
+                            If uovervX <= 0 OrElse uovervX <= u.Value.r.OverlapY(v.r) Then
                                 v(forward).Insert(u)
-                                u(reverse).insert(v)
+                                u.Value(reverse).insert(v)
                             End If
                             If uovervX <= 0 Then
                                 Exit While

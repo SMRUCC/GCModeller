@@ -1,11 +1,13 @@
-﻿Imports Microsoft.VisualBasic.Imaging.LayoutModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.JavaScript
 Imports Microsoft.VisualBasic.Language.Python
 
 Namespace Layouts.Cola
 
-    Public Class Projection
+    Public Class Projection(Of GraphNode As IGraphNode)
+
         Private xConstraints As List(Of Constraint)
         Private yConstraints As List(Of Constraint)
         Private variables As Variable()
@@ -54,6 +56,13 @@ Namespace Layouts.Cola
             End If
         End Sub
 
+        ''' <summary>
+        ''' 在这个函数会需要index
+        ''' </summary>
+        ''' <param name="c"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function createSeparation(c As Constraint(Of Integer)) As Constraint(Of Variable)
             Return New Constraint(Of Variable)(Me.nodes(c.left).variable, Me.nodes(c.right).variable, c.gap, If(c.equality IsNot Nothing, c.equality, False))
         End Function
@@ -72,6 +81,7 @@ Namespace Layouts.Cola
             End If
             Dim vs As GraphNode() = c.offsets.Select(Function(o) Me.nodes(o.node)).Sort(Function(a, b) a(axis) - b(axis))
             Dim p As GraphNode = Nothing
+
             vs.DoEach(Sub(v)
                           ' if two nodes overlap then shove the second one along
                           If Not p Is Nothing Then
@@ -87,38 +97,57 @@ Namespace Layouts.Cola
 
         Private Sub createAlignment(c As Constraint(Of Integer))
             Dim u = Me.nodes(c.offsets(0).node).variable
-            Me.makeFeasible(c)
-            Dim cs = If(c.axis = "x", Me.xConstraints, Me.yConstraints)
-            c.offsets.slice(1).DoEach(Sub(o)
-                                          Dim v = Me.nodes(o.node).variable
-                                          cs.Add(New Constraint(u, v, o.offset, True))
-                                      End Sub)
+            Dim cs As List(Of Constraint)
+
+            ' cs列表是引用自模块变量： 
+            ' xConstraints和yConstraints
+            '
+            ' 在下面会对这两个模块变量之中的列表元素进行追加
+            makeFeasible(c)
+            cs = If(c.axis = "x", Me.xConstraints, Me.yConstraints)
+            c _
+                .offsets _
+                .slice(1) _
+                .DoEach(Sub(o)
+                            Dim v = Me.nodes(o.node).variable
+                            Dim cv As New Constraint(u, v, o.offset, True)
+
+                            cs.Add(cv)
+                        End Sub)
         End Sub
 
         Private Sub createConstraints(constraints As Constraint(Of Integer)())
             Dim isSep = Function(c As Constraint(Of Integer)) c.type Is Nothing OrElse c.type = "separation"
+
             Me.xConstraints = constraints.Where(Function(c) c.axis = "x" AndAlso isSep(c)).Select(Function(c) Me.createSeparation(c))
             Me.yConstraints = constraints.Where(Function(c) c.axis = "y" AndAlso isSep(c)).Select(Function(c) Me.createSeparation(c))
-            constraints.Where(Function(c) c.type = "alignment").DoEach(Sub(c) Me.createAlignment(c))
+
+            Call constraints _
+                .Where(Function(c)
+                           Return c.type = "alignment"
+                       End Function) _
+                .DoEach(Sub(c)
+                            Call createAlignment(c)
+                        End Sub)
         End Sub
 
         Private Sub setupVariablesAndBounds(x0 As Double(), y0 As Double(), desired As Double(), getDesired As Func(Of GraphNode, Double))
-            Me.nodes.ForEach(Sub(v, i)
+            Call Me.nodes _
+                .ForEach(Sub(v, i)
+                             If v.fixed Then
+                                 v.variable.weight = If(v.fixedWeight, v.fixedWeight, 1000)
+                                 desired(i) = getDesired(v)
+                             Else
+                                 v.variable.weight = 1
+                             End If
 
-                                 If v.fixed Then
-                                     v.variable.weight = If(v.fixedWeight, v.fixedWeight, 1000)
-                                     desired(i) = getDesired(v)
-                                 Else
-                                     v.variable.weight = 1
-                                 End If
+                             Dim w = (v.width OrElse 0) / 2
+                             Dim h = (v.height OrElse 0) / 2
+                             Dim ix = x0(i)
+                             Dim iy = y0(i)
 
-                                 Dim w = (v.width OrElse 0) / 2
-                                 Dim h = (v.height OrElse 0) / 2
-                                 Dim ix = x0(i)
-                                 Dim iy = y0(i)
-
-                                 v.bounds = New Rectangle2D(ix - w, ix + w, iy - h, iy + h)
-                             End Sub)
+                             v.bounds = New Rectangle2D(ix - w, ix + w, iy - h, iy + h)
+                         End Sub)
         End Sub
 
         Public Sub xProject(x0 As Double(), y0 As Double(), x As Double())
@@ -174,6 +203,7 @@ Namespace Layouts.Cola
                End Sub)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function projectFunctions() As Action(Of Double(), Double(), Double())()
             Return {
                 Sub(x0, y0, x) Me.xProject(x0, y0, x),
@@ -216,16 +246,5 @@ Namespace Layouts.Cola
 
             Me.index = index
         End Sub
-    End Class
-
-    Public Class GraphNode : Inherits Leaf
-        Public fixed As Boolean
-        Public fixedWeight As Double?
-        Public width As Double
-        Public height As Double
-        Public x As Double
-        Public y As Double
-        Public px As Double
-        Public py As Double
     End Class
 End Namespace

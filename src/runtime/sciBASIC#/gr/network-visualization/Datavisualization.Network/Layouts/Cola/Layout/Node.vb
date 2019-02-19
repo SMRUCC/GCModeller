@@ -62,45 +62,43 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language.JavaScript
 
 Namespace Layouts.Cola
 
-    Public Class InputNode
+    Public Class InputNode : Inherits JavaScriptObject
 
         ''' <summary>
         ''' index in nodes array, this is initialized by Layout.start()
         ''' </summary>
-        Public index As Integer
+        Public Property index As Integer
 
         ''' <summary>
         ''' x and y will be computed by layout as the Node's centroid
         ''' </summary>
-        Public x As Double
+        Public Overridable Property x As Double
 
         ''' <summary>
         ''' x and y will be computed by layout as the Node's centroid
         ''' </summary>
-        Public y As Double
+        Public Overridable Property y As Double
 
         ''' <summary>
         ''' specify a width and height of the node's bounding box if you turn on avoidOverlaps
         ''' </summary>
-        Public width As Double
+        Public Overridable Property width As Double
 
         ''' <summary>
         ''' specify a width and height of the node's bounding box if you turn on avoidOverlaps
         ''' </summary>
-        Public height As Double
+        Public Overridable Property height As Double
 
         ''' <summary>
         ''' if fixed, layout will not move the node from its specified starting position
         ''' selective bit mask.  !=0 means layout will not move.
         ''' </summary>
-        Public fixed As Double
+        Public Overridable Property fixed As Double
     End Class
 
     ''' <summary>
@@ -108,44 +106,54 @@ Namespace Layouts.Cola
     ''' upon ingestion
     ''' </summary>
     Public Class Node : Inherits InputNode
+        Implements Indexed
+        Implements IGraphNode
 
-        Public id As Integer
+        Public Property id As Integer Implements Indexed.id
         Public name As String
         Public routerNode As Node
         Public prev As RBTree(Of Integer, Node)
         Public [next] As RBTree(Of Integer, Node)
+        Public children As Integer()
 
-        Default Public Property GetNode(direction As String) As RBTree(Of Integer, Node)
-            Get
-                Select Case direction
-                    Case NameOf(prev)
-                        Return prev
-                    Case NameOf([next])
-                        Return [next]
-                    Case Else
-                        Throw New NotImplementedException(direction)
-                End Select
-            End Get
-            Set
-                Select Case direction
-                    Case NameOf(prev)
-                        prev = Value
-                    Case NameOf([next])
-                        [next] = Value
-                    Case Else
-                        Throw New NotImplementedException(direction)
-                End Select
-            End Set
-        End Property
+        'Default Public Property GetNode(direction As String) As RBTree(Of Integer, Node)
+        '    Get
+        '        Select Case direction
+        '            Case NameOf(prev)
+        '                Return prev
+        '            Case NameOf([next])
+        '                Return [next]
+        '            Case Else
+        '                Throw New NotImplementedException(direction)
+        '        End Select
+        '    End Get
+        '    Set
+        '        Select Case direction
+        '            Case NameOf(prev)
+        '                prev = Value
+        '            Case NameOf([next])
+        '                [next] = Value
+        '            Case Else
+        '                Throw New NotImplementedException(direction)
+        '        End Select
+        '    End Set
+        'End Property
 
         Public r As Rectangle2D
         Public v As Variable
-        Public bounds As Rectangle2D
         Public pos As Double
         Public _dragGroupOffsetY As Double
         Public _dragGroupOffsetX As Double
-        Public px As Double?
-        Public py As Double?
+        Public Property bounds As Rectangle2D Implements IGraphNode.bounds
+        Public Property variable As Variable Implements IGraphNode.variable
+        Public Overloads Property width As Double Implements IGraphNode.width
+        Public Overloads Property height As Double Implements IGraphNode.height
+        Public Property px As Double? Implements IGraphNode.px
+        Public Property py As Double? Implements IGraphNode.py
+        Public Overloads Property x As Double Implements IGraphNode.x
+        Public Overloads Property y As Double Implements IGraphNode.y
+        Public Overloads Property fixed As Boolean Implements IGraphNode.fixed
+        Public Property fixedWeight As Double? Implements IGraphNode.fixedWeight
         Public parent As Group
 
         Sub New()
@@ -169,68 +177,5 @@ Namespace Layouts.Cola
         Public Shared Narrowing Operator CType(node As Node) As Point2D
             Return New Point2D(node.x, node.y)
         End Operator
-    End Class
-
-    Public Interface IGroup(Of TGroups, TLeaves)
-        Property id As Integer
-        Property groups As List(Of TGroups)
-        Property leaves As List(Of TLeaves)
-    End Interface
-
-    Public Class IndexGroup : Inherits DynamicPropertyBase(Of Object)
-        Implements IGroup(Of Integer, Integer)
-
-        Public Property leaves As List(Of Integer) Implements IGroup(Of Integer, Integer).leaves
-        Public Property groups As List(Of Integer) Implements IGroup(Of Integer, Integer).groups
-        Public Property id As Integer Implements IGroup(Of Integer, Integer).id
-
-    End Class
-
-    Public Class Group : Inherits JavaScriptObject
-        Implements IGroup(Of Group, Node)
-
-        Public routerNode As Group
-        Public bounds As Rectangle2D
-        Public padding As Double?
-        Public parent As Group
-        Public index As Integer
-
-        Public Property groups As List(Of Group) Implements IGroup(Of Group, Node).groups
-        Public Property leaves As List(Of Node) Implements IGroup(Of Group, Node).leaves
-        Public Property id As Integer Implements IGroup(Of Group, Node).id
-
-        Public Shared Function isGroup(g As Group) As Boolean
-            Return g.leaves IsNot Nothing OrElse g.groups IsNot Nothing
-        End Function
-    End Class
-
-
-    Public Class Link(Of NodeRefType)
-
-        Public Property source() As NodeRefType
-        Public Property target() As NodeRefType
-
-        ''' <summary>
-        ''' ideal length the layout should try to achieve for this link 
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property length() As Double
-
-        ''' <summary>
-        ''' how hard we should try to satisfy this link's ideal length
-        ''' must be in the range: ``0 &lt; weight &lt;= 1``
-        ''' if unspecified 1 is the default
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property weight() As Double
-    End Class
-
-    Public Delegate Function LinkNumericPropertyAccessor(t As Link(Of Node)) As Double
-
-    Public Class LinkLengthTypeAccessor
-        Inherits LinkLengthAccessor(Of Link(Of Node))
-        Overloads Function [getType]() As LinkNumericPropertyAccessor
-
-        End Function
     End Class
 End Namespace
