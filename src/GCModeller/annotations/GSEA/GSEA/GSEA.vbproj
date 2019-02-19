@@ -165,7 +165,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formats\Grn.vb" />
+    <Compile Include="Formats\Gct.vb" />
     <Compile Include="Formats\Gmt.vb" />
     <Compile Include="IDConvertor.vb" />
     <Compile Include="Imports.vb" />

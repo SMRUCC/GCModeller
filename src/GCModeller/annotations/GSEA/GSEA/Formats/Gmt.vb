@@ -17,7 +17,7 @@ Imports tsv = Microsoft.VisualBasic.Data.csv.IO.File
 ''' a link to the named gene set in MSigDB; if the description is 
 ''' a URL, GSEA provides a link to that URL.
 ''' </summary>
-Public Class Gmt
+Public Class Gmt : Implements IEnumerable(Of Cluster)
 
     Public ReadOnly Property species As String
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -60,5 +60,15 @@ Public Class Gmt
             .attributes = attrs,
             .clusters = parseClusters
         }
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of Cluster) Implements IEnumerable(Of Cluster).GetEnumerator
+        For Each cluster As Cluster In clusters
+            Yield cluster
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
     End Function
 End Class
