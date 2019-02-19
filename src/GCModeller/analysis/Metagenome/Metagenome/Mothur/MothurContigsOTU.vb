@@ -1,54 +1,84 @@
 ﻿#Region "Microsoft.VisualBasic::a2fcb119cfe6dab6c77315761aa1a05a, analysis\Metagenome\Metagenome\Mothur\MothurContigsOTU.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module MothurContigsOTU
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: GetContigAlignmentTemplate, RunAutoScreen, RunAutoScreen2
-    ' 
-    '     Sub: ClusterOTUByMothur
-    ' 
-    ' /********************************************************************************/
+' Module MothurContigsOTU
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: GetContigAlignmentTemplate, RunAutoScreen, RunAutoScreen2
+' 
+'     Sub: ClusterOTUByMothur
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.Docker.Arguments
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+''' <summary>
+''' 
+''' </summary>
+''' <remarks>
+''' https://github.com/SMRUCC/GCModeller/blame/ff1a8a308b6d6b35e360e54483db5500d5759841/src/GCModeller/analysis/Metagenome/mothur_contig_OTU.pl
+''' </remarks>
 Public Module MothurContigsOTU
+
+    Const NoAppEntry$ = "Docker container image id, not found, please config GCModeller docker container at first!"
+
+    ''' <summary>
+    ''' 通过这个只读属性来获取得到一个新的<see cref="Mothur"/>运行环境
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property MothurEnvironment As Mothur
+        Get
+            Dim ref$ = Settings.Mothur Or die(NoAppEntry)
+
+            If App.IsMicrosoftPlatform Then
+                Dim imageID = Image.ParseEntry(ref)
+                Dim mount As New Mount
+
+                ' windows平台下使用Docker进行环境的创建
+                Return New Mothur(container:=imageID, mount:=mount)
+            Else
+                ' linux平台下可以直接进行调用
+                Return New Mothur(ref)
+            End If
+        End Get
+    End Property
 
     ''' <summary>
     ''' 通过配置文件读取mothur程序的路径
@@ -60,14 +90,14 @@ Public Module MothurContigsOTU
     ''' <summary>
     ''' 使用paired-end测序数据通过mothur程序构建出OTU序列
     ''' </summary>
-    ''' <param name="left$"></param>
-    ''' <param name="right$"></param>
+    ''' <param name="left">*.fastq</param>
+    ''' <param name="right">*.fastq</param>
     ''' <param name="workspace$"></param>
     ''' <remarks>
     ''' http://www.opiniomics.org/a-mothur-tutorial-what-can-we-find-out-about-the-horse-gut-metagenome/
     ''' </remarks>
     Public Sub ClusterOTUByMothur(left$, right$, silva$, Optional workspace$ = Nothing, Optional processor% = 2)
-        Dim mothur As New Mothur(Settings.Mothur Or die("Please config GCModeller docker container at first!"))
+        Dim mothur As New Mothur(Settings.Mothur)
         Dim contigs$ = $"{workspace}/contigs.files"
         Dim groups$
         Dim align$ = ""

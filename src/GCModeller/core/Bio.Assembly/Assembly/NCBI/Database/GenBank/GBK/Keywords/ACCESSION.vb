@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac8ff87de2e8ff186a4d5a6241446824, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::2901f45d3805a4a259a8f6516be6720b, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
     ' Author:
     ' 

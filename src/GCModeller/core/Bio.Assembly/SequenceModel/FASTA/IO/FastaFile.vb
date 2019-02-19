@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::3851bf1ece1e26211930f285b89947f8, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::3356928d61006f9605795b4c6b89612f, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class FastaFile
-' 
-'         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
-' 
-'         Constructor: (+8 Overloads) Sub New
-' 
-'         Function: [Select], __createNode, __saveUltraLargeSize, AddRange, AsKSource
-'                   Clone, Contains, Distinct, (+2 Overloads) DocParser, Find
-'                   Generate, GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile
-'                   LoadNucleotideData, Match, ParseDocument, (+2 Overloads) Query, QueryAny
-'                   Read, Remove, (+3 Overloads) Save, SaveData, SingleSequence
-'                   Take, ToLower, ToString, ToUpper
-' 
-'         Sub: Add, AppendToFile, Clear, CopyTo, FlushData
-'              Insert, RemoveAt, Split
-' 
-'         Operators: (+3 Overloads) +, <, >
-' 
-' 
-' /********************************************************************************/
+    '     Class FastaFile
+    ' 
+    '         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
+    ' 
+    '         Constructor: (+8 Overloads) Sub New
+    ' 
+    '         Function: [Select], AddRange, AsKSource, Clone, Contains
+    '                   Distinct, (+2 Overloads) DocParser, Find, Generate, GetEnumerator
+    '                   GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData, Match
+    '                   ParseDocument, (+2 Overloads) Query, QueryAny, Read, Remove
+    '                   (+3 Overloads) Save, SaveData, SingleSequence, Take, ToLower
+    '                   ToString, ToUpper
+    ' 
+    '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
+    '              RemoveAt, Split
+    ' 
+    '         Operators: (+3 Overloads) +, <, >
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

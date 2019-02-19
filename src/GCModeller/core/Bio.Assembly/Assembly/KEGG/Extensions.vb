@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58bf46d1315d90be67c33735e0195e2a, Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::af19d4c443f1d1e9bdf24b5397a15182, Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module Extensions
     ' 
     '         Function: DirectGetChEBI, GetIDpairedList, GetPathwayBrite, IDlistStrings, LevelAKOStatics
-    '                   RemarksTable, (+2 Overloads) TheSameAs, ValidateEntryFormat
+    '                   RemarksTable, SingleID, (+2 Overloads) TheSameAs, ValidateEntryFormat
     '         Interface IKEGGRemarks
     ' 
     '             Properties: Remarks

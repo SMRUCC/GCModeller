@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::d94ad16d202e28581a37324086281520, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::266f5ecefa522da030ffe7f9a3e3e924, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class HttpProcessor
-' 
-'         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
-'                     IsWWWRoot, Out
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __streamReadLine, parseRequest, ToString
-' 
-'         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-'              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
-'              WriteLine, (+2 Overloads) writeSuccess
-' 
-' 
-' /********************************************************************************/
+    '     Class HttpProcessor
+    ' 
+    '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
+    '                     IsWWWRoot, Out
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: __streamReadLine, parseRequest, ToString, writeTemp
+    ' 
+    '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
+    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+    '              WriteLine, (+2 Overloads) writeSuccess
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
