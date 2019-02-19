@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2859828fb18f77637487d9fdec0ee388, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\Graphics2D.vb"
+﻿#Region "Microsoft.VisualBasic::9b690cd5e7f1be5c84ee19be5d0532b1, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\Graphics2D.vb"
 
     ' Author:
     ' 
@@ -244,7 +244,8 @@ Namespace Imaging
         End Function
 
         Public Overrides Sub DrawCircle(center As PointF, fill As Color, stroke As Pen, radius As Single)
-            Throw New NotImplementedException()
+            Call Me.DrawCircle(center, radius, New SolidBrush(fill))
+            Call Me.DrawCircle(center, radius, stroke, fill:=False)
         End Sub
     End Class
 End Namespace

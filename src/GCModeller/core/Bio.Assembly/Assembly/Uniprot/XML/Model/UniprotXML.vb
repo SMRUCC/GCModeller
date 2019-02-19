@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::116df49b950aeb031b70c2f91dd6b435, Bio.Assembly\Assembly\UniProt\XML\Model\UniprotXML.vb"
+﻿#Region "Microsoft.VisualBasic::982361b107c907c1f2d68ef17e8a254f, Bio.Assembly\Assembly\Uniprot\XML\Model\UniprotXML.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: copyright, entries, version
     ' 
-    '         Function: CreateTable, EnumerateEntries, Load, LoadDictionary, ToIndexTable
-    '                   ToString
+    '         Function: [GetType], CreateTable, EnumerateEntries, Load, LoadDictionary
+    '                   ToIndexTable, ToString
     ' 
     ' 
     ' /********************************************************************************/

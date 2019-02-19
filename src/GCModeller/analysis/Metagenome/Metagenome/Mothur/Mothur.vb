@@ -64,7 +64,10 @@ Public Class Mothur
     ''' Create a new mothur docker environment.(工作于Windows Server平台之上)
     ''' </summary>
     ''' <param name="container">The docker container image ID</param>
-    ''' <param name="mount"></param>
+    ''' <param name="mount">
+    ''' 因为Docker容器之中仅包含有应用程序，其他的样本原始数据或者序列数据库都需要通过
+    ''' 这个函数参数所设置的共享文件夹来进行获取
+    ''' </param>
     ''' <param name="home">
     ''' 通过``docker pull xieguigang/gcmodeller-env``得到的容器环境之中,
     ''' Mothur应用程序的默认位置为: ``/home/Mothur.linux_64``

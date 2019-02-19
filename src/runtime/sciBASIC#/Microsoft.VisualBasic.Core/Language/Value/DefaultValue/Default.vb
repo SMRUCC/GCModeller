@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d46bd0117a924034935616586fd3bdf9, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\Default.vb"
+﻿#Region "Microsoft.VisualBasic::fb9631d6c8f0784c97702dc72d5658c0, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\Default.vb"
 
     ' Author:
     ' 
@@ -99,11 +99,13 @@ Namespace Language.Default
         Public ReadOnly Property DefaultValue As T Implements IDefaultValue(Of T).DefaultValue
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                If LazyValue Is Nothing Then
-                    Return Value
-                Else
+                If Not constructor Is Nothing Then
+                    Return constructor()
+                ElseIf Not lazy Is Nothing Then
                     ' using lazy loading, if the default value takes time to creates.
-                    Return LazyValue.Value()
+                    Return lazy.Value()
+                Else
+                    Return value
                 End If
             End Get
         End Property
@@ -111,19 +113,26 @@ Namespace Language.Default
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return LazyValue Is Nothing AndAlso assert(Value)
+                Return lazy Is Nothing AndAlso constructor Is Nothing AndAlso True = assert(value)
             End Get
         End Property
 
+#Region "Default Value/Generator"
         ''' <summary>
         ''' The default value for <see cref="DefaultValue"/>
         ''' </summary>
-        Dim Value As T
+        Dim value As T
 
         ''' <summary>
         ''' 假若生成目标值的时间比较久，可以将其申明为Lambda表达式，这样子可以进行惰性加载
         ''' </summary>
-        Dim LazyValue As Lazy(Of T)
+        Dim lazy As Lazy(Of T)
+
+        ''' <summary>
+        ''' 与<see cref="lazy"/>不同的是，这个会一直产生新的数据
+        ''' </summary>
+        Dim constructor As Func(Of T)
+#End Region
 
         ''' <summary>
         ''' asset that if target value is null?
@@ -159,12 +168,17 @@ Namespace Language.Default
         End Function
 
         Sub New(value As T, Optional assert As Assert(Of Object) = Nothing)
-            Me.Value = value
+            Me.value = value
             Me.assert = assert Or defaultAssert
         End Sub
 
-        Sub New(lazy As Func(Of T), Optional assert As Assert(Of Object) = Nothing)
-            Me.LazyValue = lazy.AsLazy
+        Sub New(populator As Func(Of T), Optional assert As Assert(Of Object) = Nothing, Optional isLazy As Boolean = True)
+            If isLazy Then
+                Me.lazy = populator.AsLazy
+            Else
+                Me.constructor = populator
+            End If
+
             Me.assert = assert Or defaultAssert
         End Sub
 
@@ -179,7 +193,7 @@ Namespace Language.Default
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"default({Value})"
+            Return $"default({value})"
         End Function
 
         ''' <summary>
@@ -193,7 +207,7 @@ Namespace Language.Default
         Public Shared Operator +([default] As DefaultValue(Of T), assert As Assert(Of Object)) As DefaultValue(Of T)
             Return New DefaultValue(Of T) With {
                 .assert = assert,
-                .Value = [default].Value
+                .value = [default].value
             }
         End Operator
 
@@ -201,7 +215,7 @@ Namespace Language.Default
         Public Shared Operator +([default] As DefaultValue(Of T), assert As Expression(Of Func(Of Boolean))) As DefaultValue(Of T)
             Return New DefaultValue(Of T) With {
                 .assert = Function(null) (assert.Compile())(),
-                .Value = [default].Value
+                .value = [default].value
             }
         End Operator
 
@@ -244,7 +258,7 @@ Namespace Language.Default
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(obj As T) As DefaultValue(Of T)
             Return New DefaultValue(Of T) With {
-                .Value = obj,
+                .value = obj,
                 .assert = AddressOf ExceptionHandle.Default
             }
         End Operator
@@ -257,7 +271,7 @@ Namespace Language.Default
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(lazy As Func(Of T)) As DefaultValue(Of T)
             Return New DefaultValue(Of T) With {
-                .LazyValue = lazy.AsLazy,
+                .lazy = lazy.AsLazy,
                 .assert = AddressOf ExceptionHandle.Default
             }
         End Operator

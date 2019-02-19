@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d348a098c85c6e0683ff6b4f4073bf6, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\GraphicsExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::6dd6ac2cd5d1a5908727ee36fa137537, Microsoft.VisualBasic.Core\Extensions\Image\GDI+\GraphicsExtensions.vb"
 
     ' Author:
     ' 
@@ -36,8 +36,9 @@
     '         Function: BackgroundGraphics, CanvasCreateFromImageFile, (+2 Overloads) Clone, ColorBrush, CreateCanvas2D
     '                   (+3 Overloads) CreateGDIDevice, CreateGrayBitmap, EntireImage, GetBrush, GetBrushes
     '                   (+2 Overloads) GetIcon, GetStreamBuffer, GetStringPath, (+2 Overloads) GraphicsPath, ImageAddFrame
-    '                   IsValidGDIParameter, (+3 Overloads) LoadImage, OpenDevice, (+2 Overloads) PointF, SaveIcon
-    '                   SizeF, ToFloat, ToPoint, ToPoints, ToStream
+    '                   IsValidGDIParameter, (+3 Overloads) LoadImage, (+2 Overloads) Opacity, OpenDevice, (+2 Overloads) PointF
+    '                   SaveIcon, SizeF, ToFloat, ToPoint, ToPoints
+    '                   ToStream
     ' 
     '         Sub: (+5 Overloads) DrawCircle
     ' 
@@ -155,6 +156,26 @@ Namespace Imaging
             Next
 
             Return path
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Opacity(fill As Color, val#) As Color
+            Return Color.FromArgb(val * 255, baseColor:=fill)
+        End Function
+
+        <Extension>
+        Public Function Opacity(fill As Brush, val#) As Brush
+            If TypeOf fill Is SolidBrush Then
+                Dim color As Color = DirectCast(fill, SolidBrush).Color
+
+                color = color.Opacity(val)
+                fill = New SolidBrush(color)
+
+                Return fill
+            Else
+                Return fill
+            End If
         End Function
 
         ''' <summary>

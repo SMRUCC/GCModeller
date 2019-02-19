@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b44df9cc6b3713a77e16cf4eca839e1, WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
+﻿#Region "Microsoft.VisualBasic::d17b89fe5cefa98be3146c0e0e31cd3d, WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: __finally, __handleREST, __init, __runDll, Dispose
-    '              handleOtherMethod, handlePOSTRequest
+    '              handleOtherMethod, handlePOSTRequest, handlePUTMethod
     ' 
     ' 
     ' /********************************************************************************/

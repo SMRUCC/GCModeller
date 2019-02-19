@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69d717729fcc377116b5409eb9f54d8e, Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
+﻿#Region "Microsoft.VisualBasic::cfdf2bc3f550574fa59fbe968bdd8b2d, Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
 
     ' Author:
     ' 

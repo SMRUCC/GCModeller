@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d5bd68b57ab5e351c378b83c74fc289, Bio.Repository\Indexing\NamesFactory.vb"
+﻿#Region "Microsoft.VisualBasic::9ac3c4c082d1dac244aad1cbc4755ae3, Bio.Repository\Indexing\NamesFactory.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,6 @@
     ' 
     '     Function: GetNames, PopulateObjects
     ' 
-    ' 
     ' /********************************************************************************/
 
 #End Region
@@ -55,5 +54,3 @@ Public Interface NamesFactory(Of T)
     Function PopulateObjects() As IEnumerable(Of T)
 
 End Interface
-
-

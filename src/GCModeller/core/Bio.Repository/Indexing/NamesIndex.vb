@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8fa0c56cd66aecf438374e522cf0cdd, Bio.Repository\Indexing\NamesIndex.vb"
+﻿#Region "Microsoft.VisualBasic::688d45bbfb901dec58c4cd061393a003, Bio.Repository\Indexing\NamesIndex.vb"
 
     ' Author:
     ' 
@@ -72,4 +72,3 @@ Public Class NamesIndex(Of T)
         End If
     End Function
 End Class
-

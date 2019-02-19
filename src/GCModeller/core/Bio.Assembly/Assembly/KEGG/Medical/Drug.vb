@@ -1,64 +1,71 @@
-﻿#Region "Microsoft.VisualBasic::2468d4910373dd9bd8e9f27a970c41b8, Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::b4d9e07ed518fb2454446165212ad143, Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Drug
-' 
-'         Properties: Activity, Atoms, Bounds, Comments, CompoundID
-'                     DBLinks, Entry, Exact_Mass, Formula, Interaction
-'                     Metabolism, Mol_Weight, Names, Remarks, Source
-'                     Targets
-' 
-'         Function: ToString
-' 
-'     Class Bound
-' 
-'         Properties: a, b, Edit, index, N
-' 
-'         Function: ToString
-' 
-'         Sub: Assign
-' 
-'     Class Atom
-' 
-'         Properties: Atom, Charge, Edit, Formula, index
-'                     M
-' 
-'         Function: ToString
-' 
-'         Sub: Assign
-' 
-' 
-' /********************************************************************************/
+    '     Class ClassInheritance
+    ' 
+    '         Properties: Categories, IsAgent, IsAminoAcid, IsAntibacterial, IsAntiInflammatory
+    '                     Label
+    ' 
+    '         Function: PopulateClasses, ToString
+    ' 
+    '     Class Drug
+    ' 
+    '         Properties: Atoms, Bounds, Classes, Comments, CompoundID
+    '                     DBLinks, Efficacy, Entry, Exact_Mass, Formula
+    '                     Interaction, Metabolism, Mol_Weight, Names, Remarks
+    '                     Source, Targets
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Bound
+    ' 
+    '         Properties: a, b, Edit, index, N
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: Assign
+    ' 
+    '     Class Atom
+    ' 
+    '         Properties: Atom, Charge, Edit, Formula, index
+    '                     M
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: Assign
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
