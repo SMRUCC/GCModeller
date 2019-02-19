@@ -105,6 +105,11 @@ Namespace Text.Xml.Models
         Public Shared Narrowing Operator CType(v As NumericVector) As Double()
             Return v.vector
         End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function SequenceEqual(input() As Double) As Boolean
+            Return vector.SequenceEqual(input)
+        End Function
     End Class
 
     Public Class TermsVector
