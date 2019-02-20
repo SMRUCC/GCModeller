@@ -73,6 +73,7 @@ Namespace NeuralNetwork.StoreProcedure
         Public Property Arguments As NamedValue()
 
         Default Public ReadOnly Property Item(name As String) As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Arguments _
                     .FirstOrDefault(Function(tag) tag.name.TextEquals(name)) _
@@ -130,6 +131,11 @@ Namespace NeuralNetwork.StoreProcedure
             Return $"{name}({Arguments.Select(Function(a) $"{a.name}:={a.text}").JoinBy(", ")})"
         End Function
 
+        ''' <summary>
+        ''' 将激活函数从数据模型转换为对象模型
+        ''' </summary>
+        ''' <param name="af"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(af As ActiveFunction) As IActivationFunction
             Return af.Function
@@ -142,6 +148,11 @@ Namespace NeuralNetwork.StoreProcedure
         Public Shared ReadOnly Property BipolarSigmoid As DefaultValue(Of String) = "BipolarSigmoid(alpha:=2.0)"
 #End Region
 
+        ''' <summary>
+        ''' 将文本表达式解析为激活函数的模型
+        ''' </summary>
+        ''' <param name="expression">这个字符串表达式应该是<see cref="IActivationFunction.ToString()"/>的函数输出结果字符串</param>
+        ''' <returns></returns>
         Public Shared Function Parse(expression As String) As ActiveFunction
             Dim func As Func = FuncParser.TryParse(expression)
 
