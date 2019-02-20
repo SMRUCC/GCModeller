@@ -100,6 +100,8 @@ Module CLI
             actives
         )
 
+        trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
+
         For Each sample As Sample In samples.PopulateNormalizedSamples
             Call trainingHelper.Add(sample.status, sample.target)
         Next
