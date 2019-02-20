@@ -75,5 +75,9 @@ Namespace NeuralNetwork.Activations
         Public Overrides Function Derivative2(y As Double) As Double
             Return Derivative(y)
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{NameOf(SigmoidFunction)}()"
+        End Function
     End Class
 End Namespace

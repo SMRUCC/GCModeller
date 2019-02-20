@@ -174,5 +174,9 @@ Namespace NeuralNetwork.Activations
         Public Overrides Function Derivative2(y As Double) As Double
             Return (_Alpha * (1 - y * y) / 2)
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{NameOf(BipolarSigmoid)}(alpha:={Alpha})"
+        End Function
     End Class
 End Namespace

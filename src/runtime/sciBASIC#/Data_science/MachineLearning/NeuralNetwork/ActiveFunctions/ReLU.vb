@@ -72,5 +72,9 @@ Namespace NeuralNetwork.Activations
         Public Overrides Function Derivative2(y As Double) As Double
             Return 1
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{NameOf(ReLU)}()"
+        End Function
     End Class
 End Namespace

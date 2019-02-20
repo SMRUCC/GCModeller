@@ -110,5 +110,11 @@ Namespace NeuralNetwork.Activations
         ''' 
         Public MustOverride Function Derivative2(y As Double) As Double
 
+        ''' <summary>
+        ''' 必须要重写这个函数来将函数对象序列化为表达式字符串文本
+        ''' </summary>
+        ''' <returns></returns>
+        Public MustOverride Overrides Function ToString() As String
+
     End Class
 End Namespace
