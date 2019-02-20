@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "module": "amd",
-    "target": "es5",
-    "lib": [ "dom", "es5", "dom.iterable", "scripthost" ],
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "../dist",
-    "outFile": "./test/motifLogo.js",
+    "outDir": "./",
+    "outFile": "index.js",
     "declaration": true
   },
   "exclude": [
     "node_modules",
-    "test/motifLogo.d.ts"
+    "index.d.ts"
   ]
 }
