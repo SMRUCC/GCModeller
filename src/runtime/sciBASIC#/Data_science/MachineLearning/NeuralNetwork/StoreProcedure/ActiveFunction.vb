@@ -1,50 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::b892bb6ab5ede99150b3757f60d16d4c, Data_science\MachineLearning\NeuralNetwork\StoreProcedure\ActiveFunction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ActiveFunction
-    ' 
-    '         Properties: [Function], Arguments, name
-    ' 
-    '         Function: HasKey, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ActiveFunction
+' 
+'         Properties: [Function], Arguments, name
+' 
+'         Function: HasKey, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.StoreProcedure
@@ -86,11 +88,11 @@ Namespace NeuralNetwork.StoreProcedure
             Get
                 With Me
                     Select Case name
-                        Case NameOf(Activations.BipolarSigmoidFunction)
+                        Case NameOf(Activations.BipolarSigmoid)
                             If HasKey("alpha") Then
-                                Return New BipolarSigmoidFunction(!alpha)
+                                Return New BipolarSigmoid(!alpha)
                             Else
-                                Return New BipolarSigmoidFunction
+                                Return New BipolarSigmoid
                             End If
                         Case NameOf(Activations.SigmoidFunction)
                             Return New SigmoidFunction
@@ -100,8 +102,8 @@ Namespace NeuralNetwork.StoreProcedure
                             Else
                                 Return New Sigmoid
                             End If
-                        Case NameOf(Activations.ThresholdFunction)
-                            Return New ThresholdFunction
+                        Case NameOf(Activations.Threshold)
+                            Return New Threshold
                         Case NameOf(Activations.ReLU)
                             Return New ReLU
                         Case Else
@@ -126,6 +128,30 @@ Namespace NeuralNetwork.StoreProcedure
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"{name}({Arguments.Select(Function(a) $"{a.name}:={a.text}").JoinBy(", ")})"
+        End Function
+
+#Region "Default Expressions"
+        Public Shared ReadOnly Property ReLU As DefaultValue(Of String) = "ReLU()"
+        Public Shared ReadOnly Property Threshold As DefaultValue(Of String) = "Threshold()"
+        Public Shared ReadOnly Property Sigmoid As DefaultValue(Of String) = "Sigmoid(alpha:=2.0)"
+        Public Shared ReadOnly Property BipolarSigmoid As DefaultValue(Of String) = "BipolarSigmoid(alpha:=2.0)"
+#End Region
+
+        Public Shared Function Parse(expression As String) As ActiveFunction
+            Dim func As Func = FuncParser.TryParse(expression)
+
+            Return New ActiveFunction With {
+                .name = func.Name,
+                .Arguments = func.Args _
+                    .Select(Function(a) a.GetTagValue(":=")) _
+                    .Select(Function(a)
+                                Return New NamedValue With {
+                                    .name = a.Name,
+                                    .text = a.Value
+                                }
+                            End Function) _
+                    .ToArray
+            }
         End Function
     End Class
 End Namespace

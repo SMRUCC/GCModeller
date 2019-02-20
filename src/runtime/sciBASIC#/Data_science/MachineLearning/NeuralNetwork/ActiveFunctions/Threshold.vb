@@ -74,10 +74,10 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     '''
     <Serializable>
-    Public Class ThresholdFunction : Implements IActivationFunction
+    Public Class Threshold : Implements IActivationFunction
 
         ''' <summary>
-        ''' Initializes a new instance of the <see cref="ThresholdFunction"/> class.
+        ''' Initializes a new instance of the <see cref="Threshold"/> class.
         ''' </summary>
         Public Sub New()
         End Sub
@@ -86,7 +86,7 @@ Namespace NeuralNetwork.Activations
             Get
                 Return New ActiveFunction With {
                     .Arguments = {},
-                    .Name = NameOf(ThresholdFunction)
+                    .name = NameOf(Threshold)
                 }
             End Get
         End Property

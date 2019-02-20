@@ -81,7 +81,7 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     ''' 
     <Serializable>
-    Public Class BipolarSigmoidFunction : Implements IActivationFunction
+    Public Class BipolarSigmoid : Implements IActivationFunction
 
         ''' <summary>
         ''' Sigmoid's alpha value.
@@ -103,7 +103,7 @@ Namespace NeuralNetwork.Activations
                     .Arguments = {
                         New NamedValue With {.name = "alpha", .text = Alpha}
                     },
-                    .Name = NameOf(BipolarSigmoidFunction)
+                    .name = NameOf(BipolarSigmoid)
                 }
             End Get
         End Property
@@ -115,7 +115,7 @@ Namespace NeuralNetwork.Activations
         End Sub
 
         ''' <summary>
-        ''' Initializes a new instance of the <see cref="BipolarSigmoidFunction"/> class.
+        ''' Initializes a new instance of the <see cref="BipolarSigmoid"/> class.
         ''' </summary>
         ''' 
         ''' <param name="alpha">Sigmoid's alpha value.</param>

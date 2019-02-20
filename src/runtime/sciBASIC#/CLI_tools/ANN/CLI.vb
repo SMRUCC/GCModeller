@@ -86,7 +86,7 @@ Module CLI
         End If
 
         Dim actives As New Activations.LayerActives With {
-            .hiddens = New Activations.Sigmoid,
+            .hiddens = ActiveFunction.Parse(config.hiddens_active),
             .input = New Activations.Sigmoid,
             .output = New Activations.Sigmoid
         }
