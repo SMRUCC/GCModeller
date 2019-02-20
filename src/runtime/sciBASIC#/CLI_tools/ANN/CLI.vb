@@ -86,9 +86,9 @@ Module CLI
         End If
 
         Dim actives As New Activations.LayerActives With {
-            .hiddens = ActiveFunction.Parse(config.hiddens_active),
-            .input = New Activations.Sigmoid,
-            .output = New Activations.Sigmoid
+            .hiddens = ActiveFunction.Parse(config.hiddens_active Or ActiveFunction.ReLU),
+            .input = ActiveFunction.Parse(config.hiddens_active Or ActiveFunction.Sigmoid),
+            .output = ActiveFunction.Parse(config.hiddens_active Or ActiveFunction.Sigmoid)
         }
         Dim trainingHelper As New TrainingUtils(
             samples.Size.Width, hiddenSize,

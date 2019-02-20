@@ -74,7 +74,7 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     '''
     <Serializable>
-    Public Class Threshold : Implements IActivationFunction
+    Public Class Threshold : Inherits IActivationFunction
 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="Threshold"/> class.
@@ -82,7 +82,7 @@ Namespace NeuralNetwork.Activations
         Public Sub New()
         End Sub
 
-        Public ReadOnly Property Store As ActiveFunction Implements IActivationFunction.Store
+        Public Overrides ReadOnly Property Store As ActiveFunction
             Get
                 Return New ActiveFunction With {
                     .Arguments = {},
@@ -101,7 +101,7 @@ Namespace NeuralNetwork.Activations
         '''
         ''' <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function [Function](x As Double) As Double Implements IActivationFunction.[Function]
+        Public Overrides Function [Function](x As Double) As Double
             Return If((x >= 0), 1, 0)
         End Function
 
@@ -116,7 +116,7 @@ Namespace NeuralNetwork.Activations
         ''' <remarks><para><note>The method is not supported, because it is not possible to
         ''' calculate derivative of the function.</note></para></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Derivative(x As Double) As Double Implements IActivationFunction.Derivative
+        Public Overrides Function Derivative(x As Double) As Double
             Return 0
         End Function
 
@@ -131,7 +131,7 @@ Namespace NeuralNetwork.Activations
         ''' <remarks><para><note>The method is not supported, because it is not possible to
         ''' calculate derivative of the function.</note></para></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Derivative2(y As Double) As Double Implements IActivationFunction.Derivative2
+        Public Overrides Function Derivative2(y As Double) As Double
             Return 0
         End Function
     End Class

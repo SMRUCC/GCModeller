@@ -130,6 +130,11 @@ Namespace NeuralNetwork.StoreProcedure
             Return $"{name}({Arguments.Select(Function(a) $"{a.name}:={a.text}").JoinBy(", ")})"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(af As ActiveFunction) As IActivationFunction
+            Return af.Function
+        End Operator
+
 #Region "Default Expressions"
         Public Shared ReadOnly Property ReLU As DefaultValue(Of String) = "ReLU()"
         Public Shared ReadOnly Property Threshold As DefaultValue(Of String) = "Threshold()"
