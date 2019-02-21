@@ -55,10 +55,8 @@
 #End Region
 
 Imports System.IO
-Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.FileIO
@@ -208,6 +206,7 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="File"></param>
         ''' <param name="Explicit">当参数为真的时候，目标文件不存在则会抛出错误，反之则会返回一个空文件</param>
+        ''' <param name="deli">Delimiter character for tokens in fasta sequence header.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Shared Function Read(File As Path, Optional Explicit As Boolean = True, Optional deli As Char = "|"c) As FastaFile
