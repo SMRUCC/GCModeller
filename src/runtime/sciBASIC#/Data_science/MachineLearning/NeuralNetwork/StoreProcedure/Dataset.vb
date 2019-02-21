@@ -131,13 +131,21 @@ Namespace NeuralNetwork.StoreProcedure
 
         <XmlElement("sample")>
         Public Property DataSamples As SampleList
+
+        ''' <summary>
+        ''' 主要是对<see cref="Sample.status"/>输入向量进行``[0, 1]``区间内的归一化操作
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("normalization")>
         Public Property NormalizeMatrix As NormalizeMatrix
 
         Public Class SampleList : Inherits ListOf
 
-            <XmlElement>
-            Public Property items As Sample()
+            ''' <summary>
+            ''' 样本列表
+            ''' </summary>
+            ''' <returns></returns>
+            <XmlElement("sample")> Public Property items As Sample()
 
             Default Public ReadOnly Property Item(index As Integer) As Sample
                 <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -166,6 +174,10 @@ Namespace NeuralNetwork.StoreProcedure
             End Operator
         End Class
 
+        ''' <summary>
+        ''' 样本的矩阵大小：``[属性长度, 样本数量]``
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Size As Size
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
