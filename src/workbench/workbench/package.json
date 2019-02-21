@@ -1,0 +1,18 @@
+{
+  "name": "workbench",
+  "version": "1.0.0",
+  "description": "GCModeller workbench in typescript, using electron framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "GCModeller"
+  ],
+  "author": "xieguigang",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^4.0.4"
+  }
+}

@@ -10,8 +10,13 @@
             this.draw_logo_on_canvas = new CanvasRender(this);
         }
 
-        public drawLogo(div_id: string, pwm: Pspm, scale: number) {
-            this.push_task(new LoadQueryTask(div_id, pwm, scale, this));
+        /** 
+         * @param div_id 需要进行显示的div的id编号字符串，不带``#``符号前缀
+         * @param pwm Motif数据文本
+         * @param scale 缩放倍数
+        */
+        public drawLogo(div_id: string, pwm: Pspm, scale: number = 2) {
+            new LoadQueryTask(div_id, pwm, scale, this).run();
         }
 
         /**
@@ -224,27 +229,5 @@
                 }
             }
         }
-
-        public push_task(task: LoadQueryTask) {
-            this.task_queue.push(task);
-
-            if (this.task_queue.length == 1) {
-                window.setTimeout("process_tasks()", this.task_delay);
-            }
-        }
-
-        public process_tasks() {
-            if (this.task_queue.length == 0) {
-                // no more tasks
-                return;
-            }
-
-            //get next task
-            var task = this.task_queue.shift();
-            task.run();
-            //allow UI updates between tasks
-            window.setTimeout("process_tasks()", this.task_delay);
-        }
-
     }
 }
