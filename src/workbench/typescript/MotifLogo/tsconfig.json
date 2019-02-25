@@ -6,10 +6,11 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "../dist",
-    "outFile": "../build/motifLogo.js",
+    "outFile": "./test/motifLogo.js",
     "declaration": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test/motifLogo.d.ts"
   ]
 }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357a2b2076e485b6ae3a750a0cc44807, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::5fc568c097cb7e6d178c48b02d5b5727, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@
     '             Function: __getMapDIR, __handleFileGET, __httpProcessor, __request404, Open
     ' 
     '             Sub: __handleREST, __transferData, handleGETRequest, handleOtherMethod, handlePOSTRequest
-    '                  RunServer, SetGetRequest
+    '                  handlePUTMethod, RunServer, SetGetRequest
     ' 
     ' 
     ' 
