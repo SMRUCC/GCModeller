@@ -172,6 +172,7 @@
     <Compile Include="EnrichmentResult.vb" />
     <Compile Include="Cluster.vb" />
     <Compile Include="Enrichment.vb" />
+    <Compile Include="KOBAS\GSEA.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -237,8 +238,6 @@
       <Name>OBO_Foundry</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KOBAS\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
