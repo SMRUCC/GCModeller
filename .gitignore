@@ -244,3 +244,4 @@ pip-log.txt
 *.dtbcache
 /plot
 /src/runtime/sciBASIC#/CLI_tools/Apps
+/src/.vs/ProjectSettings.json
