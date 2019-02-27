@@ -109,4 +109,33 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         ' NOTE: sort_r is 1*gene_num matrix
         Return (sort_r, sort_gene_index)
     End Function
+
+    Public Function ES_all(sort_r#, sort_gene_index, hit_matrix_filtered, weighted_score_type%, gene_num%)
+        Dim hitm As Vector = hit_matrix_filtered(sort_gene_index)
+        Dim missm = hitm - 1
+        Dim sort_arr As Vector = sort_r.Repeats(hitm.Length)
+        Dim tmp As Vector
+
+        If weighted_score_type = 0 Then
+            tmp = hitm
+        ElseIf weighted_score_type = 1 Then
+            tmp = sort_arr.Abs * hitm
+        ElseIf weighted_score_type = 2 Then
+            tmp = (sort_arr ^ 2) * hitm
+        Else
+            tmp = (sort_arr.Abs ^ weighted_score_type) * hitm
+        End If
+
+        Dim NR = tmp.Sum
+        Dim hit_score = tmp / NR
+        Dim miss_score = 1 / (gene_num - hitm.Length) * missm
+        Dim pre_score = hit_score + miss_score
+
+        Dim RES As Vector = pre_score.CumSum
+        Dim es_idx = Function(x As Vector) As Integer()
+                         Return Which.IsTrue(Math.Abs(x.Max()) > Math.Abs(x.Min()), (x.Max(), x.argmax()), (x.Min(), x.argmin()))
+                     End Function
+        Dim re = es_idx(RES)
+
+    End Function
 End Module
