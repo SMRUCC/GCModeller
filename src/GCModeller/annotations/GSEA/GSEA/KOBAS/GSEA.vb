@@ -65,4 +65,48 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
         Return (hit_matrix_filtered, hit_genes_filtered, hit_sum_filtered, gset_name_filtered, gset_des_filtered)
     End Function
+
+    Public Function rankPro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
+        Dim index_0 As New List(Of Integer)
+        Dim index_1 As New List(Of Integer)
+
+        For Each i In lb.SeqIterator
+            ' abstract index As i, content As j
+
+            If i.value = 0 Then
+                index_0.Add(i)
+            Else
+                index_1.Add(i)
+            End If
+        Next
+
+        ' abstract all rows in column index_0 includes. [row,column]
+        Dim expr_0 = expr_data(index_0)
+        Dim expr_1 = expr_data(index_1)
+        Dim mean_0 = expr_0.Average
+        Dim mean_1 = expr_1.Average
+        Dim std_0 = expr_0.StdError
+        Dim std_1 = expr_0.StdError
+
+        Dim sort_gene_index
+        Dim sort_r
+
+        If md = "snr" Then
+            Dim s2n = (mean_0 - mean_1) / (std_0 + std_1)
+            ' this step get index after sorted, then use this index to get gene list from gene_name
+
+            ' this step get s2n value after sorted
+
+        ElseIf md = "ttest" Then
+            Dim a = mean_0 - mean_1
+            Dim s0 = std_0 ^ 2
+            Dim s1 = std_1 ^ 2
+            Dim b = Math.Sqrt(s0 / sample0 + s1 / sample1)
+            Dim ttest = a / b
+
+        End If
+
+        ' NOTE: sort_r is 1*gene_num matrix
+        Return (sort_r, sort_gene_index)
+    End Function
 End Module
