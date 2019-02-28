@@ -144,29 +144,37 @@ Public Module Volcano
             {-1, Color.Lime}, ' 下调
             {0, Color.Gray}    ' 没有变化
         }
-        Return genes.Select(
-            Function(g) New DEGModel With {
-                .label = label(g),
-                .logFC = x(g),
-                .pvalue = y(g)
-        }).Plot(factor, colors,
+        Return genes _
+            .Select(Function(g)
+                        Return New DEGModel With {
+                            .label = label(g),
+                            .logFC = x(g),
+                            .pvalue = y(g)
+                        }
+                    End Function).Plot(factor, colors,
                 size, padding, bg,
                 displayLabel:=displayLabel,
                 labelFontStyle:=labelFontStyle,
-                axisLayout:=ylayout)
+                axisLayout:=ylayout
+            )
     End Function
 
     ReadOnly black As Brush = Brushes.Black
     ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Private Function CreateModel(Of T As IDeg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
-        Return source.Select(
-            Function(g) New DEGModel With {
-                .label = g.label,
-                .logFC = g.log2FC,
-                .pvalue = pvalueTranslate(g.pvalue)
-            })
+    Private Function CreateModel(Of T As IDeg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double), labelP#) As IEnumerable(Of DEGModel)
+        Return source _
+            .Select(Function(g)
+                        Dim P = pvalueTranslate(g.pvalue)
+
+                        Return New DEGModel With {
+                            .label = If(P >= labelP, g.label, Nothing),
+                            .logFC = g.log2FC,
+                            .pvalue = P
+                        }
+                    End Function)
     End Function
 
     ''' <summary>
@@ -199,10 +207,11 @@ Public Module Volcano
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
                                        Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO,
-                                       Optional displayCount As Boolean = True) As GraphicsData
+                                       Optional displayCount As Boolean = True,
+                                       Optional labelP As Double = -1) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes _
-            .CreateModel(translate Or P) _
+            .CreateModel(translate Or P, labelP) _
             .ToArray
 
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
@@ -277,7 +286,7 @@ Public Module Volcano
 
                 Dim scaler As New DataScaler With {
                     .AxisTicks = (xTicks, yTicks),
-                    .Region = plotRegion,
+                    .region = plotRegion,
                     .X = x,
                     .Y = y
                 }
