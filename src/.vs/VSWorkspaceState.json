@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\runtime",
+    "\\runtime\\sciBASIC#",
+    "\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core",
+    "\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\Extensions",
+    "\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\Extensions\\Collection"
+  ],
+  "SelectedNode": "\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\Extensions\\Collection\\Vector.vb",
+  "PreviewInSolutionExplorer": false
+}
