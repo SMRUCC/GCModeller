@@ -353,7 +353,7 @@ Public Module Volcano
                         .Anchors(labels.GetLabelAnchors(ptSize)) _
                         .Width(plotRegion.Width) _
                         .Height(plotRegion.Height) _
-                        .Start(showProgress:=True, nsweeps:=300)
+                        .Start(showProgress:=True, nsweeps:=500)
 
                     For Each label As SeqValue(Of Label) In labels.SeqIterator
                         With label.value
