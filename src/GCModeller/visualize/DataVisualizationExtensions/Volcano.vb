@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.d3js
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -307,6 +308,7 @@ Public Module Volcano
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 Dim labels As New List(Of Label)
+                Dim anchors As New List(Of PointF)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor% = factors(gene)
@@ -327,17 +329,38 @@ Public Module Volcano
                         Case LabelTypes.DEG
                             If factor <> 0 AndAlso Not gene.label.StringEmpty Then
                                 labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
                             End If
                         Case LabelTypes.ALL
                             If Not gene.label.StringEmpty Then
                                 labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
                             End If
                         Case Else  ' 自定义
                             If Not gene.label.StringEmpty Then
                                 labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
                             End If
                     End Select
                 Next
+
+                If labels > 0 Then
+                    Dim black As SolidBrush = System.Drawing.Brushes.Black
+
+                    Call d3js.labeler _
+                        .Labels(labels) _
+                        .Anchors(labels.GetLabelAnchors(ptSize)) _
+                        .Width(plotRegion.Width) _
+                        .Height(plotRegion.Height) _
+                        .Start(showProgress:=False, nsweeps:=500)
+
+                    For Each label As SeqValue(Of Label) In labels.SeqIterator
+                        With label.value
+                            Call g.DrawLine(Pens.Black, .ByRef, anchors(label))
+                            Call g.DrawString(.text, labelFont, black, .ByRef)
+                        End With
+                    Next
+                End If
 
                 With region
                     Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
