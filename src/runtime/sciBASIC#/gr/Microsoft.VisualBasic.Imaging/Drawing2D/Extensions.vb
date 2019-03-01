@@ -262,7 +262,7 @@ Namespace Drawing2D
         Public Function MoveTo(shape As IEnumerable(Of Point), location As PointF, Optional type As MoveTypes = MoveTypes.BoundsBoxTopLeft) As Point()
             Return shape _
                 .Select(Function(point) point.PointF) _
-                .MoveTo(location) _
+                .MoveTo(location, type) _
                 .Select(Function(point) point.ToPoint) _
                 .ToArray
         End Function
