@@ -348,16 +348,19 @@ Public Module Volcano
                 If labels > 0 Then
                     Dim black As SolidBrush = System.Drawing.Brushes.Black
 
-                    Call d3js.labeler _
+                    Call d3js.labeler(maxMove:=20) _
                         .Labels(labels) _
                         .Anchors(labels.GetLabelAnchors(ptSize)) _
                         .Width(plotRegion.Width) _
                         .Height(plotRegion.Height) _
-                        .Start(showProgress:=True, nsweeps:=500)
+                        .Start(showProgress:=True, nsweeps:=1000)
 
                     For Each label As SeqValue(Of Label) In labels.SeqIterator
                         With label.value
-                            Call g.DrawLine(Pens.Black, .ByRef, anchors(label))
+                            Dim textAnchor = .Rectangle _
+                                             .GetTextAnchor(anchors(label))
+
+                            Call g.DrawLine(Pens.Black, textAnchor, anchors(label))
                             Call g.DrawString(.text, labelFont, black, .ByRef)
                         End With
                     Next
