@@ -214,6 +214,7 @@ Public Module Volcano
 
         Dim DEG_matrix As DEGModel() = genes _
             .CreateModel(translate Or P, labelP) _
+            .Where(Function(g) Not g.pvalue.IsNaNImaginary) _
             .ToArray
 
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
