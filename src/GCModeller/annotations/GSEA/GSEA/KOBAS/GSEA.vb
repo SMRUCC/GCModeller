@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
-Public Module GSEA
+Public Module KOBAS_GSEA
 
     ''' <summary>
     ''' This function get a matrix of all gene sets
