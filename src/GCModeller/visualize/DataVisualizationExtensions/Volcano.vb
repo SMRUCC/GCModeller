@@ -204,7 +204,7 @@ Public Module Volcano
                                        Optional ptSize! = 5,
                                        Optional translate As Func(Of Double, Double) = Nothing,
                                        Optional displayLabel As LabelTypes = LabelTypes.None,
-                                       Optional labelFontStyle$ = CSSFont.PlotTitle,
+                                       Optional labelFontStyle$ = CSSFont.Win7Normal,
                                        Optional legendFont$ = CSSFont.Win7LargeBold,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
                                        Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
@@ -352,7 +352,7 @@ Public Module Volcano
                         .Anchors(labels.GetLabelAnchors(ptSize)) _
                         .Width(plotRegion.Width) _
                         .Height(plotRegion.Height) _
-                        .Start(showProgress:=False, nsweeps:=500)
+                        .Start(showProgress:=True, nsweeps:=300)
 
                     For Each label As SeqValue(Of Label) In labels.SeqIterator
                         With label.value
