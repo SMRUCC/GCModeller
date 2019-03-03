@@ -95,7 +95,7 @@ get_significance <- function(ratio){
 
     Sub matrixSplitTest()
 
-        Dim rawMatrix = DataSet.LoadDataSet("D:\test\HXB.csv").TotalSumNormalize.ToArray
+        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\结果和报告\1. samples\HXB.csv").TotalSumNormalize.ToArray
         Dim sampleInfo = {
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},
