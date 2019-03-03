@@ -142,7 +142,7 @@ Public Module LabelFreeTtest
             Yield New DEP_iTraq With {
                 .ID = proteins(i).ID,
                 .FCavg = foldChanges(i),
-                .log2FC = foldChanges(i),
+                .log2FC = log2FC(i),
                 .pvalue = pvalue(i),
                 .Properties = proteins(i) _
                     .SubSet(allSamples) _

@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::42d69ed3e6bbf20aaac1384337fa4a36, GCModeller.DataVisualization\Volcano.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Volcano
-    ' 
-    '     Properties: PValueThreshold
-    ' 
-    '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
-    '     Structure DEGModel
-    ' 
-    '         Properties: label, logFC, pvalue
-    ' 
-    '         Function: ToString
-    ' 
-    '     Enum LabelTypes
-    ' 
-    '         ALL, Custom, DEG, None
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module Volcano
+' 
+'     Properties: PValueThreshold
+' 
+'     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
+'     Structure DEGModel
+' 
+'         Properties: label, logFC, pvalue
+' 
+'         Function: ToString
+' 
+'     Enum LabelTypes
+' 
+'         ALL, Custom, DEG, None
+' 
+' 
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,8 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.d3js
+Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -202,7 +204,7 @@ Public Module Volcano
                                        Optional ptSize! = 5,
                                        Optional translate As Func(Of Double, Double) = Nothing,
                                        Optional displayLabel As LabelTypes = LabelTypes.None,
-                                       Optional labelFontStyle$ = CSSFont.PlotTitle,
+                                       Optional labelFontStyle$ = CSSFont.Win7Normal,
                                        Optional legendFont$ = CSSFont.Win7LargeBold,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
                                        Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
@@ -212,6 +214,7 @@ Public Module Volcano
 
         Dim DEG_matrix As DEGModel() = genes _
             .CreateModel(translate Or P, labelP) _
+            .Where(Function(g) Not g.pvalue.IsNaNImaginary) _
             .ToArray
 
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
@@ -245,16 +248,6 @@ Public Module Volcano
         Return g.Allocate(size.SizeParser, padding, bg) <=
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-
-                ' 因为在下面的lambda表达式drawLabel之中，不可以使用ByRef传递的g变量，
-                ' 所以在这里需要额外的申明来避免错误
-                Dim gdi As IGraphics = g
-                Dim drawLabel = Sub(label$, pos As PointF)
-                                    With gdi.MeasureString(label, labelFont)
-                                        pos = New PointF(pos.X - .Width / 2, pos.Y + ptSize)
-                                        gdi.DrawString(label, labelFont, black, pos)
-                                    End With
-                                End Sub
 
                 ' 布局如下：
                 '
@@ -315,6 +308,9 @@ Public Module Volcano
                 top = scaler.TranslateY(-Math.Log10(pvalueThreshold))
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
+                Dim labels As New List(Of Label)
+                Dim anchors As New List(Of PointF)
+
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor% = factors(gene)
                     Dim color As Brush = brushes(factor)
@@ -329,19 +325,46 @@ Public Module Volcano
                     End If
 
                     Select Case displayLabel
-                        Case LabelTypes.None' 不进行任何操作
+                        Case LabelTypes.None
+                            ' 不进行任何操作
                         Case LabelTypes.DEG
-                            If factor <> 0 Then
-                                Call drawLabel(gene.label, point)
+                            If factor <> 0 AndAlso Not gene.label.StringEmpty Then
+                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
                             End If
                         Case LabelTypes.ALL
-                            Call drawLabel(gene.label, point)
+                            If Not gene.label.StringEmpty Then
+                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
+                            End If
                         Case Else  ' 自定义
                             If Not gene.label.StringEmpty Then
-                                Call drawLabel(gene.label, point)
+                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                                anchors.Add(point)
                             End If
                     End Select
                 Next
+
+                If labels > 0 Then
+                    Dim black As SolidBrush = System.Drawing.Brushes.Black
+
+                    Call d3js.labeler(maxMove:=20) _
+                        .Labels(labels) _
+                        .Anchors(labels.GetLabelAnchors(ptSize)) _
+                        .Width(plotRegion.Width) _
+                        .Height(plotRegion.Height) _
+                        .Start(showProgress:=True, nsweeps:=1000)
+
+                    For Each label As SeqValue(Of Label) In labels.SeqIterator
+                        With label.value
+                            Dim textAnchor = .Rectangle _
+                                             .GetTextAnchor(anchors(label))
+
+                            Call g.DrawLine(Pens.Black, textAnchor, anchors(label))
+                            Call g.DrawString(.text, labelFont, black, .ByRef)
+                        End With
+                    Next
+                End If
 
                 With region
                     Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
