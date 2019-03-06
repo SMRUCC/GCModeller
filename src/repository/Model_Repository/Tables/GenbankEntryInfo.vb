@@ -83,7 +83,7 @@ Namespace Tables
             Me.Definition = Genbank.Definition.Value.Replace("'", "")
             Me.Species = Genbank.Source.OrganismHierarchy.Lineage.Last
             Me.plasmid = Genbank.SourceFeature.Query("plasmid")
-            Me.MD5Hash = SecurityString.GetFileHashString(File)
+            Me.MD5Hash = SecurityString.GetFileMd5(File)
 
             Return Me
         End Function
