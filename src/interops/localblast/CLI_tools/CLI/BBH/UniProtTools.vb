@@ -86,7 +86,7 @@ Partial Module CLI
     Public Function ExportKOFromUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
-        Dim i As int = 0
+        Dim i As VBInteger = 0
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])

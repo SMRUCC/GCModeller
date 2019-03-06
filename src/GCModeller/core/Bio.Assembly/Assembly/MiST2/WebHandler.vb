@@ -90,7 +90,7 @@ Namespace Assembly.MiST2
         Private Sub ParseGenomeSummary(Profile As MiST2, pageContent As String)
             Dim summary As String = Mid(pageContent, InStr(pageContent, "<!-- Genome summary -->") + 25)
             Dim items = (From m As Match In Regex.Matches(summary, SUMMARY_ITEM, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray
-            Dim p As int = Scan0
+            Dim p As VBInteger = Scan0
 
             Const VALUE_SECTION As String = ">[^<]+</td>"
 
@@ -160,7 +160,7 @@ Namespace Assembly.MiST2
         Public Function Match(strText As String) As Transducin
             Dim Protein As Transducin = New Transducin
             Dim Tokens = Strings.Split(strText, "</td>").Skip(3).ToArray
-            Dim p As int = Scan0
+            Dim p As VBInteger = Scan0
 
             Protein.ID = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.ID = GetValue(Protein.ID)

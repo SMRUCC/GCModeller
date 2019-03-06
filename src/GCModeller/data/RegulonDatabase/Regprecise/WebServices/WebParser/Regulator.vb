@@ -176,7 +176,7 @@ Namespace Regprecise
 
         Public Shared Function CreateObject(str As String) As Regulator
             Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
-            Dim i As int = Scan0
+            Dim i As VBInteger = Scan0
             Dim regulator As New Regulator With {
                 .type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
             }
@@ -196,7 +196,7 @@ Namespace Regprecise
             Dim html$ = regulator.regulator.text.GET
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim i As int = 1
+            Dim i As VBInteger = 1
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then

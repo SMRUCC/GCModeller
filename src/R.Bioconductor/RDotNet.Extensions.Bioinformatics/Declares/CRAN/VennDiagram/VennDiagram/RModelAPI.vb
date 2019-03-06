@@ -127,7 +127,7 @@ Namespace VennDiagram.ModelAPI
             Dim lst As String()() = source.Select(Function(x) lTokens(x.Value)).ToArray
             Dim mapps = VectorMapper(lst)
             Dim result As New Dictionary(Of T, String)
-            Dim i As int = 0
+            Dim i As VBInteger = 0
 
             For Each x In source.ToArray
                 Call result.Add(x.Key, mapps(++i))

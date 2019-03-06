@@ -198,7 +198,7 @@ Partial Module CLI
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
         Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
-        Dim i As int = 0
+        Dim i As VBInteger = 0
         Dim topBest As Boolean = args("/top.best")
 
         Using IO As New WriteStream(Of BestHit)(out)

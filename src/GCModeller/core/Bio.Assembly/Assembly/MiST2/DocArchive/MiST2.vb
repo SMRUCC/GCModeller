@@ -143,7 +143,7 @@ Namespace Assembly.MiST2
                 End If
             Next
 
-            Dim p As int = Scan0
+            Dim p As VBInteger = Scan0
 
             RepliconMajorModule.OneComponent = WebServices.Download(url(++p))
             RepliconMajorModule.TwoComponent = New TwoComponent With {

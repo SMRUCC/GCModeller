@@ -75,7 +75,7 @@ Namespace Analysis
         Public Function BLAST(paths As String(), logDIR As String, parms As InitializeParameter) As List(Of QueryPair())
             Dim files As Comb(Of String) = paths
             Dim localBlast As InteropService = CreateInstance(parms)
-            Dim DIR_index As int = 1
+            Dim DIR_index As VBInteger = 1
             Dim ReturnedList As New List(Of QueryPair())
 
             For Each File As String In paths  'formatdb
@@ -84,7 +84,7 @@ Namespace Analysis
 
             For Each list As Tuple(Of String, String)() In files.CombList
                 Dim DIR As String = String.Format("{0}/{1}/", logDIR, ++DIR_index)
-                Dim index As int = 1
+                Dim index As VBInteger = 1
                 Dim logPairList As New List(Of QueryPair)
 
                 Call DIR.MkDIR
