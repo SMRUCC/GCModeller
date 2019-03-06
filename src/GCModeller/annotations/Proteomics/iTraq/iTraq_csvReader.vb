@@ -114,7 +114,7 @@ Public Module iTraq_csvReader
         Dim headerRows As RowObject() = [in].Take(headers).ToArray
         Dim proteins As New List(Of RowObject)
         Dim row As New Value(Of RowObject)
-        Dim i As int = headers
+        Dim i As VBInteger = headers
 
         Do While Not (row = [in](++i)).IsNullOrEmpty
             If Not row.Value.First.StringEmpty Then

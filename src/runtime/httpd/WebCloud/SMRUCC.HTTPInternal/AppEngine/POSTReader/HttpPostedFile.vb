@@ -143,7 +143,7 @@ Namespace AppEngine.POSTParser
 
             Try
                 Using fs As FileStream = File.Create(filename)
-                    Dim n As int = Scan0
+                    Dim n As VBInteger = Scan0
 
                     inputStream.Position = 0
 

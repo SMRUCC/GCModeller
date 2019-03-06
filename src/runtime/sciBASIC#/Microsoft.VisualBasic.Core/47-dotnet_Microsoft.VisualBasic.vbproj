@@ -1169,7 +1169,7 @@
     <Compile Include="Language\Language\UnixBash\ShellSyntax.vb" />
     <Compile Include="Language\Language\UnixBash\Shell\tree.vb" />
     <Compile Include="Language\Language\UnixBash\Shell\rm.vb" />
-    <Compile Include="Language\Value\Numeric\int.vb" />
+    <Compile Include="Language\Value\Numeric\VBInteger.vb" />
     <Compile Include="Language\Value\Numeric\float.vb" />
     <Compile Include="Language\Value\var.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\Actor%28Of T, V%29.vb" />

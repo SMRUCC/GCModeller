@@ -80,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             entry.Url = sbuf.First.href
             sbuf = sbuf.Skip(3).ToArray
 
-            Dim i As int = Scan0
+            Dim i As VBInteger = Scan0
             entry.Name = sbuf(++i).GetValue
             entry.Description = sbuf(++i).GetValue
             entry.Object = sbuf(++i).GetValue

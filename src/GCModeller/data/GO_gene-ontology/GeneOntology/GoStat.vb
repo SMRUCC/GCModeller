@@ -139,10 +139,10 @@ Public Module GoStat
     ''' 
     <Extension>
     Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, (goID$, number%)()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
-        Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of int))) =
+        Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of VBInteger))) =
             Enums(Of Ontologies) _
             .ToDictionary(Function(o) o.Description,
-                          Function(null) New Dictionary(Of NamedValue(Of int)))
+                          Function(null) New Dictionary(Of NamedValue(Of VBInteger)))
 
         For Each g As gene In genes
             Dim goCounts = getGO(g) _
@@ -158,7 +158,7 @@ Public Module GoStat
 
                 If Not count.ContainsKey(goID) Then
                     Call count.Add(
-                        New NamedValue(Of int) With {
+                        New NamedValue(Of VBInteger) With {
                             .Name = goID,
                             .Description = term.name,
                             .Value = 0
@@ -197,7 +197,7 @@ Public Module GoStat
         Return True
     End Function
 
-    Private Function __t(value As IEnumerable(Of NamedValue(Of int))) As NamedValue(Of Integer)()
+    Private Function __t(value As IEnumerable(Of NamedValue(Of VBInteger))) As NamedValue(Of Integer)()
         Dim array As New List(Of NamedValue(Of Integer))
 
         For Each x In value.Where(Function(c) c.Value.Value > 1).ToArray

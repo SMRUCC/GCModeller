@@ -72,8 +72,8 @@ Namespace Language.Values
             Return New String(s.ToCharArray)
         End Function
 
-        <Extension> Public Function Clone(int As int) As int
-            Return New int(int.value)
+        <Extension> Public Function Clone(int As VBInteger) As VBInteger
+            Return New VBInteger(int.value)
         End Function
 
         <Extension> Public Function Clone(float As float) As float

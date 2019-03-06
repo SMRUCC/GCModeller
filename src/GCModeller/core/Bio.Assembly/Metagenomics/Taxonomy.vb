@@ -288,7 +288,7 @@ Namespace Metagenomics
 
         Public Overrides Function ToString() As String
             Dim tax As New List(Of String)
-            Dim i As int = Scan0
+            Dim i As VBInteger = Scan0
 
             tax += BIOMPrefixAlt(++i) & Me.kingdom
             tax += BIOMPrefixAlt(++i) & Me.phylum

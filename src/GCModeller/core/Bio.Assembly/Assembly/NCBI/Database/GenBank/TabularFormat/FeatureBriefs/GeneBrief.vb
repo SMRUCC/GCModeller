@@ -185,7 +185,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 If(Tokens(1)(0) = "+"c, Strands.Forward, Strands.Reverse))
             Call Gene.Location.Normalization()
 
-            Dim p As int = 2
+            Dim p As VBInteger = 2
             Gene.Length = Tokens(++p)
             Gene.PID = Tokens(++p)
             Gene.Gene = Tokens(++p)
