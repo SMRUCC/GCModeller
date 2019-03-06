@@ -100,4 +100,23 @@ Public Module LICENSE
 
     Public Const GCModeller$ = "http://gcmodeller.org"
 
+    ''' <summary>
+    ''' GCModeller之中的所有的组件通过http请求一些Web API的时候所使用到的默认user-agent字符串。
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property WebRequestUserAgent As String
+
+    ''' <summary>
+    ''' 设置UserAgent
+    ''' </summary>
+    Sub New()
+        WebRequestUserAgent = "GCModeller/1.0 ({1}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3486.0 Safari/537.36 SMRUCC/GCModeller/VisualBasic.NET"
+
+        If App.IsMicrosoftPlatform Then
+            WebRequestUserAgent = WebRequestUserAgent.Replace("{1}", "Windows NT 10.0; Win64; x64")
+        Else
+            WebRequestUserAgent = WebRequestUserAgent.Replace("{1}", "Macintosh; Intel Mac OS X 10_14_1")
+        End If
+    End Sub
+
 End Module

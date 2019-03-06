@@ -43,11 +43,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Text
 Imports ThinkVB.FileSystem.OSS
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
+''' <summary>
+''' 数据文件的下载信息
+''' </summary>
 Public Class manifest
 
     Public Property file_id As String
@@ -77,6 +81,18 @@ Public Class manifest
                 .FirstOrDefault
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Dim basename$
+
+        If HttpURL.StringEmpty Then
+            basename = AsperaURL.FileName
+        Else
+            basename = HttpURL.FileName
+        End If
+
+        Return $"{basename} ({size.Unit(ByteSize.B).ScaleTo(ByteSize.MB)})"
+    End Function
 
     ''' <summary>
     ''' 从tsv表格文件之中加载资源数据

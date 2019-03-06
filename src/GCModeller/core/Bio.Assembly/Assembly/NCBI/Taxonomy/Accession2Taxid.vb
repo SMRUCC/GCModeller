@@ -49,8 +49,17 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.NCBI.Taxonomy
 
+    ''' <summary>
+    ''' 将序列的AccessionID编号转换为Taxid编号
+    ''' </summary>
     Public Module Accession2Taxid
 
+        ''' <summary>
+        ''' 一次性的加载完整个数据库之中的数据到内存之中（不推荐）
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadAll(DIR$) As BucketDictionary(Of String, Integer)
             Return DIR.__loadData _
                 .CreateBuckets(Function(x) x.Name,
