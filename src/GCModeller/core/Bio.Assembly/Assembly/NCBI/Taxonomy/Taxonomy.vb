@@ -71,7 +71,7 @@ Namespace Assembly.NCBI.Taxonomy
 
         Public Property Name As String
         ''' <summary>
-        ''' Other tag value
+        ''' Other tagged value
         ''' </summary>
         ''' <returns></returns>
         Public Property x As String
@@ -92,10 +92,13 @@ Namespace Assembly.NCBI.Taxonomy
                          In source
                          Select p
                          Group By gi = p.Name Into Group
-            Return groups.ToDictionary(
-                Function(x) x.gi,
-                Function(x) x.Group.Select(
-                Function(o) o.Title).JoinBy("; "))
+
+            Return groups.ToDictionary(Function(x) x.gi,
+                                       Function(x)
+                                           Return x.Group _
+                                               .Select(Function(o) o.Title) _
+                                               .JoinBy("; ")
+                                       End Function)
         End Function
     End Class
 

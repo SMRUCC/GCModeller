@@ -75,6 +75,10 @@ Namespace Assembly.NCBI.Entrez
 
         Public Const API As String = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={0}&rettype={1}&retmode=xml"
 
+        Sub New()
+            WebServiceUtils.DefaultUA = LICENSE.WebRequestUserAgent
+        End Sub
+
         ''' <summary>
         ''' NCBI efetch can use an accession number instead of a gi. and the XML/Fasta returned by efetch contains the taxonomy-ID:
         ''' </summary>

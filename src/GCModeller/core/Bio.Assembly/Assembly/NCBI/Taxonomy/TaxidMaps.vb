@@ -59,6 +59,7 @@ Namespace Assembly.NCBI.Taxonomy
                 ReadFile(acc2taxid) _
                 .CreateBuckets(Function(x) x.Name,
                                Function(x) x.Value)
+
             Return Function(acc$) If(taxids.ContainsKey(acc), taxids(acc), -1)
         End Function
 
@@ -112,6 +113,8 @@ Namespace Assembly.NCBI.Taxonomy
         ''' </summary>
         ''' <param name="header$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAccessionId(header$) As String
             Return header _
                 .Split _
