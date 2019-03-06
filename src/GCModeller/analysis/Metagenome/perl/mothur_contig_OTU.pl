@@ -4,6 +4,9 @@
 use File::Basename;
 use File::Copy qw(copy);
 use File::Slurp qw(read_file write_file);
+use Cwd qw(abs_path);
+use lib dirname(dirname abs_path $0) . '/lib';
+use CommandLine;
 
 # 当$debug变量的值不为零的时候，表示处于调试模式，则这个时候脚本只会输出命令行，
 # 而不会发生命令行的实际执行行为
