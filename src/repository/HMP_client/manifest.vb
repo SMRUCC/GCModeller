@@ -49,6 +49,9 @@ Imports Microsoft.VisualBasic.Text
 Imports ThinkVB.FileSystem.OSS
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
+''' <summary>
+''' 数据文件的下载信息
+''' </summary>
 Public Class manifest
 
     Public Property file_id As String
