@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ceed2c4e506264b916bfa056d6fd7099, Microsoft.VisualBasic.Core\Extensions\Doc\LargeTextFile.vb"
+﻿#Region "Microsoft.VisualBasic::9deb1a0997d4d89b2a11b632e987f4d6, Microsoft.VisualBasic.Core\Extensions\Doc\LargeTextFile.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module LargeTextFile
     ' 
-    '     Function: GetLastLine, IteratesStream, IteratesTableData, Merge, Peeks
-    '               Tails
+    '     Function: FixEscapes, GetLastLine, IteratesStream, IteratesTableData, Merge
+    '               Peeks, Tails
     ' 
     ' /********************************************************************************/
 
@@ -53,6 +53,26 @@ Imports Microsoft.VisualBasic.Text
 ''' <remarks></remarks>
 <[Namespace]("Large_Text_File")>
 Public Module LargeTextFile
+
+    ''' <summary>
+    ''' 函数返回结果文件的临时文件的文件路径
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <param name="escape">
+    ''' 这个函数输入文本文件之中的一行数据,然后处理完转义之后将改行的数据返回
+    ''' </param>
+    ''' <returns></returns>
+    Public Function FixEscapes(path$, escape As Func(Of String, String), Optional encoding As Encodings = Encodings.UTF8WithoutBOM) As String
+        Dim temp$ = App.GetAppSysTempFile(".tmp", App.PID)
+
+        Using output As StreamWriter = temp.OpenWriter(encoding)
+            For Each line As String In path.IterateAllLines(encoding)
+                Call output.WriteLine(escape(line))
+            Next
+        End Using
+
+        Return temp
+    End Function
 
     ''' <summary>
     ''' Iterates read all lines in a very large text file, using for loading a very large size csv/tsv file

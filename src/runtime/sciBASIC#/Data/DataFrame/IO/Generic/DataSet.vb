@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86ce0bed2e5f669ade25de3b830e00cb, Data\DataFrame\IO\Generic\DataSet.vb"
+﻿#Region "Microsoft.VisualBasic::1e6544ab2610e58baf94b53acc929b8e, Data\DataFrame\IO\Generic\DataSet.vb"
 
     ' Author:
     ' 
@@ -132,7 +132,7 @@ Namespace IO
                                                             Optional encoding As Encoding = Nothing) As IEnumerable(Of T)
 
             Dim mapFrom$ = uidMap Or New DefaultValue(Of String) With {
-                .LazyValue = New Func(Of String)(Function() __getID(path)).AsLazy
+                .lazy = New Func(Of String)(Function() __getID(path)).AsLazy
             }
             Return path.LoadCsv(Of T)(
                 explicit:=False,

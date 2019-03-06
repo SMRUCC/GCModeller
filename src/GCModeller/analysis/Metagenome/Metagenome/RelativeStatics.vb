@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::1a15aed828a41b411d9042a654313e48, analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RelativeStatics
-    ' 
-    '     Function: ExportByRanks
-    '     Class RankView
-    ' 
-    '         Properties: OTUs, Samples, TaxonomyName, Tree
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class View
-    ' 
-    '         Properties: OTU, Samples, TaxonTree
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module RelativeStatics
+' 
+'     Function: ExportByRanks
+'     Class RankView
+' 
+'         Properties: OTUs, Samples, TaxonomyName, Tree
+' 
+'         Function: ToString
+' 
+'     Class View
+' 
+'         Properties: OTU, Samples, TaxonTree
+' 
+'         Function: ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,9 +58,33 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
 
 Public Module RelativeStatics
+
+    ''' <summary>
+    ''' 计算含量相对丰度，这个函数会合并相同的分类的结果数据
+    ''' </summary>
+    ''' <returns>``[taxonomy => percentage]``</returns>
+    ''' <remarks>
+    ''' 每一个OTU计数就是其丰度值，相对丰度就是这个计数值在总计数之中的百分比值
+    ''' </remarks>
+    <Extension>
+    Public Function RelativeAbundance(metagenome As IEnumerable(Of gastOUT)) As Dictionary(Of String, Double)
+        Dim vector As gastOUT() = metagenome.ToArray
+        Dim all% = Aggregate tax As gastOUT In vector Into Sum(tax.counts)
+        Dim taxonomyGroup = vector _
+            .GroupBy(Function(tax) tax.taxonomy) _
+            .ToArray
+        Dim table = taxonomyGroup _
+            .ToDictionary(Function(tg) tg.Key,
+                          Function(tg)
+                              ' 计算出该物种峰所有的OTU的总计数的百分比得到相对丰度
+                              Return (Aggregate tax As gastOUT In tg Into Sum(tax.counts)) / all
+                          End Function)
+        Return table
+    End Function
 
     ''' <summary>
     ''' 统计OTU在不同的物种分类层次上面每一个实验样品的相对丰度

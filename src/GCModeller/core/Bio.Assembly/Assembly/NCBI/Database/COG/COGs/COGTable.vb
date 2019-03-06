@@ -119,7 +119,7 @@ Namespace Assembly.NCBI.COG.COGs
         End Sub
 
         Protected Sub New(tokens As String())
-            Dim i As int = 0
+            Dim i As VBInteger = 0
 
             DomainID = tokens(++i)
             GenomeName = tokens(++i)

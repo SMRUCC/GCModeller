@@ -219,16 +219,28 @@ Namespace Settings
         End Function
 
         ''' <summary>
-        ''' 获取得到安装有Mothur程序的Docker容器的ID
+        ''' 获取得到安装有Mothur程序的Docker容器的ID, 或者可执行文件路径
         ''' </summary>
         ''' <returns></returns>
         Public Function Mothur() As String
+#If UNIX Then
+
+#End If
+
             ' 如果配置文件之中不存在,则尝试从命令行之中获取
-            If SettingsFile.Mothur.StringEmpty Then
-                Return App.GetVariable
-            Else
-                Return SettingsFile.Mothur
-            End If
+            'If SettingsFile.Mothur.StringEmpty Then
+            '    Return App.GetVariable
+            'Else
+            '    Return SettingsFile.Mothur
+            'End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function MothurHome() As String
+
         End Function
 
         ''' <summary>

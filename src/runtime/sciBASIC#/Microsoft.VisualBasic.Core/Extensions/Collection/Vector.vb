@@ -224,7 +224,7 @@ Public Module VectorExtensions
     <Extension>
     Public Function Fill(Of T)(ByRef vector As T(),
                                data As IEnumerable(Of T),
-                               start As int,
+                               start As VBInteger,
                                Optional reverse As Boolean = False) As T()
         If start < 0 Then
             start = vector.Length + start.Value
@@ -258,6 +258,27 @@ Public Module VectorExtensions
         Call Array.ConstrainedCopy(vector, index + 1, newVector, index, newVector.Length - index)
 
         Return newVector
+    End Function
+
+    ''' <summary>
+    ''' 将指定下标的元素从原始的输入序列之中删除然后返回所得到的新序列
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="vector">原始序列不会被改变</param>
+    ''' <param name="index"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Delete(Of T)(vector As IEnumerable(Of T), index As IEnumerable(Of Integer)) As T()
+        Return vector.Takes(index.ToArray,, reversed:=True)
+    End Function
+
+    <Extension>
+    Public Function Delete(Of T)(list As System.Collections.Generic.List(Of T), index%) As T()
+        With New System.Collections.Generic.List(Of T)(list)
+            Call .RemoveAt(index)
+            Return .ToArray
+        End With
     End Function
 
     <Extension>

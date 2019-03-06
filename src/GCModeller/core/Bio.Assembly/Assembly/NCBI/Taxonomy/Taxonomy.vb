@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::e79f3841172b5eb67f1522a21ce20770, Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::2dcca0b7e2379f50b7281665885bf1be, Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class TaxiValue
-' 
-'         Properties: Name, taxid, TaxonomyTree, Title, x
-' 
-'         Function: BuildHash, ToString
-' 
-'     Class TaxonValue
-' 
-'         Properties: nodes, Rank, sp
-' 
-'     Class BriefInfo
-' 
-' 
-' 
-'     Module Taxonomy
-' 
-'         Function: __gi2Taxid, __loadArchive, AcquireAuto, Archive, Hash_gi2Taxi
-'                   LoadArchive
-' 
-' 
-' /********************************************************************************/
+    '     Class TaxiValue
+    ' 
+    '         Properties: Name, taxid, TaxonomyTree, Title, x
+    ' 
+    '         Function: BuildDictionary, ToString
+    ' 
+    '     Class TaxonValue
+    ' 
+    '         Properties: nodes, Rank, sp
+    ' 
+    '     Class BriefInfo
+    ' 
+    ' 
+    ' 
+    '     Module Taxonomy
+    ' 
+    '         Function: __gi2Taxid, __loadArchive, AcquireAuto, Archive, Hash_gi2Taxi
+    '                   LoadArchive
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -71,7 +71,7 @@ Namespace Assembly.NCBI.Taxonomy
 
         Public Property Name As String
         ''' <summary>
-        ''' Other tag value
+        ''' Other tagged value
         ''' </summary>
         ''' <returns></returns>
         Public Property x As String
@@ -92,10 +92,13 @@ Namespace Assembly.NCBI.Taxonomy
                          In source
                          Select p
                          Group By gi = p.Name Into Group
-            Return groups.ToDictionary(
-                Function(x) x.gi,
-                Function(x) x.Group.Select(
-                Function(o) o.Title).JoinBy("; "))
+
+            Return groups.ToDictionary(Function(x) x.gi,
+                                       Function(x)
+                                           Return x.Group _
+                                               .Select(Function(o) o.Title) _
+                                               .JoinBy("; ")
+                                       End Function)
         End Function
     End Class
 

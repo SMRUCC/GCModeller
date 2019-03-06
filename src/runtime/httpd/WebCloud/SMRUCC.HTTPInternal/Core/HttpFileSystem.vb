@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357a2b2076e485b6ae3a750a0cc44807, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::5fc568c097cb7e6d178c48b02d5b5727, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@
     '             Function: __getMapDIR, __handleFileGET, __httpProcessor, __request404, Open
     ' 
     '             Sub: __handleREST, __transferData, handleGETRequest, handleOtherMethod, handlePOSTRequest
-    '                  RunServer, SetGetRequest
+    '                  handlePUTMethod, RunServer, SetGetRequest
     ' 
     ' 
     ' 
@@ -471,7 +471,7 @@ Namespace Core
             Call $"Transfer data:  {type.ToString} ==> [{buf.Length} Bytes]!".__DEBUG_ECHO
         End Sub
 
-        Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As MemoryStream)
+        Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData$)
 
         End Sub
 
@@ -515,7 +515,7 @@ Namespace Core
             Call p.writeFailure(msg)
         End Sub
 
-        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData As MemoryStream)
+        Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData$)
             Throw New NotImplementedException()
         End Sub
     End Class

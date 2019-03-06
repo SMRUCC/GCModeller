@@ -132,7 +132,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
                 Dim BestValue As String = (From item As Match
                                            In Regex.Matches(strData, "<a href='.+?' target=_ortholog>\d+</a>", RegexOptions.IgnoreCase)
                                            Select item.Value).ToArray.Last
-                Dim p As int = 1
+                Dim p As VBInteger = 1
 
                 ResultItem.Length = strValue(++p)
                 ResultItem.SWScore = strValue(++p) : p += 1
@@ -155,7 +155,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
                 Dim strValue As String() = (From n In strData.Split Where Not String.IsNullOrEmpty(n.Trim) Select n).ToArray
                 Dim BestValue As String = (From item As Match In Regex.Matches(strData, "<a href='.+?' target=_ortholog>\d+</a>", RegexOptions.IgnoreCase) Select item.Value).ToArray.Last
-                Dim p As int = 0
+                Dim p As VBInteger = 0
 
                 ResultItem.Length = strValue(++p)
                 ResultItem.SWScore = strValue(++p) : p += 1

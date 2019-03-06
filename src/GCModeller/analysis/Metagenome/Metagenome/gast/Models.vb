@@ -93,7 +93,7 @@ Namespace gast
         ''' <returns></returns>
         Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
         ''' <summary>
-        ''' 
+        ''' 序列片段的距离
         ''' </summary>
         ''' <returns></returns>
         Public Property distance As Double

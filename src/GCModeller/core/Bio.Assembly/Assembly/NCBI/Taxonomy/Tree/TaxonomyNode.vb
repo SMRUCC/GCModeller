@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::56462c55395af93bc6924ea501d6a303, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::bd598ebb84a2ec6be3d86cc9bea96104, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class TaxonomyNode
-' 
-'         Properties: children, name, parent, rank, taxid
-' 
-'         Function: RankTable, Taxonomy, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class TaxonomyNode
+    ' 
+    '         Properties: children, name, parent, rank, taxid
+    ' 
+    '         Function: RankTable, Taxonomy, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -56,7 +56,17 @@ Namespace Assembly.NCBI.Taxonomy
 
         Public Property taxid As Integer
         Public Property name As String
+
+        ''' <summary>
+        ''' One of the value in array collection <see cref="NcbiTaxonomyTree.stdranks"/>.
+        ''' (当前节点的分类等级)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 
+        ''' </remarks>
         Public Property rank As String
+
         ''' <summary>
         ''' 当前的节点的父节点的编号: ``<see cref="taxid"/>``
         ''' </summary>

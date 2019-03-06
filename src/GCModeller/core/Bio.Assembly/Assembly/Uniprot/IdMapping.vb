@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::040bdedcbb0a6b43df4317fb270d465c, Bio.Assembly\Assembly\UniProt\IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::040bdedcbb0a6b43df4317fb270d465c, Bio.Assembly\Assembly\Uniprot\IdMapping.vb"
 
     ' Author:
     ' 
@@ -123,7 +123,7 @@ Namespace Assembly.Uniprot
 
         Private Shared Function __createObject(line As String) As IdMapping
             Dim Tokens As String() = Strings.Split(line, vbTab)
-            Dim p As int = 0
+            Dim p As VBInteger = 0
             Dim Maps As New IdMapping
 
             With Maps

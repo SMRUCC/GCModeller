@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6b463990d38f7ac9a00f014387bd5d7, Microsoft.VisualBasic.Core\Extensions\Math\ScaleMaps.vb"
+﻿#Region "Microsoft.VisualBasic::7898a52c2aed8b7962a57e86195c3e7e, Microsoft.VisualBasic.Core\Extensions\Math\ScaleMaps.vb"
 
     ' Author:
     ' 
@@ -137,7 +137,7 @@ Namespace Math
             End If
 
             Dim chunkBuf As Integer() = New Integer(array.Length - 1) {}
-            Dim i As int = 0
+            Dim i As VBInteger = 0
 
             For Each x As Double In array
                 Dim lv As Integer = Fix(Level * (x - MinValue) / d)

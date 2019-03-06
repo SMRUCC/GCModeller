@@ -261,6 +261,11 @@ Namespace Assembly.NCBI.Taxonomy
             Return result
         End Function
 
+        ''' <summary>
+        ''' 获取所给定的taxid的分类等级列表
+        ''' </summary>
+        ''' <param name="taxids"></param>
+        ''' <returns></returns>
         Public Function GetRank(ParamArray taxids As Integer()) As Dictionary(Of Integer, String)
             '"""
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")

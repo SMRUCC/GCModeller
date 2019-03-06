@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9da6f90560eecd28fcaba11cabd742ef, Data\DataFrame\IO\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::4cf17710c6cf0ea4aeda728a3d8915dd, Data\DataFrame\IO\DataFrame.vb"
 
     ' Author:
     ' 
@@ -45,8 +45,8 @@
     '                   GetDecimal, GetDouble, GetEnumerator2, GetFieldType, GetFloat
     '                   GetGuid, GetInt16, GetInt32, GetInt64, GetName
     '                   GetOrdinal, GetOrdinalSchema, GetSchemaTable, GetString, GetValue
-    '                   GetValues, IDataRecord_GetValue, IsDBNull, Load, Read
-    '                   ToString
+    '                   GetValues, IDataRecord_GetValue, IsDBNull, Load, Parse
+    '                   Read, ToString
     ' 
     '         Sub: ChangeMapping, Close, CopyFrom, Reset
     ' 
@@ -295,6 +295,11 @@ Namespace IO
             End If
 
             Return CreateObject(File)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Function Parse(Of T As Class)(content As String) As IEnumerable(Of T)
+            Return File.Parse(content).AsDataSource(Of T)
         End Function
 
         Private Shared Function __getColumnList(table As IEnumerable(Of RowObject)) As List(Of String)

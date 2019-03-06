@@ -107,9 +107,11 @@ Namespace Assembly.NCBI.Taxonomy
             Dim names = FileParser(dump) _
                 .GroupBy(Function(x) x.name_txt.ToLower) _
                 .ToDictionary(Function(name) name.Key,
-                              Function(list) list.ToArray)
+                              Function(list)
+                                  Return list.ToArray
+                              End Function)
 
-            Return Function(name$)
+            Return Function(name$) As names()
                        If name.StringEmpty Then
                            Return Nothing
                        Else

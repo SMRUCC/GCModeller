@@ -72,7 +72,7 @@ Public Class SyntenyRegion
 
         posX = posX / gSize * plotRegion.Width
 
-        Dim i As int = Scan0
+        Dim i As VBInteger = Scan0
 
         Yield New PointF(posX(++i), qY)
         Yield New PointF(posX(++i), qY)

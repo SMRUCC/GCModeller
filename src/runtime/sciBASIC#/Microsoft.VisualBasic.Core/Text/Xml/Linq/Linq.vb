@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34422d63e3fc3ebd7f5c3027ff7ab98d, Microsoft.VisualBasic.Core\Text\Xml\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::0620d712b24c87ecf597cabcafd96b94, Microsoft.VisualBasic.Core\Text\Xml\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     '     Module Data
     ' 
-    '         Function: GetNodeNameDefine, GetTypeName, InternalIterates, LoadUltraLargeXMLDataSet, LoadXmlDataSet
-    '                   LoadXmlDocument, NodeInstanceBuilder, PopulateXmlElementText, UltraLargeXmlNodesIterator
+    '         Function: GetNodeNameDefine, GetTypeName, GetXmlNodeDoc, InternalIterates, IteratesArrayNodes
+    '                   LoadUltraLargeXMLDataSet, LoadXmlDataSet, LoadXmlDocument, NodeInstanceBuilder, PopulateXmlElementText
+    '                   UltraLargeXmlNodesIterator
     ' 
     ' 
     ' /********************************************************************************/
@@ -86,6 +87,15 @@ Namespace Text.Xml.Linq
             End If
 
             Return xmlDoc
+        End Function
+
+        <Extension>
+        Public Function GetXmlNodeDoc(element As XElement) As XmlDocument
+            Using xmlReader As XmlReader = element.CreateReader()
+                Dim XmlDoc As New XmlDocument()
+                XmlDoc.Load(xmlReader)
+                Return XmlDoc
+            End Using
         End Function
 
         ''' <summary>
@@ -219,16 +229,28 @@ Namespace Text.Xml.Linq
         ''' <returns></returns>
         <Extension>
         Public Function LoadUltraLargeXMLDataSet(Of T As Class)(path$, Optional typeName$ = Nothing, Optional xmlns$ = Nothing) As IEnumerable(Of T)
-            Dim nodeName$ = GetType(T).GetTypeName([default]:=typeName)
-            Return nodeName _
-                .UltraLargeXmlNodesIterator(path) _
-                .NodeInstanceBuilder(Of T)(xmlns, xmlNode:=nodeName)
+            With GetType(T).GetTypeName([default]:=typeName)
+                Return .UltraLargeXmlNodesIterator(path) _
+                    .Select(Function(node) node.ToString) _
+                    .NodeInstanceBuilder(Of T)(xmlns, xmlNode:= .ByRef)
+            End With
+        End Function
+
+        ''' <summary>
+        ''' 可以使用函数<see cref="GetXmlNodeDoc(XElement)"/>来进行类型的转换操作
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <param name="typeName$"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IteratesArrayNodes(path$, typeName$) As IEnumerable(Of XElement)
+            Return typeName.UltraLargeXmlNodesIterator(path)
         End Function
 
         <Extension>
-        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$) As IEnumerable(Of String)
+        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$) As IEnumerable(Of XElement)
             Dim el As New Value(Of XElement)
-            Dim XML$
 
             Using reader As XmlReader = XmlReader.Create(path)
 
@@ -238,8 +260,7 @@ Namespace Text.Xml.Linq
                     ' Parse the file And return each of the child_node
                     If (reader.NodeType = XmlNodeType.Element AndAlso reader.Name = nodeName) Then
                         If (Not (el = XNode.ReadFrom(reader)) Is Nothing) Then
-                            XML = el.Value.ToString
-                            Yield XML
+                            Yield el.Value
                         End If
                     End If
                 Loop

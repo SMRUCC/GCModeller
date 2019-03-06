@@ -1,52 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::9d77114d481430348c0f56c85d7b52dd, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::0ce3e330b16e00e1219e3134e4695aa2, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpRequest.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class HttpRequest
-' 
-'         Properties: HttpHeaders, HTTPMethod, IsWWWRoot, Remote, URL
-'                     URLParameters, version
-' 
-'         Constructor: (+3 Overloads) Sub New
-'         Function: ToString
-' 
-'     Class HttpPOSTRequest
-' 
-'         Properties: POSTData
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-' 
-' /********************************************************************************/
+    '     Class HttpRequest
+    ' 
+    '         Properties: HttpHeaders, HTTPMethod, IsWWWRoot, Remote, URL
+    '                     URLParameters, version
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class HttpPOSTRequest
+    ' 
+    '         Properties: POSTData
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -153,7 +153,12 @@ Namespace AppEngine.APIMethods.Arguments
 
         Shared ReadOnly uploadfile As DefaultValue(Of String) = NameOf(uploadfile)
 
-        Sub New(request As HttpProcessor, inputData As MemoryStream)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="request"></param>
+        ''' <param name="inputData">一个临时文件的文件路径,POST上传的原始数据都被保存在这个临时文件中</param>
+        Sub New(request As HttpProcessor, inputData$)
             Call MyBase.New(request)
 
             POSTData = New PostReader(

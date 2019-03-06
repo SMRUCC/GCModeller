@@ -42,9 +42,11 @@
 
 #End Region
 
+Imports System.Environment
 Imports System.Runtime.CompilerServices
 Imports Darwinism.Docker
 Imports Darwinism.Docker.Arguments
+Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
@@ -55,21 +57,59 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' </remarks>
 Public Class Mothur
 
-    ReadOnly docker As Environment
-    ReadOnly powershell As New PowerShell
+    ReadOnly docker As DockerAppDriver
+    ReadOnly cli As InteropService
 
     ''' <summary>
-    ''' 
+    ''' Create a new mothur docker environment.(工作于Windows Server平台之上)
     ''' </summary>
-    ''' <param name="container"></param>
-    ''' <param name="mount"></param>
-    Sub New(container As Image, mount As Mount)
-        docker = New Environment(container).Mount([shared]:=mount)
+    ''' <param name="container">The docker container image ID</param>
+    ''' <param name="mount">
+    ''' 因为Docker容器之中仅包含有应用程序，其他的样本原始数据或者序列数据库都需要通过
+    ''' 这个函数参数所设置的共享文件夹来进行获取
+    ''' </param>
+    ''' <param name="home">
+    ''' 通过``docker pull xieguigang/gcmodeller-env``得到的容器环境之中,
+    ''' Mothur应用程序的默认位置为: ``/home/Mothur.linux_64``
+    ''' </param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(container As Image, mount As Mount, Optional home$ = "/home/Mothur.linux_64")
+        docker = New DockerAppDriver(container, "mothur", mount, home)
     End Sub
+
+    ''' <summary>
+    ''' 如果GCModeller运行在Linux平台上,则应该调用这个接口
+    ''' </summary>
+    ''' <param name="app"></param>
+    Sub New(app As String)
+        If Not app.FileExists Then
+            Dim platform$ = OSVersion.Platform.ToString
+            Dim msg$ = $"{app} is unavaliable! (platform={platform})"
+
+            Throw New EntryPointNotFoundException(msg)
+        Else
+            cli = New InteropService(app)
+        End If
+    End Sub
+
+    Public Function CreateMothurApp() As Mothur
+        If App.IsMicrosoftPlatform Then
+            ' Linux in Docker
+            Return New Mothur(Settings.Mothur, Nothing)
+        Else
+            ' Linux
+            Return New Mothur(Settings.Mothur)
+        End If
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RunMothur(args As String) As String
-        Return powershell(docker.CreateDockerCommand($"""#{args};"""))
+        If Not docker Is Nothing Then
+            Return docker.Shell($"""#{args};""")
+        Else
+            Return cli.RunProgram($"""#{args};""").StandardOutput
+        End If
     End Function
 
     ''' <summary>

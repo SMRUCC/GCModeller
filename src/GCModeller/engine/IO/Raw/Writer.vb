@@ -149,7 +149,7 @@ Public Class Writer : Inherits CellularModules
 
                         Return (time:=time.Key, offsets:=offsets)
                     End Function)
-        Dim i As int = Scan0
+        Dim i As VBInteger = Scan0
 
         For Each time As (point#, offsets As Long()) In times
             Dim start& = stream.Position

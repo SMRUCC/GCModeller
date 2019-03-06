@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78fec5ccb84cf89ccc5daed805339cae, Microsoft.VisualBasic.Core\Serialization\BinaryDumping\Buffer.vb"
+﻿#Region "Microsoft.VisualBasic::9360e36192cb0edd2e56d81eaabfaa19, Microsoft.VisualBasic.Core\Serialization\BinaryDumping\Buffer.vb"
 
     ' Author:
     ' 
@@ -114,7 +114,7 @@ Namespace Serialization.BinaryDumping
         Public Iterator Function GetBuffer(Of T)(raw As Byte(), getObj As IGetObject(Of T)) As IEnumerable(Of T)
             Dim length As Byte() = New Byte(RawStream.INT64 - 1) {}
             Dim l As Long
-            Dim i As int = 0
+            Dim i As VBInteger = 0
             Dim temp As Byte()
             Dim x As T
 

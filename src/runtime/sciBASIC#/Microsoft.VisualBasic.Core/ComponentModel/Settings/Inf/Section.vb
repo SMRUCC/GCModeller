@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1122da036990ffe63fc903bb9611ee8c, Microsoft.VisualBasic.Core\ComponentModel\Settings\Inf\Section.vb"
+﻿#Region "Microsoft.VisualBasic::83f3623d7f95a677563e10329e2dce5d, Microsoft.VisualBasic.Core\ComponentModel\Settings\Inf\Section.vb"
 
     ' Author:
     ' 
@@ -33,23 +33,25 @@
 
     '     Class Section
     ' 
-    '         Properties: Items, Name
+    '         Properties: Comment, Items, Name
     ' 
-    '         Function: CreateDocFragment, GetValue, ToString
+    '         Function: CreateDocFragment, GetValue, Have, ToString
     ' 
-    '         Sub: SetValue
+    '         Sub: appendComments, Delete, SetComments, SetValue
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports HashValue = Microsoft.VisualBasic.Text.Xml.Models.NamedValue
+Imports HashValue = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Namespace ComponentModel.Settings.Inf
 
@@ -64,62 +66,116 @@ Namespace ComponentModel.Settings.Inf
         ''' <returns></returns>
         <XmlAttribute> Public Property Name As String
 
+        <XmlText>
+        Public Property Comment As String
+
+        Shared ReadOnly emptyList As New DefaultValue(Of HashValue())(Function() {}, isLazy:=False)
+
         <XmlElement>
         Public Property Items As HashValue()
             Get
-                Return _internalTable.Values.ToArray
+                Return configTable.Values.ToArray
             End Get
             Set(value As HashValue())
-                If value Is Nothing Then
-                    value = New HashValue() {}
-                End If
-
-                _internalTable = value.ToDictionary(Function(x) x.name.ToLower)
+                configTable = (value Or emptyList).ToDictionary(Function(x) x.name.ToLower)
             End Set
         End Property
 
         ''' <summary>
         ''' 这个字典之中的所有键名称都是小写形式的
         ''' </summary>
-        Dim _internalTable As Dictionary(Of HashValue)
+        Dim configTable As Dictionary(Of HashValue)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Have(key As String) As Boolean
+            Return configTable.ContainsKey(key.ToLower)
+        End Function
 
         Public Function GetValue(Key As String) As String
             With Key.ToLower
-                If _internalTable.ContainsKey(.ByRef) Then
-                    Return _internalTable(.ByRef).text
+                If configTable.ContainsKey(.ByRef) Then
+                    Return configTable(.ByRef).value
                 Else
                     Return ""
                 End If
             End With
         End Function
 
+        Public Sub Delete(name As String)
+            With name.ToLower
+                If configTable.ContainsKey(.ByRef) Then
+                    Call configTable.Remove(.ByRef)
+                End If
+            End With
+        End Sub
+
         ''' <summary>
         ''' 不存在则自动添加
         ''' </summary>
         ''' <param name="Name"></param>
         ''' <param name="value"></param>
-        Public Sub SetValue(Name As String, value As String)
+        Public Sub SetValue(Name$, value$, Optional comment$ = Nothing)
             Dim KeyFind As String = Name.ToLower
 
-            If _internalTable.ContainsKey(KeyFind) Then
-                Call _internalTable.Remove(KeyFind)
+            If configTable.ContainsKey(KeyFind) Then
+                Call configTable.Remove(KeyFind)
             End If
 
-            Call _internalTable.Add(KeyFind, New HashValue(Name, value))
+            configTable(KeyFind) = New HashValue With {
+                .name = Name,
+                .Comment = comment,
+                .value = value
+            }
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub SetComments(name$, comments$)
+            SetValue(name, GetValue(name), comments)
+        End Sub
+
+        ''' <summary>
+        ''' 利用这个函数所生成的文档片段的格式如下所示
+        ''' 
+        ''' ```
+        ''' [name]
+        ''' # comment region of 
+        ''' # this section
+        '''
+        ''' ; comment of this key
+        ''' key=value
+        ''' ; comment of this key
+        ''' key=value
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
         Public Function CreateDocFragment() As String
             Dim sb As New StringBuilder($"[{Name}]")
 
-            For Each item As HashValue In _internalTable.Values
-                Call sb.AppendLine($"{item.name}={item.text}")
+            Call sb.AppendLine()
+            Call appendComments(sb, Comment, "#")
+
+            If Not Comment.StringEmpty Then
+                Call sb.AppendLine()
+            End If
+
+            For Each item As HashValue In configTable.Values
+                Call appendComments(sb, item.Comment, ";")
+                Call sb.AppendLine($"{item.name}={item.value}")
             Next
 
             Return sb.ToString
         End Function
 
+        Private Shared Sub appendComments(sb As StringBuilder, comments$, symbol$)
+            If Not comments.StringEmpty Then
+                For Each line As String In comments.LineTokens
+                    Call sb.AppendLine(symbol & " " & line)
+                Next
+            End If
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return $"[{Name}] with {_internalTable.Keys.ToArray.GetJson()}"
+            Return $"[{Name}] with {configTable.Keys.ToArray.GetJson()}"
         End Function
     End Class
 End Namespace

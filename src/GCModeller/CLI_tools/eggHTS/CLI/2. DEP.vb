@@ -820,7 +820,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.Volcano")>
-    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /display.count /out <plot.csv>]")>
+    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /label.p <default=-1> /size <1400,1400> /display.count /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -833,6 +833,7 @@ Partial Module CLI
     <Argument("/p.value", True, CLITypes.Double, Description:="The p.value cutoff threshold, default is 0.05.")>
     <Argument("/level", True, CLITypes.Double, Description:="The log2FC value cutoff threshold, default is ``log2(1.5)``.")>
     <Argument("/display.count", True, CLITypes.Boolean, Description:="Display the protein counts in the legend label? by default is not.")>
+    <Argument("/label.p", True, CLITypes.Boolean, Description:="Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
@@ -850,6 +851,7 @@ Partial Module CLI
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim P = -Math.Log10(pvalue)
         Dim displayCount As Boolean = args.IsTrue("/display.count")
+        Dim labelP As Double = args("/label.p") Or -1.0
         Dim toFactor = Function(x As DEGModel)
                            If x.pvalue < P Then
                                Return 0
@@ -873,16 +875,23 @@ Partial Module CLI
             Throw New ArgumentOutOfRangeException("/level")
         End If
 
+        Dim labelDisplay As LabelTypes = LabelTypes.None
+
+        If labelP > 0 Then
+            labelDisplay = LabelTypes.Custom
+        End If
+
         Return Volcano.Plot(sample,
                             colors:=colors,
                             factors:=toFactor,
                             padding:="padding: 50 50 150 150",
-                            displayLabel:=LabelTypes.None,
+                            displayLabel:=labelDisplay,
                             size:=size,
                             log2Threshold:=log2FCLevel,
                             pvalueThreshold:=pvalue,
                             title:=title,
-                            displayCount:=displayCount) _
+                            displayCount:=displayCount,
+                            labelP:=labelP) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _

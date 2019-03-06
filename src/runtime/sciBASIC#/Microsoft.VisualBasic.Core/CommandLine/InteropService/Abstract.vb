@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddae0b72912f83cfa8aec30722a11992, Microsoft.VisualBasic.Core\CommandLine\InteropService\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::325c74d8db577a6ea2b0656b51948588, Microsoft.VisualBasic.Core\CommandLine\InteropService\Abstract.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,10 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: GetLastCLRException, GetLastError, RunDotNetApp, RunProgram, ToString
+    ' 
+    '     Interface AppDriver
+    ' 
+    '         Properties: App
     ' 
     '     Class CLIBuilder
     ' 
@@ -169,6 +173,21 @@ Namespace CommandLine.InteropService
             End If
         End Function
     End Class
+
+    ''' <summary>
+    '''应用程序的执行驱动抽象接口, 这个抽象接口是为了兼容命令行应用和Docker环境下的命令行应用而设置的
+    ''' </summary>
+    Public Interface AppDriver
+
+        ''' <summary>
+        ''' 命令行命令或者可执行文件的路径
+        ''' </summary>
+        ''' <returns></returns>
+        Property App As String
+
+
+
+    End Interface
 
     Public MustInherit Class CLIBuilder
 

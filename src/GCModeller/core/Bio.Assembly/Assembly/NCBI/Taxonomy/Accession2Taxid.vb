@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b04c9858af1e384983c4c18a40f8ea7, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::376efdf1c1649a8c962e3e45498de1ec, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Accession2Taxid
     ' 
-    '         Function: __loadData, LoadAll, Matchs, ReadFile
+    '         Function: __loadData, LoadAll, Matchs, ReadFile, TrimAccessionVersion
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,8 +49,17 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.NCBI.Taxonomy
 
+    ''' <summary>
+    ''' 将序列的AccessionID编号转换为Taxid编号
+    ''' </summary>
     Public Module Accession2Taxid
 
+        ''' <summary>
+        ''' 一次性的加载完整个数据库之中的数据到内存之中（不推荐）
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadAll(DIR$) As BucketDictionary(Of String, Integer)
             Return DIR.__loadData _
                 .CreateBuckets(Function(x) x.Name,

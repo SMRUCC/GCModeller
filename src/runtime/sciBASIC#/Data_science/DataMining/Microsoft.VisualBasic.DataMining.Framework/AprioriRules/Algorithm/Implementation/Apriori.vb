@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73efe32248e4c120034344a555b3ece6, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\AprioriRules\Algorithm\Implementation\Apriori.vb"
+﻿#Region "Microsoft.VisualBasic::ce29bdea020a08c7907b5ceb147747e3, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\AprioriRules\Algorithm\Implementation\Apriori.vb"
 
     ' Author:
     ' 
@@ -241,7 +241,7 @@ Namespace AprioriRules.Impl
 
         Public Function GetClosedItemSets(allFrequentItems As Dictionary(Of String, TransactionTokensItem)) As Dictionary(Of String, Dictionary(Of String, Double))
             Dim closedItemSets As New Dictionary(Of String, Dictionary(Of String, Double))()
-            Dim i As int = 0
+            Dim i As VBInteger = 0
 
             For Each item In allFrequentItems
                 Dim parents = item.Key.GetItemParents(++i, allFrequentItems)

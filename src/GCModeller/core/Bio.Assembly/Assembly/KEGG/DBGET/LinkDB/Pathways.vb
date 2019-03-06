@@ -118,7 +118,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
             Dim url$
-            Dim i As int = 1
+            Dim i As VBInteger = 1
 
             For Each entry As ListEntry In all
                 Dim ImageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.EntryID)

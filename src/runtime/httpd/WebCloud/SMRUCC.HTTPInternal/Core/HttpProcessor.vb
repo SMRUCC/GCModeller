@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::d94ad16d202e28581a37324086281520, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::266f5ecefa522da030ffe7f9a3e3e924, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class HttpProcessor
-' 
-'         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
-'                     IsWWWRoot, Out
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __streamReadLine, parseRequest, ToString
-' 
-'         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-'              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
-'              WriteLine, (+2 Overloads) writeSuccess
-' 
-' 
-' /********************************************************************************/
+    '     Class HttpProcessor
+    ' 
+    '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
+    '                     IsWWWRoot, Out
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: __streamReadLine, parseRequest, ToString, writeTemp
+    ' 
+    '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
+    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+    '              WriteLine, (+2 Overloads) writeSuccess
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -79,6 +79,7 @@ Namespace Core
         Public outputStream As StreamWriter
 
         Public Property http_method As String
+
         ''' <summary>
         ''' File location or GET/POST request arguments
         ''' </summary>
@@ -108,6 +109,7 @@ Namespace Core
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE
+            Me.MAX_POST_SIZE = -1
         End Sub
 
         ''' <summary>
@@ -337,19 +339,30 @@ Namespace Core
             ' Call Console.WriteLine("get post data start")
 
             Dim content_len As Integer = 0
-            Dim ms As New MemoryStream()
+            Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
+                content_len = writeTemp(handle)
+            End If
 
+            ' Call Console.WriteLine("get post data end")
+            Call srv.handlePOSTRequest(Me, handle)
+        End Sub
+
+        Private Function writeTemp(handle$) As Long
+            Dim content_len%
+
+            Using content As Stream = handle.Open()
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
 
-                If content_len > MAX_POST_SIZE Then
+                ' 小于零的时候不进行限制
+                If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
                     Throw New Exception(String.Format(packageTooLarge, content_len))
                 End If
 
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
-                Dim numread As int = 0
+                Dim numread As VBInteger = 0
 
                 While to_read > 0
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)
@@ -364,15 +377,15 @@ Namespace Core
                     End If
 
                     to_read -= numread
-                    ms.Write(buf, 0, numread)
+                    content.Write(buf, 0, numread)
                 End While
 
-                Call ms.Seek(Scan0, SeekOrigin.Begin)
-            End If
+                ' Call content.Seek(Scan0, SeekOrigin.Begin)
+                Call content.Flush()
+            End Using
 
-            ' Call Console.WriteLine("get post data end")
-            Call srv.handlePOSTRequest(Me, ms)
-        End Sub
+            Return content_len
+        End Function
 
         ''' <summary>
         ''' 默认是html文件类型

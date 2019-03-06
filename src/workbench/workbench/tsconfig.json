@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./",
+    "outFile": "index.js",
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules",
+    "index.d.ts"
+  ]
+}
