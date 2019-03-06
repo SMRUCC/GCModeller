@@ -13,33 +13,39 @@ sub new {
 	if (($#_+1) == 1) {
 		@data = $ARGV;
 	} else {
-		@data = shift;
+		@data = @_;
 	}
 	
-	foreach $token (@data) {
-		my @params = split("=", $token);
+	foreach (@data) {
+		my @params = split("=", $_);
 		
-		foreach $t (@params) {
+		foreach my $t (@params) {
 			push(@tokens, $t);
 		}
 	}
-	
+
 	bless \@tokens, $class;
 }
 
 sub Argument {
 	my $self = shift;
-	my $name = shift;
+	my $name = $_[0];
 	my $default;
 	
-	if (($#_ + 1) > 2) {
+	if (($#_ + 1) > 1) {
 		# 有default value
-		$default = @_[2];
+		$default = $_[1];
 	}
 	
 	for (my $i = 0; $i < scalar @{$self}; $i++) {
 		if ($name eq $$self[$i]) {
-			return $$self[$i + 1];
+			my $value = $$self[$i + 1];
+
+			if ($value eq "") {
+				return $default;
+			} else {
+				return $value;
+			}
 		}
 	}
 	
