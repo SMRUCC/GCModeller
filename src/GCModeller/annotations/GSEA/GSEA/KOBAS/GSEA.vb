@@ -138,4 +138,8 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim re = es_idx(RES)
 
     End Function
+
+    Public Function output_set(result_path, phnameA, phnameB, gset_name_filtered, gset_des_filtered, hit_matrix_filtered, ES, NES, nompval, FDR)
+
+    End Function
 End Module
