@@ -8,67 +8,67 @@ use Cwd qw(abs_path);
 use lib dirname(dirname abs_path $0) . '/lib';
 use CommandLine;
 
-# 当$debug变量的值不为零的时候，表示处于调试模式，则这个时候脚本只会输出命令行，
-# 而不会发生命令行的实际执行行为
-my $debug = 0; 
+my $left  = NULL;
+my $right = NULL;
+
+if ($num_args == 0) {
+
+	# 没有输入任何命令行参数，则打印出脚本的用法帮助
+	#
+	# mothur_contig.pl left.fq right.fq
+	
+	print "\n";
+	print "  Usage:\n";
+	print "\n";
+	print "     mothur_contig.pl left.fq right.fq [/database=dir /mothur=path /blastn=path /num_threads=8 /debug=true|false]\n";
+	print "\n";
+	print "  Where:";
+	print "\n";
+	print "\n";
+	print "     1. left.fq and right.fq is the paired-end short reads file.\n";
+	print "     2. /num_threads is an optional argument for setting up the processors that\n";
+	print "        will be used in mothur program, by default is using 2 processor threads.\n";
+	print "        \n";
+	print "     3. /database is an optional argument for setting up the fasta sequence\n";
+	print "        database file that will be using for taxonomy alignment.\n";
+	print "     4. /mothur is the executable file path of mothur program.\n";
+	print "     5. /blastn is the executable file path of blastn program.\n";
+	print "     6. /debug for script debug, if this argument its value is set to true,\n";
+	print "        then this script just print commandline argument, not running any processing\n";
+	print "\n";
+	
+	exit 0;
+} else {
+	$left  = $ARGV[0];
+	$right = $ARGV[1];
+}
+
+my $cli      = CommandLine->new;
+my $debug    = 0;
+my $num_args = $#ARGV + 1;
+
+if ($cli->Argument("/debug", "false") eq "true") {
+	# 当$debug变量的值不为零的时候，表示处于调试模式，则这个时候脚本只会输出命令行，
+	# 而不会发生命令行的实际执行行为
+	$debug = 1;
+}
 
 # 使用Mothur程序的命令行模式进行paired end测序数据的拼接生成OTU contig
 # 这个脚本应该是在切换进入目标数据文件夹之后再进行调用的
 
 # 可以根据服务器的内存的大小来修改线程数量，
 # 内存越大能够使用到的线程的数量就会越多
-my $num_threads = 8;
-# 设置mothur的文件夹位置
-my $mothur_base = "/home/Mothur.linux_64";
-my $data_base = "/mnt/ntfs"; 
+my $num_threads = $cli->Argument("/num_threads", 2) + 0;
+my $data_base   = $cli->Argument("/database", "/mnt/ntfs"); 
+my $mothur      = $cli->Argument("/mothur", "/home/Mothur.linux_64/mothur");
+my $blastn      = $cli->Argument("/blastn", "/home/ncbi-blast-2.8.1+/bin/blastn");
 
-# 237生产部署
-my $mothur      = "$mothur_base/mothur";
 my $silva       = "$data_base/silva.bacteria/silva.bacteria.fasta";
 my $greengene   = "$data_base/greengenes/99_otus.fasta";
-my $blastn      = "/home/ncbi-blast-2.8.1+/bin/blastn";
 
 # biodeep测试用
 # my $mothur      = "/home/16s/mothur/mothur"; 
 # my $silva       = "/home/16s/silva.bacteria.fasta";
-
-my $num_args    = $#ARGV + 1;
-my $left        = NULL;
-my $right       = NULL;
-
-if ($num_args == 0) {
-
-	# 没有输入任何命令行参数，则打印出脚本的用法帮助
-	#
-	# mothur_contig.pl left.fq right.fq workspace
-	
-	print "\n";
-	print "  Usage:\n";
-	print "\n";
-	print "     mothur_contig.pl left.fq right.fq /num_threads=8\n";
-	print "\n";
-	print "  Where:";
-	print "\n";
-	print "\n";
-	print "     1. left.fq and right.fq is the paired-end short reads file.\n";
-	print "     2. /num_threads is an optional argument for setting up the\n";
-	print "        processors that will be used in mothur program, by default\n";
-	print "        is using 8 processor threads.\n";
-	print "\n";
-	
-	exit 0;
-	
-} elsif ($num_args >= 2) {
-	
-	$left    = $ARGV[0];
-	$right   = $ARGV[1];
-
-	# 还有可能带着一个线程数量的设置参数
-	if ($num_args >= 3) {
-		my @param    = split("=", $ARGV[2]);
-		$num_threads = $param[1];
-	}
-}
 
 sub runMothur {
 
@@ -216,6 +216,9 @@ write_file $OTU_rep, {binmode => ':utf8'}, $data;
 # 进行blastn序列比对操作来完成物种鉴定
 $CLI = "$blastn -query $OTU_rep -db $greengene -out ./OTU_greengene_99.txt -evalue 1e-50 -num_threads $num_threads";
 print $CLI."\n";
-system($CLI);
+
+if ($debug == 0) {
+	system($CLI);
+}
 
 print "greengenes OTU Taxonomy align job done!\n";
