@@ -265,7 +265,7 @@ Namespace Language
         '''   ```vbnet
         '''   x += n
         '''   ```
-        ''' + 但是对于<see cref="float"/>类型而言，其更加侧重于模型计算，所以其加法不符合上述的语法，
+        ''' + 但是对于<see cref="VBDouble"/>类型而言，其更加侧重于模型计算，所以其加法不符合上述的语法，
         ''' 不会修改源变量的值，返回的是一个单纯的<see cref="Double"/>值类型
         ''' </summary>
         ''' <param name="x"></param>
