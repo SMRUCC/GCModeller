@@ -41,6 +41,8 @@
 
 Imports System.Net
 Imports System.Runtime.CompilerServices
+Imports System.Threading
+Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports ThinkVB.FileSystem.OSS
@@ -64,10 +66,19 @@ Public Module Download
         Dim url As String
         Dim downloadAs As String
 
+        If aspera Is Nothing Then
+            Call "Aspera client is not installed, file only download via http method....".Warning
+        End If
+
         For Each file As manifest In manifests
             downloadAs = file.createLocalFileName(save)
 
-            If aspera Is Nothing Then
+            If file.md5 = downloadAs.GetFileMd5 Then
+                ' 已经下载过了，跳过
+                Continue For
+            End If
+
+            If aspera Is Nothing OrElse file.AsperaURL.StringEmpty Then
                 ' 只能够使用http协议下载
 HTTP:           url$ = file.HttpURL
 
@@ -75,16 +86,11 @@ HTTP:           url$ = file.HttpURL
                     Yield "Empty resource: " & file.GetJson
                 Else
                     Call httpRequest(url, downloadAs)
+                    Call Thread.Sleep(2000)
                 End If
             Else
-                url = file.AsperaURL
-
-                If url.StringEmpty Then
-                    ' 只能够使用http协议下载
-                    GoTo HTTP
-                Else
-                    Call aspera.Download(url, downloadAs)
-                End If
+                Call aspera.Download(file.AsperaURL, downloadAs)
+                Call Thread.Sleep(1000)
             End If
         Next
     End Function

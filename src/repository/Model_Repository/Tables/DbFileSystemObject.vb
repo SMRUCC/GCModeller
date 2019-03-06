@@ -74,7 +74,7 @@ Public MustInherit Class DbFileSystemObject
         If Not FileIO.FileSystem.FileExists(Path) Then
             Return False
         Else
-            Return String.Equals(MD5Hash, SecurityString.GetFileHashString(Query))
+            Return String.Equals(MD5Hash, SecurityString.GetFileMd5(Query))
         End If
     End Function
 

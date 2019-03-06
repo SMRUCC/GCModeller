@@ -50,7 +50,7 @@ Please check the gct file(-e), the gmt file(-g), the idtype(-i), the database ty
         End If
 
         Dim hitsum = hit_matrix.Select(Function(v) v.Sum).AsVector
-        Dim delindex = Which.IsTrue((hitsum < min_size) Or (hitsum > max_size))(0)
+        Dim delindex = Which.IsTrue((hitsum < min_size) Or (hitsum > max_size))
         Dim hit_matrix_filtered = hit_matrix.Delete(delindex)
         Dim hit_genes_filtered = hit_genes.Delete(delindex)
         Dim hit_sum_filtered = hitsum.ToArray.Delete(delindex)
@@ -136,6 +136,10 @@ Please check the threshold and ceil of gene set size (values of min_size and max
                          ' Return Which.IsTrue(Math.Abs(x.Max()) > Math.Abs(x.Min()), (x.Max(), x.argmax()), (x.Min(), x.argmin()))
                      End Function
         Dim re = es_idx(RES)
+
+    End Function
+
+    Public Function output_set(result_path, phnameA, phnameB, gset_name_filtered, gset_des_filtered, hit_matrix_filtered, ES, NES, nompval, FDR)
 
     End Function
 End Module

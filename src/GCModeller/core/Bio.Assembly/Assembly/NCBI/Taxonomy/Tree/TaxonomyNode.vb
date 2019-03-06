@@ -56,7 +56,17 @@ Namespace Assembly.NCBI.Taxonomy
 
         Public Property taxid As Integer
         Public Property name As String
+
+        ''' <summary>
+        ''' One of the value in array collection <see cref="NcbiTaxonomyTree.stdranks"/>.
+        ''' (当前节点的分类等级)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 
+        ''' </remarks>
         Public Property rank As String
+
         ''' <summary>
         ''' 当前的节点的父节点的编号: ``<see cref="taxid"/>``
         ''' </summary>
