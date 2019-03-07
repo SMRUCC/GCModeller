@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b7d2c169a53490c62efc80f35202810, Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::6e2b9aef2df8ac67b9408194a9782155, Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,7 @@
 
     '     Module TaxonomyWebAPI
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+4 Overloads) efetch
     ' 
     '     Class TSeqSet
