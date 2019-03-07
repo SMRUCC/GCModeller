@@ -67,6 +67,13 @@ Namespace IO
             End Get
         End Property
 
+        Public ReadOnly Property Vector As Double()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Me.propertyTable.Values.ToArray
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
