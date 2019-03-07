@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::ed1a9e13ed9ff6a77f7666bb140d57a6, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class NcbiTaxonomyTree
-    ' 
-    '         Properties: Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
-    '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
-    '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
-    '                   preorderTraversal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class NcbiTaxonomyTree
+' 
+'         Properties: Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
+'                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
+'                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
+'                   preorderTraversal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -168,12 +168,12 @@ Namespace Assembly.NCBI.Taxonomy
                 Throw New Exception("Missing file ""node.dmp"" or ""names.dmp"".")
             Else
                 Call "NcbiTaxonomyTree building ...".__DEBUG_ECHO
-                Call loadTree(names, nodes)
+                Call loadTree(names, nodes, Taxonomy)
                 Call "NcbiTaxonomyTree built".__DEBUG_ECHO
             End If
         End Sub
 
-        Private Sub loadTree(names$, nodes$)
+        Private Shared Sub loadTree(names$, nodes$, taxonomy As Dictionary(Of Integer, TaxonomyNode))
             Dim taxid2name As New Dictionary(Of Integer, String)
             Dim taxid As Integer
             Dim parent_taxid As Integer
@@ -221,14 +221,14 @@ Namespace Assembly.NCBI.Taxonomy
                 parent_taxid = CInt(lineTokens(1))
 
                 ' : # 18204/1308852
-                If Taxonomy.ContainsKey(taxid) Then
-                    With Taxonomy(taxid)
+                If taxonomy.ContainsKey(taxid) Then
+                    With taxonomy(taxid)
                         .rank = lineTokens(2)
                         .parent = parent_taxid
                     End With
                 Else
                     ' : # 1290648/1308852
-                    Taxonomy(taxid) = New TaxonomyNode With {
+                    taxonomy(taxid) = New TaxonomyNode With {
                         .name = taxid2name(taxid),
                         .rank = lineTokens(2),
                         .parent = parent_taxid,
@@ -238,10 +238,10 @@ Namespace Assembly.NCBI.Taxonomy
                     Call taxid2name.Remove(taxid)
                 End If
 
-                If Taxonomy.ContainsKey(parent_taxid) Then
-                    Taxonomy(parent_taxid).children.Add(taxid)
+                If taxonomy.ContainsKey(parent_taxid) Then
+                    taxonomy(parent_taxid).children.Add(taxid)
                 Else
-                    Taxonomy(parent_taxid) = New TaxonomyNode With {
+                    taxonomy(parent_taxid) = New TaxonomyNode With {
                         .name = taxid2name(parent_taxid),
                         .rank = Nothing,
                         .parent = Nothing,
@@ -255,11 +255,11 @@ Namespace Assembly.NCBI.Taxonomy
 
             Call "nodes.dmp parsed".__DEBUG_ECHO
 
-            ' # To avoid infinite Loop
-            Dim root_children = Taxonomy(1).children
-            root_children.Remove(1)
+            ' To avoid infinite Loop
+            Dim root_children = taxonomy(1).children
+            Call root_children.Remove(1)
 
-            With Taxonomy(1)
+            With taxonomy(1)
                 .parent = Nothing
                 .children = root_children
             End With
