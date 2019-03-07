@@ -1,10 +1,36 @@
 ﻿Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace LinearAlgebra
 
     Partial Class Vector
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function [Call](method As Func(Of Double, Double), x As Argument) As Vector
+            Return Vector.Call(Of Double)(method, x).AsVector
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function [Call](method As Func(Of Double, Double, Double), x As Argument, y As Argument) As Vector
+            Return Vector.Call(Of Double)(method, x, y).AsVector
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function [Call](method As Func(Of Double, Double, Double, Double), x As Argument, y As Argument, z As Argument) As Vector
+            Return Vector.Call(Of Double)(method, x, y, z).AsVector
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function [Call](method As Func(Of Double, Double, Double, Double, Double), ParamArray args As Argument()) As Vector
+            Return Vector.Call(Of Double)(method, args).AsVector
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function [Call](method As Func(Of Double, Double, Double, Double, Double, Double), ParamArray args As Argument()) As Vector
+            Return Vector.Call(Of Double)(method, args).AsVector
+        End Function
 
         ''' <summary>
         ''' Try to call target <paramref name="method"/> in vector mode.
@@ -46,9 +72,17 @@ Namespace LinearAlgebra
                 End If
             End With
 
+            Dim target As Object = Nothing
+
+            If info.Attributes.HasFlag(MethodAttributes.SpecialName) Then
+                target = Activator.CreateInstance(info.DeclaringType)
+            End If
+
             For i As Integer = 0 To length - 1
-                inputs = arguments.Select(Function(a) a.Populate).ToArray
-                out = info.Invoke(Nothing, inputs)
+                inputs = arguments _
+                    .Select(Function(a) a.Populate) _
+                    .ToArray
+                out = info.Invoke(target, inputs)
 
                 Yield DirectCast(out, TOut)
             Next
