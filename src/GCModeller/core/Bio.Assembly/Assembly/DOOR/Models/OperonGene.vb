@@ -98,7 +98,7 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         Public Shared Function TryParse(strLine As String) As OperonGene
             Dim tokens As String() = Strings.Split(strLine, vbTab)
-            Dim p As int = Scan0
+            Dim p As VBInteger = Scan0
 
             Return New OperonGene With {
                 .OperonID = tokens(++p),

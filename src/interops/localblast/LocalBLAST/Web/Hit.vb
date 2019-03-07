@@ -189,7 +189,7 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         Public Shared Function Mapper(s As String) As HitRecord
             Dim tokens As String() = Strings.Split(s, vbTab)
-            Dim i As int = Scan0
+            Dim i As VBInteger = Scan0
             Dim hit As New HitRecord With {
                 .QueryID = tokens(++i),
                 .SubjectIDs = tokens(++i),

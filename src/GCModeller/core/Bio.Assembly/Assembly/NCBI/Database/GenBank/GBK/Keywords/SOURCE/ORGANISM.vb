@@ -53,7 +53,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Public Property SpeciesName As String
 
         Public Function ToTaxonomy() As Taxon
-            Dim i As int = Scan0
+            Dim i As VBInteger = Scan0
 
             Return New Taxon With {
                 .scientificName = SpeciesName,

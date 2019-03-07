@@ -182,7 +182,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 
             GBKEntryBrief.CDSsWithFunctionalAssignment = CDS.Length - GBKEntryBrief.ConservedHypotheticalCDSs - GBKEntryBrief.HypotheticalCDSs
 
-            Dim p As int = 0
+            Dim p As VBInteger = 0
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference1 = gbk.Reference.ReferenceList(++p).ToString
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference2 = gbk.Reference.ReferenceList(++p).ToString
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference3 = gbk.Reference.ReferenceList(++p).ToString
