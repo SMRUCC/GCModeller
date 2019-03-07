@@ -91,11 +91,13 @@ get_significance <- function(ratio){
         ' Call ptest()
         Call matrixSplitTest()
 
+        Pause()
     End Sub
 
     Sub matrixSplitTest()
 
-        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\结果和报告\1. samples\HXB.csv").TotalSumNormalize.ToArray
+        Dim maps = EntityObject.LoadDataSet("D:\Resources\sampleinfo.txt", tsv:=True).ToDictionary(Function(r) r.ID, Function(r) r!sample_name)
+        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\DOG_proteinGroups20190129.csv", fieldNameMaps:=maps).SimulateMissingValuesBySample.TotalSumNormalize.ToArray
         Dim sampleInfo = {
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},
@@ -150,7 +152,7 @@ get_significance <- function(ratio){
        }
 
         For Each design In analysis
-            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True).SaveTo($"D:\test\HXB\{design.Title}.csv", Encodings.UTF8)
+            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True, level:=1.25).SaveTo($"D:\Resources\{design.Title}.csv", Encodings.UTF8)
         Next
 
 

@@ -42,10 +42,10 @@ Namespace HDF5.IO
             End Get
             Set
                 If Value < 0 Then
-                    Throw New System.ArgumentException("offset must be positive and bigger than 0")
+                    Throw New ArgumentException("offset must be positive and bigger than 0")
                 End If
                 If Value > Me.m_filesize Then
-                    Throw New System.ArgumentException("offset must be positive and smaller than filesize")
+                    Throw New ArgumentException("offset must be positive and smaller than filesize")
                 End If
 
                 If Me.m_offset = Value Then
@@ -62,11 +62,11 @@ Namespace HDF5.IO
             End Set
         End Property
 
-        Public Overrides Function readByte() As SByte
+        Public Overrides Function readByte() As Byte
             If Me.m_offset >= Me.m_filesize Then
                 Throw New IOException("file offset reached to end of file")
             End If
-            Dim b As SByte = CSByte(Me.m_randomaccessfile.ReadByte())
+            Dim b As Byte = CByte(Me.m_randomaccessfile.ReadByte())
 
             Me.m_offset += 1
 

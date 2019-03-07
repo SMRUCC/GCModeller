@@ -60,6 +60,7 @@ Namespace Assembly.NCBI.Taxonomy
         ReadOnly phylum As New Dictionary(Of String, TaxonomyNode)
         ReadOnly superkingdom As New Dictionary(Of String, TaxonomyNode)
 
+        ' find lineage
         ReadOnly ncbiTaxonomy As NcbiTaxonomyTree
 
         Sub New(tree As NcbiTaxonomyTree)

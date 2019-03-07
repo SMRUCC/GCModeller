@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -47,6 +48,60 @@ Public Module FoldChangeMatrix
                                   Function(sample) sample.Value(index))
             }
         Next
+    End Function
+
+    <Extension>
+    Public Function SimulateMissingValues(rawMatrix As IEnumerable(Of DataSet), Optional byRow As Boolean = True) As IEnumerable(Of DataSet)
+        If byRow Then
+            Return rawMatrix.SimulateMissingValuesByProtein
+        Else
+            Return rawMatrix.SimulateMissingValuesBySample
+        End If
+    End Function
+
+    <Extension>
+    Public Iterator Function SimulateMissingValuesByProtein(rawMatrix As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+        For Each protein As DataSet In rawMatrix
+            Dim iBAQ As Vector = protein.Vector
+
+            If iBAQ.Min = 0R Then
+                ' 有缺失值
+                ' 需要对缺失值使用平均值来代替
+                With iBAQ.Average
+                    For Each sampleName As String In protein.EnumerateKeys
+                        If protein(sampleName) = 0R Then
+                            protein(sampleName) = .ByRef
+                        End If
+                    Next
+                End With
+            End If
+
+            Yield protein
+        Next
+    End Function
+
+    <Extension>
+    Public Function SimulateMissingValuesBySample(rawMatrix As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+        Dim data As DataSet() = rawMatrix.ToArray
+        Dim sampleNames$() = data.PropertyNames
+
+        For Each sampleName As String In sampleNames
+            Dim iBAQ As Vector = data.Vector(sampleName)
+
+            If iBAQ.Min = 0R Then
+                ' 有缺失值
+                ' 需要对缺失值使用平均值来代替
+                With iBAQ.Average
+                    For Each protein As DataSet In data
+                        If protein(sampleName) = 0R Then
+                            protein(sampleName) = .ByRef
+                        End If
+                    Next
+                End With
+            End If
+        Next
+
+        Return data
     End Function
 
     ''' <summary>

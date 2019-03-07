@@ -14,21 +14,27 @@ Imports BinaryReader = Microsoft.VisualBasic.MIME.application.netCDF.HDF5.IO.Bin
 
 Namespace HDF5.[Structure]
 
-
+    ''' <summary>
+    ''' A local heap is a collection of small pieces of data that are particular to a single object 
+    ''' in the HDF5 file. Objects can be inserted and removed from the heap at any time. The 
+    ''' address of a heap does not change once the heap is created. For example, a group stores 
+    ''' addresses of objects in symbol table nodes with the names of links stored in the group's 
+    ''' local heap.
+    ''' </summary>
     Public Class LocalHeap
 
-        Public Shared ReadOnly LOCALHEAP_SIGNATURE As SByte() = New CharStream() From {"H"c, "E"c, "A"c, "P"c}
+        Shared ReadOnly LOCALHEAP_SIGNATURE As Byte() = New CharStream() From {"H"c, "E"c, "A"c, "P"c}
 
         Private m_address As Long
 
-        Private m_signature As SByte()
+        Private m_signature As Byte()
         Private m_version As Integer
-        Private m_reserved0 As SByte()
+        Private m_reserved0 As Byte()
         Private m_dataSegmentSize As Long
         Private m_offsetToHeadOfFreeList As Long
         Private m_addressOfDataSegment As Long
 
-        Private m_data As SByte()
+        Private m_data As Byte()
 
         Private m_totalLocalHeapSize As Integer
 
@@ -75,7 +81,7 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Overridable ReadOnly Property signature() As SByte()
+        Public Overridable ReadOnly Property signature() As Byte()
             Get
                 Return Me.m_signature
             End Get
@@ -122,7 +128,7 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Overridable ReadOnly Property data() As SByte()
+        Public Overridable ReadOnly Property data() As Byte()
             Get
                 Return Me.m_data
             End Get
