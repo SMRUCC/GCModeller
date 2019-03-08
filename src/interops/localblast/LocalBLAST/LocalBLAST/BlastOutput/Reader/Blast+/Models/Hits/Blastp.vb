@@ -104,6 +104,11 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Public Property HitName As String
         Public Property HitLength As Integer
         Public Property Score As Score
+
+        ''' <summary>
+        ''' The sequence aligmment details data.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Hsp As HitSegment()
 
         Public Overrides Function ToString() As String
