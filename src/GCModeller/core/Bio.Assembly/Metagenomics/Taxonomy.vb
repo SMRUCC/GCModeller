@@ -113,6 +113,11 @@ Namespace Metagenomics
             species = lineage(NcbiTaxonomyTree.species)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(taxonomyNodes As IEnumerable(Of TaxonomyNode))
+            Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
+        End Sub
+
         Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
 
         Sub New(lineage$())
