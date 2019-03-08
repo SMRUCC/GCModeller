@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e089e352c84ef6ec15d1c13919dd62b4, Data_science\Mathematica\Math\Math\Algebra\Framework\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::73e8224f8ce57d39cdffd30897e1f11d, Data_science\Mathematica\Math\Math\test\VectorTest.vb"
 
     ' Author:
     ' 
@@ -31,46 +31,24 @@
 
     ' Summaries:
 
-    '     Module Iterator
+    ' Module VectorTest
     ' 
-    '         Sub: Run
-    '         Class Kernel
-    ' 
-    '             Properties: terminated
-    ' 
-    ' 
-    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
-Namespace Framework
+Module VectorTest
 
-    Public Module Iterator
+    Sub Main()
+        Dim x As Double() = {423, 4, 2, 4, 24, 2, 3, 423, 4, 2, 3, 4, 23, 4, 2, 4, 2, 3, 4, 2, 4, 2}
+        Dim y As Vector = Vector.Call(Of Double)(New Func(Of Double, Double, Double)(AddressOf Math.Log), x, 2).ToArray
+        Dim z As Vector = Vector.Call(Function(a, b) a / b, x, 1000000)
 
-        Public MustInherit Class Kernel
+        Pause()
+    End Sub
+End Module
 
-            Protected Friend ReadOnly Property terminated As Boolean
-
-            ''' <summary>
-            ''' Execute the iterator step.
-            ''' </summary>
-            ''' <param name="itr"></param>
-            Protected Friend MustOverride Sub [Step](itr As Integer)
-
-        End Class
-
-        <Extension>
-        Public Sub Run(kernel As Kernel, Optional iterations% = 10 * 10000)
-            Dim i As VBInteger = 0
-
-            Do While ++i <= iterations AndAlso Not kernel.terminated
-                Call kernel.Step(itr:=i)
-            Loop
-        End Sub
-    End Module
-End Namespace
