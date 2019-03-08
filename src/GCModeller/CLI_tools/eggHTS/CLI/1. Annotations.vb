@@ -732,7 +732,11 @@ Partial Module CLI
             Next
 
             If Not bestHit Then
-                protein.ID = top.HitName
+                If top.identities > 0 Then
+                    protein.ID = top.HitName
+                Else
+                    protein.ID = proteinGroup.First
+                End If
             End If
         Next
 
