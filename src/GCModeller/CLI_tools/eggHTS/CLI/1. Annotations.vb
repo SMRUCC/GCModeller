@@ -676,9 +676,9 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/ID.Replace.bbh")>
-    <Description("LabelFree result helper: replace the source ID to a unify organism protein ID by using ``bbh`` method. 
-        This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
-    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh/sbh.csv> [/out <ID.replaced.csv>]")>
+    <Description("Replace the source ID to a unify organism protein ID by using ``bbh`` method. 
+    This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
+    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh.csv> [/out <ID.replaced.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function BBHReplace(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -689,54 +689,20 @@ Partial Module CLI
             .ToArray
         Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
-            .GroupBy(Function(x)
-                         If Not x.HitName.StringEmpty AndAlso x.HitName.IndexOf("|"c) > -1 Then
-                             x.HitName = x.HitName.Split("|"c)(1)
-                         End If
-                         If x.QueryName.IndexOf("|"c) > -1 Then
-                             Return x.QueryName.Split("|"c)(1).Split("."c).First
-                         Else
-                             Return x.QueryName.Split("."c).First
-                         End If
-                     End Function) _
-            .ToDictionary(Function(g) g.Key,
-                          Function(g)
-                              ' 取匹配度最高的结果
-                              Return g.OrderByDescending(Function(h) h.identities).First
+            .ToDictionary(Function(x)
+                              If Not x.HitName.StringEmpty Then
+                                  x.HitName = x.HitName.Split("|"c)(1)
+                              End If
+                              Return x.QueryName.Split("|"c)(1)
                           End Function)
 
         For Each protein As EntityObject In dataset
-            ' 可能是一个proteinGroup
-            ' 选取最好的比对结果?
-            Dim proteinGroup As String() = protein.ID _
-                .StringSplit("\s*;\s*") _
-                .Select(Function(id) id.Split("."c).First) _
-                .ToArray
-            Dim top As New BBHIndex With {.identities = 0}
-            Dim bestHit As Boolean = False
-
-            For Each id As String In proteinGroup
-                If alignHits.ContainsKey(id) Then
-                    Dim hitUniprot = alignHits(id)
-
-                    If hitUniprot.identities = 1.0 AndAlso hitUniprot.HitName <> IBlastOutput.HITS_NOT_FOUND Then
-                        protein.ID = hitUniprot.HitName
-                        bestHit = True
-                        Exit For
-                    Else
-                        If hitUniprot.identities > top.identities Then
-                            top = hitUniprot
-                        End If
+            If alignHits.ContainsKey(protein.ID) Then
+                With alignHits(protein.ID).HitName
+                    If Not .StringEmpty AndAlso .ByRef <> IBlastOutput.HITS_NOT_FOUND Then
+                        protein.ID = .ByRef
                     End If
-                End If
-            Next
-
-            If Not bestHit Then
-                If top.identities > 0 Then
-                    protein.ID = top.HitName
-                Else
-                    protein.ID = proteinGroup.First
-                End If
+                End With
             End If
         Next
 
