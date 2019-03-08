@@ -689,15 +689,20 @@ Partial Module CLI
             .ToArray
         Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
-            .ToDictionary(Function(x)
-                              If Not x.HitName.StringEmpty AndAlso x.HitName.IndexOf("|"c) > -1 Then
-                                  x.HitName = x.HitName.Split("|"c)(1)
-                              End If
-                              If x.QueryName.IndexOf("|"c) > -1 Then
-                                  Return x.QueryName.Split("|"c)(1).Split("."c).First
-                              Else
-                                  Return x.QueryName.Split("."c).First
-                              End If
+            .GroupBy(Function(x)
+                         If Not x.HitName.StringEmpty AndAlso x.HitName.IndexOf("|"c) > -1 Then
+                             x.HitName = x.HitName.Split("|"c)(1)
+                         End If
+                         If x.QueryName.IndexOf("|"c) > -1 Then
+                             Return x.QueryName.Split("|"c)(1).Split("."c).First
+                         Else
+                             Return x.QueryName.Split("."c).First
+                         End If
+                     End Function) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(g)
+                              ' 取匹配度最高的结果
+                              Return g.OrderByDescending(Function(h) h.identities).First
                           End Function)
 
         For Each protein As EntityObject In dataset
