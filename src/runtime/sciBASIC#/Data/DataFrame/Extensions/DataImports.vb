@@ -79,10 +79,6 @@ Public Module DataImports
     Public Function [Imports](<Parameter("txt.Path", "The file path for the data imports text file.")> txtPath$,
                               Optional delimiter$ = ",",
                               Optional encoding As Encoding = Nothing) As File
-        If encoding Is Nothing Then
-            encoding = Encoding.Default
-        End If
-
         Dim lines As String() = txtPath.ReadAllLines(encoding)
         Dim csv As New File(ImportsData(lines, delimiter), txtPath)
         Return csv
