@@ -305,5 +305,13 @@ Namespace Metagenomics
 
             Return tax.JoinBy(";")
         End Function
+
+        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+            If BIOMstyle Then
+                Return Me.ToArray.TaxonomyString
+            Else
+                Return Me.ToString
+            End If
+        End Function
     End Class
 End Namespace
