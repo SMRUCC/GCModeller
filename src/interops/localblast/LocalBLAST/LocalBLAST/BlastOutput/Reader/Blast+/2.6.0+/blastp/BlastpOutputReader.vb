@@ -180,12 +180,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         Private Function __hspParser(s$, scoreText$, fast As Boolean) As FragmentHit
-            Dim hsp = s.LineTokens.Split(3, echo:=False)
             Dim LQuery As HitSegment()
 
             If fast Then
                 LQuery = {}
             Else
+                Dim hsp = s.LineTokens.Split(3, echo:=False)
+
+                ' parsing sequence aligmment details.
                 LQuery = hsp _
                     .Select(Function(x) HitSegment.TryParse(x)) _
                     .ToArray
