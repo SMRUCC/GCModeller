@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1a7916c3cab765c60a81dc1e6565e33, Bio.Assembly\LICENSE.vb"
+﻿#Region "Microsoft.VisualBasic::eb610071ed8eef7105c610cc8ee4060b, Bio.Assembly\LICENSE.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     ' Module LICENSE
     ' 
-    '     Properties: GPL3
+    '     Properties: GPL3, WebRequestUserAgent
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Sub: GithubRepository
     ' 
     ' /********************************************************************************/

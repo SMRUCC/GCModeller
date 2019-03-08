@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::445dce7eeb2e9ff708bf9d84d19ef9e2, test\equationparsertest.vb"
+﻿#Region "Microsoft.VisualBasic::746e826a92e215e68d65f8b276453074, test\equationparsertest.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Module equationparsertest
         Pause()
     End Sub
 End Module
-

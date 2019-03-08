@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1dd07dd59d8b0f444c96f3be82a35aa, Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::0049f36691c69b1dd140fa1536a2770c, Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
 
     ' Author:
     ' 
