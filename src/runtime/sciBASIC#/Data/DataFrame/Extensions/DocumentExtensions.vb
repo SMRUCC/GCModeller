@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f372c0a4608e2ed04d00207114876e5, Data\DataFrame\Extensions\DocumentExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ee789e24aa0e6455195e236ebaf2e6b2, Data\DataFrame\Extensions\DocumentExtensions.vb"
 
     ' Author:
     ' 
@@ -302,10 +302,16 @@ Public Module DocumentExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function LoadTsv(Of T As Class)(path$, encoding As Encoding, Optional nameMaps As NameMapping = Nothing) As IEnumerable(Of T)
-        Return [Imports](Of T)(path,
-                               delimiter:=ASCII.TAB,
-                               encoding:=encoding,
-                               nameMaps:=nameMaps)
+        Dim rowsData = TsvFileIO.LoadFile(path, encoding, skipFirstLine:=False) _
+            .Select(Function(r) New RowObject(r)) _
+            .ToArray
+        Dim file As New IO.File(rowsData)
+
+        If file.RowNumbers = 0 Then
+            Return New T() {}
+        Else
+            Return file.AsDataSource(Of T)(False, maps:=nameMaps)
+        End If
     End Function
 
     <Extension>
