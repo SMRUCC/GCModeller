@@ -113,6 +113,11 @@ Namespace Metagenomics
             species = lineage(NcbiTaxonomyTree.species)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(taxonomyNodes As IEnumerable(Of TaxonomyNode))
+            Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
+        End Sub
+
         Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
 
         Sub New(lineage$())
@@ -299,6 +304,14 @@ Namespace Metagenomics
             tax += BIOMPrefixAlt(++i) & Me.species
 
             Return tax.JoinBy(";")
+        End Function
+
+        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+            If BIOMstyle Then
+                Return Me.ToArray.TaxonomyString
+            Else
+                Return Me.ToString
+            End If
         End Function
     End Class
 End Namespace

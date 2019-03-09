@@ -54,6 +54,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
     Public Module BlastpOutputReader
 
+        ''' <summary>
+        ''' 每次只生成一个query的文本内容数据
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
         Public Iterator Function QueryBlockIterates(path$, Optional encoding As Encodings = Encodings.UTF8) As IEnumerable(Of String)
             Dim skip As Boolean = True
             Dim buffer As New List(Of String)
@@ -85,15 +91,16 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="path$"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        Public Iterator Function RunParser(path$, Optional encoding As Encodings = Encodings.UTF8) As IEnumerable(Of Query)
+        Public Iterator Function RunParser(path$, Optional fast As Boolean = True, Optional encoding As Encodings = Encodings.UTF8) As IEnumerable(Of Query)
             Dim source As IEnumerable(Of String) = QueryBlockIterates(path, encoding)
 
             For Each queryText As String In source
-                Yield QueryParser(queryText)
+                Yield queryText.QueryParser(fast)
             Next
         End Function
 
-        Private Function QueryParser(block As String) As Query
+        <Extension>
+        Private Function QueryParser(block As String, fast As Boolean) As Query
             Dim queryInfo As NamedValue(Of Integer) = BlastX.OutputReader.queryInfo(block)
 
             If InStr(block, "***** No hits found *****") Then
@@ -106,12 +113,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .Split(block, "^Lambda\s+", RegexICMul) _
                     .First _
                     .Trim _
-                    .__queryParser(queryInfo, top:=False)
+                    .__queryParser(queryInfo, top:=False, fast:=fast)
             End If
         End Function
 
         <Extension>
-        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean) As Query
+        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean, fast As Boolean) As Query
             Dim bufs As New List(Of SubjectHit)
             Dim parts$() = r _
                 .Split(block, "^>", RegexOptions.Multiline) _
@@ -121,7 +128,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             For Each subject As String In parts
                 bufs += subject _
                     .Trim _
-                    .subjectParser()
+                    .subjectParser(fast)
 
                 ' 只导出最好的第一条比对结果？
                 If top Then
@@ -138,8 +145,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Public Const REGEX_BLASTP_SCORE$ = "Score\s*[=]\s*\d+.+?Gaps\s*[=]\s*\d+/\d+\s*\(.+?\)"
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="block"></param>
+        ''' <param name="fast">fast模式下,将不会解析匹配的具体序列匹配内容,只解析出query,subject和具体的得分</param>
+        ''' <returns></returns>
         <Extension>
-        Private Function subjectParser(block$) As SubjectHit
+        Private Function subjectParser(block$, fast As Boolean) As SubjectHit
             Dim subjectInfo As NamedValue(Of Integer) = BlastX.OutputReader.subjectInfo(block)
             Dim tmp As New List(Of FragmentHit)
             Dim HSP$() = r _
@@ -150,7 +163,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             For Each score As String In HSP
                 hspRegion = BlastX.parseFragment(block, score, pos)
-                tmp += __hspParser(hspRegion, score)
+                tmp += __hspParser(hspRegion, score, fast)
                 pos += score.Length
             Next
 
@@ -166,11 +179,19 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             }
         End Function
 
-        Private Function __hspParser(s As String, scoreText As String) As FragmentHit
-            Dim hsp = s.LineTokens.Split(3, echo:=False)
-            Dim LQuery As HitSegment() = hsp _
-                .Select(Function(x) HitSegment.TryParse(x)) _
-                .ToArray
+        Private Function __hspParser(s$, scoreText$, fast As Boolean) As FragmentHit
+            Dim LQuery As HitSegment()
+
+            If fast Then
+                LQuery = {}
+            Else
+                Dim hsp = s.LineTokens.Split(3, echo:=False)
+
+                ' parsing sequence aligmment details.
+                LQuery = hsp _
+                    .Select(Function(x) HitSegment.TryParse(x)) _
+                    .ToArray
+            End If
 
             Return New FragmentHit With {
                 .Score = Score.TryParse(scoreText),
