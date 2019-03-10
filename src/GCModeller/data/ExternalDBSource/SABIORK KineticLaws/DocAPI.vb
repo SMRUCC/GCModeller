@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.IEnumerations
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
 Namespace SabiorkKineticLaws

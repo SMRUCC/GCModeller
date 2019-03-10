@@ -724,7 +724,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                                   Return g.First
                               End Function)
 
-            headers = headers + indexAppendData.First.Value.EnumerateKeys
+            headers = headers + indexAppendData _
+                .First _
+                .Value _
+                .EnumerateKeys
         Else
             indexAppendData = New Dictionary(Of String, EntityObject)
         End If
@@ -738,7 +741,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
             For Each seq As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim title = seq.Title
-                Dim accession$ = Accession2Taxid.TrimAccessionVersion(accid_grep(title))
+                Dim accession$ = TrimAccessionVersion(accid_grep(title))
                 Dim taxid% = acc2taxid.TryGetValue(accession, [default]:=-1)
 
                 If taxid < 0 Then

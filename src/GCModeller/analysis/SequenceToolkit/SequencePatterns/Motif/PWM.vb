@@ -56,20 +56,9 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 Namespace Motif
 
     Public Class MotifPWM : Inherits BaseClass
-        Implements IIterator(Of ResidueSite)
 
         Public Property PWM As ResidueSite()
         Public Property Alphabets As Char()
-
-        Public Iterator Function GetEnumerator() As IEnumerator(Of ResidueSite) Implements IIterator(Of ResidueSite).GetEnumerator
-            For Each x As ResidueSite In PWM
-                Yield x
-            Next
-        End Function
-
-        Public Iterator Function IGetEnumerator() As IEnumerator Implements IIterator(Of ResidueSite).IGetEnumerator
-            Yield GetEnumerator()
-        End Function
 
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {

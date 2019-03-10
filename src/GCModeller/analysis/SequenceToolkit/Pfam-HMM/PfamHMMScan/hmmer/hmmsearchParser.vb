@@ -42,10 +42,9 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Parser
 
 Public Module hmmsearchParser
 

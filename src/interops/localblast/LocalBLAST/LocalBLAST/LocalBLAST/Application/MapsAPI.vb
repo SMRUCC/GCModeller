@@ -1,51 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::ed33ff2a630c3fc21707c9b68be994fd, LocalBLAST\LocalBLAST\LocalBLAST\Application\MapsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module MapsAPI
-    ' 
-    '         Function: __createObject, __setUnique, CreateObject, (+2 Overloads) Export, GetCoverage
-    '                   TrimAssembly, Where
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module MapsAPI
+' 
+'         Function: __createObject, __setUnique, CreateObject, (+2 Overloads) Export, GetCoverage
+'                   TrimAssembly, Where
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application
@@ -249,6 +252,67 @@ Namespace LocalBLAST.Application
                             x.PerfectAlignment).ToArray
             Call $"[Job DONE!] .....{sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO
             Return LQuery
+        End Function
+
+        ''' <summary>
+        ''' 为每一个query都赋值一个唯一的hit结果,如果需要比较真实的比对结果,则可以使用包含有重复值的besthit导出方法
+        ''' </summary>
+        ''' <param name="blast">假设query和hit的id编号都是已经经过修剪了的</param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function UniqueAlignment(blast As IEnumerable(Of BBHIndex)) As Dictionary(Of String, BBHIndex)
+            ' 按照query来分组
+            Dim alignhits As Dictionary(Of String, BBHIndex()) = blast _
+                .GroupBy(Function(q) q.QueryName) _
+                .ToDictionary(Function(g) g.Key,
+                              Function(group)
+                                  Return group _
+                                      .OrderByDescending(Function(hit) hit.identities) _
+                                      .ToArray
+                              End Function)
+            Dim uniqueSubjects As New Index(Of String)
+            Dim outhits As New Dictionary(Of String, BBHIndex)
+
+            ' 第一次循环,直接取出最好的结果
+            For Each query In alignhits
+                Dim hits As BBHIndex() = query.Value
+
+                ' 因为在前面分组的时候是按照得分降序排序了的
+                ' 所以只需要取出第一个即可
+                If hits(Scan0).identities = 1 AndAlso uniqueSubjects(hits(Scan0).HitName) = -1 Then
+                    ' 是完全一致的序列,并且编号也没有重复,则直接作为结果
+                    outhits.Add(query.Key, hits(Scan0))
+                    uniqueSubjects += hits(Scan0).HitName
+                End If
+            Next
+
+            ' 第二次循环,对剩下的query取出top结果
+            For Each query In alignhits.Where(Function(q) Not outhits.ContainsKey(q.Key))
+                Dim hits As BBHIndex() = query.Value
+
+                If hits.Any(Function(hit) hit.HitName <> IBlastOutput.HITS_NOT_FOUND) Then
+                    ' 从前往后,一直取到没有重复的结果
+                    Dim top As New BBHIndex With {.identities = -1}
+
+                    For Each hit As BBHIndex In hits
+                        If uniqueSubjects(hit.HitName) = -1 AndAlso hit.identities > top.identities Then
+                            top = hit
+                        End If
+                    Next
+
+                    If top.identities > -1 Then
+                        outhits.Add(query.Key, top)
+                        uniqueSubjects += top.HitName
+                    Else
+                        ' 这个query没有结果,则不添加到结果输出
+                    End If
+                Else
+                    ' 这个query没有结果,则不添加到结果输出
+                End If
+            Next
+
+            Return outhits
         End Function
     End Module
 End Namespace
