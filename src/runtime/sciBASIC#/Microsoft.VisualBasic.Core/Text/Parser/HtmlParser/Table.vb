@@ -44,7 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace Text.HtmlParser
+Namespace Text.Parser.HtmlParser
 
     ''' <summary>
     ''' The string parser for the table html text block

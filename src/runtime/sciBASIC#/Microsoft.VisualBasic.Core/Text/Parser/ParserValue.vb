@@ -43,7 +43,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Text
+Namespace Text.Parser
 
     ''' <summary>
     ''' 

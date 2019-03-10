@@ -49,7 +49,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
-Namespace Text
+Namespace Text.Parser
 
     ''' <summary>
     ''' Parser API for the well formatted documents.
