@@ -18,6 +18,8 @@ Namespace SequenceModel.FASTA
             Return accession.Split("."c)(Scan0)
         End Function
 
+#Region "UniProt"
+
         ''' <summary>
         ''' 格式参见<see cref="UniprotFasta"/>
         ''' </summary>
@@ -29,6 +31,15 @@ Namespace SequenceModel.FASTA
             Return title.Split("|"c).ElementAtOrDefault(1)
         End Function
 
+        Public Function TryGetUniProtAccession(title As String, ByRef accession As String) As Boolean
+            If Not title.StringEmpty AndAlso title.IndexOf("|"c) > -1 Then
+                accession = title.Split("|"c)(1)
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+#End Region
 
     End Module
 End Namespace

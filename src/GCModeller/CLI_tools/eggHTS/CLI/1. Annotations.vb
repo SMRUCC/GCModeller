@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Parser
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -687,16 +688,18 @@ Partial Module CLI
         Dim dataset As EntityObject() = EntityObject _
             .LoadDataSet([in]) _
             .ToArray
+        ' 2019-03-10 一般是使用这个函数将自定义的序列编号映射到Uniprot之上
+        ' 所以在这里应该尝试解析的是uniprot的编号
+        Dim accessionParser As New ITryParse(AddressOf TryGetUniProtAccession)
         Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
             .GroupBy(Function(x)
-                         If Not x.HitName.StringEmpty AndAlso x.HitName.IndexOf("|"c) > -1 Then
-                             x.HitName = x.HitName.Split("|"c)(1)
-                         End If
+                         x.HitName = accessionParser.TryParse(x.HitName, TryParseOptions.Source)
+
                          If x.QueryName.IndexOf("|"c) > -1 Then
-                             Return x.QueryName.Split("|"c)(1).Split("."c).First
+                             Return TrimAccessionVersion(x.QueryName.Split("|"c)(1))
                          Else
-                             Return x.QueryName.Split("."c).First
+                             Return TrimAccessionVersion(x.QueryName)
                          End If
                      End Function) _
             .ToDictionary(Function(g) g.Key,
