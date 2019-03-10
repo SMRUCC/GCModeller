@@ -247,11 +247,25 @@ Partial Module CLI
             Dim controlGroup = sampleInfo.TakeGroup(analysis.Controls).AsList
             Dim treatmentGroup As SampleInfo() = sampleInfo.TakeGroup(analysis.Treatment)
 
-            names(subMatrix) = controlGroup + treatmentGroup
+            Names(subMatrix) = controlGroup + treatmentGroup
 
             Call subMatrix.SaveTo($"{out}/{analysis.Title}.csv")
         Next
 
         Return 0
+    End Function
+
+    <ExportAPI("/names")>
+    <Usage("/names /in <matrix.csv> /sampleInfo <sampleInfo.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function MatrixColRenames(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.sample_name.csv"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+
+        Names(matrix) = sampleInfo
+
+        Return matrix.SaveTo(out).CLICode
     End Function
 End Module
