@@ -195,7 +195,10 @@ Partial Module CLI
     <ExportAPI("/labelFree.t.test")>
     <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /design <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
     Public Function labelFreeTtest(args As CommandLine) As Integer
-        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in") _
+            .SimulateMissingValues(byRow:=False, infer:=InferMethods.Min) _
+            .TotalSumNormalize _
+            .ToArray
         Dim level# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
