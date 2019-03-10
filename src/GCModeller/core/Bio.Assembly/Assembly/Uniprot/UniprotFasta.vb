@@ -126,31 +126,31 @@ Namespace Assembly.Uniprot
         ''' >sp|Q197F8|002R_IIV3 Uncharacterized protein 002R OS=Invertebrate iridescent virus 3 GN=IIV3-002R PE=4 SV=1
         ''' </remarks>
         Public Shared Function CreateObject(fasta As FASTA.FastaSeq) As UniprotFasta
-            Dim UniprotFasta As UniprotFasta = fasta.Copy(Of UniprotFasta)()
-            Dim s As String = UniprotFasta.Headers(2)
+            Dim uniprotFasta As UniprotFasta = fasta.Copy(Of UniprotFasta)()
+            Dim s As String = uniprotFasta.Headers(2)
 
-            UniprotFasta.EntryName = s.Split.First
-            UniprotFasta.UniprotID = UniprotFasta.Headers(1)
-            UniprotFasta.OrgnsmSpName = Regex.Match(s, "OS=[^=]+GN\s*=").Value
-            UniprotFasta.OrgnsmSpName = Regex.Replace(UniprotFasta.OrgnsmSpName, "\s*GN\s*=", "")
-            UniprotFasta.GN = Regex.Replace(Regex.Match(s, "GN=[^=]+PE\s*=").Value, "\s*PE\s*=", "").Trim
-            UniprotFasta.PE = Regex.Match(s, "PE=\d+").Value
-            UniprotFasta.SV = Regex.Match(s, "SV=\d+").Value
+            uniprotFasta.EntryName = s.Split.First
+            uniprotFasta.UniprotID = uniprotFasta.Headers(1)
+            uniprotFasta.OrgnsmSpName = Regex.Match(s, "OS=[^=]+GN\s*=").Value
+            uniprotFasta.OrgnsmSpName = Regex.Replace(uniprotFasta.OrgnsmSpName, "\s*GN\s*=", "")
+            uniprotFasta.GN = Regex.Replace(Regex.Match(s, "GN=[^=]+PE\s*=").Value, "\s*PE\s*=", "").Trim
+            uniprotFasta.PE = Regex.Match(s, "PE=\d+").Value
+            uniprotFasta.SV = Regex.Match(s, "SV=\d+").Value
 
             Try
-                If Not String.IsNullOrEmpty(UniprotFasta.OrgnsmSpName) Then s = s.Replace(UniprotFasta.OrgnsmSpName, "")
-                If Not String.IsNullOrEmpty(UniprotFasta.PE) Then s = s.Replace(UniprotFasta.PE, "")
-                If Not String.IsNullOrEmpty(UniprotFasta.GN) Then s = s.Replace(UniprotFasta.GN, "")
-                If Not String.IsNullOrEmpty(UniprotFasta.SV) Then s = s.Replace(UniprotFasta.SV, "")
-                If Not String.IsNullOrEmpty(UniprotFasta.EntryName) Then s = s.Replace(UniprotFasta.EntryName, "").Trim
-                UniprotFasta.ProtName = s
+                If Not String.IsNullOrEmpty(uniprotFasta.OrgnsmSpName) Then s = s.Replace(uniprotFasta.OrgnsmSpName, "")
+                If Not String.IsNullOrEmpty(uniprotFasta.PE) Then s = s.Replace(uniprotFasta.PE, "")
+                If Not String.IsNullOrEmpty(uniprotFasta.GN) Then s = s.Replace(uniprotFasta.GN, "")
+                If Not String.IsNullOrEmpty(uniprotFasta.SV) Then s = s.Replace(uniprotFasta.SV, "")
+                If Not String.IsNullOrEmpty(uniprotFasta.EntryName) Then s = s.Replace(uniprotFasta.EntryName, "").Trim
 
-                UniprotFasta.OrgnsmSpName = Mid(UniprotFasta.OrgnsmSpName, 4).Trim
-                UniprotFasta.GN = Mid(UniprotFasta.GN, 4)
-                UniprotFasta.PE = Mid(UniprotFasta.PE, 4)
-                UniprotFasta.SV = Mid(UniprotFasta.SV, 4)
+                uniprotFasta.ProtName = s
+                uniprotFasta.OrgnsmSpName = Mid(uniprotFasta.OrgnsmSpName, 4).Trim
+                uniprotFasta.GN = Mid(uniprotFasta.GN, 4)
+                uniprotFasta.PE = Mid(uniprotFasta.PE, 4)
+                uniprotFasta.SV = Mid(uniprotFasta.SV, 4)
 
-                Return UniprotFasta
+                Return uniprotFasta
             Catch ex As Exception
                 Dim msg As String = String.Format("Header parsing error at  ------> ""{0}""" & vbCrLf & vbCrLf & ex.ToString, fasta.Title)
                 Throw New SyntaxErrorException(msg)
@@ -159,6 +159,7 @@ Namespace Assembly.Uniprot
 
         Public Shared Function SimpleHeaderParser(header$) As Dictionary(Of String, String)
             Dim headers$() = header.Split("|"c)
+
             Return New Dictionary(Of String, String) From {
                 {"DB", headers(Scan0)},
                 {"UniprotID", headers(1)},
