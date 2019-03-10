@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -730,7 +731,7 @@ Partial Module CLI
                 Dim hitUniProt = allHits(Scan0)
 
                 protein.ID = hitUniProt.HitName
-                protein(fieldDesc) = (hitUniProt!description)
+                protein(fieldDesc) = UniprotFasta.ParseHeader(hitUniProt!description, hitUniProt.HitName).ProtName
             Else
                 ' 没有比对结果,则取出原来的第一个id
                 protein.ID = proteinGroup.First
