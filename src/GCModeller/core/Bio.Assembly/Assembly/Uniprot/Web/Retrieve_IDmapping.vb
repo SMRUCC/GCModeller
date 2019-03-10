@@ -58,7 +58,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Assembly.Uniprot.Web
 
