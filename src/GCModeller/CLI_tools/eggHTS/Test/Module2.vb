@@ -97,7 +97,7 @@ get_significance <- function(ratio){
     Sub matrixSplitTest()
 
         Dim maps = EntityObject.LoadDataSet("D:\Resources\sampleinfo.txt", tsv:=True).ToDictionary(Function(r) r.ID, Function(r) r!sample_name)
-        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\DOG_proteinGroups20190129.csv", fieldNameMaps:=maps).SimulateMissingValuesBySample.TotalSumNormalize.ToArray
+        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\DOG_proteinGroups20190129.csv", fieldNameMaps:=maps).SimulateMissingValuesBySample(Function(v) v.Average).TotalSumNormalize.ToArray
         Dim sampleInfo = {
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
             New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},

@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.CodeDom.Compiler
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
