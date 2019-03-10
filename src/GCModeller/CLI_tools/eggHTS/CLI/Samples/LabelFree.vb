@@ -199,7 +199,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/labelFree.t.test")>
-    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /control <groupName> /treatment <groupName> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /control <groupName> /treatment <groupName> [/significant <t.test/AB, default=t.test> /level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
     <Group(CLIGroups.LabelFreeTool)>
     Public Function labelFreeTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in") _
@@ -215,7 +215,8 @@ Partial Module CLI
             .Controls = args <= "/control",
             .Treatment = args <= "/treatment"
         }
-        Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR)
+        Dim usingSignificantAB As Boolean = (args("/significant") Or "t.test") = "AB"
+        Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR, significantA:=usingSignificantAB)
 
         Return DEPs _
             .ToArray _
